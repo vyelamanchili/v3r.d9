@@ -1,0 +1,36 @@
+{#  https://api.drupal.org/api/drupal/core!modules!system!templates!menu.html.twig/8
+    menu_name: The machine name of the menu.
+    items: A nested list of menu items. Each menu item contains:
+      attributes: HTML attributes for the menu item.
+      below: The menu item child items.
+      title: The menu link title.
+      url: The menu link url, instance of \Drupal\Core\Url
+      localized_options: Menu link localized options.
+#}
+
+{# All menu and submenu items #}
+
+<ul class="nav navbar-nav">
+  {% for item in items %}
+    {# Menu with submenu #}
+    {% if item.below %}
+      <li class="dropdown">
+	<a href="{{ item.url }}" class="dropdown-toggle" data-toggle="dropdown" > {{ item.title }} <b class="caret"></b> </a>
+	<ul class="dropdown-menu">
+	  {# Menu -> Submenu #}
+	  {% for item in item.below %}
+	    <li ><a href="{{ item.url }}"> {{ item.title }} </a></li>
+	  {% endfor %}
+	</ul>
+      </li>
+    {# Menu without submenu #}
+    {% else %}
+      {# Menu - Link #}
+      {% if item == 'node' %}
+	<li class="active" ><a href="{{ item.url }}"  > {{ item.title }}</a></li>
+      {% else %}
+	<li ><a href="{{ item.url }}"  > {{ item.title }}</a></li>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+</ul>

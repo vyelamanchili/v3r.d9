@@ -1,0 +1,143 @@
+<?php
+
+/**
+ * @file
+ * Contains theme override functions and preprocess functions
+ */
+
+use Drupal\Core\Template\RenderWrapper;
+use Drupal\Core\Template\Attribute;
+use Drupal\search\Form\SearchBlockForm;
+use Drupal\Component\Utility\SafeMarkup;
+
+/**
+ * @file
+ * Functions to support theming in the beginning theme.
+ */
+
+/**
+ * Implements hook_preprocess_HOOK() for page templates.
+ */
+
+function jethro_preprocess_page(&$variables) {
+  // Add Responsive class for banner bottom.
+  if (!empty($variables['page']['banner_bottom_first']) && !empty($variables['page']['banner_bottom_second']) && !empty($variables['page']['banner_bottom_third'])) {
+    $variables['banner_bottom_class'] = 'col-lg-4';
+  }
+  elseif((!empty($variables['page']['banner_bottom_first']) && !empty($variables['page']['banner_bottom_second'])) or (!empty($variables['page']['banner_bottom_first']) && !empty($variables['page']['banner_bottom_third'])) or (!empty($variables['page']['banner_bottom_third']) && !empty($variables['page']['banner_bottom_second']))) {
+    $variables['banner_bottom_class'] = 'col-lg-6';
+  }
+  else {
+    $variables['banner_bottom_class'] = 'col-lg-12';
+  }
+
+  // Add Responsive class for footer.
+  if (!empty($variables['page']['footer_first']) && !empty($variables['page']['footer_second']) && !empty($variables['page']['footer_third'])) {
+    $variables['footer_class'] = 'col-lg-4';
+  }
+  elseif((!empty($variables['page']['footer_first']) && !empty($variables['page']['footer_second'])) or (!empty($variables['page']['footer_first']) && !empty($variables['page']['footer_third'])) or (!empty($variables['page']['footer_third']) && !empty($variables['page']['footer_second']))) {
+    $variables['footer_class'] = 'col-lg-6';
+  }
+  else {
+    $variables['footer_class'] = 'col-lg-12';
+  }
+
+  // Add information about the number of sidebars.
+  if (!empty($variables['page']['sidebar_first']) && !empty($variables['page']['sidebar_second'])) {
+    $variables['contentlayout'] = 'col-md-6 col-sm-6';
+    $variables['sidebarfirst'] = 'col-md-3 col-sm-3';
+    $variables['sidebarsecond'] = 'col-md-3 col-sm-3';
+  }
+
+  elseif (!empty($variables['page']['sidebar_first'])) {
+    $variables['contentlayout'] = 'col-md-8 col-sm-8 ';
+    $variables['sidebarfirst'] = 'col-md-4 col-sm-4';
+  }
+
+  elseif (!empty($variables['page']['sidebar_second'])) {
+    $variables['contentlayout'] = 'col-md-8 sol-sm-8 ';
+    $variables['sidebarsecond'] = 'col-md-4 col-sm-4';
+  }
+
+  else {
+    $variables['contentlayout'] = 'col-lg-12 col-lg-offset-1 centered ';
+  }
+
+  // Set social icons variables.
+  $variables['show_social_icons'] = theme_get_setting('social_icon_display');
+  $variables['facebook'] = empty(theme_get_setting('facebook_url')) ? '#' : theme_get_setting('facebook_url');
+  $variables['google'] = empty(theme_get_setting('google_plus_url')) ? '#' : theme_get_setting('google_plus_url');
+  $variables['twitter'] = empty(theme_get_setting('twitter_url')) ? '#' : theme_get_setting('twitter_url');
+  $variables['linkedin'] = empty(theme_get_setting('linkedin_url')) ? '#' : theme_get_setting('linkedin_url');
+  $variables['pinterest'] = empty(theme_get_setting('pinterest_url')) ? '#' : theme_get_setting('pinterest_url');
+  $variables['rss'] = empty(theme_get_setting('rss_url')) ? '#' : theme_get_setting('rss_url');
+
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function jethro_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  $form['jethro_settings'] = array(
+    '#type' => 'details',
+    '#title' => t('Smart Settings'),
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE,
+  );
+
+  //Social Icon Link
+  $form['jethro_settings']['social_icon'] = array(
+    '#type' => 'details',
+    '#title' => t('Social Icon Link'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $form['jethro_settings']['social_icon']['social_icon_display'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show Social Icons'),
+    '#default_value' => theme_get_setting('social_icon_display'),
+    '#description'   => t("Check this option to show Social icons links in the theme."),
+  );
+  $form['jethro_settings']['social_icon']['facebook_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('FaceBook Link'),
+    '#default_value' => theme_get_setting('facebook_url'),
+  );
+  $form['jethro_settings']['social_icon']['google_plus_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Google plus Link'),
+    '#default_value' => theme_get_setting('google_plus_url'),
+  );
+  $form['jethro_settings']['social_icon']['twitter_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Twitter Link'),
+    '#default_value' => theme_get_setting('twitter_url'),
+  );
+  $form['jethro_settings']['social_icon']['linkedin_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Linkedin Link'),
+    '#default_value' => theme_get_setting('linkedin_url'),
+  );
+  $form['jethro_settings']['social_icon']['pinterest_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Pinterest Link'),
+    '#default_value' => theme_get_setting('pinterest_url'),
+  );
+  $form['jethro_settings']['social_icon']['rss_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Rss Link'),
+    '#default_value' => theme_get_setting('rss_url'),
+  );
+
+}
+
+/**
+ * Implements hook_preprocss_block().
+ */
+function jethro_preprocess_block(&$variables) {
+  // Add bootstrap collapse class to menu block.
+  if ($variables['elements']['#plugin_id'] == 'system_menu_block:main' || $variables['elements']['#plugin_id'] == 'system_menu_block:account') {
+    $variables['attributes']['class'][] = 'navbar-collapse';
+    $variables['attributes']['class'][] = 'collapse';
+  }
+}

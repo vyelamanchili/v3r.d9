@@ -1,0 +1,41 @@
+global-css:
+  version: VERSION
+  css:
+    theme:
+     css/font-awesome.min.css: {}
+     css/page.css: {}
+     css/main.css: {}
+  js:
+    js/custom.js: {}
+    js/modernizr.custom.js: {}
+
+jethro-base:
+  version: VERSION
+  css:
+    theme:
+      css/base/elements.css: {}
+
+jethro-components:
+  version: 1.x
+  css:
+    theme:
+      css/components/buttons.css: {}
+      css/components/table.css: {}
+      css/components/shortcut.css: {}
+      css/components/table.css: {}
+      css/components/breadcrumb.css: {}
+      css/components/comments.css: {}
+jethro-bootstrap:
+  version: 1.x
+  css:
+    theme:
+      includes/bootstrap/css/bootstrap.css: {}
+      includes/bootstrap/css/bootstrap.min.css: {}
+  js:
+    includes/bootstrap/js/bootstrap.min.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal.ajax
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery.once
