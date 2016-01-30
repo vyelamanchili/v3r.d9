@@ -55,5 +55,5 @@
  */
 $sites = array(
  'project.v3r.us' => 'project',
- 'vijayraj.v3r.us' => 'v4ecc'
+ 'peervision.v3r.us' => 'v4ecc'
 );
