@@ -56,6 +56,7 @@ global-styling:
 
   js:
     bootstrap/js/bootstrap.min.js: {}
+    js/custom.js: {}
   dependencies:
     - core/jquery
     - core/drupal.ajax
