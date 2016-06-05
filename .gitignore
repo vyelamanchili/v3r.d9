@@ -6,6 +6,7 @@ files/
 sites/*/files/css
 sites/*/files/js
 sites/*/files/config*
+sites/*/files/php
 sites/*/private
 
 # Ignore default text files
