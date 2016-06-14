@@ -699,7 +699,7 @@ $settings['container_yamls'][] = __DIR__ . '/services.yml';
  * example.org, with all subdomains included.
  */
 $settings['trusted_host_patterns'] = array(
-  '^project\.v3r\.us$',
+  '^www\.v3r\.us$',
 );
 
 /**
@@ -716,7 +716,7 @@ $settings['trusted_host_patterns'] = array(
 #   include __DIR__ . '/settings.local.php';
 # }
 $databases['default']['default'] = array (
-  'database' => 'v3r_project_drupal',
+  'database' => 'v3r_drupal',
   'username' => 'v3r',
   'password' => 'Ranjureetu59',
   'prefix' => '',
