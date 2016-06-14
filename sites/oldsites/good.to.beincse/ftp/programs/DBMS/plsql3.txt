@@ -1,0 +1,33 @@
+ declare
+ i employee2.id%type;
+ nam employee2.name%type;
+ bs employee2.basic_sal%type;
+ grosal float;
+ hra float;
+ cca float;
+ pt float;
+ da float;
+ begin
+ dbms_output.put_line('Enter the ID');
+ i:=&i;
+ dbms_output.put_line('Enter the Name');
+ nam:='&nam';
+ dbms_output.put_line('Enter the Basic Salary');
+ bs:=&bs;
+ da:=bs/2;
+ hra:=(15/100)*bs;
+ if(bs between 0 and 5000) then
+    cca:=100;
+    pt:=bs/50;
+ elsif(bs between 5000 and 10000) then
+    cca:=200;
+    pt:=bs/25;
+ else
+    cca:=400;
+    pt:=bs/20;
+ end if;
+ grosal:=bs+hra+da+cca;
+ insert into employee2 values(i,nam,bs,grosal-pt);
+ commit;
+ end;
+/

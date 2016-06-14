@@ -1,0 +1,27 @@
+  declare
+  rec banking%rowtype;
+  amt float;
+  ch int;
+  cno banking.clientno%TYPE;
+ BEGIN
+  dbms_output.put_line('Enter the Client no');
+  cno:='&cno';
+  dbms_output.put_line('Enter the Choice(w1/d0)');
+  ch:=&ch;
+   select * into rec from banking where banking.clientno=cno;
+  if ch=0  then
+     dbms_output.put_line('Enter the amount to deposit');
+     amt:=&amt;
+     update banking set amount=amount+amt where banking.clientno=cno;
+ end if;
+  if ch=1  then
+    dbms_output.put_line('Enter the Amount  to withdraw');
+    amt:=&amt;
+    if rec.amount-amt<500  then
+            dbms_output.put_line('Insuff amount');
+    else
+            update banking set amount=amount-amt where banking.clientno=cno;
+    end if;
+  end if;
+END;
+/

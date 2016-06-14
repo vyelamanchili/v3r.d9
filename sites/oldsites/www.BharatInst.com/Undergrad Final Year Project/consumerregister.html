@@ -1,0 +1,138 @@
+<HTML>
+<HEAD>
+<TITLE>registration </TITLE>
+<SCRIPT LANGUAGE="JAVASCRIPT">
+function SCNO1()
+  {
+    var x1=document.reg.SCNO.value;
+    if(x1=="")
+	   {
+	       document.reg.SCNO.focus();
+	       alert("THE FIELD SCNO IS LEFT BLANK ");
+	
+	   }
+     else
+	     SCNO2();    
+   }
+	  
+   
+function SCNO2()
+ { 
+
+     var x1=document.reg.SCNO.value;
+	 var y=x1.substring(0,1);
+
+
+      if(!isNaN(y) || y=='_' || y=='@' || y=='-' || y=='#' || y=='%' || y=='/' || y=='\\' )
+      {
+	    document.reg.SCNO.focus();
+		alert (" THE FIRST CHARACTER OF SCNO SHOULD BE AN ALPHABET ");
+      }
+      else
+	   SCNO3();
+   }
+
+   function SCNO3()
+   {
+  	 var x1=document.reg.SCNO.value;
+     var m4=x1.substring(2,8);
+
+     if(isNaN(m4))
+        {
+           document.reg.SCNO.focus(); 
+  	       alert("THE LAST SIX CHARACTERS OF SCNO SHOULD BE DIGITS ");
+         }
+      else
+         SPACE();
+
+    }	
+
+	function SPACE()
+
+     {
+
+    	var x1=document.reg.SCNO.value;
+    	var len=document.reg.SCNO.value.length;
+    	var ven=x1.substring(2,8);
+    	var regexp=/\d*\s/i;
+		var newString=ven.match(regexp);
+	    if(newString!=null)
+	    {
+	      document.reg.SCNO.focus(); 
+		  alert("SPACES ARE NOT ALLOWED AFTER FIRST TWO CHARACTERS IN SCNO ");
+	     }
+	  CHECK1();
+ }
+function CHECK1()
+{
+str1=document.reg.PWD.value;
+str2=document.reg.RPWD.value;
+len1=document.reg.PWD.value.length;
+len2=document.reg.RPWD.value.length;
+   if(len1!=len2)
+    {
+	 
+     document.reg.PWD.focus();
+     alert("PASSWORDS MISMATCH");
+    }
+	else
+	 CHECK2();
+}
+function CHECK2()
+{
+str1=document.reg.PWD.value;
+str2=document.reg.RPWD.value;
+    if(str1!=str2)
+    {
+	   document.reg.PWD.focus();
+	   alert("PASSWORDS MISMATCH");
+	}  
+	else 
+	  CHECK3();
+}
+function CHECK3()
+{
+str1=document.reg.PWD.value;
+str2=document.reg.RPWD.value;
+    if(str1=="" && str2=="")
+    {
+	   document.reg.PWD.focus();
+	   alert("PLEASE ENTER YOUR PASSWORD ");
+	}  
+	}
+</SCRIPT>
+</HEAD>
+<BODY BGCOLOR="#fffff">
+<FORM NAME=reg METHOD=POST ACTION=register.jsp>
+<CENTER>
+<br>
+<br>
+<BR>
+<H3>REGISTRATION</H3>
+<H4>&nbsp Please fill up the following details </h4>
+<TABLE align=center>
+ 
+ <tr>
+  <td>SCNO:</TD>
+  <TD><input TYPE="TEXT" NAME="SCNO" SIZE=8 MAXLENGTH=8></TD>
+ </TR> 
+  <tr>
+  <td>PASSWORD</TD>
+  <TD><input TYPE="PASSWORD" NAME="PWD" SIZE=16 MAXLENGTH=16></TD>
+ </TR> 
+  <tr>
+  <td>RETYPE PASSWORD:</TD>
+  <TD><input TYPE="PASSWORD" NAME="RPWD" SIZE=16 MAXLENGTH=16></TD>
+ </TR>
+ 
+ </TABLE>
+ <br>
+  <input type="submit" name="ok" value="OK" onfocus="SCNO1()">
+ &nbsp;
+ &nbsp;
+ 
+ <input type="reset" name="reset" value="RESET" >
+ </CENTER>
+ </FORM>
+</BODY>
+</HTML>

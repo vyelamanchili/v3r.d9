@@ -1,0 +1,24 @@
+declare
+rn student.rno%type;
+a student.m1%type;
+b student.m2%type;
+t student.total%type;
+av student.avg%type;
+choice int;
+begin
+<<bharat>>
+dbms_output.put_line('Enter rno');
+rn:=&rn;
+dbms_output.put_line('Enter m1,m2');
+a:=&a;
+b:=&b;
+t:=a+b;
+av:=t/2;
+insert into student values(rn,a,b,t,av);
+dbms_output.put_line('do u want to continue');
+choice:=&choice;
+if (choice=1) then
+goto bharat;
+end if;
+end;
+/

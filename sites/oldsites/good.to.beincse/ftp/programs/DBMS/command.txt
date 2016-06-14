@@ -1,0 +1,64 @@
+create table client_master(client_no varchar2(6) primary key,name varchar2(20) not null,address1 varchar2(30),address2 varchar2(30),city varchar2(15),pincode number(8),state varchar2(15),bal_due float,check(client_no like ('C%')))
+/
+
+create table product_master(product_no varchar2(6) primary key,description varchar2(15) not null, profit_percent float not null,unit_measure varchar2(10) not null,qty_on_hand number(8) not null,reorder_lvl number(8) not null,sell_price float not null,cost_price float not null,check (product_no like '%P',sell_price != 0,cost_price != 0)
+
+create table sales_order(order_no varchar2(6) primary key check(order_no like 'O%'),order_date date,client_no varchar2(6) foreign key references(client_master),dely_addr varchar2(25),salesman_no varchar2(6) foreign key references(salesman_master),dely_type char(1) default('F'),billed_yn char(1),dely_date date check (dely_date!<order_date),order_status varchar2(10) check (order_status ='In Process','Fulfiled',BackOrder','Cancelled'));
+
+
+create table sales_order
+(
+order_no varchar2(6) primary key check(order_no like 'O%'),
+order_date date,
+client_no varchar2(6) references client_master,
+dely_addr varchar2(25),
+salesman_no varchar2(6) references salesman_master,
+dely_type char(1) default 'F',
+billed_yn char(1),
+dely_date date check (dely_date > order_date),
+order_status varchar2(10) check (order_status IN('In Process','Fulfilled',BackOrder','Cancelled'))
+)
+/
+
+create table sales_order_details
+(order_no varchar2(6) references sales_order,
+product_no varchar2(6) references product_master,
+qty_ordered number(8),
+qty_disp number(8),
+product_rate number(10,2),  primaryduct_no));
+
+
+QUERIES:::
+
+1a select name from client_master where name like '_a%'
+1b select name from client_master where city like '_a%'
+1c select name from client_master where city='Madras' or city='Delhi'
+1d select name from client_master where bal_due>10000
+1e select * from sales_order where to_char(order_date,'mon')='jan'
+1f select * from sales_order where client_no ='C00001' or client_no='C00002'
+1g select description as products from product_master where sell_price>2000 and sell_price<=5000
+1h select description,sell_price*0.15 as NewPrice from product_master where sell_price>1500
+1i select name,city,state from client_master where state<>'Maharashtra'
+1j select count(order_no) from sales_order
+1k select avg(sell_price) from product_master
+1l select max(sell_price) as Max_price ,min(sell_price) as Min_price from product_master
+1m select count(sell_price) as No_of_prod from product_master where sell_price>=1500
+1n select description from product_master where qty_on_hand<reorder_lvl
+
+2a select order_no,order_date from sales_order
+2b select to_char(order_date,'mon') as Month from sales_order
+2c select to_date(order_date,'DD-MM-YY') from sales_order
+2d select sysdate+15 as incdate from dual
+2e select (order_date)-(sysdate) from sales_order
+
+3a select description,sum(qty_disp) from sales_order_details,product_master where sales_order_details.product_no=product_master.product_no group by (product_master.product_no)
+
+4a select description as Soldtoivan from product_master,client_master,sales_order,sales_order_details
+where
+sales_order.client_no=client_master.client_no and name='Ivan Bayross' and
+sales_order.order_no=sales_order_details.order_no and
+sales_order_details.product_no=product_master.product_no
+4b  select description,qty_ordered from sales_order_details,product_master,sales_order where
+ sales_order_details.product_no=product_master.product_no and
+ sales_order.order_no=sales_order_details.order_no and to_char(dely_date,'mon')=to_char(sysdate,'mon')
+4c 

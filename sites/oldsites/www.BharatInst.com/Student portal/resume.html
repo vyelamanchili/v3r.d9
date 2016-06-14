@@ -1,0 +1,135 @@
+<html>
+<head>
+<title>
+Resume
+</title>
+</head>
+
+<body leftmargin=50 topmargin=10 bgcolor="lightblue">
+
+
+<h3>Resume</h3>
+
+
+<form method=post action="cgi-bin/save.pl">
+
+<br><br>
+SurName : <input type="text" name="surname" size=20>
+&nbsp;&nbsp;&nbsp;
+Name : <input type="text" name="name" size=20>
+
+<br><br>
+
+Father's Name : 
+<input type="text" name="fname" size=20>
+
+<br><br>
+
+Date of Birth : 
+<input name="dd" type="text" size=2>/<input name="mm" type="text" size=2>/<input name="yyyy" type="text" size=4>&nbsp;(DD/MM/YYYY)
+
+<br><br>
+
+<table border=0>
+<tr>
+<td valign=top>Contact Address : </td>
+<td><textarea name="address" rows=6></textarea></td>
+</tr>
+</table>
+
+<br><br>
+
+City : 
+<input type="text" name="city" size=15>
+&nbsp;&nbsp;&nbsp;
+State : 
+<input type="text" name="state" size=15>
+&nbsp;&nbsp;&nbsp;
+Phone Number : 
+<input type="text" name="phno" size=15>
+<br><br>
+
+E-mail Address : 
+<input type="text" name="email" size=40>
+
+<br><br>
+
+Qualification : 
+
+<table border=0>
+
+<tr>
+<td>&nbsp;</td>
+<td align=left>School Name</td>
+<td align=left>Percentage(%)</td>
+</tr>
+
+<tr>
+<td align=left>10th</td>
+<td><input type="text" name="tentdscl" Size=20></td>
+<td><input type="text" name="tentd" size=4></td>
+</tr>
+
+<tr>
+<td align=left>Intermediate</td>
+<td><input type="text" name="intercol" Size=20></td>
+<td><input type="text" name="inter" size=4></td>
+</tr>
+
+<tr>
+<td align=left>Engineering</td>
+<td NOWRAP>BHARAT INSTITUTE OF ENGG. AND TECHNOLOGY
+<td><input type="text" name="engg" size=4></td>
+</tr>
+
+</table>
+<br>
+
+<table border=0 cellspacing=5 cellpadding=5>
+
+<tr>
+<td valign=top>Personal Traits :</td> 
+
+<td>1.<Input type=text name=pt1 size=40><br>
+2.<Input type=text name=pt2 size=40></td>
+</tr>
+</table>
+
+<br>
+
+<table border=0 cellspacing=5 cellpadding=5>
+
+<tr>
+<td valign=top>Hobbies/Interests :</td> 
+<td>1.<Input type=text name=hb1 size=40><br>
+2.<Input type=text name=hb2 size=40>
+3.<Input type=text name=hb32 size=40></td>
+</tr>
+</table>
+<br>
+
+<table border=0 cellspacing=5 cellpadding=5>
+<tr>
+<td align=left>Upload Photo :</td>          
+<td><input name="file" type="file" ></td>
+</tr>
+
+<tr>
+<td align=left>Upload anotder Resume : </td>
+<td><input name="file"          type="file" ></td>
+</tr>
+</table>
+<br>
+
+
+<center>
+
+<input name=submit type="submit" value=Submit>
+<input name=clear type="reset" value=Clear>
+</center>
+
+</form>
+
+
+</body>
+</html>

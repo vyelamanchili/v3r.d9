@@ -1,0 +1,10 @@
+@itm@|@link@
+@Home@|@http://v3r.2ya.com@
+@About@|@about.html@
+@Beginning@|@start.html@
+@The Tests@|@test.html@
+@Application@|@app.html@
+@Preparation@|@prep.html@
+@Visa Interview@|@interview.html@
+@After Interview@|@afterinterview.html@
+@Health Tips@|@healthtips.html@

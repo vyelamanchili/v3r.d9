@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config> 
+    <fieldset 
+        name="GENERAL_OPTION"
+        label="COM_CWSOCIALLINKS_GENERAL_TAB"
+        addfieldpath="plugins/system/cwgears/fields">
+        
+        <field 
+            name="css_import" 
+            type="csscom"/>
+        
+        <field 
+            name="general_header"
+            type="header"
+            default="COM_CWSOCIALLINKS_GENERAL_TITLE"/>
+        
+        <field
+            type="spacer" 
+            name="general_spacer_facebook" 
+            label="COM_CWSOCIALLINKS_SPACER_FACEBOOK"
+            class="cw_label" />
+        
+        <field 
+            name="load_fb_js" 
+            type="radio"
+            class="btn-group"  
+            default="1" 
+            label="COM_CWSOCIALLINKS_FIELD_LOADFBJS_LABEL" 
+            description="COM_CWSOCIALLINKS_FIELD_LOADFBJS_DESC">
+            <option value="1">CW_YES</option>
+            <option value="0">CW_NO</option>
+        </field>
+
+        <field 
+            name="fbappid_info"
+            type="info"
+            default=""
+            label="COM_CWSOCIALLINKS_MSG_FB_APPID"/>
+
+        <field 
+            name="fb_app_id" 
+            type="text" 
+            default="" 
+            label="COM_CWSOCIALLINKS_FIELD_APP_ID_LABEL" 
+            description="COM_CWSOCIALLINKS_FIELD_APP_ID_DESC" />
+        
+        <field 
+            name="fbsharetype_info"
+            type="info"
+            default=""
+            label="COM_CWSOCIALLINKS_MSG_FB_SHARE_TYPE"/>
+                
+        <field 
+            name="fb_share_type" 
+            type="list"
+            default="new" 
+            label="COM_CWSOCIALLINKS_FIELD_FB_SHARE_TYPE_LABEL" 
+            description="COM_CWSOCIALLINKS_FIELD_FB_SHARE_TYPE_DESC">
+            <option value="new">COM_CWSOCIALLINKS_FB_SHARE_TYPE_OPT1</option>
+            <option value="old">COM_CWSOCIALLINKS_FB_SHARE_TYPE_OPT2</option>
+        </field>
+        
+        <field
+            type="spacer" 
+            name="general_spacer_twitter" 
+            label="COM_CWSOCIALLINKS_SPACER_TWITTER"
+            class="cw_label" />
+                
+        <field 
+            name="twitter_via" 
+            type="text" 
+            label="COM_CWSOCIALLINKS_FIELD_TW_VIA_LABEL" 
+            description="COM_CWSOCIALLINKS_FIELD_TW_VIA_DESC" />
+    </fieldset>
+        
+    <fieldset 
+        name="permissions"
+        label="JCONFIG_PERMISSIONS_LABEL">
+
+        <field 
+            name="rules" 
+            type="rules"
+            component="com_coalawebsociallinks"
+            class="inputbox"
+            filter="rules"
+            validate="rules"
+            label="JCONFIG_PERMISSIONS_LABEL"
+            section="component" />
+        
+    </fieldset>
+    
+</config>

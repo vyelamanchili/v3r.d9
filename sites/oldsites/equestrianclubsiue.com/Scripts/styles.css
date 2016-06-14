@@ -1,0 +1,6 @@
+.norepbg {
+	background-repeat: no-repeat;
+	background-position: top;
+	position: fixed;
+	top: auto;
+}

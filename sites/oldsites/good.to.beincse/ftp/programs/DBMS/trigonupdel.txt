@@ -1,0 +1,14 @@
+ create or replace trigger ranju after update or delete on banking for each row
+ Declare
+ a banking.clientno%type;
+ b banking.amount%type;
+ begin
+ a:=:old.clientno;
+ b:=:old.amount;
+ if updating then
+ insert into upd values(a,b,sysdate);
+ else
+ insert into del values(a,b,sysdate);
+ end if;
+ end;
+/

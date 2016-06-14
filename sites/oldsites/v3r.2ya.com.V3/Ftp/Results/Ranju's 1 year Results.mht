@@ -1,0 +1,413 @@
+From: <Saved by Microsoft Internet Explorer 5>
+Subject: BTech 1st Year Regular Results
+Date: Tue, 30 Sep 2003 15:20:57 +0530
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	boundary="----=_NextPart_000_0000_01C38766.725FC9C0";
+	type="text/html"
+X-MimeOLE: Produced By Microsoft MimeOLE V5.00.2919.6600
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_0000_01C38766.725FC9C0
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://jntu.ac.in/results/results1.php?Hno=02e11a0559&tab=res1yr03&title=BTech+1st+Year+Regular+Results&action=confirm
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>BTech 1st Year Regular Results</TITLE>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Diso-8859-1">
+<SCRIPT language=3Djavascript>
+
+function Validations()
+{
+   var numArray =3D new Array( "Hno" )
+   var descripArray =3D new Array( "Hall Ticket Number")
+      for ( var i =3D 0 ; i < numArray.length  ; i++ )=20
+	{
+	    var j =3D eval( "document.frmResult." + numArray[i] + ".value") ;
+                	    var iChars =3D ".*|,\":<>[]{}`\';()@&$#%";
+                                if ( j =3D=3D "" )=20
+	     	{
+	                        alert ("Oops! Don't forget to enter your " + =
+descripArray[i] + "!");
+	            	           return false ;
+                		}
+  	             if ( numArray[i] !=3D "Message" )=20
+		{
+		      for (var k =3D 0; k < j.length; k++)=20
+			{
+      			    if (iChars.indexOf(j.charAt(k)) !=3D -1)=20
+			         {
+	      			alert("Invalid characters encountered in " + descripArray[i] + =
+"!" );
+         				return false;
+         			          }
+   		                  }
+   		}
+	}
+
+
+
+
+  {
+     if ((document.frmResult.Hno.value=3D=3D"") || =
+(document.frmResult.Hno.value.length!=3D10))
+        {=20
+	alert ("ENTER A VALID HALLTICKET NUMBER!");
+	document.frmResult.Hno.focus();
+            	document.frmResult.Hno.select();
+	return false;
+        }
+  }
+
+
+}
+
+
+function navigate()
+  {
+     document.frmResult.submit();
+  }
+function showme()
+{
+if(document.frmResult.code.value=3D=3D"")
+{
+ alert("Please enter college code");
+ return false;
+}
+else if(document.frmResult.bcode.value=3D=3D"")
+{
+ alert("Please enter Branch code");
+ return false;
+}
+else
+{
+ =
+str=3D"showcollegeresults.php?code1=3D"+document.frmResult.code.value+"&b=
+code=3D"+document.frmResult.bcode.value+"&tab=3Dres1yr03&title=3DBTech =
+1st Year Regular Results";
+
+ window.open( str,"Message" );
+}
+}
+
+</SCRIPT>
+
+<META content=3D"MSHTML 6.00.2600.0" name=3DGENERATOR></HEAD>
+<BODY vLink=3Dgray aLink=3Dmaroon link=3Dnavy bgColor=3D#ffffff =
+leftMargin=3D0 topMargin=3D0=20
+rightMargin=3D0 marginwidth=3D"0" marginheight=3D"0">
+<CENTER>
+<TABLE cellSpacing=3D0 cellPadding=3D0 width=3D"100%" border=3D0>
+  <TBODY>
+  <TR>
+    <TD align=3Dright bgColor=3D#d8d4ad><IMG height=3D49=20
+      src=3D"http://jntu.ac.in/headerr.gif" width=3D327></TD>
+    <TD bgColor=3D#d8d4ad><IMG height=3D49 =
+src=3D"http://jntu.ac.in/header2.gif"=20
+      width=3D372></TD></TR></TBODY></TABLE>
+<TABLE width=3D"100%" bgColor=3D#969696>
+  <TBODY>
+  <TR align=3Dmiddle>
+    <TD><B><FONT face=3D"Verdana, Arial, Helvetica, sans-serif" =
+color=3Dwhite=20
+      size=3D+1>BTech 1st Year Regular =
+Results</FONT></B></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<FORM name=3DfrmResult onsubmit=3D"return Validations()" =
+action=3Dresults1.php=20
+method=3Dget><FONT face=3Dverdana color=3Dblue =
+size=3D3><B>02E11A0559<BR>VENKATRAM=20
+RANJEESH Y<BR>
+<TABLE cellSpacing=3D0 cellPadding=3D3 border=3D1>
+  <TBODY>
+  <TR bgColor=3D#996600>
+    <TD align=3Dmiddle><B><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#ffffff size=3D2>CODE</FONT></B></TD>
+    <TD align=3Dmiddle><B><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#ffffff size=3D2>SUBJECT NAME</FONT></B></TD>
+    <TD align=3Dmiddle><B><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#ffffff size=3D2>MARKS</FONT></B></TD>
+    <TD align=3Dmiddle><B><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#ffffff size=3D2>CREDITS</FONT></B></TD>
+  <TR bgColor=3D#ffddbb>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>A0502 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>COMPUTER PROGRAMMING (LAB) </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>64 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>8 </FONT></TD>
+  <TR bgColor=3D#ffddbb>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>A9908 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>C &amp; DATA STRUCTURES </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>79 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>6 </FONT></TD>
+  <TR bgColor=3D#ffddbb>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>A9901 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>ENGLISH </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>59 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>6 </FONT></TD>
+  <TR bgColor=3D#ffddbb>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>A0503 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>ELECTRONICS DEVICES &amp; CKTS. (LAB) =
+</FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>58 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>4 </FONT></TD>
+  <TR bgColor=3D#ffddbb>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>A9909 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>NETWORK THEORY </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>27 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>0 </FONT></TD>
+  <TR bgColor=3D#ffddbb>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>A9910 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>ELECTRONICS DEVICES &amp; CIRCUITS =
+</FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>62 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>6 </FONT></TD>
+  <TR bgColor=3D#ffddbb>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>A0501 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>ENGINEERING DRAWING &amp; PRACTICE =
+</FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>71 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>4 </FONT></TD>
+  <TR bgColor=3D#ffddbb>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>A9906 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>SOLID STATE PHYSICS </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>41 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>4 </FONT></TD>
+  <TR bgColor=3D#ffddbb>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>A9907 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>INFORMATION TECH.&amp; NUME. METHODS =
+</FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>62 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>6 </FONT></TD>
+  <TR bgColor=3D#ffddbb>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>A9902 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>MATHEMATICS - I </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>50 </FONT></TD>
+    <TD align=3Dmiddle><FONT face=3D"Verdana, Arial, Helvetica, =
+sans-serif"=20
+      color=3D#000099 size=3D2>6 </FONT></TD></TR></TBODY></TABLE><FONT =
+face=3Dverdana,=20
+color=3Dred size=3D1 arial>NOTE: "0" Credits =3D =
+FAIL</FONT><BR><BR><BR><INPUT=20
+type=3Dhidden value=3Dres1yr03 name=3Dtab> <INPUT type=3Dhidden=20
+value=3D"BTech 1st Year Regular Results" name=3Dtitle>=20
+<CENTER><INPUT onclick=3Dnavigate() type=3Dbutton value=3D"Another =
+Result"></CENTER>
+<DIV align=3Dright></DIV>
+<P></P></FORM></CENTER></B></FONT></BODY></HTML>
+
+------=_NextPart_000_0000_01C38766.725FC9C0
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://jntu.ac.in/headerr.gif
+
+R0lGODlhRwExAPcAANjUrVwARKeAhJ9zfZZidY1VboZHZ345YHQpWGwbUUVCRGUOS1pZWjMyNGZl
+a/Pz+v39//Ly9EpOe2lqeXt8hJaZptPW46yxxOXp952issrO27/Dym1xdoyOkN7i5fz//6OlpOXp
+4vb588bIw+7w5piZlMbIsuTl0czNrf/+tP//2bu7n///4P//6v//7v//8/n57by8tvj48f//+f//
+/IeHhdra2f77pv/+0tXUtv77x9TSrc3JldzZtuvp0/Tz5NvVnePgxPTx1NvZx/786O7s2t3Tj7uz
+euriquLcsd/bvOfkzKupmvHv3/v56vPy6/vsk+Xbm9XRt6Ohlf377se5efzsoaujev720dTOruLc
+vsfCqOnkzc3KvOrYjoh+VdjIiImAV/LioM3AisS6kpiSefPqxdHOwbGvp2VUF/TchPfotKSbeN7S
+pvvuwdPJptDHptvTtOzjxO7myPPrztrUvf334rm1p+nl1sXDvLigUdW6Z8WuYtC7d+LLg8Swc6iY
+ZPDblJqOZ4+EYMa3iNbHlbeqgtrNo+jctMS6mrOqjrStlu/nzM7ItMmpUH9sOcmwat7DdtO+gePO
+lLirhr6xjLyvjMK1ksq+m9HFoe/hutjLqOPWstzQrfHkwbyzmPvvzaWdh9HHrK2ljsO6or62np6X
+hODXvPz03IF9ccG7qvj06Uo1AVY+AnxfGF1IFEQ1EX1lKZN3Ma+QQGpXKY56RbKZWpuGUoFxR4Jx
+SE1ELrijbu3Yps29k3xyWYmEd+XdyvPr15KOhFFPStTSzXBdNK6ddVpSQIh9ZOvdvtTLt8rDtDIp
+FjMqF1ZIKz81IWVWOFdLNLmkeW5kT5CEbXt1aWZiWkQsAXVkRqGRc+LPq2JaTJaKdTgjAWJMKHJp
+WkxGPMm5oMzFuysfD0U6K8e+s1QtAysVAMGsmRIJAxkWFHVsZ7ebka6Niv///////wAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAO8ALAAAAABHATEA
+AAj/AAEIHEiwoMGCSpYU+SGDyo9gqFD9KLJEycGLGDNq3Mixo8ePIEOKHEmypMmTKA0q8fFEhZhc
+rVh1uwar27lz12LZouPDYsqfQIMKHUq0qFGjWoo04RGrm4JfNki4m+HuhYsZjVI9S9eqEhctR8OK
+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
+
+------=_NextPart_000_0000_01C38766.725FC9C0
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://jntu.ac.in/header2.gif
+
+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
+Tata18rWtrr1rWoIAQA7
+
+------=_NextPart_000_0000_01C38766.725FC9C0--

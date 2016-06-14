@@ -1,0 +1,115 @@
+<html>
+<head>
+<title>online payment</title>
+<SCRIPT LANGUAGE="JavaScript" >
+
+browsername=navigator.appName;
+browserversion=parseInt(navigator.appVersion);
+
+if(browsername=="Netscape" && browserversion>=4)
+   version="ns4+";
+else if(browsername=="Microsoft Internet Explorer" && browserversion>=3)
+    version="ie3+";
+
+if(version=="ns4+")
+   {
+     window.captureEvents(Event.LOAD);
+
+     function DA(evnt)
+   {  
+         var x=location.search;
+         z=x.length;
+         var a=0;
+         var b=0;
+         while(a < z && b==0)
+          {
+            if(x[a]=='&')
+           {
+            b=a;
+           }
+            else
+           {
+            a++;
+           }
+         }
+     var y=x.substring(1,b);
+     document.entry.SCNO.value=y;
+     var c=x.substring(b+1,z);
+     document.entry.AC.value=c;
+  }
+    window.onLoad = DA;
+}
+
+</SCRIPT>
+</head>
+<body bgcolor="#fffff">
+<center>
+<br><br>
+<h2>ONLINE PAYMENT</h2>
+<br>
+<form name="entry" method="post" action="payment.jsp">
+<table align=center>
+    <tr>
+        <td align=left>Scno </td>
+        <td>  <input type="text" size="16" maxlength="8" name="SCNO">
+        
+        </td>
+    </tr>
+
+    <tr>
+        <td align=left>Credit Card Name</td>
+        <td > <select name="CARDNAME" size="1">
+                <option>VISA</option>
+                <option>MASTER CARD</option>
+                <option>AMERICAN EXPRESS</option>
+                <option>STANDARD CHARTERED</option>
+                <option>CITIBANK</option>
+                <option>STATE BANK OF INDIA</option>
+                </select>
+        
+        </td>
+    </tr>
+    <tr>
+        <td align=left>Credit Card No.</td>
+        <td>  <input type="text" size="30" maxlength="16" name="CARDNO">
+        
+        </td>
+    </tr>
+    <tr>
+        <td align=left>Name as on Credit Card</td>
+        <td>
+            
+			<input type="text" size="30" maxlength="30" name="NAME">
+        
+        </td>
+    </tr>
+    <tr>
+        <td align=left>Date of Expiry</td>
+        <td><input type="text" size=2 maxlength=2 name="MONTH">
+            <input type="text" size=4 maxlength=4 name="YEAR">(MM/YYYY)
+        
+        </td>
+    </tr>
+    <tr>
+        <td align=left>Amount to be Paid  </td>
+        <td>Rs.<input type="text" size="5" maxlength="6" name="AC">
+        
+        </td>
+    </tr>
+    <tr>
+        <td>Amount Being Paid  </td>
+        <td>Rs.<input type="text" size="5" maxlength="6" name="AD">
+        
+        </td>
+    </tr>
+</table>
+
+<br>
+<br>
+<center>
+<input type="submit"value="Ok">
+<input type="reset" name="B2" value="Reset">
+</form>
+</center>
+</body>
+</html>

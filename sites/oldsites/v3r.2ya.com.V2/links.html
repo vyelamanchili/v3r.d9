@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>Links to many different types of sites</title>
+</head>
+
+<body Background="images\bg\BKGND009.gif">
+<center><img src="images\link.gif"></center>
+<center>
+<h1> Links</h1>
+<h3>
+<br><font face="monotype corsiva">
+Choose one of the below links to be seen. They contain the related topic links, which I have collected from many sources for all my friends/relatives. <br>For Example, the Game Links contain many Game sites and Mp3 sites contain many Mp3 site and so on.<br>
+
+I have kept two kinda linking. One is Pull Down menu created using Java and another using plain HTML.</font>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+<!-- Begin
+function formHandler(form){
+var URL = document.form.site.options[document.form.site.selectedIndex].value;
+window.location.href = URL;
+}
+// End -->
+</SCRIPT>
+
+<form name="form">
+<select name="site" size=1 onChange="javascript:formHandler()">
+<option value="">See...
+
+<!-- Option 1 -- To have the pull down menu go to your own pages, change the URL within the quotation marks and the link name.  -->
+<!-- Option 2 -- You may remove or add entire lines to increase or decrease the number of links. -->
+<option value="games.html" target ="main">Game sites
+<option value="enter.html">Entertainment Sites
+<option value="mp3.html">Mp3 Sites
+<option value="downloadsites.html">Download Sites
+<option value="edu.html">Educational Sites
+<option value="search.html">Search Sites
+<option value="misc.html">Miscellaneous Sites
+
+</select>
+</form>
+<br>
+
+OR
+
+<br><br>
+
+<a href="games.html">Game sites.</a><p>
+</p><a href="enter.html">Entertainment.</a><p>
+</p><a href="mp3.html">Music.</a><p>
+</p><a href="downloadsites.html">Download sites.</a><p>
+</p><a href="edu.html">Education.</a><p>
+</p><a href="search.html">Search.</a><p>
+</p><a href="misc.html">Miscellaneous.</a><p>
+
+</h3>
+</center>
+
+</body>
+</Html>

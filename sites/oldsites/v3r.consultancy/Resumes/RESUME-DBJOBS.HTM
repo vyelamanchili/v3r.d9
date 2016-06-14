@@ -1,0 +1,1442 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252"><LINK 
+title=style href="/IN/EN/MenuStyle.css" type=text/css rel=stylesheet>
+<SCRIPT language=JavaScript src=""></SCRIPT>
+
+<SCRIPT language=JavaScript src=""></SCRIPT>
+
+<SCRIPT language=JavaScript src=""></SCRIPT>
+
+<META content="MSHTML 5.50.4134.600" name=GENERATOR></HEAD>
+<BODY vLink=#c24623 link=#fe6c01 bgColor=white leftMargin=0 topMargin=0 
+onload=JobsDBHeaderInit(); marginwidth="0" marginheight="0">
+<SCRIPT language=JavaScript src=""></SCRIPT>
+<BR>
+<TABLE cellSpacing=0 cellPadding=0 width=780 border=0>
+  <TBODY>
+  <TR>
+    <TD width=70>&nbsp;</TD>
+    <TD width=660>
+      <TABLE cellSpacing=0 cellPadding=0 width=660 border=0>
+        <TBODY>
+        <TR>
+          <TD><A 
+            onmouseover="MM_swapImage('MyJobsDBHome','','/Images/XX/EN/MyJobsDB/MenuTag/MyJobsDBHomeOn.gif',1)" 
+            onmouseout=MM_swapImgRestore() 
+            href="file:///F:/IN/EN/MyJobsdb/MyJobsDB.asp?pagename=JDBMenu"><IMG 
+            src="" border=0 name=MyJobsDBHome> </A></TD></TR>
+        <TR>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD align=middle><IMG src=""><A 
+            href="file:///F:/IN/EN/MyJobsdb/PersonalProfile.asp?PN=View"><IMG 
+            src="" border=0></A><A 
+            href="file:///F:/IN/EN/MyJobsDB/JobProfile.asp?PN=JobListing"><IMG 
+            src="" border=0></A><IMG src="" border=0><A 
+            href="file:///F:/IN/EN/MyJobsDB/JSAdvertise.asp?pagename=JSAdvertise"><IMG 
+            src="" border=0></A><A 
+            href="file:///F:/IN/EN/MyJobsDB/myjobs.asp?pagename=JsReqApprove"><IMG 
+            src="" border=0></A><A 
+            href="file:///F:/IN/EN/MyJobsDB/Clipboard.asp?pagename=Clipboard"><IMG 
+            src="" border=0></A><A 
+            href="file:///F:/IN/EN/MyJobsDB/JSLogout.asp"><IMG src="" 
+            border=0></A><IMG 
+src=""></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><BR>
+<TABLE cellSpacing=0 cellPadding=0 width=780 border=0>
+  <TBODY>
+  <TR>
+    <TD width=80>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width=650 border=0>
+        <TBODY>
+        <TR>
+          <TD width=650>
+            <SCRIPT>
+		function OpenErrorWindow()
+		{
+			alert('Your Resume Input Template has an error. Please check the field(s) shown in RED \nto make sure that the information has been correctly entered.');
+		}
+		
+		OpenErrorWindow();
+		</SCRIPT>
+
+            <SCRIPT>
+function ShowTips(TipsID)
+{
+WindowFeature = "resizable=no,scrollBars=yes,menuBar=no,directories=no,toolBar=no,location=No,status=No," 
+WindowFeature += "width=440,height=280,screenX=50,screenY=50,top=50, left=50"
+var TipsName = "/IN/EN/MyjobsDB/Tips.asp?TipsID=" + TipsID;
+var TipsWin = window.open (TipsName, "TipsWin", WindowFeature);
+if (!TipsWin.opener)TipsWin.opener=self;
+if (TipsWin.focus)TipsWin.focus();
+}
+
+function ShowErr(ErrorID, ErrFlag)
+{
+WindowFeature = "resizable=no,scrollBars=yes,menuBar=no,directories=no,toolBar=no,location=No,status=No," 
+WindowFeature += "width=360,height=220,screenX=50,screenY=50,top=50, left=50"
+var ErrorName = "/IN/EN/MyJobsDB/Errors.asp?ErrorID=" + escape(ErrorID) + "&ErrFlag=" + ErrFlag;
+var ErrorWin = window.open (ErrorName, "ErrorWin", WindowFeature);
+if (!ErrorWin.opener)ErrorWin.opener=self;
+if (ErrorWin.focus)ErrorWin.focus();
+}
+</SCRIPT>
+
+            <SCRIPT>
+	function ResumeSubmit(sAction)
+	{
+		document.ResumeForm.NextAction.value = sAction;
+		document.ResumeForm.submit();
+	}
+	</SCRIPT>
+
+            <FORM name=ResumeForm action="" method=post><INPUT type=hidden 
+            name=NextAction> <INPUT type=hidden value=Full name=process> 
+            <TABLE cellSpacing=0 cellPadding=5 width=620 bgColor=#ffffff 
+            border=0><INPUT type=hidden name=RegCountry>
+              <TBODY>
+              <TR>
+                <TD><FONT face=Arial color=#000000 size=2><B>Resume Registered 
+                  At:</B></FONT></TD>
+                <TD><FONT face=Arial color=#000000 
+            size=2></FONT></TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=0 cellPadding=5 width=620 bgColor=#ffffff 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD width=160>&nbsp;</TD>
+                <TD width=460>&nbsp;</TD></TR>
+              <TR>
+                <TD bgColor=white colSpan=2><FONT face=Arial color=#000000 
+                  size=2><B>Field(s) in <FONT face=Arial color=#5852c8 
+                  size=2><B>Blue</B></FONT> are Optional </B></FONT></TD></TR>
+              <TR>
+                <TD bgColor=#999999 colSpan=2><FONT face=Arial color=#000000 
+                  size=2><FONT color=#ffffff><B><I>Detailed 
+                  Resume</I></B></FONT></FONT></TD></TR>
+              <TR>
+                <TD class=NormalText><FONT face=Arial color=#000000 
+                  size=2><B>Title:</B></FONT></TD>
+                <TD class=NormalText vAlign=top>
+                  <TABLE cellSpacing=0 cellPadding=0 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><INPUT type=radio CHECKED value=Mr. name=Title><FONT 
+                        face=Arial color=#000000 size=2>Mr.</FONT></TD>
+                      <TD><INPUT type=radio value=Ms. name=Title><FONT 
+                        face=Arial color=#000000 size=2>Ms.</FONT></TD>
+                      <TD><INPUT type=radio value=Mrs. name=Title><FONT 
+                        face=Arial color=#000000 size=2>Mrs.</FONT></TD>
+                      <TD><INPUT type=radio value=Dr. name=Title><FONT 
+                        face=Arial color=#000000 
+                  size=2>Dr.</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><FONT face=Arial color=#000000 size=2><B>Given 
+                  Name:</B></FONT></TD>
+                <TD><INPUT value=yelamanchili name=GivenName></TD></TR>
+              <TR>
+                <TD><FONT face=Arial color=#000000 size=2><B>Middle 
+                  Name:</B></FONT></TD>
+                <TD><INPUT maxLength=20 size=15 value="Venkata Satya" 
+                  name=MiddleName></TD></TR>
+              <TR>
+                <TD><FONT face=Arial color=#000000 size=2><B>Family 
+                  Name:</B></FONT>&nbsp;&nbsp;</TD>
+                <TD><INPUT value="Sambharaju Babu" name=FamilyName></TD></TR>
+              <TR>
+                <TD class=NormalText><FONT face=Arial color=#000000 
+                  size=2><B>Gender</B></FONT></TD>
+                <TD class=NormalText vAlign=top><INPUT type=radio CHECKED 
+                  value=M name=Gender><FONT face=Arial color=#000000 
+                  size=2>Male</FONT> <INPUT type=radio value=F name=Gender><FONT 
+                  face=Arial color=#000000 size=2>Female</FONT> </TD></TR>
+              <TR>
+                <TD class=NormalText vAlign=top><FONT face=Arial color=#000000 
+                  size=2><B>Date of Birth</B></FONT></TD>
+                <TD class=NormalText vAlign=top><SELECT name=MBirth> <OPTION 
+                    value=""></OPTION> <OPTION value=1>1<OPTION value=2>2<OPTION 
+                    value=3>3<OPTION value=4>4<OPTION value=5>5<OPTION value=6 
+                    selected>6<OPTION value=7>7<OPTION value=8>8<OPTION 
+                    value=9>9<OPTION value=10>10<OPTION value=11>11<OPTION 
+                    value=12>12</OPTION></SELECT> <SELECT name=DBirth> <OPTION 
+                    value=""></OPTION> <OPTION value=1>1<OPTION value=2>2<OPTION 
+                    value=3>3<OPTION value=4>4<OPTION value=5>5<OPTION 
+                    value=6>6<OPTION value=7>7<OPTION value=8>8<OPTION value=9 
+                    selected>9<OPTION value=10>10<OPTION value=11>11<OPTION 
+                    value=12>12<OPTION value=13>13<OPTION value=14>14<OPTION 
+                    value=15>15<OPTION value=16>16<OPTION value=17>17<OPTION 
+                    value=18>18<OPTION value=19>19<OPTION value=20>20<OPTION 
+                    value=21>21<OPTION value=22>22<OPTION value=23>23<OPTION 
+                    value=24>24<OPTION value=25>25<OPTION value=26>26<OPTION 
+                    value=27>27<OPTION value=28>28<OPTION value=29>29<OPTION 
+                    value=30>30<OPTION value=31>31</OPTION></SELECT> <SELECT 
+                  name=YBirth> <OPTION value=""></OPTION> <OPTION 
+                    value=1985>1985<OPTION value=1984>1984<OPTION 
+                    value=1983>1983<OPTION value=1982>1982<OPTION 
+                    value=1981>1981<OPTION value=1980>1980<OPTION 
+                    value=1979>1979<OPTION value=1978>1978<OPTION 
+                    value=1977>1977<OPTION value=1976>1976<OPTION 
+                    value=1975>1975<OPTION value=1974>1974<OPTION 
+                    value=1973>1973<OPTION value=1972>1972<OPTION 
+                    value=1971>1971<OPTION value=1970>1970<OPTION 
+                    value=1969>1969<OPTION value=1968>1968<OPTION 
+                    value=1967>1967<OPTION value=1966>1966<OPTION 
+                    value=1965>1965<OPTION value=1964>1964<OPTION 
+                    value=1963>1963<OPTION value=1962>1962<OPTION 
+                    value=1961>1961<OPTION value=1960 selected>1960<OPTION 
+                    value=1959>1959<OPTION value=1958>1958<OPTION 
+                    value=1957>1957<OPTION value=1956>1956<OPTION 
+                    value=1955>1955<OPTION value=1954>1954<OPTION 
+                    value=1953>1953<OPTION value=1952>1952<OPTION 
+                    value=1951>1951<OPTION value=1950>1950<OPTION 
+                    value=1949>1949<OPTION value=1948>1948<OPTION 
+                    value=1947>1947<OPTION value=1946>1946<OPTION 
+                    value=1945>1945<OPTION value=1944>1944<OPTION 
+                    value=1943>1943<OPTION value=1942>1942<OPTION 
+                    value=1941>1941<OPTION value=1940>1940<OPTION 
+                    value=1939>1939<OPTION value=1938>1938<OPTION 
+                    value=1937>1937<OPTION value=1936>1936<OPTION 
+                    value=1935>1935</OPTION></SELECT> <FONT face=Arial 
+                  color=#000000 size=2>(MM DD YYYY)</FONT> </TD></TR>
+              <TR>
+                <TD class=NormalText vAlign=top><FONT face=Arial color=#000000 
+                  size=2><B>Nationality</B></FONT></TD>
+                <TD class=NormalText vAlign=top><INPUT maxLength=20 size=15 
+                  value=Indian name=Nationality></TD></TR>
+              <TR>
+                <TD class=NormalText vAlign=top><FONT face=Arial color=#000000 
+                  size=2><B>Country Of Residence:</B></FONT></TD>
+                <TD class=NormalText vAlign=top><INPUT type=radio CHECKED 
+                  value=India name=CountryOfResident><FONT face=Arial 
+                  color=#000000 size=2>India</FONT> <INPUT type=radio 
+                  value=Other name=CountryOfResident><FONT face=Arial 
+                  color=#000000 size=2>Others:</FONT> <INPUT maxLength=30 
+                  name=CountryOfResidentOthers> </TD></TR>
+              <TR>
+                <TD><FONT face=Arial color=#000000 size=2><B>Allow to work in 
+                  India:</B></FONT></TD>
+                <TD><INPUT class=FieldRadio type=radio CHECKED value=Yes 
+                  name=AllowToWork><FONT face=Arial color=#000000 
+                  size=2>Yes</FONT> <INPUT class=FieldRadio type=radio value=No 
+                  name=AllowToWork><FONT face=Arial color=#000000 
+                  size=2>No</FONT> </TD></TR>
+              <TR>
+                <TD vAlign=top bgColor=white><FONT face=Arial color=#000000 
+                  size=2><B>Marital Status:</B></FONT></TD>
+                <TD><INPUT class=FieldRadio type=radio value=X 
+                  name=MaritalStatus><FONT face=Arial color=#000000 size=2>Not 
+                  Specified</FONT> <INPUT class=FieldRadio type=radio value=S 
+                  name=MaritalStatus><FONT face=Arial color=#000000 
+                  size=2>Single</FONT> <INPUT class=FieldRadio type=radio 
+                  CHECKED value=M name=MaritalStatus><FONT face=Arial 
+                  color=#000000 size=2>Married</FONT> <INPUT class=FieldRadio 
+                  type=radio value=D name=MaritalStatus><FONT face=Arial 
+                  color=#000000 size=2>Divorced</FONT> <INPUT class=FieldRadio 
+                  type=radio value=W name=MaritalStatus><FONT face=Arial 
+                  color=#000000 size=2>Widowed</FONT> <INPUT class=FieldRadio 
+                  type=radio value=E name=MaritalStatus><FONT face=Arial 
+                  color=#000000 size=2>Separated</FONT> <BR></TD></TR>
+              <TR>
+                <TD class=NormalText vAlign=top bgColor=white><FONT face=Arial 
+                  color=#000000 size=2><B>Address:</B></FONT></TD>
+                <TD class=NormalText vAlign=top><INPUT class=FieldText 
+                  maxLength=50 size=35 value="Flat#204,Vijay Durga Estate" 
+                  name=Street1> <BR><INPUT class=FieldText maxLength=50 size=35 
+                  value="Nizampet Road,Kukatpally," name=Street2> </TD></TR>
+              <TR>
+                <TD class=NormalText vAlign=top><FONT face=Arial color=#000000 
+                  size=2><B>Location</B></FONT></TD>
+                <TD class=NormalText vAlign=top><SELECT name=Location> 
+                    <OPTION value=""></OPTION> <OPTION value=0001D290>Andhra 
+                    Pradesh - Guntur<OPTION value=0001D330 selected>Andhra 
+                    Pradesh - Hyderabad<OPTION value=0001D430>Andhra Pradesh - 
+                    Kakinada<OPTION value=0001D760>Andhra Pradesh - 
+                    Secunderabad<OPTION value=0001D890>Andhra Pradesh - 
+                    Vijayawada<OPTION value=0001D900>Andhra Pradesh - 
+                    Visakhapatnam<OPTION value=0003D300>Assam - Guwahati<OPTION 
+                    value=0003D770>Assam - Shillong<OPTION value=0005D250>Bihar 
+                    - Dhanbad<OPTION value=0005D410>Bihar - Jamshedpur<OPTION 
+                    value=0005D570>Bihar - Muzaffarpur<OPTION 
+                    value=0005D660>Bihar - Patna<OPTION value=0005D720>Bihar - 
+                    Ranchi<OPTION value=0006D180>Chandigarh - Chandigarh<OPTION 
+                    value=0007D240>Delhi - Delhi<OPTION value=0009D630>Goa - 
+                    Panjim<OPTION value=0010D020>Gujarat - Ahmedabad<OPTION 
+                    value=0010D100>Gujarat - Baroda<OPTION 
+                    value=0010D390>Gujarat - Jamnagar<OPTION 
+                    value=0010D420>Gujarat - Jodhpur<OPTION 
+                    value=0010D710>Gujarat - Rajkot<OPTION 
+                    value=0010D810>Gujarat - Surat<OPTION value=0011D070>Haryana 
+                    - Ambala<OPTION value=0011D450>Haryana - Karnal<OPTION 
+                    value=0012D780>Himachal Pradesh - Shimla<OPTION 
+                    value=0013D400>Jammu &amp; Kashmir - Jammu<OPTION 
+                    value=0013D800>Jammu &amp; Kashmir - Srinagar<OPTION 
+                    value=0014D090>Karnataka - Bangalore<OPTION 
+                    value=0014D110>Karnataka - Belgaum<OPTION 
+                    value=0014D320>Karnataka - Hubli<OPTION 
+                    value=0014D520>Karnataka - Mangalore<OPTION 
+                    value=0014D580>Karnataka - Mysore<OPTION 
+                    value=0014D790>Karnataka - Sholapur<OPTION 
+                    value=0015D170>Kerala - Calicut<OPTION value=0015D460>Kerala 
+                    - Kochi<OPTION value=0015D620>Kerala - Palghat<OPTION 
+                    value=0015D690>Kerala - Quilon<OPTION value=0015D830>Kerala 
+                    - Trichur<OPTION value=0015D850>Kerala - Trivandrum<OPTION 
+                    value=0017D130>Madhya Pradesh - Bhopal<OPTION 
+                    value=0017D310>Madhya Pradesh - Gwalior<OPTION 
+                    value=0017D350>Madhya Pradesh - Indore<OPTION 
+                    value=0017D360>Madhya Pradesh - Jabalpur<OPTION 
+                    value=0017D700>Madhya Pradesh - Raipur<OPTION 
+                    value=0017D870>Madhya Pradesh - Ujjain<OPTION 
+                    value=0018D030>Maharashtra - Ahmednagar<OPTION 
+                    value=0018D470>Maharashtra - Kolhapur<OPTION 
+                    value=0018D560>Maharashtra - Mumbai<OPTION 
+                    value=0018D590>Maharashtra - Nagpur<OPTION 
+                    value=0018D600>Maharashtra - Nasik<OPTION 
+                    value=0018D680>Maharashtra - Pune<OPTION 
+                    value=0021D340>Mizoram - Imphal<OPTION value=0023D140>Orissa 
+                    - Bhubaneshwar<OPTION value=0023D210>Orissa - Cuttack<OPTION 
+                    value=0023D730>Orissa - Rourkela<OPTION 
+                    value=0023D740>Orissa - Sambhalpur<OPTION 
+                    value=9998D920>Others - Overseas<OPTION 
+                    value=9997D910>Overseas - Others<OPTION 
+                    value=0024D670>Pondichery - Pondicherry<OPTION 
+                    value=0025D080>Punjab - Amritsar<OPTION 
+                    value=0025D380>Punjab - Jallandhar<OPTION 
+                    value=0025D500>Punjab - Ludhiana<OPTION 
+                    value=0025D640>Punjab - Pathankot<OPTION 
+                    value=0025D650>Punjab - Patiala<OPTION 
+                    value=0026D040>Rajasthan - Ajmer<OPTION 
+                    value=0026D150>Rajasthan - Bikaner<OPTION 
+                    value=0026D370>Rajasthan - Jaipur<OPTION 
+                    value=0026D480>Rajasthan - Kota<OPTION 
+                    value=0026D860>Rajasthan - Udaipur<OPTION 
+                    value=0028D190>Tamil Nadu - Chennai<OPTION 
+                    value=0028D200>Tamil Nadu - Coimbatore<OPTION 
+                    value=0028D270>Tamil Nadu - Erode<OPTION 
+                    value=0028D510>Tamil Nadu - Madurai<OPTION 
+                    value=0028D610>Tamil Nadu - Ooty<OPTION value=0028D750>Tamil 
+                    Nadu - Salem<OPTION value=0028D820>Tamil Nadu - 
+                    Tirunelveli<OPTION value=0028D840>Tamil Nadu - Trichy<OPTION 
+                    value=0030D010>Uttar Pradesh - Agra<OPTION 
+                    value=0030D050>Uttar Pradesh - Aligarh<OPTION 
+                    value=0030D060>Uttar Pradesh - Allahabad<OPTION 
+                    value=0030D120>Uttar Pradesh - Bhavnagar<OPTION 
+                    value=0030D230>Uttar Pradesh - Dehradun<OPTION 
+                    value=0030D280>Uttar Pradesh - Gorakhpur<OPTION 
+                    value=0030D440>Uttar Pradesh - Kanpur<OPTION 
+                    value=0030D490>Uttar Pradesh - Lucknow<OPTION 
+                    value=0030D530>Uttar Pradesh - Mathura<OPTION 
+                    value=0030D540>Uttar Pradesh - Meerut<OPTION 
+                    value=0030D550>Uttar Pradesh - Moradabad<OPTION 
+                    value=0030D880>Uttar Pradesh - Varanasi<OPTION 
+                    value=0031D160>West Bengal - Calcutta<OPTION 
+                    value=0031D220>West Bengal - Darjeeling<OPTION 
+                    value=0031D260>West Bengal - Durgapur</OPTION></SELECT> </TD></TR>
+              <TR>
+                <TD class=NormalText vAlign=top bgColor=white><FONT face=Arial 
+                  color=#000000 size=2><B>Zip/Pin Code</B></FONT></TD>
+                <TD class=NormalText><FONT face=arial><INPUT class=FieldText 
+                  maxLength=6 size=6 value=500072 name=ZipCode></FONT> </TD></TR>
+              <TR>
+                <TD class=NormalText vAlign=top bgColor=white><FONT face=Arial 
+                  color=#000000 size=2><B>Contact Number(s) </B></FONT><BR><FONT 
+                  face=Arial color=#000000 size=2>(input at least one)</FONT></TD>
+                <TD class=NormalText vAlign=top>
+                  <TABLE cellSpacing=0 cellPadding=3 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><FONT face=Arial color=#000000 
+size=2>Home:</FONT></TD>
+                      <TD><FONT face=arial><INPUT class=FieldText maxLength=20 
+                        size=15 value=3051671 name=Tel_Home></FONT></TD>
+                      <TD><FONT face=Arial color=#000000 
+                      size=2>Mobile:</FONT></TD>
+                      <TD><FONT face=arial><INPUT class=FieldText maxLength=20 
+                        size=15 name=Tel_Office></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT face=Arial color=#000000 
+                      size=2>Office:</FONT></TD>
+                      <TD><FONT face=arial><INPUT class=FieldText maxLength=20 
+                        size=15 name=Tel_Mobile></FONT></TD>
+                      <TD><FONT face=Arial color=#000000 size=2>Fax:</FONT></TD>
+                      <TD><FONT face=arial><INPUT class=FieldText maxLength=20 
+                        size=15 name=Tel_Fax></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT face=Arial color=#000000 
+                      size=2>Pager:</FONT></TD>
+                      <TD><INPUT class=FieldText maxLength=20 size=15 
+                        name=Tel_Pager></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><FONT face=Arial color=#000000 
+                  size=2><B>Email-Address</B></FONT></TD>
+                <TD><INPUT size=30 value=yvssbabu@yahoo.co.uk 
+name=Email></TD></TR>
+              <TR>
+                <TD class=NormalText vAlign=top><FONT face=Arial color=#000000 
+                  size=2><B>Highest Qualification</B></FONT></TD>
+                <TD class=NormalText vAlign=top>
+                  <TABLE cellSpacing=0 cellPadding=3 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><SELECT name=AcademicQuali> <OPTION 
+                          value=1>Doctorate<OPTION value=2>Masters<OPTION 
+                          value=3 selected>Graduate<OPTION value=4>Post Graduate 
+                          Diploma<OPTION value=5>Post Graduate Degree<OPTION 
+                          value=6>Plus Two<OPTION value=7>High School<OPTION 
+                          value=8>Others<OPTION 
+                    value=9>(N/A)</OPTION></SELECT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><FONT face=arial size=2><B><FONT face=Arial color=#5852c8 
+                  size=2>Professional Qualification</FONT></B></FONT></TD>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=3 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD width=100><FONT face=arial><INPUT maxLength=30 
+                        size=18 value="B.E.(Hons)-Civil Engg." 
+                        name=ProfessionalQuali></FONT> </TD>
+                      <TD width=100><FONT face=arial><INPUT maxLength=30 
+                        size=18 value="Member IRC" 
+                        name=ProfessionalQuali></FONT> </TD>
+                      <TD width=100><FONT face=arial><INPUT maxLength=30 
+                        size=18 value="IE(India), Life Member ICI" 
+                        name=ProfessionalQuali></FONT> 
+</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD class=NormalText vAlign=top><FONT face=Arial color=#000000 
+                  size=2><B>Expected Monthly Salary</B></FONT></TD>
+                <TD class=NormalText vAlign=top>
+                  <TABLE cellSpacing=0 cellPadding=3 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><FONT face=Arial color=#000000 
+                        size=2>INR</FONT><INPUT class=FieldText maxLength=9 
+                        size=9 name=ExpectedSalary> </TD>
+                      <TD><FONT face=arial><INPUT class=FieldCheckBox 
+                        type=checkbox CHECKED value=on 
+                        name=ExpectedSalaryNeg><FONT face=Arial color=#000000 
+                        size=2>Negotiable</FONT></FONT> 
+              </TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD class=NormalText vAlign=top><FONT face=Arial color=#000000 
+                  size=2><B>Availability:</B></FONT></TD>
+                <TD class=NormalText vAlign=top>
+                  <TABLE cellSpacing=0 cellPadding=3 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><INPUT type=radio CHECKED value=Immediate 
+                        name=Availopts><FONT face=Arial color=#000000 
+                        size=2>Immediately Available</FONT> </TD></TR>
+                    <TR>
+                      <TD><INPUT type=radio value="After Date" 
+                        name=Availopts><FONT face=Arial color=#000000 
+                        size=2>After Date</FONT> <SELECT name=AvailMonth> 
+                          <OPTION value=1 selected>1<OPTION value=2>2<OPTION 
+                          value=3>3<OPTION value=4>4<OPTION value=5>5<OPTION 
+                          value=6>6<OPTION value=7>7<OPTION value=8>8<OPTION 
+                          value=9>9<OPTION value=10>10<OPTION value=11>11<OPTION 
+                          value=12>12</OPTION></SELECT> <SELECT name=AvailDay> 
+                          <OPTION value=1 selected>1<OPTION value=2>2<OPTION 
+                          value=3>3<OPTION value=4>4<OPTION value=5>5<OPTION 
+                          value=6>6<OPTION value=7>7<OPTION value=8>8<OPTION 
+                          value=9>9<OPTION value=10>10<OPTION value=11>11<OPTION 
+                          value=12>12<OPTION value=13>13<OPTION 
+                          value=14>14<OPTION value=15>15<OPTION 
+                          value=16>16<OPTION value=17>17<OPTION 
+                          value=18>18<OPTION value=19>19<OPTION 
+                          value=20>20<OPTION value=21>21<OPTION 
+                          value=22>22<OPTION value=23>23<OPTION 
+                          value=24>24<OPTION value=25>25<OPTION 
+                          value=26>26<OPTION value=27>27<OPTION 
+                          value=28>28<OPTION value=29>29<OPTION 
+                          value=30>30<OPTION value=31>31</OPTION></SELECT> <SELECT 
+                        name=AvailYear> <OPTION value=2000 
+                          selected>2000<OPTION value=2001>2001</OPTION></SELECT> 
+                        <FONT face=Arial color=#000000 size=2>(MM DD 
+                        YYYY)</FONT> </TD></TR>
+                    <TR>
+                      <TD><INPUT type=radio value=Notice name=Availopts> 
+                        <SELECT name=AvailNotice> <OPTION value=0.5 
+                          selected>Half</OPTION> <OPTION value=1>1<OPTION 
+                          value=2>2<OPTION value=3>3<OPTION value=4>4<OPTION 
+                          value=5>5<OPTION value=6>6<OPTION value=7>7<OPTION 
+                          value=8>8<OPTION value=9>9<OPTION value=10>10<OPTION 
+                          value=11>11<OPTION value=12>12</OPTION></SELECT> <FONT 
+                        face=Arial color=#000000 size=2>Month(s) Notice</FONT> 
+                      </TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD class=PurpleText vAlign=top><B><FONT face=Arial 
+                  color=#5852c8 size=2>Spoken Language:</FONT></B></TD>
+                <TD class=NormalText vAlign=top>
+                  <TABLE cellSpacing=0 cellPadding=3 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD width=100><INPUT maxLength=13 size=15 value=English 
+                        name=LangSpoken> </TD>
+                      <TD width=100><INPUT maxLength=13 size=15 value=Hindi 
+                        name=LangSpoken> </TD>
+                      <TD width=100><INPUT maxLength=13 size=15 value=Telugu 
+                        name=LangSpoken> </TD></TR>
+                    <TR>
+                      <TD width=100><INPUT maxLength=13 size=15 
+                        name=LangSpoken> </TD>
+                      <TD width=100><INPUT maxLength=13 size=15 
+                        name=LangSpoken> </TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD class=PurpleText vAlign=top><FONT face=Arial color=#5852c8 
+                  size=2><B>Written Language:</B></FONT></TD>
+                <TD class=NormalText vAlign=top>
+                  <TABLE cellSpacing=0 cellPadding=3 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD class=NormalText><FONT face=arial><INPUT 
+                        maxLength=13 size=15 value=English 
+                        name=LangWritten></FONT> </TD>
+                      <TD class=NormalText><FONT face=arial><INPUT 
+                        maxLength=13 size=15 value=Hindi 
+                        name=LangWritten></FONT> </TD>
+                      <TD class=NormalText><FONT face=arial><INPUT 
+                        maxLength=13 size=15 value=Telugu 
+                        name=LangWritten></FONT> </TD></TR>
+                    <TR>
+                      <TD class=NormalText><FONT face=arial><INPUT 
+                        maxLength=13 size=15 name=LangWritten></FONT> </TD>
+                      <TD class=NormalText><FONT face=arial><INPUT 
+                        maxLength=13 size=15 name=LangWritten></FONT> 
+                    </TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD class=ErrorText vAlign=top><FONT face=Arial color=red 
+                  size=2><B>Skills:</B></FONT>&nbsp;<A 
+                  href="javascript:ShowErr('Skills',%20'FT')"><FONT face=Arial 
+                  color=#000000 size=2>Err</FONT></A><BR><A 
+                  href="javascript:ShowTips('Skill')"><FONT face=Arial 
+                  color=#000000 size=2>Tips</FONT></A></TD>
+                <TD class=ErrorText vAlign=top align=left><FONT face=arial 
+                  size=2><TEXTAREA class=FieldText name=Skills rows=4 cols=40>Planning and Monitoring of Major Construction Projects,Estimation for Tendering,(Specific areas: Bridges,Industrial Structures.)</TEXTAREA></FONT> 
+                </TD></TR>
+              <TR>
+                <TD vAlign=top><FONT face=Arial color=#5852c8 
+                  size=2><B>Looking for Overseas Opportunities In :</B></FONT> 
+                <TD vAlign=top>
+                  <SCRIPT>
+    function CheckOverSea(Form, obj)
+	{
+		
+		
+		var objValue = obj.value
+		
+		if(objValue == "(N/A)" && obj.checked == true)
+			for(i = 0; i < Form[obj.name].length; i++)
+			{
+				if(Form[obj.name][i].value != objValue)
+					Form[obj.name][i].checked = false;
+			}
+		if(objValue != "(N/A)") {
+		   for(i = 0; i < Form[obj.name].length; i++)
+		   {
+		       if(Form[obj.name][i].value == "(N/A)") 
+			      Form[obj.name][i].checked = false;
+		   }
+		}
+		if(objValue == "(Any)" || objValue == "(¤£©ë)" && obj.checked == true)
+			for(i = 0; i < Form[obj.name].length; i++)
+			{
+				if(Form[obj.name][i].value != objValue)
+					Form[obj.name][i].checked = false;
+			}
+			
+		if(objValue != "(Any)" && objValue!="(¤£©ë)" ) {
+		   for(i = 0; i < Form[obj.name].length; i++)
+		   {
+		       if(Form[obj.name][i].value == "(Any)" || Form[obj.name][i].value == "(¤£©ë)") 
+			      Form[obj.name][i].checked = false;
+		   }
+		}	
+ 	}
+
+
+  </SCRIPT>
+
+                  <TABLE cellSpacing=0 cellPadding=3 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD>
+                        <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD vAlign=top width="33%">
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=(Any) 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>(Any)</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=(N/A) 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>(N/A)</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=(Overseas) 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>(Overseas)</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=Australia 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>Australia</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=Brunei 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>Brunei</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=Cambodia 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>Cambodia</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=China 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>China</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value="Hong Kong" 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>Hong 
+                                Kong</FONT></TD></TR></TBODY></TABLE></TD>
+                            <TD vAlign=top>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=Indonesia 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>Indonesia</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=Japan 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>Japan</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=Korea 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>Korea</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=Laos 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>Laos</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox CHECKED value=Malaysia 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>Malaysia</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox CHECKED value="New Zealand" 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>New 
+Zealand</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=Philippines 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 
+size=2>Philippines</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox CHECKED value=Singapore 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 
+                                size=2>Singapore</FONT></TD></TR></TBODY></TABLE></TD>
+                            <TD vAlign=top>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value="South Africa" 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>South 
+                                Africa</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value="Sri Lanka" 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>Sri Lanka</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=Taiwan 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>Taiwan</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=Thailand 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>Thailand</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=UK 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>UK</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=USA 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>USA</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value=Vietnam 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>Vietnam</FONT></TD></TR>
+                                <TR>
+                                <TD><INPUT 
+                                onclick="CheckOverSea(this.form, this)" 
+                                type=checkbox value="Western Europe" 
+                                name=PreferWorkLocation><FONT face=Arial 
+                                color=#000000 size=2>Western 
+                                Europe</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><BR><FONT 
+                        face=Arial color=#000000 size=2>Others:</FONT> 
+                        &nbsp;</FONT><INPUT class=FieldText maxLength=30 size=25 
+                        name=PreferWorkLocation> </TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD class=NormalText vAlign=top><FONT face=Arial color=#5852c8 
+                  size=2><B>Preferred Working State : </B></FONT></TD>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=3 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><SELECT multiple size=5 name=PreferWorkingState> 
+                          <OPTION value=0001 selected>Andhra Pradesh</OPTION> 
+                          <OPTION value=0002>Arunachal Pradesh</OPTION> <OPTION 
+                          value=0003>Assam</OPTION> <OPTION value=0004>Andamans 
+                          &amp; Nicobar Island</OPTION> <OPTION 
+                          value=0005>Bihar</OPTION> <OPTION 
+                          value=0006>Chandigarh</OPTION> <OPTION 
+                          value=0007>Delhi</OPTION> <OPTION value=0008>Daman 
+                          &amp; Diu</OPTION> <OPTION value=0009>Goa</OPTION> 
+                          <OPTION value=0010>Gujarat</OPTION> <OPTION 
+                          value=0011>Haryana</OPTION> <OPTION 
+                          value=0012>Himachal Pradesh</OPTION> <OPTION 
+                          value=0013>Jammu &amp; Kashmir</OPTION> <OPTION 
+                          value=0014>Karnataka</OPTION> <OPTION 
+                          value=0015>Kerala</OPTION> <OPTION 
+                          value=0016>Lakshadweep</OPTION> <OPTION 
+                          value=0017>Madhya Pradesh</OPTION> <OPTION 
+                          value=0018>Maharashtra</OPTION> <OPTION 
+                          value=0019>Manipur</OPTION> <OPTION 
+                          value=0020>Meghalaya</OPTION> <OPTION 
+                          value=0021>Mizoram</OPTION> <OPTION 
+                          value=0022>Nagaland</OPTION> <OPTION 
+                          value=0023>Orissa</OPTION> <OPTION 
+                          value=0024>Pondichery</OPTION> <OPTION 
+                          value=0025>Punjab</OPTION> <OPTION 
+                          value=0026>Rajasthan</OPTION> <OPTION 
+                          value=0027>Sikkim</OPTION> <OPTION value=0028>Tamil 
+                          Nadu</OPTION> <OPTION value=0029>Tripura</OPTION> 
+                          <OPTION value=0030>Uttar Pradesh</OPTION> <OPTION 
+                          value=0031>West Bengal</OPTION> <OPTION 
+                          value=9997>Overseas</OPTION> <OPTION 
+                          value=9998>Others</OPTION></SELECT> 
+                </TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD class=NormalText vAlign=top><FONT face=Arial color=#5852c8 
+                  size=2><B>Preferred Working City/Town: </B></FONT></TD>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=3 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><SELECT multiple size=5 name=PreferWorkingCity> 
+                          <OPTION value=0000>(Any)</OPTION> <OPTION 
+                          value=D010>Agra</OPTION> <OPTION 
+                          value=D020>Ahmedabad</OPTION> <OPTION 
+                          value=D030>Ahmednagar</OPTION> <OPTION 
+                          value=D040>Ajmer</OPTION> <OPTION 
+                          value=D050>Aligarh</OPTION> <OPTION 
+                          value=D060>Allahabad</OPTION> <OPTION 
+                          value=D070>Ambala</OPTION> <OPTION 
+                          value=D080>Amritsar</OPTION> <OPTION 
+                          value=D090>Bangalore</OPTION> <OPTION 
+                          value=D100>Baroda</OPTION> <OPTION 
+                          value=D110>Belgaum</OPTION> <OPTION 
+                          value=D120>Bhavnagar</OPTION> <OPTION 
+                          value=D130>Bhopal</OPTION> <OPTION 
+                          value=D140>Bhubaneshwar</OPTION> <OPTION 
+                          value=D150>Bikaner</OPTION> <OPTION 
+                          value=D160>Calcutta</OPTION> <OPTION 
+                          value=D170>Calicut</OPTION> <OPTION 
+                          value=D180>Chandigarh</OPTION> <OPTION 
+                          value=D190>Chennai</OPTION> <OPTION 
+                          value=D200>Coimbatore</OPTION> <OPTION 
+                          value=D210>Cuttack</OPTION> <OPTION 
+                          value=D220>Darjeeling</OPTION> <OPTION 
+                          value=D230>Dehradun</OPTION> <OPTION 
+                          value=D240>Delhi</OPTION> <OPTION 
+                          value=D250>Dhanbad</OPTION> <OPTION 
+                          value=D260>Durgapur</OPTION> <OPTION 
+                          value=D270>Erode</OPTION> <OPTION 
+                          value=D280>Gorakhpur</OPTION> <OPTION 
+                          value=D290>Guntur</OPTION> <OPTION 
+                          value=D300>Guwahati</OPTION> <OPTION 
+                          value=D310>Gwalior</OPTION> <OPTION 
+                          value=D320>Hubli</OPTION> <OPTION value=D330 
+                          selected>Hyderabad</OPTION> <OPTION 
+                          value=D340>Imphal</OPTION> <OPTION 
+                          value=D350>Indore</OPTION> <OPTION 
+                          value=D360>Jabalpur</OPTION> <OPTION 
+                          value=D370>Jaipur</OPTION> <OPTION 
+                          value=D380>Jallandhar</OPTION> <OPTION 
+                          value=D390>Jamnagar</OPTION> <OPTION 
+                          value=D400>Jammu</OPTION> <OPTION 
+                          value=D410>Jamshedpur</OPTION> <OPTION 
+                          value=D420>Jodhpur</OPTION> <OPTION 
+                          value=D430>Kakinada</OPTION> <OPTION 
+                          value=D440>Kanpur</OPTION> <OPTION 
+                          value=D450>Karnal</OPTION> <OPTION 
+                          value=D460>Kochi</OPTION> <OPTION 
+                          value=D470>Kolhapur</OPTION> <OPTION 
+                          value=D480>Kota</OPTION> <OPTION 
+                          value=D490>Lucknow</OPTION> <OPTION 
+                          value=D500>Ludhiana</OPTION> <OPTION 
+                          value=D510>Madurai</OPTION> <OPTION 
+                          value=D520>Mangalore</OPTION> <OPTION 
+                          value=D530>Mathura</OPTION> <OPTION 
+                          value=D540>Meerut</OPTION> <OPTION 
+                          value=D550>Moradabad</OPTION> <OPTION 
+                          value=D560>Mumbai</OPTION> <OPTION 
+                          value=D570>Muzaffarpur</OPTION> <OPTION 
+                          value=D580>Mysore</OPTION> <OPTION 
+                          value=D590>Nagpur</OPTION> <OPTION 
+                          value=D600>Nasik</OPTION> <OPTION 
+                          value=D610>Ooty</OPTION> <OPTION 
+                          value=D620>Palghat</OPTION> <OPTION 
+                          value=D630>Panjim</OPTION> <OPTION 
+                          value=D640>Pathankot</OPTION> <OPTION 
+                          value=D650>Patiala</OPTION> <OPTION 
+                          value=D660>Patna</OPTION> <OPTION 
+                          value=D670>Pondicherry</OPTION> <OPTION 
+                          value=D680>Pune</OPTION> <OPTION 
+                          value=D690>Quilon</OPTION> <OPTION 
+                          value=D700>Raipur</OPTION> <OPTION 
+                          value=D710>Rajkot</OPTION> <OPTION 
+                          value=D720>Ranchi</OPTION> <OPTION 
+                          value=D730>Rourkela</OPTION> <OPTION 
+                          value=D740>Sambhalpur</OPTION> <OPTION 
+                          value=D750>Salem</OPTION> <OPTION 
+                          value=D760>Secunderabad</OPTION> <OPTION 
+                          value=D770>Shillong</OPTION> <OPTION 
+                          value=D780>Shimla</OPTION> <OPTION 
+                          value=D790>Sholapur</OPTION> <OPTION 
+                          value=D800>Srinagar</OPTION> <OPTION 
+                          value=D810>Surat</OPTION> <OPTION 
+                          value=D820>Tirunelveli</OPTION> <OPTION 
+                          value=D830>Trichur</OPTION> <OPTION 
+                          value=D840>Trichy</OPTION> <OPTION 
+                          value=D850>Trivandrum</OPTION> <OPTION 
+                          value=D860>Udaipur</OPTION> <OPTION 
+                          value=D870>Ujjain</OPTION> <OPTION 
+                          value=D880>Varanasi</OPTION> <OPTION 
+                          value=D890>Vijayawada</OPTION> <OPTION 
+                          value=D900>Visakhapatnam</OPTION> <OPTION 
+                          value=D910>Others</OPTION> <OPTION 
+                          value=D920>Overseas</OPTION></SELECT> 
+                  </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=0 cellPadding=5 width=564 border=0>
+              <TBODY>
+              <TR>
+                <TD class=NormalText align=left bgColor=#999999><FONT 
+                  face=Arial color=#ffffff><FONT face=Arial color=#000000 
+                  size=2><FONT color=#ffffff><B><I>Resume Details (Main body of 
+                  your resume)<BR><BR>Please fill in your detailed working 
+                  experience, personal achievement and any other information 
+                  that would help employers to learn more about your 
+                  strength</I></B></FONT></FONT> <A 
+                  href="javascript:ShowTips('0306')"><FONT face=Arial 
+                  color=#000000 size=2>Tips</FONT></A></FONT></TD></TR>
+              <TR>
+                <TD class=NormalText vAlign=top>
+                  <CENTER><TEXTAREA class=FieldText name=DetailedWorkExp rows=20 cols=70>SENIOR MANAGERIAL CANDIDATE
+                              FOR
+               CIVIL CONSTRUCTION / CONSULTANCY COMPANY
+
+                          INFRASTRUCTURE
+
+PERSONAL DETAILS
+
+
+FULL NAME  	- 	YELAMANCHILI VENKATA SATYA SAMBHA RAJU BABU
+
+PERMANENT ADDRESS 	- 	Y.V.S.S. BABU, FLAT # 204, VIJAY DURGA ESTATE
+		NIZAMPET ROAD KUKATPALLY HYDERABAD - 500 072
+		TEL  -0091-40-3051671
+		Email -yvssbabu@satyam.net.in ; yvssbabu@yahoo.co.uk
+
+TEMPORARY ADDRESS 	- 	Y.V.S.S BABU
+			KETTANEH BROTHERS SAUDI ARABIA LTD
+		P.O BOX 383, AL-KHOBAR
+		PH# 00966-3-8940191; FAX # 8944301
+
+AGE 	- 	40 YEARS				
+SEX 	- 	MALE	
+DATEOF BIRTH (DD/MM/YY) 	- 	09/06/60
+MARITAL STATUS 	- 	MARRIED
+PASSPORT NO 	- 	S349725 	
+DATE OF ISSUE (DD/MM/YY) 	- 	15/04/1994
+
+EDUCATIONAL QUALIFICATIONS:
+
+ DEGREE HELD	- 	B.E. (HONS) IN CIVIL ENGG.
+
+YEAR OF COMPLETION 	- 	1982
+
+FIELD OF STUDY 	-  	CIVIL ENGG.
+
+SPECIALISATION 	-   	___________
+
+CLASS/GPA 	-  	76% 					
+
+UNIVERSITY 	- 	M.N.R ENGG. COLLEGE, ALLAHABAD
+
+OTHER PROFESSIONAL QUALIFICATIONS: - 
+
+YEAR OF COMPLETION 	-    1993 (PARTLY COMPLETED)
+
+COURSE NAME 	- 	DIPLOMA IN MANAGEMENT
+
+INSTITUTE  	- 	IGNOU
+
+EXPERIENCE
+
+CURRENT JOB DETAILS:
+
+INDUSTRY CATEGORY 	-  	CONSTRUCTION
+JOB CATEGORY  	-	PLANNING / ESTIMATION
+EMPLOYER 	-    	KETTANEH BROTHERS S.A.LTD
+DESIGNATION 	-   	PLANNING ENGINEER WORKING SINCE - AUG' 1998
+JOB RESPONSIBILITIES 	- 	ESTIMATION, CHANGE ORDERS, PROCUREMENT FOR 
+		CURRENT ONGOING JOBS (OCASIONALLY)
+CURRENT SALARY 	-  	USD.1800 P.M
+PERKS 	-   	FREE ACCOMMODATION AND USUAL PERKS.
+
+PREVIOUS JOB DETAILS:
+
+
+(A) INDUSTRY CATEGORY	-   	CONSTRUCTION
+JOB CATEGORY 	- 	ESTIMATION
+SUB CATEGORY 	-    	BRIDGES &amp; INDUSTRIAL PROJECTS
+EMPLOYER	-  	NAGARJUNA CONSTRUCTION CO.,
+DESIGNATION 	- 	ASST. GENERAL MANAGER (TECH)
+WORKING SINCE 	-	JULY-97 TO JULY-98
+JOB RESPONSIBILITIES 	- 	ESTIMATION FOR BRIDGES AND INDUSTRIAL PROJECTS 
+		AT HEAD OFFICE 
+
+(B) INDUSTRY CATEGORY	-   	CONSTRUCTION
+JOB CATEGORY 	- 	PROJECT MANAGEMENT
+SUB CATEGORY 	-	CIVIL WORKS FOR INDUSTRIAL PROJECT
+EMPLOYER 	-  	NAGARJUNA CONSTRUCTION CO.,
+DESIGNATION 	- 	ASST. GENERAL MANAGER (TECH)
+WORKING SINCE 	- 	JULY-96 TO JUNE-97
+JOB RESPONSIBILITIES 	- 	PROJ. MANAGER, CIVIL WORKS - INDUSTRIAL PROJECT
+		STEEL PLANT, UTILITY BLDGS / STRS., PSC PIPELINE 
+		(12KMS) 
+
+(C) INDUSTRY CATEGORY 	-   	CONSTRUCTION
+JOB CATEGORY 	- 	PROJECT SITE MANAGEMENT
+SUB CATEGORY 	-    	BRIDGES AND PLANNING
+EMPLOYER 	-  	UNITECH LTD
+DESIGNATION 	- 	SR. PROJECT MANAGER (BRIDGES)
+WORKING SINCE 	-	APRIL-94 TO JUNE-1996
+JOB RESPONSIBILITIES 	- 	SECTION MANAGER FOR BRIDGES 57 KMS STRETCH 
+		(NH-1) KARNAL TO AMBALA
+
+(D) INDUSTRY CATEGORY 	-   	CONSTRUCTION
+JOB CATEGORY 	-	PROJECT MANAGEMENT AND TENDERING
+SUB CATEGORY 	-    	1 NO. BRIDGE, CULVERTS AND SEWEAGE TREATMENT 
+		PLANT – CIVIL WORKS
+EMPLOYER 	-  	UNITECH LTD / AL MOBTY ESTABLISHMENT
+DESIGNATION 	- 	BRIDGE ENGR. / PROJECT MANAGER
+WORKING SINCE 	- 	FEB'93 - MAR-94
+JOB RESPONSIBILITIES 	- 	PROJECT EXECUTION AND TENDERING FOR NEW BIDS 
+		IN SAUDI ARABIA.
+
+(E) INDUSTRY CATEGORY	-	CONSTRUCTION
+JOB CATEGORY 	-	SITE SUPERVISION / MANAGEMENT
+SUB CATEGORY 	-    	ON PROJECT SITES
+EMPLOYER 	-  	GAMMON INDIA LTD
+DESIGNATION 	- 	PROJECT ENGINEER
+WORKING SINCE 	-	SEP 82 TO JAN 93
+JOB RESPONSIBILITIES 	- 	(1)  2 NOS CHIMNEYS  150 M HIGH - SITE INCHARGE
+(2)	SILOS IN LIBYA - PLANNING &amp; COST CONTROL
+(3)	CABLE STAY BRIDGE, CALCUTTA - PLANNING &amp; COST CONTROL
+(4)	ROAD CUM RAIL BRIDGE, ASSAM - PLANNING &amp; COST CONTROL
+
+OTHER SKILLS
+
+LIST ADDITIONAL SKILLS 	-	PROFICIENT IN PLANNING, ESTIMATION, 
+CONTRACTUAL CORRESPONDENCE / DEALINGS &amp; PROJECT MANAGEMENT
+
+SCHOOL COLLEGE DETAILS:
+
+NAME OF SCHOOL  	-  	MUNICIPAL HIGH SCHOOL, RJY. S.S.C.BOARD (A.P)
+YEAR OF COMPLETION 	- 	1975
+NAME OF COLLEGE  	- 	GOVT. COLLEGE RAJAHMUNDRY, ANDHRA UNIVERSITY
+YEAR OF COMPLETION 	- 	1978
+
+LANGUAGES KNOWN:
+
+SPOKEN 	- 	ENGLISH, HINDI, TELUGU
+WRITTEN 	- 	ENGLISH, HINDI, TELUGU
+</TEXTAREA> </CENTER></TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=0 cellPadding=5 width=564 border=0>
+              <TBODY>
+              <TR>
+                <TD class=NormalText vAlign=top width=564 bgColor=#999999 
+                colSpan=5><FONT color=#ffffff><I><FONT face=Arial 
+                  color=#000000 size=2><B><I><FONT color=#ffffff>Academic 
+                  Background</FONT></I></B></FONT></I></FONT></TD></TR>
+              <TR class=NormalText vAlign=top>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=1 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD colSpan=2><FONT face=Arial color=#000000 
+                        size=2>From</FONT><FONT face=Arial color=#000000 
+                        size=1>(YYYYMM)</FONT></TD>
+                      <TD colSpan=2><FONT face=Arial color=#000000 
+                        size=2>To</FONT><FONT face=Arial color=#000000 
+                        size=1>(YYYYMM)</FONT></TD>
+                      <TD><FONT face=Arial color=#000000 size=2>School / 
+                        College / University</FONT></TD>
+                      <TD><FONT face=Arial color=#000000 size=2>Degree 
+                        Obtained</FONT></TD></TR>
+                    <TR>
+                      <TD><!-- <input class=FieldText name=AcadFromYear1 value="1978" size=3 maxlength=4> --><SELECT 
+                        name=AcadFromYear1> <OPTION value=""><OPTION 
+                          value=2010>2010<OPTION value=2009>2009<OPTION 
+                          value=2008>2008<OPTION value=2007>2007<OPTION 
+                          value=2006>2006<OPTION value=2005>2005<OPTION 
+                          value=2004>2004<OPTION value=2003>2003<OPTION 
+                          value=2002>2002<OPTION value=2001>2001<OPTION 
+                          value=2000>2000<OPTION value=1999>1999<OPTION 
+                          value=1998>1998<OPTION value=1997>1997<OPTION 
+                          value=1996>1996<OPTION value=1995>1995<OPTION 
+                          value=1994>1994<OPTION value=1993>1993<OPTION 
+                          value=1992>1992<OPTION value=1991>1991<OPTION 
+                          value=1990>1990<OPTION value=1989>1989<OPTION 
+                          value=1988>1988<OPTION value=1987>1987<OPTION 
+                          value=1986>1986<OPTION value=1985>1985<OPTION 
+                          value=1984>1984<OPTION value=1983>1983<OPTION 
+                          value=1982>1982<OPTION value=1981>1981<OPTION 
+                          value=1980>1980<OPTION value=1979>1979<OPTION 
+                          value=1978 selected>1978<OPTION value=1977>1977<OPTION 
+                          value=1976>1976<OPTION value=1975>1975<OPTION 
+                          value=1974>1974<OPTION value=1973>1973<OPTION 
+                          value=1972>1972<OPTION value=1971>1971<OPTION 
+                          value=1970>1970<OPTION value=1969>1969<OPTION 
+                          value=1968>1968<OPTION value=1967>1967<OPTION 
+                          value=1966>1966<OPTION value=1965>1965<OPTION 
+                          value=1964>1964<OPTION value=1963>1963<OPTION 
+                          value=1962>1962<OPTION value=1961>1961<OPTION 
+                          value=1960>1960<OPTION value=1959>1959</OPTION></SELECT> 
+                      </TD>
+                      <TD><!-- <input class=FieldText name=AcadFromMonth1 value="09" size=2 maxlength=2> --><SELECT 
+                        name=AcadFromMonth1> <OPTION value=""><OPTION 
+                          value=01>1<OPTION value=02>2<OPTION value=03>3<OPTION 
+                          value=04>4<OPTION value=05>5<OPTION value=06>6<OPTION 
+                          value=07>7<OPTION value=08>8<OPTION value=09 
+                          selected>9<OPTION value=10>10<OPTION 
+                          value=11>11<OPTION value=12>12</OPTION></SELECT> </TD>
+                      <TD><!-- <input class=FieldText name=AcadToYear1 value="1982" size=3 maxlength=4> --><SELECT 
+                        name=AcadToYear1> <OPTION value=""><OPTION 
+                          value=2010>2010<OPTION value=2009>2009<OPTION 
+                          value=2008>2008<OPTION value=2007>2007<OPTION 
+                          value=2006>2006<OPTION value=2005>2005<OPTION 
+                          value=2004>2004<OPTION value=2003>2003<OPTION 
+                          value=2002>2002<OPTION value=2001>2001<OPTION 
+                          value=2000>2000<OPTION value=1999>1999<OPTION 
+                          value=1998>1998<OPTION value=1997>1997<OPTION 
+                          value=1996>1996<OPTION value=1995>1995<OPTION 
+                          value=1994>1994<OPTION value=1993>1993<OPTION 
+                          value=1992>1992<OPTION value=1991>1991<OPTION 
+                          value=1990>1990<OPTION value=1989>1989<OPTION 
+                          value=1988>1988<OPTION value=1987>1987<OPTION 
+                          value=1986>1986<OPTION value=1985>1985<OPTION 
+                          value=1984>1984<OPTION value=1983>1983<OPTION 
+                          value=1982 selected>1982<OPTION value=1981>1981<OPTION 
+                          value=1980>1980<OPTION value=1979>1979<OPTION 
+                          value=1978>1978<OPTION value=1977>1977<OPTION 
+                          value=1976>1976<OPTION value=1975>1975<OPTION 
+                          value=1974>1974<OPTION value=1973>1973<OPTION 
+                          value=1972>1972<OPTION value=1971>1971<OPTION 
+                          value=1970>1970<OPTION value=1969>1969<OPTION 
+                          value=1968>1968<OPTION value=1967>1967<OPTION 
+                          value=1966>1966<OPTION value=1965>1965<OPTION 
+                          value=1964>1964<OPTION value=1963>1963<OPTION 
+                          value=1962>1962<OPTION value=1961>1961<OPTION 
+                          value=1960>1960<OPTION value=1959>1959</OPTION></SELECT> 
+                      </TD>
+                      <TD><!-- <input class=FieldText name=AcadToMonth1 value="07" size=2 maxlength=2> --><SELECT 
+                        name=AcadToMonth1> <OPTION value=""><OPTION 
+                          value=01>1<OPTION value=02>2<OPTION value=03>3<OPTION 
+                          value=04>4<OPTION value=05>5<OPTION value=06>6<OPTION 
+                          value=07 selected>7<OPTION value=08>8<OPTION 
+                          value=09>9<OPTION value=10>10<OPTION 
+                          value=11>11<OPTION value=12>12</OPTION></SELECT> </TD>
+                      <TD><INPUT class=FieldText maxLength=50 size=25 
+                        value=M.N.R.E.C.,Allahabad(U.P) name=AcadSchoolName1> 
+</TD>
+                      <TD><INPUT class=FieldText maxLength=50 size=25 
+                        value="B.E.(Hons)-Civil Engineering" name=AcadQuali1> 
+                    </TD></TR>
+                    <TR>
+                      <TD><!-- <input class=FieldText name=AcadFromYear2 value="1977" size=3 maxlength=4> --><SELECT 
+                        name=AcadFromYear2> <OPTION value=""><OPTION 
+                          value=2010>2010<OPTION value=2009>2009<OPTION 
+                          value=2008>2008<OPTION value=2007>2007<OPTION 
+                          value=2006>2006<OPTION value=2005>2005<OPTION 
+                          value=2004>2004<OPTION value=2003>2003<OPTION 
+                          value=2002>2002<OPTION value=2001>2001<OPTION 
+                          value=2000>2000<OPTION value=1999>1999<OPTION 
+                          value=1998>1998<OPTION value=1997>1997<OPTION 
+                          value=1996>1996<OPTION value=1995>1995<OPTION 
+                          value=1994>1994<OPTION value=1993>1993<OPTION 
+                          value=1992>1992<OPTION value=1991>1991<OPTION 
+                          value=1990>1990<OPTION value=1989>1989<OPTION 
+                          value=1988>1988<OPTION value=1987>1987<OPTION 
+                          value=1986>1986<OPTION value=1985>1985<OPTION 
+                          value=1984>1984<OPTION value=1983>1983<OPTION 
+                          value=1982>1982<OPTION value=1981>1981<OPTION 
+                          value=1980>1980<OPTION value=1979>1979<OPTION 
+                          value=1978>1978<OPTION value=1977 selected>1977<OPTION 
+                          value=1976>1976<OPTION value=1975>1975<OPTION 
+                          value=1974>1974<OPTION value=1973>1973<OPTION 
+                          value=1972>1972<OPTION value=1971>1971<OPTION 
+                          value=1970>1970<OPTION value=1969>1969<OPTION 
+                          value=1968>1968<OPTION value=1967>1967<OPTION 
+                          value=1966>1966<OPTION value=1965>1965<OPTION 
+                          value=1964>1964<OPTION value=1963>1963<OPTION 
+                          value=1962>1962<OPTION value=1961>1961<OPTION 
+                          value=1960>1960<OPTION value=1959>1959</OPTION></SELECT> 
+                      </TD>
+                      <TD><!-- <input class=FieldText name=AcadFromMonth2 value="07" size=2 maxlength=2> --><SELECT 
+                        name=AcadFromMonth2> <OPTION value=""><OPTION 
+                          value=01>1<OPTION value=02>2<OPTION value=03>3<OPTION 
+                          value=04>4<OPTION value=05>5<OPTION value=06>6<OPTION 
+                          value=07 selected>7<OPTION value=08>8<OPTION 
+                          value=09>9<OPTION value=10>10<OPTION 
+                          value=11>11<OPTION value=12>12</OPTION></SELECT> </TD>
+                      <TD><!-- <input class=FieldText name=AcadToYear2 value="1978" size=3 maxlength=4> --><SELECT 
+                        name=AcadToYear2> <OPTION value=""><OPTION 
+                          value=2010>2010<OPTION value=2009>2009<OPTION 
+                          value=2008>2008<OPTION value=2007>2007<OPTION 
+                          value=2006>2006<OPTION value=2005>2005<OPTION 
+                          value=2004>2004<OPTION value=2003>2003<OPTION 
+                          value=2002>2002<OPTION value=2001>2001<OPTION 
+                          value=2000>2000<OPTION value=1999>1999<OPTION 
+                          value=1998>1998<OPTION value=1997>1997<OPTION 
+                          value=1996>1996<OPTION value=1995>1995<OPTION 
+                          value=1994>1994<OPTION value=1993>1993<OPTION 
+                          value=1992>1992<OPTION value=1991>1991<OPTION 
+                          value=1990>1990<OPTION value=1989>1989<OPTION 
+                          value=1988>1988<OPTION value=1987>1987<OPTION 
+                          value=1986>1986<OPTION value=1985>1985<OPTION 
+                          value=1984>1984<OPTION value=1983>1983<OPTION 
+                          value=1982>1982<OPTION value=1981>1981<OPTION 
+                          value=1980>1980<OPTION value=1979>1979<OPTION 
+                          value=1978 selected>1978<OPTION value=1977>1977<OPTION 
+                          value=1976>1976<OPTION value=1975>1975<OPTION 
+                          value=1974>1974<OPTION value=1973>1973<OPTION 
+                          value=1972>1972<OPTION value=1971>1971<OPTION 
+                          value=1970>1970<OPTION value=1969>1969<OPTION 
+                          value=1968>1968<OPTION value=1967>1967<OPTION 
+                          value=1966>1966<OPTION value=1965>1965<OPTION 
+                          value=1964>1964<OPTION value=1963>1963<OPTION 
+                          value=1962>1962<OPTION value=1961>1961<OPTION 
+                          value=1960>1960<OPTION value=1959>1959</OPTION></SELECT> 
+                      </TD>
+                      <TD><!-- <input class=FieldText name=AcadToMonth2 value="08" size=2 maxlength=2> --><SELECT 
+                        name=AcadToMonth2> <OPTION value=""><OPTION 
+                          value=01>1<OPTION value=02>2<OPTION value=03>3<OPTION 
+                          value=04>4<OPTION value=05>5<OPTION value=06>6<OPTION 
+                          value=07>7<OPTION value=08 selected>8<OPTION 
+                          value=09>9<OPTION value=10>10<OPTION 
+                          value=11>11<OPTION value=12>12</OPTION></SELECT> </TD>
+                      <TD><INPUT class=FieldText maxLength=50 size=25 
+                        value="Govt. College,Rajahmundry,Andhra University" 
+                        name=AcadSchoolName2> </TD>
+                      <TD><INPUT class=FieldText maxLength=50 size=25 
+                        value=B.Sc name=AcadQuali2> </TD></TR>
+                    <TR>
+                      <TD><!-- <input class=FieldText name=AcadFromYear3 value="1975" size=3 maxlength=4> --><SELECT 
+                        name=AcadFromYear3> <OPTION value=""><OPTION 
+                          value=2010>2010<OPTION value=2009>2009<OPTION 
+                          value=2008>2008<OPTION value=2007>2007<OPTION 
+                          value=2006>2006<OPTION value=2005>2005<OPTION 
+                          value=2004>2004<OPTION value=2003>2003<OPTION 
+                          value=2002>2002<OPTION value=2001>2001<OPTION 
+                          value=2000>2000<OPTION value=1999>1999<OPTION 
+                          value=1998>1998<OPTION value=1997>1997<OPTION 
+                          value=1996>1996<OPTION value=1995>1995<OPTION 
+                          value=1994>1994<OPTION value=1993>1993<OPTION 
+                          value=1992>1992<OPTION value=1991>1991<OPTION 
+                          value=1990>1990<OPTION value=1989>1989<OPTION 
+                          value=1988>1988<OPTION value=1987>1987<OPTION 
+                          value=1986>1986<OPTION value=1985>1985<OPTION 
+                          value=1984>1984<OPTION value=1983>1983<OPTION 
+                          value=1982>1982<OPTION value=1981>1981<OPTION 
+                          value=1980>1980<OPTION value=1979>1979<OPTION 
+                          value=1978>1978<OPTION value=1977>1977<OPTION 
+                          value=1976>1976<OPTION value=1975 selected>1975<OPTION 
+                          value=1974>1974<OPTION value=1973>1973<OPTION 
+                          value=1972>1972<OPTION value=1971>1971<OPTION 
+                          value=1970>1970<OPTION value=1969>1969<OPTION 
+                          value=1968>1968<OPTION value=1967>1967<OPTION 
+                          value=1966>1966<OPTION value=1965>1965<OPTION 
+                          value=1964>1964<OPTION value=1963>1963<OPTION 
+                          value=1962>1962<OPTION value=1961>1961<OPTION 
+                          value=1960>1960<OPTION value=1959>1959</OPTION></SELECT> 
+                      </TD>
+                      <TD><!-- <input class=FieldText name=AcadFromMonth3 value="06" size=2 maxlength=2> --><SELECT 
+                        name=AcadFromMonth3> <OPTION value=""><OPTION 
+                          value=01>1<OPTION value=02>2<OPTION value=03>3<OPTION 
+                          value=04>4<OPTION value=05>5<OPTION value=06 
+                          selected>6<OPTION value=07>7<OPTION value=08>8<OPTION 
+                          value=09>9<OPTION value=10>10<OPTION 
+                          value=11>11<OPTION value=12>12</OPTION></SELECT> </TD>
+                      <TD><!-- <input class=FieldText name=AcadToYear3 value="1977" size=3 maxlength=4> --><SELECT 
+                        name=AcadToYear3> <OPTION value=""><OPTION 
+                          value=2010>2010<OPTION value=2009>2009<OPTION 
+                          value=2008>2008<OPTION value=2007>2007<OPTION 
+                          value=2006>2006<OPTION value=2005>2005<OPTION 
+                          value=2004>2004<OPTION value=2003>2003<OPTION 
+                          value=2002>2002<OPTION value=2001>2001<OPTION 
+                          value=2000>2000<OPTION value=1999>1999<OPTION 
+                          value=1998>1998<OPTION value=1997>1997<OPTION 
+                          value=1996>1996<OPTION value=1995>1995<OPTION 
+                          value=1994>1994<OPTION value=1993>1993<OPTION 
+                          value=1992>1992<OPTION value=1991>1991<OPTION 
+                          value=1990>1990<OPTION value=1989>1989<OPTION 
+                          value=1988>1988<OPTION value=1987>1987<OPTION 
+                          value=1986>1986<OPTION value=1985>1985<OPTION 
+                          value=1984>1984<OPTION value=1983>1983<OPTION 
+                          value=1982>1982<OPTION value=1981>1981<OPTION 
+                          value=1980>1980<OPTION value=1979>1979<OPTION 
+                          value=1978>1978<OPTION value=1977 selected>1977<OPTION 
+                          value=1976>1976<OPTION value=1975>1975<OPTION 
+                          value=1974>1974<OPTION value=1973>1973<OPTION 
+                          value=1972>1972<OPTION value=1971>1971<OPTION 
+                          value=1970>1970<OPTION value=1969>1969<OPTION 
+                          value=1968>1968<OPTION value=1967>1967<OPTION 
+                          value=1966>1966<OPTION value=1965>1965<OPTION 
+                          value=1964>1964<OPTION value=1963>1963<OPTION 
+                          value=1962>1962<OPTION value=1961>1961<OPTION 
+                          value=1960>1960<OPTION value=1959>1959</OPTION></SELECT> 
+                      </TD>
+                      <TD><!-- <input class=FieldText name=AcadToMonth3 value="05" size=2 maxlength=2> --><SELECT 
+                        name=AcadToMonth3> <OPTION value=""><OPTION 
+                          value=01>1<OPTION value=02>2<OPTION value=03>3<OPTION 
+                          value=04>4<OPTION value=05 selected>5<OPTION 
+                          value=06>6<OPTION value=07>7<OPTION value=08>8<OPTION 
+                          value=09>9<OPTION value=10>10<OPTION 
+                          value=11>11<OPTION value=12>12</OPTION></SELECT> </TD>
+                      <TD><INPUT class=FieldText maxLength=50 size=25 
+                        value="Bd. Of Intermediate Education,A.P." 
+                        name=AcadSchoolName3> </TD>
+                      <TD><INPUT class=FieldText maxLength=50 size=25 
+                        value=Intermediate name=AcadQuali3> </TD></TR>
+                    <TR>
+                      <TD><!-- <input class=FieldText name=AcadFromYear4 value="1970" size=3 maxlength=4> --><SELECT 
+                        name=AcadFromYear4> <OPTION value=""><OPTION 
+                          value=2010>2010<OPTION value=2009>2009<OPTION 
+                          value=2008>2008<OPTION value=2007>2007<OPTION 
+                          value=2006>2006<OPTION value=2005>2005<OPTION 
+                          value=2004>2004<OPTION value=2003>2003<OPTION 
+                          value=2002>2002<OPTION value=2001>2001<OPTION 
+                          value=2000>2000<OPTION value=1999>1999<OPTION 
+                          value=1998>1998<OPTION value=1997>1997<OPTION 
+                          value=1996>1996<OPTION value=1995>1995<OPTION 
+                          value=1994>1994<OPTION value=1993>1993<OPTION 
+                          value=1992>1992<OPTION value=1991>1991<OPTION 
+                          value=1990>1990<OPTION value=1989>1989<OPTION 
+                          value=1988>1988<OPTION value=1987>1987<OPTION 
+                          value=1986>1986<OPTION value=1985>1985<OPTION 
+                          value=1984>1984<OPTION value=1983>1983<OPTION 
+                          value=1982>1982<OPTION value=1981>1981<OPTION 
+                          value=1980>1980<OPTION value=1979>1979<OPTION 
+                          value=1978>1978<OPTION value=1977>1977<OPTION 
+                          value=1976>1976<OPTION value=1975>1975<OPTION 
+                          value=1974>1974<OPTION value=1973>1973<OPTION 
+                          value=1972>1972<OPTION value=1971>1971<OPTION 
+                          value=1970 selected>1970<OPTION value=1969>1969<OPTION 
+                          value=1968>1968<OPTION value=1967>1967<OPTION 
+                          value=1966>1966<OPTION value=1965>1965<OPTION 
+                          value=1964>1964<OPTION value=1963>1963<OPTION 
+                          value=1962>1962<OPTION value=1961>1961<OPTION 
+                          value=1960>1960<OPTION value=1959>1959</OPTION></SELECT> 
+                      </TD>
+                      <TD><!-- <input class=FieldText name=AcadFromMonth4 value="06" size=2 maxlength=2> --><SELECT 
+                        name=AcadFromMonth4> <OPTION value=""><OPTION 
+                          value=01>1<OPTION value=02>2<OPTION value=03>3<OPTION 
+                          value=04>4<OPTION value=05>5<OPTION value=06 
+                          selected>6<OPTION value=07>7<OPTION value=08>8<OPTION 
+                          value=09>9<OPTION value=10>10<OPTION 
+                          value=11>11<OPTION value=12>12</OPTION></SELECT> </TD>
+                      <TD><!-- <input class=FieldText name=AcadToYear4 value="1975" size=3 maxlength=4> --><SELECT 
+                        name=AcadToYear4> <OPTION value=""><OPTION 
+                          value=2010>2010<OPTION value=2009>2009<OPTION 
+                          value=2008>2008<OPTION value=2007>2007<OPTION 
+                          value=2006>2006<OPTION value=2005>2005<OPTION 
+                          value=2004>2004<OPTION value=2003>2003<OPTION 
+                          value=2002>2002<OPTION value=2001>2001<OPTION 
+                          value=2000>2000<OPTION value=1999>1999<OPTION 
+                          value=1998>1998<OPTION value=1997>1997<OPTION 
+                          value=1996>1996<OPTION value=1995>1995<OPTION 
+                          value=1994>1994<OPTION value=1993>1993<OPTION 
+                          value=1992>1992<OPTION value=1991>1991<OPTION 
+                          value=1990>1990<OPTION value=1989>1989<OPTION 
+                          value=1988>1988<OPTION value=1987>1987<OPTION 
+                          value=1986>1986<OPTION value=1985>1985<OPTION 
+                          value=1984>1984<OPTION value=1983>1983<OPTION 
+                          value=1982>1982<OPTION value=1981>1981<OPTION 
+                          value=1980>1980<OPTION value=1979>1979<OPTION 
+                          value=1978>1978<OPTION value=1977>1977<OPTION 
+                          value=1976>1976<OPTION value=1975 selected>1975<OPTION 
+                          value=1974>1974<OPTION value=1973>1973<OPTION 
+                          value=1972>1972<OPTION value=1971>1971<OPTION 
+                          value=1970>1970<OPTION value=1969>1969<OPTION 
+                          value=1968>1968<OPTION value=1967>1967<OPTION 
+                          value=1966>1966<OPTION value=1965>1965<OPTION 
+                          value=1964>1964<OPTION value=1963>1963<OPTION 
+                          value=1962>1962<OPTION value=1961>1961<OPTION 
+                          value=1960>1960<OPTION value=1959>1959</OPTION></SELECT> 
+                      </TD>
+                      <TD><!-- <input class=FieldText name=AcadToMonth4 value="05" size=2 maxlength=2> --><SELECT 
+                        name=AcadToMonth4> <OPTION value=""><OPTION 
+                          value=01>1<OPTION value=02>2<OPTION value=03>3<OPTION 
+                          value=04>4<OPTION value=05 selected>5<OPTION 
+                          value=06>6<OPTION value=07>7<OPTION value=08>8<OPTION 
+                          value=09>9<OPTION value=10>10<OPTION 
+                          value=11>11<OPTION value=12>12</OPTION></SELECT> </TD>
+                      <TD><INPUT class=FieldText maxLength=50 size=25 
+                        value="Board of Secondary Edn.A.P." 
+                        name=AcadSchoolName4> </TD>
+                      <TD><INPUT class=FieldText maxLength=50 size=25 
+                        value=S.S.C. name=AcadQuali4> </TD></TR>
+                    <TR>
+                      <TD><!-- <input class=FieldText name=AcadFromYear5 value="" size=3 maxlength=4> --><SELECT 
+                        name=AcadFromYear5> <OPTION value="" selected><OPTION 
+                          value=2010>2010<OPTION value=2009>2009<OPTION 
+                          value=2008>2008<OPTION value=2007>2007<OPTION 
+                          value=2006>2006<OPTION value=2005>2005<OPTION 
+                          value=2004>2004<OPTION value=2003>2003<OPTION 
+                          value=2002>2002<OPTION value=2001>2001<OPTION 
+                          value=2000>2000<OPTION value=1999>1999<OPTION 
+                          value=1998>1998<OPTION value=1997>1997<OPTION 
+                          value=1996>1996<OPTION value=1995>1995<OPTION 
+                          value=1994>1994<OPTION value=1993>1993<OPTION 
+                          value=1992>1992<OPTION value=1991>1991<OPTION 
+                          value=1990>1990<OPTION value=1989>1989<OPTION 
+                          value=1988>1988<OPTION value=1987>1987<OPTION 
+                          value=1986>1986<OPTION value=1985>1985<OPTION 
+                          value=1984>1984<OPTION value=1983>1983<OPTION 
+                          value=1982>1982<OPTION value=1981>1981<OPTION 
+                          value=1980>1980<OPTION value=1979>1979<OPTION 
+                          value=1978>1978<OPTION value=1977>1977<OPTION 
+                          value=1976>1976<OPTION value=1975>1975<OPTION 
+                          value=1974>1974<OPTION value=1973>1973<OPTION 
+                          value=1972>1972<OPTION value=1971>1971<OPTION 
+                          value=1970>1970<OPTION value=1969>1969<OPTION 
+                          value=1968>1968<OPTION value=1967>1967<OPTION 
+                          value=1966>1966<OPTION value=1965>1965<OPTION 
+                          value=1964>1964<OPTION value=1963>1963<OPTION 
+                          value=1962>1962<OPTION value=1961>1961<OPTION 
+                          value=1960>1960<OPTION value=1959>1959</OPTION></SELECT> 
+                      </TD>
+                      <TD><!-- <input class=FieldText name=AcadFromMonth5 value="" size=2 maxlength=2> --><SELECT 
+                        name=AcadFromMonth5> <OPTION value="" selected><OPTION 
+                          value=01>1<OPTION value=02>2<OPTION value=03>3<OPTION 
+                          value=04>4<OPTION value=05>5<OPTION value=06>6<OPTION 
+                          value=07>7<OPTION value=08>8<OPTION value=09>9<OPTION 
+                          value=10>10<OPTION value=11>11<OPTION 
+                          value=12>12</OPTION></SELECT> </TD>
+                      <TD><!-- <input class=FieldText name=AcadToYear5 value="" size=3 maxlength=4> --><SELECT 
+                        name=AcadToYear5> <OPTION value="" selected><OPTION 
+                          value=2010>2010<OPTION value=2009>2009<OPTION 
+                          value=2008>2008<OPTION value=2007>2007<OPTION 
+                          value=2006>2006<OPTION value=2005>2005<OPTION 
+                          value=2004>2004<OPTION value=2003>2003<OPTION 
+                          value=2002>2002<OPTION value=2001>2001<OPTION 
+                          value=2000>2000<OPTION value=1999>1999<OPTION 
+                          value=1998>1998<OPTION value=1997>1997<OPTION 
+                          value=1996>1996<OPTION value=1995>1995<OPTION 
+                          value=1994>1994<OPTION value=1993>1993<OPTION 
+                          value=1992>1992<OPTION value=1991>1991<OPTION 
+                          value=1990>1990<OPTION value=1989>1989<OPTION 
+                          value=1988>1988<OPTION value=1987>1987<OPTION 
+                          value=1986>1986<OPTION value=1985>1985<OPTION 
+                          value=1984>1984<OPTION value=1983>1983<OPTION 
+                          value=1982>1982<OPTION value=1981>1981<OPTION 
+                          value=1980>1980<OPTION value=1979>1979<OPTION 
+                          value=1978>1978<OPTION value=1977>1977<OPTION 
+                          value=1976>1976<OPTION value=1975>1975<OPTION 
+                          value=1974>1974<OPTION value=1973>1973<OPTION 
+                          value=1972>1972<OPTION value=1971>1971<OPTION 
+                          value=1970>1970<OPTION value=1969>1969<OPTION 
+                          value=1968>1968<OPTION value=1967>1967<OPTION 
+                          value=1966>1966<OPTION value=1965>1965<OPTION 
+                          value=1964>1964<OPTION value=1963>1963<OPTION 
+                          value=1962>1962<OPTION value=1961>1961<OPTION 
+                          value=1960>1960<OPTION value=1959>1959</OPTION></SELECT> 
+                      </TD>
+                      <TD><!-- <input class=FieldText name=AcadToMonth5 value="" size=2 maxlength=2> --><SELECT 
+                        name=AcadToMonth5> <OPTION value="" selected><OPTION 
+                          value=01>1<OPTION value=02>2<OPTION value=03>3<OPTION 
+                          value=04>4<OPTION value=05>5<OPTION value=06>6<OPTION 
+                          value=07>7<OPTION value=08>8<OPTION value=09>9<OPTION 
+                          value=10>10<OPTION value=11>11<OPTION 
+                          value=12>12</OPTION></SELECT> </TD>
+                      <TD><INPUT class=FieldText maxLength=50 size=25 
+                        name=AcadSchoolName5> </TD>
+                      <TD><INPUT class=FieldText maxLength=50 size=25 
+                        name=AcadQuali5> 
+</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=0 cellPadding=0 width=620 border=0>
+              <TBODY>
+              <TR bgColor=#cccccc>
+                <TD align=middle><A 
+                  href="javascript:ResumeSubmit('BriefEdit')"><IMG src="" 
+                  border=0></A></TD></TR></TBODY></TABLE></FORM></TD></TR></TBODY></TABLE></TD>
+  <TR></TR></TBODY></TABLE><IMG src="">
+<SCRIPT language=JavaScript src=""></SCRIPT>
+ </BODY></HTML>

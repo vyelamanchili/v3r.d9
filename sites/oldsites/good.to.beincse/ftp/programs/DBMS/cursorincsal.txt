@@ -1,0 +1,14 @@
+ declare
+ cursor c1 is select * from employee;
+ t employee%rowtype;
+ begin
+ open c1;
+ loop
+ fetch c1 into t;
+ exit when c1%notfound;
+ update employee set salary=salary+(salary*0.10) where id=t.id;
+ end loop;
+ commit;
+ close c1;
+ end;
+/

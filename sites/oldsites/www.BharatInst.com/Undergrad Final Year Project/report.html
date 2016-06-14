@@ -1,0 +1,153 @@
+<HTML>
+<HEAD>
+<TITLE>BILL FORM</TITLE>
+<SCRIPT LANGUAGE="JavaScript" >
+
+browsername=navigator.appName;
+browserversion=parseInt(navigator.appVersion);
+
+if(browsername=="Netscape" && browserversion>=4)
+version="ns4+";
+else if(browsername=="Microsoft Internet Explorer" && browserversion>=3)
+version="ie3+";
+
+if(version=="ns4+")
+{
+
+ window.captureEvents(Event.KEYPRESS);
+
+ function handler(evnt){
+ if(document.frm2.DATE.value.length==1)
+ {
+   
+    document.frm2.MONTH.focus();
+
+ }
+   
+ if(document.frm2.MONTH.value.length==1)
+ {
+   
+    document.frm2.YEAR.focus();
+   
+ }
+
+ }
+
+ 
+
+ window.onKeyPress = handler;
+}
+
+ function MON(){
+ var v1=document.frm2.MONTH.value;
+ if(v1=="")
+ { 
+   document.frm2.MONTH.focus();
+ }
+ }
+
+ function DAT(){
+ var v2=document.frm2.DATE.value;
+ if(v2=="")
+ {
+   document.frm2.DATE.focus();
+ }
+ }
+
+ function YEA(){
+ var v3=document.frm2.YEAR.value;
+
+ if(v3=="")
+ {
+   
+   document.frm2.YEAR.focus();
+   alert("YEAR FIELD CANNOT BE BLANK");
+
+   
+  }
+ else if(v3!="")
+    {
+     var today=new Date();
+	 var vdate=today.getDate();
+	 var vmonth = today.getMonth()+1;
+	 var vyear = today.getYear() - 100;
+ 	 	
+	 if(document.frm2.YEAR.value > vyear)
+	    {
+		     document.frm2.YEAR.focus();
+		     alert("ENTERED DATE IS GREATER THAN CURRENT DATE");
+		     alert(vyear);
+	  	}
+	  else if(vmonth < document.frm2.MONTH.value)
+	        {
+			  document.frm2.MONTH.focus();
+			  alert("ENTERED DATE IS GREATER THAN  CURRENT DATE");
+			  
+			}
+
+	   else if(document.frm2.MONTH.value == vmonth && vdate < document.frm2.DATE.value) 
+	     {
+	
+	   		   document.frm2.DATE.focus();
+	  	       alert("ENTERED DATE IS GREATER THAN  CURRENT DATE");
+	      }
+   }
+
+  
+ }
+
+
+ function F1(){
+ var z1=document.frm2.DATE.value;
+ if(z1.length==1 && z1>=1 && z1<=9)
+ {
+   document.frm2.DATE.value=0+z1;
+ }
+ }
+
+
+ function F2(){
+ var z2=document.frm2.MONTH.value;
+ if(z2.length==1 && z2>=1 && z2<=9)
+ {
+   document.frm2.MONTH.value=0+z2;
+ }
+ }
+
+</SCRIPT>
+</HEAD>
+<BODY BGCOLOR="#FFFFF">
+<BR>
+<BR>
+<CENTER>
+<B>																 
+ENTER THE METER READING DATE:</B>
+<BR>
+<br>
+<FORM  NAME=frm2 METHOD=POST ACTION="raghu.jsp?fir">
+<TABLE BORDER=0 ALIGN=CENTER>
+
+<TR>
+   <TD ALIGN=LEFT >&nbsp&nbsp&nbsp DATE:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp    </TD>
+   <TD ALIGN=LEFT ><INPUT NAME="DATE" TYPE="TEXT" SIZE=2 MAXLENGTH=2 onChange="F1()">/<INPUT NAME="MONTH" TYPE="TEXT" SIZE=2 MAXLENGTH=2 ONFOCUS="DAT()" onChange="F2()">/<INPUT NAME="YEAR" TYPE="TEXT" SIZE=2 MAXLENGTH=2 ONFOCUS="MON()"> (DD/MM/YY) </TD> 
+
+</TR>
+
+<TR>
+   <TD ALIGN=LEFT >&nbsp&nbsp&nbsp REPORT NAME:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp    </TD>
+   <TD ALIGN=LEFT ><INPUT NAME="RNAME" TYPE="TEXT" SIZE=10 MAXLENGTH=8>																																											  
+
+</TABLE>
+<BR>
+<CENTER>
+
+ <INPUT type="Submit" name="Ok" value="Ok" ONFOCUS="YEA()">
+ <INPUT type="Reset"  value="Reset">
+ <INPUT type="button" name="Exit" value="Exit" OnClick="window.location='finalexit.html'">
+ </CENTER>
+ 
+</CENTER>
+  </FORM>
+  </BODY>
+  </HTML>
+

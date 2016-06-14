@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>My Cool Pocessions</title>
+</head>
+<base target="other">
+<body Background="f:\my documents\my photos\galleries\bgtree.jpg">
+<center><img src=".gif"></center>
+
+<table border=0 cellspacing=5 cellpadding=5>
+
+<tr>
+<td><p><a href="http:\\www..com"></a>-&nbsp;</p></td>
+<td></td>
+</tr>
+
+<tr>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+<td></td>
+</tr>
+
+<tr>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+<td></td>
+</tr>
+
+<tr>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+<td></td>
+</tr>
+
+<tr>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+<td></td>
+</tr>
+
+<tr>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+<td></td>
+</tr>
+
+<tr>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+<td></td>
+</tr>
+
+<tr>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+<td></td>
+</tr>
+
+<tr>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+<td></td>
+</tr>
+
+</table>
+
+</body>
+</Html>

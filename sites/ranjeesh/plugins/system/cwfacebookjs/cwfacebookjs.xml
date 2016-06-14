@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.2" type="plugin" group="system" method="upgrade">
+    <name>PLG_CWFACEBOOKJS</name>
+    <creationDate>2015-09-01</creationDate>
+    <author>Steven Palmer</author>
+    <authorEmail>support@coalaweb.com</authorEmail>
+    <authorUrl>http://coalaweb.com</authorUrl>
+    <copyright>Copyright (c) 2015 Steven Palmer All rights reserved.</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <version>0.2.4</version>
+    <description>PLG_CWFACEBOOKJS_DESCRIPTION</description>
+    
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_system_cwfacebookjs.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_system_cwfacebookjs.sys.ini</language>
+    </languages>
+        
+    <files>
+        <filename plugin="cwfacebookjs">cwfacebookjs.php</filename>
+        <filename>index.html</filename>
+        <folder>assets</folder>
+        <folder>language</folder>
+    </files>
+    
+    <!-- HELP FILE -->
+    <help url="PLG_CWFACEBOOKJS_HELP_URL" />
+    
+    <config>
+        <fields 
+            name="params" 
+            addfieldpath="plugins/system/cwgears/fields">
+            
+            <fieldset 
+                name="GENERAL"
+                label="PLG_CWFACEBOOKJS_SETTINGS" >
+                
+                <field 
+                    name="css_import" 
+                    type="css"/>
+                
+                <field 
+                    name="basic_info"
+                    type="info"
+                    default=""
+                    label="PLG_CWFACEBOOKJS_SETTINGS_MESSAGE"/>
+        
+            </fieldset>
+            
+            <fieldset 
+                name="VERSION"
+                label="PLG_CWFACEBOOKJS_TITLE_VERSION">
+                
+                <field 
+                    name="version_info"
+                    type="version"
+                    label="com_coalawebsociallinks"/>
+                
+            </fieldset>
+            
+        </fields>
+    </config>
+</extension>

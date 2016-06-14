@@ -1,0 +1,18 @@
+<html>
+<head>
+<title>Download Sites</title>
+</head>
+<base target="other">
+<body Background="f:\my documents\my photos\galleries\bgtree.jpg">
+<center><img src=".gif"></center>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+<p><a href="http:\\www..com"></a>-&nbsp;</p>
+</body>
+</Html>

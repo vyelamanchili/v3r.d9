@@ -285,7 +285,7 @@ $config_directories = array();
  *   $settings['hash_salt'] = file_get_contents('/home/example/salt.txt');
  * @endcode
  */
-$settings['hash_salt'] = 'CPCWMah8I7rWgK2tJidttgG6k1jHZFux7jMVFDkUiqz1v5xg535V7oeuPt7yEz_fp6395U8nug';
+$settings['hash_salt'] = 'phWp-dow3qc4b-lmn3ECwRRfcY6LD3cemaonc6v_Z1_WOGJy9iJPK7s9UwpVIuzZBoCxV8WYgg';
 
 /**
  * Deployment identifier.
@@ -698,9 +698,10 @@ $settings['container_yamls'][] = __DIR__ . '/services.yml';
  * will allow the site to run off of all variants of example.com and
  * example.org, with all subdomains included.
  */
-$settings['trusted_host_patterns'] = array(
-  '^www\.v3r\.us$',
-);
+#$settings['trusted_host_patterns'] = array(
+#  '^project\.v3r\.us$',
+#);
+
 
 /**
  * Load local development override configuration, if available.
@@ -716,7 +717,7 @@ $settings['trusted_host_patterns'] = array(
 #   include __DIR__ . '/settings.local.php';
 # }
 $databases['default']['default'] = array (
-  'database' => 'v3r_drupal',
+  'database' => 'v3r_project_drupal',
   'username' => 'v3r',
   'password' => 'Ranjureetu59',
   'prefix' => '',
@@ -726,4 +727,4 @@ $databases['default']['default'] = array (
   'driver' => 'mysql',
 );
 $settings['install_profile'] = 'standard';
-$config_directories['sync'] = 'sites/default/files/config_oV8JM2iKERvWlFzuME1Gr9-T9VJwOif5D57Tj56brCAZ_hWWBdEhOuUwwMo8GPY4fiJIUodF2w/sync';
+$config_directories['sync'] = 'sites/project/files/config_nZufRSGkU7ey1AHcRK122v6WqSSnrjQCfNSO5Ddh0VGtElTZApfXE9BnaonSVsj8QZ2jTDkiXQ/sync';

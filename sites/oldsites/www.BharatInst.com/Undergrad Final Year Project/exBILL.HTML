@@ -1,0 +1,447 @@
+<html>
+<head>
+<title>bill</title>  
+<SCRIPT language="JavaScript">
+
+ 
+browsername=navigator.appName;
+browserversion=parseInt(navigator.appVersion);
+
+if(browsername=="Netscape" && browserversion>=4)
+   version="ns4+";
+else if(browsername=="Microsoft Internet Explorer" && browserversion>=3)
+    version="ie3+";
+
+if(version=="ns4+")
+   {
+
+      window.captureEvents(Event.KEYPRESS);
+      function handler(evnt)
+       {
+         if(document.frm1.DATE.value.length==1)
+          {
+   	        document.frm1.MONTH.focus();
+	      }
+   
+          if(document.frm1.MONTH.value.length==1)
+           {
+   	          document.frm1.YEAR.focus();
+   	        }
+	    }
+	   window.onKeyPress = handler;
+     }
+
+
+ function MON()
+  {
+    var v1=document.frm1.MONTH.value;
+    if(v1=="")
+     {
+       document.frm1.MONTH.focus();
+      }
+   }
+
+  function DAT()
+  {
+    var v2=document.frm1.DATE.value;
+    if(v2=="")
+     {
+       document.frm1.DATE.focus();
+      }
+   }
+
+  
+
+
+ function F1()
+ {
+   var z1=document.frm1.DATE.value;
+   if(z1.length==1 && z1>=1 && z1<=9)
+    {
+      document.frm1.DATE.value=0+z1;
+     }
+  }
+
+
+ function F2()
+ {
+   var z2=document.frm1.MONTH.value;
+   if(z2.length==1 && z2>=1 && z2<=9)
+    {
+      document.frm1.MONTH.value=0+z2;
+     }
+  }
+
+
+ 
+ function SCNO1()
+  {
+    var x1=document.frm1.elements[0].value;
+    if(x1=="")
+	   {
+	       alert("THE FIELD SCNO IS LEFT BLANK ");
+		   document.frm1.SCNO.focus();
+	
+	    }
+     else
+	     SCNO2();    
+   }
+	  
+   
+function SCNO2()
+ { 
+
+     var x1=document.frm1.elements[0].value;
+	 var y=x1.substring(0,1);
+
+
+      if(!isNaN(y) || y=='_' || y=='@' || y=='-' || y=='#' || y=='%' || y=='/' || y=='\\' )
+      {
+	    alert (" THE FIRST CHARACTER OF SCNO SHOULD BE AN ALPHABET ");
+        document.frm1.SCNO.focus();
+      }
+      else
+	   SCNO3();
+   }
+
+   function SCNO3()
+   {
+  	 var x1=document.frm1.elements[0].value;
+     var m4=x1.substring(2,8);
+
+     if(isNaN(m4))
+        {
+	       alert("THE LAST SIX CHARACTERS OF SCNO SHOULD BE DIGITS ");
+           document.frm1.SCNO.focus(); 
+         }
+      else
+         SPACE();
+
+    }	
+
+	function SPACE()
+
+     {
+
+    	var x1=document.frm1.elements[0].value;
+    	var len=document.frm1.elements[0].value.length;
+    	var ven=x1.substring(2,8);
+    	var regexp=/\d*\s/i;
+		var newString=ven.match(regexp);
+	    if(newString!=null)
+	    {
+	      alert("SPACES ARE NOT ALLOWED AFTER FIRST TWO CHARACTERS IN SCNO ");
+	      document.frm1.SCNO.focus(); 
+	     }
+	    else
+	       DATE1();
+
+      }
+
+	 
+   function DATE1()
+    {
+        
+      var x2=document.frm1.elements[1].value; 
+      if(x2=="")
+	    {
+	      alert("DATE FIELD CANNOT BE BLANK");
+		  document.frm1.DATE.focus();
+	     }
+       else
+	     DATE2();
+      }
+
+  function DATE2()
+
+  {
+
+	var x2=document.frm1.elements[1].value; 
+	if((x2<=0 || x2>31)|| isNaN(x2))
+	  {
+	    alert(" NOT A VALID DATE ");
+         document.frm1.DATE.focus();
+      }
+	else
+	   DATE3();
+   }
+     
+  function DATE3() 
+    {
+      var x3=document.frm1.elements[2].value;
+      if( x3=="")
+      {
+       alert("MONTH FIELD CANNOT BE BLANK");
+       document.frm1.MONTH.focus();
+       }
+       else
+        DATE4();
+     }
+
+   function DATE4()
+    {
+      var x3=document.frm1.elements[2].value;
+      if((x3<=0 || x3>12)|| isNaN(x3))
+	     {
+	       alert(" NOT A VALID MONTH ");
+            document.frm1.MONTH.focus();
+	      }
+       else
+	      DATE5();
+      }
+
+    function DATE5()
+	  {
+        var x4=document.frm1.elements[3].value;      
+		if( x4=="")
+		  {
+		      alert("YEAR FIELD CANNOT BE BLANK");
+			  document.frm1.YEAR.focus();
+          }
+         else
+	 	  
+		  DATE6();
+        }
+
+      function DATE6()
+       {
+	     var x4=document.frm1.elements[3].value;      
+	     var today=new Date();
+		 var vyear = today.getYear() - 100;
+ 	     if(x4 > vyear|| isNaN(x4))
+    	    {
+     		  alert("ENTERED DATE IS GREATER THAN CURRENT DATE");
+   		  	  document.frm1.YEAR.focus();
+	    	}
+	      else 
+		    DATE7();
+         }
+	
+	   function DATE7()
+	   { 
+	      var x3=document.frm1.elements[2].value;
+	      var today=new Date();
+	      var vmonth = today.getMonth()+1;
+	
+			if(vmonth < x3)
+	        {
+			  alert("ENTERED DATE IS GREATER THAN CURRENT DATE");
+  			  document.frm1.MONTH.focus();
+			}
+            else 
+			  DATE8();
+     	}
+	   
+	   function DATE8()
+	    {
+  	     var today=new Date();
+		 var vdate=today.getDate();
+	     var vmonth = today.getMonth()+1;
+         var x2=document.frm1.elements[1].value; 
+	      if(document.frm1.MONTH.value == vmonth && vdate < x2) 
+	        {
+	 	       alert("ENTERED DATE IS GREATER THAN CURRENT DATE");
+   	   	       document.frm1.DATE.focus();
+	         }
+            
+		   else
+		     READING1();	   
+			    
+			
+         }
+
+ 
+       function VSTATUS()
+       {
+        
+		var a=document.frm1.STATUS.selectedIndex;
+		 if(a==4 || a==7)
+		 {
+			  var x6=document.frm1.READING.value="";
+              alert(" WITH THIS METER STATUS U CAN NOT ENTER METER READING");
+              document.frm1.UNITS.focus();
+	     }
+		 
+		 
+       }
+
+
+	function READING1()
+		{
+			var x6=document.frm1.elements[5].value;
+			var a=document.frm1.STATUS.selectedIndex;
+			if(a!=4 && a!=7)
+			 {  
+				if(x6=="")									
+				{
+					alert("READING CANNOT BE BLANK");
+        			document.frm1.READING.focus();
+				}
+				else
+
+					VREADING3();			  
+			 }
+	   	
+		   else
+				UNITS1();
+ 	
+		}
+ 
+
+	function VREADING3()
+		{
+			var x6=document.frm1.elements[5].value;
+			var a=document.frm1.STATUS.selectedIndex;
+		  
+			if(isNaN(x6) || x6<=0)
+				{
+                      alert(" READING SHOULD BE A NON-NEGATIVE NUMBER "); 
+                      document.frm1.READING.focus();
+		        }
+
+			else
+				     DATABASE(document.frm1);	  
+		
+     
+		}
+
+
+ 
+ 
+
+function UNITS1()
+	{
+   	
+ 		var x7=document.frm1.elements[6].value;
+		var a=document.frm1.STATUS.selectedIndex;
+
+    
+		if(x7=="")
+			{
+				alert(" UNITS FIELD CANNOT BE BLANK");
+				document.frm1.UNITS.focus();
+			}
+	
+		else 
+	 
+			UNITS3();
+	}
+
+  function UNITS3()
+  {
+      	var x7=document.frm1.elements[6].value;
+	    var a=document.frm1.STATUS.selectedIndex;
+
+
+		 if(isNaN(x7) || x7<=0)
+     {	
+       alert(" UNITS SHOULD BE A NON-NEGATIVE NUMBER and OTHER THAN ZERO  ");
+       document.frm1.UNITS.focus();
+      }
+
+	 else
+
+	  DATABASE(document.frm1);
+
+}	
+
+function UNITS2()
+  {
+    var a=document.frm1.STATUS.selectedIndex;
+	 if(a!=4 && a!=7)
+	   {
+	     document.frm1.UNITS.value=0;
+	     alert(" WITH THIS METER STATUS U CAN NOT ENTER UNITS" );
+		 document.frm1.UNITS.blur();
+		 
+		 
+	   }
+  }
+ 
+ function DATABASE(f)
+ {
+ 
+   	alert("THE RECORD IS BEING SUCESSFULLY ADDED");
+    document.frm1.submit(f);
+ }
+ 
+ 
+
+
+</script>
+</head>
+<body bgcolor="#fffff">
+
+<center>
+
+<form name="frm1" method="GET" ACTION="FINALOK.JSP" >
+<B>
+<BR>
+ENTER THE METER READING DETAILS HERE:
+</B><BR>
+<BR>
+<BR>
+<BR>
+<BR>
+
+<table align=center border=5>
+<tr>
+  <TD ALIGN=LEFT>  SCNO<b>:  *</TD>
+
+  <TD ALIGN=LEFT>  <input type=text NAME="SCNO" length=8 maxlength=8  ></TD>
+</TR>
+ <tr>
+  <TD ALIGN=LEFT>  METER READING DATE<b>:  *</TD>
+  <TD ALIGN=LEFT>  <input type=text NAME="DATE" size=2 maxlength=2  onChange="F1()"> /
+                   <input type=TEXT NAME="MONTH" size=2 maxlength=2 ONFOCUS="DAT()" onChange="F2()">/ 
+                   <INPUT TYPE=TEXT NAME="YEAR" size=2 maxlength=2  ONFOCUS="MON()"> </TD> 
+</TR>
+ <TR>
+ <TD ALIGN =LEFT> STATUS<b>:  *</TD>
+ <TD ALIGN=LEFT>
+ <SELECT NAME="STATUS" SIZE=1 ONBLUR="VSTATUS()"   >
+        <OPTION VALUE="1"> 1
+        <OPTION VALUE="2"> 2
+	<OPTION VALUE="3"> 3
+	<OPTION VALUE="4"> 4
+	<OPTION VALUE="5"> 5
+	<OPTION VALUE="6"> 6
+	<OPTION VALUE="7"> 7
+	<OPTION VALUE="8">8
+	<OPTION VALUE="9">9
+	<OPTION VALUE="10">10
+	<OPTION VALUE="11">11
+	<OPTION VALUE="12">12
+	</SELECT>
+	</TD>
+        </TR>
+  <tr>
+  <TD ALIGN=LEFT>  METER READING<B>:</TD>
+
+  <TD ALIGN=LEFT>  <input type=text NAME="READING" length=8 maxlength=8 onblur="UNITS2()"  ></TD>
+</TR>
+													
+<TR>
+ <TD ALIGN=LEFT>UNITS<B>: </TD>
+ <TD ALIGN=LEFT><INPUT TYPE="TEXT" NAME="UNITS"  LENGTH=8 MAXLENGTH=8  ></TD>
+</TR>
+</TABLE>
+<BR>
+<BR>
+ <CENTER>
+ <INPUT TYPE="button" NAME="Ok" VALUE="Ok" onclick="SCNO1()" >
+ <INPUT TYPE="RESET"  NAME="Reset" VALUE="Reset">
+ <INPUT TYPE="BUTTON" NAME="Exit"  VALUE="Exit" OnClick="window.location='finalexit.html'">
+ </CENTER>
+  </CENTER>
+</TABLE>
+</FORM>
+<PRE>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp<PRE>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp * indicates a mandatory field</PRE>
+</BODY>
+</HTML>
+
+   
+   
+   
+   
+   

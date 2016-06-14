@@ -54,6 +54,7 @@
  * @see https://www.drupal.org/documentation/install/multi-site
  */
 $sites = array(
- 'project.v3r.us' => 'project',
+# 'shop.v3r.us' => 'default',
+# 'project.v3r.us' => 'default',
  'peervision.v3r.us' => 'v4ecc'
 );

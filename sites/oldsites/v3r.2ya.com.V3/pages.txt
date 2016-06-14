@@ -1,0 +1,17 @@
+@item@|@link@|@text@
+@Home@|@index.html@|@Return to Main Page@
+@About Me@|@aboutme.html@|@Read about ME@
+@Links@|@links.html@|@View Links I added in this Page@
+@My Possessions@|@possess.html@|@View all my Cool Pocessions@
+@My BIET-CSE Site@|@http://beincse.good.to@|@The CSE website I built@
+@My Blog Site@|@http://www.geocities.com/yvranjeesh/index.html@|@My Tour Descriptions@
+@My Father's Site@|@http://www.geocities.com/yvssbabu/index.html@|@The site I built for my Father@
+@My Brother's Site @|@http://www.geocities.com/reetesh_2000/index.html@|@My Brother`s site@
+@A1 GrandPrix Forums@|@http://www.a1grandprixforums.com@|@My Friend Rafiq\'s site@
+@Our Game Collection@|@http://www.gamespot.com/user/collection.html?user=Reetesh@|@Contains the whole collection of games we ever bought till now.@
+@View Guestbook@|@http://us.geocities.yahoo.com/gb/view?member=yvranjeesh@|@Click here to View who signed my Guestbook@
+@My Yahoo! Calender@|@http://calendar.yahoo.com/yc/us/public/yvranjeesh@|@Click here to know whats special on which day( Birthday anniversary etc.)@
+@MS Guidance@|@/visa/about.html@|@Click here to get help regarding MS applications@
+
+
+@@|@@|@@

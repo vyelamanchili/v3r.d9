@@ -1,0 +1,2142 @@
+
+
+<HTML>
+<HEAD>
+
+<LINK REL=stylesheet TYPE="text/css" HREF="/IN/EN/MenuStyle.css" TITLE="style">
+<script language="JavaScript" src="/Global/JavaScript/Common.js"></script> 
+<script language="JavaScript" src="/Global/JavaScript/OpenWin.js"></script> 
+<script language="JavaScript" src="/Global/JavaScript/Validate.js"></script> 
+
+</HEAD>
+
+<BODY bgcolor='white' leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 link=#FE6C01 vlink=#c24623  onload=JobsDBHeaderInit();>
+
+
+<script language="JavaScript" src="/IN/EN/MenuInit.asp"></script> 
+	
+					<br>
+					<table width=780 border=0 cellspacing=0 cellpadding=0>
+						<tr>
+							<td width=70>&nbsp;</td>
+							<td width=660>
+							<table width=660 border=0 cellspacing=0 cellpadding=0>																
+								<tr>
+									<td>
+									
+									<a href="/IN/EN/MyJobsdb/MyJobsDB.asp?pagename=JDBMenu" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('MyJobsDBHome','','/Images/XX/EN/MyJobsDB/MenuTag/MyJobsDBHomeOn.gif',1)">
+									<img src="/Images/XX/EN/MyJobsDB/MenuTag/MyJobsDBHome.gif" border=0 name="MyJobsDBHome">
+									
+									</td>
+								</tr>																
+								<tr>
+									<td>&nbsp;</td>
+								</tr>
+								<tr>
+									<td align=center><img src="/Images/XX/EN/MyJobsDB/MenuTag/Start.gif"><a href='/IN/EN/MyJobsdb/PersonalProfile.asp?PN=View'><img src='/Images/XX/EN/MyJobsDB/MenuTag/MyAccountInfo.gif' border=0></a><a href='/IN/EN/MyJobsDB/JobProfile.asp?PN=JobListing'><img src='/Images/XX/EN/MyJobsDB/MenuTag/MyJobProfile.gif' border=0></a><img src='/Images/XX/EN/MyJobsDB/MenuTag/CreateMyResumeOn.gif' border=0><a href='/IN/EN/MyJobsDB/JSAdvertise.asp?pagename=JSAdvertise'><img src='/Images/XX/EN/MyJobsDB/MenuTag/AdvertiseMyself.gif' border=0></a><a href='/IN/EN/MyJobsDB/myjobs.asp?pagename=JsReqApprove'><img src='/Images/XX/EN/MyJobsDB/MenuTag/ProcessRequest.gif' border=0></a><a href='/IN/EN/MyJobsDB/Clipboard.asp?pagename=Clipboard'><img src='/Images/XX/EN/MyJobsDB/MenuTag/Clipboard.gif' border=0></a><a href='/IN/EN/MyJobsDB/JSLogout.asp'><img src='/Images/XX/EN/MyJobsDB/MenuTag/Logout.gif' border=0></a><img src="/Images/XX/EN/MyJobsDB/MenuTag/End.gif"></td>
+								</tr>
+							</table>
+							</td>
+						</tr>
+					</table>
+<br>
+<Table border = 0 cellspacing = 0 cellpadding = 0 width=780>
+	<tr>
+		<td width=80>&nbsp;</td>
+		<td>		    
+			<Table border = 0 cellspacing = 0 cellpadding = 0 width=650>
+				<tr>
+					<td width=650>
+		<script>
+		function OpenErrorWindow()
+		{
+			alert('Your Resume Input Template has an error. Please check the field(s) shown in RED \nto make sure that the information has been correctly entered.');
+		}
+		
+		OpenErrorWindow();
+		</script>	
+	<script>
+function ShowTips(TipsID)
+{
+WindowFeature = "resizable=no,scrollBars=yes,menuBar=no,directories=no,toolBar=no,location=No,status=No," 
+WindowFeature += "width=440,height=280,screenX=50,screenY=50,top=50, left=50"
+var TipsName = "/IN/EN/MyjobsDB/Tips.asp?TipsID=" + TipsID;
+var TipsWin = window.open (TipsName, "TipsWin", WindowFeature);
+if (!TipsWin.opener)TipsWin.opener=self;
+if (TipsWin.focus)TipsWin.focus();
+}
+
+function ShowErr(ErrorID, ErrFlag)
+{
+WindowFeature = "resizable=no,scrollBars=yes,menuBar=no,directories=no,toolBar=no,location=No,status=No," 
+WindowFeature += "width=360,height=220,screenX=50,screenY=50,top=50, left=50"
+var ErrorName = "/IN/EN/MyJobsDB/Errors.asp?ErrorID=" + escape(ErrorID) + "&ErrFlag=" + ErrFlag;
+var ErrorWin = window.open (ErrorName, "ErrorWin", WindowFeature);
+if (!ErrorWin.opener)ErrorWin.opener=self;
+if (ErrorWin.focus)ErrorWin.focus();
+}
+</script>
+	<script>
+	function ResumeSubmit(sAction)
+	{
+		document.ResumeForm.NextAction.value = sAction;
+		document.ResumeForm.submit();
+	}
+	</script>
+ 
+    
+      
+	<form action = "" name="ResumeForm" method=post>
+	<input type = "hidden" name = "NextAction" value="">
+	<input type = "hidden" name ="process" value ="Full">
+	<table border=0 width=620 bgcolor=#FFFFFF cellspacing=0 cellpadding=5>
+	<input type = "hidden" value="" name ="RegCountry"><tr><td><font face='Arial' Size='2' Color='#000000'><b>Resume Registered At:</b></font></td><td><font face='Arial' Size='2' Color='#000000'></font></td></tr>
+	</table>
+	<table border=0 width=620 bgcolor=#FFFFFF cellspacing=0 cellpadding=5>		
+	<tr><td width=160>&nbsp;</td><td width=460>&nbsp;</td></tr>
+	<tr><td colspan=2 bgcolor=white><font face='Arial' Size='2' Color='#000000'><b>Field(s) in <font face='Arial' Size='2' Color='#5852c8'><b>Blue</b></font> are Optional </b></font></td></tr>
+	<tr><td colspan=2 bgcolor="#999999"><font face='Arial' Size='2' Color='#000000'><font color = '#FFFFFF'><b><i>Detailed Resume</i></b></font></font></td></tr>
+	
+	
+	<tr>
+		<td class=NormalText><font face='Arial' Size='2' Color='#000000'><b>Title:</b></font></td>
+		<td class=NormalText valign=top>
+	
+	<table cellspacing=0 cellpadding=0 border=0>
+		<tr>
+	
+		<td><input type=radio name="Title" value="Mr." checked><font face='Arial' Size='2' Color='#000000'>Mr.</font></td>
+		<td><input type=radio name="Title" value="Ms." ><font face='Arial' Size='2' Color='#000000'>Ms.</font></td>
+		<td><input type=radio name="Title" value="Mrs." ><font face='Arial' Size='2' Color='#000000'>Mrs.</font></td>
+		<td><input type=radio name="Title" value="Dr." ><font face='Arial' Size='2' Color='#000000'>Dr.</font></td>
+		</tr>
+	</table>
+	</td>	   
+	</tr>
+
+	<tr>
+		<td><font face='Arial' Size='2' Color='#000000'><b>Given Name:</b></font></td>
+		<td><input name=GivenName value="yelamanchili"></td>
+	</tr>
+	
+	<tr>
+		<td><font face='Arial' Size='2' Color='#000000'><b>Middle Name:</b></font></td>
+		<td><input name=MiddleName value="Venkata Satya" size=15 maxlength=20></td>
+	</tr>
+	
+	<tr>
+		<td><font face='Arial' Size='2' Color='#000000'><b>Family Name:</b></font>&nbsp;&nbsp;</td>
+		<td><input name=FamilyName value="Sambharaju Babu"></td>
+	</tr>
+
+
+	<tr>
+		<td class=NormalText><font face='Arial' Size='2' Color='#000000'><b>Gender</b></font></td>
+		<td class=NormalText valign=top>
+			<input name="Gender" type=radio value="M" checked><font face='Arial' Size='2' Color='#000000'>Male</font>
+			<input name="Gender" type=radio value="F" ><font face='Arial' Size='2' Color='#000000'>Female</font>
+		</td>
+	</tr> 
+
+
+	<tr>		
+		<td class=NormalText  valign=top><font face='Arial' Size='2' Color='#000000'><b>Date of Birth</b></font></td>
+		<td class=NormalText  valign=top>
+	    
+        
+	    <select name = MBirth>
+			<option value></option>
+			
+			    
+				<option value="1">1
+			    
+				<option value="2">2
+			    
+				<option value="3">3
+			    
+				<option value="4">4
+			    
+				<option value="5">5
+			    
+				<option value="6"selected>6
+			    
+				<option value="7">7
+			    
+				<option value="8">8
+			    
+				<option value="9">9
+			    
+				<option value="10">10
+			    
+				<option value="11">11
+			    
+				<option value="12">12
+		</select>
+	    <select name = DBirth>
+			<option value></option>
+			
+				<option value="1" >1
+				<option value="2" >2
+				<option value="3" >3
+				<option value="4" >4
+				<option value="5" >5
+				<option value="6" >6
+				<option value="7" >7
+				<option value="8" >8
+				<option value="9" selected>9
+				<option value="10" >10
+				<option value="11" >11
+				<option value="12" >12
+				<option value="13" >13
+				<option value="14" >14
+				<option value="15" >15
+				<option value="16" >16
+				<option value="17" >17
+				<option value="18" >18
+				<option value="19" >19
+				<option value="20" >20
+				<option value="21" >21
+				<option value="22" >22
+				<option value="23" >23
+				<option value="24" >24
+				<option value="25" >25
+				<option value="26" >26
+				<option value="27" >27
+				<option value="28" >28
+				<option value="29" >29
+				<option value="30" >30
+				<option value="31" >31
+		</select>
+	     <select name = YBirth>
+			<option value></option>
+			
+				<option value="1985" >1985
+				<option value="1984" >1984
+				<option value="1983" >1983
+				<option value="1982" >1982
+				<option value="1981" >1981
+				<option value="1980" >1980
+				<option value="1979" >1979
+				<option value="1978" >1978
+				<option value="1977" >1977
+				<option value="1976" >1976
+				<option value="1975" >1975
+				<option value="1974" >1974
+				<option value="1973" >1973
+				<option value="1972" >1972
+				<option value="1971" >1971
+				<option value="1970" >1970
+				<option value="1969" >1969
+				<option value="1968" >1968
+				<option value="1967" >1967
+				<option value="1966" >1966
+				<option value="1965" >1965
+				<option value="1964" >1964
+				<option value="1963" >1963
+				<option value="1962" >1962
+				<option value="1961" >1961
+				<option value="1960" selected>1960
+				<option value="1959" >1959
+				<option value="1958" >1958
+				<option value="1957" >1957
+				<option value="1956" >1956
+				<option value="1955" >1955
+				<option value="1954" >1954
+				<option value="1953" >1953
+				<option value="1952" >1952
+				<option value="1951" >1951
+				<option value="1950" >1950
+				<option value="1949" >1949
+				<option value="1948" >1948
+				<option value="1947" >1947
+				<option value="1946" >1946
+				<option value="1945" >1945
+				<option value="1944" >1944
+				<option value="1943" >1943
+				<option value="1942" >1942
+				<option value="1941" >1941
+				<option value="1940" >1940
+				<option value="1939" >1939
+				<option value="1938" >1938
+				<option value="1937" >1937
+				<option value="1936" >1936
+				<option value="1935" >1935
+		</select>
+
+		  <font face='Arial' Size='2' Color='#000000'>(MM DD YYYY)</font>
+		</td>
+	</tr> 
+
+
+<tr>
+	<td class=NormalText valign=top><font face='Arial' Size='2' Color='#000000'><b>Nationality</b></font></td>
+	<td class=NormalText valign=top><input name="Nationality" value="Indian" size=15 maxlength=20></td>
+</tr> 
+
+<tr>
+	<td class=NormalText valign=top><font face='Arial' Size='2' Color='#000000'><b>Country Of Residence:</b></font></td>
+	<td class=NormalText valign=top>
+		<input type=radio name=CountryOfResident value="India" checked><font face='Arial' Size='2' Color='#000000'>India</font>
+		<input type=radio name=CountryOfResident value="Other" ><font face='Arial' Size='2' Color='#000000'>Others:</font>
+		<input name=CountryOfResidentOthers maxlength=30 value="">
+	</td>
+</tr> 
+
+
+<tr>
+	<td><font face='Arial' Size='2' Color='#000000'><b>Allow to work in India:</b></font></td>
+	
+	<td><input name=AllowToWork type=radio class=FieldRadio value="Yes" checked><font face='Arial' Size='2' Color='#000000'>Yes</font>	
+		<input name=AllowToWork type=radio class=FieldRadio value="No" ><font face='Arial' Size='2' Color='#000000'>No</font>
+	</td>
+	
+</tr> 
+
+<tr>
+	<td bgcolor=white valign=top><font face='Arial' Size='2' Color='#000000'><b>Marital Status:</b></font></td>
+	<td>
+		<input name=MaritalStatus type=radio class=FieldRadio value="X" ><font face='Arial' Size='2' Color='#000000'>Not Specified</font>
+		<input name=MaritalStatus type=radio class=FieldRadio value="S" ><font face='Arial' Size='2' Color='#000000'>Single</font>
+		<input name=MaritalStatus type=radio class=FieldRadio value="M" checked><font face='Arial' Size='2' Color='#000000'>Married</font>
+		<input name=MaritalStatus type=radio class=FieldRadio value="D" ><font face='Arial' Size='2' Color='#000000'>Divorced</font>
+		<input name=MaritalStatus type=radio class=FieldRadio value="W" ><font face='Arial' Size='2' Color='#000000'>Widowed</font>
+		<input name=MaritalStatus type=radio class=FieldRadio value="E" ><font face='Arial' Size='2' Color='#000000'>Separated</font>
+		<br>
+		
+	</td>
+</tr>
+
+<tr>
+	<td bgcolor=white class=NormalText valign=top><font face='Arial' Size='2' Color='#000000'><b>Address:</b></font></td>
+	<td class=NormalText valign=top>
+	<input class=FieldText name=Street1 value="Flat#204,Vijay Durga Estate" size=35 maxlength=50>
+	<br>
+	<input class=FieldText name=Street2 value="Nizampet Road,Kukatpally," size=35 maxlength=50>
+	</td>
+</tr>
+
+
+<tr>
+	<td class=NormalText valign=top><font face='Arial' Size='2' Color='#000000'><b>Location</b></font></td>
+	<td class=NormalText valign=top>
+		<select name=Location>
+		<option value=""></option>
+		
+			<option value="0001D290" ><font face='Arial' Size='2' Color='#000000'>Andhra Pradesh - Guntur</font>
+			<option value="0001D330" selected><font face='Arial' Size='2' Color='#000000'>Andhra Pradesh - Hyderabad</font>
+			<option value="0001D430" ><font face='Arial' Size='2' Color='#000000'>Andhra Pradesh - Kakinada</font>
+			<option value="0001D760" ><font face='Arial' Size='2' Color='#000000'>Andhra Pradesh - Secunderabad</font>
+			<option value="0001D890" ><font face='Arial' Size='2' Color='#000000'>Andhra Pradesh - Vijayawada</font>
+			<option value="0001D900" ><font face='Arial' Size='2' Color='#000000'>Andhra Pradesh - Visakhapatnam</font>
+			<option value="0003D300" ><font face='Arial' Size='2' Color='#000000'>Assam - Guwahati</font>
+			<option value="0003D770" ><font face='Arial' Size='2' Color='#000000'>Assam - Shillong</font>
+			<option value="0005D250" ><font face='Arial' Size='2' Color='#000000'>Bihar - Dhanbad</font>
+			<option value="0005D410" ><font face='Arial' Size='2' Color='#000000'>Bihar - Jamshedpur</font>
+			<option value="0005D570" ><font face='Arial' Size='2' Color='#000000'>Bihar - Muzaffarpur</font>
+			<option value="0005D660" ><font face='Arial' Size='2' Color='#000000'>Bihar - Patna</font>
+			<option value="0005D720" ><font face='Arial' Size='2' Color='#000000'>Bihar - Ranchi</font>
+			<option value="0006D180" ><font face='Arial' Size='2' Color='#000000'>Chandigarh - Chandigarh</font>
+			<option value="0007D240" ><font face='Arial' Size='2' Color='#000000'>Delhi - Delhi</font>
+			<option value="0009D630" ><font face='Arial' Size='2' Color='#000000'>Goa - Panjim</font>
+			<option value="0010D020" ><font face='Arial' Size='2' Color='#000000'>Gujarat - Ahmedabad</font>
+			<option value="0010D100" ><font face='Arial' Size='2' Color='#000000'>Gujarat - Baroda</font>
+			<option value="0010D390" ><font face='Arial' Size='2' Color='#000000'>Gujarat - Jamnagar</font>
+			<option value="0010D420" ><font face='Arial' Size='2' Color='#000000'>Gujarat - Jodhpur</font>
+			<option value="0010D710" ><font face='Arial' Size='2' Color='#000000'>Gujarat - Rajkot</font>
+			<option value="0010D810" ><font face='Arial' Size='2' Color='#000000'>Gujarat - Surat</font>
+			<option value="0011D070" ><font face='Arial' Size='2' Color='#000000'>Haryana - Ambala</font>
+			<option value="0011D450" ><font face='Arial' Size='2' Color='#000000'>Haryana - Karnal</font>
+			<option value="0012D780" ><font face='Arial' Size='2' Color='#000000'>Himachal Pradesh - Shimla</font>
+			<option value="0013D400" ><font face='Arial' Size='2' Color='#000000'>Jammu & Kashmir - Jammu</font>
+			<option value="0013D800" ><font face='Arial' Size='2' Color='#000000'>Jammu & Kashmir - Srinagar</font>
+			<option value="0014D090" ><font face='Arial' Size='2' Color='#000000'>Karnataka - Bangalore</font>
+			<option value="0014D110" ><font face='Arial' Size='2' Color='#000000'>Karnataka - Belgaum</font>
+			<option value="0014D320" ><font face='Arial' Size='2' Color='#000000'>Karnataka - Hubli</font>
+			<option value="0014D520" ><font face='Arial' Size='2' Color='#000000'>Karnataka - Mangalore</font>
+			<option value="0014D580" ><font face='Arial' Size='2' Color='#000000'>Karnataka - Mysore</font>
+			<option value="0014D790" ><font face='Arial' Size='2' Color='#000000'>Karnataka - Sholapur</font>
+			<option value="0015D170" ><font face='Arial' Size='2' Color='#000000'>Kerala - Calicut</font>
+			<option value="0015D460" ><font face='Arial' Size='2' Color='#000000'>Kerala - Kochi</font>
+			<option value="0015D620" ><font face='Arial' Size='2' Color='#000000'>Kerala - Palghat</font>
+			<option value="0015D690" ><font face='Arial' Size='2' Color='#000000'>Kerala - Quilon</font>
+			<option value="0015D830" ><font face='Arial' Size='2' Color='#000000'>Kerala - Trichur</font>
+			<option value="0015D850" ><font face='Arial' Size='2' Color='#000000'>Kerala - Trivandrum</font>
+			<option value="0017D130" ><font face='Arial' Size='2' Color='#000000'>Madhya Pradesh - Bhopal</font>
+			<option value="0017D310" ><font face='Arial' Size='2' Color='#000000'>Madhya Pradesh - Gwalior</font>
+			<option value="0017D350" ><font face='Arial' Size='2' Color='#000000'>Madhya Pradesh - Indore</font>
+			<option value="0017D360" ><font face='Arial' Size='2' Color='#000000'>Madhya Pradesh - Jabalpur</font>
+			<option value="0017D700" ><font face='Arial' Size='2' Color='#000000'>Madhya Pradesh - Raipur</font>
+			<option value="0017D870" ><font face='Arial' Size='2' Color='#000000'>Madhya Pradesh - Ujjain</font>
+			<option value="0018D030" ><font face='Arial' Size='2' Color='#000000'>Maharashtra - Ahmednagar</font>
+			<option value="0018D470" ><font face='Arial' Size='2' Color='#000000'>Maharashtra - Kolhapur</font>
+			<option value="0018D560" ><font face='Arial' Size='2' Color='#000000'>Maharashtra - Mumbai</font>
+			<option value="0018D590" ><font face='Arial' Size='2' Color='#000000'>Maharashtra - Nagpur</font>
+			<option value="0018D600" ><font face='Arial' Size='2' Color='#000000'>Maharashtra - Nasik</font>
+			<option value="0018D680" ><font face='Arial' Size='2' Color='#000000'>Maharashtra - Pune</font>
+			<option value="0021D340" ><font face='Arial' Size='2' Color='#000000'>Mizoram - Imphal</font>
+			<option value="0023D140" ><font face='Arial' Size='2' Color='#000000'>Orissa - Bhubaneshwar</font>
+			<option value="0023D210" ><font face='Arial' Size='2' Color='#000000'>Orissa - Cuttack</font>
+			<option value="0023D730" ><font face='Arial' Size='2' Color='#000000'>Orissa - Rourkela</font>
+			<option value="0023D740" ><font face='Arial' Size='2' Color='#000000'>Orissa - Sambhalpur</font>
+			<option value="9998D920" ><font face='Arial' Size='2' Color='#000000'>Others - Overseas</font>
+			<option value="9997D910" ><font face='Arial' Size='2' Color='#000000'>Overseas - Others</font>
+			<option value="0024D670" ><font face='Arial' Size='2' Color='#000000'>Pondichery - Pondicherry</font>
+			<option value="0025D080" ><font face='Arial' Size='2' Color='#000000'>Punjab - Amritsar</font>
+			<option value="0025D380" ><font face='Arial' Size='2' Color='#000000'>Punjab - Jallandhar</font>
+			<option value="0025D500" ><font face='Arial' Size='2' Color='#000000'>Punjab - Ludhiana</font>
+			<option value="0025D640" ><font face='Arial' Size='2' Color='#000000'>Punjab - Pathankot</font>
+			<option value="0025D650" ><font face='Arial' Size='2' Color='#000000'>Punjab - Patiala</font>
+			<option value="0026D040" ><font face='Arial' Size='2' Color='#000000'>Rajasthan - Ajmer</font>
+			<option value="0026D150" ><font face='Arial' Size='2' Color='#000000'>Rajasthan - Bikaner</font>
+			<option value="0026D370" ><font face='Arial' Size='2' Color='#000000'>Rajasthan - Jaipur</font>
+			<option value="0026D480" ><font face='Arial' Size='2' Color='#000000'>Rajasthan - Kota</font>
+			<option value="0026D860" ><font face='Arial' Size='2' Color='#000000'>Rajasthan - Udaipur</font>
+			<option value="0028D190" ><font face='Arial' Size='2' Color='#000000'>Tamil Nadu - Chennai</font>
+			<option value="0028D200" ><font face='Arial' Size='2' Color='#000000'>Tamil Nadu - Coimbatore</font>
+			<option value="0028D270" ><font face='Arial' Size='2' Color='#000000'>Tamil Nadu - Erode</font>
+			<option value="0028D510" ><font face='Arial' Size='2' Color='#000000'>Tamil Nadu - Madurai</font>
+			<option value="0028D610" ><font face='Arial' Size='2' Color='#000000'>Tamil Nadu - Ooty</font>
+			<option value="0028D750" ><font face='Arial' Size='2' Color='#000000'>Tamil Nadu - Salem</font>
+			<option value="0028D820" ><font face='Arial' Size='2' Color='#000000'>Tamil Nadu - Tirunelveli</font>
+			<option value="0028D840" ><font face='Arial' Size='2' Color='#000000'>Tamil Nadu - Trichy</font>
+			<option value="0030D010" ><font face='Arial' Size='2' Color='#000000'>Uttar Pradesh - Agra</font>
+			<option value="0030D050" ><font face='Arial' Size='2' Color='#000000'>Uttar Pradesh - Aligarh</font>
+			<option value="0030D060" ><font face='Arial' Size='2' Color='#000000'>Uttar Pradesh - Allahabad</font>
+			<option value="0030D120" ><font face='Arial' Size='2' Color='#000000'>Uttar Pradesh - Bhavnagar</font>
+			<option value="0030D230" ><font face='Arial' Size='2' Color='#000000'>Uttar Pradesh - Dehradun</font>
+			<option value="0030D280" ><font face='Arial' Size='2' Color='#000000'>Uttar Pradesh - Gorakhpur</font>
+			<option value="0030D440" ><font face='Arial' Size='2' Color='#000000'>Uttar Pradesh - Kanpur</font>
+			<option value="0030D490" ><font face='Arial' Size='2' Color='#000000'>Uttar Pradesh - Lucknow</font>
+			<option value="0030D530" ><font face='Arial' Size='2' Color='#000000'>Uttar Pradesh - Mathura</font>
+			<option value="0030D540" ><font face='Arial' Size='2' Color='#000000'>Uttar Pradesh - Meerut</font>
+			<option value="0030D550" ><font face='Arial' Size='2' Color='#000000'>Uttar Pradesh - Moradabad</font>
+			<option value="0030D880" ><font face='Arial' Size='2' Color='#000000'>Uttar Pradesh - Varanasi</font>
+			<option value="0031D160" ><font face='Arial' Size='2' Color='#000000'>West Bengal - Calcutta</font>
+			<option value="0031D220" ><font face='Arial' Size='2' Color='#000000'>West Bengal - Darjeeling</font>
+			<option value="0031D260" ><font face='Arial' Size='2' Color='#000000'>West Bengal - Durgapur</font>
+		</select>
+		</td>	
+</tr> 
+
+
+<tr>
+	<td class=NormalText bgcolor=white valign=top><font face='Arial' Size='2' Color='#000000'><b>Zip/Pin Code</b></font></td>
+	<td class=NormalText>
+		<font face=arial><input class=FieldText name=ZipCode value="500072" size=6 maxlength=6></font>
+	</td>
+</tr>
+
+
+	<tr> 
+		<td bgcolor=white class=NormalText valign=top><font face='Arial' Size='2' Color='#000000'><b>Contact Number(s) </b></font><br><font face='Arial' Size='2' Color='#000000'>(input at least one)</font></td>
+		<td class=NormalText valign=top>
+			<table cellspacing=0 cellpadding=3 border=0>
+			<tr>
+				<td><font face='Arial' Size='2' Color='#000000'>Home:</font></td>
+				<td><font face=arial><input class=FieldText name="Tel_Home" value="3051671" size=15 maxlength=20></font></td>
+				<td><font face='Arial' Size='2' Color='#000000'>Mobile:</font></td>
+				<td><font face=arial><input class=FieldText name="Tel_Office" value="" size=15 maxlength=20></font></td>
+			</tr>
+			<tr>
+				<td><font face='Arial' Size='2' Color='#000000'>Office:</font></td>
+				<td><font face=arial><input class=FieldText name="Tel_Mobile" value="" size=15 maxlength=20></font></td>
+				<td><font face='Arial' Size='2' Color='#000000'>Fax:</font></td>
+				<td><font face=arial><input class=FieldText name="Tel_Fax" value="" size=15 maxlength=20></font></td>
+			</tr>
+			
+						<tr>
+							<td><font face='Arial' Size='2' Color='#000000'>Pager:</font></td>
+							<td><input class=FieldText name="Tel_Pager" value="" size=15 maxlength=20></td>
+							
+						</tr>
+			
+			</table>
+		</td>
+	</tr>
+
+	<tr>
+		<td><font face='Arial' Size='2' Color='#000000'><b>Email-Address</b></font></td>
+		<td><input name=Email value="yvssbabu@yahoo.co.uk" size=30></td>
+	</tr>
+
+<tr>
+	<td class=NormalText valign=top><font face='Arial' Size='2' Color='#000000'><b>Highest Qualification</b></font></td>
+	<td class=NormalText valign=top>
+	<table cellspacing=0 cellpadding=3 border=0>
+		<tr><td><select name = AcademicQuali>
+	
+			<font face=arial size = 2><option value="1" >Doctorate                     </font>
+	
+			<font face=arial size = 2><option value="2" >Masters                       </font>
+	
+			<font face=arial size = 2><option value="3" selected>Graduate                      </font>
+	
+			<font face=arial size = 2><option value="4" >Post Graduate Diploma         </font>
+	
+			<font face=arial size = 2><option value="5" >Post Graduate Degree          </font>
+	
+			<font face=arial size = 2><option value="6" >Plus Two                      </font>
+	
+			<font face=arial size = 2><option value="7" >High School                   </font>
+	
+			<font face=arial size = 2><option value="8" >Others                        </font>
+	
+			<font face=arial size = 2><option value="9" >(N/A)                         </font>
+	
+	</select></td></tr>
+	</table>
+	</td>
+</tr> 
+
+
+<tr>
+	<td><font size=2 face="arial"><b><font face='Arial' Size='2' Color='#5852c8'>Professional Qualification</font></b></font></td>
+	<td>
+	<table cellspacing=0 cellpadding=3 border=0>
+		<tr>
+	
+		<td width=100>
+			<font face=arial><input name=ProfessionalQuali value="B.E.(Hons)-Civil Engg."  size=18 maxlength=30></font>
+		</td>
+		
+		<td width=100>
+			<font face=arial><input name=ProfessionalQuali value="Member IRC"  size=18 maxlength=30></font>
+		</td>
+		
+		<td width=100>
+			<font face=arial><input name=ProfessionalQuali value="IE(India), Life Member ICI"  size=18 maxlength=30></font>
+		</td>
+		
+		</tr>
+	</table>
+</td>
+</tr> 
+
+<tr>
+	<td class=NormalText valign=top><font face='Arial' Size='2' Color='#000000'><b>Expected Monthly Salary</b></font></td>
+	<td class=NormalText valign=top>
+<table cellspacing=0 cellpadding=3 border=0>
+	<tr>
+		<td>
+			<font face='Arial' Size='2' Color='#000000'>INR</font><input name=ExpectedSalary value="" class=FieldText size=9 maxlength=9>
+		</td>
+		<td>
+			<font face=arial><input name=ExpectedSalaryNeg value="on" type=checkbox class=FieldCheckBox checked><font face='Arial' Size='2' Color='#000000'>Negotiable</font></font>
+		</td>
+	</tr>
+</table>
+</td>
+</tr> 
+
+
+<tr>
+	<td class=NormalText valign=top><font face='Arial' Size='2' Color='#000000'><b>Availability:</b></font></td>
+	<td class=NormalText valign=top >
+	<table cellspacing=0 cellpadding=3 border=0>
+		<tr>
+			<td>
+				
+		<input type=radio name=Availopts value="Immediate" checked><font face='Arial' Size='2' Color='#000000'>Immediately Available</font>
+			</td>
+		</tr>
+		<tr>
+			<td>
+					
+		<input type=radio name=Availopts value="After Date" ><font face='Arial' Size='2' Color='#000000'>After Date</font>
+		<select name = AvailMonth>
+			 
+				<option value="1"selected>1 
+				<option value="2">2 
+				<option value="3">3 
+				<option value="4">4 
+				<option value="5">5 
+				<option value="6">6 
+				<option value="7">7 
+				<option value="8">8 
+				<option value="9">9 
+				<option value="10">10 
+				<option value="11">11 
+				<option value="12">12
+		</select>
+		<select name = AvailDay>
+			
+				<option value="1" selected>1
+				<option value="2" >2
+				<option value="3" >3
+				<option value="4" >4
+				<option value="5" >5
+				<option value="6" >6
+				<option value="7" >7
+				<option value="8" >8
+				<option value="9" >9
+				<option value="10" >10
+				<option value="11" >11
+				<option value="12" >12
+				<option value="13" >13
+				<option value="14" >14
+				<option value="15" >15
+				<option value="16" >16
+				<option value="17" >17
+				<option value="18" >18
+				<option value="19" >19
+				<option value="20" >20
+				<option value="21" >21
+				<option value="22" >22
+				<option value="23" >23
+				<option value="24" >24
+				<option value="25" >25
+				<option value="26" >26
+				<option value="27" >27
+				<option value="28" >28
+				<option value="29" >29
+				<option value="30" >30
+				<option value="31" >31
+		</select>
+		<select name = AvailYear>
+					
+					<option value="2000" selected>2000
+					<option value="2001" >2001
+				
+		</select>
+		<font face='Arial' Size='2' Color='#000000'>(MM DD YYYY)</font>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				
+		<input type=radio name=Availopts value="Notice" >
+		<select name=AvailNotice>
+			<option value="0.5">Half</option>
+			
+				<option value="1" >1
+				<option value="2" >2
+				<option value="3" >3
+				<option value="4" >4
+				<option value="5" >5
+				<option value="6" >6
+				<option value="7" >7
+				<option value="8" >8
+				<option value="9" >9
+				<option value="10" >10
+				<option value="11" >11
+				<option value="12" >12
+		</select>
+		<font face='Arial' Size='2' Color='#000000'>Month(s) Notice</font>
+			</td>
+		</tr>
+	</table>
+	</td>
+</tr> 
+
+
+<tr>
+	<td class=PurpleText valign=top><b><font face='Arial' Size='2' Color='#5852c8'>Spoken Language:</font></b></td>
+	<td class=NormalText valign=top>
+	<table cellspacing=0 cellpadding=3 border=0>
+		<tr>
+	
+		<td width=100>
+		<input name=LangSpoken value="English"  size=15 maxlength=13>
+		</td>
+		
+		<td width=100>
+		<input name=LangSpoken value="Hindi"  size=15 maxlength=13>
+		</td>
+		
+		<td width=100>
+		<input name=LangSpoken value="Telugu"  size=15 maxlength=13>
+		</td>
+		
+		</tr>
+		<tr>
+	
+		<td width=100>
+		<input name=LangSpoken value=""  size=15 maxlength=13>
+		</td>
+		
+		<td width=100>
+		<input name=LangSpoken value=""  size=15 maxlength=13>
+		</td>
+		
+		</tr>
+	</table>
+</td>
+</tr> 
+
+
+	<tr>
+		<td class=PurpleText valign=top><font face='Arial' Size='2' Color='#5852c8'><b>Written Language:</b></font></td>
+		<td class=NormalText valign=top>
+	<table cellspacing=0 cellpadding=3 border=0>
+		<tr>
+	
+		<td class=NormalText>
+				<font face=arial><input name=LangWritten value="English"  size=15 maxlength=13></font>
+		</td>
+		
+		<td class=NormalText>
+				<font face=arial><input name=LangWritten value="Hindi"  size=15 maxlength=13></font>
+		</td>
+		
+		<td class=NormalText>
+				<font face=arial><input name=LangWritten value="Telugu"  size=15 maxlength=13></font>
+		</td>
+		
+		</tr>
+		<tr>
+	
+		<td class=NormalText>
+				<font face=arial><input name=LangWritten value=""  size=15 maxlength=13></font>
+		</td>
+		
+		<td class=NormalText>
+				<font face=arial><input name=LangWritten value=""  size=15 maxlength=13></font>
+		</td>
+		
+		</tr>
+	</table>
+</td>
+	</tr>
+
+<tr>
+	<td class=ErrorText valign = top><font face='Arial' Size='2' Color='red'><b>Skills:</b></font>&nbsp;<a href="Javascript:ShowErr('Skills', 'FT')"><font face='Arial' Size='2' Color='#000000'>Err</font></a><br><a href="JavaScript:ShowTips('Skill')"><font face='Arial' Size='2' Color='#000000'>Tips</font></a></td>
+	<td class=ErrorText valign=top align=left>
+			<font face=arial size=2><textarea name=Skills cols=40 rows=4 wrap=soft class=FieldText>Planning and Monitoring of Major Construction Projects,Estimation for Tendering,(Specific areas: Bridges,Industrial Structures.)</textarea></font>
+	</td>
+</tr> 
+
+
+	<tr>
+		<td valign=top><font face='Arial' Size='2' Color='#5852c8'><b>Looking for Overseas Opportunities In :</b></font>
+		<td valign=top>
+  <script>
+    function CheckOverSea(Form, obj)
+	{
+		
+		
+		var objValue = obj.value
+		
+		if(objValue == "(N/A)" && obj.checked == true)
+			for(i = 0; i < Form[obj.name].length; i++)
+			{
+				if(Form[obj.name][i].value != objValue)
+					Form[obj.name][i].checked = false;
+			}
+		if(objValue != "(N/A)") {
+		   for(i = 0; i < Form[obj.name].length; i++)
+		   {
+		       if(Form[obj.name][i].value == "(N/A)") 
+			      Form[obj.name][i].checked = false;
+		   }
+		}
+		if(objValue == "(Any)" || objValue == "(¤£©ë)" && obj.checked == true)
+			for(i = 0; i < Form[obj.name].length; i++)
+			{
+				if(Form[obj.name][i].value != objValue)
+					Form[obj.name][i].checked = false;
+			}
+			
+		if(objValue != "(Any)" && objValue!="(¤£©ë)" ) {
+		   for(i = 0; i < Form[obj.name].length; i++)
+		   {
+		       if(Form[obj.name][i].value == "(Any)" || Form[obj.name][i].value == "(¤£©ë)") 
+			      Form[obj.name][i].checked = false;
+		   }
+		}	
+ 	}
+
+
+  </script>
+
+	<table cellspacing=0 cellpadding=3 border=0 width=100%>
+		<tr>
+		<td>
+	<table border=0 width="100%"  cellspacing=0 cellpadding=0><tr><td valign=top width="33%"><table border=0 width="100%" cellspacing=0 cellpadding=0>
+					<tr><td><input name=PreferWorkLocation type=checkbox value="(Any)"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>(Any)</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="(N/A)"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>(N/A)</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="(Overseas)"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>(Overseas)</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="Australia"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>Australia</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="Brunei"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>Brunei</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="Cambodia"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>Cambodia</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="China"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>China</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="Hong Kong"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>Hong Kong</font></td></tr>
+					</table></td><td valign=top><table border=0 width="100%" cellspacing=0 cellpadding=0>
+					<tr><td><input name=PreferWorkLocation type=checkbox value="Indonesia"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>Indonesia</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="Japan"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>Japan</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="Korea"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>Korea</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="Laos"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>Laos</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="Malaysia" checked onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>Malaysia</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="New Zealand" checked onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>New Zealand</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="Philippines"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>Philippines</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="Singapore" checked onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>Singapore</font></td></tr>
+					</table></td><td valign=top><table border=0 width="100%" cellspacing=0 cellpadding=0>
+					<tr><td><input name=PreferWorkLocation type=checkbox value="South Africa"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>South Africa</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="Sri Lanka"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>Sri Lanka</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="Taiwan"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>Taiwan</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="Thailand"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>Thailand</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="UK"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>UK</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="USA"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>USA</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="Vietnam"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>Vietnam</font></td></tr>
+					
+					<tr><td><input name=PreferWorkLocation type=checkbox value="Western Europe"  onclick="CheckOverSea(this.form, this)"><font face='Arial' Size='2' Color='#000000'>Western Europe</font></td></tr>
+					</table></td></tr></table>
+				<br><font face='Arial' Size='2' Color='#000000'>Others:</font> &nbsp;</font><input name=PreferWorkLocation value="" class=FieldText size=25 maxlength=30>
+			</td>
+		</tr>
+	</table>
+
+	</td>
+	     
+	</tr>
+
+	<tr>
+		<td class=NormalText valign=top><font face='Arial' Size='2' Color='#5852c8'><b>Preferred Working State : </b></font></td>
+		<td>
+	<table cellspacing=0 cellpadding=3 border=0>
+		
+		<tr>
+			<td>
+			<select name="PreferWorkingState" size="5" multiple>
+				
+					<font face=arial><option value="0001" selected>Andhra Pradesh</option></font> 
+				
+					<font face=arial><option value="0002" >Arunachal Pradesh</option></font> 
+				
+					<font face=arial><option value="0003" >Assam</option></font> 
+				
+					<font face=arial><option value="0004" >Andamans & Nicobar Island</option></font> 
+				
+					<font face=arial><option value="0005" >Bihar</option></font> 
+				
+					<font face=arial><option value="0006" >Chandigarh</option></font> 
+				
+					<font face=arial><option value="0007" >Delhi</option></font> 
+				
+					<font face=arial><option value="0008" >Daman & Diu</option></font> 
+				
+					<font face=arial><option value="0009" >Goa</option></font> 
+				
+					<font face=arial><option value="0010" >Gujarat</option></font> 
+				
+					<font face=arial><option value="0011" >Haryana</option></font> 
+				
+					<font face=arial><option value="0012" >Himachal Pradesh</option></font> 
+				
+					<font face=arial><option value="0013" >Jammu & Kashmir</option></font> 
+				
+					<font face=arial><option value="0014" >Karnataka</option></font> 
+				
+					<font face=arial><option value="0015" >Kerala</option></font> 
+				
+					<font face=arial><option value="0016" >Lakshadweep</option></font> 
+				
+					<font face=arial><option value="0017" >Madhya Pradesh</option></font> 
+				
+					<font face=arial><option value="0018" >Maharashtra</option></font> 
+				
+					<font face=arial><option value="0019" >Manipur</option></font> 
+				
+					<font face=arial><option value="0020" >Meghalaya</option></font> 
+				
+					<font face=arial><option value="0021" >Mizoram</option></font> 
+				
+					<font face=arial><option value="0022" >Nagaland</option></font> 
+				
+					<font face=arial><option value="0023" >Orissa</option></font> 
+				
+					<font face=arial><option value="0024" >Pondichery</option></font> 
+				
+					<font face=arial><option value="0025" >Punjab</option></font> 
+				
+					<font face=arial><option value="0026" >Rajasthan</option></font> 
+				
+					<font face=arial><option value="0027" >Sikkim</option></font> 
+				
+					<font face=arial><option value="0028" >Tamil Nadu</option></font> 
+				
+					<font face=arial><option value="0029" >Tripura</option></font> 
+				
+					<font face=arial><option value="0030" >Uttar Pradesh</option></font> 
+				
+					<font face=arial><option value="0031" >West Bengal</option></font> 
+				
+					<font face=arial><option value="9997" >Overseas</option></font> 
+				
+					<font face=arial><option value="9998" >Others</option></font> 
+				
+			</select>
+			</td>
+		</tr>
+	</table>
+</td>
+	</tr>
+
+			<tr>
+				<td class=NormalText valign=top><font face='Arial' Size='2' Color='#5852c8'><b>Preferred Working City/Town: </b></font></td>
+		
+				<td>
+	<table cellspacing=0 cellpadding=3 border=0>		
+	<tr>
+		<td>
+		<select name="PreferWorkingCity" size="5" multiple>
+			
+				<font face=arial><option value="0000" >(Any)</option></font> 
+			
+				<font face=arial><option value="D010" >Agra</option></font> 
+			
+				<font face=arial><option value="D020" >Ahmedabad</option></font> 
+			
+				<font face=arial><option value="D030" >Ahmednagar</option></font> 
+			
+				<font face=arial><option value="D040" >Ajmer</option></font> 
+			
+				<font face=arial><option value="D050" >Aligarh</option></font> 
+			
+				<font face=arial><option value="D060" >Allahabad</option></font> 
+			
+				<font face=arial><option value="D070" >Ambala</option></font> 
+			
+				<font face=arial><option value="D080" >Amritsar</option></font> 
+			
+				<font face=arial><option value="D090" >Bangalore</option></font> 
+			
+				<font face=arial><option value="D100" >Baroda</option></font> 
+			
+				<font face=arial><option value="D110" >Belgaum</option></font> 
+			
+				<font face=arial><option value="D120" >Bhavnagar</option></font> 
+			
+				<font face=arial><option value="D130" >Bhopal</option></font> 
+			
+				<font face=arial><option value="D140" >Bhubaneshwar</option></font> 
+			
+				<font face=arial><option value="D150" >Bikaner</option></font> 
+			
+				<font face=arial><option value="D160" >Calcutta</option></font> 
+			
+				<font face=arial><option value="D170" >Calicut</option></font> 
+			
+				<font face=arial><option value="D180" >Chandigarh</option></font> 
+			
+				<font face=arial><option value="D190" >Chennai</option></font> 
+			
+				<font face=arial><option value="D200" >Coimbatore</option></font> 
+			
+				<font face=arial><option value="D210" >Cuttack</option></font> 
+			
+				<font face=arial><option value="D220" >Darjeeling</option></font> 
+			
+				<font face=arial><option value="D230" >Dehradun</option></font> 
+			
+				<font face=arial><option value="D240" >Delhi</option></font> 
+			
+				<font face=arial><option value="D250" >Dhanbad</option></font> 
+			
+				<font face=arial><option value="D260" >Durgapur</option></font> 
+			
+				<font face=arial><option value="D270" >Erode</option></font> 
+			
+				<font face=arial><option value="D280" >Gorakhpur</option></font> 
+			
+				<font face=arial><option value="D290" >Guntur</option></font> 
+			
+				<font face=arial><option value="D300" >Guwahati</option></font> 
+			
+				<font face=arial><option value="D310" >Gwalior</option></font> 
+			
+				<font face=arial><option value="D320" >Hubli</option></font> 
+			
+				<font face=arial><option value="D330" selected>Hyderabad</option></font> 
+			
+				<font face=arial><option value="D340" >Imphal</option></font> 
+			
+				<font face=arial><option value="D350" >Indore</option></font> 
+			
+				<font face=arial><option value="D360" >Jabalpur</option></font> 
+			
+				<font face=arial><option value="D370" >Jaipur</option></font> 
+			
+				<font face=arial><option value="D380" >Jallandhar</option></font> 
+			
+				<font face=arial><option value="D390" >Jamnagar</option></font> 
+			
+				<font face=arial><option value="D400" >Jammu</option></font> 
+			
+				<font face=arial><option value="D410" >Jamshedpur</option></font> 
+			
+				<font face=arial><option value="D420" >Jodhpur</option></font> 
+			
+				<font face=arial><option value="D430" >Kakinada</option></font> 
+			
+				<font face=arial><option value="D440" >Kanpur</option></font> 
+			
+				<font face=arial><option value="D450" >Karnal</option></font> 
+			
+				<font face=arial><option value="D460" >Kochi</option></font> 
+			
+				<font face=arial><option value="D470" >Kolhapur</option></font> 
+			
+				<font face=arial><option value="D480" >Kota</option></font> 
+			
+				<font face=arial><option value="D490" >Lucknow</option></font> 
+			
+				<font face=arial><option value="D500" >Ludhiana</option></font> 
+			
+				<font face=arial><option value="D510" >Madurai</option></font> 
+			
+				<font face=arial><option value="D520" >Mangalore</option></font> 
+			
+				<font face=arial><option value="D530" >Mathura</option></font> 
+			
+				<font face=arial><option value="D540" >Meerut</option></font> 
+			
+				<font face=arial><option value="D550" >Moradabad</option></font> 
+			
+				<font face=arial><option value="D560" >Mumbai</option></font> 
+			
+				<font face=arial><option value="D570" >Muzaffarpur</option></font> 
+			
+				<font face=arial><option value="D580" >Mysore</option></font> 
+			
+				<font face=arial><option value="D590" >Nagpur</option></font> 
+			
+				<font face=arial><option value="D600" >Nasik</option></font> 
+			
+				<font face=arial><option value="D610" >Ooty</option></font> 
+			
+				<font face=arial><option value="D620" >Palghat</option></font> 
+			
+				<font face=arial><option value="D630" >Panjim</option></font> 
+			
+				<font face=arial><option value="D640" >Pathankot</option></font> 
+			
+				<font face=arial><option value="D650" >Patiala</option></font> 
+			
+				<font face=arial><option value="D660" >Patna</option></font> 
+			
+				<font face=arial><option value="D670" >Pondicherry</option></font> 
+			
+				<font face=arial><option value="D680" >Pune</option></font> 
+			
+				<font face=arial><option value="D690" >Quilon</option></font> 
+			
+				<font face=arial><option value="D700" >Raipur</option></font> 
+			
+				<font face=arial><option value="D710" >Rajkot</option></font> 
+			
+				<font face=arial><option value="D720" >Ranchi</option></font> 
+			
+				<font face=arial><option value="D730" >Rourkela</option></font> 
+			
+				<font face=arial><option value="D740" >Sambhalpur</option></font> 
+			
+				<font face=arial><option value="D750" >Salem</option></font> 
+			
+				<font face=arial><option value="D760" >Secunderabad</option></font> 
+			
+				<font face=arial><option value="D770" >Shillong</option></font> 
+			
+				<font face=arial><option value="D780" >Shimla</option></font> 
+			
+				<font face=arial><option value="D790" >Sholapur</option></font> 
+			
+				<font face=arial><option value="D800" >Srinagar</option></font> 
+			
+				<font face=arial><option value="D810" >Surat</option></font> 
+			
+				<font face=arial><option value="D820" >Tirunelveli</option></font> 
+			
+				<font face=arial><option value="D830" >Trichur</option></font> 
+			
+				<font face=arial><option value="D840" >Trichy</option></font> 
+			
+				<font face=arial><option value="D850" >Trivandrum</option></font> 
+			
+				<font face=arial><option value="D860" >Udaipur</option></font> 
+			
+				<font face=arial><option value="D870" >Ujjain</option></font> 
+			
+				<font face=arial><option value="D880" >Varanasi</option></font> 
+			
+				<font face=arial><option value="D890" >Vijayawada</option></font> 
+			
+				<font face=arial><option value="D900" >Visakhapatnam</option></font> 
+			
+				<font face=arial><option value="D910" >Others</option></font> 
+			
+				<font face=arial><option value="D920" >Overseas</option></font> 
+			
+		</select>
+		</td>
+	</tr>
+	</table>
+</td>
+		
+			</tr>
+	
+		</table>
+		
+
+<table border="0" width="564" cellspacing="0" cellpadding="5">
+<tr>
+	<td bgcolor="#999999" class=NormalText align="left">
+	
+	
+	<font face="Arial" color="#FFFFFF"><font face='Arial' Size='2' Color='#000000'><font color = '#FFFFFF'><b><i>Resume Details (Main body of your resume)<br><br>Please fill in your detailed working experience, personal achievement and any other information that would help employers to learn more about your strength</i></b></font></font>
+	<a href="JavaScript:ShowTips('0306')"><font face='Arial' Size='2' Color='#000000'>Tips</font></a></td>
+</tr>
+<tr>
+	<td class=NormalText valign=top>
+	<center>
+		<textarea name=DetailedWorkExp cols=70 rows=20 wrap=soft class=FieldText>SENIOR MANAGERIAL CANDIDATE
+                              FOR
+               CIVIL CONSTRUCTION / CONSULTANCY COMPANY
+
+                          INFRASTRUCTURE
+
+PERSONAL DETAILS
+
+
+FULL NAME  	- 	YELAMANCHILI VENKATA SATYA SAMBHA RAJU BABU
+
+PERMANENT ADDRESS 	- 	Y.V.S.S. BABU, FLAT # 204, VIJAY DURGA ESTATE
+		NIZAMPET ROAD KUKATPALLY HYDERABAD - 500 072
+		TEL  -0091-40-3051671
+		Email -yvssbabu@satyam.net.in ; yvssbabu@yahoo.co.uk
+
+TEMPORARY ADDRESS 	- 	Y.V.S.S BABU
+			KETTANEH BROTHERS SAUDI ARABIA LTD
+		P.O BOX 383, AL-KHOBAR
+		PH# 00966-3-8940191; FAX # 8944301
+
+AGE 	- 	40 YEARS				
+SEX 	- 	MALE	
+DATEOF BIRTH (DD/MM/YY) 	- 	09/06/60
+MARITAL STATUS 	- 	MARRIED
+PASSPORT NO 	- 	S349725 	
+DATE OF ISSUE (DD/MM/YY) 	- 	15/04/1994
+
+EDUCATIONAL QUALIFICATIONS:
+
+ DEGREE HELD	- 	B.E. (HONS) IN CIVIL ENGG.
+
+YEAR OF COMPLETION 	- 	1982
+
+FIELD OF STUDY 	-  	CIVIL ENGG.
+
+SPECIALISATION 	-   	___________
+
+CLASS/GPA 	-  	76% 					
+
+UNIVERSITY 	- 	M.N.R ENGG. COLLEGE, ALLAHABAD
+
+OTHER PROFESSIONAL QUALIFICATIONS: - 
+
+YEAR OF COMPLETION 	-    1993 (PARTLY COMPLETED)
+
+COURSE NAME 	- 	DIPLOMA IN MANAGEMENT
+
+INSTITUTE  	- 	IGNOU
+
+EXPERIENCE
+
+CURRENT JOB DETAILS:
+
+INDUSTRY CATEGORY 	-  	CONSTRUCTION
+JOB CATEGORY  	-	PLANNING / ESTIMATION
+EMPLOYER 	-    	KETTANEH BROTHERS S.A.LTD
+DESIGNATION 	-   	PLANNING ENGINEER WORKING SINCE - AUG' 1998
+JOB RESPONSIBILITIES 	- 	ESTIMATION, CHANGE ORDERS, PROCUREMENT FOR 
+		CURRENT ONGOING JOBS (OCASIONALLY)
+CURRENT SALARY 	-  	USD.1800 P.M
+PERKS 	-   	FREE ACCOMMODATION AND USUAL PERKS.
+
+PREVIOUS JOB DETAILS:
+
+
+(A) INDUSTRY CATEGORY	-   	CONSTRUCTION
+JOB CATEGORY 	- 	ESTIMATION
+SUB CATEGORY 	-    	BRIDGES & INDUSTRIAL PROJECTS
+EMPLOYER	-  	NAGARJUNA CONSTRUCTION CO.,
+DESIGNATION 	- 	ASST. GENERAL MANAGER (TECH)
+WORKING SINCE 	-	JULY-97 TO JULY-98
+JOB RESPONSIBILITIES 	- 	ESTIMATION FOR BRIDGES AND INDUSTRIAL PROJECTS 
+		AT HEAD OFFICE 
+
+(B) INDUSTRY CATEGORY	-   	CONSTRUCTION
+JOB CATEGORY 	- 	PROJECT MANAGEMENT
+SUB CATEGORY 	-	CIVIL WORKS FOR INDUSTRIAL PROJECT
+EMPLOYER 	-  	NAGARJUNA CONSTRUCTION CO.,
+DESIGNATION 	- 	ASST. GENERAL MANAGER (TECH)
+WORKING SINCE 	- 	JULY-96 TO JUNE-97
+JOB RESPONSIBILITIES 	- 	PROJ. MANAGER, CIVIL WORKS - INDUSTRIAL PROJECT
+		STEEL PLANT, UTILITY BLDGS / STRS., PSC PIPELINE 
+		(12KMS) 
+
+(C) INDUSTRY CATEGORY 	-   	CONSTRUCTION
+JOB CATEGORY 	- 	PROJECT SITE MANAGEMENT
+SUB CATEGORY 	-    	BRIDGES AND PLANNING
+EMPLOYER 	-  	UNITECH LTD
+DESIGNATION 	- 	SR. PROJECT MANAGER (BRIDGES)
+WORKING SINCE 	-	APRIL-94 TO JUNE-1996
+JOB RESPONSIBILITIES 	- 	SECTION MANAGER FOR BRIDGES 57 KMS STRETCH 
+		(NH-1) KARNAL TO AMBALA
+
+(D) INDUSTRY CATEGORY 	-   	CONSTRUCTION
+JOB CATEGORY 	-	PROJECT MANAGEMENT AND TENDERING
+SUB CATEGORY 	-    	1 NO. BRIDGE, CULVERTS AND SEWEAGE TREATMENT 
+		PLANT – CIVIL WORKS
+EMPLOYER 	-  	UNITECH LTD / AL MOBTY ESTABLISHMENT
+DESIGNATION 	- 	BRIDGE ENGR. / PROJECT MANAGER
+WORKING SINCE 	- 	FEB'93 - MAR-94
+JOB RESPONSIBILITIES 	- 	PROJECT EXECUTION AND TENDERING FOR NEW BIDS 
+		IN SAUDI ARABIA.
+
+(E) INDUSTRY CATEGORY	-	CONSTRUCTION
+JOB CATEGORY 	-	SITE SUPERVISION / MANAGEMENT
+SUB CATEGORY 	-    	ON PROJECT SITES
+EMPLOYER 	-  	GAMMON INDIA LTD
+DESIGNATION 	- 	PROJECT ENGINEER
+WORKING SINCE 	-	SEP 82 TO JAN 93
+JOB RESPONSIBILITIES 	- 	(1)  2 NOS CHIMNEYS  150 M HIGH - SITE INCHARGE
+(2)	SILOS IN LIBYA - PLANNING & COST CONTROL
+(3)	CABLE STAY BRIDGE, CALCUTTA - PLANNING & COST CONTROL
+(4)	ROAD CUM RAIL BRIDGE, ASSAM - PLANNING & COST CONTROL
+
+OTHER SKILLS
+
+LIST ADDITIONAL SKILLS 	-	PROFICIENT IN PLANNING, ESTIMATION, 
+CONTRACTUAL CORRESPONDENCE / DEALINGS & PROJECT MANAGEMENT
+
+SCHOOL COLLEGE DETAILS:
+
+NAME OF SCHOOL  	-  	MUNICIPAL HIGH SCHOOL, RJY. S.S.C.BOARD (A.P)
+YEAR OF COMPLETION 	- 	1975
+NAME OF COLLEGE  	- 	GOVT. COLLEGE RAJAHMUNDRY, ANDHRA UNIVERSITY
+YEAR OF COMPLETION 	- 	1978
+
+LANGUAGES KNOWN:
+
+SPOKEN 	- 	ENGLISH, HINDI, TELUGU
+WRITTEN 	- 	ENGLISH, HINDI, TELUGU
+</textarea>
+	</center>
+	</td>
+</tr>
+</table>
+
+
+<table border="0" width="564" cellspacing="0" cellpadding="5">
+	<tr>
+		<td bgcolor="#999999" colspan="5" width="564"  valign="top" class=NormalText valign=top><font color = "#FFFFFF"><i><font face='Arial' Size='2' Color='#000000'><b><i><font color = '#FFFFFF'>Academic Background</font></i></b></font></i></font></td>
+	</tr>
+	<tr class=NormalText valign=top>
+		<td>
+	<table cellspacing=0 cellpadding=1 border=0>
+	<tr>
+	    		
+			<td colspan=2><font face='Arial' Size='2' Color='#000000'>From</font><font face='Arial' Size='1' Color='#000000'>(YYYYMM)</font></td>
+			<td colspan=2><font face='Arial' Size='2' Color='#000000'>To</font><font face='Arial' Size='1' Color='#000000'>(YYYYMM)</font></td>	
+		
+			<td><font face='Arial' Size='2' Color='#000000'>School / College / University</font></td>
+			<td><font face='Arial' Size='2' Color='#000000'>Degree Obtained</font></td>
+			
+	</tr>
+
+
+	<tr>
+	
+			<td>
+				<!-- <input class=FieldText name=AcadFromYear1 value="1978" size=3 maxlength=4> -->
+				<select name=AcadFromYear1>
+					<option value=""  >
+					
+						<option value="2010" >2010
+						<option value="2009" >2009
+						<option value="2008" >2008
+						<option value="2007" >2007
+						<option value="2006" >2006
+						<option value="2005" >2005
+						<option value="2004" >2004
+						<option value="2003" >2003
+						<option value="2002" >2002
+						<option value="2001" >2001
+						<option value="2000" >2000
+						<option value="1999" >1999
+						<option value="1998" >1998
+						<option value="1997" >1997
+						<option value="1996" >1996
+						<option value="1995" >1995
+						<option value="1994" >1994
+						<option value="1993" >1993
+						<option value="1992" >1992
+						<option value="1991" >1991
+						<option value="1990" >1990
+						<option value="1989" >1989
+						<option value="1988" >1988
+						<option value="1987" >1987
+						<option value="1986" >1986
+						<option value="1985" >1985
+						<option value="1984" >1984
+						<option value="1983" >1983
+						<option value="1982" >1982
+						<option value="1981" >1981
+						<option value="1980" >1980
+						<option value="1979" >1979
+						<option value="1978" selected>1978
+						<option value="1977" >1977
+						<option value="1976" >1976
+						<option value="1975" >1975
+						<option value="1974" >1974
+						<option value="1973" >1973
+						<option value="1972" >1972
+						<option value="1971" >1971
+						<option value="1970" >1970
+						<option value="1969" >1969
+						<option value="1968" >1968
+						<option value="1967" >1967
+						<option value="1966" >1966
+						<option value="1965" >1965
+						<option value="1964" >1964
+						<option value="1963" >1963
+						<option value="1962" >1962
+						<option value="1961" >1961
+						<option value="1960" >1960
+						<option value="1959" >1959
+				</select>
+			</td>
+			<td>
+				<!-- <input class=FieldText name=AcadFromMonth1 value="09" size=2 maxlength=2> -->
+				<select name=AcadFromMonth1>
+					<option value=""  >
+					
+						<option value="01" >1
+						<option value="02" >2
+						<option value="03" >3
+						<option value="04" >4
+						<option value="05" >5
+						<option value="06" >6
+						<option value="07" >7
+						<option value="08" >8
+						<option value="09" selected>9
+						<option value="10" >10
+						<option value="11" >11
+						<option value="12" >12
+				</select>
+
+			</td>
+			<td>
+				<!-- <input class=FieldText name=AcadToYear1 value="1982" size=3 maxlength=4> -->
+				<select name=AcadToYear1>
+					<option value=""  >
+					
+						<option value="2010" >2010
+						<option value="2009" >2009
+						<option value="2008" >2008
+						<option value="2007" >2007
+						<option value="2006" >2006
+						<option value="2005" >2005
+						<option value="2004" >2004
+						<option value="2003" >2003
+						<option value="2002" >2002
+						<option value="2001" >2001
+						<option value="2000" >2000
+						<option value="1999" >1999
+						<option value="1998" >1998
+						<option value="1997" >1997
+						<option value="1996" >1996
+						<option value="1995" >1995
+						<option value="1994" >1994
+						<option value="1993" >1993
+						<option value="1992" >1992
+						<option value="1991" >1991
+						<option value="1990" >1990
+						<option value="1989" >1989
+						<option value="1988" >1988
+						<option value="1987" >1987
+						<option value="1986" >1986
+						<option value="1985" >1985
+						<option value="1984" >1984
+						<option value="1983" >1983
+						<option value="1982" selected>1982
+						<option value="1981" >1981
+						<option value="1980" >1980
+						<option value="1979" >1979
+						<option value="1978" >1978
+						<option value="1977" >1977
+						<option value="1976" >1976
+						<option value="1975" >1975
+						<option value="1974" >1974
+						<option value="1973" >1973
+						<option value="1972" >1972
+						<option value="1971" >1971
+						<option value="1970" >1970
+						<option value="1969" >1969
+						<option value="1968" >1968
+						<option value="1967" >1967
+						<option value="1966" >1966
+						<option value="1965" >1965
+						<option value="1964" >1964
+						<option value="1963" >1963
+						<option value="1962" >1962
+						<option value="1961" >1961
+						<option value="1960" >1960
+						<option value="1959" >1959
+				</select>
+
+			</td>
+			<td>
+				<!-- <input class=FieldText name=AcadToMonth1 value="07" size=2 maxlength=2> -->
+				<select name=AcadToMonth1>
+					<option value=""  >
+					
+						<option value="01" >1
+						<option value="02" >2
+						<option value="03" >3
+						<option value="04" >4
+						<option value="05" >5
+						<option value="06" >6
+						<option value="07" selected>7
+						<option value="08" >8
+						<option value="09" >9
+						<option value="10" >10
+						<option value="11" >11
+						<option value="12" >12
+				</select>
+			</td>
+	
+		<td>
+			<input class=FieldText name=AcadSchoolName1 value="M.N.R.E.C.,Allahabad(U.P)" size=25 maxlength=50>
+		</td>
+		<td>
+			<input class=FieldText name=AcadQuali1 value="B.E.(Hons)-Civil Engineering" size=25 maxlength=50>
+		</td>
+	
+	</tr>
+
+	<tr>
+	
+			<td>
+				<!-- <input class=FieldText name=AcadFromYear2 value="1977" size=3 maxlength=4> -->
+				<select name=AcadFromYear2>
+					<option value=""  >
+					
+						<option value="2010" >2010
+						<option value="2009" >2009
+						<option value="2008" >2008
+						<option value="2007" >2007
+						<option value="2006" >2006
+						<option value="2005" >2005
+						<option value="2004" >2004
+						<option value="2003" >2003
+						<option value="2002" >2002
+						<option value="2001" >2001
+						<option value="2000" >2000
+						<option value="1999" >1999
+						<option value="1998" >1998
+						<option value="1997" >1997
+						<option value="1996" >1996
+						<option value="1995" >1995
+						<option value="1994" >1994
+						<option value="1993" >1993
+						<option value="1992" >1992
+						<option value="1991" >1991
+						<option value="1990" >1990
+						<option value="1989" >1989
+						<option value="1988" >1988
+						<option value="1987" >1987
+						<option value="1986" >1986
+						<option value="1985" >1985
+						<option value="1984" >1984
+						<option value="1983" >1983
+						<option value="1982" >1982
+						<option value="1981" >1981
+						<option value="1980" >1980
+						<option value="1979" >1979
+						<option value="1978" >1978
+						<option value="1977" selected>1977
+						<option value="1976" >1976
+						<option value="1975" >1975
+						<option value="1974" >1974
+						<option value="1973" >1973
+						<option value="1972" >1972
+						<option value="1971" >1971
+						<option value="1970" >1970
+						<option value="1969" >1969
+						<option value="1968" >1968
+						<option value="1967" >1967
+						<option value="1966" >1966
+						<option value="1965" >1965
+						<option value="1964" >1964
+						<option value="1963" >1963
+						<option value="1962" >1962
+						<option value="1961" >1961
+						<option value="1960" >1960
+						<option value="1959" >1959
+				</select>
+			</td>
+			<td>
+				<!-- <input class=FieldText name=AcadFromMonth2 value="07" size=2 maxlength=2> -->
+				<select name=AcadFromMonth2>
+					<option value=""  >
+					
+						<option value="01" >1
+						<option value="02" >2
+						<option value="03" >3
+						<option value="04" >4
+						<option value="05" >5
+						<option value="06" >6
+						<option value="07" selected>7
+						<option value="08" >8
+						<option value="09" >9
+						<option value="10" >10
+						<option value="11" >11
+						<option value="12" >12
+				</select>
+
+			</td>
+			<td>
+				<!-- <input class=FieldText name=AcadToYear2 value="1978" size=3 maxlength=4> -->
+				<select name=AcadToYear2>
+					<option value=""  >
+					
+						<option value="2010" >2010
+						<option value="2009" >2009
+						<option value="2008" >2008
+						<option value="2007" >2007
+						<option value="2006" >2006
+						<option value="2005" >2005
+						<option value="2004" >2004
+						<option value="2003" >2003
+						<option value="2002" >2002
+						<option value="2001" >2001
+						<option value="2000" >2000
+						<option value="1999" >1999
+						<option value="1998" >1998
+						<option value="1997" >1997
+						<option value="1996" >1996
+						<option value="1995" >1995
+						<option value="1994" >1994
+						<option value="1993" >1993
+						<option value="1992" >1992
+						<option value="1991" >1991
+						<option value="1990" >1990
+						<option value="1989" >1989
+						<option value="1988" >1988
+						<option value="1987" >1987
+						<option value="1986" >1986
+						<option value="1985" >1985
+						<option value="1984" >1984
+						<option value="1983" >1983
+						<option value="1982" >1982
+						<option value="1981" >1981
+						<option value="1980" >1980
+						<option value="1979" >1979
+						<option value="1978" selected>1978
+						<option value="1977" >1977
+						<option value="1976" >1976
+						<option value="1975" >1975
+						<option value="1974" >1974
+						<option value="1973" >1973
+						<option value="1972" >1972
+						<option value="1971" >1971
+						<option value="1970" >1970
+						<option value="1969" >1969
+						<option value="1968" >1968
+						<option value="1967" >1967
+						<option value="1966" >1966
+						<option value="1965" >1965
+						<option value="1964" >1964
+						<option value="1963" >1963
+						<option value="1962" >1962
+						<option value="1961" >1961
+						<option value="1960" >1960
+						<option value="1959" >1959
+				</select>
+
+			</td>
+			<td>
+				<!-- <input class=FieldText name=AcadToMonth2 value="08" size=2 maxlength=2> -->
+				<select name=AcadToMonth2>
+					<option value=""  >
+					
+						<option value="01" >1
+						<option value="02" >2
+						<option value="03" >3
+						<option value="04" >4
+						<option value="05" >5
+						<option value="06" >6
+						<option value="07" >7
+						<option value="08" selected>8
+						<option value="09" >9
+						<option value="10" >10
+						<option value="11" >11
+						<option value="12" >12
+				</select>
+			</td>
+	
+		<td>
+			<input class=FieldText name=AcadSchoolName2 value="Govt. College,Rajahmundry,Andhra University" size=25 maxlength=50>
+		</td>
+		<td>
+			<input class=FieldText name=AcadQuali2 value="B.Sc" size=25 maxlength=50>
+		</td>
+	
+	</tr>
+
+	<tr>
+	
+			<td>
+				<!-- <input class=FieldText name=AcadFromYear3 value="1975" size=3 maxlength=4> -->
+				<select name=AcadFromYear3>
+					<option value=""  >
+					
+						<option value="2010" >2010
+						<option value="2009" >2009
+						<option value="2008" >2008
+						<option value="2007" >2007
+						<option value="2006" >2006
+						<option value="2005" >2005
+						<option value="2004" >2004
+						<option value="2003" >2003
+						<option value="2002" >2002
+						<option value="2001" >2001
+						<option value="2000" >2000
+						<option value="1999" >1999
+						<option value="1998" >1998
+						<option value="1997" >1997
+						<option value="1996" >1996
+						<option value="1995" >1995
+						<option value="1994" >1994
+						<option value="1993" >1993
+						<option value="1992" >1992
+						<option value="1991" >1991
+						<option value="1990" >1990
+						<option value="1989" >1989
+						<option value="1988" >1988
+						<option value="1987" >1987
+						<option value="1986" >1986
+						<option value="1985" >1985
+						<option value="1984" >1984
+						<option value="1983" >1983
+						<option value="1982" >1982
+						<option value="1981" >1981
+						<option value="1980" >1980
+						<option value="1979" >1979
+						<option value="1978" >1978
+						<option value="1977" >1977
+						<option value="1976" >1976
+						<option value="1975" selected>1975
+						<option value="1974" >1974
+						<option value="1973" >1973
+						<option value="1972" >1972
+						<option value="1971" >1971
+						<option value="1970" >1970
+						<option value="1969" >1969
+						<option value="1968" >1968
+						<option value="1967" >1967
+						<option value="1966" >1966
+						<option value="1965" >1965
+						<option value="1964" >1964
+						<option value="1963" >1963
+						<option value="1962" >1962
+						<option value="1961" >1961
+						<option value="1960" >1960
+						<option value="1959" >1959
+				</select>
+			</td>
+			<td>
+				<!-- <input class=FieldText name=AcadFromMonth3 value="06" size=2 maxlength=2> -->
+				<select name=AcadFromMonth3>
+					<option value=""  >
+					
+						<option value="01" >1
+						<option value="02" >2
+						<option value="03" >3
+						<option value="04" >4
+						<option value="05" >5
+						<option value="06" selected>6
+						<option value="07" >7
+						<option value="08" >8
+						<option value="09" >9
+						<option value="10" >10
+						<option value="11" >11
+						<option value="12" >12
+				</select>
+
+			</td>
+			<td>
+				<!-- <input class=FieldText name=AcadToYear3 value="1977" size=3 maxlength=4> -->
+				<select name=AcadToYear3>
+					<option value=""  >
+					
+						<option value="2010" >2010
+						<option value="2009" >2009
+						<option value="2008" >2008
+						<option value="2007" >2007
+						<option value="2006" >2006
+						<option value="2005" >2005
+						<option value="2004" >2004
+						<option value="2003" >2003
+						<option value="2002" >2002
+						<option value="2001" >2001
+						<option value="2000" >2000
+						<option value="1999" >1999
+						<option value="1998" >1998
+						<option value="1997" >1997
+						<option value="1996" >1996
+						<option value="1995" >1995
+						<option value="1994" >1994
+						<option value="1993" >1993
+						<option value="1992" >1992
+						<option value="1991" >1991
+						<option value="1990" >1990
+						<option value="1989" >1989
+						<option value="1988" >1988
+						<option value="1987" >1987
+						<option value="1986" >1986
+						<option value="1985" >1985
+						<option value="1984" >1984
+						<option value="1983" >1983
+						<option value="1982" >1982
+						<option value="1981" >1981
+						<option value="1980" >1980
+						<option value="1979" >1979
+						<option value="1978" >1978
+						<option value="1977" selected>1977
+						<option value="1976" >1976
+						<option value="1975" >1975
+						<option value="1974" >1974
+						<option value="1973" >1973
+						<option value="1972" >1972
+						<option value="1971" >1971
+						<option value="1970" >1970
+						<option value="1969" >1969
+						<option value="1968" >1968
+						<option value="1967" >1967
+						<option value="1966" >1966
+						<option value="1965" >1965
+						<option value="1964" >1964
+						<option value="1963" >1963
+						<option value="1962" >1962
+						<option value="1961" >1961
+						<option value="1960" >1960
+						<option value="1959" >1959
+				</select>
+
+			</td>
+			<td>
+				<!-- <input class=FieldText name=AcadToMonth3 value="05" size=2 maxlength=2> -->
+				<select name=AcadToMonth3>
+					<option value=""  >
+					
+						<option value="01" >1
+						<option value="02" >2
+						<option value="03" >3
+						<option value="04" >4
+						<option value="05" selected>5
+						<option value="06" >6
+						<option value="07" >7
+						<option value="08" >8
+						<option value="09" >9
+						<option value="10" >10
+						<option value="11" >11
+						<option value="12" >12
+				</select>
+			</td>
+	
+		<td>
+			<input class=FieldText name=AcadSchoolName3 value="Bd. Of Intermediate Education,A.P." size=25 maxlength=50>
+		</td>
+		<td>
+			<input class=FieldText name=AcadQuali3 value="Intermediate" size=25 maxlength=50>
+		</td>
+	
+	</tr>
+
+	<tr>
+	
+			<td>
+				<!-- <input class=FieldText name=AcadFromYear4 value="1970" size=3 maxlength=4> -->
+				<select name=AcadFromYear4>
+					<option value=""  >
+					
+						<option value="2010" >2010
+						<option value="2009" >2009
+						<option value="2008" >2008
+						<option value="2007" >2007
+						<option value="2006" >2006
+						<option value="2005" >2005
+						<option value="2004" >2004
+						<option value="2003" >2003
+						<option value="2002" >2002
+						<option value="2001" >2001
+						<option value="2000" >2000
+						<option value="1999" >1999
+						<option value="1998" >1998
+						<option value="1997" >1997
+						<option value="1996" >1996
+						<option value="1995" >1995
+						<option value="1994" >1994
+						<option value="1993" >1993
+						<option value="1992" >1992
+						<option value="1991" >1991
+						<option value="1990" >1990
+						<option value="1989" >1989
+						<option value="1988" >1988
+						<option value="1987" >1987
+						<option value="1986" >1986
+						<option value="1985" >1985
+						<option value="1984" >1984
+						<option value="1983" >1983
+						<option value="1982" >1982
+						<option value="1981" >1981
+						<option value="1980" >1980
+						<option value="1979" >1979
+						<option value="1978" >1978
+						<option value="1977" >1977
+						<option value="1976" >1976
+						<option value="1975" >1975
+						<option value="1974" >1974
+						<option value="1973" >1973
+						<option value="1972" >1972
+						<option value="1971" >1971
+						<option value="1970" selected>1970
+						<option value="1969" >1969
+						<option value="1968" >1968
+						<option value="1967" >1967
+						<option value="1966" >1966
+						<option value="1965" >1965
+						<option value="1964" >1964
+						<option value="1963" >1963
+						<option value="1962" >1962
+						<option value="1961" >1961
+						<option value="1960" >1960
+						<option value="1959" >1959
+				</select>
+			</td>
+			<td>
+				<!-- <input class=FieldText name=AcadFromMonth4 value="06" size=2 maxlength=2> -->
+				<select name=AcadFromMonth4>
+					<option value=""  >
+					
+						<option value="01" >1
+						<option value="02" >2
+						<option value="03" >3
+						<option value="04" >4
+						<option value="05" >5
+						<option value="06" selected>6
+						<option value="07" >7
+						<option value="08" >8
+						<option value="09" >9
+						<option value="10" >10
+						<option value="11" >11
+						<option value="12" >12
+				</select>
+
+			</td>
+			<td>
+				<!-- <input class=FieldText name=AcadToYear4 value="1975" size=3 maxlength=4> -->
+				<select name=AcadToYear4>
+					<option value=""  >
+					
+						<option value="2010" >2010
+						<option value="2009" >2009
+						<option value="2008" >2008
+						<option value="2007" >2007
+						<option value="2006" >2006
+						<option value="2005" >2005
+						<option value="2004" >2004
+						<option value="2003" >2003
+						<option value="2002" >2002
+						<option value="2001" >2001
+						<option value="2000" >2000
+						<option value="1999" >1999
+						<option value="1998" >1998
+						<option value="1997" >1997
+						<option value="1996" >1996
+						<option value="1995" >1995
+						<option value="1994" >1994
+						<option value="1993" >1993
+						<option value="1992" >1992
+						<option value="1991" >1991
+						<option value="1990" >1990
+						<option value="1989" >1989
+						<option value="1988" >1988
+						<option value="1987" >1987
+						<option value="1986" >1986
+						<option value="1985" >1985
+						<option value="1984" >1984
+						<option value="1983" >1983
+						<option value="1982" >1982
+						<option value="1981" >1981
+						<option value="1980" >1980
+						<option value="1979" >1979
+						<option value="1978" >1978
+						<option value="1977" >1977
+						<option value="1976" >1976
+						<option value="1975" selected>1975
+						<option value="1974" >1974
+						<option value="1973" >1973
+						<option value="1972" >1972
+						<option value="1971" >1971
+						<option value="1970" >1970
+						<option value="1969" >1969
+						<option value="1968" >1968
+						<option value="1967" >1967
+						<option value="1966" >1966
+						<option value="1965" >1965
+						<option value="1964" >1964
+						<option value="1963" >1963
+						<option value="1962" >1962
+						<option value="1961" >1961
+						<option value="1960" >1960
+						<option value="1959" >1959
+				</select>
+
+			</td>
+			<td>
+				<!-- <input class=FieldText name=AcadToMonth4 value="05" size=2 maxlength=2> -->
+				<select name=AcadToMonth4>
+					<option value=""  >
+					
+						<option value="01" >1
+						<option value="02" >2
+						<option value="03" >3
+						<option value="04" >4
+						<option value="05" selected>5
+						<option value="06" >6
+						<option value="07" >7
+						<option value="08" >8
+						<option value="09" >9
+						<option value="10" >10
+						<option value="11" >11
+						<option value="12" >12
+				</select>
+			</td>
+	
+		<td>
+			<input class=FieldText name=AcadSchoolName4 value="Board of Secondary Edn.A.P." size=25 maxlength=50>
+		</td>
+		<td>
+			<input class=FieldText name=AcadQuali4 value="S.S.C." size=25 maxlength=50>
+		</td>
+	
+	</tr>
+
+	<tr>
+	
+			<td>
+				<!-- <input class=FieldText name=AcadFromYear5 value="" size=3 maxlength=4> -->
+				<select name=AcadFromYear5>
+					<option value="" Selected >
+					
+						<option value="2010">2010
+						<option value="2009">2009
+						<option value="2008">2008
+						<option value="2007">2007
+						<option value="2006">2006
+						<option value="2005">2005
+						<option value="2004">2004
+						<option value="2003">2003
+						<option value="2002">2002
+						<option value="2001">2001
+						<option value="2000">2000
+						<option value="1999">1999
+						<option value="1998">1998
+						<option value="1997">1997
+						<option value="1996">1996
+						<option value="1995">1995
+						<option value="1994">1994
+						<option value="1993">1993
+						<option value="1992">1992
+						<option value="1991">1991
+						<option value="1990">1990
+						<option value="1989">1989
+						<option value="1988">1988
+						<option value="1987">1987
+						<option value="1986">1986
+						<option value="1985">1985
+						<option value="1984">1984
+						<option value="1983">1983
+						<option value="1982">1982
+						<option value="1981">1981
+						<option value="1980">1980
+						<option value="1979">1979
+						<option value="1978">1978
+						<option value="1977">1977
+						<option value="1976">1976
+						<option value="1975">1975
+						<option value="1974">1974
+						<option value="1973">1973
+						<option value="1972">1972
+						<option value="1971">1971
+						<option value="1970">1970
+						<option value="1969">1969
+						<option value="1968">1968
+						<option value="1967">1967
+						<option value="1966">1966
+						<option value="1965">1965
+						<option value="1964">1964
+						<option value="1963">1963
+						<option value="1962">1962
+						<option value="1961">1961
+						<option value="1960">1960
+						<option value="1959">1959
+				</select>
+			</td>
+			<td>
+				<!-- <input class=FieldText name=AcadFromMonth5 value="" size=2 maxlength=2> -->
+				<select name=AcadFromMonth5>
+					<option value="" Selected >
+					
+						<option value="01">1
+						<option value="02">2
+						<option value="03">3
+						<option value="04">4
+						<option value="05">5
+						<option value="06">6
+						<option value="07">7
+						<option value="08">8
+						<option value="09">9
+						<option value="10">10
+						<option value="11">11
+						<option value="12">12
+				</select>
+
+			</td>
+			<td>
+				<!-- <input class=FieldText name=AcadToYear5 value="" size=3 maxlength=4> -->
+				<select name=AcadToYear5>
+					<option value="" Selected >
+					
+						<option value="2010">2010
+						<option value="2009">2009
+						<option value="2008">2008
+						<option value="2007">2007
+						<option value="2006">2006
+						<option value="2005">2005
+						<option value="2004">2004
+						<option value="2003">2003
+						<option value="2002">2002
+						<option value="2001">2001
+						<option value="2000">2000
+						<option value="1999">1999
+						<option value="1998">1998
+						<option value="1997">1997
+						<option value="1996">1996
+						<option value="1995">1995
+						<option value="1994">1994
+						<option value="1993">1993
+						<option value="1992">1992
+						<option value="1991">1991
+						<option value="1990">1990
+						<option value="1989">1989
+						<option value="1988">1988
+						<option value="1987">1987
+						<option value="1986">1986
+						<option value="1985">1985
+						<option value="1984">1984
+						<option value="1983">1983
+						<option value="1982">1982
+						<option value="1981">1981
+						<option value="1980">1980
+						<option value="1979">1979
+						<option value="1978">1978
+						<option value="1977">1977
+						<option value="1976">1976
+						<option value="1975">1975
+						<option value="1974">1974
+						<option value="1973">1973
+						<option value="1972">1972
+						<option value="1971">1971
+						<option value="1970">1970
+						<option value="1969">1969
+						<option value="1968">1968
+						<option value="1967">1967
+						<option value="1966">1966
+						<option value="1965">1965
+						<option value="1964">1964
+						<option value="1963">1963
+						<option value="1962">1962
+						<option value="1961">1961
+						<option value="1960">1960
+						<option value="1959">1959
+				</select>
+
+			</td>
+			<td>
+				<!-- <input class=FieldText name=AcadToMonth5 value="" size=2 maxlength=2> -->
+				<select name=AcadToMonth5>
+					<option value="" Selected >
+					
+						<option value="01">1
+						<option value="02">2
+						<option value="03">3
+						<option value="04">4
+						<option value="05">5
+						<option value="06">6
+						<option value="07">7
+						<option value="08">8
+						<option value="09">9
+						<option value="10">10
+						<option value="11">11
+						<option value="12">12
+				</select>
+			</td>
+	
+		<td>
+			<input class=FieldText name=AcadSchoolName5 value="" size=25 maxlength=50>
+		</td>
+		<td>
+			<input class=FieldText name=AcadQuali5 value="" size=25 maxlength=50>
+		</td>
+	
+	</tr>
+
+</table>
+</td>
+	</tr> 
+</table>
+
+
+		<table width="620" border="0" cellspacing="0" cellpadding="0">
+			<tr bgcolor="#CCCCCC">
+				<td align=center><a href="javascript:ResumeSubmit('BriefEdit')"><img src = "/images/XX/EN/Buttons/Next.gif" border = 0></a></td>
+				
+			</tr>
+		</table>
+		</form>
+
+
+					</td>
+				</tr>
+			</table>
+		</td>
+	<tr>
+</table><img src ="http://counter.jobsdb.com/IN/Monitor/CountSession.asp?43434">
+	<script language="JavaScript" src="/IN/EN/JobsdbWrapUp.js"></script>             
+	
+
+</BODY>
+</HTML>
