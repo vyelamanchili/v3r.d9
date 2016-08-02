@@ -8,23 +8,14 @@ global-css:
   js:
     js/custom.js: {}
     js/modernizr.custom.js: {}
+    js/jquery.smooth-scroll.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal.ajax
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery.once
 
-jethro-base:
-  version: VERSION
-  css:
-    theme:
-      css/base/elements.css: {}
-
-jethro-components:
-  version: 1.x
-  css:
-    theme:
-      css/components/buttons.css: {}
-      css/components/table.css: {}
-      css/components/shortcut.css: {}
-      css/components/table.css: {}
-      css/components/breadcrumb.css: {}
-      css/components/comments.css: {}
 jethro-bootstrap:
   version: 1.x
   css:

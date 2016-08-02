@@ -106,6 +106,18 @@ function tora_menu_bar() {
 add_action('tora_header_bar', 'tora_menu_bar', 9);
 
 /**
+ * Register Polylang strings
+ */
+if ( function_exists('pll_register_string') && !function_exists('tora_register_strings')) :
+function tora_register_strings() {
+	pll_register_string('Header text', get_theme_mod('header_text'), 'Tora');
+	pll_register_string('Left button text', get_theme_mod('button_left'), 'Tora');
+	pll_register_string('Right button text', get_theme_mod('button_right'), 'Tora');
+}
+add_action( 'admin_init', 'tora_register_strings' );
+endif;
+
+/**
  * Header image and text
  */
 function tora_header_text() {
@@ -115,9 +127,6 @@ function tora_header_text() {
 		$button_left		= get_theme_mod('button_left');
 		$button_right 		= get_theme_mod('button_right');
 	} else {
-		pll_register_string('Header text', get_theme_mod('header_text'), 'Tora');
-		pll_register_string('Left button text', get_theme_mod('button_left'), 'Tora');
-		pll_register_string('Right button text', get_theme_mod('button_right'), 'Tora');
 		$header_text 		= pll__(get_theme_mod('header_text'));
 		$button_left		= pll__(get_theme_mod('button_left'));
 		$button_right 		= pll__(get_theme_mod('button_right'));	

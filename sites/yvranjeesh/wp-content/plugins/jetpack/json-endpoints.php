@@ -31,16 +31,21 @@ require_once( $json_endpoints_dir . 'class.wpcom-json-api-list-embeds-endpoint.p
 require_once( $json_endpoints_dir . 'class.wpcom-json-api-get-site-endpoint.php' );
 require_once( $json_endpoints_dir . 'class.wpcom-json-api-get-taxonomies-endpoint.php' );
 require_once( $json_endpoints_dir . 'class.wpcom-json-api-get-taxonomy-endpoint.php' );
+require_once( $json_endpoints_dir . 'class.wpcom-json-api-get-term-endpoint.php' );
 require_once( $json_endpoints_dir . 'class.wpcom-json-api-list-comments-endpoint.php' );
 require_once( $json_endpoints_dir . 'class.wpcom-json-api-list-media-endpoint.php' );
+require_once( $json_endpoints_dir . 'class.wpcom-json-api-list-post-types-endpoint.php' );
+require_once( $json_endpoints_dir . 'class.wpcom-json-api-list-post-type-taxonomies-endpoint.php' );
 require_once( $json_endpoints_dir . 'class.wpcom-json-api-list-posts-endpoint.php' );
 require_once( $json_endpoints_dir . 'class.wpcom-json-api-list-roles-endpoint.php' );
+require_once( $json_endpoints_dir . 'class.wpcom-json-api-list-terms-endpoint.php' );
 require_once( $json_endpoints_dir . 'class.wpcom-json-api-list-users-endpoint.php' );
 require_once( $json_endpoints_dir . 'class.wpcom-json-api-site-user-endpoint.php' );
 require_once( $json_endpoints_dir . 'class.wpcom-json-api-update-comment-endpoint.php' );
 require_once( $json_endpoints_dir . 'class.wpcom-json-api-update-media-endpoint.php' );
 require_once( $json_endpoints_dir . 'class.wpcom-json-api-update-post-endpoint.php' );
 require_once( $json_endpoints_dir . 'class.wpcom-json-api-update-taxonomy-endpoint.php' );
+require_once( $json_endpoints_dir . 'class.wpcom-json-api-update-term-endpoint.php' );
 require_once( $json_endpoints_dir . 'class.wpcom-json-api-update-user-endpoint.php' );
 require_once( $json_endpoints_dir . 'class.wpcom-json-api-upload-media-endpoint.php' );
 require_once( $json_endpoints_dir . 'class.wpcom-json-api-site-settings-endpoint.php' );
@@ -113,7 +118,7 @@ new WPCOM_JSON_API_GET_Site_Endpoint( array(
 
 new WPCOM_JSON_API_GET_Post_Counts_V1_1_Endpoint( array(
 	'description'   => 'Get number of posts in the post type groups by post status',
-	'group'         => '__do_not_document',
+	'group'         => 'sites',
 	'stat'          => 'sites:X:post-counts:X',
 	'force'         => 'wpcom',
 	'method'        => 'GET',
@@ -181,7 +186,7 @@ new WPCOM_JSON_API_List_Page_Templates_Endpoint( array(
 
 new WPCOM_JSON_API_List_Post_Types_Endpoint( array (
 	'description' => 'Get a list of post types available for a site.',
-	'group'       => '__do_not_document',
+	'group'       => 'sites',
 	'stat'        => 'sites:X:post-types',
 
 	'method'      => 'GET',
@@ -197,6 +202,22 @@ new WPCOM_JSON_API_List_Post_Types_Endpoint( array (
 	'response_format' => array(
 		'found'      => '(int) The number of post types found',
 		'post_types' => '(array) A list of available post types',
+	)
+) );
+
+new WPCOM_JSON_API_List_Post_Type_Taxonomies_Endpoint( array (
+	'description' => 'Get a list of taxonomies associated with a post type.',
+	'group'       => 'taxonomy',
+	'stat'        => 'sites:X:post-types:X:taxonomies',
+	'method'      => 'GET',
+	'path'        => '/sites/%s/post-types/%s/taxonomies',
+	'path_labels' => array(
+		'$site'      => '(int|string) Site ID or domain',
+		'$post_type' => '(string) Post type',
+	),
+	'response_format' => array(
+		'found'      => '(int) The number of taxonomies found',
+		'taxonomies' => '(array:taxonomy) A list of available taxonomies',
 	)
 ) );
 
@@ -527,7 +548,7 @@ new WPCOM_JSON_API_Update_Post_Endpoint( array(
 	'description' => 'Create a post.',
 	'group'       => 'posts',
 	'stat'        => 'posts:new',
-	'new_version' => '1.1',
+	'new_version' => '1.2',
 	'max_version' => '1',
 	'method'      => 'POST',
 	'path'        => '/sites/%s/posts/new',
@@ -594,6 +615,7 @@ new WPCOM_JSON_API_Update_Post_v1_1_Endpoint( array(
 	'description' => 'Create a post.',
 	'group'       => 'posts',
 	'stat'        => 'posts:new',
+	'new_version' => '1.2',
 	'min_version' => '1.1',
 	'max_version' => '1.1',
 	'method'      => 'POST',
@@ -627,6 +649,7 @@ new WPCOM_JSON_API_Update_Post_v1_1_Endpoint( array(
 		'password'  => '(string) The plaintext password protecting the post, or, more likely, the empty string if the post is not password protected.',
 		'parent'    => "(int) The post ID of the new post's parent.",
 		'type'      => "(string) The post type. Defaults to 'post'. Post types besides post and page need to be whitelisted using the <code>rest_api_allowed_post_types</code> filter.",
+		'terms'      => '(object) Mapping of taxonomy to comma-separated list or array of terms (name or id)',
 		'categories' => "(array|string) Comma-separated list or array of categories (name or id)",
 		'tags'       => "(array|string) Comma-separated list or array of tags (name or id)",
 		'format'     => array_merge( array( 'default' => 'Use default post format' ), get_post_format_strings() ),
@@ -697,8 +720,10 @@ new WPCOM_JSON_API_Update_Post_v1_2_Endpoint( array(
 		'password'  => '(string) The plaintext password protecting the post, or, more likely, the empty string if the post is not password protected.',
 		'parent'    => "(int) The post ID of the new post's parent.",
 		'type'      => "(string) The post type. Defaults to 'post'. Post types besides post and page need to be whitelisted using the <code>rest_api_allowed_post_types</code> filter.",
+		'terms'      => '(object) Mapping of taxonomy to comma-separated list or array of term names',
 		'categories' => "(array|string) Comma-separated list or array of category names",
 		'tags'       => "(array|string) Comma-separated list or array of tag names",
+		'terms_by_id'      => '(object) Mapping of taxonomy to comma-separated list or array of term IDs',
 		'categories_by_id' => "(array|string) Comma-separated list or array of category IDs",
 		'tags_by_id'       => "(array|string) Comma-separated list or array of tag IDs",
 		'format'     => array_merge( array( 'default' => 'Use default post format' ), get_post_format_strings() ),
@@ -736,7 +761,7 @@ new WPCOM_JSON_API_Update_Post_Endpoint( array(
 	'description' => 'Edit a post.',
 	'group'       => 'posts',
 	'stat'        => 'posts:1:POST',
-	'new_version' => '1.1',
+	'new_version' => '1.2',
 	'max_version' => '1',
 	'method'      => 'POST',
 	'path'        => '/sites/%s/posts/%d',
@@ -759,6 +784,7 @@ new WPCOM_JSON_API_Update_Post_Endpoint( array(
 			'private' => 'Privately publish the post.',
 			'draft'   => 'Save the post as a draft.',
 			'pending' => 'Mark the post as pending editorial approval.',
+			'trash'   => 'Set the post as trashed.',
 		),
 		'sticky'    => array(
 			'false'   => 'Post is not marked as sticky.',
@@ -801,6 +827,7 @@ new WPCOM_JSON_API_Update_Post_v1_1_Endpoint( array(
 	'description' => 'Edit a post.',
 	'group'       => 'posts',
 	'stat'        => 'posts:1:POST',
+	'new_version' => '1.2',
 	'min_version' => '1.1',
 	'max_version' => '1.1',
 	'method'      => 'POST',
@@ -825,6 +852,7 @@ new WPCOM_JSON_API_Update_Post_v1_1_Endpoint( array(
 			'draft'   => 'Save the post as a draft.',
 			'future'  => 'Schedule the post (alias for publish; you must also set a future date).',
 			'pending' => 'Mark the post as pending editorial approval.',
+			'trash'   => 'Set the post as trashed.',
 		),
 		'sticky'    => array(
 			'false'   => 'Post is not marked as sticky.',
@@ -832,6 +860,7 @@ new WPCOM_JSON_API_Update_Post_v1_1_Endpoint( array(
 		),
 		'password'   => '(string) The plaintext password protecting the post, or, more likely, the empty string if the post is not password protected.',
 		'parent'     => "(int) The post ID of the new post's parent.",
+		'terms'      => '(object) Mapping of taxonomy to comma-separated list or array of terms (name or id)',
 		'categories' => "(array|string) Comma-separated list or array of categories (name or id)",
 		'tags'       => "(array|string) Comma-separated list or array of tags (name or id)",
 		'format'     => array_merge( array( 'default' => 'Use default post format' ), get_post_format_strings() ),
@@ -891,6 +920,7 @@ new WPCOM_JSON_API_Update_Post_v1_2_Endpoint( array(
 			'draft'   => 'Save the post as a draft.',
 			'future'  => 'Schedule the post (alias for publish; you must also set a future date).',
 			'pending' => 'Mark the post as pending editorial approval.',
+			'trash'   => 'Set the post as trashed.',
 		),
 		'sticky'    => array(
 			'false'   => 'Post is not marked as sticky.',
@@ -898,6 +928,8 @@ new WPCOM_JSON_API_Update_Post_v1_2_Endpoint( array(
 		),
 		'password'   => '(string) The plaintext password protecting the post, or, more likely, the empty string if the post is not password protected.',
 		'parent'     => "(int) The post ID of the new post's parent.",
+		'terms'      => '(object) Mapping of taxonomy to comma-separated list or array of term names',
+		'terms_by_id' => '(object) Mapping of taxonomy to comma-separated list or array of term IDs',
 		'categories' => "(array|string) Comma-separated list or array of category names",
 		'categories_by_id' => "(array|string) Comma-separated list or array of category IDs",
 		'tags'       => "(array|string) Comma-separated list or array of tag names",
@@ -1213,6 +1245,7 @@ new WPCOM_JSON_API_Get_Media_v1_1_Endpoint( array(
 		'ID'               => '(int) The ID of the media item',
 		'date'             => '(ISO 8601 datetime) The date the media was uploaded',
 		'post_ID'          => '(int) ID of the post this media is attached to',
+		'author_ID'        => '(int) ID of the user who uploaded the media',
 		'URL'              => '(string) URL to the file',
 		'guid'             => '(string) Unique identifier',
 		'file'			   => '(string) Filename',
@@ -1377,6 +1410,7 @@ new WPCOM_JSON_API_Update_Media_v1_1_Endpoint( array(
 		'ID'               => '(int) The ID of the media item',
 		'date'             => '(ISO 8601 datetime) The date the media was uploaded',
 		'post_ID'          => '(int) ID of the post this media is attached to',
+		'author_ID'        => '(int) ID of the user who uploaded the media',
 		'URL'              => '(string) URL to the file',
 		'guid'             => '(string) Unique identifier',
 		'file'			   => '(string) File name',
@@ -1459,6 +1493,7 @@ new WPCOM_JSON_API_Delete_Media_v1_1_Endpoint( array(
 		'ID'               => '(int) The ID of the media item',
 		'date'             => '(ISO 8601 datetime) The date the media was uploaded',
 		'post_ID'          => '(int) ID of the post this media is attached to',
+		'author_ID'        => '(int) ID of the user who uploaded the media',
 		'URL'              => '(string) URL to the file',
 		'guid'             => '(string) Unique identifier',
 		'file'			   => '(string) File name',
@@ -1552,7 +1587,6 @@ new WPCOM_JSON_API_Update_Comment_Endpoint( array(
 	),
 
 	'pass_wpcom_user_details' => true,
-	'can_use_user_details_instead_of_blog_membership' => true,
 
 	'example_request'      => 'https://public-api.wordpress.com/rest/v1/sites/82974409/posts/843/replies/new/',
 	'example_request_data' =>  array(
@@ -1584,7 +1618,6 @@ new WPCOM_JSON_API_Update_Comment_Endpoint( array(
 	),
 
 	'pass_wpcom_user_details' => true,
-	'can_use_user_details_instead_of_blog_membership' => true,
 
 	'example_request'      => 'https://public-api.wordpress.com/rest/v1/sites/82974409/comments/29/replies/new',
 	'example_request_data' => array(
@@ -1688,7 +1721,7 @@ new WPCOM_JSON_API_Get_Taxonomies_Endpoint( array(
 		'search'   => '(string) Limit response to include only categories whose names or slugs match the provided search query.',
 		'order'    => array(
 			'ASC'  => 'Return categories in ascending order.',
-			'DESC' => 'Return categories in decending order.',
+			'DESC' => 'Return categories in descending order.',
 		),
 		'order_by' => array(
 			'name'  => 'Order by the name of each category.',
@@ -1718,7 +1751,7 @@ new WPCOM_JSON_API_Get_Taxonomies_Endpoint( array(
 		'search'   => '(string) Limit response to include only tags whose names or slugs match the provided search query.',
 		'order'    => array(
 			'ASC'  => 'Return tags in ascending order.',
-			'DESC' => 'Return tags in decending order.',
+			'DESC' => 'Return tags in descending order.',
 		),
 		'order_by' => array(
 			'name'  => 'Order by the name of each tag.',
@@ -1907,6 +1940,133 @@ new WPCOM_JSON_API_Update_Taxonomy_Endpoint( array(
 	)
 ) );
 
+new WPCOM_JSON_API_List_Terms_Endpoint( array(
+	'description' => 'Get a list of a site\'s terms by taxonomy.',
+	'group'       => 'taxonomy',
+	'stat'        => 'terms',
+	'method'      => 'GET',
+	'path'        => '/sites/%s/taxonomies/%s/terms',
+	'path_labels' => array(
+		'$site'     => '(int|string) Site ID or domain',
+		'$taxonomy' => '(string) Taxonomy',
+	),
+	'query_parameters' => array(
+		'number'   => '(int=100) The number of terms to return. Limit: 1000.',
+		'offset'   => '(int=0) 0-indexed offset.',
+		'page'     => '(int) Return the Nth 1-indexed page of terms. Takes precedence over the <code>offset</code> parameter.',
+		'search'   => '(string) Limit response to include only terms whose names or slugs match the provided search query.',
+		'order'    => array(
+			'ASC'  => 'Return terms in ascending order.',
+			'DESC' => 'Return terms in descending order.',
+		),
+		'order_by' => array(
+			'name'  => 'Order by the name of each tag.',
+			'count' => 'Order by the number of posts in each tag.',
+		),
+	),
+	'response_format' => array(
+		'found' => '(int) The number of terms returned.',
+		'terms' => '(array) Array of tag objects.',
+	),
+	'example_request'  => 'https://public-api.wordpress.com/rest/v1/sites/en.blog.wordpress.com/taxonomies/post_tags/terms?number=5'
+) );
+
+new WPCOM_JSON_API_Get_Term_Endpoint( array(
+	'description' => 'Get information about a single term.',
+	'group'       => 'taxonomy',
+	'stat'        => 'terms:1',
+	'method'      => 'GET',
+	'path'        => '/sites/%s/taxonomies/%s/terms/slug:%s',
+	'path_labels' => array(
+		'$site'     => '(int|string) Site ID or domain',
+		'$taxonomy' => '(string) Taxonomy',
+		'$slug'     => '(string) Term slug',
+	),
+	'response_format' => array(
+		'ID'          => '(int) The term ID.',
+		'name'        => '(string) The name of the term.',
+		'slug'        => '(string) The slug of the term.',
+		'description' => '(string) The description of the term.',
+		'post_count'  => '(int) The number of posts using this term.',
+		'parent'      => '(int) The parent ID for the term, if hierarchical.',
+	),
+	'example_request'  => 'https://public-api.wordpress.com/rest/v1/sites/en.blog.wordpress.com/taxonomies/post_tag/terms/slug:wordpresscom'
+) );
+
+new WPCOM_JSON_API_Update_Term_Endpoint( array(
+	'description' => 'Create a new term.',
+	'group'       => 'taxonomy',
+	'stat'        => 'terms:new',
+	'method'      => 'POST',
+	'path'        => '/sites/%s/taxonomies/%s/terms/new',
+	'path_labels' => array(
+		'$site'     => '(int|string) Site ID or domain',
+		'$taxonomy' => '(string) Taxonomy',
+	),
+	'request_format' => array(
+		'name'        => '(string) Name of the term',
+		'description' => '(string) A description of the term',
+	),
+	'example_request'      => 'https://public-api.wordpress.com/rest/v1/sites/82974409/taxonomies/post_tag/terms/new',
+	'example_request_data' => array(
+		'headers' => array(
+			'authorization' => 'Bearer YOUR_API_TOKEN'
+		),
+		'body' => array(
+			'name' => 'Ribs & Chicken'
+		)
+	)
+) );
+
+new WPCOM_JSON_API_Update_Term_Endpoint( array(
+	'description' => 'Edit a term.',
+	'group'       => 'taxonomy',
+	'stat'        => 'terms:1:POST',
+	'method'      => 'POST',
+	'path'        => '/sites/%s/taxonomies/%s/terms/slug:%s',
+	'path_labels' => array(
+		'$site'     => '(int|string) Site ID or domain',
+		'$taxonomy' => '(string) Taxonomy',
+		'$slug'     => '(string) The term slug',
+	),
+	'request_format' => array(
+		'name'        => '(string) Name of the term',
+		'description' => '(string) A description of the term',
+	),
+	'example_request'      => 'https://public-api.wordpress.com/rest/v1/sites/82974409/taxonomies/post_tag/terms/slug:testing-term',
+	'example_request_data' => array(
+		'headers' => array(
+			'authorization' => 'Bearer YOUR_API_TOKEN'
+		),
+		'body' => array(
+			'description' => 'The most delicious'
+		)
+	)
+) );
+
+new WPCOM_JSON_API_Update_Term_Endpoint( array(
+	'description' => 'Delete a term.',
+	'group'       => 'taxonomy',
+	'stat'        => 'terms:1:delete',
+	'method'      => 'POST',
+	'path'        => '/sites/%s/taxonomies/%s/terms/slug:%s/delete',
+	'path_labels' => array(
+		'$site'     => '(int|string) Site ID or domain',
+		'$taxonomy' => '(string) Taxonomy',
+		'$slug'     => '(string) The term slug',
+	),
+	'response_format' => array(
+		'slug'    => '(string) The slug of the deleted term',
+		'success' => '(bool) Whether the operation was successful',
+	),
+	'example_request'      => 'https://public-api.wordpress.com/rest/v1/sites/82974409/taxonomies/post_tag/terms/slug:$term/delete',
+	'example_request_data' => array(
+		'headers' => array(
+			'authorization' => 'Bearer YOUR_API_TOKEN'
+		),
+	)
+) );
+
 new WPCOM_JSON_API_List_Roles_Endpoint( array(
 	'description' => 'List the user roles of a site.',
 	'group'       => '__do_not_document',
@@ -1965,7 +2125,7 @@ new WPCOM_JSON_API_List_Users_Endpoint( array(
 		'type'              => "(string) Specify the post type to query authors for. Only works when combined with the `authors_only` flag. Defaults to 'post'. Post types besides post and page need to be whitelisted using the <code>rest_api_allowed_post_types</code> filter.",
 		'search'            => '(string) Find matching users.',
 		'search_columns'    => "(array) Specify which columns to check for matching users. Can be any of 'ID', 'user_login', 'user_email', 'user_url', 'user_nicename', and 'display_name'. Only works when combined with `search` parameter.",
-		'role'              => '(string) Specify a specific user role to fetch.',
+		'role'              => '(string) Specify a specific user role to fetch.'
 	),
 
 	'response_format' => array(
@@ -2074,146 +2234,6 @@ new WPCOM_JSON_API_Site_User_Endpoint( array(
 	'path_labels' => array(
 		'$site'    => '(int|string) Site ID or domain',
 		'$user_id' => '(int) User ID',
-	),
-	'response_format' => WPCOM_JSON_API_Site_User_Endpoint::$user_format,
-	'example_request'      => 'https://public-api.wordpress.com/rest/v1/sites/30434183/user/23',
-	'example_request_data' => array(
-		'headers' => array(
-			'authorization' => 'Bearer YOUR_API_TOKEN'
-		),
-	),
-	'example_response'     => '{
-		"ID": 18342963,
-		"login": "binarysmash"
-		"email": false,
-		"name": "binarysmash",
-		"URL": "http:\/\/binarysmash.wordpress.com",
-		"avatar_URL": "http:\/\/0.gravatar.com\/avatar\/a178ebb1731d432338e6bb0158720fcc?s=96&d=identicon&r=G",
-		"profile_URL": "http:\/\/en.gravatar.com\/binarysmash",
-		"roles": [ "administrator" ]
-	}'
-) );
-
-new WPCOM_JSON_API_Site_User_Endpoint( array(
-	'description' => 'Get details of a user of a site by login.',
-	'group'       => '__do_not_document', //'users'
-	'stat'        => 'sites:1:user',
-	'method'      => 'GET',
-	'path'        => '/sites/%s/users/login:%s',
-	'path_labels' => array(
-		'$site'    => '(int|string) Site ID or domain',
-		'$user_id' => '(string) User login',
-	),
-	'response_format' => WPCOM_JSON_API_Site_User_Endpoint::$user_format,
-	'example_request'      => 'https://public-api.wordpress.com/rest/v1/sites/30434183/user/login:binarysmash',
-	'example_request_data' => array(
-		'headers' => array(
-			'authorization' => 'Bearer YOUR_API_TOKEN'
-		),
-	),
-	'example_response'     => '{
-		"ID": 18342963,
-		"login": "binarysmash"
-		"email": false,
-		"name": "binarysmash",
-		"URL": "http:\/\/binarysmash.wordpress.com",
-		"avatar_URL": "http:\/\/0.gravatar.com\/avatar\/a178ebb1731d432338e6bb0158720fcc?s=96&d=identicon&r=G",
-		"profile_URL": "http:\/\/en.gravatar.com\/binarysmash",
-		"roles": [ "administrator" ]
-	}'
-) );
-
-new WPCOM_JSON_API_Site_User_Endpoint( array(
-	'description' => 'Update details of a users of a site.',
-	'group'       => '__do_not_document', //'users'
-	'stat'        => 'sites:1:user',
-	'method'      => 'POST',
-	'path'        => '/sites/%s/users/%d',
-	'path_labels' => array(
-		'$site' => '(int|string) Site ID or domain',
-		'$user_id' => '(int) User ID',
-	),
-	'request_format'  => WPCOM_JSON_API_Site_User_Endpoint::$user_format,
-	'response_format' => WPCOM_JSON_API_Site_User_Endpoint::$user_format,
-	'example_request'      => 'https://public-api.wordpress.com/rest/v1/sites/30434183/user/23',
-	'example_request_data' => array(
-		'headers' => array(
-			'authorization' => 'Bearer YOUR_API_TOKEN'
-		),
-		'body' => array(
-			'roles' => array(
-				array(
-					'administrator',
-				)
-			),
-			'first_name' => 'Rocco',
-			'last_name' => 'Tripaldi',
-		)
-	),
-	'example_response'     => '{
-		"ID": 18342963,
-		"login": "binarysmash"
-		"email": false,
-		"name": "binarysmash",
-		"URL": "http:\/\/binarysmash.wordpress.com",
-		"avatar_URL": "http:\/\/0.gravatar.com\/avatar\/a178ebb1731d432338e6bb0158720fcc?s=96&d=identicon&r=G",
-		"profile_URL": "http:\/\/en.gravatar.com\/binarysmash",
-		"roles": [ "administrator" ]
-	}'
-) );
-
-new WPCOM_JSON_API_Update_Invites_Endpoint( array(
-	'description' => 'Delete an invite for a user to join a site.',
-	'group'       => '__do_not_document',
-	'stat'        => 'invites:1:delete',
-	'method'      => 'POST',
-	'path'        => '/sites/%s/invites/%s/delete',
-	'path_labels' => array(
-		'$site'      => '(int|string) Site ID or domain',
-		'$invite_id' => '(string) The ID of the invite'
-	),
-	'response_format' => array(
-		'invite_key' => '(string) Identifier for the deleted invite',
-		'deleted' => '(bool) Was the invitation removed?'
-	),
-
-	'example_request' => 'https://public-api.wordpress.com/rest/v1/sites/30434183/invites/123523562/delete',
-
-	'example_request_data' => array(
-		'headers' => array( 'authorization' => 'Bearer YOUR_API_TOKEN' ),
-	),
-) );
-
-new WPCOM_JSON_API_Update_Invites_Endpoint( array(
-	'description' => 'Resend invitation for a user to join a site.',
-	'group'       => '__do_not_document',
-	'stat'        => 'invites:1',
-	'method'      => 'POST',
-	'path'        => '/sites/%s/invites/%s',
-	'path_labels' => array(
-		'$site'      => '(int|string) Site ID or domain',
-		'$invite_id' => '(string) The ID of the invite'
-	),
-	'response_format' => array(
-		'result' => '(bool) Was the invitation resent?'
-	),
-
-	'example_request' => 'https://public-api.wordpress.com/rest/v1/sites/30434183/invites/123523562',
-
-	'example_request_data' => array(
-		'headers' => array( 'authorization' => 'Bearer YOUR_API_TOKEN' ),
-	),
-) );
-
-new WPCOM_JSON_API_Site_User_Endpoint( array(
-	'description' => 'Get details of a user of a site by ID.',
-	'group'       => 'users',
-	'stat'        => 'sites:1:user',
-	'method'      => 'GET',
-	'path'        => '/sites/%s/users/%d',
-	'path_labels' => array(
-		'$site'    => '(int|string) The site ID or domain.',
-		'$user_id' => '(int) The user\'s ID.',
 	),
 	'response_format' => WPCOM_JSON_API_Site_User_Endpoint::$user_format,
 	'example_request'      => 'https://public-api.wordpress.com/rest/v1/sites/30434183/user/23',

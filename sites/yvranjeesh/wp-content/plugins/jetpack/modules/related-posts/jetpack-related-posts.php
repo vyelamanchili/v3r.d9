@@ -72,6 +72,10 @@ class Jetpack_RelatedPosts {
 
 		add_action( 'admin_init', array( $this, 'action_admin_init' ) );
 		add_action( 'wp', array( $this, 'action_frontend_init' ) );
+
+		if ( ! class_exists( 'Jetpack_Media_Summary' ) ) {
+			jetpack_require_lib( 'class.media-summary' );
+		}
 	}
 
 	/**
@@ -123,7 +127,7 @@ class Jetpack_RelatedPosts {
 
 			$this->_action_frontend_init_ajax( $excludes );
 		} else {
-			if ( isset( $_GET['relatedposts_hit'] ) ) {
+			if ( isset( $_GET['relatedposts_hit'], $_GET['relatedposts_origin'], $_GET['relatedposts_position'] ) ) {
 				$this->_log_click( $_GET['relatedposts_origin'], get_the_ID(), $_GET['relatedposts_position'] );
 				$this->_previous_post_id = (int) $_GET['relatedposts_origin'];
 			}
@@ -357,6 +361,11 @@ EOT;
 
 		// only dislay the Related Posts JavaScript on the Reading Settings Admin Page
 		$current_screen =  get_current_screen();
+
+		if ( is_null( $current_screen ) ) {
+			return;
+		}
+
 		if( 'options-reading' != $current_screen->id )
 			return;
 
@@ -459,10 +468,10 @@ EOT;
 
 		var update_preview = function() {
 			var html = '';
-			if ( $( 'input[name="jetpack_relatedposts[show_headline]"]:checked' ).size() ) {
+			if ( $( 'input[name="jetpack_relatedposts[show_headline]"]:checked' ).length ) {
 				html += '$related_headline';
 			}
-			if ( $( 'input[name="jetpack_relatedposts[show_thumbnails]"]:checked' ).size() ) {
+			if ( $( 'input[name="jetpack_relatedposts[show_thumbnails]"]:checked' ).length ) {
 				html += '$related_with_images';
 			} else {
 				html += '$related_without_images';
@@ -1223,8 +1232,20 @@ EOT;
 	 * @return null
 	 */
 	protected function _enqueue_assets( $script, $style ) {
-		if ( $script )
+		if ( $script ) {
 			wp_enqueue_script( 'jetpack_related-posts', plugins_url( 'related-posts.js', __FILE__ ), array( 'jquery' ), self::VERSION );
+			$related_posts_js_options = array(
+				/**
+				 * Filter each Related Post Heading structure.
+				 *
+				 * @since 4.0.0
+				 *
+				 * @param string $str Related Post Heading structure. Default to h4.
+				 */
+				'post_heading' => apply_filters( 'jetpack_relatedposts_filter_post_heading', esc_attr( 'h4' ) ),
+			);
+			wp_localize_script( 'jetpack_related-posts', 'related_posts_js_options', $related_posts_js_options );
+		}
 		if ( $style ){
 			if( is_rtl() ) {
 				wp_enqueue_style( 'jetpack_related-posts', plugins_url( 'rtl/related-posts-rtl.css', __FILE__ ), array(), self::VERSION );

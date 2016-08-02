@@ -4,7 +4,7 @@ Theme URI: http://theme.blue/themes/tora
 Author: theme.blue
 Author URI: http://theme.blue
 Description: Tora is an elegant and responsive business theme. You will find lots of options in the Customizer including fonts, colors, blog options, header options, sidebar position etc. Tora comes with support for the Live Composer plugin so you can quickly create amazing pages for your website. Premade layouts are also available so you can get a quickstart and have your website ready in a very small amount of time.
-Version: 1.07
+Version: 1.08
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: tora
@@ -1560,6 +1560,9 @@ body.page-template-page_builder {
 		padding-left: 15px;
 		padding-right: 15px;
 	}
+	.masonry-layout .hentry {
+		width: 283px;
+	}
 }
 @media only screen and (max-width: 1024px) {
 	.main-navigation,
@@ -1637,6 +1640,22 @@ body.page-template-page_builder {
 	.header-search .search-form {
 		margin: 0;
 	}
+	.masonry-layout .hentry {
+		width: 330px;
+	}	
+}
+@media only screen and (max-width: 767px) {
+	.masonry-layout .hentry {
+		width: 100%;
+		max-width: 400px;
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.masonry-layout .hentry,
+	.posts-layout.masonry {
+		margin-left: auto;
+		margin-right: auto;
+	}
 }
 @media only screen and (max-width: 640px) {
 	.site-branding,
@@ -1671,6 +1690,9 @@ body.page-template-page_builder {
 	.has-post-thumbnail .post-inner {
 		width: 100%;
 		border: 0;
+	}
+	.posts-layout.masonry {
+		max-width: 100% !important;
 	}
 }
 @media only screen and (max-width: 420px) {
