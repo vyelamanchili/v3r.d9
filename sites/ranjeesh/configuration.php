@@ -33,7 +33,7 @@ http;//www.v3r.us';
 	public $offset = 'America/New_York';
 	public $mailonline = '1';
 	public $mailer = 'mail';
-	public $mailfrom = 'y.v.ranjeesh@gmail.com';
+	public $mailfrom = 'ranjeesh@v3r.us';
 	public $fromname = 'Ranjeesh\'s Portfolio Site';
 	public $sendmail = '/usr/sbin/sendmail';
 	public $smtpauth = '0';
@@ -91,4 +91,5 @@ http;//www.v3r.us';
 	public $cookie_domain = '';
 	public $cookie_path = '';
 	public $asset_id = '1';
+	public $cache_platformprefix = '0';
 }
