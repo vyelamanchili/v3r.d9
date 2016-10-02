@@ -1,5 +1,11 @@
 <?php
 
+// Prevent direct access to the file.
+if ( ! defined( 'ABSPATH' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	exit;
+}
+
 class DSLC_Image extends DSLC_Module {
 
 	var $module_id;
@@ -12,10 +18,25 @@ class DSLC_Image extends DSLC_Module {
 		$this->module_id = 'DSLC_Image';
 		$this->module_title = __( 'Image', 'live-composer-page-builder' );
 		$this->module_icon = 'picture';
-		$this->module_category = 'elements';
+		$this->module_category = 'General';
 
 	}
 
+	/**
+	 * Module options.
+	 * Function build array with all the module functionality and styling options.
+	 * Based on this array Live Composer builds module settings panel.
+	 * – Every array inside $dslc_options means one option = one control.
+	 * – Every option should have unique (for this module) id.
+	 * – Options divides on "Functionality" and "Styling".
+	 * – Styling options start with css_XXXXXXX
+	 * – Responsive options start with css_res_t_ (Tablet) or css_res_p_ (Phone)
+	 * – Options can be hidden.
+	 * – Options can have a default value.
+	 * – Options can request refresh from server on change or do live refresh via CSS.
+	 *
+	 * @return array All the module options in array.
+	 */
 	function options() {
 
 		$dslc_options = array(
@@ -92,13 +113,13 @@ class DSLC_Image extends DSLC_Module {
 				'type' => 'text',
 			),
 			array(
-				'label' => __( 'Link - Lightbox Image', 'live-composer-page-builder' ),
+				'label' => __( 'Lightbox Image', 'live-composer-page-builder' ),
 				'id' => 'link_lb_image',
 				'std' => '',
 				'type' => 'image',
 			),
 			array(
-				'label' => __( 'Custom Text', 'live-composer-page-builder' ),
+				'label' => __( 'Custom text', 'live-composer-page-builder' ),
 				'id' => 'custom_text_state',
 				'std' => 'disabled',
 				'type' => 'select',
@@ -138,7 +159,6 @@ class DSLC_Image extends DSLC_Module {
 				'std' => '',
 				'type' => 'text',
 			),
-
 
 			/**
 			 * Styling
@@ -187,6 +207,10 @@ class DSLC_Image extends DSLC_Module {
 			array(
 				'label' => __( 'Border Width', 'live-composer-page-builder' ),
 				'id' => 'css_border_width',
+				'min' => 0,
+				'max' => 10,
+				'increment' => 1,
+
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -226,17 +250,42 @@ class DSLC_Image extends DSLC_Module {
 			array(
 				'label' => __( 'Border Radius', 'live-composer-page-builder' ),
 				'id' => 'css_border_radius',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image, .dslc-image img',
 				'affect_on_change_rule' => 'border-radius',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'section' => 'styling',
 				'ext' => 'px',
 			),
 			array(
+				'label' => __( 'Margin Top', 'live-composer-page-builder' ),
+				'id' => 'css_margin_top',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
+				'std' => '0',
+				'type' => 'slider',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-image',
+				'affect_on_change_rule' => 'margin-top',
+				'section' => 'styling',
+				'ext' => 'px',
+				'min' => -250,
+				'max' => 250,
+			),
+			array(
 				'label' => __( 'Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_margin_bottom',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -244,8 +293,8 @@ class DSLC_Image extends DSLC_Module {
 				'affect_on_change_rule' => 'margin-bottom',
 				'section' => 'styling',
 				'ext' => 'px',
-				'min' => -150,
-				'max' => 150,
+				'min' => -250,
+				'max' => 250,
 			),
 			array(
 				'label' => __( 'Max Width', 'live-composer-page-builder' ),
@@ -278,24 +327,30 @@ class DSLC_Image extends DSLC_Module {
 			array(
 				'label' => __( 'Padding Vertical', 'live-composer-page-builder' ),
 				'id' => 'css_padding_vertical',
+				'min' => 0,
+				'max' => 600,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image',
 				'affect_on_change_rule' => 'padding-top,padding-bottom',
 				'section' => 'styling',
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Padding Horizontal', 'live-composer-page-builder' ),
 				'id' => 'css_padding_horizontal',
+				'min' => 0,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image',
 				'affect_on_change_rule' => 'padding-left,padding-right',
 				'section' => 'styling',
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Force 100% Width', 'live-composer-page-builder' ),
@@ -313,8 +368,19 @@ class DSLC_Image extends DSLC_Module {
 					),
 				),
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-image img',
+				'affect_on_change_el' => '.dslc-image, .dslc-image a, .dslc-image img',
 				'affect_on_change_rule' => 'width',
+				'section' => 'styling',
+			),
+
+			array(
+				'label' => __( 'Box Shadow', 'live-composer-page-builder' ),
+				'id' => 'css_box_shadow',
+				'std' => '',
+				'type' => 'box_shadow',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-image',
+				'affect_on_change_rule' => 'box-shadow',
 				'section' => 'styling',
 			),
 
@@ -331,7 +397,7 @@ class DSLC_Image extends DSLC_Module {
 				'affect_on_change_el' => '.dslc-image-caption',
 				'affect_on_change_rule' => 'text-align',
 				'section' => 'styling',
-				'tab' => __( 'custom text', 'live-composer-page-builder' ),
+				'tab' => __( 'Custom text', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Color', 'live-composer-page-builder' ),
@@ -342,34 +408,72 @@ class DSLC_Image extends DSLC_Module {
 				'affect_on_change_el' => '.dslc-image-caption',
 				'affect_on_change_rule' => 'color',
 				'section' => 'styling',
-				'tab' => __( 'custom text', 'live-composer-page-builder' ),
+				'tab' => __( 'Custom text', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_ct_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '13',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image-caption',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'styling',
-				'tab' => __( 'custom text', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Custom text', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Font Weight', 'live-composer-page-builder' ),
 				'id' => 'css_ct_font_weight',
 				'std' => '400',
-				'type' => 'slider',
+				'type' => 'select',
+				'choices' => array(
+					array(
+						'label' => '100 - Thin',
+						'value' => '100',
+					),
+					array(
+						'label' => '200 - Extra Light',
+						'value' => '200',
+					),
+					array(
+						'label' => '300 - Light',
+						'value' => '300',
+					),
+					array(
+						'label' => '400 - Normal',
+						'value' => '400',
+					),
+					array(
+						'label' => '500 - Medium',
+						'value' => '500',
+					),
+					array(
+						'label' => '600 - Semi Bold',
+						'value' => '600',
+					),
+					array(
+						'label' => '700 - Bold',
+						'value' => '700',
+					),
+					array(
+						'label' => '800 - Extra Bold',
+						'value' => '800',
+					),
+					array(
+						'label' => '900 - Black',
+						'value' => '900',
+					),
+				),
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image-caption',
 				'affect_on_change_rule' => 'font-weight',
 				'section' => 'styling',
-				'tab' => __( 'custom text', 'live-composer-page-builder' ),
+				'tab' => __( 'Custom text', 'live-composer-page-builder' ),
 				'ext' => '',
-				'min' => 100,
-				'max' => 900,
-				'increment' => 100
 			),
 			array(
 				'label' => __( 'Font Family', 'live-composer-page-builder' ),
@@ -380,23 +484,29 @@ class DSLC_Image extends DSLC_Module {
 				'affect_on_change_el' => '.dslc-image-caption',
 				'affect_on_change_rule' => 'font-family',
 				'section' => 'styling',
-				'tab' => __( 'custom text', 'live-composer-page-builder' ),
+				'tab' => __( 'Custom text', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Line Height', 'live-composer-page-builder' ),
 				'id' => 'css_ct_line_height',
+				'min' => 0,
+				'max' => 120,
+				'increment' => 1,
 				'std' => '22',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image-caption',
 				'affect_on_change_rule' => 'line-height',
 				'section' => 'styling',
-				'tab' => __( 'custom text', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Custom text', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Margin Top', 'live-composer-page-builder' ),
 				'id' => 'css_ct_margin_top',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '20',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -404,7 +514,7 @@ class DSLC_Image extends DSLC_Module {
 				'affect_on_change_rule' => 'margin-top',
 				'section' => 'styling',
 				'ext' => 'px',
-				'tab' => __( 'custom text', 'live-composer-page-builder' ),
+				'tab' => __( 'Custom text', 'live-composer-page-builder' ),
 			),
 
 			/**
@@ -427,7 +537,7 @@ class DSLC_Image extends DSLC_Module {
 					),
 				),
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 			),
 
 			array(
@@ -439,7 +549,7 @@ class DSLC_Image extends DSLC_Module {
 				'affect_on_change_el' => '.dslc-image-container',
 				'affect_on_change_rule' => 'text-align',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 			),
 
 			array(
@@ -451,7 +561,7 @@ class DSLC_Image extends DSLC_Module {
 				'affect_on_change_el' => '.dslc-image',
 				'affect_on_change_rule' => 'max-width',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 				'ext' => 'px',
 				'min' => 0,
 				'max' => 1400,
@@ -461,73 +571,91 @@ class DSLC_Image extends DSLC_Module {
 			array(
 				'label' => __( 'Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_margin_bottom',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image',
 				'affect_on_change_rule' => 'margin-bottom',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Padding Vertical', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_padding_vertical',
+				'min' => 0,
+				'max' => 600,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image',
 				'affect_on_change_rule' => 'padding-top,padding-bottom',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Padding Horizontal', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_padding_horizontal',
+				'min' => 0,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image',
 				'affect_on_change_rule' => 'padding-left,padding-right',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Text - Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_ct_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '13',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image-caption',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Text - Line Height', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_ct_line_height',
+				'min' => 0,
+				'max' => 120,
+				'increment' => 1,
 				'std' => '22',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image-caption',
 				'affect_on_change_rule' => 'line-height',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Text - Margin Top', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_ct_margin_top',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '20',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image-caption',
 				'affect_on_change_rule' => 'margin-top',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 				'ext' => 'px',
 			),
 
@@ -551,7 +679,7 @@ class DSLC_Image extends DSLC_Module {
 					),
 				),
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 			),
 
 			array(
@@ -563,7 +691,7 @@ class DSLC_Image extends DSLC_Module {
 				'affect_on_change_el' => '.dslc-image-container',
 				'affect_on_change_rule' => 'text-align',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 			),
 
 			array(
@@ -575,7 +703,7 @@ class DSLC_Image extends DSLC_Module {
 				'affect_on_change_el' => '.dslc-image',
 				'affect_on_change_rule' => 'max-width',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 				'ext' => 'px',
 				'min' => 0,
 				'max' => 1400,
@@ -585,73 +713,91 @@ class DSLC_Image extends DSLC_Module {
 			array(
 				'label' => __( 'Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_margin_bottom',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image',
 				'affect_on_change_rule' => 'margin-bottom',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Padding Vertical', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_padding_vertical',
+				'min' => 0,
+				'max' => 600,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image',
 				'affect_on_change_rule' => 'padding-top,padding-bottom',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Padding Horizontal', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_padding_horizontal',
+				'min' => 0,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image',
 				'affect_on_change_rule' => 'padding-left,padding-right',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Text - Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_ct_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '13',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image-caption',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Text - Line Height', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_ct_line_height',
+				'min' => 0,
+				'max' => 120,
+				'increment' => 1,
 				'std' => '22',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image-caption',
 				'affect_on_change_rule' => 'line-height',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Text - Margin Top', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_ct_margin_top',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '20',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-image-caption',
 				'affect_on_change_rule' => 'margin-top',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 				'ext' => 'px',
 			),
 
@@ -664,7 +810,12 @@ class DSLC_Image extends DSLC_Module {
 		return apply_filters( 'dslc_module_options', $dslc_options, $this->module_id );
 
 	}
-
+	/**
+	 * Module HTML output.
+	 *
+	 * @param  array $options Module options to fill the module template.
+	 * @return void
+	 */
 	function output( $options ) {
 
 		$this->module_start( $options );

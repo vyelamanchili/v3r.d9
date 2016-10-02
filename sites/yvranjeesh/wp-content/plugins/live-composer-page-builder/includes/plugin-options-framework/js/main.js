@@ -19,8 +19,6 @@ jQuery(document).ready(function(){
 			}
 		});
 
-		console.log( duplicateFound );
-
 		// If there are duplicates show the error message, otherwise hide
 		if ( duplicateFound ) {
 			jQuery('.dslca-plugin-opts-list-error').show();
@@ -32,7 +30,9 @@ jQuery(document).ready(function(){
 		jQuery( '.dslca-plugin-opts-list-item', dslcTarget ).each( function(){
 
 			dslcTitle = jQuery(this).find('.dslca-plugin-opts-list-title').text();
-			dslcCode += dslcTitle + ','
+			dslcTitle = dslcTitle.replace(/([^a-z0-9 ]+)/gi, ''); // Clean string leaving only letters and numbers
+			jQuery(this).find('.dslca-plugin-opts-list-title').text(dslcTitle);
+			dslcCode += dslcTitle.trim() + ','
 
 		});
 
@@ -47,7 +47,7 @@ jQuery(document).ready(function(){
 		var dslcWrapper = jQuery(this).closest('.dslca-plugin-opts-list-wrap');
 		var dslcTarget = dslcWrapper.find('.dslca-plugin-opts-list');
 
-		jQuery('<div class="dslca-plugin-opts-list-item"><span class="dslca-plugin-opts-list-title" contenteditable>Click to edit</span><a href="#" class="dslca-plugin-opts-list-delete-hook">delete</a></div>').appendTo( dslcTarget );
+		jQuery('<div class="dslca-plugin-opts-list-item"><span class="dslca-plugin-opts-list-title" contenteditable="true">Click to edit</span><a href="#" class="dslca-plugin-opts-list-delete-hook">delete</a></div>').appendTo( dslcTarget );
 
 		dslc_plugin_opts_generate_list_code( dslcWrapper );
 

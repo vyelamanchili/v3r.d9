@@ -1,5 +1,11 @@
 <?php
 
+// Prevent direct access to the file.
+if ( ! defined( 'ABSPATH' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	exit;
+}
+
 class DSLC_WooCommerce_Products extends DSLC_Module {
 
 	var $module_id;
@@ -10,12 +16,27 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 	function __construct() {
 
 		$this->module_id = 'DSLC_WooCommerce_Products';
-		$this->module_title = __( 'Products ( Woo )', 'live-composer-page-builder' );
-		$this->module_icon = 'dollar';
-		$this->module_category = 'posts';
+		$this->module_title = __( 'Woo Products', 'live-composer-page-builder' );
+		$this->module_icon = 'shopping-cart';
+		$this->module_category = 'Post-Based';
 
 	}
 
+	/**
+	 * Module options.
+	 * Function build array with all the module functionality and styling options.
+	 * Based on this array Live Composer builds module settings panel.
+	 * – Every array inside $dslc_options means one option = one control.
+	 * – Every option should have unique (for this module) id.
+	 * – Options divides on "Functionality" and "Styling".
+	 * – Styling options start with css_XXXXXXX
+	 * – Responsive options start with css_res_t_ (Tablet) or css_res_p_ (Phone)
+	 * – Options can be hidden.
+	 * – Options can have a default value.
+	 * – Options can request refresh from server on change or do live refresh via CSS.
+	 *
+	 * @return array All the module options in array.
+	 */
 	function options() {
 
 		$cats = get_terms( 'product_cat' );
@@ -40,15 +61,15 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Desktop', 'live-composer-page-builder' ),
-						'value' => 'desktop'
+						'value' => 'desktop',
 					),
 					array(
 						'label' => __( 'Tablet', 'live-composer-page-builder' ),
-						'value' => 'tablet'
+						'value' => 'tablet',
 					),
 					array(
 						'label' => __( 'Phone', 'live-composer-page-builder' ),
-						'value' => 'phone'
+						'value' => 'phone',
 					),
 				),
 			),
@@ -64,7 +85,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 					),
 					array(
 						'label' => __( 'Masonry Grid', 'live-composer-page-builder' ),
-						'value' => 'masonry'
+						'value' => 'masonry',
 					),
 					array(
 						'label' => __( 'Carousel', 'live-composer-page-builder' ),
@@ -80,13 +101,13 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Vertical', 'live-composer-page-builder' ),
-						'value' => 'vertical'
+						'value' => 'vertical',
 					),
 					array(
 						'label' => __( 'Horizontal', 'live-composer-page-builder' ),
-						'value' => 'horizontal'
-					)
-				)
+						'value' => 'horizontal',
+					),
+				),
 			),
 			array(
 				'label' => __( 'Posts Per Page', 'live-composer-page-builder' ),
@@ -130,7 +151,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'id' => 'categories',
 				'std' => '',
 				'type' => 'checkbox',
-				'choices' => $cats_choices
+				'choices' => $cats_choices,
 			),
 			array(
 				'label' => __( 'Categories Operator', 'live-composer-page-builder' ),
@@ -161,27 +182,27 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Publish Date', 'live-composer-page-builder' ),
-						'value' => 'date'
+						'value' => 'date',
 					),
 					array(
 						'label' => __( 'Modified Date', 'live-composer-page-builder' ),
-						'value' => 'modified'
+						'value' => 'modified',
 					),
 					array(
 						'label' => __( 'Random', 'live-composer-page-builder' ),
-						'value' => 'rand'
+						'value' => 'rand',
 					),
 					array(
 						'label' => __( 'Alphabetic', 'live-composer-page-builder' ),
-						'value' => 'title'
+						'value' => 'title',
 					),
 					array(
 						'label' => __( 'Comment Count', 'live-composer-page-builder' ),
-						'value' => 'comment_count'
+						'value' => 'comment_count',
 					),
 					array(
 						'label' => __( 'Price', 'live-composer-page-builder' ),
-						'value' => 'price'
+						'value' => 'price',
 					),
 				)
 			),
@@ -193,12 +214,12 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Ascending', 'live-composer-page-builder' ),
-						'value' => 'ASC'
+						'value' => 'ASC',
 					),
 					array(
 						'label' => __( 'Descending', 'live-composer-page-builder' ),
 						'value' => 'DESC'
-					)
+					),
 				)
 			),
 			array(
@@ -215,13 +236,13 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Display out of stock products', 'live-composer-page-builder' ),
-						'value' => 'enabled'
+						'value' => 'enabled',
 					),
 					array(
 						'label' => __( 'Do not display out of stock products', 'live-composer-page-builder' ),
-						'value' => 'disabled'
-					)
-				)
+						'value' => 'disabled',
+					),
+				),
 			),
 			array(
 				'label' => __( 'Include (IDs)', 'live-composer-page-builder' ),
@@ -236,7 +257,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'type' => 'text',
 			),
 
-			// Archive Listinging
+			// Archive Listinging.
 			array(
 				'label' => __( 'Archive/Search Listing', 'live-composer-page-builder' ),
 				'id' => 'query_alter',
@@ -245,11 +266,11 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Apply Page Query', 'live-composer-page-builder' ),
-						'value' => 'enabled'
+						'value' => 'enabled',
 					),
 					array(
 						'label' => __( 'Ignore Page Query', 'live-composer-page-builder' ),
-						'value' => 'disabled'
+						'value' => 'disabled',
 					),
 				),
 				'help' => __( 'Apply Page Query – show posts according to the selected tag, category, author or search query.<br /> Ignore Page Query – ignore the page query and list posts as on any other page.', 'live-composer-page-builder' ),
@@ -267,14 +288,14 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Heading', 'live-composer-page-builder' ),
-						'value' => 'main_heading'
+						'value' => 'main_heading',
 					),
 					array(
 						'label' => __( 'Filters', 'live-composer-page-builder' ),
-						'value' => 'filters'
+						'value' => 'filters',
 					),
 				),
-				'section' => 'styling'
+				'section' => 'styling',
 			),
 
 			array(
@@ -316,7 +337,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 						'value' => 'details'
 					)
 				),
-				'section' => 'styling'
+				'section' => 'styling',
 			),
 
 			array(
@@ -327,18 +348,21 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Arrows', 'live-composer-page-builder' ),
-						'value' => 'arrows'
+						'value' => 'arrows',
 					),
 					array(
 						'label' => __( 'Circles', 'live-composer-page-builder' ),
-						'value' => 'circles'
+						'value' => 'circles',
 					),
 				),
-				'section' => 'styling'
+				'section' => 'styling',
 			),
 			array(
 				'label' => __( 'Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_margin_bottom',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -359,7 +383,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'ext' => 'px',
 				'min' => 0,
 				'max' => 1000,
-				'increment' => 5
+				'increment' => 5,
 			),
 
 			/**
@@ -374,11 +398,11 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Enabled', 'live-composer-page-builder' ),
-						'value' => 'enabled'
+						'value' => 'enabled',
 					),
 					array(
 						'label' => __( 'Disabled', 'live-composer-page-builder' ),
-						'value' => 'disabled'
+						'value' => 'disabled',
 					),
 				),
 				'section' => 'styling',
@@ -431,19 +455,19 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Invisible', 'live-composer-page-builder' ),
-						'value' => 'none'
+						'value' => 'none',
 					),
 					array(
 						'label' => __( 'Solid', 'live-composer-page-builder' ),
-						'value' => 'solid'
+						'value' => 'solid',
 					),
 					array(
 						'label' => __( 'Dashed', 'live-composer-page-builder' ),
-						'value' => 'dashed'
+						'value' => 'dashed',
 					),
 					array(
 						'label' => __( 'Dotted', 'live-composer-page-builder' ),
-						'value' => 'dotted'
+						'value' => 'dotted',
 					),
 				),
 				'refresh_on_change' => false,
@@ -493,6 +517,9 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Border Width', 'live-composer-page-builder' ),
 				'id' => 'css_thumb_border_width',
+				'min' => 0,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -510,19 +537,19 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Top', 'live-composer-page-builder' ),
-						'value' => 'top'
+						'value' => 'top',
 					),
 					array(
 						'label' => __( 'Right', 'live-composer-page-builder' ),
-						'value' => 'right'
+						'value' => 'right',
 					),
 					array(
 						'label' => __( 'Bottom', 'live-composer-page-builder' ),
-						'value' => 'bottom'
+						'value' => 'bottom',
 					),
 					array(
 						'label' => __( 'Left', 'live-composer-page-builder' ),
-						'value' => 'left'
+						'value' => 'left',
 					),
 				),
 				'refresh_on_change' => false,
@@ -534,30 +561,45 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Border Radius - Top', 'live-composer-page-builder' ),
 				'id' => 'css_thumbnail_border_radius_top',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '5',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-thumb-inner, .dslc-product-thumb img',
 				'affect_on_change_rule' => 'border-top-left-radius,border-top-right-radius',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'section' => 'styling',
 				'tab' => __( 'Thumbnail', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Border Radius - Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_thumbnail_border_radius_bottom',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-thumb-inner, .dslc-product-thumb img',
 				'affect_on_change_rule' => 'border-bottom-left-radius,border-bottom-right-radius',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'section' => 'styling',
 				'tab' => __( 'Thumbnail', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_thumbnail_margin_bottom',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -570,6 +612,9 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Padding Vertical', 'live-composer-page-builder' ),
 				'id' => 'css_thumbnail_padding_vertical',
+				'min' => 0,
+				'max' => 600,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -582,6 +627,9 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Padding Horizontal', 'live-composer-page-builder' ),
 				'id' => 'css_thumbnail_padding_horizontal',
+				'min' => 0,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -597,7 +645,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'std' => '',
 				'type' => 'text',
 				'section' => 'styling',
-				'tab' => __( 'thumbnail', 'live-composer-page-builder' ),
+				'tab' => __( 'Thumbnail', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Resize - Width', 'live-composer-page-builder' ),
@@ -605,7 +653,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'std' => '',
 				'type' => 'text',
 				'section' => 'styling',
-				'tab' => __( 'thumbnail', 'live-composer-page-builder' ),
+				'tab' => __( 'Thumbnail', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Resize - Width', 'live-composer-page-builder' ),
@@ -613,7 +661,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'std' => '',
 				'type' => 'text',
 				'section' => 'styling',
-				'tab' => __( 'thumbnail', 'live-composer-page-builder' ),
+				'tab' => __( 'Thumbnail', 'live-composer-page-builder' ),
 				'visibility' => 'hidden'
 			),
 			array(
@@ -628,7 +676,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'tab' => __( 'Thumbnail', 'live-composer-page-builder' ),
 				'min' => 1,
 				'max' => 100,
-				'ext' => '%'
+				'ext' => '%',
 			),
 
 			/**
@@ -660,6 +708,9 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Border Width', 'live-composer-page-builder' ),
 				'id' => 'css_price_border_width',
+				'min' => 0,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -677,19 +728,19 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Top', 'live-composer-page-builder' ),
-						'value' => 'top'
+						'value' => 'top',
 					),
 					array(
 						'label' => __( 'Right', 'live-composer-page-builder' ),
-						'value' => 'right'
+						'value' => 'right',
 					),
 					array(
 						'label' => __( 'Bottom', 'live-composer-page-builder' ),
-						'value' => 'bottom'
+						'value' => 'bottom',
 					),
 					array(
 						'label' => __( 'Left', 'live-composer-page-builder' ),
-						'value' => 'left'
+						'value' => 'left',
 					),
 				),
 				'refresh_on_change' => false,
@@ -704,7 +755,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'std' => '#ffffff',
 				'type' => 'color',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price',
+				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price .dslc-product-price-main',
 				'affect_on_change_rule' => 'color',
 				'section' => 'styling',
 				'tab' => __( 'Price', 'live-composer-page-builder' ),
@@ -712,11 +763,17 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Border Radius', 'live-composer-page-builder' ),
 				'id' => 'css_price_border_radius',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '6',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price-bg',
 				'affect_on_change_rule' => 'border-radius',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'section' => 'styling',
 				'ext' => 'px',
 				'tab' => __( 'Price', 'live-composer-page-builder' ),
@@ -724,29 +781,67 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_price_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '25',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price',
+				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price .dslc-product-price-main',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'styling',
 				'tab' => __( 'Price', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Font Weight', 'live-composer-page-builder' ),
 				'id' => 'css_price_font_weight',
 				'std' => '400',
-				'type' => 'slider',
+				'type' => 'select',
+				'choices' => array(
+					array(
+						'label' => '100 - Thin',
+						'value' => '100',
+					),
+					array(
+						'label' => '200 - Extra Light',
+						'value' => '200',
+					),
+					array(
+						'label' => '300 - Light',
+						'value' => '300',
+					),
+					array(
+						'label' => '400 - Normal',
+						'value' => '400',
+					),
+					array(
+						'label' => '500 - Medium',
+						'value' => '500',
+					),
+					array(
+						'label' => '600 - Semi Bold',
+						'value' => '600',
+					),
+					array(
+						'label' => '700 - Bold',
+						'value' => '700',
+					),
+					array(
+						'label' => '800 - Extra Bold',
+						'value' => '800',
+					),
+					array(
+						'label' => '900 - Black',
+						'value' => '900',
+					),
+				),
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price',
+				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price .dslc-product-price-main',
 				'affect_on_change_rule' => 'font-weight',
 				'section' => 'styling',
 				'tab' => __( 'Price', 'live-composer-page-builder' ),
 				'ext' => '',
-				'min' => 100,
-				'max' => 900,
-				'increment' => 100
 			),
 			array(
 				'label' => __( 'Font Family', 'live-composer-page-builder' ),
@@ -754,7 +849,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'std' => 'Oswald',
 				'type' => 'font',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price',
+				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price .dslc-product-price-main',
 				'affect_on_change_rule' => 'font-family',
 				'section' => 'styling',
 				'tab' => __( 'Price', 'live-composer-page-builder' ),
@@ -762,15 +857,19 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Margin', 'live-composer-page-builder' ),
 				'id' => 'css_price_margin',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price',
+				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price .dslc-product-price-main',
 				'affect_on_change_rule' => 'margin',
 				'section' => 'styling',
 				'tab' => __( 'Price', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
+			/*
 			array(
 				'label' => __( 'Opacity', 'live-composer-page-builder' ),
 				'id' => 'css_price_bg_opacity',
@@ -785,17 +884,18 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'max' => 1,
 				'increment' => 0.01
 			),
+			*/
 			array(
 				'label' => __( 'Padding', 'live-composer-page-builder' ),
 				'id' => 'css_price_padding',
 				'std' => '24',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price',
+				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price .dslc-product-price-main',
 				'affect_on_change_rule' => 'padding',
 				'section' => 'styling',
 				'tab' => __( 'Price', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Position', 'live-composer-page-builder' ),
@@ -807,23 +907,23 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Top Left', 'live-composer-page-builder' ),
-						'value' => 'topleft'
+						'value' => 'topleft',
 					),
 					array(
 						'label' => __( 'Top Right', 'live-composer-page-builder' ),
-						'value' => 'topright'
+						'value' => 'topright',
 					),
 					array(
 						'label' => __( 'Center', 'live-composer-page-builder' ),
-						'value' => 'center'
+						'value' => 'center',
 					),
 					array(
 						'label' => __( 'Bottom Left', 'live-composer-page-builder' ),
-						'value' => 'bottomleft'
+						'value' => 'bottomleft',
 					),
 					array(
 						'label' => __( 'Bottom Right', 'live-composer-page-builder' ),
-						'value' => 'bottomright'
+						'value' => 'bottomright',
 					),
 				)
 			),
@@ -842,15 +942,15 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Bellow Thumbnail', 'live-composer-page-builder' ),
-						'value' => 'bellow'
+						'value' => 'bellow',
 					),
 					array(
 						'label' => __( 'Inside Thumbnail ( hover )', 'live-composer-page-builder' ),
-						'value' => 'inside'
+						'value' => 'inside',
 					),
 					array(
 						'label' => __( 'Inside Thumbnail ( always visible )', 'live-composer-page-builder' ),
-						'value' => 'inside_visible'
+						'value' => 'inside_visible',
 					),
 				),
 			),
@@ -879,6 +979,10 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Border Width', 'live-composer-page-builder' ),
 				'id' => 'css_main_border_width',
+				'min' => 0,
+				'max' => 10,
+				'increment' => 1,
+				
 				'std' => '1',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -896,19 +1000,19 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Top', 'live-composer-page-builder' ),
-						'value' => 'top'
+						'value' => 'top',
 					),
 					array(
 						'label' => __( 'Right', 'live-composer-page-builder' ),
-						'value' => 'right'
+						'value' => 'right',
 					),
 					array(
 						'label' => __( 'Bottom', 'live-composer-page-builder' ),
-						'value' => 'bottom'
+						'value' => 'bottom',
 					),
 					array(
 						'label' => __( 'Left', 'live-composer-page-builder' ),
-						'value' => 'left'
+						'value' => 'left',
 					),
 				),
 				'refresh_on_change' => false,
@@ -920,26 +1024,38 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Border Radius - Top', 'live-composer-page-builder' ),
 				'id' => 'css_main_border_radius_top',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-main',
 				'affect_on_change_rule' => 'border-top-left-radius,border-top-right-radius',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'section' => 'styling',
 				'tab' => __( 'Main', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Border Radius - Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_main_border_radius_bottom',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '3',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-main',
 				'affect_on_change_rule' => 'border-bottom-left-radius,border-bottom-right-radius',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'section' => 'styling',
 				'tab' => __( 'Main', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Minimum Height', 'live-composer-page-builder' ),
@@ -958,6 +1074,9 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Padding Vertical', 'live-composer-page-builder' ),
 				'id' => 'css_main_padding_vertical',
+				'min' => 0,
+				'max' => 600,
+				'increment' => 1,
 				'std' => '20',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -970,6 +1089,9 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Padding Horizontal', 'live-composer-page-builder' ),
 				'id' => 'css_main_padding_horizontal',
+				'min' => 0,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '20',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -994,29 +1116,32 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Top Left', 'live-composer-page-builder' ),
-						'value' => 'topleft'
+						'value' => 'topleft',
 					),
 					array(
 						'label' => __( 'Top Right', 'live-composer-page-builder' ),
-						'value' => 'topright'
+						'value' => 'topright',
 					),
 					array(
 						'label' => __( 'Center', 'live-composer-page-builder' ),
-						'value' => 'center'
+						'value' => 'center',
 					),
 					array(
 						'label' => __( 'Bottom Left', 'live-composer-page-builder' ),
-						'value' => 'bottomleft'
+						'value' => 'bottomleft',
 					),
 					array(
 						'label' => __( 'Bottom Right', 'live-composer-page-builder' ),
-						'value' => 'bottomright'
+						'value' => 'bottomright',
 					),
 				)
 			),
 			array(
 				'label' => __( 'Margin', 'live-composer-page-builder' ),
 				'id' => 'css_main_inner_margin',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1079,29 +1204,67 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_title_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '12',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-title h2,.dslc-product-title h2 a',
+				'affect_on_change_el' => '.dslc-product-title h2, .dslc-product-title h2 a',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'styling',
 				'tab' => __( 'Title', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Font Weight', 'live-composer-page-builder' ),
 				'id' => 'css_title_font_weight',
 				'std' => '700',
-				'type' => 'slider',
+				'type' => 'select',
+				'choices' => array(
+					array(
+						'label' => '100 - Thin',
+						'value' => '100',
+					),
+					array(
+						'label' => '200 - Extra Light',
+						'value' => '200',
+					),
+					array(
+						'label' => '300 - Light',
+						'value' => '300',
+					),
+					array(
+						'label' => '400 - Normal',
+						'value' => '400',
+					),
+					array(
+						'label' => '500 - Medium',
+						'value' => '500',
+					),
+					array(
+						'label' => '600 - Semi Bold',
+						'value' => '600',
+					),
+					array(
+						'label' => '700 - Bold',
+						'value' => '700',
+					),
+					array(
+						'label' => '800 - Extra Bold',
+						'value' => '800',
+					),
+					array(
+						'label' => '900 - Black',
+						'value' => '900',
+					),
+				),
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-title h2,.dslc-product-title h2 a',
+				'affect_on_change_el' => '.dslc-product-title h2, .dslc-product-title h2 a',
 				'affect_on_change_rule' => 'font-weight',
 				'section' => 'styling',
 				'tab' => __( 'Title', 'live-composer-page-builder' ),
 				'ext' => '',
-				'min' => 100,
-				'max' => 900,
-				'increment' => 100
 			),
 			array(
 				'label' => __( 'Font Family', 'live-composer-page-builder' ),
@@ -1109,7 +1272,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'std' => 'Lato',
 				'type' => 'font',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-title h2,.dslc-product-title h2 a',
+				'affect_on_change_el' => '.dslc-product-title h2, .dslc-product-title h2 a',
 				'affect_on_change_rule' => 'font-family',
 				'section' => 'styling',
 				'tab' => __( 'Title', 'live-composer-page-builder' ),
@@ -1117,18 +1280,24 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Line Height', 'live-composer-page-builder' ),
 				'id' => 'css_title_line_height',
+				'min' => 0,
+				'max' => 120,
+				'increment' => 1,
 				'std' => '15',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-title h2,.dslc-product-title h2 a',
+				'affect_on_change_el' => '.dslc-product-title h2, .dslc-product-title h2 a',
 				'affect_on_change_rule' => 'line-height',
 				'section' => 'styling',
 				'tab' => __( 'Title', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_title_margin_bottom',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '16',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1136,7 +1305,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'margin-bottom',
 				'section' => 'styling',
 				'tab' => __( 'Title', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Margin Horizontal', 'live-composer-page-builder' ),
@@ -1148,7 +1317,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'margin-left,margin-right',
 				'section' => 'styling',
 				'tab' => __( 'Title', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Text Transform', 'live-composer-page-builder' ),
@@ -1158,19 +1327,19 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'None', 'live-composer-page-builder' ),
-						'value' => 'none'
+						'value' => 'none',
 					),
 					array(
 						'label' => __( 'Capitalize', 'live-composer-page-builder' ),
-						'value' => 'capitalize'
+						'value' => 'capitalize',
 					),
 					array(
 						'label' => __( 'Uppercase', 'live-composer-page-builder' ),
-						'value' => 'uppercase'
+						'value' => 'uppercase',
 					),
 					array(
 						'label' => __( 'Lowercase', 'live-composer-page-builder' ),
-						'value' => 'lowercase'
+						'value' => 'lowercase',
 					),
 				),
 				'refresh_on_change' => false,
@@ -1192,11 +1361,11 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Excerpt', 'live-composer-page-builder' ),
-						'value' => 'excerpt'
+						'value' => 'excerpt',
 					),
 					array(
 						'label' => __( 'Content', 'live-composer-page-builder' ),
-						'value' => 'content'
+						'value' => 'content',
 					),
 				),
 				'section' => 'styling',
@@ -1216,6 +1385,10 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Border Bottom Width', 'live-composer-page-builder' ),
 				'id' => 'css_excerpt_border_width',
+				'min' => 0,
+				'max' => 10,
+				'increment' => 1,
+				
 				'std' => '1',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1223,7 +1396,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'border-bottom-width',
 				'section' => 'styling',
 				'tab' => __( 'Excerpt', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Color', 'live-composer-page-builder' ),
@@ -1239,6 +1412,9 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_excerpt_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '13',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1246,22 +1422,57 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'styling',
 				'tab' => __( 'Excerpt', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Font Weight', 'live-composer-page-builder' ),
 				'id' => 'css_excerpt_font_weight',
 				'std' => '500',
-				'type' => 'slider',
+				'type' => 'select',
+				'choices' => array(
+					array(
+						'label' => '100 - Thin',
+						'value' => '100',
+					),
+					array(
+						'label' => '200 - Extra Light',
+						'value' => '200',
+					),
+					array(
+						'label' => '300 - Light',
+						'value' => '300',
+					),
+					array(
+						'label' => '400 - Normal',
+						'value' => '400',
+					),
+					array(
+						'label' => '500 - Medium',
+						'value' => '500',
+					),
+					array(
+						'label' => '600 - Semi Bold',
+						'value' => '600',
+					),
+					array(
+						'label' => '700 - Bold',
+						'value' => '700',
+					),
+					array(
+						'label' => '800 - Extra Bold',
+						'value' => '800',
+					),
+					array(
+						'label' => '900 - Black',
+						'value' => '900',
+					),
+				),
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-excerpt',
 				'affect_on_change_rule' => 'font-weight',
 				'section' => 'styling',
 				'tab' => __( 'Excerpt', 'live-composer-page-builder' ),
 				'ext' => '',
-				'min' => 100,
-				'max' => 900,
-				'increment' => 100
 			),
 			array(
 				'label' => __( 'Font Family', 'live-composer-page-builder' ),
@@ -1277,6 +1488,9 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Line Height', 'live-composer-page-builder' ),
 				'id' => 'css_excerpt_line_height',
+				'min' => 0,
+				'max' => 120,
+				'increment' => 1,
 				'std' => '23',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1284,11 +1498,14 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'line-height',
 				'section' => 'styling',
 				'tab' => __( 'Excerpt', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'excerpt_margin',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '17',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1296,7 +1513,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'margin-bottom',
 				'section' => 'styling',
 				'ext' => 'px',
-				'tab' => __( 'excerpt', 'live-composer-page-builder' ),
+				'tab' => __( 'Excerpt', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Max Length ( amount of words )', 'live-composer-page-builder' ),
@@ -1316,7 +1533,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'padding-bottom',
 				'section' => 'styling',
 				'ext' => 'px',
-				'tab' => __( 'excerpt', 'live-composer-page-builder' ),
+				'tab' => __( 'Excerpt', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Text Align', 'live-composer-page-builder' ),
@@ -1327,7 +1544,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_el' => '.dslc-product-excerpt',
 				'affect_on_change_rule' => 'text-align',
 				'section' => 'styling',
-				'tab' => __( 'excerpt', 'live-composer-page-builder' ),
+				'tab' => __( 'Excerpt', 'live-composer-page-builder' ),
 			),
 
 			/**
@@ -1359,6 +1576,9 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_price_2_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '16',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1366,22 +1586,57 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'styling',
 				'tab' => __( 'Price Secondary', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Font Weight', 'live-composer-page-builder' ),
 				'id' => 'css_price_2_font_weight',
 				'std' => '400',
-				'type' => 'slider',
+				'type' => 'select',
+				'choices' => array(
+					array(
+						'label' => '100 - Thin',
+						'value' => '100',
+					),
+					array(
+						'label' => '200 - Extra Light',
+						'value' => '200',
+					),
+					array(
+						'label' => '300 - Light',
+						'value' => '300',
+					),
+					array(
+						'label' => '400 - Normal',
+						'value' => '400',
+					),
+					array(
+						'label' => '500 - Medium',
+						'value' => '500',
+					),
+					array(
+						'label' => '600 - Semi Bold',
+						'value' => '600',
+					),
+					array(
+						'label' => '700 - Bold',
+						'value' => '700',
+					),
+					array(
+						'label' => '800 - Extra Bold',
+						'value' => '800',
+					),
+					array(
+						'label' => '900 - Black',
+						'value' => '900',
+					),
+				),
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-title .dslc-product-price-secondary',
 				'affect_on_change_rule' => 'font-weight',
 				'section' => 'styling',
 				'tab' => __( 'Price Secondary', 'live-composer-page-builder' ),
 				'ext' => '',
-				'min' => 100,
-				'max' => 900,
-				'increment' => 100
 			),
 			array(
 				'label' => __( 'Font Family', 'live-composer-page-builder' ),
@@ -1434,6 +1689,9 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_sep_margin_bottom',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '17',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1441,7 +1699,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'margin-bottom',
 				'section' => 'styling',
 				'tab' => __( 'Separator', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 
 			/**
@@ -1470,6 +1728,9 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Add to cart - Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_addtocart_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '11',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1477,22 +1738,57 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'styling',
 				'tab' => __( 'Other', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Add to cart - Font Weight', 'live-composer-page-builder' ),
 				'id' => 'css_addtocart_font_weight',
 				'std' => '700',
-				'type' => 'slider',
+				'type' => 'select',
+				'choices' => array(
+					array(
+						'label' => '100 - Thin',
+						'value' => '100',
+					),
+					array(
+						'label' => '200 - Extra Light',
+						'value' => '200',
+					),
+					array(
+						'label' => '300 - Light',
+						'value' => '300',
+					),
+					array(
+						'label' => '400 - Normal',
+						'value' => '400',
+					),
+					array(
+						'label' => '500 - Medium',
+						'value' => '500',
+					),
+					array(
+						'label' => '600 - Semi Bold',
+						'value' => '600',
+					),
+					array(
+						'label' => '700 - Bold',
+						'value' => '700',
+					),
+					array(
+						'label' => '800 - Extra Bold',
+						'value' => '800',
+					),
+					array(
+						'label' => '900 - Black',
+						'value' => '900',
+					),
+				),
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-extra .dslc-product-add-to-cart',
 				'affect_on_change_rule' => 'font-weight',
 				'section' => 'styling',
 				'tab' => __( 'Other', 'live-composer-page-builder' ),
 				'ext' => '',
-				'min' => 100,
-				'max' => 900,
-				'increment' => 100
 			),
 			array(
 				'label' => __( 'Add to cart - Font Family', 'live-composer-page-builder' ),
@@ -1527,6 +1823,9 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 			array(
 				'label' => __( 'Details - Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_details_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '11',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1534,22 +1833,57 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'styling',
 				'tab' => __( 'Other', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Details - Font Weight', 'live-composer-page-builder' ),
 				'id' => 'css_details_font_weight',
 				'std' => '600',
-				'type' => 'slider',
+				'type' => 'select',
+				'choices' => array(
+					array(
+						'label' => '100 - Thin',
+						'value' => '100',
+					),
+					array(
+						'label' => '200 - Extra Light',
+						'value' => '200',
+					),
+					array(
+						'label' => '300 - Light',
+						'value' => '300',
+					),
+					array(
+						'label' => '400 - Normal',
+						'value' => '400',
+					),
+					array(
+						'label' => '500 - Medium',
+						'value' => '500',
+					),
+					array(
+						'label' => '600 - Semi Bold',
+						'value' => '600',
+					),
+					array(
+						'label' => '700 - Bold',
+						'value' => '700',
+					),
+					array(
+						'label' => '800 - Extra Bold',
+						'value' => '800',
+					),
+					array(
+						'label' => '900 - Black',
+						'value' => '900',
+					),
+				),
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-extra .dslc-product-details',
 				'affect_on_change_rule' => 'font-weight',
 				'section' => 'styling',
 				'tab' => __( 'Other', 'live-composer-page-builder' ),
 				'ext' => '',
-				'min' => 100,
-				'max' => 900,
-				'increment' => 100
 			),
 			array(
 				'label' => __( 'Details - Font Family', 'live-composer-page-builder' ),
@@ -1575,26 +1909,29 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Disabled', 'live-composer-page-builder' ),
-						'value' => 'disabled'
+						'value' => 'disabled',
 					),
 					array(
 						'label' => __( 'Enabled', 'live-composer-page-builder' ),
-						'value' => 'enabled'
+						'value' => 'enabled',
 					),
 				),
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Margin Bottom', 'live-composer-page-builder' ),
-				'id' => 'css_res_t_margin_bottom',
+				'id' => 'css_res_t_s_bottom',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-products',
 				'affect_on_change_rule' => 'margin-bottom',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 				'ext' => 'px',
 			),
 			array(
@@ -1609,11 +1946,14 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'min' => 1,
 				'max' => 300,
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Thumbnail - Padding Vertical', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_thumbnail_padding_vertical',
+				'min' => 0,
+				'max' => 600,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1621,11 +1961,14 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'padding-top,padding-bottom',
 				'section' => 'responsive',
 				'ext' => 'px',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Thumbnail - Padding Horizontal', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_thumbnail_padding_horizontal',
+				'min' => 0,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1633,31 +1976,37 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'padding-left,padding-right',
 				'section' => 'responsive',
 				'ext' => 'px',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Price - Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_price_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '25',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price',
+				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price .dslc-product-price-main',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Price - Margin', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_price_margin',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price',
+				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price .dslc-product-price-main',
 				'affect_on_change_rule' => 'margin',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Price - Padding', 'live-composer-page-builder' ),
@@ -1665,15 +2014,18 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'std' => '24',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price',
+				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price .dslc-product-price-main',
 				'affect_on_change_rule' => 'padding',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Main - Padding Vertical', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_main_padding_vertical',
+				'min' => 0,
+				'max' => 600,
+				'increment' => 1,
 				'std' => '20',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1681,11 +2033,14 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'padding-top,padding-bottom',
 				'section' => 'responsive',
 				'ext' => 'px',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Main - Padding Horizontal', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_main_padding_horizontal',
+				'min' => 0,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '20',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1693,43 +2048,52 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'padding-left,padding-right',
 				'section' => 'responsive',
 				'ext' => 'px',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Title - Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_title_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '12',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-title h2',
+				'affect_on_change_el' => '.dslc-product-title h2, .dslc-product-title h2 a',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Title - Line Height', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_title_line_height',
+				'min' => 0,
+				'max' => 120,
+				'increment' => 1,
 				'std' => '15',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-title h2',
+				'affect_on_change_el' => '.dslc-product-title h2, .dslc-product-title h2 a',
 				'affect_on_change_rule' => 'line-height',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Title - Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_title_margin_bottom',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '16',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-title',
 				'affect_on_change_rule' => 'margin-bottom',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Title - Margin Horizontal', 'live-composer-page-builder' ),
@@ -1740,36 +2104,45 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_el' => '.dslc-product-title h2 a',
 				'affect_on_change_rule' => 'margin-left,margin-right',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Excerpt - Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_excerpt_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '13',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-excerpt',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Excerpt - Line Height', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_excerpt_line_height',
+				'min' => 0,
+				'max' => 120,
+				'increment' => 1,
 				'std' => '23',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-excerpt, .dslc-product-excerpt p',
 				'affect_on_change_rule' => 'line-height',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Excerpt - Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_excerpt_margin',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '17',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1777,7 +2150,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'margin-bottom',
 				'section' => 'responsive',
 				'ext' => 'px',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Excerpt - Padding Bottom', 'live-composer-page-builder' ),
@@ -1789,55 +2162,67 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'padding-bottom',
 				'section' => 'responsive',
 				'ext' => 'px',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Price 2nd - Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_price_2_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '16',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-title .dslc-product-price-secondary',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Separator - Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_sep_margin_bottom',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '17',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-sep',
 				'affect_on_change_rule' => 'margin-bottom',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Add to cart - Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_addtocart_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '11',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-extra .dslc-product-add-to-cart',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Details - Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_details_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '11',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-extra .dslc-product-details',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 
 			/**
@@ -1852,26 +2237,29 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'choices' => array(
 					array(
 						'label' => __( 'Disabled', 'live-composer-page-builder' ),
-						'value' => 'disabled'
+						'value' => 'disabled',
 					),
 					array(
 						'label' => __( 'Enabled', 'live-composer-page-builder' ),
-						'value' => 'enabled'
+						'value' => 'enabled',
 					),
 				),
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_margin_bottom',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-products',
 				'affect_on_change_rule' => 'margin-bottom',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 				'ext' => 'px',
 			),
 			array(
@@ -1886,11 +2274,14 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'min' => 1,
 				'max' => 300,
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Thumbnail - Padding Vertical', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_thumbnail_padding_vertical',
+				'min' => 0,
+				'max' => 600,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1898,11 +2289,14 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'padding-top,padding-bottom',
 				'section' => 'responsive',
 				'ext' => 'px',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Thumbnail - Padding Horizontal', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_thumbnail_padding_horizontal',
+				'min' => 0,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1910,31 +2304,37 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'padding-left,padding-right',
 				'section' => 'responsive',
 				'ext' => 'px',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Price - Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_price_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '25',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price',
+				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price .dslc-product-price-main',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Price - Margin', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_price_margin',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price',
+				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price .dslc-product-price-main',
 				'affect_on_change_rule' => 'margin',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Price - Padding', 'live-composer-page-builder' ),
@@ -1942,15 +2342,18 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'std' => '24',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price',
+				'affect_on_change_el' => '.dslc-product-thumb .dslc-product-price .dslc-product-price-main',
 				'affect_on_change_rule' => 'padding',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Main - Padding Vertical', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_main_padding_vertical',
+				'min' => 0,
+				'max' => 600,
+				'increment' => 1,
 				'std' => '20',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1958,11 +2361,14 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'padding-top,padding-bottom',
 				'section' => 'responsive',
 				'ext' => 'px',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Main - Padding Horizontal', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_main_padding_horizontal',
+				'min' => 0,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '20',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1970,43 +2376,52 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'padding-left,padding-right',
 				'section' => 'responsive',
 				'ext' => 'px',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Title - Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_title_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '12',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-title h2',
+				'affect_on_change_el' => '.dslc-product-title h2, .dslc-product-title h2 a',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Title - Line Height', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_title_line_height',
+				'min' => 0,
+				'max' => 120,
+				'increment' => 1,
 				'std' => '15',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-product-title h2',
+				'affect_on_change_el' => '.dslc-product-title h2, .dslc-product-title h2 a',
 				'affect_on_change_rule' => 'line-height',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Title - Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_title_margin_bottom',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '16',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-title',
 				'affect_on_change_rule' => 'margin-bottom',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Title - Margin Horizontal', 'live-composer-page-builder' ),
@@ -2017,36 +2432,45 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_el' => '.dslc-product-title h2 a',
 				'affect_on_change_rule' => 'margin-left,margin-right',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Excerpt - Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_excerpt_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '13',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-excerpt',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Excerpt - Line Height', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_excerpt_line_height',
+				'min' => 0,
+				'max' => 120,
+				'increment' => 1,
 				'std' => '23',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-excerpt, .dslc-product-excerpt p',
 				'affect_on_change_rule' => 'line-height',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Excerpt - Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_excerpt_margin',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '17',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -2054,7 +2478,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'margin-bottom',
 				'section' => 'responsive',
 				'ext' => 'px',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Excerpt - Padding Bottom', 'live-composer-page-builder' ),
@@ -2066,55 +2490,67 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 				'affect_on_change_rule' => 'padding-bottom',
 				'section' => 'responsive',
 				'ext' => 'px',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Price 2nd - Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_price_2_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '16',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-title .dslc-product-price-secondary',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Separator - Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_sep_margin_bottom',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '17',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-sep',
 				'affect_on_change_rule' => 'margin-bottom',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Add to cart - Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_addtocart_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '11',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-extra .dslc-product-add-to-cart',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Details - Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_details_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '11',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-product-extra .dslc-product-details',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 
 		);
@@ -2131,7 +2567,12 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 		return apply_filters( 'dslc_module_options', $dslc_options, $this->module_id );
 
 	}
-
+	/**
+	 * Module HTML output.
+	 *
+	 * @param  array $options Module options to fill the module template.
+	 * @return void
+	 */
 	function output( $options ) {
 
 		if ( is_feed() ) {
@@ -2423,11 +2864,10 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 									?>
 
 										<div class="dslc-post-filters">
-
-											<span class="dslc-post-filter dslc-active" data-id=" "><?php _ex( 'All', 'Post Filter', 'live-composer-page-builder' ); ?></span>
+											<span class="dslc-post-filter dslc-active dslca-editable-content" data-filter-id="show-all" <?php if ( $dslc_is_admin ){ echo 'data-id="main_filter_title_all" data-type="simple" contenteditable '; } ?>><?php echo $options['main_filter_title_all']; ?></span>
 
 											<?php foreach ( $cats_array as $cat_slug => $cat_name ) : ?>
-												<span class="dslc-post-filter dslc-inactive" data-id="<?php echo $cat_slug; ?>"><?php echo $cat_name; ?></span>
+												<span class="dslc-post-filter dslc-inactive" data-filter-id="<?php echo $cat_slug; ?>"><?php echo $cat_name; ?></span>
 											<?php endforeach; ?>
 
 										</div><!-- .dslc-post-filters -->
@@ -2443,8 +2883,8 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 							<?php if ( $show_carousel_arrows ) : ?>
 								<span class="dslc-carousel-nav fr">
 									<span class="dslc-carousel-nav-inner">
-										<a href="#" class="dslc-carousel-nav-prev"><span class="dslc-icon-chevron-left dslc-init-center"></span></a>
-										<a href="#" class="dslc-carousel-nav-next"><span class="dslc-icon-chevron-right dslc-init-center"></span></a>
+										<a href="#" class="dslc-carousel-nav-prev"><span class="dslc-icon-chevron-left"></span></a>
+										<a href="#" class="dslc-carousel-nav-next"><span class="dslc-icon-chevron-right"></span></a>
 									</span>
 								</span><!-- .carousel-nav -->
 							<?php endif; ?>
@@ -2464,7 +2904,7 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 
 						?><div class="dslc-posts-inner"><?php
 
-							if ( $options['type'] == 'carousel' ) :
+							if ( 'carousel' === $options['type'] ) :
 
 								?><div class="dslc-loader"></div><div class="dslc-carousel" data-stop-on-hover="<?php echo $options['carousel_autoplay_hover']; ?>" data-autoplay="<?php echo $options['carousel_autoplay']; ?>" data-columns="<?php echo $carousel_items; ?>" data-pagination="<?php if ( in_array( 'circles', $carousel_elements ) ) echo 'true'; else echo 'false'; ?>" data-slide-speed="<?php echo $options['arrows_slide_speed']; ?>" data-pagination-speed="<?php echo $options['circles_slide_speed']; ?>"><?php
 
@@ -2483,12 +2923,13 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 									$extra_class = '';
 								}
 
-								if ( ! has_post_thumbnail() )
+								if ( ! has_post_thumbnail() ) {
 									$extra_class .= ' dslc-post-no-thumb';
-
+								}
 
 								$post_cats = get_the_terms( get_the_ID(), 'product_cat' );
 								$post_cats_data = '';
+
 								if ( ! empty( $post_cats ) ) {
 									foreach ( $post_cats as $post_cat ) {
 										$post_cats_data .= $post_cat->slug . ' ';
@@ -2506,32 +2947,34 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 											<div class="dslc-post-thumb dslc-product-thumb dslc-on-hover-anim">
 
 												<?php
-													/**
-													 * Manual Resize
-													 */
+												/**
+												 * Manual Resize
+												 */
 
-													$manual_resize = false;
-													if ( isset( $options['thumb_resize_height'] ) && ! empty( $options['thumb_resize_height'] ) || isset( $options['thumb_resize_width_manual'] ) && ! empty( $options['thumb_resize_width_manual'] ) ) {
+												$manual_resize = false;
+												if ( isset( $options['thumb_resize_height'] ) && ! empty( $options['thumb_resize_height'] ) || isset( $options['thumb_resize_width_manual'] ) && ! empty( $options['thumb_resize_width_manual'] ) ) {
 
-														$manual_resize = true;
-														$thumb_url = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );
-														$thumb_url = $thumb_url[0];
+													$manual_resize = true;
+													$thumb_url = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );
+													$thumb_url = $thumb_url[0];
 
-														$thumb_alt = get_post_meta( get_post_thumbnail_id(), '_wp_attachment_image_alt', true );
-														if ( ! $thumb_alt ) $thumb_alt = '';
+													$thumb_alt = get_post_meta( get_post_thumbnail_id(), '_wp_attachment_image_alt', true );
 
-														$resize_width = false;
-														$resize_height = false;
-
-														if ( isset( $options['thumb_resize_width_manual'] ) && ! empty( $options['thumb_resize_width_manual'] ) ) {
-															$resize_width = $options['thumb_resize_width_manual'];
-														}
-
-														if ( isset( $options['thumb_resize_height'] ) && ! empty( $options['thumb_resize_height'] ) ) {
-															$resize_height = $options['thumb_resize_height'];
-														}
-
+													if ( ! $thumb_alt ) {
+														$thumb_alt = '';
 													}
+
+													$resize_width = false;
+													$resize_height = false;
+
+													if ( isset( $options['thumb_resize_width_manual'] ) && ! empty( $options['thumb_resize_width_manual'] ) ) {
+														$resize_width = $options['thumb_resize_width_manual'];
+													}
+
+													if ( isset( $options['thumb_resize_height'] ) && ! empty( $options['thumb_resize_height'] ) ) {
+														$resize_height = $options['thumb_resize_height'];
+													}
+												}
 												?>
 
 
@@ -2544,16 +2987,16 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 													<?php endif; ?>
 
 													<?php if ( $post_elements == 'all' || in_array( 'price', $post_elements ) ) : ?>
-														<a href="<?php echo do_shortcode( '[add_to_cart_url id="' . get_the_ID() . '"]' ); ?>" class="dslc-product-price dslc-init-square dslc-init-<?php echo $options['price_pos']; ?>"><span class="dslc-product-price-bg"></span><span class="dslc-product-price-main"><?php echo $product->get_price_html(); ?></span></a>
+														<a href="<?php echo do_shortcode( '[add_to_cart_url id="' . get_the_ID() . '"]' ); ?>" class="dslc-product-price dslc-init-<?php echo $options['price_pos']; ?>"><span class="dslc-product-price-main dslc-product-price-bg dslc-init-target"><?php echo $product->get_price_html(); ?></span></a>
 													<?php endif; ?>
 
 												</div><!-- .dslc-product-thumb-inner -->
 
 												<?php if ( ( $options['main_location'] == 'inside' || $options['main_location'] == 'inside_visible' ) && ( $post_elements == 'all' || in_array( 'title', $post_elements ) || in_array( 'excerpt', $post_elements ) || in_array( 'addtocart', $post_elements ) || in_array( 'details', $post_elements ) ) ) : ?>
 
-													<div class="dslc-post-main dslc-product-main <?php if ( $options['main_location'] == 'inside_visible' ) echo 'dslc-product-main-visible'; ?> dslc-on-hover-anim-target dslc-anim-<?php echo $options['css_anim_hover']; ?>" data-dslc-anim="<?php echo $options['css_anim_hover'] ?>" data-dslc-anim-speed="<?php echo $options['css_anim_speed']; ?>">
+													<div class="dslc-post-main dslc-init-<?php echo $options['main_position']; ?> dslc-product-main <?php if ( $options['main_location'] == 'inside_visible' ) echo 'dslc-product-main-visible'; ?> dslc-on-hover-anim-target dslc-anim-<?php echo $options['css_anim_hover']; ?>" data-dslc-anim="<?php echo $options['css_anim_hover'] ?>" data-dslc-anim-speed="<?php echo $options['css_anim_speed']; ?>">
 
-														<div class="dslc-product-main-inner dslc-init-<?php echo $options['main_position']; ?>">
+														<div class="dslc-product-main-inner dslc-init-target">
 
 															<?php if ( $post_elements == 'all' || in_array( 'title', $post_elements ) ) : ?>
 
@@ -2579,17 +3022,21 @@ class DSLC_WooCommerce_Products extends DSLC_Module {
 																		<?php the_content(); ?>
 																	<?php else : ?>
 																		<?php
-																			if ( $options['excerpt_length'] > 0 ) {
-																				if ( has_excerpt() )
-																					echo do_shortcode( wp_trim_words( get_the_excerpt(), $options['excerpt_length'] ) );
-																				else
-																					echo do_shortcode( wp_trim_words( get_the_content(), $options['excerpt_length'] ) );
+																		if ( $options['excerpt_length'] > 0 ) {
+
+																			if ( has_excerpt() ) {
+																				echo do_shortcode( wp_trim_words( get_the_excerpt(), $options['excerpt_length'] ) );
 																			} else {
-																				if ( has_excerpt() )
-																					echo do_shortcode( get_the_excerpt() );
-																				else
-																					echo do_shortcode( get_the_content() );
+																				echo do_shortcode( wp_trim_words( get_the_content(), $options['excerpt_length'] ) );
 																			}
+																		} else {
+
+																			if ( has_excerpt() ) {
+																				echo do_shortcode( get_the_excerpt() );
+																			} else {
+																				echo do_shortcode( get_the_content() );
+																			}
+																		}
 																		?>
 																	<?php endif; ?>
 																</div><!-- .dslc-product-excerpt -->

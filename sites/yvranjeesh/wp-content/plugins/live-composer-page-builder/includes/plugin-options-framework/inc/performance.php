@@ -1,4 +1,9 @@
 <?php
+// Prevent direct access to the file.
+if ( ! defined( 'ABSPATH' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	exit;
+}
 
 /**
  * Register options
@@ -9,7 +14,6 @@
 function dslc_perf_settings_init() {
 
 	global $dslc_plugin_options;
-	global $dslc_var_modules;
 
 	$dslc_plugin_options['dslc_plugin_options_performance'] = array(
 		'title' => __( 'Performance', 'live-composer-page-builder' ),

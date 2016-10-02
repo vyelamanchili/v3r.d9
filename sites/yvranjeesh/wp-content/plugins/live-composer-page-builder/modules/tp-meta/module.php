@@ -1,5 +1,11 @@
 <?php
 
+// Prevent direct access to the file.
+if ( ! defined( 'ABSPATH' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	exit;
+}
+
 class DSLC_TP_Meta extends DSLC_Module {
 
 	var $module_id;
@@ -12,14 +18,29 @@ class DSLC_TP_Meta extends DSLC_Module {
 		$this->module_id = 'DSLC_TP_Meta';
 		$this->module_title = 'Meta';
 		$this->module_icon = 'info';
-		$this->module_category = 'single';
+		$this->module_category = 'For Templates';
 
 	}
 
-	function options() {	
+	/**
+	 * Module options.
+	 * Function build array with all the module functionality and styling options.
+	 * Based on this array Live Composer builds module settings panel.
+	 * – Every array inside $dslc_options means one option = one control.
+	 * – Every option should have unique (for this module) id.
+	 * – Options divides on "Functionality" and "Styling".
+	 * – Styling options start with css_XXXXXXX
+	 * – Responsive options start with css_res_t_ (Tablet) or css_res_p_ (Phone)
+	 * – Options can be hidden.
+	 * – Options can have a default value.
+	 * – Options can request refresh from server on change or do live refresh via CSS.
+	 *
+	 * @return array All the module options in array.
+	 */
+	function options() {
 
 		$dslc_options = array(
-			
+
 			array(
 				'label' => __( 'Show On', 'live-composer-page-builder' ),
 				'id' => 'css_show_on',
@@ -81,7 +102,7 @@ class DSLC_TP_Meta extends DSLC_Module {
 						'value' => 'comments'
 					),
 				),
-				'section' => 'styling'
+				'section' => 'styling',
 			),
 			array(
 				'label' => __( 'Format', 'live-composer-page-builder' ),
@@ -109,7 +130,7 @@ class DSLC_TP_Meta extends DSLC_Module {
 				'affect_on_change_el' => 'li',
 				'affect_on_change_rule' => 'margin',
 				'section' => 'styling',
-				'ext' => 'px'
+				'ext' => 'px',
 			),
 
 			array(
@@ -135,6 +156,9 @@ class DSLC_TP_Meta extends DSLC_Module {
 			array(
 				'label' => __( 'Border Width', 'live-composer-page-builder' ),
 				'id' => 'css_main_border_width',
+				'min' => 0,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -174,28 +198,43 @@ class DSLC_TP_Meta extends DSLC_Module {
 			array(
 				'label' => __( 'Border Radius - Top', 'live-composer-page-builder' ),
 				'id' => 'css_main_border_radius_top',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-tp-meta',
 				'affect_on_change_rule' => 'border-top-left-radius,border-top-right-radius',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'section' => 'styling',
 				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Border Radius - Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_main_border_radius_bottom',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-tp-meta',
 				'affect_on_change_rule' => 'border-bottom-left-radius,border-bottom-right-radius',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'section' => 'styling',
 				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_margin_bottom',
+				'min' => -1000,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -221,6 +260,9 @@ class DSLC_TP_Meta extends DSLC_Module {
 			array(
 				'label' => __( 'Padding Vertical', 'live-composer-page-builder' ),
 				'id' => 'css_main_padding_vertical',
+				'min' => 0,
+				'max' => 600,
+				'increment' => 1,
 				'std' => '5',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -232,6 +274,9 @@ class DSLC_TP_Meta extends DSLC_Module {
 			array(
 				'label' => __( 'Padding Horizontal', 'live-composer-page-builder' ),
 				'id' => 'css_main_padding_horizontal',
+				'min' => 0,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -248,11 +293,17 @@ class DSLC_TP_Meta extends DSLC_Module {
 			array(
 				'label' => __( 'Avatar - Border Radius', 'live-composer-page-builder' ),
 				'id' => 'css_meta_avatar_border_radius',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '100',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-tp-meta-avatar img',
 				'affect_on_change_rule' => 'border-radius',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'section' => 'styling',
 				'ext' => 'px',
 				'tab' => __( 'Avatar', 'live-composer-page-builder' ),
@@ -295,7 +346,7 @@ class DSLC_TP_Meta extends DSLC_Module {
 				'affect_on_change_el' => 'li',
 				'affect_on_change_rule' => 'color',
 				'section' => 'styling',
-				'tab' => __( 'typography', 'live-composer-page-builder' ),
+				'tab' => __( 'Typography', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Color - Hover', 'live-composer-page-builder' ),
@@ -306,34 +357,72 @@ class DSLC_TP_Meta extends DSLC_Module {
 				'affect_on_change_el' => 'li:hover',
 				'affect_on_change_rule' => 'color',
 				'section' => 'styling',
-				'tab' => __( 'typography', 'live-composer-page-builder' ),
+				'tab' => __( 'Typography', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Font Size', 'live-composer-page-builder' ),
 				'id' => 'font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '13',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => 'li, li a',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'styling',
-				'tab' => __( 'typography', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Typography', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Font Weight', 'live-composer-page-builder' ),
 				'id' => 'css_font_weight',
 				'std' => '400',
-				'type' => 'slider',
+				'type' => 'select',
+				'choices' => array(
+					array(
+						'label' => '100 - Thin',
+						'value' => '100',
+					),
+					array(
+						'label' => '200 - Extra Light',
+						'value' => '200',
+					),
+					array(
+						'label' => '300 - Light',
+						'value' => '300',
+					),
+					array(
+						'label' => '400 - Normal',
+						'value' => '400',
+					),
+					array(
+						'label' => '500 - Medium',
+						'value' => '500',
+					),
+					array(
+						'label' => '600 - Semi Bold',
+						'value' => '600',
+					),
+					array(
+						'label' => '700 - Bold',
+						'value' => '700',
+					),
+					array(
+						'label' => '800 - Extra Bold',
+						'value' => '800',
+					),
+					array(
+						'label' => '900 - Black',
+						'value' => '900',
+					),
+				),
 				'refresh_on_change' => false,
 				'affect_on_change_el' => 'li, li a',
 				'affect_on_change_rule' => 'font-weight',
 				'section' => 'styling',
-				'tab' => __( 'typography', 'live-composer-page-builder' ),
+				'tab' => __( 'Typography', 'live-composer-page-builder' ),
 				'ext' => '',
-				'min' => 100,
-				'max' => 900,
-				'increment' => 100
 			),
 			array(
 				'label' => __( 'Font Family', 'live-composer-page-builder' ),
@@ -344,19 +433,22 @@ class DSLC_TP_Meta extends DSLC_Module {
 				'affect_on_change_el' => 'li, li a',
 				'affect_on_change_rule' => 'font-family',
 				'section' => 'styling',
-				'tab' => __( 'typography', 'live-composer-page-builder' ),
+				'tab' => __( 'Typography', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Line Height', 'live-composer-page-builder' ),
 				'id' => 'css_line_height',
+				'min' => 0,
+				'max' => 120,
+				'increment' => 1,
 				'std' => '30',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => 'li, li a',
 				'affect_on_change_rule' => 'line-height',
 				'section' => 'styling',
-				'tab' => __( 'typography', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Typography', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Text Shadow', 'live-composer-page-builder' ),
@@ -367,7 +459,7 @@ class DSLC_TP_Meta extends DSLC_Module {
 				'affect_on_change_el' => 'li',
 				'affect_on_change_rule' => 'text-shadow',
 				'section' => 'styling',
-				'tab' => __( 'typography', 'live-composer-page-builder' ),
+				'tab' => __( 'Typography', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Link - Color', 'live-composer-page-builder' ),
@@ -378,7 +470,7 @@ class DSLC_TP_Meta extends DSLC_Module {
 				'affect_on_change_el' => 'li a',
 				'affect_on_change_rule' => 'color',
 				'section' => 'styling',
-				'tab' => __( 'typography', 'live-composer-page-builder' ),
+				'tab' => __( 'Typography', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Link - Color - Hover', 'live-composer-page-builder' ),
@@ -389,7 +481,7 @@ class DSLC_TP_Meta extends DSLC_Module {
 				'affect_on_change_el' => 'li a:hover',
 				'affect_on_change_rule' => 'color',
 				'section' => 'styling',
-				'tab' => __( 'typography', 'live-composer-page-builder' ),
+				'tab' => __( 'Typography', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Link - Text Shadow', 'live-composer-page-builder' ),
@@ -400,9 +492,9 @@ class DSLC_TP_Meta extends DSLC_Module {
 				'affect_on_change_el' => 'li a',
 				'affect_on_change_rule' => 'text-shadow',
 				'section' => 'styling',
-				'tab' => __( 'typography', 'live-composer-page-builder' ),
+				'tab' => __( 'Typography', 'live-composer-page-builder' ),
 			),
-			
+
 
 			/**
 			 * Responsive Tablet
@@ -424,43 +516,52 @@ class DSLC_TP_Meta extends DSLC_Module {
 					),
 				),
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Padding Vertical', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_main_padding_vertical',
+				'min' => 0,
+				'max' => 600,
+				'increment' => 1,
 				'std' => '5',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-tp-meta',
 				'affect_on_change_rule' => 'padding-top,padding-bottom',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Padding Horizontal', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_main_padding_horizontal',
+				'min' => 0,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-tp-meta',
 				'affect_on_change_rule' => 'padding-left,padding-right',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '13',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => 'li, li a',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'responsive',
-				'tab' => __( 'tablet', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 
 			/**
@@ -483,43 +584,52 @@ class DSLC_TP_Meta extends DSLC_Module {
 					),
 				),
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Padding Vertical', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_main_padding_vertical',
+				'min' => 0,
+				'max' => 600,
+				'increment' => 1,
 				'std' => '5',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-tp-meta',
 				'affect_on_change_rule' => 'padding-top,padding-bottom',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Padding Horizontal', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_main_padding_horizontal',
+				'min' => 0,
+				'max' => 1000,
+				'increment' => 1,
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-tp-meta',
 				'affect_on_change_rule' => 'padding-left,padding-right',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 				'ext' => 'px',
 			),
 			array(
 				'label' => __( 'Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_font_size',
+				'min' => 0,
+				'max' => 100,
+				'increment' => 1,
 				'std' => '13',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => 'li, li a',
 				'affect_on_change_rule' => 'font-size',
 				'section' => 'responsive',
-				'tab' => __( 'phone', 'live-composer-page-builder' ),
-				'ext' => 'px'
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
 			),
 
 		);
@@ -530,7 +640,12 @@ class DSLC_TP_Meta extends DSLC_Module {
 		return apply_filters( 'dslc_module_options', $dslc_options, $this->module_id );
 
 	}
-
+	/**
+	 * Module HTML output.
+	 *
+	 * @param  array $options Module options to fill the module template.
+	 * @return void
+	 */
 	function output( $options ) {
 
 		global $dslc_active;
@@ -557,7 +672,7 @@ class DSLC_TP_Meta extends DSLC_Module {
 		$comments_output = '';
 
 		if ( comments_open( $post_id ) ) {
-			
+
 			if ( $num_comments == 0 )
 				$comments = __( 'No Comments' );
 			elseif ( $num_comments > 1 )
@@ -583,7 +698,7 @@ class DSLC_TP_Meta extends DSLC_Module {
 
 				<div class="dslc-tp-meta dslc-tp-meta-<?php echo $options['format']; ?>">
 					<ul class="dslc-clearfix">
-						
+
 						<?php if ( in_array( 'date', $tp_elements ) ) : ?>
 							<li><?php echo get_the_time( get_option( 'date_format' ), $post_id ); ?></li>
 						<?php endif; ?>
@@ -617,7 +732,7 @@ class DSLC_TP_Meta extends DSLC_Module {
 								<?php
 									foreach ( $post_type_taxonomies as $taxonomy ) {
 										if ( $taxonomy->hierarchical == true ) {
-											
+
 											$cats = get_the_terms( get_the_ID(), $taxonomy->name );
 											$cats_count = 0;
 											if ( $cats ) {
@@ -644,7 +759,7 @@ class DSLC_TP_Meta extends DSLC_Module {
 								<?php
 									foreach ( $post_type_taxonomies as $taxonomy ) {
 										if ( $taxonomy->hierarchical == false ) {
-											
+
 											$cats = get_the_terms( get_the_ID(), $taxonomy->name );
 											$tags_count = 0;
 											if ( $cats ) {

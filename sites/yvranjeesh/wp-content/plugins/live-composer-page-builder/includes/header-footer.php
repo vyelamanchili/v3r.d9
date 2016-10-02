@@ -14,6 +14,12 @@
  * - dslc_hf_get_footer ( Get the footer output code )
  */
 
+// Prevent direct access to the file.
+if ( ! defined( 'ABSPATH' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	exit;
+}
+
 /**
  * Register custom post type and add options
  *
@@ -22,14 +28,17 @@
 
 function dslc_hf_init() {
 
-	if ( ! defined( 'DS_LIVE_COMPOSER_HF' ) || ! DS_LIVE_COMPOSER_HF ) return;
+	if ( ! defined( 'DS_LIVE_COMPOSER_HF' ) || ! DS_LIVE_COMPOSER_HF ) {
+		return;
+	}
 
 	$capability = 'publish_posts';
 
 	register_post_type( 'dslc_hf', array(
 		'menu_icon' => 'dashicons-image-flip-vertical',
 		'labels' => array(
-			'name' => __( 'Header/Footer', 'live-composer-page-builder' ),
+			'name' => __( 'Headers & Footers', 'live-composer-page-builder' ),
+			'menu_name' => __( 'Headers/Footers', 'live-composer-page-builder' ),
 			'singular_name' => __( 'Add Header/Footer', 'live-composer-page-builder' ),
 			'add_new' => __( 'Add Header/Footer', 'live-composer-page-builder' ),
 			'add_new_item' => __( 'Add Header/Footer', 'live-composer-page-builder' ),
@@ -44,6 +53,8 @@ function dslc_hf_init() {
 			'parent' => __( 'Parent Header/Footer', 'live-composer-page-builder' ),
 		),
 		'public' => true,
+		'exclude_from_search' => true,
+		'publicly_queryable' => true,
 		'supports' => array('title', 'custom-fields', 'author', 'thumbnail'),
 		'capabilities' => array(
 			'publish_posts' => $capability,
@@ -56,6 +67,7 @@ function dslc_hf_init() {
 			'delete_post' => $capability,
 			'read_post' => $capability
 		),
+		'show_in_menu' =>'themes.php',
 	) );
 
 	/**
@@ -135,7 +147,9 @@ function dslc_hf_init() {
 
 function dslc_hf_col_title( $defaults ) {
 
-	if ( ! defined( 'DS_LIVE_COMPOSER_HF' ) || ! DS_LIVE_COMPOSER_HF ) return;
+	if ( ! defined( 'DS_LIVE_COMPOSER_HF' ) || ! DS_LIVE_COMPOSER_HF ) {
+		return;
+	}
 
 	unset( $defaults['date'] );
 	unset( $defaults['author'] );
@@ -153,15 +167,18 @@ function dslc_hf_col_title( $defaults ) {
 
 function dslc_hf_col_content( $column_name, $post_ID ) {
 
-	if ( ! defined( 'DS_LIVE_COMPOSER_HF' ) || ! DS_LIVE_COMPOSER_HF ) return;
+	if ( ! defined( 'DS_LIVE_COMPOSER_HF' ) || ! DS_LIVE_COMPOSER_HF ) {
+		return;
+	}
 
 	if ( $column_name == 'dslc_hf_col_cpt' ) {
 		echo get_post_meta( $post_ID, 'dslc_hf_for', true );
 	}
 
 	if ( $column_name == 'dslc_hf_col_default' ) {
-		if ( get_post_meta( $post_ID, 'dslc_hf_type', true ) == 'default' )
-			echo '<strong>Default</strong>';
+		if ( get_post_meta( $post_ID, 'dslc_hf_type', true ) == 'default' ) {
+					echo '<strong>Default</strong>';
+		}
 	}
 
 } add_action( 'manage_dslc_hf_posts_custom_column', 'dslc_hf_col_content', 10, 2 );
@@ -174,19 +191,29 @@ function dslc_hf_col_content( $column_name, $post_ID ) {
 
 function dslc_hf_unique_default( $post_id ) {
 
-	if ( ! defined( 'DS_LIVE_COMPOSER_HF' ) || ! DS_LIVE_COMPOSER_HF ) return;
+	if ( ! defined( 'DS_LIVE_COMPOSER_HF' ) || ! DS_LIVE_COMPOSER_HF ) {
+		return;
+	}
 
 	// If no post type ( not really a save action ) stop execution
-	if ( ! isset( $_POST['post_type'] ) ) return;
+	if ( ! isset( $_POST['post_type'] ) ) {
+		return;
+	}
 
 	// If not a header/footer stop excution
-	if ( $_POST['post_type'] !== 'dslc_hf' ) return;
+	if ( $_POST['post_type'] !== 'dslc_hf' ) {
+		return;
+	}
 
 	// If template type not supplied stop execution
-	if ( ! isset( $_REQUEST['dslc_hf_type'] ) ) return;
+	if ( ! isset( $_REQUEST['dslc_hf_type'] ) ) {
+		return;
+	}
 
 	// If template not default stop execution
-	if ( $_REQUEST['dslc_hf_type'] !== 'default' ) return;
+	if ( $_REQUEST['dslc_hf_type'] !== 'default' ) {
+		return;
+	}
 
 	// Get header/footer that are default
 	$args = array(
@@ -228,34 +255,40 @@ function dslc_hf_unique_default( $post_id ) {
 
 function dslc_hf_options() {
 
-	if ( ! defined( 'DS_LIVE_COMPOSER_HF' ) || ! DS_LIVE_COMPOSER_HF ) return;
+	$dslc_admin_interface_on = apply_filters( 'dslc_admin_interface_on', true );
+
+	if ( ! defined( 'DS_LIVE_COMPOSER_HF' ) || ! DS_LIVE_COMPOSER_HF || true !== $dslc_admin_interface_on ) {
+
+		return;
+	}
 
 	$headers_array = array();
 	$headers_array[] = array(
 		'label' => 'Default',
-		'value' => 'default'
+		'value' => 'default',
 	);
 	$headers_array[] = array(
 		'label' => 'Disabled',
-		'value' => '_disabled_'
+		'value' => '_disabled_',
 	);
 	$footers_array = array();
 	$footers_array[] = array(
 		'label' => 'Default',
-		'value' => 'default'
+		'value' => 'default',
 	);
 	$footers_array[] = array(
 		'label' => 'Disabled',
-		'value' => '_disabled_'
+		'value' => '_disabled_',
 	);
+
 	global $dslc_var_post_options;
 
-	// Get header/footer
+	// Get header/footer.
 	$args = array(
 		'post_type' => 'dslc_hf',
 		'post_status' => 'publish',
 		'posts_per_page' => -1,
-		'order' => 'DESC'
+		'order' => 'DESC',
 	);
 	$templates = get_posts( $args );
 
@@ -313,10 +346,14 @@ function dslc_hf_options() {
 function dslc_hf_get_ID( $post_ID = false ) {
 
 	// If theme does not define header/footer compatibility return false
-	if ( ! defined( 'DS_LIVE_COMPOSER_HF' ) || ! DS_LIVE_COMPOSER_HF ) return array('header' => false, 'footer' => false);
+	if ( ! defined( 'DS_LIVE_COMPOSER_HF' ) || ! DS_LIVE_COMPOSER_HF ) {
+		return array('header' => false, 'footer' => false);
+	}
 
 	// If current page is actually header/footer post, return false
-	if ( is_singular( 'dslc_hf' ) ) return array('header' => false, 'footer' => false);
+	if ( is_singular( 'dslc_hf' ) ) {
+		return array('header' => false, 'footer' => false);
+	}
 
 	// Global vars
 	global $dslc_post_types;
@@ -326,7 +363,7 @@ function dslc_hf_get_ID( $post_ID = false ) {
 
 		// If currently showing a singular post of a post type that supports "post templates"
 		if ( is_singular( $dslc_post_types ) ) {
-			$post_ID = dslc_st_get_template_ID( get_the_ID() );
+			$post_ID = dslc_st_get_template_id( get_the_ID() );
 
 		// If currently showing a category archive page
 		} elseif ( is_archive() && ! is_author() && ! is_search() ) {
@@ -351,9 +388,14 @@ function dslc_hf_get_ID( $post_ID = false ) {
 
 	}
 
-	// Get header/footer template
-	$header_tpl = get_post_meta( $post_ID, 'dslc_header', true );
-	$footer_tpl = get_post_meta( $post_ID, 'dslc_footer', true );
+	if ( $post_ID ) {
+		// Get header/footer template
+		$header_tpl = get_post_meta( $post_ID, 'dslc_header', true );
+		$footer_tpl = get_post_meta( $post_ID, 'dslc_footer', true );
+	} else {
+		$header_tpl = false;
+		$footer_tpl = false;
+	}
 
 	// If no header template set, make it "default"
 	if ( ! $header_tpl ) {
@@ -390,10 +432,11 @@ function dslc_hf_get_ID( $post_ID = false ) {
 		$tpls = get_posts( $args );
 
 		// If default template found set the ID if not make it false
-		if ( $tpls )
-			$header_tpl_ID = $tpls[0]->ID;
-		else
-			$header_tpl_ID = false;
+		if ( $tpls ) {
+					$header_tpl_ID = $tpls[0]->ID;
+		} else {
+					$header_tpl_ID = false;
+		}
 
 	// Specific template supplied, return the ID
 	} elseif ( $header_tpl && $header_tpl != '_disabled_' ) {
@@ -431,10 +474,11 @@ function dslc_hf_get_ID( $post_ID = false ) {
 		$tpls = get_posts( $args );
 
 		// If default template found set the ID if not make it false
-		if ( $tpls )
-			$footer_tpl_ID = $tpls[0]->ID;
-		else
-			$footer_tpl_ID = false;
+		if ( $tpls ) {
+					$footer_tpl_ID = $tpls[0]->ID;
+		} else {
+					$footer_tpl_ID = false;
+		}
 
 	// Specific template supplied, return the ID
 	} elseif ( $footer_tpl && $footer_tpl != '_disabled_' ) {
@@ -464,7 +508,9 @@ function dslc_hf_get_ID( $post_ID = false ) {
 function dslc_hf_get_code( $post_ID = false, $h_or_f = 'header' ) {
 
 	// If support for header/footer functionality not set or is set to false, return empty string
-	if ( ! defined( 'DS_LIVE_COMPOSER_HF' ) || ! DS_LIVE_COMPOSER_HF ) return '';
+	if ( ! defined( 'DS_LIVE_COMPOSER_HF' ) || ! DS_LIVE_COMPOSER_HF ) {
+		return '';
+	}
 
 	// This will be returned at the end
 	$code = '';
@@ -521,7 +567,7 @@ function dslc_hf_get_header( $post_ID = false ) {
 	$header_footer = dslc_hf_get_ID( $post_ID );
 
 	// If there is a header applied
-	if ( $header_footer['header'] ) {
+	if ( $header_footer['header'] && is_numeric ( $header_footer['header'] ) ) {
 
 		// Get the header LC code
 		$header_code = get_post_meta( $header_footer['header'], 'dslc_code', true );
@@ -539,11 +585,21 @@ function dslc_hf_get_header( $post_ID = false ) {
 
 		}
 
-		// If editor active
+		// If editor active? Add a link to the header editing.
 		if ( dslc_is_editor_active( 'access' ) ) {
 
-			// Set the HTML for the edit overlay
-			$append = '<div class="dslc-hf-block-overlay"><a target="_blank" href="' . add_query_arg( 'dslc', 'active', get_permalink( $header_footer['header'] ) ) . '" class="dslc-hf-block-overlay-button dslca-link">Edit Header</a></div>';
+			$header_link = DSLC_EditorInterface::get_editor_link_url( $header_footer['header'] );
+
+			// Set the HTML for the edit overlay.
+			$append = '<div class="dslc-hf-block-overlay"><a target="_blank" href="' . $header_link . '" class="dslc-hf-block-overlay-button dslca-link">' . __( 'Edit Header','live-composer-page-builder' ) . '</a>';
+
+			if ( 'fixed' === $header_position  ) {
+				$append .= ' <span class="dslc-hf-block-overlay-text">' . __( 'To preview FIXED positioning click on "Hide Editor" button.','live-composer-page-builder' ) . '</span>';
+			} elseif ( 'absolute' === $header_position  ) {
+				$append .= ' <span class="dslc-hf-block-overlay-text">' . __( 'To preview ABSOLUTE positioning click on "Hide Editor" button.','live-composer-page-builder' ) . '</span>';
+			}
+
+			$append .= '</div>';
 
 		}
 
@@ -587,7 +643,7 @@ function dslc_hf_get_footer( $post_ID = false ) {
 	$header_footer = dslc_hf_get_ID( $post_ID );
 
 	// If there is a footer applied
-	if ( $header_footer['footer'] ) {
+	if ( $header_footer['footer'] && is_numeric ( $header_footer['footer'] )  ) {
 
 		// Get the footer LC code
 		$footer_code = get_post_meta( $header_footer['footer'], 'dslc_code', true );
@@ -605,15 +661,25 @@ function dslc_hf_get_footer( $post_ID = false ) {
 
 		}
 
-		// If editor active
+		// If editor active? Add a link to the footer editing.
 		if ( dslc_is_editor_active( 'access' ) ) {
 
-			// Set the HTML for the edit overlay
-			$append = '<div class="dslc-hf-block-overlay"><a target="_blank" href="' . add_query_arg( 'dslc', 'active', get_permalink( $header_footer['footer'] ) ) . '" class="dslc-hf-block-overlay-button dslca-link">Edit Footer</a></div>';
+			$footer_link = DSLC_EditorInterface::get_editor_link_url( $header_footer['footer'] );
+
+			// Set the HTML for the edit overlay.
+			$append = '<div class="dslc-hf-block-overlay"><a target="_blank" href="' . $footer_link . '" class="dslc-hf-block-overlay-button dslca-link">' . __( 'Edit Footer','live-composer-page-builder' ) . '</a>';
+
+			if ( 'fixed' === $footer_position  ) {
+				$append .= ' <span class="dslc-hf-block-overlay-text">' . __( 'To preview FIXED positioning click on "Hide Editor" button.','live-composer-page-builder' ) . '</span>';
+			} elseif ( 'absolute' === $footer_position  ) {
+				$append .= ' <span class="dslc-hf-block-overlay-text">' . __( 'To preview ABSOLUTE positioning click on "Hide Editor" button.','live-composer-page-builder' ) . '</span>';
+			}
+
+			$append .= '</div>';
 
 		}
 
-		// Add the header code to the variable holder
+		// Add the header code to the variable holder.
 		return '<div id="dslc-footer"  class="dslc-footer-pos-' . $footer_position . '">' . do_shortcode( $footer_code ) . $append . '</div>' . $wrapper_end;
 
 	// If no header applied

@@ -176,7 +176,7 @@ function tora_scripts() {
 	wp_enqueue_script( 'tora-main', get_template_directory_uri() . '/js/main.min.js', array('jquery'), '', true );
 
 	if ( tora_blog_layout() == 'masonry-layout' && (is_home() || is_archive()) ) {
-		wp_enqueue_script( 'tora-masonry-init', get_template_directory_uri() . '/js/masonry-init.js', array('jquery-masonry'), '', true );		
+		wp_enqueue_script( 'tora-masonry-init', get_template_directory_uri() . '/js/masonry-init.js', array('masonry'), '', true );		
 	}
 
 	wp_enqueue_script( 'tora-html5shiv', get_template_directory_uri() . '/js/html5.js', array(), '', true );

@@ -1,16 +1,14 @@
 === Page Builder: Live Composer - drag and drop website builder (visual front end site editor) ===
 Contributors: LiveComposer
-Tags: page builder, visual composer, visual editor, visual builder, drag and drop builder, landing page builder, frontend editor, frontend builder, landing pages, landing page, website builder, theme builder, site-builder, layout builder, drag-and-drop, builder, editor, responsive, mobile, layout, front end, frontend, Page Layout, squeeze page
-Requires at least: 3.9
-Tested up to: 4.5.2
-Stable tag: 1.0.8.4
+Tags: page builder, visual composer, visual editor, visual builder, drag and drop builder, landing page builder, frontend editor, frontend builder, landing pages, landing page, website builder, theme builder, site-builder, layout builder, drag-and-drop, builder, editor, responsive, mobile, layout, front end, frontend, Page Layout, squeeze page, page builder plugin, drag-n-drop page builder
+Requires at least: 4.3
+Tested up to: 4.6
+Stable tag: 1.1.3
 License: GPLv3
 
 Front-end page builder for WordPress with drag and drop editing. Build PRO responsive websites and landing pages. Visually customize any page element.
 
 == Description ==
-
-= Create Stunning Websites Visually =
 
 > <strong>NO Premium Version Available!</strong><br>
 > Unlike other page builders, <strong>Live Composer is 100% free</strong> and open source. We provide full functionality out of the box without asking to buy a premium version. There is no premium version of the page builder to up-sell, no hidden ads or annoying notices trying to sell something. We make money from our other business (premium themes) were we use Live Composer as part of a deal, so it's our best interest to improve and update it.
@@ -18,27 +16,29 @@ Front-end page builder for WordPress with drag and drop editing. Build PRO respo
 > <strong>Use Live Composer in your premium themes</strong><br>
 > Live Composer is open source page builder. You can use it to build any free or premium theme. It's easy to ship your designs with Live Composer and create new additional modules.
 
+= Create Stunning Websites Visually =
+
 [Live Composer](https://livecomposerplugin.com/) is the most innovative website builder for WordPress. Create stunning custom page designs in real-time right on your page. Drag & drop front-end editing is a perfectly intuitive way to create and customize great looking websites.
 
 Do it yourself with easy content editing in real-time. Save your money on expensive coding and customization services. No tech skills needed. Live Composer is a great tool for web designers, digital marketing specialists, WordPress theme developers and freelance consultants. Create an exceptional landing page, portfolio or fully featured pro website for your client.
 
-= As Featured On… =
+= As Featured Onâ€¦ =
 
-* [WPLift](http://wplift.com/) – WPLift is a blog all about WordPress, they cover tips & tutorials, theme & plugin reviews and everything else related to WordPress.
+* [WPLift](http://wplift.com/) â€“ WPLift is a blog all about WordPress, they cover tips & tutorials, theme & plugin reviews and everything else related to WordPress.
 
-* [TORQUE](http://torquemag.io/) – The WordPress News Core. Dedicated to informing new and advanced WordPress users about the industry
+* [TORQUE](http://torquemag.io/) â€“ The WordPress News Core. Dedicated to informing new and advanced WordPress users about the industry
 
-* [WPExplorer.com](http://www.wpexplorer.com/) – number one source for all things WordPress related.
+* [WPExplorer.com](http://www.wpexplorer.com/) â€“ number one source for all things WordPress related.
 
-* [ATHEMES](http://athemes.com/blog/) – WordPress reviews, collections and performance tips
+* [ATHEMES](http://athemes.com/blog/) â€“ WordPress reviews, collections and performance tips
 
 = Over 30,000 Site Owners Chose Live Composer =
 
-You can trust our page builder. It’s a proven solution for your business. 100% open source and backed by the experienced team of web developers. We are on the market for more than 2 years. All the major bugs already fixed and new updates released regularly. Every day our developers work on code improvement and new features. Our support is exceptional but still free.
+You can trust our page builder. Itâ€™s a proven solution for your business. 100% open source and backed by the experienced team of web developers. We are on the market for more than 2 years. All the major bugs already fixed and new updates released regularly. Every day our developers work on code improvement and new features. Our support is exceptional but still free.
 
 = Get Started Without Reading Any Documentation =
 
-Site design customization or page layout changes shouldn't be difficult or expensive. Our page builder is easy to use without reading any documentation. You'll be building beautiful custom WordPress site designs in no time. Create multi-media rich pages with very little effort: add new sections, rearrange columns, and add media from the same screen. It’s a perfect solution for ALL users. No technical skills required.
+Site design customization or page layout changes shouldn't be difficult or expensive. Our page builder is easy to use without reading any documentation. You'll be building beautiful custom WordPress site designs in no time. Create multi-media rich pages with very little effort: add new sections, rearrange columns, and add media from the same screen. Itâ€™s a perfect solution for ALL users. No technical skills required.
 
 = Create Custom Page Layouts in Minutes =
 
@@ -46,11 +46,11 @@ Live Composer is a simple but very powerful [WordPress site builder](https://liv
 
 = Well Integrated With WordPress =
 
-Our page builder works with works with any standard compliant WordPress theme. It’s fully compatible with other plugins like Yoast WP SEO or contact form builders. We also have a [marketplace with free and premium themes](https://livecomposerplugin.com/themes/) created especially for Live Composer.
+Our page builder works with works with any standard compliant WordPress theme. Itâ€™s fully compatible with other plugins like Yoast WP SEO or contact form builders. We also have a [marketplace with free and premium themes](https://livecomposerplugin.com/themes/) created especially for Live Composer.
 
 = No Code Left Behind When the Plugin Deactivated =
 
-Unlike other page builders, Live Composer doesn't leave behind horrible amount of shortcodes when the plugin deactivated. It's not a commitment to a single plugin. We don’t lock you. It’s easy to start using any other page builder without a need to remove all the custom shortcodes before implementing a new solution.
+Unlike other page builders, Live Composer doesn't leave behind horrible amount of shortcodes when the plugin deactivated. It's not a commitment to a single plugin. We donâ€™t lock you. Itâ€™s easy to start using any other page builder without a need to remove all the custom shortcodes before implementing a new solution.
 
 = 100% Free and Open Source =
 
@@ -75,8 +75,7 @@ It's easy to create responsive websites in our page builder. You can customize r
 
 == Installation ==
 
-1. Install and Activate as you would any other plugin
-2. Try the [interactive tutorial](https://livecomposerplugin.com/playground/tutorial-chapter-one/?dslc=active) to get familiar with how it works
+Install and Activate as you would any other plugin
 
 == Frequently Asked Questions ==
 
@@ -90,7 +89,7 @@ When you visit a page you'll see a green "activate editor" button in the bottom 
 
 = Why is the "activate editor" button missing from the homepage =
 
-In most of the cases, this is because the homepage is not a real WordPress page, it’s custom content generated by the theme’s index.php. Publish a new page and set it as the homepage ( WP Admin > Settings > Reading > Front Page ). Now you can use LC on the homepage.
+In most of the cases, this is because the homepage is not a real WordPress page, itâ€™s custom content generated by the themeâ€™s index.php. Publish a new page and set it as the homepage ( WP Admin > Settings > Reading > Front Page ). Now you can use LC on the homepage.
 
 = Live Composer vs. Other Page Builders =
 
@@ -98,7 +97,7 @@ Live Composer is 100% free and open source. There is no premium or paid version 
 
 We make money from our other business (premium themes) were we use Live Composer as part of a deal, so it's our best interest to improve and update it.
 
-* Visual Composer – Page Builder for WordPress
+* Visual Composer â€“ Page Builder for WordPress
 
 Visual Composer is not an open source software, you'll have to follow strict license policies and pay for every service provided.
 One website license for Visual Composer starts from $34, that includes 6 months of support. After first 6 months, you will need to buy extra Visual Composer support coverage for $23.80 per year.
@@ -111,7 +110,7 @@ Page Builder by SiteOrigin available on WordPress.org is a popular free page bui
 
 The Beaver Builder available on WordPress.org is a light version of The Beaver Builder Pro plugin that costs $199 per year. The free version of The Beaver Builder comes with limited features and very limited support (according to the plugin description).
 
-* Cornerstone – The WordPress Page Builder
+* Cornerstone â€“ The WordPress Page Builder
 
 Cornerstone Page Builder is not an open source software, you'll have to follow strict license policies and pay for every service provided. One website license for Cornerstone starts from $35, that includes 6 months of support. After first 6 months, you will need to buy extra Cornerstone support coverage for $24.50 per year.
 
@@ -130,7 +129,214 @@ The Page Builder Sandwich available on WordPress.org is a light version of Page 
 
 == Changelog ==
 
-= 1.0.8.4 - May 2@st 2016 =
+Upcoming Releases:
+
+* PREMIUM EXTENSION: WooCommerce Integration > [Get 50% off coupon](https://livecomposerplugin.com/halfprice-coupon/?utm_source=changelog)
+* PREMIUM EXTENSION: bbPress Forums Integration > [Get 50% off coupon](https://livecomposerplugin.com/halfprice-coupon/?utm_source=changelog)
+* PREMIUM THEME: Digital Marketer & SEO Theme > [Get 50% off coupon](https://livecomposerplugin.com/halfprice-coupon/?utm_source=changelog)
+
+
+= 1.1.4 - September 12th 2016 =
+
+* [Please, report any bugs on GitHub](https://github.com/livecomposer/live-composer-page-builder/issues/)
+* [You can download any previous version here](https://wordpress.org/plugins/live-composer-page-builder/developers/)
+* [See the latest major changes in details with animated gifs and videos](https://livecomposerplugin.com/blog/live-composer-1-1-released/)
+
+= Improved: =
+
+* Issue [#253](https://github.com/livecomposer/live-composer-page-builder/issues/253): Added animations for the ICON module.
+* Add Instagram as a social option to STAFF module. Thank you [Mario Zigliotto](https://github.com/mariozig).
+* Issue [#261](https://github.com/livecomposer/live-composer-page-builder/issues/261): Shadows for posts in the BLOG and POSTS module
+
+= Bug fixes: =
+
+* [JS Bug](https://wordpress.org/support/topic/js-error-when-editing?replies=1#post-8788982): TypeError: a.html(...) is undefined
+* Issue [#198](https://github.com/livecomposer/live-composer-page-builder/issues/198): [JS] Inline Editor do not disappear on module CONFIRM click ( Firefox )
+* Issue [#207](https://github.com/livecomposer/live-composer-page-builder/issues/207): [JS] Cick on module (in the modules list) freezes the Live Composer
+* Issue [#223](https://github.com/livecomposer/live-composer-page-builder/issues/223): Link to editing archive listing template is broken.
+* Issue [#224](https://github.com/livecomposer/live-composer-page-builder/issues/224): Posts Module showing error when Media post type selected.
+* Issue [#225](https://github.com/livecomposer/live-composer-page-builder/issues/225): WooCommerce Module – settings broken for the title and price position.
+* Issue [#226](https://github.com/livecomposer/live-composer-page-builder/issues/226): Galleries Module – Styling -> Count -> Position is not work.
+* Issue [#228](https://github.com/livecomposer/live-composer-page-builder/issues/228): Grids of posts with masonry grid will not refresh the grid properly on options change.
+* Issue [#232](https://github.com/livecomposer/live-composer-page-builder/issues/232): Broken Resize Height Control
+* Issue [#233](https://github.com/livecomposer/live-composer-page-builder/issues/233): Module Downloads - Main -> Location contol is broken
+* Issue [#240](https://github.com/livecomposer/live-composer-page-builder/issues/240): [JS] tinyMCE multiple instances
+* Issue [#246](https://github.com/livecomposer/live-composer-page-builder/issues/246): [JS Bug] – Cannot read property 'init' of undefined
+* Issue [#249](https://github.com/livecomposer/live-composer-page-builder/issues/249): [JS] Copy/Paste does not work in-line. Thank you [Luke Perrie](https://github.com/lukeperrie).
+* Issue [#260](https://github.com/livecomposer/live-composer-page-builder/issues/260): Chevrons doubling up in Navigation Module. Thank you [Luke Perrie](https://github.com/lukeperrie).
+* Issue [#262](https://github.com/livecomposer/live-composer-page-builder/issues/262): The LC templates are listed on WordPress search listing
+* Issue [#276](https://github.com/livecomposer/live-composer-page-builder/issues/276): Posts and Blog module filtering bug
+* Issue [#279](https://github.com/livecomposer/live-composer-page-builder/issues/279): Module Image - Box shadow ( Inner ) does not work
+* Infobox inline-editor in "content": https://github.com/livecomposer/live-composer-page-builder/commit/a964e976b54e5e3bff498e5af861350beda61f04
+
+
+Thanks to the next contributors for helping with this update:
+
+* [Luke Perrie](https://github.com/lukeperrie)
+* [Mario Zigliotto](https://github.com/mariozig)
+* [tristanleboss](https://github.com/tristanleboss)
+* [Aleksej Vukomanovic](https://github.com/zutigrm)
+* [Deanphillips](https://github.com/Deanphillips)
+* [menachemshapiro](https://github.com/menachemshapiro)
+* [Slobodan Kustrimovic](https://github.com/BobaWebDev)
+* [branislavs](https://github.com/branislavs)
+* [galschjodt](https://github.com/galschjodt)
+* [tbenci](https://github.com/tbenci)
+* [elfomaniac](https://github.com/elfomaniac)
+* [Jessica Hawkins](https://github.com/jessicahawkins3344)
+* [Christian Seiler](https://github.com/Christian-Seiler)
+
+
+
+
+
+
+= 1.1.3 - August 19th 2016 =
+
+= Bug fixes: =
+
+* Issue [#174](https://github.com/livecomposer/live-composer-page-builder/issues/174): Click "Edit template" in WP Admin on CPT listing is broken
+* Problem with border settings control. If set to 'none none none none' it will break.
+* Issue [#186](https://github.com/livecomposer/live-composer-page-builder/issues/186): Version 1.1+ problem with post archive templates, post styling is missing
+* Issue [#182](https://github.com/livecomposer/live-composer-page-builder/issues/182): Make sure disabled modules (WP Admin > Live Composer > Settings > Feature Control) do not show in list of the modules available for drag and drop.
+* Issue [#170](https://github.com/livecomposer/live-composer-page-builder/issues/170): Load Templates section is not scrollable anymore
+* Issue [#178](https://github.com/livecomposer/live-composer-page-builder/issues/178): TinyMCE inline link popup has a wrong position.
+* Issue [#172](https://github.com/livecomposer/live-composer-page-builder/issues/172): Element Titles cannot be changed in Safari on Mac
+* Issue [#208](https://github.com/livecomposer/live-composer-page-builder/issues/208): Responsive settings do not work for THE CONTENT module
+* Issue [#203](https://github.com/livecomposer/live-composer-page-builder/issues/203): Responsive line-height settings do not work in HTML module
+* Issue [#196](https://github.com/livecomposer/live-composer-page-builder/issues/196): Uncaught Error – cannot call methods on sortable prior to initialization; attempted to call method 'option'
+* Issue [#202](https://github.com/livecomposer/live-composer-page-builder/issues/202): Inline Editor – Bold, Italic text styling do not apply in some themes.
+* Issue [#193](https://github.com/livecomposer/live-composer-page-builder/issues/193): Navigation Module – Chevron not showing when enabled in navigation module
+* Issue [#276](https://github.com/livecomposer/live-composer-page-builder/issues/276): Post Filters – "All" button instead showing all the posts, is hiding them at all
+
+* Presets: Fixed presets auto-reload on module options change. (Thank you Paul!)
+* Presets: Removed Infobox > Image and Infobox > Image Url form synchronization. (Thank you Paul!)
+* Post Grids: Wrong post title centering over thumbnail. (Thank you Jacob!)
+
+= For developers: =
+
+* New filter added 'dslc_filter_modules'. Use it to enable/disable/sort/rename registered modules.
+* Removed dslc_sort_alphabetically function.
+
+= Other changes: =
+
+* Completely removed 'Modules Listing Order' setting from WP Admin > Live Composer > Settings
+* Issue [#181](https://github.com/livecomposer/live-composer-page-builder/issues/181): Fixed headers cover working area while editing page. From now Fixed / Absolute headers will looks like a regular header in editing more. If you want to see it fixed as on production, please click on "Hide Editor" button.
+* Changed limit for border width value (from 10 to 1000)
+
+
+
+
+= 1.1.2 - August 17th 2016 =
+
+= Bug fixes: =
+
+* Issue [#169](https://github.com/livecomposer/live-composer-page-builder/issues/169) + [#166](https://github.com/livecomposer/live-composer-page-builder/issues/166): Drag & Drop broken due to JS error (Uncaught TypeError: a.addEventListener is not a function...)
+
+
+
+
+= 1.1.1 - August 17th 2016 =
+
+= Bug fixes: =
+
+* Infobox Title Editing is broken #162
+* Icon selection control is broken #159
+* Modules Row Edit Menu Disappears after moving. #158
+* WP Admin Bar is not visible even when LC is not in active mode #155
+* Cannot open "WP Editor" for Accordion or Tabs modules #153
+
+
+
+
+= 1.1 - August 16th 2016 =
+
+[See latest changes in details with animated gifs and videos](https://livecomposerplugin.com/blog/live-composer-1-1-released/)
+
+= New: =
+
+* Inline text editing using TinyMCE
+* New toggle next to each styling control in module settings
+* Added JS Error reporting feature
+* Added Custom Class option for all the modules
+* Added box-shadow option for the image modules
+* Added possibility to change label text (“All”) on post categories filter
+
+= Improved: =
+
+* Better responsive design code based on media queries
+* Faster duplication for modules, module areas and rows (no AJAX requests)
+* Faster width change action for modules and module areas (no AJAX requests)
+* Empty module containers adds much faster on the page (no AJAX requests)
+* Changed drag and drop library for better performance (still in beta)
+* Improved browser performance thanks to better memory usage
+* Automatic soft permalinks flush on 404 error pages
+
+= Changes in UI: =
+
+* New ‘invisible’ slider for number-based controls
+* Click on any module to open settings panel
+* New responsive preview
+* Updated look for the modules panel
+* You can now scroll module panels with mouse wheel (removed custom scrolling)
+* Moved Templates and Header/Footers menu items under Appearance section
+* Removed Archives and Search settings in favor of template post settings
+* Improved post options panel for templates
+* New feature: dependency for options (show hide controls conditionally)
+* Module areas are grey from now for better color coding
+* Settings panel loading effect added
+* Removed Yoast WP meta-boxes for Header/Footer and Template CPT
+* Improved checkboxes in post options by making labels clickable
+* Changed control type for all the FONT WEIGHT controls
+* Added descriptive titles for action icons on module/container/row
+* Better preview for post thumbnails
+* Better current module/container width highlighting
+* Improved hover states for most of the UI elements
+* Text selection disabled for UI elements
+* Migrate all the UI animations and effects to pure-CSS when possible
+* Semi-transparent module area borders
+
+= Changes in code: =
+
+* Editing moved into iframe inside WP admin
+* We use grunt to run automatic tasks like JS/CSS files compression
+* Reorganized all the JS and CSS files for better structure and automatic minimization
+* New global object ‘LiveComposer’ in JS with the next structure:
+* LiveComposer
+* Builder
+* Elements
+* UI
+* Actions
+* Flags
+* PreviewAreaDocument
+* PreviewAreaWindow
+* Helpers
+* Production
+* Utils
+* Destroy controls when not used, cleared number of DOM nodes dramatically
+* Restricted access to the page with ?dslc=active  in URL
+* On-flight JS debugging
+* Started to change code according to WP Code Styling standards
+* Improved module settings sanitization
+* Removed all the browser-depended styles
+* Clean automatically illegal characters in the sidebar name fields
+* Prevent direct access to any of php files in the plugin
+* Completely reworked modal window functions
+* Log version updates in database
+* New API for extension developers to create setting panels in Live Composer
+* New filter for ROW controls: dslc_filter_row_options
+* Deleted a few JS plugins we don’t use
+* Removed JS script for elements centering (in favor of flexbox )
+* Removed dslc_init_square JS function
+
+= Bug fixes: =
+
+* Fixed image styling bug
+* Sidebar content disappear when reserve LC settings
+* Option “Don’t link to the single post” wasn’t working for Partners, Staff and Downloads modules
+* Live Composer now work with custom fonts that require quotes in a name to work properly
+
+= 1.0.8.4 - May 22nd 2016 =
 
 * Bug Fixed: Responsive navigation do not display
 
