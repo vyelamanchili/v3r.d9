@@ -8,7 +8,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,15 +23,12 @@ defined('_JEXEC') or die('Restricted access');
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-if (version_compare(JVERSION, '3.0', '>')) {
-    JHtml::_('jquery.framework');
-}
 
 ?>
 <?php if ($moduleClassSfx) : ?>
     <div class="<?php echo $moduleClassSfx ?>">
 <?php endif ?>
-<div class="cwtest<?php echo $module_width ?>" id="<?php echo $module_unique_id ?>">
+<div class="cw-sl-width-<?php echo $module_width ?>" id="<?php echo $module_unique_id ?>">
     <?php if ($display_bm_sec) : ?>
         <div class="cw-social-mod">
             <?php if (($display_borders) && ($load_layout_css)) : ?>
@@ -89,9 +86,9 @@ if (version_compare(JVERSION, '3.0', '>')) {
                                 echo $helpFunc->getPinterestBookmark($size, $linknofollow, $linkText);
                             }
                             if ($params->get("display_email_bm")) {
-                                echo $helpFunc->getEmailBookmark($title, $link, $size, $linkText);
+                                echo $helpFunc->getEmailBookmark($title, $link, $size, $linkText, $desc, $siteName);
                             }
-                            if (($detect->isMobile()) && ($params->get("display_whatsapp_bm"))) {
+                            if ($mobile && $params->get("display_whatsapp_bm")) {
                                 echo $helpFunc->getWhatsappBookmark($title, $link, $size, $linknofollow, $linkText);
                             }
                             

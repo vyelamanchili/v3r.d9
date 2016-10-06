@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,8 +47,8 @@ class CoalawebsociallinksController extends JControllerLegacy {
     public function display($cachable = false, $urlparams = false) {
         require_once JPATH_COMPONENT . '/helpers/coalawebsociallinks.php';
 
-        $view = JRequest::getCmd('view', 'Controlpanel');
-        $layout = JRequest::getCmd('layout', 'default');
+        $view = JFactory::getApplication()->input->get('view', 'Controlpanel');
+        $layout = JFactory::getApplication()->input->get('layout', 'default');
 
         parent::display();
         return $this;

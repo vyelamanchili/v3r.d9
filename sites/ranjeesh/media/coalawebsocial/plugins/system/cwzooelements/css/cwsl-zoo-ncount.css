@@ -2,7 +2,7 @@
  * @author              Steven Palmer
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
 */
 
 /* YooTheme Zoo specific
@@ -50,28 +50,29 @@ ul.cwsl-zoo-items li {
     padding: 0px !important;
     margin-right:5px !important;
     display:inline-block;
-    vertical-align: top;
+    vertical-align: middle;
+    background-image: none;
 }
 
-.cwsl-zoo-t { width:55px; }
+.cwsl-zoo-t { width:auto; }
 .cwsl-zoo-gp { width:50px; }
-.cwsl-zoo-pi { width:40px; }
-.cwsl-zoo-xi { width:60px; }
-.cwsl-zoo-sli { 
-    min-width:60px;
-    letter-spacing: 0px !important;
-}
-.cwsl-zoo-like { min-width:45px; }
-.cwsl-zoo-likeshare { min-width:95px; }
-.cwsl-zoo-share {
-    margin-left:4px;
-    min-width:50px;
-}
+.cwsl-zoo-pi { width:auto;}
+.cwsl-zoo-xi { width:auto;}
+.cwsl-zoo-sli { width:auto; }
+.cwsl-zoo-like { width:auto; }
+.cwsl-zoo-likeshare { width:auto; }
+.cwsl-zoo-mc { width:auto; }
 
-#contentarea .cwsl-zoo-like,
-#contentarea .cwsl-zoo-likeshare,
-#contentarea .cwsl-zoo-share {
-    margin-top: 0px !important;
+.cwsl-zoo-share {
+    margin-left:5px;
+    width:auto;
+}
+.cwsl-zoo-like,.cwsl-zoo-likeshare,
+.cwsl-zoo-share, .cwsl-zoo-t, 
+.cwsl-zoo-gp, .cwsl-zoo-pi,
+.cwsl-zoo-xi, .cwsl-zoo-sli,
+.cwsl-zoo-mc {
+    height:25px;
 }
 
 /* End

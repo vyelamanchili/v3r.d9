@@ -77,7 +77,7 @@ div#<?php echo $id; ?> ul.maximenuck:after {
 ----------------------------------------------*/
 
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck.level1 {
-	display: inline-block !important;
+	display: inline-block;
 	float: none !important;
 	position:static;
 	list-style : none;
@@ -308,7 +308,7 @@ div#<?php echo $id; ?> ul.maximenuck2 li.maximenuck {
 	text-align:left;
 	background : none;
 	list-style : none;
-	display: block !important;
+	display: block;
 }
 
 div#<?php echo $id; ?> ul.maximenuck li ul.maximenuck2 li.maximenuck:hover,
@@ -606,7 +606,7 @@ div#<?php echo $id; ?> ul.maximenuck2 div.maximenuck_mod > div > h3 {
 }
 
 div#<?php echo $id; ?> div.maximenuck_mod {
-	width : 100%;
+	/*width : 100%;*/
 	padding : 0;
 	white-space : normal;
 }

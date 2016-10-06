@@ -4,12 +4,12 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * @package             Joomla
- * @subpackage          CoalaWeb Like Box Module
+ * @subpackage          CoalaWeb Page Module
  * @author              Steven Palmer
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,9 +26,10 @@ defined('_JEXEC') or die('Restricted access');
  */
 
 require_once dirname(__FILE__) . '/helper.php';
-$comParams = JComponentHelper::getParams('com_coalawebsociallinks');
+
 $lang = JFactory::getLanguage();
 $app = JFactory::getApplication();
+$doc = JFactory::getDocument();
 
 //Load the module language strings
 if ($lang->getTag() != 'en-GB') {
@@ -42,32 +43,33 @@ if ($lang->getTag() != 'en-GB') {
 }
 $lang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, null, 1);
 
+//Check dependencies
+$checkOk = CoalawebPageHelper::checkDependencies();
+
 // Detect language
-$lang = JFactory::getLanguage();
 $fbLocale = $lang->getTag();
-$fbLocale = str_replace("-", "_", $fbLocale);
+$fbLocale = str_replace('-', '_', $fbLocale);
 
 // Facebook and Google only seem to support es_ES and es_LA for all of LATAM
 $fbLocale = (substr($fbLocale, 0, 3) == 'es_' && $fbLocale != 'es_ES') ? 'es_LA' : $fbLocale;
 
-$doc = JFactory::getDocument();
 
-$fbPageLink = $params->get("fb_page_link");
-$fbWidth = $params->get("fb_width");
-$fbHeight = $params->get("fb_height");
-
-// True or False 
-$fbFacepile = $params->get("fb_facepile") ? "true" : "false";
-$fbPosts = $params->get("fb_posts") ? "true" : "false";
-$fbCover = $params->get("fb_cover") ? "false" : "true";
-
-//Get App ID from the Component options
-$fbAppId = $comParams->get("fb_app_id");
+//Page parameters
+$fbPageLink = $params->get('fb_page_link');
+$fbWidth = $params->get('fb_width', '300');
+$fbHeight = $params->get('fb_height', '400');
+$fbAlign = $params->get('fb_align', 'center');
+$moduleAlign = 'text-align: ' . $fbAlign . ';';
+$setHeight = $params->get('module_height', 0);
+$moduleHeight = $setHeight? 'height: ' . $fbHeight . 'px;': '';
+$fbFacepile = $params->get('fb_facepile') ? 'true' : 'false';
+$fbPosts = $params->get('fb_posts') ? 'true' : 'false';
+$fbCover = $params->get('fb_cover') ? 'false' : 'true';
 
 /* Module Settings */
 $moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx'));
-$module_unique_id = htmlspecialchars($params->get('module_unique_id'));
-$module_width = $params->get('module_width');
+$module_unique_id = 'cw-page-' . $module->id;
+$module_width = $params->get('module_width', '100');
 
 /* Load css */
 $loadCss = $params->get('load_layout_css');
@@ -76,8 +78,10 @@ if ($loadCss) {
     $doc->addStyleSheet($urlModMedia . 'cwp-default.css');
 }
 
-//Lets load the Facebook JS
-$callcount = $app->get('CWFacebookJSCount', 0);
-$app->set('CWFacebookJSCount', $callcount + 1);
+if ($checkOk === true) {
+    $helpFunc = new CwGearsHelperLoadcount();
+    $url = JURI::getInstance()->toString();
+    $helpFunc::setFacebookJSCount($url);
+}
 
 require JModuleHelper::getLayoutPath('mod_coalawebpage', $params->get('layout', 'default'));

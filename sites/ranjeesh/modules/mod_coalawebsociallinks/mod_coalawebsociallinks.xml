@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.2" client="site" method="upgrade">
     <name>MOD_COALAWEBSOCIALLINKS</name>
-    <creationDate>2015-09-01</creationDate>
+    <creationDate>2016-09-07</creationDate>
     <author>Steven Palmer</author>
     <authorEmail>support@coalaweb.com</authorEmail>
     <authorUrl>http://coalaweb.com</authorUrl>
-    <copyright>Copyright (c) 2015 Steven Palmer All rights reserved.</copyright>
+    <copyright>Copyright (c) 2016 Steven Palmer All rights reserved.</copyright>
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <version>0.2.4</version>
+    <version>0.3.3</version>
     <description>MOD_COALAWEBSOCIALLINKS_DESCRIPTION</description>
         
     <languages folder="language">
@@ -49,6 +49,7 @@
                     default="cws-circle-fadein"
                     hide_default="true"
                     hide_none="true"
+                    exclude="uikit"
                     directory="media/coalawebsocial/components/sociallinks/themes-icon"
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_STYLE_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_STYLE_DESC" >
@@ -63,6 +64,7 @@
                     <option value="16">16</option>
                     <option value="24">24</option>
                     <option value="32">32</option>
+                    <option value="48">48</option>
                     <option value="64">64</option>
                 </field>
                         
@@ -259,6 +261,20 @@
                     default="" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKDEFAULT_BM_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKDEFAULT_BM_DESC" />
+                
+                <field
+                    type="spacer" 
+                    name="email_spacer" 
+                    label="MOD_COALAWEBSOCIALLINKS_SPACER_EMAIL"
+                    class="cw_label" />
+                
+                <field 
+                    name="desc_default" 
+                    type="textarea"
+                    rows="5" 
+                    default="" 
+                    label="MOD_COALAWEBSOCIALLINKS_FIELD_DESC_DEFAULT_BM_LABEL" 
+                    description="MOD_COALAWEBSOCIALLINKS_FIELD_DESC_DEFAULT_BM_DESC" />
                                     
                 <field
                     type="spacer" 
@@ -318,7 +334,7 @@
                     cols="30" 
                     filter="raw"
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_TEXT_LABEL" 
-                    description="MOD_COALAWEBSOCIALLINKS_FIELD_TEXT_LABEL" />        
+                    description="MOD_COALAWEBSOCIALLINKS_FIELD_TEXT_DESC" />        
             </fieldset>   
                 
             <fieldset 
@@ -356,12 +372,6 @@
                 </field>  
                                 
                 <field
-                    type="spacer" 
-                    name="bm_social_spacer" 
-                    label="MOD_COALAWEBSOCIALLINKS_SPACER_SOCIAL"
-                    class="cw_label" />
-                                
-                <field 
                     name="display_delicious_bm" 
                     type="radio" 
                     class="btn-group"  
@@ -383,7 +393,6 @@
                     <option value="1">CW_YES</option>
                 </field>
                                                         
-
                 <field 
                     name="display_google_bm" 
                     type="radio" 
@@ -593,7 +602,8 @@
                     name="link_android" 
                     type="text"
                     size="20" 
-                    default="www.android.com" 
+                    hint="www.android.com"
+                    default=""                     
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKANDROID_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKANDROID_F_DESC" />
                 
@@ -618,7 +628,8 @@
                     name="link_behance" 
                     type="text"
                     size="20" 
-                    default="www.behance.com" 
+                    hint="www.behance.com"
+                    default=""                     
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKBEHANCE_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKBEHANCE_F_DESC" />
                 
@@ -643,7 +654,8 @@
                     name="link_blogger" 
                     type="text"
                     size="20" 
-                    default="www.blogger.com" 
+                    hint="www.blogger.com" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKBLOGGER_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKBLOGGER_F_DESC" />
                 
@@ -678,7 +690,8 @@
                     name="link_contact" 
                     type="text"
                     size="20" 
-                    default="www.example.com/contact-us" 
+                    hint="www.example.com/contact-us" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKCONTACT_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKCONTACT_F_DESC" />
                 
@@ -703,7 +716,8 @@
                     name="link_dribbble" 
                     type="text"
                     size="20" 
-                    default="www.dribbble.com" 
+                    hint="www.dribbble.com" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKDRIBBLE_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKDRIBBLE_F_DESC" />
                 
@@ -728,7 +742,8 @@
                     name="link_deviantart" 
                     type="text"
                     size="20" 
-                    default="www.deviantart.com" 
+                    hint="www.deviantart.com" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKDEVIANTART_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKDEVIANTART_F_DESC" /> 
                 
@@ -753,7 +768,8 @@
                     name="link_designmoo" 
                     type="text"
                     size="20" 
-                    default="www.designmoo.com" 
+                    hint="www.designmoo.com"
+                    default=""                     
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKDESIGNMOO_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKDESIGNMOO_F_DESC" />
                 
@@ -778,7 +794,8 @@
                     name="link_ebay" 
                     type="text"
                     size="20" 
-                    default="www.ebay.es" 
+                    hint="www.ebay.es" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKEBAY_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKEBAY_F_DESC" />
                 
@@ -809,7 +826,8 @@
                     name="link_facebook" 
                     type="text"
                     size="20" 
-                    default="www.facebook.com" 
+                    hint="www.facebook.com" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKFACEBOOK_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKFACEBOOK_F_DESC" />
                 
@@ -834,7 +852,8 @@
                     name="link_flickr" 
                     type="text"
                     size="20" 
-                    default="www.flickr.com" 
+                    hint="www.flickr.com"
+                    default=""                     
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKFLICKR_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKFLICKR_F_DESC" />
                 
@@ -859,7 +878,8 @@
                     name="link_google" 
                     type="text"
                     size="20" 
-                    default="www.google.com" 
+                    hint="www.google.com" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKGOOGLEPLUS_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKGOOGLEPLUS_F_DESC" />
                 
@@ -884,7 +904,8 @@
                     name="link_github" 
                     type="text"
                     size="20" 
-                    default="www.github.com" 
+                    hint="www.github.com" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKGITHUB_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKGITHUB_F_DESC" />
                 
@@ -909,7 +930,8 @@
                     name="link_instagram" 
                     type="text"
                     size="20" 
-                    default="www.instagram.com" 
+                    hint="www.instagram.com"
+                    default=""                     
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKINSTAGRAM_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKINSTAGRAM_F_DESC" />
                     
@@ -940,7 +962,8 @@
                     name="link_linkedin" 
                     type="text"
                     size="20" 
-                    default="www.linkedin.com" 
+                    hint="www.linkedin.com" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKLINKEDIN_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKLINKEDIN_F_DESC" />
                 
@@ -965,7 +988,8 @@
                     name="link_lastfm" 
                     type="text"
                     size="20" 
-                    default="www.last.fm" 
+                    hint="www.last.fm" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKLASTFM_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKLASTFM_F_DESC" />
                 
@@ -990,7 +1014,8 @@
                     name="link_myspace" 
                     type="text"
                     size="20" 
-                    default="www.myspace.com" 
+                    hint="www.myspace.com" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKMYSPACE_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKMYSPACE_F_DESC" />
                 
@@ -1015,7 +1040,8 @@
                     name="link_mail" 
                     type="text"
                     size="20" 
-                    default="email@social.com" 
+                    hint="email@social.com" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKMAIL_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKMAIL_F_DESC" />
                 
@@ -1046,7 +1072,8 @@
                     name="link_pinterest" 
                     type="text"
                     size="20" 
-                    default="www.pinterest.com" 
+                    hint="www.pinterest.com"
+                    default=""                     
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKPINTEREST_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKPINTEREST_F_DESC" />
 
@@ -1071,7 +1098,8 @@
                     name="link_rss" 
                     type="text"
                     size="20" 
-                    default="www.example.com/rss" 
+                    hint="www.example.com/rss" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKRSS_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKRSS_F_DESC" />
                 
@@ -1096,7 +1124,8 @@
                     name="link_spotify" 
                     type="text"
                     size="20" 
-                    default="www.spotify.com" 
+                    hint="www.spotify.com"
+                    default=""                     
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKSPOTIFY_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKSPOTIFY_F_DESC" />
                 
@@ -1121,7 +1150,8 @@
                     name="link_tripadvisor" 
                     type="text"
                     size="20" 
-                    default="www.tripadvisor.com" 
+                    hint="www.tripadvisor.com" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKTRIPADVISOR_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKTRIPADVISOR_F_DESC" />
                 
@@ -1146,7 +1176,8 @@
                     name="link_twitter" 
                     type="text"
                     size="20" 
-                    default="www.twitter.com" 
+                    hint="www.twitter.com" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKTWITTER_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKTWITTER_F_DESC" />
                 
@@ -1171,7 +1202,8 @@
                     name="link_tuenti" 
                     type="text"
                     size="20" 
-                    default="www.tuenti.com" 
+                    hint="www.tuenti.com"
+                    default=""                     
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKTUENTI_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKTUENTI_F_DESC" />
                 
@@ -1196,7 +1228,8 @@
                     name="link_tumblr" 
                     type="text"
                     size="20" 
-                    default="www.tumblr.com" 
+                    hint="www.tumblr.com"
+                    default=""                     
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKTUMBLR_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKTUMBLR_F_DESC" />
 
@@ -1227,7 +1260,8 @@
                     name="link_vimeo" 
                     type="text"
                     size="20" 
-                    default="www.vimeo.com" 
+                    hint="www.vimeo.com" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKVIMEO_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKVIMEO_F_DESC" />
                 
@@ -1252,7 +1286,8 @@
                     name="link_youtube" 
                     type="text"
                     size="20" 
-                    default="www.youtube.com" 
+                    hint="www.youtube.com" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKYOUTUBE_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKYOUTUBE_F_DESC" />
                                 
@@ -1277,7 +1312,8 @@
                     name="link_xing" 
                     type="text"
                     size="20" 
-                    default="www.xing.com" 
+                    hint="www.xing.com" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKXING_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKXING_F_DESC" />
                 
@@ -1316,7 +1352,8 @@
                     name="link_customone" 
                     type="text"
                     size="20" 
-                    default="www.custom.com" 
+                    hint="www.custom.com" 
+                    default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKCUSTOM_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKCUSTOM_F_DESC" />
                 
@@ -1349,13 +1386,6 @@
             </fieldset>
 
             <fieldset name="advanced">
-                        
-                <field 
-                    name="module_unique_id" 
-                    type="text" 
-                    default="cwsociallinks1" 
-                    label="MOD_COALAWEBSOCIALLINKS_MODID" 
-                    description="MOD_COALAWEBSOCIALLINKS_MODID_DESC" />
                                                 
                 <field 
                     name="moduleclass_sfx" 

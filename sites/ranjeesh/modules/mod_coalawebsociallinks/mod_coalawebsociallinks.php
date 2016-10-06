@@ -8,7 +8,7 @@ defined("_JEXEC") or die("Restricted access");
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,19 +23,27 @@ defined("_JEXEC") or die("Restricted access");
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-require_once dirname(__FILE__) . '/helper.php';
-
-if(!class_exists('Cwmobiledetect')){
-    include_once JPATH_ADMINISTRATOR . '/components/com_coalawebsociallinks/helpers/cwmobiledetect.php';
-}
-					
+require_once dirname(__FILE__) . '/helper.php';			
 include_once JPATH_ADMINISTRATOR . '/components/com_coalawebsociallinks/version.php';
 
-//Lets get our helper functions
-$helpFunc = new CoalawebSocialLinksHelper();
+$doc = JFactory::getDocument();
+JHtml::_('jquery.framework');
 
-//Only display WhatsApp if on a mobile device
-$detect = new Cwmobiledetect();
+//Lets get our helper functions
+$helpFunc = new ModCoalawebSocialLinksHelper();
+
+//Check dependencies
+$checkOk = $helpFunc->checkDependencies();
+
+// Are we viewing on a mobile device?
+if ($checkOk === TRUE) {
+    $detect = new Cwmobiledetect();
+    $mobile = $detect->isMobile();
+    $tablet = $detect->isTablet();
+} else {
+    $mobile = false;
+    $tablet = false;
+}
 
 //Keeping the parameters in the component keeps things clean and tidy.
 $comParams = JComponentHelper::getParams('com_coalawebsociallinks');
@@ -54,7 +62,6 @@ if ($lang->getTag() != 'en-GB') {
 }
 $lang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, null, 1);
 
-$doc = JFactory::getDocument();
 $moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
 /* Link details */
@@ -68,7 +75,7 @@ $linklong = $link;
 $link = rawurlencode($link);
 
 // Let's shorten that URL!
-if($comParams->get("short_url_service") && $comParams->get("shorten_social_mod")) {
+if($comParams->get('short_url_service', '') && $comParams->get('shorten_social_mod', 0)) {
     $link = $helpFunc->getShortUrl($link, $params);
 }
 
@@ -80,6 +87,19 @@ if ($titleDefault) {
     $title = $doc->getTitle();
 }
 $title= rawurlencode($title);
+
+//Lets get a description
+$descDefault = $params->get('desc_default');
+if ($descDefault) {
+    $desc = $descDefault;
+} else {
+    $desc = $doc->getDescription();
+}
+$desc = rawurlencode($desc);
+
+//Site name
+$config = JFactory::getConfig();
+$siteName= $config->get('sitename');
 
 $linknofollow = ($params->get('link_nofollow') ? ' rel="' . $params->get('link_nofollow'). '"' : '');
 $linkText = $params->get('link_text_on', 0);
@@ -107,7 +127,7 @@ $size = $params->get('icon_size');
 
 
 /* Module Settings */
-$module_unique_id = $params->get('module_unique_id');
+$module_unique_id = 'cw-sl-' . $module->id;
 $module_width = $params->get('module_width');
 
 /* Sections settings */
@@ -208,13 +228,13 @@ if (COM_CWSOCIALLINKS_PRO == 1) {
     $iconcustomthree = ($params->get('icon_customthree') ? $params->get('icon_customthree') : $params->get('icon_ext_customthree'));
 
     if ($params->get("display_customone_f")) {
-        $helpFunc->getCustomonestyle($themes_icon ,$iconcustomone, $size);
+        $helpFunc->getCustomonestyle($themes_icon ,$iconcustomone, $size, $module_unique_id);
     }
     if ($params->get("display_customtwo_f")) {
-        $helpFunc->getCustomtwostyle($themes_icon ,$iconcustomtwo, $size);
+        $helpFunc->getCustomtwostyle($themes_icon ,$iconcustomtwo, $size, $module_unique_id);
     }
     if ($params->get("display_customthree_f")) {
-        $helpFunc->getCustomthreestyle($themes_icon ,$iconcustomthree, $size);
+        $helpFunc->getCustomthreestyle($themes_icon ,$iconcustomthree, $size, $module_unique_id);
     }
 } else {
     $linkcustomone = $params->get('link_customone');
@@ -224,7 +244,7 @@ if (COM_CWSOCIALLINKS_PRO == 1) {
     
 
     if ($params->get("display_customone_f")) {
-        $helpFunc->getCustomonestyle($themes_icon ,$iconcustomone, $size);
+        $helpFunc->getCustomonestyle($themes_icon ,$iconcustomone, $size, $module_unique_id);
     }
 }
 

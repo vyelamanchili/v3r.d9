@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="system" method="upgrade">
     <name>PLG_CWGEARS</name>
-    <creationDate>2016-01-12</creationDate>
+    <creationDate>2016-07-08</creationDate>
     <author>Steven Palmer</author>
     <authorEmail>support@coalaweb.com</authorEmail>
     <authorUrl>http://coalaweb.com</authorUrl>
     <copyright>Copyright (c) 2016 Steven Palmer All rights reserved.</copyright>
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <version>0.1.7</version>
+    <version>0.2.5</version>
     <description>PLG_CWGEARS_DESC</description>
 
     <install> <!-- Runs on install -->
@@ -56,10 +56,6 @@
     <updateservers>
         <server type="extension" priority="1" name="CoalaWeb Gears Update">http://cdn.coalaweb.com/updates/cw-gears-core.xml</server>
     </updateservers>
-    
-    <!-- Installation / Uninstallation Script File -->
-    <scriptfile>script.cwgears.php</scriptfile>
-
 
     <config>
         <fields 
@@ -418,6 +414,32 @@
                     required="true"
                     label="PLG_CWGEARS_FIELD_LOCKTIME_LABEL"
                     description="PLG_CWGEARS_FIELD_LOCKTIME_DESC"/>
+                
+            </fieldset>
+            
+            <fieldset
+                name="updates"
+                label="PLG_CWGEARS_UPDATES_TAB">
+        
+                <field 
+                    name="updates_info"
+                    type="info"
+                    default=""
+                    label="PLG_CWGEARS_UPDATES_MSG"/>
+                
+                <field
+                    type="spacer" 
+                    name="pro_extensions_spacer" 
+                    label="PLG_CWGEARS_SPACER_PRO_EXTENSIONS"
+                    class="cw_label" />
+            
+                <field 
+                    name="downloadid" 
+                    type="text" 
+                    default="" 
+                    size="30"
+                    label="PLG_CWGEARS_FIELD_DOWNLOADID_LABEL"
+                    description ="PLG_CWGEARS_FIELD_DOWNLOADID_DESC" />	
                 
             </fieldset>
             

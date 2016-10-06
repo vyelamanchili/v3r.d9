@@ -282,6 +282,7 @@ if ($menuposition) {
         right: 0 !important;
         z-index: 1000 !important;
 		margin: 0 auto;
+		width: 100%;
 		" . ($params->get('fixedpositionwidth') ? "max-width: " . modMaximenuckHelper::testUnit($params->get('fixedpositionwidth')) . ";" : "" ) . "
     }";
 	if ($menuposition == 'topfixed') {
@@ -296,7 +297,7 @@ if ($menuposition) {
 	$document->addStyleDeclaration($fixedcss);
 }
 
-if ($params->get('usemobileburgericon') === '1') {
+if ($params->get('maximenumobile_enable') === '1') {
 	$mobiletogglercss = "@media screen and (max-width: 524px) {"
 		. "#" . $menuID . " .maximenumobiletogglericonck {display: block !important;font-size: 33px !important;text-align: right !important;padding-top: 10px !important;}"
 		. "#" . $menuID . " ul.maximenuck .maximenumobiletogglerck ~ li.maximenuck.level1 {display: none !important;}"
@@ -314,10 +315,10 @@ if (JPluginHelper::isEnabled('system', 'maximenuckmobile')) {
 	$resolution = "524";
 }
 $mobilecss = "@media screen and (max-width: " . (int)$resolution . "px) {"
-	. "div#maximenuck" . $module->id . " ul.maximenuck li.maximenuck.nomobileck { display: none !important; }"
+	. "div#" . $menuID . " ul.maximenuck li.maximenuck.nomobileck, div#" . $menuID . " .maxipushdownck ul.maximenuck2 li.maximenuck.nomobileck { display: none !important; }"
 	. "}"
 	. "@media screen and (min-width: " . ((int)$resolution+1) . "px) {"
-	. "div#maximenuck" . $module->id . " ul.maximenuck li.maximenuck.nodesktopck { display: none !important; }"
+	. "div#" . $menuID . " ul.maximenuck li.maximenuck.nodesktopck, div#" . $menuID . " .maxipushdownck ul.maximenuck2 li.maximenuck.nodesktopck { display: none !important; }"
 	. "}";
 $document->addStyleDeclaration($mobilecss);
 

@@ -9,7 +9,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,9 +28,35 @@ jimport('joomla.application.component.controlleradmin');
 
 class CoalawebsociallinksControllerControlpanel extends JControllerAdmin {
 
-    public function getModel($name = 'Controlpanel', $prefix = 'CoalawebsociallinksModel') {
-        $model = parent::getModel($name, $prefix, array('ignore_request' => true));
-        return $model;
+        /**
+     * @var        string    The prefix to use with controller messages.
+     * @since    1.6
+     */
+    protected $text_prefix = 'COM_CWSOCIALLINKS';
+    
+    /**
+     * Constructor.
+     *
+     * @param   array  $config  An optional associative array of configuration settings.
+     *
+     * @see     JControllerLegacy
+     * @since   1.6
+     */
+    public function __construct($config = array()) {
+        parent::__construct($config);
     }
+
+    /**
+     * Proxy for getModel
+     * 
+     * @param type $name
+     * @param type $prefix
+     * 
+     * @return JModel
+     */
+    public function getModel($name = 'Controlpanel', $prefix = 'CoalawebsociallinksModel', $config = array('ignore_request' => true)) {
+        return parent::getModel($name, $prefix, $config);
+    }
+
 
 }

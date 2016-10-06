@@ -8,7 +8,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,19 +23,15 @@ defined('_JEXEC') or die('Restricted access');
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 // Access check.
 if (!JFactory::getUser()->authorise('core.manage', 'com_coalawebsociallinks')) {
-    return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-}
-
-// Require helper file
-if (!defined('DS')) {
-    define('DS', DIRECTORY_SEPARATOR);
+    throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 404);
 }
 
 // Load version.php
 jimport('joomla.filesystem.file');
-$version_php = JPATH_COMPONENT_ADMINISTRATOR . DS . 'version.php';
+$version_php = JPATH_COMPONENT_ADMINISTRATOR . '/version.php';
 if (!defined('COM_CWSOCIALLINKS_VERSION') && JFile::exists($version_php)) {
     require_once $version_php;
 }
@@ -46,7 +42,7 @@ if ($lang->getTag() != 'en-GB') {
 }
 $lang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, null, 1);
 
-JLoader::register('CoalawebsociallinksHelper', dirname(__FILE__) . DS . 'helpers' . DS . 'coalawebsociallinks.php');
+JLoader::register('CoalawebsociallinksHelper', dirname(__FILE__) . '/helpers/coalawebsociallinks.php');
 
 // Check Gears plugin
 if (JPluginHelper::isEnabled('system', 'cwgears', true) == false) {
@@ -54,7 +50,7 @@ if (JPluginHelper::isEnabled('system', 'cwgears', true) == false) {
 }
 
 $controller = JControllerLegacy::getInstance('Coalawebsociallinks');
-$controller->execute(JRequest::getCmd('task'));
+$controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();
 ?>
 <div class="cw-powerby-back">

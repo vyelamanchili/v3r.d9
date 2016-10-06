@@ -2,7 +2,7 @@
  * @author              Steven Palmer
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
 */
 
 .grid-box .cwsl-content, .cwsl-content { 
@@ -29,24 +29,31 @@ ul.cwsl-content-items li {
     padding: 0px !important;
     margin-right:5px !important;
     display:inline-block;
-    vertical-align: top;
+    vertical-align: middle;
+    background-image: none;
 }
 
-.cwsl-content-t { width:55px; }
+.cwsl-content-t { width:auto; }
 .cwsl-content-gp { width:50px; }
-.cwsl-content-pi { width:40px; }
-.cwsl-content-xi { width:60px; }
-.cwsl-content-sli { min-width:60px; }
-.cwsl-content-like { min-width:45px; }
-.cwsl-content-likeshare { min-width:95px; }
+.cwsl-content-pi { width:auto;}
+.cwsl-content-xi { width:auto;}
+.cwsl-content-sli { width:auto; }
+.cwsl-content-like { width:auto; }
+.cwsl-content-likeshare { width:auto; }
+.cwsl-content-mc { 
+    width:auto;
+    margin-bottom:1px;
+}
 .cwsl-content-share {
     margin-right:5px;
-    min-width:50px;
+    width:auto;
 }
-.cwsl-content-like,
-.cwsl-content-likeshare,
-.cwsl-content-share {
-    min-height:25px;
+.cwsl-content-like,.cwsl-content-likeshare,
+.cwsl-content-share, .cwsl-content-t, 
+.cwsl-content-gp, .cwsl-content-pi,
+.cwsl-content-xi, .cwsl-content-sli,
+.cwsl-content-mc {
+    height:25px;
 }
 
 /* Make drop downs visible on certain templates */
@@ -55,7 +62,7 @@ ul.cwsl-content-items li {
 }
 
 iframe,svg {
-  max-width: inherit !important;
+    max-width: inherit !important;
 }
 
 .fb_iframe_widget_lift{

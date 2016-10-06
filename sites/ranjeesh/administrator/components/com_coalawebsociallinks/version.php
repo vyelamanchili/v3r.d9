@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,6 @@ defined('_JEXEC') or die('Restricted access');
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-define('COM_CWSOCIALLINKS_VERSION', '0.2.4');
-define('COM_CWSOCIALLINKS_DATE', '2015-09-01');
+define('COM_CWSOCIALLINKS_VERSION', '0.3.3');
+define('COM_CWSOCIALLINKS_DATE', '2016-09-07');
 define('COM_CWSOCIALLINKS_PRO', '0');

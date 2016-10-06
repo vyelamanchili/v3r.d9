@@ -8,7 +8,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 $tmpitem = reset($items);
-$columnstylesbegin = isset($tmpitem->columnwidth) ? ' style="width:' . $tmpitem->columnwidth . 'px;float:left;"' : '';
+$columnstylesbegin = isset($tmpitem->columnwidth) ? ' style="width:' . modMaximenuckHelper::testUnit($tmpitem->columnwidth) . ';float:left;"' : '';
 $orientation_class = ( $params->get('orientation', 'horizontal') == 'vertical' ) ? 'maximenuckv' : 'maximenuckh';
 $start = (int) $params->get('startLevel');
 $direction = $langdirection == 'rtl' ? 'right' : 'left';
@@ -27,7 +27,7 @@ foreach ($items as $i => &$item) {
 		$itemlevel = $itemlevel + $params->get('calledfromlevel') - 1;
 	}
 	$createnewrow = (isset($item->createnewrow) AND $item->createnewrow) ? '<div style="clear:both;"></div>' : '';
-	$columnstyles = isset($item->columnwidth) ? ' style="width:' . $item->columnwidth . 'px;float:left;"' : '';
+	$columnstyles = isset($item->columnwidth) ? ' style="width:' . modMaximenuckHelper::testUnit($item->columnwidth) . ';float:left;"' : '';
 	 if (isset($item->colonne) AND (isset($items[$lastitem]) AND !$items[$lastitem]->deeper)) {
         echo '</ul><div class="clr"></div></div>'.$createnewrow.'<div class="maximenuck2" ' . $columnstyles . '><ul class="maximenuck2">';
      }

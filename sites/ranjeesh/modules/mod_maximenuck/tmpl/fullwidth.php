@@ -35,9 +35,9 @@ $direction = $langdirection == 'rtl' ? 'right' : 'left';
 						<?php echo $logolinkstart ?><img src="<?php echo $logoimage ?>" alt="<?php echo $params->get('logoalt', '') ?>" <?php echo $logowidth . $logoheight . $styles ?> /><?php echo $logolinkend ?>
 					</li>
 				<?php } ?>
-				<?php if ($params->get('usemobileburgericon') === '1') {
+				<?php if ($params->get('maximenumobile_enable') === '1') {
 					echo '<label for="' . $params->get('menuid', 'maximenuck') . '-maximenumobiletogglerck" class="maximenumobiletogglericonck" style="display:none;">&#x2261;</label>'
-							. '#<input id="' . $params->get('menuid', 'maximenuck') . '-maximenumobiletogglerck" class="maximenumobiletogglerck" type="checkbox" style="display:none;"/>';
+							. '<input id="' . $params->get('menuid', 'maximenuck') . '-maximenumobiletogglerck" class="maximenumobiletogglerck" type="checkbox" style="display:none;"/>';
 				} ?>
 				<?php
 				$zindex = 12000;

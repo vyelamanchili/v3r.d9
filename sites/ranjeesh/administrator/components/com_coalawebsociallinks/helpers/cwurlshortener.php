@@ -9,7 +9,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -98,19 +98,16 @@ class CwUrlShortenerHelper {
         curl_setopt($curlObj, CURLOPT_POSTFIELDS, $jsonData);
         $response = curl_exec($curlObj);
         
+        //Stop errors from crashing page
+        $err = curl_getinfo($curlObj, CURLINFO_HTTP_CODE);
+        
         curl_close($curlObj);
         
         if(!empty($response)) {
             $json = json_decode($response);
-            
-            if(!empty($json->error)) {
-                $errorMessage = "[Goo.gl service] Message: " . $json->error->message ."; Location: " . $json->error->errors[0]->location;
-                throw new Exception($errorMessage);
-            } else {
-                $this->shortUrl = $json->id;
-            }
+            $this->shortUrl = $json->id;
         } else {
-            throw new Exception(JText::_("COM_CWCONTACT_MSG_UNKNOWN_ERROR"));
+            return FALSE;
         }
         
     }

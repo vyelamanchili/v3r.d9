@@ -2,21 +2,21 @@
  * @author              Steven Palmer
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
  */
 
 /* Module Style
 ------------------------------------------------------------------------------- */
-.cwtest100 {width: 100%; margin-left: auto; margin-right: auto; }
-.cwtest90 {width: 90%; margin-left: auto; margin-right: auto; }
-.cwtest80 {width: 80%; margin-left: auto; margin-right: auto; }
-.cwtest70 {width: 70%; margin-left: auto; margin-right: auto; }
-.cwtest60 {width: 60%; margin-left: auto; margin-right: auto; }
-.cwtest50 {width: 50%; margin-left: auto; margin-right: auto; }
-.cwtest40 {width: 40%; margin-left: auto; margin-right: auto; }
-.cwtest30 {width: 30%; margin-left: auto; margin-right: auto; }
-.cwtest20 {width: 20%; margin-left: auto; margin-right: auto; }
-.cwtest10 {width: 10%; margin-left: auto; margin-right: auto; }
+.cw-sl-width-100 {width: 100%; margin-left: auto; margin-right: auto; }
+.cw-sl-width-90 {width: 90%; margin-left: auto; margin-right: auto; }
+.cw-sl-width-80 {width: 80%; margin-left: auto; margin-right: auto; }
+.cw-sl-width-70 {width: 70%; margin-left: auto; margin-right: auto; }
+.cw-sl-width-60 {width: 60%; margin-left: auto; margin-right: auto; }
+.cw-sl-width-50 {width: 50%; margin-left: auto; margin-right: auto; }
+.cw-sl-width-40 {width: 40%; margin-left: auto; margin-right: auto; }
+.cw-sl-width-30 {width: 30%; margin-left: auto; margin-right: auto; }
+.cw-sl-width-20 {width: 20%; margin-left: auto; margin-right: auto; }
+.cw-sl-width-10 {width: 10%; margin-left: auto; margin-right: auto; }
 
 
 .cw-social-mod h1, .cw-social-mod h2, .cw-social-mod h3,
@@ -34,8 +34,6 @@
     padding: 5px 5px 10px 5px;
 }
 
-.cw-social-mod-bookmark li,
-.cw-social-mod-follow li,
 .cw-social-mod-bookmark a,
 .cw-social-mod-follow a {
     white-space: nowrap !important;

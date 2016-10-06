@@ -59,7 +59,7 @@ class plgSystemCwgears extends JPlugin {
 
         if ($dbClean) {
             //Current date time
-            $siteOffset = JFactory::getApplication()->getCfg('offset');
+            $siteOffset = $app->getCfg('offset');
             $dtnow = JFactory::getDate('now', $siteOffset);
             $now = $dtnow->toUnix(true);
 
@@ -71,7 +71,12 @@ class plgSystemCwgears extends JPlugin {
             $query->select('count(*)');
             $query->from($db->quoteName('#__cwgears_schedule'));
             $db->setQuery($query);
-            $current = $db->loadResult();
+            
+            try {
+                $current = $db->loadResult();
+            } catch (Exception $e) {
+                $current = '';
+            }
 
             //First time? then lets insert a time
             if (empty($current)) {
@@ -83,8 +88,14 @@ class plgSystemCwgears extends JPlugin {
                         ->columns($db->quoteName($columns))
                         ->values(implode(',', $values));
                 $db->setQuery($query);
-                $db->execute();
-                $items = '';
+
+                try {
+                    $db->execute();
+                    $items = '';
+                } catch (Exception $e) {
+                    $items = '';
+                }
+            
             } else {
                 //Not our first time then lets check 
                 //to see if we have any clean up work to do
@@ -93,7 +104,12 @@ class plgSystemCwgears extends JPlugin {
                 $query->from($db->quoteName('#__cwgears_schedule'));
                 $query->where('time + ' . $db->quote($locktime) . '<' . $db->quote($now));
                 $db->setQuery($query);
-                $items = $db->loadResult();
+                
+                try {
+                    $items = $db->loadResult();
+                } catch (Exception $e) {
+                    $items = '';
+                }
             }
 
             //If we have some old entries we should remove them
@@ -104,14 +120,24 @@ class plgSystemCwgears extends JPlugin {
                 $query->delete();
                 $query->where('time + ' . $db->quote($locktime) . '<' . $db->quote($now));
                 $db->setQuery($query);
-                $db->execute();
+                
+                try {
+                    $db->execute();
+                } catch (Exception $e) {
+                    // Nothing
+                }
 
                 //Reset our lock time
                 $query = $db->getQuery(true);
                 $query->update($db->quoteName('#__cwgears_schedule'));
                 $query->set('time = ' . $db->quote($now));
                 $db->setQuery($query);
-                $db->execute();
+                
+                try {
+                    $db->execute();
+                } catch (Exception $e) {
+                    // Nothing
+                }
             }
         }
         return;
@@ -121,15 +147,20 @@ class plgSystemCwgears extends JPlugin {
 
         $app = JFactory::getApplication();
         $doc = JFactory::getDocument();
-        $option = JFactory::getApplication()->input->get('option');
-        $ext = JFactory::getApplication()->input->get('extension');
+        $option = $app->input->get('option');
+        $ext = $app->input->get('extension');
         $baseUrl = '../media/coalaweb/';
 
+        //Update the Download ID
+        $this->updateDownloadKey();
+        $this->updateDownloadKeySub();
+        
         //Lets add some style for backend extension configurations.
         if ($app->isAdmin()) {
 
             if ($option == 'com_categories' && ($ext == 'com_coalawebcomments' || $ext == 'com_coalawebmarket' || $ext == 'com_coalawebtraffic' || $ext == 'com_coalaweblingual')) {
                 if (version_compare(JVERSION, '3.0', '>')) {
+                    $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base-v2.css");
                     $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base-j3.css");
                     $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-categories.css");
                 } else {
@@ -141,6 +172,7 @@ class plgSystemCwgears extends JPlugin {
             if (in_array($option, array('com_coalawebcontact', 'com_coalawebsociallinks', 'com_coalawebtraffic', 'com_coalawebmarket', 'com_coalawebpaypal', 'com_coalaweblingual', 'com_coalawebcomments'))) {
 
                 if (version_compare(JVERSION, '3.0', '>')) {
+                    $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base-v2.css");
                     $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base-j3.css");
                 } else {
                     $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base.css");
@@ -164,7 +196,7 @@ class plgSystemCwgears extends JPlugin {
             if (JFile::exists($iptools_php)) {
                 include_once $iptools_php;
             } else {
-                JFactory::getApplication()->enqueueMessage(JText::_('PLG_CWGEARS_ASSET_MISSING_MESSAGE'), 'notice');
+                $app->enqueueMessage(JText::_('PLG_CWGEARS_ASSET_MISSING_MESSAGE'), 'notice');
                 return;
             }
 
@@ -333,7 +365,7 @@ class plgSystemCwgears extends JPlugin {
             if (JFile::exists($loadcount_php)) {
                 include_once $loadcount_php;
             } else {
-                JFactory::getApplication()->enqueueMessage(JText::_('PLG_CWGEARS_ASSET_MISSING_MESSAGE'), 'notice');
+                $app->enqueueMessage(JText::_('PLG_CWGEARS_ASSET_MISSING_MESSAGE'), 'notice');
                 return;
             }
             
@@ -407,6 +439,8 @@ class plgSystemCwgears extends JPlugin {
                 $doc->addScript($uikitLocal . "js/components/coalaweb.lightbox.min.js");
                 //Sticky support
                 $doc->addScript($uikitLocal . "js/components/coalaweb.sticky.min.js");
+                //Grid support
+                $doc->addScript($uikitLocal . "js/components/coalaweb.grid.min.js");
                 //Add CSS
                 $doc->addStyleSheet($uikitLocal . $uikitSlider);
                 $doc->addStyleSheet($uikitLocal . $uikitSticky);
@@ -619,11 +653,11 @@ class plgSystemCwgears extends JPlugin {
 
 
             if ($this->pinterest) {
-                $body = JResponse::getBody();
+                $body = $app->getBody();
                 $pos = JString::strpos($body, "//assets.pinterest.com/js/pinit.js");
                 if (!$pos) {
                     $body = JString::str_ireplace('</body>', '<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>' . "\n</body>", $body);
-                    JResponse::setBody($body);
+                    $app->setBody($body);
                 } else {
                     return;
                 }
@@ -662,7 +696,7 @@ class plgSystemCwgears extends JPlugin {
                     $found = 0;
                     $required = count($result);
                     foreach ($result As $key => $value) {
-                        if (JFactory::getApplication()->input->get($key) == $value || ( JFactory::getApplication()->input->get($key, null) !== null && $value == '?' )) {
+                        if ($app->input->get($key) == $value || ( $app->input->get($key, null) !== null && $value == '?' )) {
                             $found++;
                         }
                     }
@@ -686,6 +720,12 @@ class plgSystemCwgears extends JPlugin {
         return $op;
     }
 
+    /**
+     * Detect Google and Facebook crawlers
+     * 
+     * @param type $server
+     * @return boolean
+     */
     function crawlerDetect($server) {
         $crawlers = array(
             'Google' => 'Google',
@@ -701,5 +741,191 @@ class plgSystemCwgears extends JPlugin {
 
         return false; // Not a bot
     }
+    
+    /**
+     * Add download ID to the update sites table when saving to a CoalaWeb 
+     * component configuration.
+     * 
+     * @return null
+     */
+    function updateDownloadKey() {
+        $app = JFactory::getApplication();
+        $option = $app->input->get('option');
+        $component = $app->input->get('component');
+        $task = $app->input->get('task');
+        
+        //Array of CoalaWeb extensions
+        $components = array(
+            'com_coalawebcontact',
+            'com_coalawebsociallinks',
+            'com_coalawebtraffic',
+            'com_coalawebmarket',
+            'com_coalawebpaypal',
+            'com_coalaweblingual',
+            'com_coalawebcomments'
+        );
+        
+        // Array of tasks
+        $tasks = array(
+            'config.save.component.apply',
+            'config.save.component.save'
+        );
+        
+        if (
+            $app->isSite() ||
+            $option != 'com_config' ||
+            !in_array($task, $tasks) ||
+            !in_array($component, $components)
+        ) {
+            return;
+        }
+        
+        switch ($component) {
+            case 'com_coalawebcontact':
+                $updateurl = 'http://cdn.coalaweb.com/updates/cw-contact-pro.xml';
+                break;
+            case 'com_coalawebsociallinks':
+                $updateurl = 'http://cdn.coalaweb.com/updates/cw-sociallinks-pro.xml';
+                break;
+            case 'com_coalawebtraffic':
+                $updateurl = 'http://cdn.coalaweb.com/updates/cw-traffic-pro.xml';
+                break;
+            case 'com_coalawebmarket':
+                $updateurl = 'http://cdn.coalaweb.com/updates/cw-market-pro.xml';
+                break;
+            case 'com_coalawebpaypal':
+                $updateurl = 'http://cdn.coalaweb.com/updates/cw-paypal-pro.xml';
+                break;
+            case 'com_coalaweblingual':
+                $updateurl = 'http://cdn.coalaweb.com/updates/cw-lingual-pro.xml';
+                break;
+            case 'com_coalawebcomments':
+                $updateurl = 'http://cdn.coalaweb.com/updates/cw-comments-pro.xml';
+                break;
+            
+            default:
+                $updateurl = '';
+        }
 
+        $form = $app->input->post->get('jform', array(), 'array');
+        if (!isset($form['downloadid'])) {
+            return;
+        }
+        $dlid = $form['downloadid'];
+
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true)
+                ->update('#__update_sites')
+                ->set($db->qn('extra_query') . ' = ' . $db->q(''))
+                ->where($db->qn('location') . ' = ' . $db->q($updateurl));
+        $db->setQuery($query);
+        
+        try {
+            $db->execute();
+        } catch (Exception $e) {
+            // Nothing
+        }
+
+        $query->clear()
+                ->update('#__update_sites')
+                ->set($db->qn('extra_query') . ' = ' . $db->q('dlid=' . $dlid))
+                ->where($db->qn('location') . ' =' . $db->q($updateurl));
+        $db->setQuery($query);
+        
+        try {
+            $db->execute();
+        } catch (Exception $e) {
+            // Nothing
+        }
+    }
+    
+     /**
+     * Add download ID to the update sites table for CoalaWeb extensions 
+     * that don't come packaged with a component.
+     * 
+     * @return null
+     */
+    function updateDownloadKeySub() {
+        $app = JFactory::getApplication();
+        $option = $app->input->get('option');
+        $id = $app->input->get('extension_id');
+        $task = $app->input->get('task');
+
+        // Array of possible tasks
+        $tasks = array(
+            'plugin.apply', 
+            'plugin.save'
+        );
+        
+        $db = JFactory::getDbo();
+        
+        $query = $db->getQuery(true);
+        $query->select('count(*)');
+        $query->from($db->qn('#__extensions'));
+        $query->where($db->qn('element') . ' = ' . $db->q('cwgears'));
+        $query->where($db->qn('extension_id') . ' = ' . $db->q($id));
+        $db->setQuery($query);
+        
+        try {
+            $iscwgears = $db->loadResult();
+        } catch (Exception $e) {
+            $iscwgears = '';
+        }
+        
+        if (
+            $app->isSite() ||
+            $option != 'com_plugins' ||
+            !in_array($task, $tasks) ||
+            !$iscwgears
+        ) {
+            return;
+        }
+
+        $news = 'http://cdn.coalaweb.com/updates/cw-news-pro.xml';
+        $hours = 'http://cdn.coalaweb.com/updates/cw-hours-pro.xml';
+        $users = 'http://cdn.coalaweb.com/updates/cw-users-pro.xml';
+        $print = 'http://cdn.coalaweb.com/updates/cw-print-pro.xml';
+        $panel = 'http://cdn.coalaweb.com/updates/cw-panel-pro.xml';
+        $dbtools = 'http://cdn.coalaweb.com/updates/cw-dbtools-pro.xml';
+        
+        $form = $app->input->post->get('jform', array(), 'array');
+        if (!isset($form['params']['downloadid'])) {
+            return;
+        }
+        $dlid = $form['params']['downloadid'];
+
+        $query = $db->getQuery(true)
+                ->update('#__update_sites')
+                ->set($db->qn('extra_query') . ' = ' . $db->q(''))
+                ->where($db->qn('location') . ' = ' . $db->q($news), 'OR')
+                ->where($db->qn('location') . ' = ' . $db->q($hours), 'OR')
+                ->where($db->qn('location') . ' = ' . $db->q($users), 'OR')
+                ->where($db->qn('location') . ' = ' . $db->q($print), 'OR')
+                ->where($db->qn('location') . ' = ' . $db->q($panel), 'OR')
+                ->where($db->qn('location') . ' = ' . $db->q($dbtools));
+        $db->setQuery($query);
+        
+        try {
+            $db->execute();
+        } catch (Exception $e) {
+            // Nothing
+        }
+
+        $query->clear()
+                ->update('#__update_sites')
+                ->set($db->qn('extra_query') . ' = ' . $db->q('dlid=' . $dlid))
+                ->where($db->qn('location') . ' = ' . $db->q($news), 'OR')
+                ->where($db->qn('location') . ' = ' . $db->q($hours), 'OR')
+                ->where($db->qn('location') . ' = ' . $db->q($users), 'OR')
+                ->where($db->qn('location') . ' = ' . $db->q($print), 'OR')
+                ->where($db->qn('location') . ' = ' . $db->q($panel), 'OR')
+                ->where($db->qn('location') . ' = ' . $db->q($dbtools));
+        $db->setQuery($query);
+        
+        try {
+            $db->execute();
+        } catch (Exception $e) {
+            // Nothing
+        }
+    }
 }

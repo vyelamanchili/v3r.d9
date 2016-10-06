@@ -103,8 +103,8 @@ class JFormFieldCkmaximenuchecking extends JFormField {
 		$html .= '<div class="maximenuckchecking">' . $themes_text . '</div>';
 		$maximenuparamspath = JPATH_SITE .'/administrator/components/com_maximenuck/maximenuck.xml';
 		if ( file_exists($maximenuparamspath) ) {
-			if ($this->isOutdated('4.1.0', $maximenuparamspath)) {
-				$html .= '<div class="maximenuckchecking"><img src="' . $imgpath . 'exclamation.png"  />' . JText::_('MAXIMENUCK_MAXIMENUCKPARAMS_OUTDATED') . ' : 4.1.0.'
+			if ($this->isOutdated('4.1.1', $maximenuparamspath)) {
+				$html .= '<div class="maximenuckchecking"><img src="' . $imgpath . 'exclamation.png"  />' . JText::_('MAXIMENUCK_MAXIMENUCKPARAMS_OUTDATED') . ' : 4.1.1.'
 						. '<br />'
 						. JText::_('MAXIMENUCK_MAXIMENUCKPARAMS_CURRENTVERSION') . ' : ' . $this->getCurrentVersion($maximenuparamspath)
 						. '</div>';

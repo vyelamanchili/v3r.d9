@@ -1,5 +1,5 @@
 <?php
-defined('_JEXEC') or die('Restricted access');
+
 /**
  * @package             Joomla
  * @subpackage          CoalaWeb Social Links
@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,14 +22,18 @@ defined('_JEXEC') or die('Restricted access');
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+defined('_JEXEC') or die('Restricted access');
+
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
+jimport('joomla.log.log');
 
 class Com_CoalawebsociallinksInstallerScript {
 
     /** @var string The component's name */
     protected $_coalaweb_extension = 'com_coalawebsociallinks';
-    
+
     /** @var string Possible duplicate update info */
     protected $_update_remove = 'http://cdn.coalaweb.com/updates/cw-sociallinks-pro.xml';
 
@@ -38,15 +42,15 @@ class Com_CoalawebsociallinksInstallerScript {
         'modules' => array(
             '' => array(
                 'coalawebsociallinks' => array('left', 0),
-                'coalaweblikebox' => array('left', 0),
                 'coalawebpage' => array('left', 0),
+                'coalawebtweet' => array('left', 0),
             )
         ),
         'plugins' => array(
             'system' => array(
                 'cwgears' => 1,
-                'cwfacebookjs' => 1
-            ),
+                'cwfacebookjs' => 1,
+            )
         )
     );
 
@@ -57,11 +61,14 @@ class Com_CoalawebsociallinksInstallerScript {
                 'coalawebsociallinks',
                 'coalaweblikebox',
                 'coalawebpage',
+                'coalawebtweet',
             )
         ),
         'plugins' => array(
             'system' => array(
-                'cwfacebookjs'
+            ),
+            'installer' => array(
+                'cwslupdate',
             )
         )
     );
@@ -73,6 +80,7 @@ class Com_CoalawebsociallinksInstallerScript {
                 'cwsociallikes',
                 'cwsocialpanel',
                 'cwsocialshare',
+                'cwsharecount',
                 'cwopengraph',
                 'cwmetafields',
             ),
@@ -82,6 +90,9 @@ class Com_CoalawebsociallinksInstallerScript {
             ),
             'quickicon' => array(
                 'cwslquickicon',
+            ),
+            'installer' => array(
+                'cwslupdate',
             )
         )
     );
@@ -103,6 +114,10 @@ class Com_CoalawebsociallinksInstallerScript {
     private $coalawebRemoveFiles = array(
         'files' => array(
             'modules/mod_coalawebsociallinks/tmpl/horizontal.php',
+            'administrator/components/com_coalawebsociallinks/controllers/count.php',
+            'administrator/components/com_coalawebsociallinks/controllers/counts.php',
+            'administrator/components/com_coalawebsociallinks/models/count.php',
+            'administrator/components/com_coalawebsociallinks/models/counts.php',
         ),
         'folders' => array(
             'media/com_coalawebsociallinks',
@@ -113,13 +128,15 @@ class Com_CoalawebsociallinksInstallerScript {
             'media/plg_cwslquickicon',
             'media/plg_cwsociallikes',
             'media/plg_cwzooelements',
-            'media/coalawebsocial/modules/sociallinks/themes-icon'
+            'media/coalawebsocial/modules/sociallinks/themes-icon',
+            'administrator/components/com_coalawebsociallinks/views/count',
+            'administrator/components/com_coalawebsociallinks/views/counts'
         )
     );
-    
+
     /** @var array CLI Scripts to install */
     private $coalawebCliScripts = array();
-    
+
     /** @var array New files and folders to add */
     private $coalawebAddFiles = array(
         'files' => array(
@@ -127,15 +144,15 @@ class Com_CoalawebsociallinksInstallerScript {
         'folders' => array(
         )
     );
-    
+
     /**
      * Joomla! pre-flight event
      * 
-     * @param string $type Installation type (install, update, discover_install)
+     * @param string     $type   Installation type (install, update, discover_install)
      * @param JInstaller $parent Parent object
      */
     public function preflight($type, $parent) {
-        // Only allow to install on Joomla! 3.2 or later with PHP 5.3.0 or later
+        // Only allow to install on Joomla! 3.2 or later with PHP 5.4 or later
         if (defined('PHP_VERSION')) {
             $version = PHP_VERSION;
         } elseif (function_exists('phpversion')) {
@@ -145,21 +162,17 @@ class Com_CoalawebsociallinksInstallerScript {
         }
 
         if (!version_compare(JVERSION, '3.2', 'ge')) {
-            $msg = "<p>You need Joomla! 3.2 or later to install this extension</p>";
+            $msg = "<p>Sorry, you need Joomla! 3.2 or later to install this extension!</p>";
 
-            JError::raiseWarning(100, $msg);
+            JLog::add($msg, JLog::WARNING, 'jerror');
 
             return false;
         }
 
-        if (!version_compare($version, '5.3.1', 'ge')) {
-            $msg = "<p>You need PHP 5.3.1 or later to install this component</p>";
+        if (!version_compare($version, '5.4', 'ge')) {
+            $msg = "<p>Sorry, you need PHP 5.4 or later to install this component!</p>";
 
-            if (version_compare(JVERSION, '3.0', 'gt')) {
                 JLog::add($msg, JLog::WARNING, 'jerror');
-            } else {
-                JError::raiseWarning(100, $msg);
-            }
 
             return false;
         }
@@ -170,7 +183,6 @@ class Com_CoalawebsociallinksInstallerScript {
             $this->_bugfixDBFunctionReturnedNoError();
         } elseif ($type != 'discover_install') {
             $this->_bugfixCantBuildAdminMenus();
-            $this->_fixBrokenSQLUpdates($parent);
         }
 
         return true;
@@ -178,7 +190,8 @@ class Com_CoalawebsociallinksInstallerScript {
 
     /**
      * Runs after install, update or discover_update
-     * @param string $type install, update or discover_update
+     *
+     * @param string     $type   install, update or discover_update
      * @param JInstaller $parent 
      */
     function postflight($type, $parent) {
@@ -200,7 +213,7 @@ class Com_CoalawebsociallinksInstallerScript {
 
         // Show the post-installation page
         $this->_renderPostInstallation($status, $parent);
-        
+
         // Remove duplicate update info
         $this->_removeUpdateSite();
     }
@@ -225,15 +238,17 @@ class Com_CoalawebsociallinksInstallerScript {
         ?>
 
         <?php $rows = 1; ?>
-         <style type="text/css">
-            .coalaweb{font-family:"Trebuchet MS",Helvetica,sans-serif;font-size:13px!important;font-weight:400!important;color:#4D4D4D;border:solid #ccc 1px;background:#fff;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;*border-collapse:collapse;border-spacing:0;width:95%;margin:7px 15px 15px!important}.coalaweb tr:hover{background:#E8F6FE;-o-transition:all .1s ease-in-out;-webkit-transition:all .1s ease-in-out;-moz-transition:all .1s ease-in-out;-ms-transition:all .1s ease-in-out;transition:all .1s ease-in-out}.coalaweb tr.row1{background-color:#F0F0EE}.coalaweb td,.coalaweb th{border-left:1px solid #ccc;border-top:1px solid #ccc;padding:10px!important;text-align:left}.coalaweb th{background-image:-webkit-gradient(linear,left top,left bottom,from(#fdfdfd),to(#f4f4f4));background-image:-webkit-linear-gradient(top,#fdfdfd,#f4f4f4);background-image:-moz-linear-gradient(top,#fdfdfd,#f4f4f4);background-image:-ms-linear-gradient(top,#fdfdfd,#f4f4f4);background-image:-o-linear-gradient(top,#fdfdfd,#f4f4f4);background-image:linear-gradient(#fdfdfd,#f4f4f4);border-top:none;color:#333!important;text-shadow:0 1px 1px #FFF;border-bottom:4px solid #1272a5!important}.coalaweb td:first-child,.coalaweb th:first-child{border-left:none}.coalaweb th:first-child{-moz-border-radius:3px 0 0;-webkit-border-radius:3px 0 0 0;border-radius:3px 0 0 0}.coalaweb th:last-child{-moz-border-radius:0 3px 0 0;-webkit-border-radius:0 3px 0 0;border-radius:0 3px 0 0}.coalaweb th:only-child{-moz-border-radius:6px 6px 0 0;-webkit-border-radius:6px 6px 0 0;border-radius:6px 6px 0 0}.coalaweb tr:last-child td:first-child{-moz-border-radius:0 0 0 3px;-webkit-border-radius:0 0 0 3px;border-radius:0 0 0 3px}.coalaweb tr:last-child td:last-child{-moz-border-radius:0 0 3px;-webkit-border-radius:0 0 3px 0;border-radius:0 0 3px 0}.coalaweb em,.coalaweb strong{color:#1272A5;font-weight:700}
+        <style type="text/css">
+            .coalaweb{font-family:"Trebuchet MS",Helvetica,sans-serif;font-size:13px!important;font-weight:400!important;color:#4D4D4D;border:solid #ccc 1px;background:#fff;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;*border-collapse:collapse;border-spacing:0;width:95%;margin:7px 15px 15px!important}.coalaweb tr:hover{background:#E8F6FE;-o-transition:all .1s ease-in-out;-webkit-transition:all .1s ease-in-out;-moz-transition:all .1s ease-in-out;-ms-transition:all .1s ease-in-out;transition:all .1s ease-in-out}.coalaweb tr.row1{background-color:#F0F0EE}.coalaweb td,.coalaweb th{border-left:1px solid #ccc;border-top:1px solid #ccc;padding:10px!important;text-align:left}.coalaweb th{border-top:none;color:#333!important;text-shadow:0 1px 1px #FFF;border-bottom:4px solid #1272a5!important}.coalaweb td:first-child,.coalaweb th:first-child{border-left:none}.coalaweb th:first-child{-moz-border-radius:3px 0 0;-webkit-border-radius:3px 0 0 0;border-radius:3px 0 0 0}.coalaweb th:last-child{-moz-border-radius:0 3px 0 0;-webkit-border-radius:0 3px 0 0;border-radius:0 3px 0 0}.coalaweb th:only-child{-moz-border-radius:6px 6px 0 0;-webkit-border-radius:6px 6px 0 0;border-radius:6px 6px 0 0}.coalaweb tr:last-child td:first-child{-moz-border-radius:0 0 0 3px;-webkit-border-radius:0 0 0 3px;border-radius:0 0 0 3px}.coalaweb tr:last-child td:last-child{-moz-border-radius:0 0 3px;-webkit-border-radius:0 0 3px 0;border-radius:0 0 3px 0}.coalaweb em,.coalaweb strong{color:#1272A5;font-weight:700}
         </style>
-        <link rel="stylesheet" href="../media/coalaweb/components/generic/css/com-coalaweb-base.css" type="text/css">
-        <span class="cw-message">
-            <p class="alert">
+        <link rel="stylesheet" href="../media/coalaweb/components/generic/css/com-coalaweb-base-j3.css" type="text/css">
+        <link rel="stylesheet" href="../media/coalaweb/components/generic/css/com-coalaweb-base-v2.css" type="text/css">
+         <div class="cw-slider" style="margin-left:-15px;" >
+            <h3><?php echo JText::_('COM_CWSOCIALLINKS_POST_INSTALL_TITLE'); ?></h3>
+            <p class="alert" style="width:95%;">
                 <?php echo JText::_('COM_CWSOCIALLINKS_POST_INSTALL_MSG'); ?>
             </p>
-        </span>
+            <h3><?php echo JText::_('COM_CWSOCIALLINKS_INSTALL_DETAILS_TITLE'); ?></h3>
         <table class="coalaweb">
             <thead align="left">
                 <tr>
@@ -254,26 +269,26 @@ class Com_CoalawebsociallinksInstallerScript {
         </table>
 
         <?php if (count($status->modules)) : ?>
-                    <table class="coalaweb">
+            <table class="coalaweb">
                 <thead align="left">
                     <tr>
                         <th class="title" align="left">Module</th>
                         <th width="25%">Client</th>
                         <th width="25%">Status</th>
                     </tr>
-                                    </thead>
+                </thead>
                 <tbody>
-            <?php foreach ($status->modules as $module) : ?>
+                    <?php foreach ($status->modules as $module) : ?>
                         <tr class="row<?php echo ($rows++ % 2); ?>">
                             <td class="key"><?php echo JText::_($module['name']); ?></td>
                             <td class="key"><?php echo ucfirst($module['client']); ?></td>
                             <td><strong style="color: <?php echo ($module['result']) ? "green" : "red" ?>"><?php echo ($module['result']) ? 'Installed' : 'Not installed'; ?></strong></td>
                         </tr>
-            <?php endforeach; ?>
-                                        </tbody>
+                    <?php endforeach; ?>
+                </tbody>
             </table>
-                <?php endif; ?>
-                <?php if (count($status->plugins)) : ?>
+        <?php endif; ?>
+        <?php if (count($status->plugins)) : ?>
             <table class="coalaweb">
                 <thead align="left" >
                     <tr>
@@ -283,16 +298,17 @@ class Com_CoalawebsociallinksInstallerScript {
                     </tr>
                 </thead>
                 <tbody>
-            <?php foreach ($status->plugins as $plugin) : ?>
+                    <?php foreach ($status->plugins as $plugin) : ?>
                         <tr class="row<?php echo ($rows++ % 2); ?>">
                             <td class="key"><?php echo JText::_($plugin['name']); ?></td>
                             <td class="key"><?php echo ucfirst($plugin['group']); ?></td>
                             <td><strong style="color: <?php echo ($plugin['result']) ? "green" : "red" ?>"><?php echo ($plugin['result']) ? 'Installed' : 'Not installed'; ?></strong></td>
                         </tr>
-            <?php endforeach; ?>
+                    <?php endforeach; ?>
                 <?php endif; ?>
             </tbody>
         </table>
+            </div>
         <?php
     }
 
@@ -300,7 +316,7 @@ class Com_CoalawebsociallinksInstallerScript {
         ?>
         <?php $rows = 0; ?>
         <style type="text/css">
-            .coalaweb{font-family:"Trebuchet MS",Helvetica,sans-serif;font-size:13px!important;font-weight:400!important;color:#4D4D4D;border:solid #ccc 1px;background:#fff;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;*border-collapse:collapse;border-spacing:0;width:95%;margin:7px 15px 15px!important}.coalaweb tr:hover{background:#E8F6FE;-o-transition:all .1s ease-in-out;-webkit-transition:all .1s ease-in-out;-moz-transition:all .1s ease-in-out;-ms-transition:all .1s ease-in-out;transition:all .1s ease-in-out}.coalaweb tr.row1{background-color:#F0F0EE}.coalaweb td,.coalaweb th{border-left:1px solid #ccc;border-top:1px solid #ccc;padding:10px!important;text-align:left}.coalaweb th{background-image:-webkit-gradient(linear,left top,left bottom,from(#fdfdfd),to(#f4f4f4));background-image:-webkit-linear-gradient(top,#fdfdfd,#f4f4f4);background-image:-moz-linear-gradient(top,#fdfdfd,#f4f4f4);background-image:-ms-linear-gradient(top,#fdfdfd,#f4f4f4);background-image:-o-linear-gradient(top,#fdfdfd,#f4f4f4);background-image:linear-gradient(#fdfdfd,#f4f4f4);border-top:none;color:#333!important;text-shadow:0 1px 1px #FFF;border-bottom:4px solid #1272a5!important}.coalaweb td:first-child,.coalaweb th:first-child{border-left:none}.coalaweb th:first-child{-moz-border-radius:3px 0 0;-webkit-border-radius:3px 0 0 0;border-radius:3px 0 0 0}.coalaweb th:last-child{-moz-border-radius:0 3px 0 0;-webkit-border-radius:0 3px 0 0;border-radius:0 3px 0 0}.coalaweb th:only-child{-moz-border-radius:6px 6px 0 0;-webkit-border-radius:6px 6px 0 0;border-radius:6px 6px 0 0}.coalaweb tr:last-child td:first-child{-moz-border-radius:0 0 0 3px;-webkit-border-radius:0 0 0 3px;border-radius:0 0 0 3px}.coalaweb tr:last-child td:last-child{-moz-border-radius:0 0 3px;-webkit-border-radius:0 0 3px 0;border-radius:0 0 3px 0}.coalaweb em,.coalaweb strong{color:#1272A5;font-weight:700}
+            .coalaweb{font-family:"Trebuchet MS",Helvetica,sans-serif;font-size:13px!important;font-weight:400!important;color:#4D4D4D;border:solid #ccc 1px;background:#fff;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;*border-collapse:collapse;border-spacing:0;width:95%;margin:7px 15px 15px!important}.coalaweb tr:hover{background:#E8F6FE;-o-transition:all .1s ease-in-out;-webkit-transition:all .1s ease-in-out;-moz-transition:all .1s ease-in-out;-ms-transition:all .1s ease-in-out;transition:all .1s ease-in-out}.coalaweb tr.row1{background-color:#F0F0EE}.coalaweb td,.coalaweb th{border-left:1px solid #ccc;border-top:1px solid #ccc;padding:10px!important;text-align:left}.coalaweb th{border-top:none;color:#333!important;text-shadow:0 1px 1px #FFF;border-bottom:4px solid #1272a5!important}.coalaweb td:first-child,.coalaweb th:first-child{border-left:none}.coalaweb th:first-child{-moz-border-radius:3px 0 0;-webkit-border-radius:3px 0 0 0;border-radius:3px 0 0 0}.coalaweb th:last-child{-moz-border-radius:0 3px 0 0;-webkit-border-radius:0 3px 0 0;border-radius:0 3px 0 0}.coalaweb th:only-child{-moz-border-radius:6px 6px 0 0;-webkit-border-radius:6px 6px 0 0;border-radius:6px 6px 0 0}.coalaweb tr:last-child td:first-child{-moz-border-radius:0 0 0 3px;-webkit-border-radius:0 0 0 3px;border-radius:0 0 0 3px}.coalaweb tr:last-child td:last-child{-moz-border-radius:0 0 3px;-webkit-border-radius:0 0 3px 0;border-radius:0 0 3px 0}.coalaweb em,.coalaweb strong{color:#1272A5;font-weight:700}
         </style>
         <span class="cw-slider">
             <h3> CoalaWeb Social Links Uninstallation Status</h3>
@@ -417,7 +433,7 @@ class Com_CoalawebsociallinksInstallerScript {
                     if (empty($folder)) {
                         $folder = 'site';
                     }
-                        
+
                     // Find the module ID
                     $query = $db->getQuery(true);
 
@@ -705,11 +721,9 @@ class Com_CoalawebsociallinksInstallerScript {
             foreach ($this->uninstallation_queue['modules'] as $folder => $modules) {
                 if (count($modules)) {
                     foreach ($modules as $module) {
-                        
                         if (empty($folder)) {
                             $folder = 'site';
                         }
-                        
                         // Find the module ID
                         $query = $db->getQuery(true);
                         $query
@@ -874,7 +888,7 @@ class Com_CoalawebsociallinksInstallerScript {
         $db->setQuery($query);
 
         try {
-            $db->query();
+            $db->execute();
         } catch (Exception $exc) {
             // If the query fails, don't sweat about it
         }
@@ -888,7 +902,7 @@ class Com_CoalawebsociallinksInstallerScript {
         $db->setQuery($query);
 
         try {
-            $db->query();
+            $db->execute();
         } catch (Exception $exc) {
             // If the query fails, don't sweat about it
         }
@@ -903,109 +917,10 @@ class Com_CoalawebsociallinksInstallerScript {
         $db->setQuery($query);
 
         try {
-            $db->query();
+            $db->execute();
         } catch (Exception $exc) {
             // If the query fails, don't sweat about it
         }
-    }
-
-    /**
-     * Fixed failed install/update of database
-     * 
-     */
-    private function _fixBrokenSQLUpdates($parent) {
-        // Get the extension ID
-        $db = JFactory::getDbo();
-
-        $query = $db->getQuery(true);
-
-        $query
-                ->select($db->qn('extension_id'))
-                ->from($db->qn('#__extensions'))
-                ->where($db->qn('element') . ' = ' . $db->q($this->_coalaweb_extension));
-
-        $db->setQuery($query);
-        $eid = $db->loadResult();
-
-        if (!$eid) {
-            return;
-        }
-
-        // Get the schema version
-        $query = $db->getQuery(true);
-
-        $query
-                ->select($db->qn('version_id'))
-                ->from($db->qn('#__schemas'))
-                ->where($db->qn('extension_id') . ' = ' . $db->q($eid));
-
-        $db->setQuery($query);
-        $version = $db->loadResult();
-
-        // If there is a schema version it's not a false update
-        if ($version) {
-            return;
-        }
-
-        // Execute the installation SQL file.
-        $dbDriver = strtolower($db->name);
-
-        if ($dbDriver == 'mysqli') {
-            $dbDriver = 'mysql';
-        }
-
-
-        // Get the name of the sql file to process
-        $sqlfile = $parent->getParent()->getPath('source') . '/administrator/components/com_coalawebsociallinks/sql/install/' . $dbDriver . '/install.mysql.utf8.sql';
-
-        if (file_exists($sqlfile)) {
-            $buffer = file_get_contents($sqlfile);
-            if ($buffer === false) {
-                return;
-            }
-
-            $queries = JInstallerHelper::splitSql($buffer);
-
-            if (count($queries) == 0) {
-                // No queries to process
-                return;
-            }
-
-            // Process each query in the $queries array (split out of sql file).
-            foreach ($queries as $query) {
-                $query = trim($query);
-
-                if ($query != '' && $query{0} != '#') {
-                    $db->setQuery($query);
-
-                    if (!$db->execute()) {
-                        JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
-
-                        return false;
-                    }
-                }
-            }
-        }
-
-        // Update #__schemas to the latest version.
-        $path = $parent->getParent()->getPath('source') . '/administrator/components/com_coalawebsociallinks/sql/updates/' . $dbDriver;
-        $files = str_replace('.sql', '', JFolder::files($path, '\.sql$'));
-
-        if (count($files) > 0) {
-            usort($files, 'version_compare');
-            $version = array_pop($files);
-        } else {
-            $version = '0.0.1';
-        }
-
-        $query = $db->getQuery(true);
-
-        $query->insert($db->qn('#__schemas'));
-        $query->columns(array($db->qn('extension_id'), $db->qn('version_id')));
-        $query->values($eid . ', ' . $db->q($version));
-
-        $db->setQuery($query);
-        $db->execute();
     }
 
     /**
@@ -1247,5 +1162,4 @@ class Com_CoalawebsociallinksInstallerScript {
             }
         }
     }
-
 }

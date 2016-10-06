@@ -451,10 +451,20 @@ class modMaximenuckHelper {
 						. '-webkit-box-shadow: none' . $important . ';'
 						. 'box-shadow: none' . $important . ';' : '');
 		$borderstyle = $params->get($prefix . 'borderstyle', 'solid') ? $params->get($prefix . 'borderstyle', 'solid') : 'solid';
-		$css['border'] = (($params->get($prefix . 'bordertopwidth') == '0') ? 'border-top: none' . $important . ';' : (($params->get($prefix . 'bordertopwidth') != '' AND $params->get($prefix . 'bordercolor')) ? 'border-top: ' . $params->get($prefix . 'bordercolor', '') . ' ' . self::testUnit($params->get($prefix . 'bordertopwidth', '')) . ' ' . $borderstyle . ' ' . $important . ';' : '') )
-				. (($params->get($prefix . 'borderrightwidth') == '0') ? 'border-right: none' . $important . ';' : (($params->get($prefix . 'borderrightwidth') != '' AND $params->get($prefix . 'bordercolor')) ? 'border-right: ' . $params->get($prefix . 'bordercolor', '') . ' ' . self::testUnit($params->get($prefix . 'borderrightwidth', '')) . ' ' . $borderstyle . ' ' . $important . ';' : '') )
-				. (($params->get($prefix . 'borderbottomwidth') == '0') ? 'border-bottom: none' . $important . ';' : (($params->get($prefix . 'borderbottomwidth') != '' AND $params->get($prefix . 'bordercolor')) ? 'border-bottom: ' . $params->get($prefix . 'bordercolor', '') . ' ' . self::testUnit($params->get($prefix . 'borderbottomwidth', '')) . ' ' . $borderstyle . ' ' . $important . ';' : '') )
-				. (($params->get($prefix . 'borderleftwidth') == '0') ? 'border-left: none' . $important . ';' : (($params->get($prefix . 'borderleftwidth') != '' AND $params->get($prefix . 'bordercolor')) ? 'border-left: ' . $params->get($prefix . 'bordercolor', '') . ' ' . self::testUnit($params->get($prefix . 'borderleftwidth', '')) . ' ' . $borderstyle . ' ' . $important . ';' : '') );
+		$bordertopstyle = $params->get($prefix . 'bordertopstyle', 'solid') ? $params->get($prefix . 'bordertopstyle', 'solid') : $borderstyle;
+		$borderrightstyle = $params->get($prefix . 'borderrightstyle', 'solid') ? $params->get($prefix . 'borderrightstyle', 'solid') : $borderstyle;
+		$borderbottomstyle = $params->get($prefix . 'borderbottomstyle', 'solid') ? $params->get($prefix . 'borderbottomstyle', 'solid') : $borderstyle;
+		$borderleftstyle = $params->get($prefix . 'borderleftstyle', 'solid') ? $params->get($prefix . 'borderleftstyle', 'solid') : $borderstyle;
+		$bordercolor = $params->get($prefix . 'bordercolor', '') ? $params->get($prefix . 'bordercolor', '') : '';
+		$bordertopcolor = $params->get($prefix . 'bordertopcolor', '') ? $params->get($prefix . 'bordertopcolor', '') : $bordercolor;
+		$borderrightcolor = $params->get($prefix . 'borderrightcolor', '') ? $params->get($prefix . 'borderrightcolor', '') : $bordercolor;
+		$borderbottomcolor = $params->get($prefix . 'borderbottomcolor', '') ? $params->get($prefix . 'borderbottomcolor', '') : $bordercolor;
+		$borderleftcolor = $params->get($prefix . 'borderleftcolor', '') ? $params->get($prefix . 'borderleftcolor', '') : $bordercolor;
+
+		$css['border'] = (($params->get($prefix . 'bordertopwidth') == '0') ? 'border-top: none' . $important . ';' : (($params->get($prefix . 'bordertopwidth') != '' AND $bordertopcolor) ? 'border-top: ' . $bordertopcolor . ' ' . self::testUnit($params->get($prefix . 'bordertopwidth', '')) . ' ' . $bordertopstyle . ' ' . $important . ';' : '') )
+				. (($params->get($prefix . 'borderrightwidth') == '0') ? 'border-right: none' . $important . ';' : (($params->get($prefix . 'borderrightwidth') != '' AND $borderrightcolor) ? 'border-right: ' . $borderrightcolor . ' ' . self::testUnit($params->get($prefix . 'borderrightwidth', '')) . ' ' . $borderrightstyle . ' ' . $important . ';' : '') )
+				. (($params->get($prefix . 'borderbottomwidth') == '0') ? 'border-bottom: none' . $important . ';' : (($params->get($prefix . 'borderbottomwidth') != '' AND $borderbottomcolor) ? 'border-bottom: ' . $borderbottomcolor . ' ' . self::testUnit($params->get($prefix . 'borderbottomwidth', '')) . ' ' . $borderbottomstyle . ' ' . $important . ';' : '') )
+				. (($params->get($prefix . 'borderleftwidth') == '0') ? 'border-left: none' . $important . ';' : (($params->get($prefix . 'borderleftwidth') != '' AND $borderleftcolor) ? 'border-left: ' . $borderleftcolor . ' ' . self::testUnit($params->get($prefix . 'borderleftwidth', '')) . ' ' . $borderleftstyle . ' ' . $important . ';' : '') );
 		$css['fontsize'] = ($params->get($prefix . 'fontsize') != '') ?
 				'font-size: ' . self::testUnit($params->get($prefix . 'fontsize')) . $important . ';' : '';
 		$css['fontcolor'] = ($params->get($prefix . 'fontcolor') != '') ?
@@ -569,7 +579,7 @@ class modMaximenuckHelper {
 		$csssubmenu = self::createCss($menuID, $item->params, 'submenustyles', true, $item->id);
 		//$cssheading = self::createCss($menuID, $item->params, 'headingstyles');
 
-		$separator = ($item->type == 'separator') ? '.headingck > span.separator' : '';
+		$separator = ($item->type == 'separator' && !$item->params->get('maximenu_insertmodule', 0)) ? '.headingck > span.separator' : '';
 		$document = JFactory::getDocument();
 
 		// for parent arrow normal state
@@ -700,12 +710,12 @@ class modMaximenuckHelper {
 		if (isset($cssitemnormal)) {
 			if ($cssitemnormal['margin'] || $cssitemnormal['background'] || $cssitemnormal['gradient'] || $cssitemnormal['borderradius'] || $cssitemnormal['shadow'] || $cssitemnormal['border']
 			) {
-				$itemcss .= "\ndiv#" . $menuID . " ul.maximenuck li.maximenuck.item" . $item->id . ".level" . $itemlevel . $separator . ",
+				$itemcss .= "\ndiv#" . $menuID . " ul.maximenuck li.maximenuck.item" . $item->id . ".level" . $itemlevel . $separator . ", 
 div#" . $menuID . " ul.maximenuck2 li.maximenuck.item" . $item->id . ".level" . $itemlevel . $separator . "{ " . $cssitemnormal['margin'] . $cssitemnormal['background'] . $cssitemnormal['gradient'] . $cssitemnormal['borderradius'] . $cssitemnormal['shadow'] . $cssitemnormal['border'] . " } ";
 			}
 			if ($cssitemnormal['padding']) {
 				$itemcss .= "\ndiv#" . $menuID . " ul.maximenuck li.maximenuck.item" . $item->id . ".level" . $itemlevel . " > a,
-div#" . $menuID . " ul.maximenuck li.maximenuck.item" . $item->id . ".level" . $itemlevel . " > span { " . $cssitemnormal['padding'] . " } ";
+div#" . $menuID . " ul.maximenuck li.maximenuck.item" . $item->id . ".level" . $itemlevel . " > * { " . $cssitemnormal['padding'] . " } ";
 			}
 			if ($cssitemnormal['fontcolor'] || $cssitemnormal['fontsize'] || $cssitemnormal['fontweight']
 			) {
@@ -1159,10 +1169,10 @@ div#" . $menuID . " .maxipushdownck div.floatck { " . $css->level2menustyles['pa
 
 		// level2 normal items styles
 		if (isset($css->level2itemnormalstyles)) {
-			if ($css->level2itemnormalstyles['padding'] || $css->level2itemnormalstyles['margin'] || $css->level2itemnormalstyles['background'] || $css->level2itemnormalstyles['gradient'] || $css->level2itemnormalstyles['borderradius'] || $css->level2itemnormalstyles['shadow'] || $css->level2itemnormalstyles['border']
+			if ($css->level2itemnormalstyles['padding'] || $css->level2itemnormalstyles['margin'] || $css->level2itemnormalstyles['background'] || $css->level2itemnormalstyles['gradient'] || $css->level2itemnormalstyles['borderradius'] || $css->level2itemnormalstyles['shadow'] || $css->level2itemnormalstyles['border'] || $css->level2itemnormalstyles['text-align']
 			) {
 				$csstoinject .= "\ndiv#" . $menuCSSID . " li.maximenuck.level1 li.maximenuck:not(.headingck), div#" . $menuID . " li.maximenuck.maximenuflatlistck:not(.level1):not(.headingck),
-div#" . $menuID . " .maxipushdownck li.maximenuck:not(.headingck) { " . $css->level2itemnormalstyles['margin'] . $css->level2itemnormalstyles['background'] . $css->level2itemnormalstyles['gradient'] . $css->level2itemnormalstyles['borderradius'] . $css->level2itemnormalstyles['shadow'] . $css->level2itemnormalstyles['border'] . " } ";
+div#" . $menuID . " .maxipushdownck li.maximenuck:not(.headingck) { " . $css->level2itemnormalstyles['margin'] . $css->level2itemnormalstyles['background'] . $css->level2itemnormalstyles['gradient'] . $css->level2itemnormalstyles['borderradius'] . $css->level2itemnormalstyles['shadow'] . $css->level2itemnormalstyles['border'] . $css->level2itemnormalstyles['text-align'] . " } ";
 				$csstoinject .= "\ndiv#" . $menuCSSID . " li.maximenuck.level1 li.maximenuck:not(.headingck) > a, div#" . $menuID . " li.maximenuck.maximenuflatlistck:not(.level1):not(.headingck) > a,
 div#" . $menuID . " .maxipushdownck li.maximenuck:not(.headingck) > a, ndiv#" . $menuCSSID . " li.maximenuck.level1 li.maximenuck:not(.headingck) > span.separator, div#" . $menuID . " li.maximenuck.maximenuflatlistck:not(.level1):not(.headingck) > span.separator,
 div#" . $menuID . " .maxipushdownck li.maximenuck:not(.headingck) > span.separator { " . $css->level2itemnormalstyles['padding'] . " } ";
@@ -1447,8 +1457,8 @@ if (!class_exists('CkCssParams')) {
 
 	class CkCssParams extends stdClass {
 
-		function get($key, $value = null) {
-			return isset($this->$key) ? $this->$key : $value;
+		function get($key) {
+			return isset($this->$key) ? $this->$key : null;
 		}
 		
 		function exists($key) {

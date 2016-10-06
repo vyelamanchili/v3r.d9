@@ -393,9 +393,14 @@
 
 			function testOverflowmenuck(el) {
 				if (el.hasClass('fullwidth')) return;
-				var pageWidth = $(document.body).outerWidth();
-				var elementPosition = el.offset().left + el.outerWidth() + el.submenu.width();
-				if (elementPosition > pageWidth) {
+				var pageWidth = $(window).outerWidth();
+				el.submenu.removeClass('fixRight').css('right', '');
+				var elOffset = el.submenu.attr('data-display', el.submenu.css('display')).css({'opacity':'0','display':'block'}).offset();
+				el.submenu.css({'opacity':'1', 'display': el.submenu.attr('data-display')});
+				el.submenu.removeAttr('data-display');
+
+				var elementPositionX = elOffset.left + el.submenu.width();
+				if (elementPositionX > pageWidth) {
 					if ((el.data('level')) == 1) {
 						el.submenu.css('right', '0px');
 					} else {
@@ -403,6 +408,21 @@
 					}
 					el.submenu.css('marginRight', '0px');
 					el.submenu.addClass('fixRight');
+				} else {
+					el.submenu.removeClass('fixRight');
+					el.submenu.css('right', '');
+				}
+
+				if (orientation != 'vertical') return;
+				var boundTop = $(document).scrollTop();
+				var boundBottom = boundTop + $(window).height();
+				
+				var elementPositionY = elOffset.top + el.submenu.height();
+				elDataMarginTop = el.submenu.attr('data-margin-top') ? parseInt(el.submenu.attr('data-margin-top')) : parseInt(el.submenu.css('margin-top'));
+				if (elementPositionY > boundBottom) {
+					el.submenu.attr('data-margin-top', el.submenu.css('margin-top')).css('margin-top', '-=' + (elementPositionY - boundBottom + 10) + 'px');
+				} else if (elOffset.top + el.submenu.height() - (parseInt(el.submenu.css('margin-top')) - elDataMarginTop) < boundBottom) {
+					if (el.submenu.attr('data-margin-top')) el.submenu.css('margin-top', elDataMarginTop + 'px').removeAttr('data-margin-top');
 				}
 			}
 
@@ -616,7 +636,7 @@
 						} else {
 							el.mouseleave(function() {
 								hideSubmenuck(el);
-								el.find('li.maximenuck.parent:not(.nodropdown)').each(function(j, el2) {
+								el.find('li.maximenuck.parent.level'+el.attr('data-level')+':not(.nodropdown)').each(function(j, el2) {
 									el2 = $(el2);
 									if (effecttype == 'pushdown') {
 										el2.submenu = $('> .maxipushdownck > .floatck',maximenuObj).eq(j);

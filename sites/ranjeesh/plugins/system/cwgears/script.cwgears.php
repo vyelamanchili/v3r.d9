@@ -24,6 +24,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
+jimport('joomla.log.log');
 
 class PlgSystemCwgearsInstallerScript { 
 
@@ -46,7 +47,6 @@ class PlgSystemCwgearsInstallerScript {
      * @param JInstaller $parent Parent object
      */
     public function preflight($type, $parent) {
-
         // Only allow to install on Joomla! 3.2 or later with PHP 5.4 or later
         if (defined('PHP_VERSION')) {
             $version = PHP_VERSION;
@@ -59,7 +59,7 @@ class PlgSystemCwgearsInstallerScript {
         if (!version_compare(JVERSION, '3.2', 'ge')) {
             $msg = "<p>Sorry, you need Joomla! 3.2 or later to install this extension!</p>";
 
-            JError::raiseWarning(100, $msg);
+            JLog::add($msg, JLog::WARNING, 'jerror');
 
             return false;
         }
@@ -67,14 +67,13 @@ class PlgSystemCwgearsInstallerScript {
         if (!version_compare($version, '5.4', 'ge')) {
             $msg = "<p>Sorry, you need PHP 5.4 or later to install this extension!</p>";
 
-            JError::raiseWarning(100, $msg);
+            JLog::add($msg, JLog::WARNING, 'jerror');
 
             return false;
         }
         
         // Workarounds for JInstaller bugs
         if ($type != 'discover_install') {
-            $this->_fixBrokenSQLUpdates($parent);
         }
 
         return true;
@@ -91,106 +90,93 @@ class PlgSystemCwgearsInstallerScript {
         if ($type == 'install') {       
             $this->_activatePlugin($parent);
         }
+        
+        // Show the post-installation page
+        $this->_renderPostInstallation($parent);
 
     }
-
-    /**
-     * Fixed failed install/update of database
+    
+        /**
+     * Runs on uninstallation
      * 
+     * @param JInstaller $parent 
      */
-    private function _fixBrokenSQLUpdates($parent) {
-        // Get the extension ID
-        $db = JFactory::getDbo();
+    function uninstall($parent) {
+        // Show the post-uninstallation page
+        $this->_renderPostUninstallation($parent);
+    }
+    
+    /**
+     * Renders the post-installation message 
+     */
+    private function _renderPostInstallation($parent) {
+        ?>
 
-        $query = $db->getQuery(true);
+        <?php $rows = 1; ?>
+        <style type="text/css">
+            .coalaweb{font-family:"Trebuchet MS",Helvetica,sans-serif;font-size:13px!important;font-weight:400!important;color:#4D4D4D;border:solid #ccc 1px;background:#fff;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;*border-collapse:collapse;border-spacing:0;width:95%;margin:7px 15px 15px!important}.coalaweb tr:hover{background:#E8F6FE;-o-transition:all .1s ease-in-out;-webkit-transition:all .1s ease-in-out;-moz-transition:all .1s ease-in-out;-ms-transition:all .1s ease-in-out;transition:all .1s ease-in-out}.coalaweb tr.row1{background-color:#F0F0EE}.coalaweb td,.coalaweb th{border-left:1px solid #ccc;border-top:1px solid #ccc;padding:10px!important;text-align:left}.coalaweb th{border-top:none;color:#333!important;text-shadow:0 1px 1px #FFF;border-bottom:4px solid #1272a5!important}.coalaweb td:first-child,.coalaweb th:first-child{border-left:none}.coalaweb th:first-child{-moz-border-radius:3px 0 0;-webkit-border-radius:3px 0 0 0;border-radius:3px 0 0 0}.coalaweb th:last-child{-moz-border-radius:0 3px 0 0;-webkit-border-radius:0 3px 0 0;border-radius:0 3px 0 0}.coalaweb th:only-child{-moz-border-radius:6px 6px 0 0;-webkit-border-radius:6px 6px 0 0;border-radius:6px 6px 0 0}.coalaweb tr:last-child td:first-child{-moz-border-radius:0 0 0 3px;-webkit-border-radius:0 0 0 3px;border-radius:0 0 0 3px}.coalaweb tr:last-child td:last-child{-moz-border-radius:0 0 3px;-webkit-border-radius:0 0 3px 0;border-radius:0 0 3px 0}.coalaweb em,.coalaweb strong{color:#1272A5;font-weight:700}
+        </style>
+        <link rel="stylesheet" href="../media/coalaweb/modules/generic/css/cw-config-j3.css" type="text/css">
+        <link rel="stylesheet" href="../media/coalaweb/modules/generic/css/cw-config-v2.css" type="text/css">
+        
+        <div class="cw-module" style="margin-left:-15px;" >
+            <h3><?php echo JText::_('PLG_CWGEARS_POST_INSTALL_TITLE'); ?></h3>
+            <p class="alert" style="width:95%;">
+                <?php echo JText::_('PLG_CWGEARS_POST_INSTALL_MSG'); ?>
+            </p>
+            <h3><?php echo JText::_('PLG_CWGEARS_INSTALL_DETAILS_TITLE'); ?></h3>
 
-        $query
-                ->select($db->qn('extension_id'))
-                ->from($db->qn('#__extensions'))
-                ->where($db->qn('element') . ' = ' . $db->q($this->_coalaweb_extension));
+        <table class="coalaweb">
+            <thead align="left">
+                <tr>
+                    <th class="title" align="left">Main</th>
+                    <th width="25%">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="row0">
+                    <td class="key">
+                        <?php echo JText::_('PLG_CWGEARS_TITLE_CORE'); ?>
+                    </td>
+                    <td>
+                        <strong style="color: green">Installed</strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-        $db->setQuery($query);
-        $eid = $db->loadResult();
+        </div>
+        <?php
+    }
 
-        if (!$eid) {
-            return;
-        }
-
-        // Get the schema version
-        $query = $db->getQuery(true);
-
-        $query
-                ->select($db->qn('version_id'))
-                ->from($db->qn('#__schemas'))
-                ->where($db->qn('extension_id') . ' = ' . $db->q($eid));
-
-        $db->setQuery($query);
-        $version = $db->loadResult();
-
-        // If there is a schema version it's not a false update
-        if ($version) {
-            return;
-        }
-
-        // Execute the installation SQL file.
-        $dbDriver = strtolower($db->name);
-
-        if ($dbDriver == 'mysqli') {
-            $dbDriver = 'mysql';
-        }
-
-
-        // Get the name of the sql file to process
-        $sqlfile = $parent->getParent()->getPath('source') . '/sql/install/' . $dbDriver . '/install.mysql.utf8.sql';
-
-        if (file_exists($sqlfile)) {
-            $buffer = file_get_contents($sqlfile);
-            if ($buffer === false) {
-                return;
-            }
-
-            $queries = JInstallerHelper::splitSql($buffer);
-
-            if (count($queries) == 0) {
-                // No queries to process
-                return;
-            }
-
-            // Process each query in the $queries array (split out of sql file).
-            foreach ($queries as $query) {
-                $query = trim($query);
-
-                if ($query != '' && $query{0} != '#') {
-                    $db->setQuery($query);
-
-                    if (!$db->execute()) {
-                        JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
-
-                        return false;
-                    }
-                }
-            }
-        }
-
-        // Update #__schemas to the latest version.
-        $path = $parent->getParent()->getPath('source') . '/sql/updates/' . $dbDriver;
-        $files = str_replace('.sql', '', JFolder::files($path, '\.sql$'));
-
-        if (count($files) > 0) {
-            usort($files, 'version_compare');
-            $version = array_pop($files);
-        } else {
-            $version = '0.0.1';
-        }
-
-        $query = $db->getQuery(true);
-
-        $query->insert($db->qn('#__schemas'));
-        $query->columns(array($db->qn('extension_id'), $db->qn('version_id')));
-        $query->values($eid . ', ' . $db->q($version));
-
-        $db->setQuery($query);
-        $db->execute();
+    private function _renderPostUninstallation($parent) {
+        ?>
+        <?php $rows = 0; ?>
+        <style type="text/css">
+            .coalaweb{font-family:"Trebuchet MS",Helvetica,sans-serif;font-size:13px!important;font-weight:400!important;color:#4D4D4D;border:solid #ccc 1px;background:#fff;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;*border-collapse:collapse;border-spacing:0;width:95%;margin:7px 15px 15px!important}.coalaweb tr:hover{background:#E8F6FE;-o-transition:all .1s ease-in-out;-webkit-transition:all .1s ease-in-out;-moz-transition:all .1s ease-in-out;-ms-transition:all .1s ease-in-out;transition:all .1s ease-in-out}.coalaweb tr.row1{background-color:#F0F0EE}.coalaweb td,.coalaweb th{border-left:1px solid #ccc;border-top:1px solid #ccc;padding:10px!important;text-align:left}.coalaweb th{border-top:none;color:#333!important;text-shadow:0 1px 1px #FFF;border-bottom:4px solid #1272a5!important}.coalaweb td:first-child,.coalaweb th:first-child{border-left:none}.coalaweb th:first-child{-moz-border-radius:3px 0 0;-webkit-border-radius:3px 0 0 0;border-radius:3px 0 0 0}.coalaweb th:last-child{-moz-border-radius:0 3px 0 0;-webkit-border-radius:0 3px 0 0;border-radius:0 3px 0 0}.coalaweb th:only-child{-moz-border-radius:6px 6px 0 0;-webkit-border-radius:6px 6px 0 0;border-radius:6px 6px 0 0}.coalaweb tr:last-child td:first-child{-moz-border-radius:0 0 0 3px;-webkit-border-radius:0 0 0 3px;border-radius:0 0 0 3px}.coalaweb tr:last-child td:last-child{-moz-border-radius:0 0 3px;-webkit-border-radius:0 0 3px 0;border-radius:0 0 3px 0}.coalaweb em,.coalaweb strong{color:#1272A5;font-weight:700}
+        </style>
+        <div class="cw-module">
+            <h3> CoalaWeb Gears Uninstallation Status</h3>
+        </div>
+        <table class="coalaweb">
+            <thead align="left">
+                <tr>
+                    <th class="title" align="left">Main</th>
+                    <th width="25%">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="row0">
+                    <td class="key">
+                        <?php echo JText::_('PLG_CWGEARS_TITLE_CORE'); ?>
+                    </td>
+                    <td>
+                        <strong style="color: green">Uninstalled</strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <?php
     }
 
     /**
@@ -216,7 +202,7 @@ class PlgSystemCwgearsInstallerScript {
 
                             try {
                                 $db->execute();
-                            } catch (Exception $exc) {
+                            } catch (Exception $e) {
                                 // Nothing
                             }
                         }

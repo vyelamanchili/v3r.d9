@@ -2,7 +2,7 @@
  * @author              Steven Palmer
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
  */
 
 jQuery.noConflict();
@@ -51,5 +51,3 @@ jQuery.noConflict();
         });
     }
 })(jQuery);
-
-

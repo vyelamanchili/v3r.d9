@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.2" client="site" method="upgrade">
     <name>MOD_COALAWEBPAGE</name>
-    <creationDate>2015-09-01</creationDate>
+    <creationDate>2016-09-07</creationDate>
     <author>Steven Palmer</author>
     <authorEmail>support@coalaweb.com</authorEmail>
     <authorUrl>http://coalaweb.com</authorUrl>
-    <copyright>Copyright (c) 2015 Steven Palmer All rights reserved.</copyright>
+    <copyright>Copyright (c) 2016 Steven Palmer All rights reserved.</copyright>
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <version>0.2.4</version>
+    <version>0.3.3</version>
     <description>MOD_COALAWEBPAGE_DESC</description>
     
     <languages folder="language">
@@ -47,7 +47,7 @@
                     name="fb_page_link" 
                     type="text" 
                     default="" 
-                    size="" 
+                    hint="https://www.facebook.com/CoalaWeb"
                     label="MOD_CWPAGE_FIELD_PAGEURL_LABEL" 
                     description="MOD_CWPAGE_FIELD_PAGEURL_DESC" /> 
                 
@@ -82,6 +82,17 @@
                     default="400" 
                     label="MOD_CWPAGE_FIELD_HEIGHT_LABEL" 
                     description="MOD_CWPAGE_FIELD_HEIGHT_DESC" />
+                
+                <field 
+                    name="fb_align" 
+                    type="list" 
+                    default="center" 
+                    label="MOD_CWPAGE_FIELD_ALIGN_LABEL" 
+                    description="MOD_CWPAGE_FIELD_ALIGN_DESC" >
+                    <option value="left">JGLOBAL_LEFT</option>
+                    <option value="center">JGLOBAL_CENTER</option>
+                    <option value="right">JGLOBAL_RIGHT</option>
+                </field>
                                 
                 <field 
                     name="module_width" 
@@ -95,7 +106,18 @@
                     <option value="70">70%</option>
                     <option value="60">60%</option>
                     <option value="50">50%</option>
-                </field>               
+                </field>   
+                
+               <field 
+                    name="module_height" 
+                    type="radio"
+                    class="btn-group" 
+                    default="0"
+                    label="MOD_CWPAGE_FIELD_MODHEIGHT_LABEL" 
+                    description="MOD_CWPAGE_FIELD_MODHEIGHT_DESC">
+                    <option value="0">CW_NO</option>
+                    <option value="1">CW_YES</option>
+                </field>              
                 
             </fieldset>
             
@@ -139,13 +161,6 @@
             </fieldset>
 				
             <fieldset name="advanced">
-                        
-                <field 
-                    name="module_unique_id" 
-                    type="text" 
-                    default="cwpage1" 
-                    label="MOD_CWPAGE_FIELD_MODID_LABEL" 
-                    description="MOD_CWPAGE_FIELD_MODID_DESC" />
                                                 
                 <field 
                     name="moduleclass_sfx" 

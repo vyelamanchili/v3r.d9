@@ -24,7 +24,6 @@ jimport('joomla.filesystem.file');
  */
 class JaextmanagerModelDefault extends JAEMModel
 {
-	
 	var $_components = array();
 	var $_updateComponents = array();
 	var $_updateExtensions = array();
@@ -201,6 +200,9 @@ class JaextmanagerModelDefault extends JAEMModel
 		
 		if($hideNoneJA) {
 			$filter .= "AND (name LIKE '%ja%' OR name LIKE '%t3%') ";
+			if($lists['extionsion_type'] == 'component' || $lists['extionsion_type'] == ''){
+                $filter .= "AND (name LIKE '%com_ja%')";
+            }
 		}
 		
 		//filter by extension id

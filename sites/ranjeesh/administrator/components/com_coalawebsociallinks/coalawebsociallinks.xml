@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.2" method="upgrade">
     <name>COM_COALAWEBSOCIALLINKS</name>
-    <creationDate>2015-09-01</creationDate>
+    <creationDate>2016-09-07</creationDate>
     <author>Steven Palmer</author>
     <authorEmail>support@coalaweb.com</authorEmail>
     <authorUrl>http://coalaweb.com</authorUrl>
-    <copyright>Copyright (c) 2015 Steven Palmer All rights reserved.</copyright>
+    <copyright>Copyright (c) 2016 Steven Palmer All rights reserved.</copyright>
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <version>0.2.4</version>
+    <version>0.3.3</version>
     <description>COM_COALAWEBSOCIALLINKS_DESCRIPTION</description>
  
-      <install> <!-- Runs on install -->
+    <install> <!-- Runs on install -->
         <sql>
             <file driver="mysql" charset="utf8">sql/install/mysql/install.mysql.utf8.sql</file>
         </sql>
@@ -35,7 +35,7 @@
     
     <administration>
         <menu img ="../media/coalawebsocial/components/sociallinks/images/icon-16-cw-menu.png">COM_COALAWEBSOCIALLINKS</menu>
-        <files folder="administrator/components/com_coalawebsociallinks">
+        <files folder="administrator">
             <!-- Admin Main File Copy Section -->
             <filename>index.html</filename>
             <filename>config.xml</filename>
@@ -45,6 +45,7 @@
             <filename>version.php</filename>
             <folder>assets</folder>
             <folder>sql</folder>
+            <folder>tables</folder>
             <folder>controllers</folder>
             <folder>helpers</folder>
             <folder>language</folder>
@@ -52,7 +53,7 @@
             <folder>views</folder>
         </files>
  
-        <languages folder="administrator/components/com_coalawebsociallinks">
+        <languages folder="administrator/">
             <language tag="en-GB">language/en-GB/en-GB.com_coalawebsociallinks.ini</language>
             <language tag="en-GB">language/en-GB/en-GB.com_coalawebsociallinks.sys.ini</language>
         </languages>

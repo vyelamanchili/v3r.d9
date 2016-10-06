@@ -68,7 +68,8 @@
                 
         <field 
             name="twitter_via" 
-            type="text" 
+            type="text"
+            hint="@coalaweb"
             label="COM_CWSOCIALLINKS_FIELD_TW_VIA_LABEL" 
             description="COM_CWSOCIALLINKS_FIELD_TW_VIA_DESC" />
     </fieldset>

@@ -9,7 +9,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,8 @@ defined('_JEXEC') or die('Restricted access');
  */
 class ElementCwsociallikeszoo extends Element implements iSubmittable {
 
-    var $_image;
+    var $image;
+    var $checkOk;
 
     /**
      * Method override to render the element.
@@ -89,7 +90,6 @@ class ElementCwsociallikeszoo extends Element implements iSubmittable {
         $pi_layout = $componentParams->get('btn_layout_pi');
         $su_layout = $componentParams->get('btn_layout_su');
         $fb_layout = $componentParams->get('btn_layout_fb');
-        $mc_layout = $componentParams->get('btn_layout_mc');
 
         // render html
         if ($this->get('value', $this->config->get('default'))) {
@@ -97,13 +97,13 @@ class ElementCwsociallikeszoo extends Element implements iSubmittable {
             //init vars
             $params = $this->app->data->create($params);
             $item = $this->_item; //Item ID
-            
+
             // Lets get the images for Pinterest
             $image_path = '';
             foreach ($item->getElements() as $elements) {
 
                 $images = $elements->get('file');
-                $option = JRequest::getCmd('option');
+                $option = JFactory::getApplication()->input->get('option');
 
                 if (!empty($images)) {
                     $imagesnonnull = $images;
@@ -136,6 +136,17 @@ class ElementCwsociallikeszoo extends Element implements iSubmittable {
 
             // Detect language
             $lang = JFactory::getLanguage();
+
+            //Lets make sure we have the resources avaliable first
+            $this->checkOk = $this->checkDependencies();
+            
+            if ($this->checkOk && $mailcount) {
+                $uikitUrl = JURI::getInstance()->toString();
+                //load UIkit for the articles
+                $helpFunc = new CwGearsHelperLoadcount();
+                $helpFunc::setUikitCount($uikitUrl);
+
+            }
 
             if ($lang->isRTL()) {
                 $doc->addStyleSheet($urlPluginMedia.'cwsl-zoo-' . $layout_style . 'rtl.css');
@@ -194,17 +205,18 @@ class ElementCwsociallikeszoo extends Element implements iSubmittable {
                 $this->app->system->document->addScript('//platform.twitter.com/widgets.js');
                 $via = substr($componentParams->get('twitter_via'), 1);
                 $html[] = '<li class="cwsl-zoo-t"><a href="//twitter.com/share" class="twitter-share-button"'
+                        . ' data-text="' . $alt . '"'
                         . ' data-url="' . htmlspecialchars($item_route) . '"'
                         . ($via ? ' data-via="' . $via . '"' : '')
                         . ($locale ? ' data-lang="' . $locale . '"' : '')
-                        . ' data-count="' . $t_layout . '"></a></li>';
+                        . '></a></li>';
             }
 
             // Google Plus One Button
             if ($gplus) {
                 $this->app->system->document->addScript('//apis.google.com/js/plusone.js');
                 $html[] = '<li class="cwsl-zoo-gp"><div class="g-plusone" data-href="' . htmlspecialchars($item_route) . '"'
-                        . ' data-size="' . $gp_layout . '"'
+                        . ' data-size="' . $gp_layout . '" '
                         . $gp_count
                         . ($locale ? '' : ' data-lang="' . $locale . '"')
                         . '></div></li>';
@@ -255,12 +267,21 @@ class ElementCwsociallikeszoo extends Element implements iSubmittable {
 
             }
             
-            if ($mailcount && $layout_style == "vertical") {
-                $html[] = '<li class="cwsl-zoo-mc">'
-                        . '<iframe src="http://getmailcounter.com/mailcounter/?url=' . htmlspecialchars($item_route).'&title=' . $alt . '"'
-                        . ' height="64" width="50" frameborder="0" scrolling="no">'
-                        . '</iframe>'
-                        . '</li>';
+            if ($mailcount) {
+                
+                //Site name
+                $config = JFactory::getConfig();
+                $siteName= $config->get('sitename');
+                
+                $body[] = JText::sprintf("COM_CWSOCIALLINKS_MAIL_MSG_SITE", $siteName);
+                $body[] = JText::sprintf("COM_CWSOCIALLINKS_MAIL_MSG_TITLE", $alt);
+                $body[] = JText::sprintf("COM_CWSOCIALLINKS_MAIL_MSG_LINK", htmlspecialchars($item_route));
+        
+                $emailBody = implode("%0D%0A", $body);
+                
+                $html[] = '<li class="cwsl-zoo-mc">';
+                $html[] = '<a class="cw-button cw-button-primary cw-button-mini" href="mailto:?subject=' . JText::_("COM_CWSOCIALLINKS_MAIL_MSG_INTRO") . '&amp;body=' . $emailBody . '" title="' . JText::sprintf("COM_CWSOCIALLINKS_SHAREPLG_EMAIL", "Email") . '" ><i class="cw-icon-envelope"></i> ' . JText::_("COM_CWSOCIALLINKS_BTN_MAIL") . '</a>';
+                $html[] = '</li>';
             }
             
             $html[] = "<div style='clear:both'></div></ul></div>";
@@ -337,6 +358,30 @@ class ElementCwsociallikeszoo extends Element implements iSubmittable {
         }
 
         return $shortLink;
+    }
+    
+        public function checkDependencies() {
+        $checkOk = false;
+        $minVersion = '0.1.5';
+
+        include_once JPATH_ADMINISTRATOR . '/components/com_coalawebsociallinks/helpers/coalawebsociallinks.php';
+
+        // Load the version.php file for the CW Gears plugin
+        $version_php = JPATH_SITE . '/plugins/system/cwgears/version.php';
+        if (!defined('PLG_CWGEARS_VERSION') && JFile::exists($version_php)) {
+            include_once $version_php;
+        }
+
+        // Check CW Gears plugin is installed and the right version otherwise tell the user that it's needed
+        if (
+                JPluginHelper::isEnabled('system', 'cwgears', true) == true &&
+                JFile::exists($version_php) &&
+                version_compare(PLG_CWGEARS_VERSION, $minVersion, 'ge')) {
+
+            $checkOk = true;
+        }
+
+        return $checkOk;
     }
 
 }

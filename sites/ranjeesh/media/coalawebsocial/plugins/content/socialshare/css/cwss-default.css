@@ -2,7 +2,7 @@
  * @author              Steven Palmer
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
  */
 
 /* Share Plugin Style
@@ -13,13 +13,6 @@
     padding: 5px 5px 10px 5px;
     text-align:left;
     display: inline-block;
-}
-
-.cw-plg-share li {
-    text-indent: 200% !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    font-size: 0.0001em !important;
 }
 
 .cw-comment-count, .cw-share-count {

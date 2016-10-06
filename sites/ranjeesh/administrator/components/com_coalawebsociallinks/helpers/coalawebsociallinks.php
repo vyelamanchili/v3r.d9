@@ -9,7 +9,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,30 +31,35 @@ defined('_JEXEC') or die('Restricted access');
 abstract class CoalawebsociallinksHelper {
 
     /**
-     * Configure the Linkbar.
+     * 
+     * @param type $vName
      */
     public static function addSubmenu($vName = 'controlpanel') {
         JHtmlSidebar::addEntry(
                 JText::_('COM_CWSOCIALLINKS_TITLE_CPANEL'), 'index.php?option=com_coalawebsociallinks&view=controlpanel', $vName == 'controlpanel');
+        JHtmlSidebar::addEntry(
+                JText::_('COM_CWSOCIALLINKS_TITLE_COUNTS'), 'index.php?option=com_coalawebsociallinks&view=counts', $vName == 'counts');
     }
-
+    
     /**
-     * Get the actions
+     * Check page social counts based on URL
+     * 
+     * @access public
+     * 
+     * @param type $url
+     * 
+     * @return type associate array
      */
-    public static function getActions() {
-        $user = JFactory::getUser();
-        $result = new JObject;
-        $assetName = 'com_coalawebsociallinks';
+    public static function getPageCount($url) {
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName(array('facebook_total', 'google', 'linkedin', 'pinterest', 'reddit', 'stumbleupon')));
+        $query->from($db->quoteName('#__cwsocial_count'));
+        $query->where('url = ' . $db->quote($url));
+        $db->setQuery($query);
+        $current = $db->loadAssoc();
 
-        $actions = array(
-            'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.delete'
-        );
-
-        foreach ($actions as $action) {
-            $result->set($action, $user->authorise($action, $assetName));
-        }
-
-        return $result;
+        return $current;
     }
 
 }

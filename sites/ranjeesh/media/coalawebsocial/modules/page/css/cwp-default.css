@@ -2,19 +2,19 @@
  * @author              Steven Palmer
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
  */
 
-.cwpage100 {width: 100%; margin-left: auto; margin-right: auto; }
-.cwpage90 {width: 90%; margin-left: auto; margin-right: auto; }
-.cwpage80 {width: 80%; margin-left: auto; margin-right: auto; }
-.cwpage70 {width: 70%; margin-left: auto; margin-right: auto; }
-.cwpage60 {width: 60%; margin-left: auto; margin-right: auto; }
-.cwpage50 {width: 50%; margin-left: auto; margin-right: auto; }
-   
-.fb-page, 
-.fb-page span, 
-.fb-page span iframe[style] { 
-    width: 100% !important; 
+.cwpage100, .cwpage90, .cwpage80,
+.cwpage70, .cwpage60 , .cwpage50 {
+    margin-left: auto; 
+    margin-right: auto; 
 }
+
+.cwpage100 {width: 100%;}
+.cwpage90 {width: 90%;}
+.cwpage80 {width: 80%;}
+.cwpage70 {width: 70%;}
+.cwpage60 {width: 60%;}
+.cwpage50 {width: 50%;}
 

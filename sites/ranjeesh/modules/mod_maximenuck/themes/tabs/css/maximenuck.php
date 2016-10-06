@@ -555,7 +555,7 @@ div#<?php echo $id; ?> ul.maximenuck2 div.maximenuck_mod > div > h3 {
 }
 
 div#<?php echo $id; ?> div.maximenuck_mod {
-    width : 100%;
+    /*width : 100%;*/
     padding : 0;
     white-space : normal;
 }

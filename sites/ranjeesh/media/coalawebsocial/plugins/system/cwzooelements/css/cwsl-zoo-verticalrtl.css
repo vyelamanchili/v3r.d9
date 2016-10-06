@@ -2,7 +2,7 @@
  * @author              Steven Palmer
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
 */
 
 /* YooTheme Zoo specific
@@ -54,23 +54,37 @@ ul.cwsl-zoo-items {
 
 ul.cwsl-zoo-items li {
     padding: 0px !important;
-    margin-left:5px !important;
+    margin-right:5px !important;
     display:inline-block;
+    vertical-align: bottom;
+    background-image:none;
 }
 
-.cwsl-zoo-share { margin-right:7px !important;}
+.cwsl-zoo-t { width:auto; }
+.cwsl-zoo-gp { 
+    width:50px;
+    margin-bottom: -4px;
+}
+.cwsl-zoo-pi { width:auto;}
+.cwsl-zoo-xi { width:auto;}
+.cwsl-zoo-sli { width:auto; }
+.cwsl-zoo-like { width:auto; }
+.cwsl-zoo-likeshare { width:auto; }
+.cwsl-zoo-mc { width:auto; }
 
-.cwsl-zoo-sli{ 
-    font-size:25px;
-    margin-bottom:-4px;
+.cwsl-zoo-share {
+    margin-right:5px;
+    width:auto;
 }
 
+.cwsl-zoo-mc, 
 .cwsl-zoo-share,
 .cwsl-zoo-like,
 .cwsl-zoo-likeshare {
-   vertical-align: top;
-   margin-top:2px !important;
+    margin-bottom:5px !important;
 }
+
+.cwsl-zoo-share { margin-right:5px !important;}
 
 /* End
 -----------------------------------------------------------------------------*/

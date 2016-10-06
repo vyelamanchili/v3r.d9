@@ -2,7 +2,7 @@
  * @author              Steven Palmer
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
- * @copyright           Copyright (c) 2015 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
 */
 
 /*------------------------------------------------------------------------------
@@ -27,6 +27,7 @@ Inner Container Styling
 #cw-spanel ul.cwsp-content-items li {
     padding: 0px !important;
     margin:10px 0 0 0px;
+    background-image: none;
 }
 
 #cw-spanel li.cwsp-content-pi { margin: 35px 0 -5px 0 !important}
@@ -41,7 +42,7 @@ Make drop downs visible on certain templates
 }
 
 iframe,svg {
-  max-width: inherit !important;
+    max-width: inherit !important;
 }
 
 .fb_iframe_widget_lift{
