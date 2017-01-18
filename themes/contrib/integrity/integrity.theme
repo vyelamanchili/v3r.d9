@@ -81,39 +81,45 @@ function integrity_preprocess_page(&$variables) {
  * Function to get home page contents for the slider and responsive block in front page
  */
 function _integrity_get_home_block_contents($sec = '') {
-
   $slider_content = array();
-    for ($i = 1; $i <= SLIDESHOW_COUNT; $i++) {
-
-      $fid = theme_get_setting('slide_image_path'.$i,'integrity');
-      $file = file_load($fid[0]);
-      if (!empty($file)) {
-        $uri = $file->getFileUri();
-        $path = file_create_url($uri);
-      }
-      else {
-
-        $path = base_path() . drupal_get_path('theme', 'integrity') . theme_get_setting('slide_image_path_' . $i, 'integrity');
-      }
-
-
-     $active_class = $i == 1 ? 'active' : 'in-active';
-     $slider_content[$i] = '<div class="item ' . $active_class . ' demo-text-goes-top">
-      <div class="content-wrapper">
+  for ($i = 1; $i <= SLIDESHOW_COUNT; $i++) {
+    $fid = theme_get_setting('slide_image_path'.$i,'integrity');
+    $file = isset($fid[0]) ? file_load($fid[0]) : '';
+    if (!empty($file)) {
+      $uri = $file->getFileUri();
+      $path = file_create_url($uri);
+    }
+    else {
+      $path = base_path() . drupal_get_path('theme', 'integrity') . theme_get_setting('slide_image_path_' . $i, 'integrity');
+    }
+    $active_class = $i == 1 ? 'active' : 'in-active';
+    if (theme_get_setting('slideshow_fullwidth')) {
+      $slider_content[$i] = '<div class="item ' . $active_class . '">
+        <img src="' . $path . '" alt="Flower">
+        <div class="carousel-caption">
+        	<h3>' . theme_get_setting('slide_title_' . $i, 'integrity') . '</h3>
+        	<p>' . theme_get_setting('slide_description_'. $i, 'integrity') . '</p>
+        </div>
+        </div>';
+    }
+    else {
+      $slider_content[$i] = '<div class="item ' . $active_class . ' demo-text-goes-top">
+        <div class="content-wrapper">
         <div class="slide-body blue-container">
-          <h2>'.wordwrap(theme_get_setting('slide_title_' . $i, 'integrity'), 50, "<br>").'.</h2>
-          <p>'.wordwrap(theme_get_setting('slide_description_'. $i, 'integrity'), 60, "<br>").'</p>
+          <h2>' . theme_get_setting('slide_title_' . $i, 'integrity') . '.</h2>
+          <p>' . theme_get_setting('slide_description_'. $i, 'integrity') . '</p>
           <div class="demo-devices">
-            <div class="ipad">
-              <div class="content">
-                <img src=' . $path . ' class="retina" width="181" height="241">
-              </div>
-            </div>
+        	<div class="ipad">
+        	  <div class="content">
+        		<img src=' . $path . ' class="retina" width="181" height="241">
+        	  </div>
+        	</div>
           </div>
         </div>
-      </div>
-    </div>';
-      }
+        </div>
+        </div>';
+    }
+  }
 
 
   $image_list = array();
@@ -142,9 +148,6 @@ function integrity_preprocess_maintenance_page(&$variables) {
 
   // integrity has custom styling for the maintenance page.
   $variables['#attached']['library'][] = 'integrity/maintenance_page';
-
-  // Set the options that apply to both page and maintenance page.
-  _integrity_process_page($variables);
 }
 
 /**
@@ -196,6 +199,12 @@ function integrity_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\Fo
     '#title' => t('Show slideshow'),
     '#default_value' => theme_get_setting('slideshow_display'),
     '#description'   => t("Check this option to show Slideshow in front page. Uncheck to hide."),
+  );
+  $form['integrity_settings']['slideshow']['slideshow_fullwidth'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Full width slideshow'),
+    '#default_value' => theme_get_setting('slideshow_fullwidth'),
+    '#description'   => t("Eable full width image slideshow."),
   );
   $form['integrity_settings']['slideshow']['slide'] = array(
     '#markup' => t('You can change the title, description and image of each slide in the following Slide Setting fieldsets.'),

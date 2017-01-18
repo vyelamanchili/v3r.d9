@@ -6,7 +6,6 @@
  */
 
 use Drupal\Component\Utility\Html;
-use Drupal\Core\Asset;
 
 /**
  * Views Slideshow: Theme the main frame wrapper.
@@ -16,11 +15,10 @@ use Drupal\Core\Asset;
 function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
   $settings = $vars['settings'];
   $rows = $vars['rows'];
-  $view = $vars['view'];
   $vss_id = $vars['vss_id'];
 
   // Cast the strings into int or bool as necessary.
-  $new_settings = array();
+  $new_settings = [];
   foreach ($settings as $key => $value) {
     if (is_string($value)) {
       $value = str_replace("\n", ' ', $value);
@@ -42,12 +40,12 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
   }
 
   $settings = array_merge(
-    array(
+    [
       'num_divs' => count($rows),
       'id_prefix' => '#views_slideshow_cycle_main_',
       'div_prefix' => '#views_slideshow_cycle_div_',
       'vss_id' => $vss_id,
-    ),
+    ],
     $new_settings
   );
 
@@ -55,9 +53,9 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
   // want to add is not already there. If it is already there then append -[num]
   // to the id to make it unique.
   $slideshow_count = 1;
-  global $processedCycles;
-  if (is_array($processedCycles)) {
-    foreach ($processedCycles as $processedCycle) {
+  global $_views_slideshow_processedCycles;
+  if (is_array($_views_slideshow_processedCycles)) {
+    foreach ($_views_slideshow_processedCycles as $processedCycle) {
       if (stristr($processedCycle, '#views_slideshow_cycle_main_' . $vss_id)) {
         $slideshow_count++;
       }
@@ -86,7 +84,7 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
   $vars['#attached']['library'][] = 'views_slideshow_cycle/views_slideshow_cycle';
   $vars['#attached']['drupalSettings']['viewsSlideshowCycle']['#views_slideshow_cycle_main_' . $vss_id] = $settings;
 
-  $processedCycles['#views_slideshow_cycle_main_' . $vss_id] = '#views_slideshow_cycle_main_' . $vss_id;
+  $_views_slideshow_processedCycles['#views_slideshow_cycle_main_' . $vss_id] = '#views_slideshow_cycle_main_' . $vss_id;
 
   // Add hover intent library.
   if ($settings['pause']) {
@@ -98,21 +96,21 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
 
   $vars['items_per_slide'] = $settings['items_per_slide'];
 
-  $items = array();
+  $items = [];
   $index = 0;
-  $vars['rendered_rows'] = '';
+  $vars['rendered_rows'] = [];
   foreach ($rows as $count => $item) {
     $items[] = $item;
     if (count($items) == $settings['items_per_slide'] || $count == (count($rows) - 1)) {
-      $vars['rendered_rows'][] = array(
+      $vars['rendered_rows'][] = [
         '#theme' => $vars['view']->buildThemeFunctions('views_slideshow_cycle_main_frame_row'),
         '#vss_id' => $vss_id,
         '#items' => $items,
         '#count' => $index,
         '#view' => $vars['view'],
-      );
+      ];
 
-      $items = array();
+      $items = [];
       $index++;
     }
   }
@@ -133,16 +131,16 @@ function template_preprocess_views_slideshow_cycle_main_frame_row(&$vars) {
   }
   $vars['attributes']['class'][] = ($vars['count'] % 2) ? 'views-row-even' : 'views-row-odd';
 
-  $vars['rendered_items'] = '';
+  $vars['rendered_items'] = [];
   foreach ($vars['items'] as $item_count => $item) {
-    $vars['rendered_items'][] = array(
+    $vars['rendered_items'][] = [
       '#theme' => $vars['view']->buildThemeFunctions('views_slideshow_cycle_main_frame_row_item'),
       '#item' => $item,
       '#item_count' => $item_count,
       '#count' => $vars['count'],
       '#view' => $vars['view'],
       '#length' => count($vars['view']->result),
-    );
+    ];
   }
 }
 
@@ -179,30 +177,30 @@ function _views_slideshow_cycle_preprocess_views_slideshow_pager_fields(&$vars) 
     $slide_count = ceil($slide_count);
   }
 
-  $vars['rendered_field_items'] = '';
+  $vars['rendered_field_items'] = [];
   if (empty($vars['settings']['hide_on_single_slide']) || $slide_count > 1) {
     foreach ($vars['view']->result as $count => $node) {
       if ($count < $slide_count) {
-        $rendered_fields = '';
+        $rendered_fields = [];
         foreach ($vars['settings']['views_slideshow_pager_fields']['views_slideshow_pager_fields_fields'] as $field => $use) {
           if ($use !== 0 && is_object($vars['view']->field[$field])) {
-            $rendered_fields[] = array(
+            $rendered_fields[] = [
               '#theme' => $vars['view']->buildThemeFunctions('views_slideshow_pager_field_field'),
               '#view' => $vars['view'],
               '#label' => $vars['view']->field[$field]->options['label'],
               '#output' => $vars['view']->style_plugin->getField($count, $field),
               '#css_identifier' => Html::cleanCssIdentifier($vars['view']->field[$field]->field),
-            );
+            ];
           }
         }
 
-        $vars['rendered_field_items'][] = array(
+        $vars['rendered_field_items'][] = [
           '#theme' => $vars['view']->buildThemeFunctions('views_slideshow_pager_field_item'),
           '#vss_id' => $vars['vss_id'],
           '#item' => $rendered_fields,
           '#count' => $count,
           '#location' => $vars['location'],
-        );
+        ];
       }
     }
   }
