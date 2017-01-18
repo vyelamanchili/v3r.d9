@@ -199,10 +199,7 @@ class JaextmanagerModelDefault extends JAEMModel
 		$filter .= "AND (name LIKE '%{$keyword}%' OR '' = '{$keyword}') ";
 		
 		if($hideNoneJA) {
-			$filter .= "AND (name LIKE '%ja%' OR name LIKE '%t3%') ";
-			if($lists['extionsion_type'] == 'component' || $lists['extionsion_type'] == ''){
-                $filter .= "AND (name LIKE '%com_ja%')";
-            }
+			$filter .= "AND manifest_cache LIKE '%author\":\"JoomlArt%' ";
 		}
 		
 		//filter by extension id

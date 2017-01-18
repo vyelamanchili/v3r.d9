@@ -9,7 +9,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
  *
  * CoalaWeb Gears is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,10 +28,12 @@ jimport('joomla.plugin.plugin');
 jimport('joomla.environment.browser');
 jimport('joomla.filesystem.file');
 jimport('joomla.application.module.helper');
+jimport('joomla.log.log');
 
 class plgSystemCwgears extends JPlugin {
 
     var $pinterest;
+    var $share;
     private $caching = 0;
 
     function __construct(&$subject, $config) {
@@ -57,6 +59,13 @@ class plgSystemCwgears extends JPlugin {
         $dbClean = $this->params->get('db_clean', '1');
         $db = JFactory::getDbo();
 
+        $logsql = $this->params->get('log_sql', '');
+
+        if ($logsql) {
+            //Start our log file code
+            JLog::addLogger(array('text_file' => 'coalaweb_gears_sql.log.php'), JLog::ERROR, 'coalaweb_gears_sql');
+        }
+
         if ($dbClean) {
             //Current date time
             $siteOffset = $app->getCfg('offset');
@@ -76,6 +85,11 @@ class plgSystemCwgears extends JPlugin {
                 $current = $db->loadResult();
             } catch (Exception $e) {
                 $current = '';
+                if ($logsql) {
+                    //Log error
+                    $msg = JText::sprintf('PLG_CWGEARS_DATABASE_ERROR', $e->getMessage());
+                    JLog::add($msg, JLog::ERROR, 'coalaweb_gears_sql');
+                }
             }
 
             //First time? then lets insert a time
@@ -94,6 +108,11 @@ class plgSystemCwgears extends JPlugin {
                     $items = '';
                 } catch (Exception $e) {
                     $items = '';
+                    if ($logsql) {
+                        //Log error
+                        $msg = JText::sprintf('PLG_CWGEARS_DATABASE_ERROR', $e->getMessage());
+                        JLog::add($msg, JLog::ERROR, 'coalaweb_gears_sql');
+                    }
                 }
             
             } else {
@@ -109,6 +128,11 @@ class plgSystemCwgears extends JPlugin {
                     $items = $db->loadResult();
                 } catch (Exception $e) {
                     $items = '';
+                    if ($logsql) {
+                        //Log error
+                        $msg = JText::sprintf('PLG_CWGEARS_DATABASE_ERROR', $e->getMessage());
+                        JLog::add($msg, JLog::ERROR, 'coalaweb_gears_sql');
+                    }
                 }
             }
 
@@ -124,7 +148,11 @@ class plgSystemCwgears extends JPlugin {
                 try {
                     $db->execute();
                 } catch (Exception $e) {
-                    // Nothing
+                    if ($logsql) {
+                        //Log error
+                        $msg = JText::sprintf('PLG_CWGEARS_DATABASE_ERROR', $e->getMessage());
+                        JLog::add($msg, JLog::ERROR, 'coalaweb_gears_sql');
+                    }
                 }
 
                 //Reset our lock time
@@ -136,7 +164,11 @@ class plgSystemCwgears extends JPlugin {
                 try {
                     $db->execute();
                 } catch (Exception $e) {
-                    // Nothing
+                    if ($logsql) {
+                        //Log error
+                        $msg = JText::sprintf('PLG_CWGEARS_DATABASE_ERROR', $e->getMessage());
+                        JLog::add($msg, JLog::ERROR, 'coalaweb_gears_sql');
+                    }
                 }
             }
         }
@@ -412,27 +444,59 @@ class plgSystemCwgears extends JPlugin {
                 switch ($uikitTheme) {
                     case "default":
                         //adds slider naviagtion
-                        $uikitSlider= 'css/components/coalaweb.slidenav.min.css';
+                        $uikitSlidenav= 'css/components/coalaweb.slidenav.min.css';
                         //adds sticky
                         $uikitSticky = 'css/components/coalaweb.sticky.min.css';
+                        //adds slider naviagtion
+                        $uikitSlider= 'css/components/coalaweb.slider.min.css';
+                        //adds datepicker
+                        $uikitDate = 'css/components/coalaweb.datepicker.min.css';
+                        //adds form select needed for other components
+                        $uikitSelect = 'css/components/coalaweb.form-select.min.css';
+                        //adds tooltips
+                        $uikitTooltip = 'css/components/coalaweb.tooltip.min.css';
                         break;
                     case "flat":
                         //adds slider naviagtion
-                        $uikitSlider= 'css/components/coalaweb.slidenav.almost-flat.min.css';
+                        $uikitSlidenav= 'css/components/coalaweb.slidenav.almost-flat.min.css';
                         //adds sticky
                         $uikitSticky = 'css/components/coalaweb.sticky.almost-flat.min.css';
+                        //adds slider naviagtion
+                        $uikitSlider = 'css/components/coalaweb.slider.almost-flat.min.css';
+                        //adds datepicker
+                        $uikitDate = 'css/components/coalaweb.datepicker.almost-flat.min.css';
+                        //adds form select needed for other components
+                        $uikitSelect = 'css/components/coalaweb.form-select.almost-flat.min.css';
+                        //adds tooltips
+                        $uikitTooltip = 'css/components/coalaweb.tooltip.almost-flat.min.css';
                         break;
                     case "gradient":
                         //adds slider naviagtion
-                        $uikitSlider= 'css/components/coalaweb.slidenav.gradient.min.css';
+                        $uikitSlidenav= 'css/components/coalaweb.slidenav.gradient.min.css';
                         //adds sticky
                         $uikitSticky = 'css/components/coalaweb.sticky.gradient.min.css';
+                        //adds slide
+                        $uikitSlider = 'css/components/coalaweb.slider.gradient.min.css';
+                        //adds datepicker
+                        $uikitDate = 'css/components/coalaweb.datepicker.gradient.min.css';
+                        //adds form select needed for other components
+                        $uikitSelect = 'css/components/coalaweb.form-select.gradient.min.css';
+                        //adds tooltips
+                        $uikitTooltip = 'css/components/coalaweb.tooltip.gradient.min.css';
                         break;
                     default:
                         //adds slider naviagtion
-                        $uikitSlider= 'css/components/coalaweb.slidenav.min.css';
+                        $uikitSlidenav= 'css/components/coalaweb.slidenav.min.css';
                         //adds sticky
                         $uikitSticky = 'css/components/coalaweb.sticky.min.css';
+                        //adds slider naviagtion
+                        $uikitSlider= 'css/components/coalaweb.slider.min.css';
+                        //adds datepicker
+                        $uikitDate = 'css/components/coalaweb.datepicker.min.css';
+                        //adds form select needed for other components
+                        $uikitSelect = 'css/components/coalaweb.form-select.min.css';
+                        //adds tooltips
+                        $uikitTooltip = 'css/components/coalaweb.tooltip.min.css';
                 }
 
                 //lightbox support
@@ -441,9 +505,24 @@ class plgSystemCwgears extends JPlugin {
                 $doc->addScript($uikitLocal . "js/components/coalaweb.sticky.min.js");
                 //Grid support
                 $doc->addScript($uikitLocal . "js/components/coalaweb.grid.min.js");
+                //Slideset support
+                $doc->addScript($uikitLocal . "js/components/coalaweb.slideset.min.js");
+                //Slideset support
+                $doc->addScript($uikitLocal . "js/components/coalaweb.slider.min.js");
+                //Date picker support
+                $doc->addScript($uikitLocal . 'js/components/coalaweb.datepicker.min.js');
+                //Tooltip support
+                $doc->addScript($uikitLocal . 'js/components/coalaweb.tooltip.min.js');
+                //Form select support needed for other components
+                $doc->addScript($uikitLocal . 'js/components/coalaweb.form-select.min.js');
+
                 //Add CSS
                 $doc->addStyleSheet($uikitLocal . $uikitSlider);
+                $doc->addStyleSheet($uikitLocal . $uikitSlidenav);
                 $doc->addStyleSheet($uikitLocal . $uikitSticky);
+                $doc->addStyleSheet($uikitLocal . $uikitDate);
+                $doc->addStyleSheet($uikitLocal . $uikitSelect);
+                $doc->addStyleSheet($uikitLocal . $uikitTooltip);
             }
         }
 
@@ -643,16 +722,17 @@ class plgSystemCwgears extends JPlugin {
                 $modParams = new JRegistry;
                 $modParams->loadString($module->params, 'JSON');
                 $this->pinterest = $modParams->get('display_pinterest_bm');
+                $this->share = $modParams->get('display_bm_sec');
             }
 
-            if ($moduleTwo && $this->pinterest == 0) {
-                $modParams = new JRegistry;
-                $modParams->loadString($moduleTwo->params, 'JSON');
-                $this->pinterest = $modParams->get('display_pinterest');
+            if ($moduleTwo && ($this->pinterest == 0 || $this->share == 0)) {
+                $modParamsTwo = new JRegistry;
+                $modParamsTwo->loadString($moduleTwo->params, 'JSON');
+                $this->pinterest = $this->share = $modParamsTwo->get('display_pinterest');
             }
 
 
-            if ($this->pinterest) {
+            if ($this->pinterest && $this->share) {
                 $body = $app->getBody();
                 $pos = JString::strpos($body, "//assets.pinterest.com/js/pinit.js");
                 if (!$pos) {
@@ -779,6 +859,13 @@ class plgSystemCwgears extends JPlugin {
         ) {
             return;
         }
+
+        $logsql = $this->params->get('log_sql', '');
+
+        if ($logsql) {
+            //Start our log file code
+            JLog::addLogger(array('text_file' => 'coalaweb_gears_sql.log.php'), JLog::ERROR, 'coalaweb_gears_sql');
+        }
         
         switch ($component) {
             case 'com_coalawebcontact':
@@ -823,7 +910,11 @@ class plgSystemCwgears extends JPlugin {
         try {
             $db->execute();
         } catch (Exception $e) {
-            // Nothing
+            if ($logsql) {
+                //Log error
+                $msg = JText::sprintf('PLG_CWGEARS_DATABASE_ERROR', $e->getMessage());
+                JLog::add($msg, JLog::ERROR, 'coalaweb_gears_sql');
+            }
         }
 
         $query->clear()
@@ -835,7 +926,11 @@ class plgSystemCwgears extends JPlugin {
         try {
             $db->execute();
         } catch (Exception $e) {
-            // Nothing
+            if ($logsql) {
+                //Log error
+                $msg = JText::sprintf('PLG_CWGEARS_DATABASE_ERROR', $e->getMessage());
+                JLog::add($msg, JLog::ERROR, 'coalaweb_gears_sql');
+            }
         }
     }
     
@@ -856,6 +951,13 @@ class plgSystemCwgears extends JPlugin {
             'plugin.apply', 
             'plugin.save'
         );
+
+        $logsql = $this->params->get('log_sql');
+
+        if ($logsql) {
+            //Start our log file code
+            JLog::addLogger(array('text_file' => 'coalaweb_gears_sql.log.php'), JLog::ERROR, 'coalaweb_gears_sql');
+        }
         
         $db = JFactory::getDbo();
         
@@ -870,6 +972,11 @@ class plgSystemCwgears extends JPlugin {
             $iscwgears = $db->loadResult();
         } catch (Exception $e) {
             $iscwgears = '';
+            if ($logsql) {
+                //Log error
+                $msg = JText::sprintf('PLG_CWGEARS_DATABASE_ERROR', $e->getMessage());
+                JLog::add($msg, JLog::ERROR, 'coalaweb_gears_sql');
+            }
         }
         
         if (
@@ -908,7 +1015,11 @@ class plgSystemCwgears extends JPlugin {
         try {
             $db->execute();
         } catch (Exception $e) {
-            // Nothing
+            if ($logsql) {
+                //Log error
+                $msg = JText::sprintf('PLG_CWGEARS_DATABASE_ERROR', $e->getMessage());
+                JLog::add($msg, JLog::ERROR, 'coalaweb_gears_sql');
+            }
         }
 
         $query->clear()
@@ -925,7 +1036,11 @@ class plgSystemCwgears extends JPlugin {
         try {
             $db->execute();
         } catch (Exception $e) {
-            // Nothing
+            if ($logsql) {
+                //Log error
+                $msg = JText::sprintf('PLG_CWGEARS_DATABASE_ERROR', $e->getMessage());
+                JLog::add($msg, JLog::ERROR, 'coalaweb_gears_sql');
+            }
         }
     }
 }

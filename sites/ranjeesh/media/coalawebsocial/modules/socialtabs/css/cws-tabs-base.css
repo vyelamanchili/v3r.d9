@@ -64,21 +64,3 @@ ul.cws-tabs .email a {background-image: url(../icons/email-48.png);}
 ul.cws-tabs .contact a {background-image: url(../icons/email-48.png);}
 ul.cws-tabs .whatsapp a {background-image: url(../icons/whatsapp-48.png);}
 
-ul.cws-tabs.bottom li a {
-    width: 46px;
-    height: 46px;
-    color: transparent !important;
-}
-
-ul.cws-tabs.bottom {
-    bottom: -6px;
-    margin: 0px auto;
-    text-align: center;
-    width: 90%;
-}
-
-ul.cws-tabs.bottom li {
-    display: inline-block;
-    padding: 0px;
-}
-

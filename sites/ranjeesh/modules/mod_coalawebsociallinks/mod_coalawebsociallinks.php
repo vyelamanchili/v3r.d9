@@ -118,32 +118,32 @@ $shareType = $comParams->get('fb_share_type', 'new');
 $localId = $params->get('app_id');
 $appId = $localId ? $localId : $comParams->get('fb_app_id');
 
-/* Icon settings */
+//Icon settings
 $icon_align = $params->get('icon_align');
 
-/* Theme */
+//Theme
 $themes_icon = $params->get('themes_icon');
 $size = $params->get('icon_size');
 
 
-/* Module Settings */
+//Module Settings
 $module_unique_id = 'cw-sl-' . $module->id;
 $module_width = $params->get('module_width');
 
-/* Sections settings */
+//Sections settings
 $display_bm_sec = $params->get('display_bm_sec');
 $display_f_sec = $params->get('display_f_sec');
 
-/* Border settings */
+//Border settings
 $display_borders = $params->get('display_borders');
 $border_width = $params->get('border_width');
 $border_color_bm = $params->get('border_color_bm');
 $border_color_f = $params->get('border_color_f');
 
-/* Layouts */
+//Layouts
 $layout = $params->get('layout');
 
-/* Titles */
+//Titles
 $title_align = $params->get('title_align');
 $title_format = $params->get('title_format');
 $title_bm = $params->get('title_bm', JTEXT::_('MOD_COALAWEBSOCIALLINKS_TITLE_BOOKMARK'));
@@ -153,13 +153,13 @@ $title_f = $params->get('title_f', JTEXT::_('MOD_COALAWEBSOCIALLINKS_TITLE_FOLLO
 $display_title_f = $params->get('display_title_f');
 $title_color_f = $params->get('title_color_f');
 
-/* Text */
+//Text
 $display_text_bm = $params->get('display_text_bm');
 $text_bm = $params->get('text_bm');
 $display_text_f = $params->get('display_text_f');
 $text_f = $params->get('text_f');
 
-/* Follow Links */
+//Follow Links
 $linkfacebook = $params->get('link_facebook');
 $linkgoogle = $params->get('link_google');
 $linklinkedin = $params->get('link_linkedin');
@@ -170,8 +170,15 @@ $linkvimeo = $params->get('link_vimeo');
 $linkyoutube = $params->get('link_youtube');
 $linkdribbble = $params->get('link_dribbble');
 $linkdeviantart = $params->get('link_deviantart');
-$linkcontact = $params->get('link_contact');
-$linkTargetContact = $params->get('link_target_contact', 'self');
+
+if ($params->get('link_target_contact', 'self') === 'anchor'){
+    $linkcontact = $params->get('link_contact');
+    $linkTargetContact = '';
+} else {
+    $linkcontact = 'http://' . $params->get('link_contact');
+    $linkTargetContact = 'target="_' . $params->get('link_target_contact', 'self') . '"';
+}
+
 $linkebay = $params->get('link_ebay');
 $linktuenti = $params->get('link_tuenti');
 $linkbehance = $params->get('link_behance');
@@ -189,10 +196,10 @@ $linktripadvisor = $params->get('link_tripadvisor');
 $linkgithub = $params->get('link_github');
 $linkandroid = $params->get('link_android');
 
-/*Icon Alternatives */
+//Icon Alternatives
 $googleIcon = ($params->get('google_alt') ? 'googleplus-alt' : 'googleplus');
 
-/* Load css */
+//Load css
 $load_layout_css = $params->get('load_layout_css');
 $urlModMedia = JURI::base(true) . '/media/coalawebsocial/modules/sociallinks/';
 $urlComMedia = JURI::base(true) . '/media/coalawebsocial/components/sociallinks/';
@@ -210,23 +217,57 @@ if ($params->get('display_twitter_bm', 0) && $params->get('include_twitter_js', 
     $doc->addScript('//platform.twitter.com/widgets.js');
 }
             
-/* Follow Custom Links */
+//Follow Custom Links
 if (COM_CWSOCIALLINKS_PRO == 1) {
-    $linkcustomone = $params->get('link_customone');
-    $linkTargetCustomone = $params->get('link_target_customone', 'blank');
+    //Custom One
+    if ($params->get('link_target_customone', 'self') === 'anchor'){
+        $linkcustomone = $params->get('link_customone');
+        $linkTargetCustomone = '';
+    } else {
+        $linkcustomone = 'http://' . $params->get('link_customone');
+        $linkTargetCustomone = 'target="_' . $params->get('link_target_customone', 'self') . '"';
+    }    
     $textcustomone = $params->get('text_customone');
-    $iconcustomone = ($params->get('icon_customone') ? $params->get('icon_customone') : $params->get('icon_ext_customone'));
-    
-    $linkcustomtwo = $params->get('link_customtwo');
-    $linkTargetCustomtwo = $params->get('link_target_customtwo', 'blank');
+    if ($params->get('icon_customone')){
+        $iconcustomone = JURI::base(true) . '/' . $params->get('icon_customone');
+    } elseif ($params->get('icon_ext_customone')) {
+         $iconcustomone =  $params->get('icon_ext_customone');
+    } else{
+         $iconcustomone = '';
+    }
+    //Custom Two
+    if ($params->get('link_target_customtwo', 'self') === 'anchor'){
+        $linkcustomtwo = $params->get('link_customtwo');
+        $linkTargetCustomtwo = '';
+    } else {
+        $linkcustomtwo = 'http://' . $params->get('link_customtwo');
+        $linkTargetCustomtwo = 'target="_' . $params->get('link_target_customtwo', 'self') . '"';
+    }
     $textcustomtwo = $params->get('text_customtwo');
-    $iconcustomtwo = ($params->get('icon_customtwo') ? $params->get('icon_customtwo') : $params->get('icon_ext_customtwo'));
-    
-    $linkcustomthree = $params->get('link_customthree');
-    $linkTargetCustomthree = $params->get('link_target_customthree', 'blank');
+    if ($params->get('icon_customtwo')){
+        $iconcustomtwo = JURI::base(true) . '/' . $params->get('icon_customtwo');
+    } elseif ($params->get('icon_ext_customtwo')) {
+         $iconcustomtwo =  $params->get('icon_ext_customtwo');
+    } else{
+         $iconcustomtwo = '';
+    }
+    //Custom Three
+    if ($params->get('link_target_customthree', 'self') === 'anchor'){
+        $linkcustomthree = $params->get('link_customthree');
+        $linkTargetCustomthree = '';
+    } else {
+        $linkcustomthree = 'http://' . $params->get('link_customthree');
+        $linkTargetCustomthree = 'target="_' . $params->get('link_target_customthree', 'self') . '"';
+    }
     $textcustomthree = $params->get('text_customthree');
-    $iconcustomthree = ($params->get('icon_customthree') ? $params->get('icon_customthree') : $params->get('icon_ext_customthree'));
-
+    if ($params->get('icon_customthree')){
+        $iconcustomthree = JURI::base(true) . '/' . $params->get('icon_customthree');
+    } elseif ($params->get('icon_ext_customthree')) {
+         $iconcustomthree =  $params->get('icon_ext_customthree');
+    } else{
+         $iconcustomthree = '';
+    }
+    //Custom Styles
     if ($params->get("display_customone_f")) {
         $helpFunc->getCustomonestyle($themes_icon ,$iconcustomone, $size, $module_unique_id);
     }
@@ -237,12 +278,23 @@ if (COM_CWSOCIALLINKS_PRO == 1) {
         $helpFunc->getCustomthreestyle($themes_icon ,$iconcustomthree, $size, $module_unique_id);
     }
 } else {
-    $linkcustomone = $params->get('link_customone');
-    $linkTargetCustomone = $params->get('link_target_customone', 'self');
+    //Custom One
+    if ($params->get('link_target_customone', 'self') === 'anchor'){
+        $linkcustomone = $params->get('link_customone');
+        $linkTargetCustomone = '';
+    } else {
+        $linkcustomone = 'http://' . $params->get('link_customone');
+        $linkTargetCustomone = 'target="_' . $params->get('link_target_customone', 'self') . '"';
+    } 
     $textcustomone = $params->get('text_customone');
-    $iconcustomone = ($params->get('icon_customone') ? $params->get('icon_customone') : $params->get('icon_ext_customone'));
-    
-
+    if ($params->get('icon_customone')){
+        $iconcustomone = JURI::base(true) . '/' . $params->get('icon_customone');
+    } elseif ($params->get('icon_ext_customone')) {
+         $iconcustomone =  $params->get('icon_ext_customone');
+    } else{
+         $iconcustomone = '';
+    }   
+    //Custom Styles
     if ($params->get("display_customone_f")) {
         $helpFunc->getCustomonestyle($themes_icon ,$iconcustomone, $size, $module_unique_id);
     }

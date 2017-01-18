@@ -49,3 +49,13 @@
 2016-08-10T18:53:23+00:00	INFO 164.82.32.13	update	Downloading update file from https://github.com/joomla/joomla-cms/releases/download/3.6.2/Joomla_3.6.2-Stable-Update_Package.zip.
 2016-08-10T18:53:23+00:00	INFO 164.82.32.13	update	File Joomla_3.6.2-Stable-Update_Package.zip successfully downloaded.
 2016-08-10T18:53:23+00:00	INFO 164.82.32.13	update	Starting installation of new version.
+2017-01-18T03:12:11+00:00	INFO 173.67.201.64	update	Update started by user Super User (10). Old version is 3.6.2.
+2017-01-18T03:12:11+00:00	INFO 173.67.201.64	update	Downloading update file from https://downloads.joomla.org/cms/joomla3/3-6-5/Joomla_3.6.5-Stable-Update_Package.zip.
+2017-01-18T03:12:16+00:00	INFO 173.67.201.64	update	File Joomla_3.6.5-Stable-Update_Package.zip successfully downloaded.
+2017-01-18T03:12:16+00:00	INFO 173.67.201.64	update	Starting installation of new version.
+2017-01-18T03:12:20+00:00	INFO 173.67.201.64	update	Finalising installation.
+2017-01-18T03:12:21+00:00	INFO 173.67.201.64	update	Ran query from file 3.6.3-2016-08-15. Query text: ALTER TABLE `#__newsfeeds` MODIFY `link` VARCHAR(2048) NOT NULL;.
+2017-01-18T03:12:21+00:00	INFO 173.67.201.64	update	Ran query from file 3.6.3-2016-08-16. Query text: INSERT INTO `#__postinstall_messages` (`extension_id`, `title_key`, `description.
+2017-01-18T03:12:21+00:00	INFO 173.67.201.64	update	Deleting removed files and folders.
+2017-01-18T03:12:22+00:00	INFO 173.67.201.64	update	Cleaning up after installation.
+2017-01-18T03:12:22+00:00	INFO 173.67.201.64	update	Update to version 3.6.5 is complete.

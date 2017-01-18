@@ -489,7 +489,8 @@
 					//manage active submenus
 					if ( (showactivesubitems == '1' && el.hasClass('active')) || el.hasClass('openck')) {
 						if (el.hasClass('fullwidth')) {
-							el.submenu.css('display', 'block').css('left', '0');
+							el.submenu.css('display', 'block');
+							if (orientation == 'horizontal') el.submenu.css('left', '0');
 						} else {
 							el.submenu.css('display', 'block');
 						}

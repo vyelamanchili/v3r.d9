@@ -15,6 +15,9 @@
 .com_community #community-wrap .js_dropDownParent li > a {
   height: 28px;
 }
+.com_community #community-wrap .joms-select {
+  box-shadow: none;
+}
 .com_community #community-wrap .js-toolbar .navbar-inner {
   min-height: 40px;
 }

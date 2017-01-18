@@ -9,7 +9,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
  *
  * CoalaWeb Gears is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,8 +42,14 @@ class CWElementVersion extends CWElement {
         // Load version.php
         jimport('joomla.filesystem.file');
         $arr = explode("_", $label);
+
+        //initiate variables
+        $version_php = '';
         $current = '';
-        
+        $version = '';
+        $ispro = '';
+        $date = '';
+
         switch ($arr[0]) {
             case "com":
                 $version_php = JPATH_ADMINISTRATOR . '/' . 'components/' . $label . '/version.php';

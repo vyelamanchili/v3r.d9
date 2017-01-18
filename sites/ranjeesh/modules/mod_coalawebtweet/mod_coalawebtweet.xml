@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.2" client="site" method="upgrade">
     <name>MOD_COALAWEBTWEET</name>
-    <creationDate>2016-09-07</creationDate>
+    <creationDate>2016-10-17</creationDate>
     <author>Steven Palmer</author>
     <authorEmail>support@coalaweb.com</authorEmail>
     <authorUrl>http://coalaweb.com</authorUrl>
     <copyright>Copyright (c) 2016 Steven Palmer All rights reserved.</copyright>
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <version>0.3.3</version>
+    <version>0.3.4</version>
     <description>MOD_COALAWEBTWEET_DESC</description>
     
     <languages folder="language">

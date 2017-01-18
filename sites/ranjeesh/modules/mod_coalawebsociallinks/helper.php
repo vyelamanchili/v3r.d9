@@ -227,7 +227,7 @@ class ModCoalawebSocialLinksHelper {
     function getContactFollow($linkcontact, $linkTargetContact, $size, $linknofollow, $popupFollow, $linkText) {
         $linkTextOn = ($linkText ? JText::sprintf("MOD_COALAWEBSOCIALLINKS_CONTACT_F", "Email") : '');
         $output[] = '<li>';
-        $output[] = ' <a class="' . $popupFollow . 'gmail' . $size . '" href="http://' . $linkcontact . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_CONTACT_F", "Email") . '" ' . $linknofollow . ' target="_' . $linkTargetContact . '">' . $linkTextOn . '</a>';
+        $output[] = ' <a class="' . $popupFollow . 'gmail' . $size . '" href="' . $linkcontact . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_CONTACT_F", "Email") . '" ' . $linknofollow . ' ' . $linkTargetContact . '>' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -364,7 +364,7 @@ class ModCoalawebSocialLinksHelper {
     function getCustomoneFollow($linkcustomone, $linkTargetCustomone, $size, $linknofollow, $textcustomone, $popupFollow, $linkText) {
         $linkTextOn = ($linkText ? $textcustomone : '');
         $output[] = '<li>';
-        $output[] = ' <a class="' . $popupFollow . 'customone' . $size . '" href="http://' . $linkcustomone . '" title="' . $textcustomone . '" ' . $linknofollow . ' target="_' . $linkTargetCustomone . '">' . $linkTextOn . '</a>';
+        $output[] = ' <a class="' . $popupFollow . 'customone' . $size . '" href="' . $linkcustomone . '" title="' . $textcustomone . '" ' . $linknofollow . ' ' . $linkTargetCustomone . '>' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -372,8 +372,8 @@ class ModCoalawebSocialLinksHelper {
     //Create Custom style
     public static function getCustomoneStyle($themes_icon, $iconcustomone, $size, $module_unique_id) {
         $doc = JFactory::getDocument();
-        $styles = "#" . $module_unique_id . " .cw-social-mod-icons-".$themes_icon ."  a.customone" . $size . " {background:url(" . JURI::base(true) . '/' .$iconcustomone . ") 0 0 no-repeat;}";
-        $styles .= "#" . $module_unique_id . " .cw-social-mod-icons-".$themes_icon ." a.customone" . $size . ":hover {background:url(" . JURI::base(true) . '/' .$iconcustomone . ") 0 0 no-repeat;}";
+        $styles = "#" . $module_unique_id . " .cw-social-mod-icons-".$themes_icon ."  a.customone" . $size . " {background:url(" . $iconcustomone . ") 0 0 no-repeat !important;}";
+        $styles .= "#" . $module_unique_id . " .cw-social-mod-icons-".$themes_icon ." a.customone" . $size . ":hover {background:url(" . $iconcustomone . ") 0 0 no-repeat !important ;}";
         $doc->AddStyledeclaration($styles);
     }
     

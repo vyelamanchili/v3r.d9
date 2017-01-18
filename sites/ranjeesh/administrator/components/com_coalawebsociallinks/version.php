@@ -23,6 +23,6 @@ defined('_JEXEC') or die('Restricted access');
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-define('COM_CWSOCIALLINKS_VERSION', '0.3.3');
-define('COM_CWSOCIALLINKS_DATE', '2016-09-07');
+define('COM_CWSOCIALLINKS_VERSION', '0.3.4');
+define('COM_CWSOCIALLINKS_DATE', '2016-10-17');
 define('COM_CWSOCIALLINKS_PRO', '0');

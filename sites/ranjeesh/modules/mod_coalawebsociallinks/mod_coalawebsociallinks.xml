@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.2" client="site" method="upgrade">
     <name>MOD_COALAWEBSOCIALLINKS</name>
-    <creationDate>2016-09-07</creationDate>
+    <creationDate>2016-10-17</creationDate>
     <author>Steven Palmer</author>
     <authorEmail>support@coalaweb.com</authorEmail>
     <authorUrl>http://coalaweb.com</authorUrl>
     <copyright>Copyright (c) 2016 Steven Palmer All rights reserved.</copyright>
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <version>0.3.3</version>
+    <version>0.3.4</version>
     <description>MOD_COALAWEBSOCIALLINKS_DESCRIPTION</description>
         
     <languages folder="language">
@@ -364,7 +364,7 @@
                     name="display_facebook_bm" 
                     type="radio" 
                     class="btn-group"  
-                    default="1" 
+                    default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYFACEBOOK_BM_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYFACEBOOK_BM_DESC" >
                     <option value="0">CW_NO</option>
@@ -684,6 +684,7 @@
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_DESC" >
                     <option value="self">MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_OPT1</option>
                     <option value="blank">MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_OPT2</option>
+                    <option value="anchor">MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_OPT3</option>
                 </field>
                         
                 <field 
@@ -1365,6 +1366,7 @@
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_DESC" >
                     <option value="self">MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_OPT1</option>
                     <option value="blank">MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_OPT2</option>
+                    <option value="anchor">MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_OPT3</option>
                 </field>
                         
                 <field 
