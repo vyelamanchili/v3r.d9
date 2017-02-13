@@ -9,6 +9,10 @@ html {
    position: relative;
 }
 
+#wpwrap {
+	overflow: hidden; /* https://github.com/live-composer/live-composer-page-builder/issues/440 */
+}
+
 /* Disable text selection when builder is active */
 body {
 	-webkit-touch-callout: none;
@@ -206,6 +210,7 @@ body a:focus {
 	-webkit-transition: bottom 0.3s;
 	-moz-transition: bottom 0.3s;
 	transition: bottom 0.3s;
+	margin-bottom: 40px;
 }
 
 .dslca-container,
@@ -1034,6 +1039,11 @@ body a:focus {
 							vertical-align: middle;
 						}
 
+						.dslca-module-edit-option-box-shadow-single span.wp-picker-input-wrap,
+						.dslca-module-edit-option-text-shadow-single span.wp-picker-input-wrap {
+							margin-right: 0;
+						}
+
 						.dslca-module-edit-option-box-shadow-single input[type="number"],
 						.dslca-module-edit-option-text-shadow-single input[type="number"],
 						.dslca-module-edit-option-box-shadow-single input[type="text"],
@@ -1043,10 +1053,15 @@ body a:focus {
 						.dslca-module-edit-option-text-shadow-single input[type="number"]:focus,
 						.dslca-module-edit-option-box-shadow-single input[type="text"]:focus,
 						.dslca-module-edit-option-text-shadow-single input[type="text"]:focus {
-							width: 60px !important;
+							width: 60px;
 							min-width: auto;
 							padding: 3px 7px;
 							vertical-align: middle;
+						}
+
+						.dslca-module-edit-option-box-shadow-single input[type="text"].dslca-module-edit-option-box-shadow-color,
+						.dslca-module-edit-option-text-shadow-single input[type="text"].dslca-module-edit-option-text-shadow-color {
+							width: 100px;
 						}
 
 						.dslca-module-edit-option-box-shadow-single input[type="checkbox"] {
@@ -1900,7 +1915,7 @@ body.section-editing-in-progress .dslc-modules-section:not(.dslca-modules-sectio
 
 
 	.dslca-modules-section-manage {
-		bottom: -25px;
+		bottom: 0;
 		left: 0;
 		right: 0;
 		visibility: hidden;
@@ -1910,6 +1925,10 @@ body.section-editing-in-progress .dslc-modules-section:not(.dslca-modules-sectio
 		z-index: 99998; /* Should be less than module control elements */
  		width: 100%;
 		text-align: center;
+	}
+
+	.dslca-modules-section-manage:hover {
+	    z-index: 100000;
 	}
 
 
@@ -3659,6 +3678,18 @@ body.page .dslca-module.dslca-origin-single[data-id="DSLC_TP_Staff_Social"] {
 	display: none !important;
 }
 
+.dslca-module.dslca-origin[data-display-module="true"] {
+	display: inline-block;
+}
+
+.dslca-module.dslca-origin[data-display-module="false"] {
+	display: none;
+}
+
+.dslca-module.dslca-exclude {
+	display: none;
+}
+
 .media-modal {
 	z-index: 999999999 !important;
 }
@@ -4214,4 +4245,87 @@ div#scroller-stopper {
 .dslca-options-iconbutton:hover,
 .dslca-options-iconbutton .dslca-icon {
 	cursor: pointer;
+}
+
+.mce-tinymce .mce-btn button:hover {
+	background-color: #e3e3e3;
+    border-color: #ccc;
+}
+
+/**
+ * Display the editor messages
+ */
+
+.dslca_editor_messages_section {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 40px;
+	font-family: 'Open Sans', sans-serif;
+	color: #fff;
+	font-weight: 100;
+	background: #404a58;
+}
+
+.dslca_editor_messages_title {
+	float: left;
+    background: #303030;
+    color: #fff;
+    font-size: 14px;
+    line-height: 22px;
+    text-transform: uppercase;
+    padding: 12px 17px;
+    text-align: center;
+    display: block;
+    margin-right: 25px;
+}
+
+.dslca_editor_messages_title span {
+	font-weight: 500;
+}
+
+a.dslca_editor_messages_title:hover {
+	color: #fff;
+}
+
+.dslca_editor_messages_hide {
+	float: right;
+    padding: 12px 17px;
+    background: #283546;
+    font-size: 14px;
+    text-align: center;
+    display: block;
+    color: #fff;
+    display: none;
+}
+
+.dslca_editor_messages_hide .dslc-icon {
+	font-size: 17px;
+	margin-right: 10px;
+}
+
+a.dslca_editor_messages_hide:hover {
+    color: #fff;
+}
+
+.dslca_editor_messages_content {
+	padding: 12px 0;
+	font-size: 14px;
+	text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.dslca_editor_messages_content a {
+	color: #45c0ff;
+	text-decoration: none;
+}
+
+.dslca_editor_messages_content a:hover {
+	text-decoration: underline;
+}
+
+.dslca_editor_messages_content .dslc-icon {
+	font-size: 19px;
+	margin-right: 10px;
 }

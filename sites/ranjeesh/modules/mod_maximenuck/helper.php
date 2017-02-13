@@ -399,12 +399,13 @@ class modMaximenuckHelper {
 	static function GenModuleById($moduleid, $params, $modulesList, $style, $level = '1') {
 		$attribs['style'] = $style;
 		// get the title of the module to load
-		$modtitle = $modulesList[$moduleid]->title;
-		$modname = $modulesList[$moduleid]->module;
+//		$modtitle = $modulesList[$moduleid]->title;
+//		$modname = $modulesList[$moduleid]->module;
 		//$modname = preg_replace('/mod_/', '', $modname);
 		// load the module
-		if (JModuleHelper::isEnabled($modname)) {
-			$module = JModuleHelper::getModule($modname, $modtitle);
+//		if (JModuleHelper::isEnabled($modname)) {
+//			$module = JModuleHelper::getModule($modname, $modtitle);
+			$module = $modulesList[$moduleid];
 			// if (! $module->content) return '';
 			// set the module param to know the calling level
 			$paramstmp = new JRegistry;
@@ -413,8 +414,8 @@ class modMaximenuckHelper {
 			$module->params = $paramstmp->toString();
 
 			return JModuleHelper::renderModule($module, $attribs);
-		}
-		return 'Module ID=' . $moduleid . ' not found !';
+//		}
+//		return 'Module ID=' . $moduleid . ' not found !';
 	}
 
 	/**
@@ -623,7 +624,7 @@ class modMaximenuckHelper {
 		$csssubmenu = self::createCss($menuID, $item->params, 'submenustyles', true, $item->id);
 		//$cssheading = self::createCss($menuID, $item->params, 'headingstyles');
 
-		$separator = ($item->type == 'separator' && !$item->params->get('maximenu_insertmodule', 0)) ? '.headingck > span.separator' : '';
+		$separator = ($item->type == 'separator' && !$item->params->get('maximenu_insertmodule', 0) && $itemlevel > 1) ? '.headingck > span.separator' : '';
 		$document = JFactory::getDocument();
 
 		// for parent arrow normal state

@@ -65,7 +65,7 @@ final class DSLC_Scripts{
 		wp_enqueue_script( 'jquery-masonry' );
 
 		wp_enqueue_script( 'dslc-plugins-js', DS_LIVE_COMPOSER_URL . 'js/frontend/plugins.js', array( 'jquery' ), DS_LIVE_COMPOSER_VER );
-		wp_enqueue_script( 'dslc-main-js', DS_LIVE_COMPOSER_URL . 'js/frontend/main.js', array( 'jquery' ), DS_LIVE_COMPOSER_VER );
+		wp_enqueue_script( 'dslc-main-js', DS_LIVE_COMPOSER_URL . 'js/frontend/main.js', array( 'jquery' ), DS_LIVE_COMPOSER_VER, $in_footer = true );
 
 		if ( is_ssl() ) {
 
@@ -197,12 +197,7 @@ final class DSLC_Scripts{
 
 			wp_enqueue_script( 'dslc-builder-plugins-js', DS_LIVE_COMPOSER_URL . 'js/builder/builder.plugins.js', array( 'jquery', 'wp-color-picker' ), DS_LIVE_COMPOSER_VER );
 
-			if ( ! SCRIPT_DEBUG ) {
-
-				wp_enqueue_script( 'dslc-builder-main-js', DS_LIVE_COMPOSER_URL . 'js/builder.all.min.js', array( 'jquery' ), DS_LIVE_COMPOSER_VER );
-			} else {
-				self::load_scripts( 'builder', 'dslc-builder-main-js' );
-			}
+			self::load_scripts( 'builder', 'dslc-builder-main-js' );
 
 			wp_localize_script( 'dslc-builder-main-js', 'DSLCAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ) ) );
 

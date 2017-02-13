@@ -2,7 +2,7 @@
  * @author              Steven Palmer
  * @author url          http://coalaweb.com
  * @author email        support@coalaweb.com
- * @copyright           Copyright (c) 2016 Steven Palmer All rights reserved.
+ * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
  */
 
 /**
@@ -684,7 +684,7 @@ ul.cw-social-mod-icons-cws-square-rc-fadein li > a::before {
 .cw-social-mod-icons-cws-square-rc-fadein a[class$="64"]{
     width: 64px;
     height: 64px;
-    background: url(cw_social_64. png) 0 0 no-repeat !important;
+    background: url(cw_social_64.png) 0 0 no-repeat !important;
     opacity:1.0;
     filter:alpha(opacity=100);
 }

@@ -11,7 +11,7 @@
 	<license>GNU/GPL 3 http://www.gnu.org/licenses/gpl.html</license>
 	<authorEmail>ced1870@gmail.com</authorEmail>
 	<authorUrl>http://www.joomlack.fr</authorUrl>
-	<version>8.2.1</version>
+	<version>8.2.3</version>
 	<description>MOD_MAXIMENUCK_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_maximenuck">mod_maximenuck.php</filename>
@@ -934,6 +934,16 @@
 				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+				</field>
+				<field
+					name="hikashoporderby"
+					type="cklist"
+					label="PLG_MAXIMENUCK_HIKASHOP_ORDERBY_LABEL"
+					default="0"
+					description="PLG_MAXIMENUCK_HIKASHOP_ORDERBY_DESC"
+				>
+					<option value="ordering">PLG_MAXIMENUCK_HIKASHOP_ORDER</option>
+					<option value="name">PLG_MAXIMENUCK_HIKASHOP_NAME</option>
 				</field>
 				<field
 					name="thirdpartyckspacerk21"

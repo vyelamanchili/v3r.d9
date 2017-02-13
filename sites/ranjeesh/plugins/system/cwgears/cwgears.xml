@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="system" method="upgrade">
     <name>PLG_CWGEARS</name>
-    <creationDate>2017-01-12</creationDate>
+    <creationDate>2017-01-27</creationDate>
     <author>Steven Palmer</author>
     <authorEmail>support@coalaweb.com</authorEmail>
     <authorUrl>http://coalaweb.com</authorUrl>
     <copyright>Copyright (c) 2017 Steven Palmer All rights reserved.</copyright>
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <version>0.2.9</version>
+    <version>0.3.2</version>
     <description>PLG_CWGEARS_DESC</description>
 
     <install> <!-- Runs on install -->
@@ -56,9 +56,6 @@
     <updateservers>
         <server type="extension" priority="1" name="CoalaWeb Gears Update">http://cdn.coalaweb.com/updates/cw-gears-core.xml</server>
     </updateservers>
-    
-    <!-- Installation / Uninstallation Script File -->
-    <scriptfile>script.cwgears.php</scriptfile>
 
     <config>
         <fields 
@@ -127,7 +124,7 @@
                     <option value="0">CW_NO</option>
                     <option value="1">CW_YES</option>
                 </field>
-      		
+
             </fieldset>
            
             <fieldset 

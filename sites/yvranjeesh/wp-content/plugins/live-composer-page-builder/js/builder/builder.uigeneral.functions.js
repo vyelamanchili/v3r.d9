@@ -394,6 +394,13 @@ function dslc_show_section( section ) {
 
 	// Remove class from body so we know it's finished
 	// jQuery('body').removeClass('dslca-anim-in-progress');
+
+	// Set initial background color for the color picker fields
+	// Fixes the bug with section color pickers to keep values from the previously
+	// edited section.
+	jQuery(section).find('input.dslca-module-edit-field-colorpicker').each( function (item) {
+		jQuery(this).css('background', jQuery(this).val());
+	});
 }
 
 /**
@@ -428,19 +435,13 @@ function dslc_filter_origin( origin, section ) {
 
 	if ( dslcDebug ) console.log( 'dslc_filter_origin' );
 
-	jQuery('.dslca-origin', section).hide();
-	jQuery('.dslca-origin[data-origin="' + origin + '"]', section).css('display', 'inline-block');
+	jQuery('.dslca-origin', section).attr('data-display-module', 'false');
+	jQuery('.dslca-origin[data-origin="' + origin + '"]', section).attr('data-display-module', 'true');
 
 	if ( origin == '' ) {
 
-		jQuery('.dslca-origin', section).each(function(i){
-
-			if ( jQuery(this).hasClass('dslca-exclude') ) {
-				jQuery(this).hide();
-			} else {
-				jQuery(this).show();
-			}
-		});
+		jQuery('.dslca-origin', section).attr('data-display-module', 'true');
+		jQuery('.dslca-origin.dslca-exclude', section).attr('data-display-module', 'false')
 	}
 }
 

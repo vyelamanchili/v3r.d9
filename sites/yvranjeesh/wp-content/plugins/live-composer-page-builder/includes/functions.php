@@ -771,8 +771,10 @@ function dslc_code_migration( $settings ) {
 		} elseif ( stristr( $id, 'border_trbl' ) ) {
 			if ( isset( $settings[ $id ] ) && '' === $settings[ $id ] ) {
 				$settings[ $id ] = '';
+			} elseif ( ! isset( $settings[ $id ] ) ) {
+				/* Fix bug with disappearing borders when migrating to new version */
+				$settings[ $id ] = $control['std'];
 			}
-		// } elseif ( empty( $settings[ $id ] ) && isset( $control['std'] ) ) {
 		} elseif ( ( ! isset( $settings[ $id ] ) || '' === $settings[ $id ] ) &&
 					isset( $control['std'] ) ) {
 
@@ -795,8 +797,10 @@ function dslc_sanitize_option_val ( $data_to_sanitize ) {
 	$id = $data_to_sanitize['id'];
 	$value = $data_to_sanitize['value'];
 
-	if ( stristr( $value, '{\\') ) {
+	if ( $id !== 'content' &&  stristr( $value, '{\\') ) {
 		// Filter out values with json code left by broken presets functionality.
+		// But don't touch 'content' values as it used in HTML module, that can
+		// contain complex html/css/js code.
 		return '';
 	} else {
 		return $value;
