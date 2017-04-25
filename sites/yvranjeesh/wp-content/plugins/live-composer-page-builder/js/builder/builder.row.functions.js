@@ -550,7 +550,6 @@ function dslc_row_copy( row ) {
 
 	new LiveComposer.Builder.Elements.CRow(dslcModulesSectionCloned);
 
-
 	/**
 	 * Re-render modules inside of the new ROW
 	 */
@@ -596,6 +595,29 @@ function dslc_row_copy( row ) {
 
 		dslc_show_publish_button();
 	});
+
+	// Generate new ID for the new section.
+	dslc_section_new_id( dslcModulesSectionCloned[0] );
+}
+
+/**
+ * Generate new ID for the section provided
+ *
+ *
+ * @param DOM section that needs ID updated (new ID).
+ * @return void
+ */
+function dslc_section_new_id( section ) {
+
+	if ( dslcDebug ) console.log( 'dslc_section_new_id' );
+
+	var dslc_section_id = LiveComposer.Utils.get_unique_id(); // Generate new section ID.
+
+	// Update section ID in data attribute
+	section.setAttribute( 'data-section-id', dslc_section_id );
+
+	// Update section ID in raw base64 code (dslc_code) of the section
+	LiveComposer.Utils.update_section_property_raw( section, 'section_instance_id', dslc_section_id );
 }
 
 
@@ -679,6 +701,8 @@ jQuery(document).ready(function($){
 		$('.dslca-row-options-filter-hook.dslca-active').removeClass('dslca-active');
 		LiveComposer.Builder.PreviewAreaWindow.dslc_responsive_classes( true );
 	});
+
+	dslc_section_options_tooltip();
 });
 
 /**
@@ -699,4 +723,51 @@ LiveComposer.Builder.rows_init = function() {
 		}
 	} );
 
+}
+
+/**
+ * MODULES SETTINGS PANEL - Option Tooltips
+ */
+function dslc_section_options_tooltip() {
+
+	// Close Tooltip
+	jQuery(document).on( 'click', '.dslca-modules-section-edit-field-ttip-close', function(){
+		jQuery('.dslca-modules-section-edit-field-ttip, .dslca-modules-section-edit-field-icon-ttip').hide();
+	});
+
+	// Show Tooltip
+	jQuery(document).on( 'click', '.dslca-modules-section-edit-field-ttip-hook', function(){
+
+		var dslcTtip = jQuery('.dslca-modules-section-edit-field-ttip'),
+		dslcTtipInner = dslcTtip.find('.dslca-modules-section-edit-field-ttip-inner'),
+		dslcHook = jQuery(this),
+		dslcTtipContent = dslcHook.closest('.dslca-modules-section-edit-option').find('.dslca-modules-section-edit-field-ttip-content').html();
+
+		if ( dslcTtip.is(':visible') ) {
+
+			jQuery('.dslca-modules-section-edit-field-ttip').hide();
+		} else {
+
+			dslcTtipInner.html( dslcTtipContent );
+
+			var dslcOffset = dslcHook.offset();
+			var dslcTtipHeight = dslcTtip.outerHeight();
+			var dslcTtipWidth = dslcTtip.outerWidth();
+			var dslcTtipLeft = dslcOffset.left - ( dslcTtipWidth / 2 ) + 6;
+			var dslcTtipArrLeft = '50%';
+
+			if ( dslcTtipLeft < 0 ) {
+
+				dslcTtipArrLeft = ( dslcTtipWidth / 2 ) + dslcTtipLeft + 'px';
+				dslcTtipLeft = 0;
+			}
+
+			jQuery('.dslca-modules-section-edit-field-ttip').show().css({
+				top : dslcOffset.top - dslcTtipHeight - 20,
+				left: dslcTtipLeft
+			});
+
+			jQuery("head").append(jQuery('<style>.dslca-modules-section-edit-field-ttip:after, .dslca-modules-section-edit-field-ttip:before { left: ' + dslcTtipArrLeft + ' }</style>'));
+		}
+	});
 }

@@ -226,6 +226,30 @@ class DSLC_Navigation extends DSLC_Module {
 				'section' => 'styling',
 			),
 			array(
+				'label' => __( 'BG Image Size', 'live-composer-page-builder' ),
+				'id' => 'bg_image_size',
+				'std' => 'auto',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-navigation-inner',
+				'affect_on_change_rule' => 'background-size',
+				'type' => 'select',
+				'choices' => array(
+					array(
+						'label' => __( 'Original', 'live-composer-page-builder' ),
+						'value' => 'auto',
+					),
+					array(
+						'label' => __( 'Cover', 'live-composer-page-builder' ),
+						'value' => 'cover',
+					),
+					array(
+						'label' => __( 'Contain', 'live-composer-page-builder' ),
+						'value' => 'contain',
+					),
+				),
+				'section' => 'styling',
+			),
+			array(
 				'label' => __( 'Border Color', 'live-composer-page-builder' ),
 				'id' => 'css_main_border_color',
 				'std' => '',
@@ -1603,6 +1627,28 @@ class DSLC_Navigation extends DSLC_Module {
 				}
 			</script>
 			<?php
+
+			if ( $dslc_is_admin ) { ?>
+
+			<style type="text/css">
+
+			@-webkit-keyframes fade-in {   0% { opacity: 0; }   100% { opacity: 1; }   }
+			@-moz-keyframes    fade-in {   0% { opacity: 0; }   100% { opacity: 1; }   }
+			@-o-keyframes      fade-in {   0% { opacity: 0; }   100% { opacity: 1; }   }
+			@keyframes         fade-in {   0% { opacity: 0; }   100% { opacity: 1; }   }
+
+			#dslc-content .dslc-navigation .menu li:hover > ul {
+				display: block;
+				opacity: 1;
+				-webkit-animation: fade-in 0.3s linear; /* Safari 4+ */
+				-moz-animation: fade-in 0.3s linear; /* Fx 5+ */
+				-o-animation: fade-in 0.3s linear; /* Opera 12+ */
+				animation: fade-in 0.3s linear; /* IE 10+, Fx 29+ */
+			}
+
+			</style>
+
+			<?php }
 		}
 
 		/* Module output ends here */

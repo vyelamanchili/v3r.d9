@@ -632,6 +632,15 @@
 							/*position: absolute;*/
 						}
 
+			#dslc-content .dslc-info-box-image-pos-aside .dslc-info-box-main {
+				overflow: hidden;
+			}
+
+				#dslc-content .dslc-info-box-image-pos-aside .dslc-info-box-image-alt {
+					float: left;
+					margin-right: 20px;
+				}
+
 			#dslc-content .dslc-info-box-image-alt-inner {
 				display: inline-block;
 			}
@@ -1957,9 +1966,10 @@ body.dslca-enabled .dslc-notification-box-has-timeout {
 	font-size: 0;
 }
 
-	#dslc-content .dslc-navigation-inner {
+	/* https://github.com/live-composer/live-composer-page-builder/issues/547 */
+	/*#dslc-content .dslc-navigation-inner {
 		display: inline-block;
-	}
+	}*/
 
 	#dslc-content .dslc-navigation .menu {
 		list-style: none;
@@ -2237,5 +2247,8 @@ body.dslca-enabled .dslc-notification-box-has-timeout {
 		display: block;
 	}
 
+	.dslc-carousel .dslc-carousel-item {
+	    margin-left: 0 !important; /* https://github.com/live-composer/live-composer-page-builder/issues/555 */
+	}
 
 }

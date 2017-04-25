@@ -820,7 +820,7 @@ class DSLC_Info_Box extends DSLC_Module {
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-info-box-image',
+				'affect_on_change_el' => '.dslc-info-box-image, .dslc-info-box-icon-pos-aside .dslc-info-box-image',
 				'affect_on_change_rule' => 'margin-right',
 				'section' => 'styling',
 				'tab' => __( 'Icon', 'live-composer-page-builder' ),
@@ -893,9 +893,9 @@ class DSLC_Info_Box extends DSLC_Module {
 				'tab' => __( 'Icon', 'live-composer-page-builder' ),
 			),
 
-      /**
-			 * Image
-			 */
+			/**
+			* Image
+			*/
 
 			 array(
 				'label' => __( 'Image - File', 'live-composer-page-builder' ),
@@ -1003,6 +1003,24 @@ class DSLC_Info_Box extends DSLC_Module {
 				'section' => 'styling',
 				'tab' => __( 'Image', 'live-composer-page-builder' ),
 				'ext' => 'px',
+			),
+			array(
+				'label' => __( 'Position', 'live-composer-page-builder' ),
+				'id' => 'image_position',
+				'std' => 'above',
+				'type' => 'select',
+				'choices' => array(
+					array(
+						'label' => __( 'Above', 'live-composer-page-builder' ),
+						'value' => 'above',
+					),
+					array(
+						'label' => __( 'Aside', 'live-composer-page-builder' ),
+						'value' => 'aside',
+					),
+				),
+				'section' => 'styling',
+				'tab' => __( 'Image', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Padding Vertical', 'live-composer-page-builder' ),
@@ -2889,7 +2907,7 @@ class DSLC_Info_Box extends DSLC_Module {
 
 		?>
 
-			<div class="dslc-info-box dslc-info-box-icon-pos-<?php echo $options['icon_position']; ?>">
+			<div class="dslc-info-box dslc-info-box-icon-pos-<?php echo $options['icon_position']; ?> dslc-info-box-image-pos-<?php echo $options['image_position']; ?>">
 
 				<div class="dslc-info-box-wrapper">
 
@@ -2963,11 +2981,17 @@ class DSLC_Info_Box extends DSLC_Module {
 								<div class="dslc-info-box-content">
 									<?php if ( $dslc_is_admin ) : ?>
 										<div class="dslca-editable-content inline-editor" data-type="simple" data-id="content">
-											<?php echo stripslashes( $options['content'] ); ?>
+											<?php
+											$output_content = stripslashes( $options['content'] );
+											echo apply_filters( 'dslc_before_render', $output_content );
+											?>
 										</div><!-- .dslca-editable-content -->
 										<div class="dslca-wysiwyg-actions-edit"><span class="dslca-wysiwyg-actions-edit-hook"><?php _e( 'Open in WP Editor', 'live-composer-page-builder' ); ?></span></div>
 									<?php else : ?>
-										<?php echo do_shortcode( stripslashes( $options['content'] ) ); ?>
+										<?php
+										$output_content = stripslashes( $options['content'] );
+										echo apply_filters( 'dslc_before_render', $output_content );
+										?>
 									<?php endif; ?>
 								</div><!-- .dslc-info-box-content -->
 							<?php endif; ?>

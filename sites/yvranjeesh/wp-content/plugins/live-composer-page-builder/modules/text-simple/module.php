@@ -328,7 +328,29 @@ class DSLC_Text_Simple extends DSLC_Module {
 					'affect_on_change_rule' => 'background-position',
 					'section' => 'styling',
 				),
-
+				array(
+					'id' => 'css_main_bg_img_size',
+					'std' => 'auto',
+					'label' => __( 'Image Size', 'live-composer-page-builder' ),
+					'type' => 'select',
+					'choices' => array(
+						array(
+							'label' => __( 'Original', 'live-composer-page-builder' ),
+							'value' => 'auto',
+						),
+						array(
+							'label' => __( 'Cover', 'live-composer-page-builder' ),
+							'value' => 'cover',
+						),
+						array(
+							'label' => __( 'Contain', 'live-composer-page-builder' ),
+							'value' => 'contain',
+						),
+					),
+					'affect_on_change_rule' => 'background-size',
+					'affect_on_change_el' => '.dslc-text-module-content',
+					'section' => 'styling'
+				),
 			array(
 				'id' => 'css_main_bg_group',
 				'type' => 'group',
@@ -4964,10 +4986,8 @@ class DSLC_Text_Simple extends DSLC_Module {
 				}
 
 					$output_content = stripslashes( $options['content'] );
-					$output_content = str_replace( '<lctextarea', '<textarea', $output_content );
-					$output_content = str_replace( '</lctextarea', '</textarea', $output_content );
 					$output_content = do_shortcode( $output_content );
-					echo $output_content;
+					echo apply_filters( 'dslc_before_render', $output_content );
 
 				if ( $dslc_active ) {
 					?></div><!-- .dslca-editable-content --><?php

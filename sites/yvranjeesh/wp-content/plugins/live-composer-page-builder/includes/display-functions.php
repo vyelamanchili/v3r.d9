@@ -3,7 +3,6 @@
  * Table of Contents
  *
  * - dslc_display_composer ( Displays the composer code in the front-end )
- * - dslc_editor_messages ( Display the editor messages )
  * - dslc_get_modules ( Returns an array of active modules )
  * - dslc_display_modules ( Displays a list of active modules )
  * - dslc_display_templates ( Displays a list of active templates )
@@ -47,6 +46,12 @@ function dslc_display_composer() {
 		if ( empty( $default_section ) ) {
 
 			$default_section = 'functionality';
+		}
+
+		if ( isset( $_GET['preview_id'] ) ) {
+			$url_id = $_GET['preview_id'];
+		} else {
+			$url_id = $_GET['page_id'];
 		}
 
 		?>
@@ -106,7 +111,7 @@ function dslc_display_composer() {
 					<a href="#" class="dslca-hide-composer-hook"><span class="dslca-icon dslc-icon-arrow-down"></span><?php _e( 'Hide Editor', 'live-composer-page-builder' ); ?></a>
 
 					<!-- Disable -->
-					<a href="<?php the_permalink( $_GET['page_id'] ); ?>" class="dslca-close-composer-hook"><span class="dslca-icon dslc-icon-remove"></span><?php _e( 'Disable Editor', 'live-composer-page-builder' ); ?></a>
+					<a href="<?php the_permalink( $url_id ); ?>" class="dslca-close-composer-hook"><span class="dslca-icon dslc-icon-remove"></span><?php _e( 'Disable Editor', 'live-composer-page-builder' ); ?></a>
 
 					<div class="dslc-clear"></div>
 
@@ -197,8 +202,8 @@ function dslc_display_composer() {
 
 							<form class="dslca-template-save-form">
 								<input type="text" id="dslca-save-template-title" placeholder="<?php _e( 'Name of the template', 'live-composer-page-builder' ); ?>">
-								<span class="dslca-submit"><?php _e( 'Save', 'live-composer-page-builder' ); ?></span>
-								<span class="dslca-cancel dslca-close-modal-hook" data-modal=".dslca-modal-templates-save"><?php _e( 'Cancel', 'live-composer-page-builder' ); ?></span>
+								<div class="dslca-submit"><?php _e( 'Save', 'live-composer-page-builder' ); ?></div>
+								<div class="dslca-cancel dslca-close-modal-hook" data-modal=".dslca-modal-templates-save"><?php _e( 'Cancel', 'live-composer-page-builder' ); ?></div>
 							</form>
 
 						</div><!-- .dslca-modal -->
@@ -216,15 +221,15 @@ function dslc_display_composer() {
 
 							<form class="dslca-template-import-form">
 								<textarea id="dslca-import-code" placeholder="<?php _e( 'Enter the exported code heree', 'live-composer-page-builder' ); ?>"></textarea>
-								<span class="dslca-submit">
-									<span class="dslca-modal-title"><?php _e( 'Import', 'live-composer-page-builder' ); ?></span>
+								<div class="dslca-submit">
+									<div class="dslca-modal-title"><?php _e( 'Import', 'live-composer-page-builder' ); ?></div>
 									<div class="dslca-loading followingBallsGWrap">
 										<div class="followingBallsG_1 followingBallsG"></div>
 										<div class="followingBallsG_2 followingBallsG"></div>
 										<div class="followingBallsG_3 followingBallsG"></div>
 										<div class="followingBallsG_4 followingBallsG"></div>
 									</div>
-								</span>
+								</div>
 								<span class="dslca-cancel dslca-close-modal-hook" data-modal=".dslca-modal-templates-import"><?php _e( 'Cancel', 'live-composer-page-builder' ); ?></span>
 							</form>
 
@@ -310,6 +315,11 @@ function dslc_display_composer() {
 				<div class="dslca-module-edit-field-ttip-inner"></div>
 			</div>
 
+			<div class="dslca-modules-section-edit-field-ttip">
+				<span class="dslca-modules-section-edit-field-ttip-close"><span class="dslc-icon dslc-icon-remove"></span></span>
+				<div class="dslca-modules-section-edit-field-ttip-inner"></div>
+			</div>
+
 			<div class="dslca-module-edit-field-icon-switch-sets">
 				<?php
 					global $dslc_var_icons;
@@ -322,36 +332,35 @@ function dslc_display_composer() {
 			<div class="dslca-invisible-overlay"></div>
 			<div id="scroller-stopper"></div>
 			<script id="pseudo-panel" type="template">
-			<div class="dslca-pseudo-panel">
+				<div class="dslca-pseudo-panel">
+					<div class="dslca-pseudo-header dslc-clearfix">
 
-				<div class="dslca-pseudo-header dslc-clearfix">
+						<!-- Tabs -->
+						<!-- Module Option filters -->
+						<span class="dslca-pseudo-options-filter-hook dslca-active" data-section="functionality" style="display: block;"><span class="dslca-icon dslc-icon-cog"></span> Functionality</span>
+						<span class="dslca-pseudo-options-filter-hook" data-section="styling" style="display: block;"><span class="dslca-icon dslc-icon-tint"></span> Styling</span>
+						<span class="dslca-pseudo-options-filter-hook" data-section="responsive" style="display: block;"><span class="dslca-icon dslc-icon-mobile-phone"></span> Responsive</span>
 
-					<!-- Tabs -->
-					<!-- Module Option filters -->
-					<span class="dslca-pseudo-options-filter-hook dslca-active" data-section="functionality" style="display: block;"><span class="dslca-icon dslc-icon-cog"></span> Functionality</span>
-					<span class="dslca-pseudo-options-filter-hook" data-section="styling" style="display: block;"><span class="dslca-icon dslc-icon-tint"></span> Styling</span>
-					<span class="dslca-pseudo-options-filter-hook" data-section="responsive" style="display: block;"><span class="dslca-icon dslc-icon-mobile-phone"></span> Responsive</span>
+						<!-- Module Options Actions -->
+						<div class="dslca-pseudo-module-edit-actions" style="display: block;">
+							<a href="#" class="dslca-pseudo-module-edit-save">Confirm</a>
+							<a href="#" class="dslca-pseudo-module-edit-cancel">Cancel</a>
+						</div>
+						<!-- Row Options Actions -->
 
-					<!-- Module Options Actions -->
-					<div class="dslca-pseudo-module-edit-actions" style="display: block;">
-						<a href="#" class="dslca-pseudo-module-edit-save">Confirm</a>
-						<a href="#" class="dslca-pseudo-module-edit-cancel">Cancel</a>
-					</div>
-					<!-- Row Options Actions -->
+					</div><!-- .dslca-header -->
 
-				</div><!-- .dslca-header -->
+					<div class="dslca-pseudo-actions">
 
-				<div class="dslca-pseudo-actions">
+						<!-- Hide/Show -->
+						<a href="#" class="dslca-pseudo-hide-composer-hook"><span class="dslca-icon dslc-icon-arrow-down"></span>Hide Editor</a>
 
-					<!-- Hide/Show -->
-					<a href="#" class="dslca-pseudo-hide-composer-hook"><span class="dslca-icon dslc-icon-arrow-down"></span>Hide Editor</a>
+						<!-- Disable -->
+						<a href="#" class="dslca-pseudo-close-composer-hook"><span class="dslca-icon dslc-icon-remove"></span>Disable Editor</a>
 
-					<!-- Disable -->
-					<a href="#" class="dslca-pseudo-close-composer-hook"><span class="dslca-icon dslc-icon-remove"></span>Disable Editor</a>
+						<div class="dslc-clear"></div>
 
-					<div class="dslc-clear"></div>
-
-				</div><!-- .dslca-actions -->
+					</div><!-- .dslca-actions -->
 
 
 
@@ -392,35 +401,21 @@ function dslc_display_composer() {
 								</div><!-- .dslc-module-edit-option -->
 							</div>
 						</div>
-
 					</div>
-
-			</div>
+				</div>
 			</script>
 		<?php
 
-		// Output editor messages
-		dslc_print_editor_messages();
+		// Output editor messages.
+		$editor_messages = new LC_Editor_Messages();
+
+		if ( ! $editor_messages->get_hidden() ) {
+			echo $editor_messages->print_messages();
+		}
 
 	endif;
 
 } add_action( 'admin_footer', 'dslc_display_composer' );
-
-/**
- * Display the editor messages
- *
- * @since 1.0
- */
-function dslc_print_editor_messages() { ?>
-
-	<div class="dslca_editor_messages_section">
-		<a href="#" class="dslca_editor_messages_title"><span>Live Composer</span> Updates</a>
-		<a href="#" class="dslca_editor_messages_hide"><span class="dslc-icon dslc-icon-remove"></span>Hide this Line</a>
-		<div class="dslca_editor_messages_content"><span class="dslc-icon dslc-icon-align-left"></span>Our <a href="https://livecomposerplugin.com/downloads/woocommerce-page-builder/?utm_source=editing-sreen&utm_medium=editor-messages&utm_campaign=woo-integration" target="_blank">WooCommerce integration add-on</a> is almost ready for realese. Price growths with every update. <a href="https://livecomposerplugin.com/downloads/woocommerce-page-builder/?utm_source=editing-sreen&utm_medium=editor-messages&utm_campaign=woo-integration" target="_blank">Buy it today to save 30%!</a></div>
-	</div>
-
-<?php }
-
 
 /**
  * Returns array of active modules (false if none)
@@ -933,7 +928,7 @@ function dslc_is_json( $string ) {
  * @param  String $raw_code Can be JSON, base64+serialized array, or serialized array.
  * @return Array/Bool       Code as array or FALSE if not posible to decode.
  */
-function dslc_json_decode( $raw_code ) {
+function dslc_json_decode( $raw_code, $ignore_migration = false ) {
 
 	$decoded = false;
 
@@ -973,6 +968,12 @@ function dslc_json_decode( $raw_code ) {
 			// Add a marker indicating that this module
 			// was imported from shortcode format.
 			$decoded['code_version'] = 1;
+
+			// Preset is always being stored in base64 format,
+			// so we need to ignore code version parameter as it's not relevant.
+			if ( $ignore_migration ) {
+				unset( $decoded['code_version'] );
+			}
 		}
 	} else {
 		// Decode JSON.
@@ -1137,12 +1138,17 @@ function dslc_modules_section_front( $atts, $content = null, $version = 1 ) {
 	if ( ! isset( $atts['show_on'] ) ) {
 			$atts['show_on'] = 'desktop tablet phone';
 	}
-/*
+
 	// Unique section ID
 	if ( ! isset( $atts['section_instance_id'] ) ) {
 		$atts['section_instance_id'] = dslc_get_new_module_id();
 	}
-*/
+
+	// Apply new instance ID if needed.
+	if ( isset( $atts['give_new_id'] ) ) {
+		$atts['section_instance_id'] = dslc_get_new_module_id();
+	}
+
 	// Custom ID.
 	if ( ! isset( $atts['custom_id'] ) ) {
 			$atts['custom_id'] = '';
@@ -1314,9 +1320,17 @@ function dslc_modules_section_front( $atts, $content = null, $version = 1 ) {
 		}
 	}
 
-	//data-section-id='. $atts['section_instance_id'] . '
-	$output = '
-		<div ' . $section_id_output . ' class="dslc-modules-section ' . $a_container_class . $parallax_class . $section_class . $extra_classes . '" style="' . dslc_row_get_style( $atts ) . '">
+	$output = '';
+
+	if ( ! $dslc_active ) {
+
+		// Before Section.
+		$before_section_content = '';
+		$output .= apply_filters( 'dslc_before_section', $before_section_content, $atts );
+	}
+
+	$output .= '
+		<div ' . $section_id_output . ' class="dslc-modules-section ' . $a_container_class . $parallax_class . $section_class . $extra_classes . '" style="' . dslc_row_get_style( $atts ) . '" data-section-id="' . $atts['section_instance_id'] . '">
 
 				'.$bg_video . '
 
@@ -1345,6 +1359,13 @@ function dslc_modules_section_front( $atts, $content = null, $version = 1 ) {
 		}
 
 	$output .= '</div>';
+
+	if ( ! $dslc_active ) {
+
+		// After Section.
+		$after_section_content = '';
+		$output .= apply_filters( 'dslc_after_section', $after_section_content, $atts );
+	}
 
 	// Return the output
 	return $output;

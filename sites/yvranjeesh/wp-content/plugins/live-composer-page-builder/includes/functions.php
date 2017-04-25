@@ -51,6 +51,7 @@ function dslc_register_modules() {
 
 	// Register default modules.
 	dslc_register_module( 'DSLC_Html' );
+	dslc_register_module( 'DSLC_Shortcode' );
 	dslc_register_module( 'DSLC_Text_Simple' );
 	dslc_register_module( 'DSLC_Image' );
 	dslc_register_module( 'DSLC_Button' );
@@ -75,6 +76,7 @@ function dslc_register_modules() {
 
 	dslc_register_module( 'DSLC_Widgets' );
 	dslc_register_module( 'DSLC_Navigation' );
+	dslc_register_module( 'DSLC_Logo' );
 
 	if ( class_exists( 'RevSliderBase' ) ) {
 		dslc_register_module( 'DSLC_Sliders' );

@@ -2,8 +2,8 @@
 Contributors: LiveComposer
 Tags: page builder, visual composer, visual editor, visual builder, drag and drop builder, landing page builder, frontend editor, frontend builder, landing pages, landing page, website builder, theme builder, site-builder, layout builder, drag-and-drop, builder, editor, responsive, mobile, layout, front end, frontend, Page Layout, squeeze page, page builder plugin, drag-n-drop page builder
 Requires at least: 4.3
-Tested up to: 4.7.2
-Stable tag: 1.2.3
+Tested up to: 4.7.3
+Stable tag: 1.2.9
 License: GPLv3
 
 Front-end page builder for WordPress with drag and drop editing. Build PRO responsive websites and landing pages. Visually customize any page element.
@@ -133,6 +133,155 @@ Upcoming Releases:
 
 * [Please, report any bugs on GitHub](https://github.com/livecomposer/live-composer-page-builder/issues/)
 * [You can download any previous version here](https://wordpress.org/plugins/live-composer-page-builder/developers/)
+
+= 1.2.9 - April 12th 2017 =
+
+= Bug fixes: =
+* Issue [#648](https://github.com/livecomposer/live-composer-page-builder/issues/648): Module Tabs: Shortcodes are getting converted to html
+* Issue [#677](https://github.com/livecomposer/live-composer-page-builder/issues/677): Fixed SyntaxError: JSON.parse
+* Issue [#674](https://github.com/livecomposer/live-composer-page-builder/issues/674): Fixed bug SEO tab in the plugin settings
+
+= Thanks to the next contributors for helping with this update: =
+
+* [urbanimatic](https://github.com/urbanimatic)
+
+
+
+
+
+
+
+
+= 1.2.8 - April 11th 2017 =
+
+= Bug fixes: =
+* Issue [#659](https://github.com/livecomposer/live-composer-page-builder/issues/659): "Show on" feature is missing from the BLOG module
+* Issue [#646](https://github.com/livecomposer/live-composer-page-builder/issues/646): SHORTCODE module not displaying styling options in some cases
+* Issue [#623](https://github.com/livecomposer/live-composer-page-builder/issues/623): Issue with INFOBOX module in IE11
+
+= New: =
+* Issue [#638](https://github.com/livecomposer/live-composer-page-builder/issues/638): New SEO tab in the plugin settings to check how much it will cost to promote website in Google for particular keywords  (you can hide this tab if you have/had any of our premium add-ons installed).
+* Issue [#545](https://github.com/livecomposer/live-composer-page-builder/issues/545): Added Arabic, Thai and all other non-English languages available in Google Fonts directory.
+* Issue [#650](https://github.com/livecomposer/live-composer-page-builder/issues/650): Developers now can add info popup for controls in the section settings 
+
+= Improved: =
+* Issue [#595](https://github.com/livecomposer/live-composer-page-builder/issues/595): Module presets: Added an option to refresh modules with design presets only after the page reload. It can be useful if you have too many modules with the same preset on the page. See *WP Admin > Live Composer > Settings > Performance* panel.
+* Issue [#528](https://github.com/livecomposer/live-composer-page-builder/issues/528): Show submenu dropdown when editing SUBNAV in navigation module
+* Issue [#661](https://github.com/livecomposer/live-composer-page-builder/issues/661): Improve filters for developers to insert custom HTML before and after any module or section.
+* Add BG Image Size option to Text Module
+
+= Thanks to the next contributors for helping with this update: =
+
+* [angeltrendy](https://github.com/angeltrendy)
+* [HYBargouth](https://github.com/HYBargouth)
+* [menachemshapiro](https://github.com/menachemshapiro)
+* [jamesdlow](https://github.com/jamesdlow)
+
+
+
+
+
+
+
+
+= 1.2.7 - March 27th 2017 =
+
+= Bug fixes: =
+* Issue [#645](https://github.com/livecomposer/live-composer-page-builder/issues/645): Fixed bug in THE CONTENT and HTML modules (can't open Functionality tab)
+* Issue [#640](https://github.com/livecomposer/live-composer-page-builder/issues/640): Broken border color = active control in the navigation module
+* Issue [#628](https://github.com/livecomposer/live-composer-page-builder/issues/628): Clicking on the download button now downloads a file instead of opening it in the new tab.
+* Issue [#598](https://github.com/livecomposer/live-composer-page-builder/issues/598): Border controls are broken for active items in the Posts Grid > Filters
+* Issue [#555](https://github.com/livecomposer/live-composer-page-builder/issues/555): Woo Products Carousel showing part of the previous image
+
+= New: =
+* Issue [#642](https://github.com/livecomposer/live-composer-page-builder/issues/642): Added a new filters for developers to insert custom HTML before and after any module or section.
+
+= Improved: =
+* Issue [#626](https://github.com/livecomposer/live-composer-page-builder/issues/626): Possibility to hide promo messages panel in the Live Composer.
+
+= Thanks to the next contributors for helping with this update: =
+
+* [Silcarus](https://github.com/Silcarus)
+* [Janki Gajera](https://github.com/jgajera)
+* [ruut95](https://github.com/ruut95)
+
+
+
+
+
+
+
+
+= 1.2.6 - March 14th 2017 =
+
+= Bug fixes: =
+
+* Issue [#630](https://github.com/livecomposer/live-composer-page-builder/issues/630): Custom setting panels in WP Admin now render properly settings for add-ons (used by developers who create extensions for Live Composer)
+* Issue [#591](https://github.com/livecomposer/live-composer-page-builder/issues/591): Module presets: Heading URL should not be copied in style presets between modules.
+* Issue [#584](https://github.com/livecomposer/live-composer-page-builder/issues/584): Module presets: Problem with styling presets and default values (Social Links Module + Presets)
+* Issue [#621](https://github.com/livecomposer/live-composer-page-builder/issues/621): Module Gallery slider: The "Display the pictures from" feature are limited to few options.
+
+= Thanks to the next contributors for helping with this update: =
+
+* [delorimier](https://github.com/delorimier)
+* [Slobodan Kustrimovic](https://github.com/BobaWebDev)
+* [Karen Totten](https://github.com/ktotten)
+
+
+
+
+
+
+
+
+= 1.2.5 - February 28th 2017 =
+
+= New: =
+
+* Added unique ID for every section. In the future updates it will help to improve the plugin performance.
+* Extension developers now have possibility to create description for the plugin setting panels
+* Added notice in the standard WP Editor to warn users to not make changes in the back-end.
+* New Shortcode module.
+
+= Improved: =
+
+* Added more margin options to the CONTENT module.
+* Issue [#589](https://github.com/livecomposer/live-composer-page-builder/issues/589): Minor optimization in the code generation functions
+* Issue [#577](https://github.com/livecomposer/live-composer-page-builder/issues/577): Improved editor messages: added PHP class
+* Issue [#604](https://github.com/livecomposer/live-composer-page-builder/issues/604): Improve function the_edit_template_link and button 'Disable Editor'
+
+= Bug fixes: =
+
+* Issue [#587](https://github.com/livecomposer/live-composer-page-builder/issues/587): Fixed a broken link in the Live Composer configuration notice.
+* Issue [#583](https://github.com/livecomposer/live-composer-page-builder/issues/583): Fixed broken comment form placeholders.
+* Issue [#581](https://github.com/livecomposer/live-composer-page-builder/issues/581): Inline editor - the wrong button hovers colors in some themes.
+* Issue [#579](https://github.com/livecomposer/live-composer-page-builder/issues/579): Image tab doesn't hide in the Info Box module settings.
+* Issue [#578](https://github.com/livecomposer/live-composer-page-builder/issues/578): Settings group wrapper doesn't hide in the responsive tab.
+* Issue [#574](https://github.com/livecomposer/live-composer-page-builder/issues/574): Infobox > Icon > Margin Right setting doesn't working
+* Issue [#573](https://github.com/livecomposer/live-composer-page-builder/issues/573): HTML element > insert -  textarea = broken module
+* Fixed the notice that appears when LC installed but settings never saved.
+* Updated Meta module to ignore private taxonomies (compatibility with Yoast WP Pro).
+* Make ‘std’ option in custom setting panel work as expected (needed for CPT extension to work properly).
+
+
+
+
+
+
+
+
+= 1.2.4 - February 14th 2017 =
+
+= Bug fixes: =
+
+* [See closed issues for milestone 1.2.4 on GitHub](https://github.com/live-composer/live-composer-page-builder/issues?page=1&q=is%3Aissue+milestone%3A1.2.4+is%3Aclosed)
+
+
+
+
+
+
+
 
 = 1.2.3 - February 4th 2017 =
 

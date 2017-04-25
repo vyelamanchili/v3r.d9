@@ -30,7 +30,7 @@ class DSLC_TP_Gallery_Slider extends DSLC_Module {
 			),
 		);
 
-		$posts_galleries = get_posts( array('post_type' => 'dslc_galleries') );
+		$posts_galleries = get_posts( array( 'numberposts' => -1, 'post_type' => 'dslc_galleries' ) );
 
 		foreach ($posts_galleries as $post) {
 
@@ -421,6 +421,17 @@ class DSLC_TP_Gallery_Slider extends DSLC_Module {
 				'section' => 'styling',
 				'ext' => 'px',
 				'tab' => __( 'Slider', 'live-composer-page-builder' ),
+			),
+			array(
+				'label' => __( 'Align', 'live-composer-page-builder' ),
+				'id' => 'css_slider_align',
+				'std' => '',
+				'type' => 'text_align',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-tp-gallery-slider .dslc-slider-item',
+				'affect_on_change_rule' => 'text-align',
+				'section' => 'styling',
+				'tab' => __( 'slider', 'live-composer-page-builder' ),
 			),
 
 			/**

@@ -1097,7 +1097,7 @@ body.dslca-enabled #dslc-content .dslc-post:first-child .dslc-post-thumb .dslc-o
 
 #dslc-content {
 	position: relative;
-	overflow: hidden; /* Fix: Slide Left Temporarily Extends Page Width; */
+	overflow: hidden; /* Fix Issue 272: Slide Left Temporarily Extends Page Width; */
 }
 
 /**
@@ -1208,5 +1208,9 @@ a img.aligncenter { display: block; margin-left: auto; margin-right: auto }
 	.dslc-in-viewport-check {
 		transform: none !important;
 		opacity: 1 !important;
+	}
+
+	#dslc-content .dslc-info-box-image-alt-inner {
+		width: 100%;
 	}
 }

@@ -210,7 +210,6 @@ body a:focus {
 	-webkit-transition: bottom 0.3s;
 	-moz-transition: bottom 0.3s;
 	transition: bottom 0.3s;
-	margin-bottom: 40px;
 }
 
 .dslca-container,
@@ -3289,12 +3288,14 @@ span.dslca-manage-action:hover * {
  * Tooltip
  */
 
-.dslca-module-edit-field-ttip-content {
+.dslca-module-edit-field-ttip-content,
+.dslca-modules-section-edit-field-ttip-content {
 	display: none;
 }
 
 .dslca-module-edit-field-icon-ttip-hook,
-.dslca-module-edit-field-ttip-hook {
+.dslca-module-edit-field-ttip-hook,
+.dslca-modules-section-edit-field-ttip-hook {
 	background: #3b6fbe;
 	color: #5890e5;
 	cursor: pointer;
@@ -3308,7 +3309,8 @@ span.dslca-manage-action:hover * {
 }
 
 .dslca-module-edit-field-icon-ttip-hook .dslca-icon,
-.dslca-module-edit-field-ttip-hook .dslca-icon {
+.dslca-module-edit-field-ttip-hook .dslca-icon,
+.dslca-modules-section-edit-field-ttip-hook .dslca-icon {
 	position: absolute;
 	left: 5px;
 	font-weight: normal;
@@ -3317,7 +3319,8 @@ span.dslca-manage-action:hover * {
 }
 
 .dslca-module-edit-field-icon-ttip,
-.dslca-module-edit-field-ttip {
+.dslca-module-edit-field-ttip,
+.dslca-modules-section-edit-field-ttip {
 	background: #fff;
 	color: #8a8a8a;
 	font-family: 'Opens Sans', sans-serif;
@@ -3336,7 +3339,8 @@ span.dslca-manage-action:hover * {
 }
 
 	.dslca-module-edit-field-icon-ttip a,
-	.dslca-module-edit-field-ttip a {
+	.dslca-module-edit-field-ttip a,
+	.dslca-modules-section-edit-field-ttip a {
 		color: #5890e5;
 		font-weight: bold;
 		text-decoration: none;
@@ -3345,7 +3349,9 @@ span.dslca-manage-action:hover * {
 	.dslca-module-edit-field-icon-ttip:after,
 	.dslca-module-edit-field-icon-ttip:before,
 	.dslca-module-edit-field-ttip:after,
-	.dslca-module-edit-field-ttip:before {
+	.dslca-module-edit-field-ttip:before,
+	.dslca-modules-section-edit-field-ttip:after,
+	.dslca-modules-section-edit-field-ttip:before {
 		top: 100%;
 		border: solid transparent;
 		content: " ";
@@ -3356,7 +3362,8 @@ span.dslca-manage-action:hover * {
 	}
 
 	.dslca-module-edit-field-icon-ttip:after,
-	.dslca-module-edit-field-ttip:after {
+	.dslca-module-edit-field-ttip:after,
+	.dslca-modules-section-edit-field-ttip:after {
 		border-color: rgba(255, 255, 255, 0);
 		border-top-color: #fff;
 		border-width: 8px;
@@ -3365,7 +3372,8 @@ span.dslca-manage-action:hover * {
 	}
 
 	.dslca-module-edit-field-icon-ttip:before,
-	.dslca-module-edit-field-ttip:before {
+	.dslca-module-edit-field-ttip:before,
+	.dslca-modules-section-edit-field-ttip:before {
 		border-color: rgba(224, 224, 224, 0);
 		border-top-color: #d2d2d2;
 		border-width: 9px;
@@ -3373,7 +3381,8 @@ span.dslca-manage-action:hover * {
 		margin-left: -9px;
 	}
 
-	.dslca-module-edit-field-ttip-close {
+	.dslca-module-edit-field-ttip-close,
+	.dslca-modules-section-edit-field-ttip-close {
 		cursor: pointer;
 		position: absolute;
 		background: #e55f5f;
@@ -4243,20 +4252,28 @@ div#scroller-stopper {
 .dslca-module-edit-field-icon-ttip-hook:hover,
 .dslca-module-edit-field-icon-ttip-hook .dslca-icon,
 .dslca-options-iconbutton:hover,
-.dslca-options-iconbutton .dslca-icon {
+.dslca-options-iconbutton .dslca-icon,
+.dslca-modules-section-edit-field-ttip-hook:hover,
+.dslca-modules-section-edit-field-ttip-hook .dslca-icon,
+.dslca-modules-section-edit-field-ttip-close,
+.dslca-modules-section-edit-field-ttip-close .dslc-icon {
 	cursor: pointer;
 }
 
 .mce-tinymce .mce-btn button:hover {
-	background-color: #e3e3e3;
-    border-color: #ccc;
+	background: #e3e3e3 !important;
+    border-color: #ccc !important;
 }
 
 /**
  * Display the editor messages
  */
 
-.dslca_editor_messages_section {
+.dslca-container.active-message-panel {
+	margin-bottom: 40px;
+}
+
+.dslc-editor-messages-section {
 	position: fixed;
 	bottom: 0;
 	width: 100%;
@@ -4265,10 +4282,11 @@ div#scroller-stopper {
 	color: #fff;
 	font-weight: 100;
 	background: #404a58;
+	display: none;
 }
 
-.dslca_editor_messages_title {
-	float: left;
+.dslc-editor-messages-title {
+    float: left;
     background: #303030;
     color: #fff;
     font-size: 14px;
@@ -4277,18 +4295,65 @@ div#scroller-stopper {
     padding: 12px 17px;
     text-align: center;
     display: block;
-    margin-right: 25px;
+    letter-spacing: 1px;
 }
 
-.dslca_editor_messages_title span {
-	font-weight: 500;
-}
-
-a.dslca_editor_messages_title:hover {
+a.dslc-editor-messages-title:hover {
 	color: #fff;
 }
 
-.dslca_editor_messages_hide {
+#editor-messages {
+    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0 !important;
+    padding: 0 !important;
+    opacity: 0;
+}
+
+#editor-messages li {
+    position: relative;
+    padding: 13px 20px 11px 50px !important;
+    margin: 0;
+    line-height: 1;
+    font-size: 16px;
+}
+
+#editor-messages a {
+    text-decoration: none;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#editor-messages strong {
+	font-weight: 500;
+}
+
+#editor-messages .dslc-icon {
+    font-size: 19px;
+    margin-right: 10px;
+    position: absolute;
+    left: 20px;
+    top: 12px;
+}
+
+#editor-messages .dslc-notice {
+    background: #d90a0a;
+    margin: 0;
+    padding: 12px 17px;
+    font-size: 16px;
+}
+
+#editor-messages .dslc-notice a {
+	position: relative;
+	color: #fff;
+}
+
+.dslc-editor-messages-hide {
 	float: right;
     padding: 12px 17px;
     background: #283546;
@@ -4296,36 +4361,13 @@ a.dslca_editor_messages_title:hover {
     text-align: center;
     display: block;
     color: #fff;
-    display: none;
 }
 
-.dslca_editor_messages_hide .dslc-icon {
+.dslc-editor-messages-hide .dslc-icon {
 	font-size: 17px;
 	margin-right: 10px;
 }
 
-a.dslca_editor_messages_hide:hover {
+a.dslc-editor-messages-hide:hover {
     color: #fff;
-}
-
-.dslca_editor_messages_content {
-	padding: 12px 0;
-	font-size: 14px;
-	text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.dslca_editor_messages_content a {
-	color: #45c0ff;
-	text-decoration: none;
-}
-
-.dslca_editor_messages_content a:hover {
-	text-decoration: underline;
-}
-
-.dslca_editor_messages_content .dslc-icon {
-	font-size: 19px;
-	margin-right: 10px;
 }
