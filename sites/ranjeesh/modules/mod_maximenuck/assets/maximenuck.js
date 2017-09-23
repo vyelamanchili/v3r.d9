@@ -27,6 +27,7 @@
 			menuposition: '0',
 			showactivesubitems: '0',
 			topfixedeffect: '1',
+			topfixedoffset: '',
 			effecttype: 'dropdown'
 		};
 
@@ -63,7 +64,15 @@
 					$(document.body).attr('data-margintop', $(document.body).css('margin-top'));
 					maximenuObj.menuHeight = $(this).height();
 					$(window).bind('scroll', function() {
-						if ($(window).scrollTop() > menuy && !maximenuObj.hasClass('maximenufixed')) {
+						var topfixedoffset = menuy;
+						if (defaults.topfixedoffset) {
+							if (isNumeric(defaults.topfixedoffset)) {
+								topfixedoffset = menuy + parseInt(defaults.topfixedoffset);
+							} else {
+								topfixedoffset = parseInt($(defaults.topfixedoffset).offset().top);
+							}
+						}
+						if ($(window).scrollTop() > topfixedoffset && !maximenuObj.hasClass('maximenufixed')) {
 							if (defaults.topfixedeffect == '0') {
 								maximenuObj.after('<div id="'+maximenuObj.attr('id')+'tmp"></div>')
 //								$('#'+maximenuObj.attr('id')+'tmp').css('visibility', 'hidden').html(maximenuObj.html());
@@ -82,6 +91,10 @@
 					});
 			} else if (defaults.menuposition == 'bottomfixed') {
 				$(this).addClass('maximenufixed').find('ul.maximenuck').css('position', 'static');
+			}
+
+			function isNumeric(n) {
+				return !isNaN(parseFloat(n)) && isFinite(n);
 			}
 
 			function openMaximenuck(el) {
@@ -539,7 +552,7 @@
 							showSubmenuck(el);
 						});
 
-						$('> div > .maxiclose', el).click(function() {
+						$('> .maxiclose', el.submenu).click(function() {
 							hideSubmenuck(el);
 						});
 					} else if (itembehavior == 'clickclose') {

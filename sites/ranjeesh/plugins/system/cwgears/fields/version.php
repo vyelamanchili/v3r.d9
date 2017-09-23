@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package             Joomla
  * @subpackage          CoalaWeb Version Element
  * @author              Steven Palmer
- * @author url          http://coalaweb.com
+ * @author url          https://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
  * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html>.
  */
 require_once (JPATH_SITE . '/plugins/system/cwgears/fields/base.php');
 
@@ -104,6 +104,15 @@ class CWElementVersion extends CWElement {
                     $current = CwGearsLatestversion::getCurrent('cw-traffic-'. $type, $version );
                 }
                 break;
+            case "com_coalawebmembers":
+                $version = (COM_CWMEMBERS_VERSION);
+                $date = (COM_CWMEMBERS_DATE);
+                $ispro = (COM_CWMEMBERS_PRO);
+                $type = $ispro ? 'pro' : 'core';
+                if (class_exists('CwGearsLatestversion')) {
+                    $current = CwGearsLatestversion::getCurrent('cw-members-'. $type, $version );
+                }
+                break;
             case "com_coalawebmarket":
                 $version = (COM_CWMARKET_VERSION);
                 $date = (COM_CWMARKET_DATE);
@@ -176,7 +185,7 @@ class CWElementVersion extends CWElement {
                     $current = CwGearsLatestversion::getCurrent('cw-github-'. $type, $version );
                 }
                 break;
-            case "plg_content_cwversions":
+            case "plg_content_coalawebversions":
                 $version = (PLG_CWVERSIONS_VERSION);
                 $date = (PLG_CWVERSIONS_DATE);
                 $ispro = (PLG_CWVERSIONS_PRO);
@@ -212,7 +221,7 @@ class CWElementVersion extends CWElement {
                     $current = CwGearsLatestversion::getCurrent('cw-users-'. $type, $version );
                 }
                 break;
-            case "plg_content_cwdate":
+            case "plg_content_coalawebdate":
                 $version = (PLG_CWDATE_VERSION);
                 $date = (PLG_CWDATE_DATE);
                 $ispro = (PLG_CWDATE_PRO);
@@ -238,18 +247,18 @@ class CWElementVersion extends CWElement {
         }
 
         return '<div class="cw-message-block">'
-                . '<div class="cw-module">'
-                . '<h3>' . JText::_('PLG_CWGEARS_RELEASE_TITLE') . '</h3>'
-                . '<ul class="cw_module">'
-                . '<li>' . JText::_('PLG_CWGEARS_FIELD_RELEASE_TYPE_LABEL') . ' <strong>' . $ispro . '</strong></li>'
-                . '<li>' . JText::_('PLG_CWGEARS_FIELD_RELEASE_VERSION_LABEL') . ' <strong>' . $version . '</strong></li>'
-                . '<li>' . JText::_('PLG_CWGEARS_FIELD_RELEASE_DATE_LABEL') . ' <strong>' . $date . '</strong></li>'
-                . '</ul>'
-                . '<h3>' . JText::_('PLG_CWGEARS_LATEST_RELEASE_TITLE') . '</h3>'
-                . '<ul class="cw_module">'
-                . '<li>' . JText::_('PLG_CWGEARS_FIELD_RELEASE_VERSION_LABEL') . ' <strong>' . $current['remote'] . '</strong> ' . $current['update'] . '</li>'
-                . '</ul>'
-                . '</div></div>';
+            . '<div class="cw-module">'
+            . '<h3>' . JText::_('PLG_CWGEARS_RELEASE_TITLE') . '</h3>'
+            . '<ul class="cw_module">'
+            . '<li>' . JText::_('PLG_CWGEARS_FIELD_RELEASE_TYPE_LABEL') . ' <strong>' . $ispro . '</strong></li>'
+            . '<li>' . JText::_('PLG_CWGEARS_FIELD_RELEASE_VERSION_LABEL') . ' <strong>' . $version . '</strong></li>'
+            . '<li>' . JText::_('PLG_CWGEARS_FIELD_RELEASE_DATE_LABEL') . ' <strong>' . $date . '</strong></li>'
+            . '</ul>'
+            . '<h3>' . JText::_('PLG_CWGEARS_LATEST_RELEASE_TITLE') . '</h3>'
+            . '<ul class="cw_module">'
+            . '<li>' . JText::_('PLG_CWGEARS_FIELD_RELEASE_VERSION_LABEL') . ' <strong>' . $current['remote'] . '</strong> ' . $current['update'] . '</li>'
+            . '</ul>'
+            . '</div></div>';
     }
 
 }

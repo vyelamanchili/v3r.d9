@@ -4,7 +4,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package             Joomla
  * @subpackage          CoalaWeb Page Module
  * @author              Steven Palmer
- * @author url          http://coalaweb.com
+ * @author url          https://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
  * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 jimport('joomla.filesystem.file');
@@ -41,8 +41,14 @@ class CoalawebPageHelper {
         
         return implode("\n", $output);
     }
-    
-    public static function checkDependencies() {
+
+    /**
+     * Check extension dependencies are available
+     *
+     * @return boolean
+     */
+    public static function checkDependencies()
+    {
         $checkOk = false;
         $minVersion = '0.1.5';
 
@@ -54,17 +60,18 @@ class CoalawebPageHelper {
 
         $loadcount_php = JPATH_SITE . '/plugins/system/cwgears/helpers/loadcount.php';
         if (
-                JPluginHelper::isEnabled('system', 'cwgears', true) == true &&
-                JFile::exists($version_php) &&
-                version_compare(PLG_CWGEARS_VERSION, $minVersion, 'ge') &&
-                JFile::exists($loadcount_php)) {
+            JPluginHelper::isEnabled('system', 'cwgears', true) == true &&
+            JFile::exists($version_php) &&
+            version_compare(PLG_CWGEARS_VERSION, $minVersion, 'ge') &&
+            JFile::exists($loadcount_php)
+        ) {
 
             if (!class_exists('CwGearsHelperLoadcount')) {
-                include_once $loadcount_php;
+                JLoader::register('CwGearsHelperLoadcount', $loadcount_php);
             }
 
             $checkOk = true;
-            
+
         }
 
         return $checkOk;

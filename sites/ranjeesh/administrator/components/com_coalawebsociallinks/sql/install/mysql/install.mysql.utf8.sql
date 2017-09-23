@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `#__cwsocial_metafields` (
   `menu_id` int(11) unsigned NULL COMMENT 'FK to the #__menu table.',
   `attribs` longtext NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE IF NOT EXISTS `#__cwsocial_count` (
@@ -34,4 +34,4 @@ CREATE TABLE IF NOT EXISTS `#__cwsocial_count` (
   `publish_up` datetime NOT NULL,
   `publish_down` datetime NOT NULL,
    PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;

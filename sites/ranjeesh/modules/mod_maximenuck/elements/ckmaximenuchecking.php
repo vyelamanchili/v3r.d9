@@ -17,7 +17,7 @@ class JFormFieldCkmaximenuchecking extends JFormField {
 
 	protected $type = 'ckmaximenuchecking';
 
-	protected function getLabel() {
+	protected function getInput() {
 		$imgpath = JUri::root(true) . '/modules/mod_maximenuck/elements/images/';
 		$js_checking = '';
 
@@ -93,6 +93,8 @@ class JFormFieldCkmaximenuchecking extends JFormField {
 	margin: 3px 0;
     text-align: left;
     text-decoration: none;
+	min-width: 300px;
+	box-sizing: border-box;
     }
 	.maximenuckchecking img {
 	margin: 5px;
@@ -114,7 +116,7 @@ class JFormFieldCkmaximenuchecking extends JFormField {
 		return $html;
 	}
 
-	protected function getInput() {
+	protected function getLabel() {
 
 		return '';
 	}

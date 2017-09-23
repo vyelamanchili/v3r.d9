@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package             Joomla
  * @subpackage          CoalaWeb Social Links Component
  * @author              Steven Palmer
- * @author url          http://coalaweb.com
+ * @author url          https://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
  * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 class SocialShareCount {

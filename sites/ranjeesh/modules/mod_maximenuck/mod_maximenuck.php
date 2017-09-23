@@ -364,6 +364,7 @@ if ($usejavascript && $params->get('layout', 'default') != '_:flatlist' && $para
 			. "menuposition : '" . $menuposition . "',"
 			. "effecttype : '" . $effecttype . "',"
 			. "topfixedeffect : '" . $params->get('topfixedeffect', '1') . "',"
+			. "topfixedoffset : '" . $params->get('topfixedoffset', '') . "',"
 			. "fxduration : " . $fxduration . "});"
 			. "});";
 

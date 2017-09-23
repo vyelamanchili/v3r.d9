@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package             Joomla
  * @subpackage          CoalaWeb Tweet Module
  * @author              Steven Palmer
- * @author url          http://coalaweb.com
+ * @author url          https://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
  * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
@@ -22,24 +22,23 @@ defined('_JEXEC') or die('Restricted access');
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 require_once dirname(__FILE__) . '/helper.php';
 
-$lang = JFactory::getLanguage();
+// Load the language files
+$jlang = JFactory::getLanguage();
 
-//Load the module language strings
-if ($lang->getTag() != 'en-GB') {
-    $lang->load('mod_coalawebtweet', JPATH_SITE, 'en-GB');
-}
-$lang->load('mod_coalawebtweet', JPATH_SITE, null, 1);
+// Module
+$jlang->load('mod_coalawebtweet', JPATH_SITE, 'en-GB', true);
+$jlang->load('mod_coalawebtweet', JPATH_SITE, $jlang->getDefault(), true);
+$jlang->load('mod_coalawebtweet', JPATH_SITE, null, true);
 
-//Load the component language strings
-if ($lang->getTag() != 'en-GB') {
-    $lang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, 'en-GB');
-}
-$lang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, null, 1);
+// Component
+$jlang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, 'en-GB', true);
+$jlang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, $jlang->getDefault(), true);
+$jlang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, null, true);
 
 //Unique ID
 $uniqueId = 'cwtweet' . $module->id;

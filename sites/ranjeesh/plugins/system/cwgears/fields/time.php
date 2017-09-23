@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package             Joomla
  * @subpackage          CoalaWeb Time Element
  * @author              Steven Palmer
- * @author url          http://coalaweb.com
+ * @author url          https://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
  * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
@@ -22,12 +22,11 @@ defined('_JEXEC') or die('Restricted access');
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html>.
  */
 
 // Add CSS and JS some are local to stop potential mix content errors
 $gearsMedia = JURI::root() . 'media/coalaweb/plugins/system/gears/';
-JHtml::stylesheet('https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css');
 JHtml::stylesheet($gearsMedia . 'css/bootstrap-datetimepicker.min.css');
 JHtml::script($gearsMedia . 'js/bootstrap-datetimepicker.min.js');
 
@@ -56,7 +55,7 @@ class JFormFieldTime extends JFormField {
                 . 'placeholder="' . $this->hint . '">'
                 . '</input>';
         $output[] = '<span class="add-on">';
-        $output[] = '<i data-time-icon="icon-time"></i>';
+        $output[] = '<i data-time-icon="icon-clock"></i>';
         $output[] = '</span>';
         $output[] = '</div>';
 

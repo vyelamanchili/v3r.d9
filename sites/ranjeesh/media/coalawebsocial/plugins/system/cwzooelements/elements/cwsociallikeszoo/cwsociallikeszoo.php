@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package             Joomla
  * @subpackage          CoalaWeb Zoo Elements Plugin
  * @author              Steven Palmer
- * @author url          http://coalaweb.com
+ * @author url          https://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
  * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 class ElementCwsociallikeszoo extends Element implements iSubmittable {
 
@@ -227,7 +227,7 @@ class ElementCwsociallikeszoo extends Element implements iSubmittable {
             if ($linkedin) {
                  $html[] = '<script type="text/javascript" src="//platform.linkedin.com/in.js">'
                         . 'lang:' . $locale
-                        . '</script>'
+                        . '</script> '
                         . '<li class="cwsl-zoo-sli"><script type="IN/Share"'
                         . ' data-url="' . htmlspecialchars($item_route) . '"'
                         . ' ' . $li_layout . '>'
@@ -238,7 +238,7 @@ class ElementCwsociallikeszoo extends Element implements iSubmittable {
             if ($pinterest) {
                 $pinDesc = str_replace(' ', '%20', $alt);
                 $html[] = '<li class="cwsl-zoo-pi">'
-                        . '<a href="//pinterest.com/pin/create/button/?url=' . htmlspecialchars($item_route) . '&amp;media=' . $image_path . '&amp;description=' . $pinDesc . '"'
+                        . '<a href="//pinterest.com/pin/create/button/?url=' . htmlspecialchars($item_route) . '&amp;media=' . $image_path . '&amp;description=' . str_replace(' ', '&nbsp;', $pinDesc) . '"'
                         . ' data-pin-config="' . $pi_layout . '"'
                         . ' data-pin-do="buttonPin">'
                         . '<img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" title="Pin It" alt="Pinterest" />'
@@ -280,7 +280,7 @@ class ElementCwsociallikeszoo extends Element implements iSubmittable {
                 $emailBody = implode("%0D%0A", $body);
                 
                 $html[] = '<li class="cwsl-zoo-mc">';
-                $html[] = '<a class="cw-button cw-button-primary cw-button-mini" href="mailto:?subject=' . JText::_("COM_CWSOCIALLINKS_MAIL_MSG_INTRO") . '&amp;body=' . $emailBody . '" title="' . JText::sprintf("COM_CWSOCIALLINKS_SHAREPLG_EMAIL", "Email") . '" ><i class="cw-icon-envelope"></i> ' . JText::_("COM_CWSOCIALLINKS_BTN_MAIL") . '</a>';
+                $html[] = '<a class="cw-button cw-button-primary cw-button-mini" href="mailto:?subject=' . str_replace(' ', '&nbsp;', JText::_("COM_CWSOCIALLINKS_MAIL_MSG_INTRO")) . '&amp;body=' . str_replace(' ', '&nbsp;', $emailBody) . '" title="' . JText::sprintf("COM_CWSOCIALLINKS_SHAREPLG_EMAIL", "Email") . '" ><i class="cw-icon-envelope"></i> ' . JText::_("COM_CWSOCIALLINKS_BTN_MAIL") . '</a>';
                 $html[] = '</li>';
             }
             

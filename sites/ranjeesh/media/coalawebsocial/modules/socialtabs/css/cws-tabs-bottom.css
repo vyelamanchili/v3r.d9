@@ -1,6 +1,6 @@
 /**
  * @author              Steven Palmer
- * @author url          http://coalaweb.com
+ * @author url          https://coalaweb.com
  * @author email        support@coalaweb.com
  * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
  */
@@ -9,7 +9,7 @@ ul.cws-tabs.bottom li a {
     width: 48px;
     height: 48px;
     color: transparent !important;
-    background-position: center center;
+/*    background-position: center center;*/
 }
 
 ul.cws-tabs.bottom {

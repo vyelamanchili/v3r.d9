@@ -4,7 +4,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package             Joomla
  * @subpackage          CoalaWeb Page Module
  * @author              Steven Palmer
- * @author url          http://coalaweb.com
+ * @author url          https://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
  * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
@@ -20,14 +20,14 @@ defined('_JEXEC') or die('Restricted access');
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 ?>
 <?php if ($moduleClassSfx) : ?>
 <div class="custom<?php echo $moduleClassSfx ?>">
 <?php endif ?>
     <div class="cwpage<?php echo $module_width ?>" id="<?php echo $module_unique_id ?>" style="<?php echo $moduleHeight. ' ' . $moduleAlign  ?>">
-        <div id="page-wrapper">
+        <div id="page-wrapper-<?php echo $module->id ?>">
             <?php
             echo CoalawebPageHelper::getPageHtml5(
                     $fbPageLink, $fbWidth, $fbHeight, $fbFacepile, $fbCover, $fbPosts)

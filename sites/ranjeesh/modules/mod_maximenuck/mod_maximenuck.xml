@@ -11,7 +11,7 @@
 	<license>GNU/GPL 3 http://www.gnu.org/licenses/gpl.html</license>
 	<authorEmail>ced1870@gmail.com</authorEmail>
 	<authorUrl>http://www.joomlack.fr</authorUrl>
-	<version>8.2.3</version>
+	<version>8.2.5</version>
 	<description>MOD_MAXIMENUCK_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_maximenuck">mod_maximenuck.php</filename>
@@ -298,6 +298,15 @@
 					description="MOD_MAXIMENUCK_FIXED_MAXWIDTH_DESC"
 					icon="width.png"
 					showon="menuposition:topfixed,bottomfixed"
+					suffix="" />
+				<field
+					name="topfixedoffset"
+					type="cktext"
+					default=""
+					label="MOD_MAXIMENUCK_FIXED_OFFSET_LABEL"
+					description="MOD_MAXIMENUCK_FIXED_OFFSET_DESC"
+					icon="hourglass_add.png"
+					showon="menuposition:topfixed"
 					suffix="" />
 				<field
 					name="topfixedeffect"

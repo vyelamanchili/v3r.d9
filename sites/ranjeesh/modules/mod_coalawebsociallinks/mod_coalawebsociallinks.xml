@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.2" client="site" method="upgrade">
     <name>MOD_COALAWEBSOCIALLINKS</name>
-    <creationDate>2017-01-28</creationDate>
+    <creationDate>2017-07-03</creationDate>
     <author>Steven Palmer</author>
     <authorEmail>support@coalaweb.com</authorEmail>
-    <authorUrl>http://coalaweb.com</authorUrl>
+    <authorUrl>https://coalaweb.com</authorUrl>
     <copyright>Copyright (c) 2017 Steven Palmer All rights reserved.</copyright>
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <version>0.3.5</version>
+    <version>0.4.1</version>
     <description>MOD_COALAWEBSOCIALLINKS_DESCRIPTION</description>
         
     <languages folder="language">
@@ -113,8 +113,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAY_BSEC_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAY_BSEC_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -124,8 +124,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAY_FSEC_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAY_FSEC_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -135,8 +135,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAY_BORDERS_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAY_BORDERS_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 <field 
                     name="border_width" 
@@ -190,8 +190,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_POPUP_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_POPUP_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 
                 <field 
@@ -201,8 +201,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_POPUP_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_POPUP_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
 
             </fieldset>
@@ -230,8 +230,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_ALTGOOGLE_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_ALTGOOGLE_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 
             </fieldset>
@@ -296,8 +296,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTITLE_BM_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTITLE_BM_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -322,8 +322,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTEXT_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTEXT_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 
                 <field 
@@ -367,8 +367,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYFACEBOOK_BM_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYFACEBOOK_BM_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>  
                                 
                 <field
@@ -378,8 +378,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYDELICIOUS_BM_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYDELICIOUS_BM_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -389,8 +389,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYDIGG_BM_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYDIGG_BM_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                                                         
                 <field 
@@ -400,8 +400,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYGOOGLE_BM_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYGOOGLE_BM_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -411,8 +411,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYLINKEDIN_BM_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYLINKEDIN_BM_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -422,8 +422,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYSTUMBLEUPON_BM_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYSTUMBLEUPON_BM_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>             
                      
                 <field 
@@ -433,8 +433,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTWITTER_BM_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTWITTER_BM_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 
                 <field 
@@ -444,8 +444,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_INCLUDE_TWITTER_JS_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_INCLUDE_TWITTER_JS_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field> 
                         
                 <field 
@@ -455,8 +455,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYREDDIT_BM_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYREDDIT_BM_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -466,8 +466,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYNEWSVINE_BM_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYNEWSVINE_BM_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -477,8 +477,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYEMAIL_BM_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYEMAIL_BM_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 
                 <field 
@@ -488,8 +488,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYPINTEREST_BM_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYPINTEREST_BM_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 
                 <field 
@@ -505,8 +505,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAY_WHATSAPP_BM_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAY_WHATSAPP_BM_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
 
             </fieldset>
@@ -535,8 +535,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTITLE_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTITLE_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 
                 <field 
@@ -561,8 +561,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTEXT_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTEXT_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 
                 <field 
@@ -594,8 +594,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYANDROID_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYANDROID_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -620,8 +620,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYBEHANCE_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYBEHANCE_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -646,8 +646,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYBLOGGER_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYBLOGGER_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -672,8 +672,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYCONTACT_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYCONTACT_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 
                 <field 
@@ -685,6 +685,18 @@
                     <option value="self">MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_OPT1</option>
                     <option value="blank">MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_OPT2</option>
                     <option value="anchor">MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_OPT3</option>
+                </field>
+
+                <field
+                        name="root_contact"
+                        type="radio"
+                        class="btn-group"
+                        default="http://"
+                        showon="link_target_contact:self,blank"
+                        label="MOD_COALAWEBSOCIALLINKS_FIELD_DOMAIN_ROOT_LABEL"
+                        description="MOD_COALAWEBSOCIALLINKS_FIELD_DOMAIN_ROOT_DESC">
+                    <option value="http://">MOD_COALAWEBSOCIALLINKS_FIELD_DOMAIN_ROOT_OPT1</option>
+                    <option value="https://">MOD_COALAWEBSOCIALLINKS_FIELD_DOMAIN_ROOT_OPT2</option>
                 </field>
                         
                 <field 
@@ -709,8 +721,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYDRIBBLE_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYDRIBBLE_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -735,8 +747,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYDEVIANTART_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYDEVIANTART_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -761,8 +773,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYDESIGNMOO_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYDESIGNMOO_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -787,8 +799,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYEBAY_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYEBAY_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -819,8 +831,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYFACEBOOK_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYFACEBOOK_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -845,8 +857,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYFLICKR_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYFLICKR_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -871,8 +883,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYGOOGLEPLUS_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYGOOGLEPLUS_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -897,8 +909,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYGITHUB_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYGITHUB_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -923,8 +935,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYINSTAGRAM_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYINSTAGRAM_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -955,8 +967,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYLINKEDIN_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYLINKEDIN_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -981,8 +993,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYLASTFM_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYLASTFM_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -1007,8 +1019,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYMYSPACE_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYMYSPACE_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -1033,8 +1045,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYMAIL_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYMAIL_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -1065,8 +1077,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYPINTEREST_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYPINTEREST_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -1091,8 +1103,19 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYRSS_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYRSS_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field
+                        name="root_rss"
+                        type="radio"
+                        class="btn-group"
+                        default="http://"
+                        label="MOD_COALAWEBSOCIALLINKS_FIELD_DOMAIN_ROOT_LABEL"
+                        description="MOD_COALAWEBSOCIALLINKS_FIELD_DOMAIN_ROOT_DESC">
+                    <option value="http://">MOD_COALAWEBSOCIALLINKS_FIELD_DOMAIN_ROOT_OPT1</option>
+                    <option value="https://">MOD_COALAWEBSOCIALLINKS_FIELD_DOMAIN_ROOT_OPT2</option>
                 </field>
                         
                 <field 
@@ -1117,8 +1140,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYSPOTIFY_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYSPOTIFY_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -1143,8 +1166,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTRIPADVISOR_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTRIPADVISOR_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -1169,8 +1192,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTWITTER_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTWITTER_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -1195,8 +1218,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTUENTI_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTUENTI_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -1221,8 +1244,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTUMBLR_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYTUMBLR_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -1253,8 +1276,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYVIMEO_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYVIMEO_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -1279,8 +1302,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYYOUTUBE_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYYOUTUBE_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -1305,8 +1328,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYXING_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYXING_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -1337,8 +1360,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYCUSTOM_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_DISPLAYCUSTOM_F_DESC" >
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                         
                 <field 
@@ -1348,6 +1371,29 @@
                     default="" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_TEXTCUSTOM_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_TEXTCUSTOM_F_DESC" />
+
+                <field
+                        name="link_target_customone"
+                        type="list"
+                        default="blank"
+                        label="MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_LABEL"
+                        description="MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_DESC" >
+                    <option value="self">MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_OPT1</option>
+                    <option value="blank">MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_OPT2</option>
+                    <option value="anchor">MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_OPT3</option>
+                </field>
+
+                <field
+                        name="root_customone"
+                        type="radio"
+                        class="btn-group"
+                        default="http://"
+                        showon="link_target_customone:self,blank"
+                        label="MOD_COALAWEBSOCIALLINKS_FIELD_DOMAIN_ROOT_LABEL"
+                        description="MOD_COALAWEBSOCIALLINKS_FIELD_DOMAIN_ROOT_DESC">
+                    <option value="http://">MOD_COALAWEBSOCIALLINKS_FIELD_DOMAIN_ROOT_OPT1</option>
+                    <option value="https://">MOD_COALAWEBSOCIALLINKS_FIELD_DOMAIN_ROOT_OPT2</option>
+                </field>
                         
                 <field 
                     name="link_customone" 
@@ -1357,17 +1403,6 @@
                     default=""                    
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKCUSTOM_F_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKCUSTOM_F_DESC" />
-                
-                <field 
-                    name="link_target_customone" 
-                    type="list" 
-                    default="blank" 
-                    label="MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_LABEL" 
-                    description="MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_DESC" >
-                    <option value="self">MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_OPT1</option>
-                    <option value="blank">MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_OPT2</option>
-                    <option value="anchor">MOD_COALAWEBSOCIALLINKS_FIELD_LINK_TARGET_OPT3</option>
-                </field>
                         
                 <field 
                     name="icon_customone" 
@@ -1419,8 +1454,8 @@
                     default="1" 
                     label="MOD_COALAWEBSOCIALLINKS_LOADCSS_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_LOADCSS_DESC">
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 
                 <field 
@@ -1430,8 +1465,8 @@
                     default="0" 
                     label="MOD_COALAWEBSOCIALLINKS_LINKTEXT_ON_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_LINKTEXT_ON_DESC">
-                    <option value="0">CW_NO</option>
-                    <option value="1">CW_YES</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 
                 <field 
@@ -1441,8 +1476,8 @@
                     default="" 
                     label="MOD_COALAWEBSOCIALLINKS_FIELD_LINKNOFOLLOW_LABEL" 
                     description="MOD_COALAWEBSOCIALLINKS_FIELD_LINKNOFOLLOW_DESC" >
-                    <option value="">CW_NO</option>
-                    <option value="nofollow">CW_YES</option>
+                    <option value="">JNO</option>
+                    <option value="nofollow">JYES</option>
                 </field>
 
             </fieldset>

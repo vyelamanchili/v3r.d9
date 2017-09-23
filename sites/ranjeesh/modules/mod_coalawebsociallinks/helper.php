@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package             Joomla
  * @subpackage          CoalaWeb Social Links Module
  * @author              Steven Palmer
- * @author url          http://coalaweb.com
+ * @author url          https://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
  * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 jimport('joomla.filesystem.file');
@@ -33,7 +33,7 @@ class ModCoalawebSocialLinksHelper {
     function getDeliciousBookmark($title, $link, $size, $linknofollow, $popup, $linkText) {
         $linkTextOn = ($linkText ? JText::sprintf("MOD_COALAWEBSOCIALLINKS_BOOKMARK", "Delicious") : '');
         $output[] = '<li>';
-        $output[] = '<a class="'.$popup.'delicious' . $size . '" href="http://del.icio.us/post?v=2&amp;url=' . $link . '&amp;title=' . $title . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_BOOKMARK", "Delicious") .'" ' . $linknofollow . ' target="_blank">' . $linkTextOn .'</a>';
+        $output[] = '<a class="'.$popup.'delicious' . $size . '" href="https://del.icio.us/post?v=2&amp;url=' . $link . '&amp;title=' . $title . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_BOOKMARK", "Delicious") .'" ' . $linknofollow . ' target="_blank">' . $linkTextOn .'</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -104,7 +104,7 @@ class ModCoalawebSocialLinksHelper {
     function getRedditBookmark($title, $link, $size, $linknofollow, $popup, $linkText) {
         $linkTextOn = ($linkText ? JText::sprintf("MOD_COALAWEBSOCIALLINKS_BOOKMARK", "Reddit") : '');
         $output[] = '<li>';
-        $output[] = '<a class="' . $popup . 'reddit' . $size . '" href="http://reddit.com/submit?url=' . $link . '&amp;title=' . $title . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_BOOKMARK", "Reddit") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
+        $output[] = '<a class="' . $popup . 'reddit' . $size . '" href="https://reddit.com/submit?url=' . $link . '&amp;title=' . $title . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_BOOKMARK", "Reddit") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -130,7 +130,7 @@ class ModCoalawebSocialLinksHelper {
         $emailBody = implode("%0D%0A", $body);
         
         $output[] = '<li>';
-        $output[] = '<a class="gmail' . $size . '" href="mailto:?subject=' . JText::_("COM_CWSOCIALLINKS_MAIL_MSG_INTRO") . '&amp;body=' . $emailBody . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_EMAIL_BM", "Email") . '" >' . $linkTextOn . '</a>';
+        $output[] = '<a class="gmail' . $size . '" href="mailto:?subject=' . str_replace(' ', '&nbsp;', JText::_("COM_CWSOCIALLINKS_MAIL_MSG_INTRO")) . '&amp;body=' . str_replace(' ', '&nbsp;', $emailBody) . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_EMAIL_BM", "Email") . '" >' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -179,7 +179,7 @@ class ModCoalawebSocialLinksHelper {
     function getRssFollow($linkrss, $size, $linknofollow, $popupFollow, $linkText) {
         $linkTextOn = ($linkText ? JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "RSS") : '');
         $output[] = '<li>';
-        $output[] = '<a class="' . $popupFollow . 'rss' . $size . '" href="http://' . $linkrss . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "RSS") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
+        $output[] = '<a class="' . $popupFollow . 'rss' . $size . '" href="' . $linkrss . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "RSS") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -235,7 +235,7 @@ class ModCoalawebSocialLinksHelper {
     function getMailFollow($linkmail, $size, $linkText) {
         $linkTextOn = ($linkText ? JText::sprintf("MOD_COALAWEBSOCIALLINKS_EMAIL_F", "Email") : '');
         $output[] = '<li style="text-indent: 0px !important;">';
-        $output[] = ' <a class="gmail' . $size . '" href="mailto:' . $linkmail . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_EMAIL_F", "Email") . '" rel="nofollow" >' . $linkTextOn . '</a>';
+        $output[] = ' <a class="gmail' . $size . '" href="mailto:' . htmlspecialchars($linkmail) . '" title="' . htmlentities(JText::sprintf("MOD_COALAWEBSOCIALLINKS_EMAIL_F", "Email")) . '" rel="nofollow" >' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -243,7 +243,7 @@ class ModCoalawebSocialLinksHelper {
     function getEbayFollow($linkebay, $size, $linknofollow, $popupFollow, $linkText) {
         $linkTextOn = ($linkText ? JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Ebay") : '');
         $output[] = '<li>';
-        $output[] = ' <a class="' . $popupFollow . 'ebay' . $size . '" href="http://' . $linkebay . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Ebay") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
+        $output[] = ' <a class="' . $popupFollow . 'ebay' . $size . '" href="https://' . $linkebay . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Ebay") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -259,7 +259,7 @@ class ModCoalawebSocialLinksHelper {
     function getBehanceFollow($linkbehance, $size, $linknofollow, $popupFollow, $linkText) {
         $linkTextOn = ($linkText ? JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Behance") : '');
         $output[] = '<li>';
-        $output[] = ' <a class="' . $popupFollow . 'behance' . $size . '" href="http://' . $linkbehance . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Behance") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
+        $output[] = ' <a class="' . $popupFollow . 'behance' . $size . '" href="https://' . $linkbehance . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Behance") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -267,7 +267,7 @@ class ModCoalawebSocialLinksHelper {
     function getDesignmooFollow($linkdesignmoo, $size, $linknofollow, $popupFollow, $linkText) {
         $linkTextOn = ($linkText ? JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Designmoo") : '');
         $output[] = '<li>';
-        $output[] = ' <a class="' . $popupFollow . 'designmoo' . $size . '" href="http://' . $linkdesignmoo . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Designmoo") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
+        $output[] = ' <a class="' . $popupFollow . 'designmoo' . $size . '" href="https://' . $linkdesignmoo . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Designmoo") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -283,7 +283,7 @@ class ModCoalawebSocialLinksHelper {
     function getLastfmFollow($linklastfm, $size, $linknofollow, $popupFollow, $linkText) {
         $linkTextOn = ($linkText ? JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Last.fm") : '');
         $output[] = '<li>';
-        $output[] = ' <a class="' . $popupFollow . 'lastfm' . $size . '" href="http://' . $linklastfm . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Last.fm") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
+        $output[] = ' <a class="' . $popupFollow . 'lastfm' . $size . '" href="https://' . $linklastfm . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Last.fm") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -299,7 +299,7 @@ class ModCoalawebSocialLinksHelper {
     function getTumblrFollow($linktumblr, $size, $linknofollow, $popupFollow, $linkText) {
         $linkTextOn = ($linkText ? JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Tumblr") : '');
         $output[] = '<li>';
-        $output[] = ' <a class="' . $popupFollow . 'tumblr' . $size . '" href="http://' . $linktumblr . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Tumblr") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
+        $output[] = ' <a class="' . $popupFollow . 'tumblr' . $size . '" href="https://' . $linktumblr . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Tumblr") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -307,7 +307,7 @@ class ModCoalawebSocialLinksHelper {
     function getInstagramFollow($linkinstagram, $size, $linknofollow, $popupFollow, $linkText) {
         $linkTextOn = ($linkText ? JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Instagram") : '');
         $output[] = '<li>';
-        $output[] = ' <a class="' . $popupFollow . 'instagram' . $size . '" href="http://' . $linkinstagram . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Instagram") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
+        $output[] = ' <a class="' . $popupFollow . 'instagram' . $size . '" href="https://' . $linkinstagram . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Instagram") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -331,7 +331,7 @@ class ModCoalawebSocialLinksHelper {
     function getBloggerFollow($linkblogger, $size, $linknofollow, $popupFollow, $linkText) {
         $linkTextOn = ($linkText ? JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Blogger") : '');
         $output[] = '<li>';
-        $output[] = ' <a class="' . $popupFollow . 'blogger' . $size . '" href="http://' . $linkblogger . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Blogger") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
+        $output[] = ' <a class="' . $popupFollow . 'blogger' . $size . '" href="https://' . $linkblogger . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Blogger") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -339,7 +339,7 @@ class ModCoalawebSocialLinksHelper {
     function getTripadvisorFollow($linktripadvisor, $size, $linknofollow, $popupFollow, $linkText) {
         $linkTextOn = ($linkText ? JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Tripadvisor") : '');
         $output[] = '<li>';
-        $output[] = ' <a class="' . $popupFollow . 'tripadvisor' . $size . '" href="http://' . $linktripadvisor . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Tripadvisor") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
+        $output[] = ' <a class="' . $popupFollow . 'tripadvisor' . $size . '" href="https://' . $linktripadvisor . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Tripadvisor") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -347,7 +347,7 @@ class ModCoalawebSocialLinksHelper {
     function getAndroidFollow($linkandroid, $size, $linknofollow, $popupFollow, $linkText) {
         $linkTextOn = ($linkText ? JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Android") : '');
         $output[] = '<li>';
-        $output[] = ' <a class="' . $popupFollow . 'android' . $size . '" href="http://' . $linkandroid . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Android") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
+        $output[] = ' <a class="' . $popupFollow . 'android' . $size . '" href="https://' . $linkandroid . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Android") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -355,7 +355,7 @@ class ModCoalawebSocialLinksHelper {
     function getGithubFollow($linkgithub, $size, $linknofollow, $popupFollow, $linkText) {
         $linkTextOn = ($linkText ? JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Github") : '');
         $output[] = '<li>';
-        $output[] = ' <a class="' . $popupFollow . 'github' . $size . '" href="http://' . $linkgithub . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Github") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
+        $output[] = ' <a class="' . $popupFollow . 'github' . $size . '" href="https://' . $linkgithub . '" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_FOLLOW", "Github") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }
@@ -372,19 +372,21 @@ class ModCoalawebSocialLinksHelper {
     //Create Custom style
     public static function getCustomoneStyle($themes_icon, $iconcustomone, $size, $module_unique_id) {
         $doc = JFactory::getDocument();
-        $styles = "#" . $module_unique_id . " .cw-social-mod-icons-".$themes_icon ."  a.customone" . $size . " {background:url(" . $iconcustomone . ") 0 0 no-repeat !important;}";
-        $styles .= "#" . $module_unique_id . " .cw-social-mod-icons-".$themes_icon ." a.customone" . $size . ":hover {background:url(" . $iconcustomone . ") 0 0 no-repeat !important ;}";
+        $styles = "#" . $module_unique_id . " .cw-social-mod-icons-" . $themes_icon . "  a.customone" . $size . " {background:url(" . $iconcustomone . ") 0 0 no-repeat !important;}";
+        $styles .= "#" . $module_unique_id . " .cw-social-mod-icons-".$themes_icon ." a.customone" . $size . ":hover {background:url(" . $iconcustomone . ") 0 0 no-repeat !important;}";
         $doc->AddStyledeclaration($styles);
     }
-    
-         /**
-     * 
+
+    /**
+     * Check extension dependencies are available
+     *
      * @return boolean
      */
-    public static function checkDependencies() {
+    public static function checkDependencies()
+    {
         $checkOk = false;
         $minVersion = '0.1.5';
-        
+
         // Load the version.php file for the CW Gears plugin
         $version_php = JPATH_SITE . '/plugins/system/cwgears/version.php';
         if (!defined('PLG_CWGEARS_VERSION') && JFile::exists($version_php)) {
@@ -394,18 +396,19 @@ class ModCoalawebSocialLinksHelper {
         $loadcount_php = JPATH_SITE . '/plugins/system/cwgears/helpers/loadcount.php';
         $mobiledetect_php = JPATH_SITE . '/plugins/system/cwgears/helpers/cwmobiledetect.php';
         if (
-                JPluginHelper::isEnabled('system', 'cwgears', true) == true &&
-                JFile::exists($version_php) &&
-                version_compare(PLG_CWGEARS_VERSION, $minVersion, 'ge') &&
-                JFile::exists($loadcount_php) &&
-                JFile::exists($mobiledetect_php)) {
+            JPluginHelper::isEnabled('system', 'cwgears', true) == true &&
+            JFile::exists($version_php) &&
+            version_compare(PLG_CWGEARS_VERSION, $minVersion, 'ge') &&
+            JFile::exists($loadcount_php) &&
+            JFile::exists($mobiledetect_php)
+        ) {
 
             if (!class_exists('Cwmobiledetect')) {
-                include_once $mobiledetect_php;
+                JLoader::register('Cwmobiledetect', $mobiledetect_php);
             }
 
             if (!class_exists('CwGearsHelperLoadcount')) {
-                include_once $loadcount_php;
+                JLoader::register('CwGearsHelperLoadcount', $loadcount_php);
             }
 
             $checkOk = true;

@@ -30,7 +30,7 @@ if (empty ($this->item->catslug)) {
 ?>
 
 <?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
-|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != '0000-00-00 00:00:00' )) : ?>
+|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != JFactory::getDbo()->getNullDate() )) : ?>
 <div class="system-unpublished">
 <?php endif; ?>
 
@@ -40,6 +40,8 @@ if (empty ($this->item->catslug)) {
     <?php if ($params->get('show_title')) : ?>
 			<?php echo JLayoutHelper::render('joomla.content.item_title', array('item' => $this->item, 'params' => $params, 'title-tag'=>'h2')); ?>
     <?php endif; ?>
+	
+	<?php echo $this->item->event->afterDisplayTitle; ?>
 
     <!-- Aside -->
     <?php if ($topInfo || $icons) : ?>
@@ -56,9 +58,8 @@ if (empty ($this->item->catslug)) {
     <!-- //Aside -->
 
 		<section class="article-intro clearfix">
-			<?php if (!$params->get('show_intro')) : ?>
-				<?php echo $this->item->event->afterDisplayTitle; ?>
-			<?php endif; ?>
+
+				
 
 			<?php echo $this->item->event->beforeDisplayContent; ?>
 

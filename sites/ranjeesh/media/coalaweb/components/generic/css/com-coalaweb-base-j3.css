@@ -1,6 +1,6 @@
 /**
  * @author              Steven Palmer
- * @author url          http://coalaweb.com
+ * @author url          https://coalaweb.com
  * @author email        support@coalaweb.com
  * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
 */
@@ -350,6 +350,7 @@ togglers .pane-sliders .panel {
 /* IE7 and lower */
     border-spacing: 0;
     max-width: 100%;
+    width:95%;
     margin: 7px 15px 15px !important;
 }
 

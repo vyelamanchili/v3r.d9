@@ -4,7 +4,7 @@
  * @package             Joomla
  * @subpackage          CoalaWeb Social Links
  * @author              Steven Palmer
- * @author url          http://coalaweb.com
+ * @author url          https://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
  * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
@@ -20,7 +20,7 @@
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -152,7 +152,7 @@ class Com_CoalawebsociallinksInstallerScript {
      * @param JInstaller $parent Parent object
      */
     public function preflight($type, $parent) {
-        // Only allow to install on Joomla! 3.2 or later with PHP 5.4 or later
+        // Only allow to install on Joomla! 3.6 or later with PHP 5.4 or later
         if (defined('PHP_VERSION')) {
             $version = PHP_VERSION;
         } elseif (function_exists('phpversion')) {
@@ -161,8 +161,8 @@ class Com_CoalawebsociallinksInstallerScript {
             $version = '5.0.0'; // all bets are off!
         }
 
-        if (!version_compare(JVERSION, '3.2', 'ge')) {
-            $msg = "<p>Sorry, you need Joomla! 3.2 or later to install this extension!</p>";
+        if (!version_compare(JVERSION, '3.6', 'ge')) {
+            $msg = "<p>Sorry, you need Joomla! 3.6 or later to install this extension!</p>";
 
             JLog::add($msg, JLog::WARNING, 'jerror');
 

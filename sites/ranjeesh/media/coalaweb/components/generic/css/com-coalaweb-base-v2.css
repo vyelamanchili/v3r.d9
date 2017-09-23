@@ -1,6 +1,6 @@
 /**
  * @author              Steven Palmer
- * @author url          http://coalaweb.com
+ * @author url          https://coalaweb.com
  * @author email        support@coalaweb.com
  * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
 */
@@ -30,7 +30,7 @@
     text-decoration: none;
     transition-property: none;
     vertical-align: middle;
-    width: 108px;
+    min-width: 108px;
     color: #FFFFFF !important;
     font: bold 12px Arial,Helvetica,sans-serif;
     text-transform: uppercase;
@@ -117,7 +117,7 @@
 
 /* cpanel-v2 Layout Styling
 ------------------------------------------------------------------------------*/
-#cpanel-v2 {}
+#cpanel-v2 {margin-left:0px; !important}
 
 /* END cpanel-v2
 ------------------------------------------------------------------------------*/

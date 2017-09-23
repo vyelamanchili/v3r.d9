@@ -43,7 +43,7 @@ $direction = $langdirection == 'rtl' ? 'right' : 'left';
 				foreach ($items as $i => &$item) {
 					$item->mobile_data = isset($item->mobile_data) ? $item->mobile_data : '';
 					$itemlevel = ($start > 1) ? $item->level - $start + 1 : $item->level;
-					$close = ($itemlevel > 1) ? '' : ( ($params->get('behavior', 'mouseover') == 'clickclose' || stristr($item->liclass, 'clickclose') != false) ? $close : '' );
+					$closeHtml = ($itemlevel > 1) ? '' : ( ($params->get('behavior', 'mouseover') == 'clickclose' || stristr($item->liclass, 'clickclose') != false) ? $close : '' );
 					$indexer = $itemlevel == 1 ? 'main' : 'sub';
 					$stopdropdown = $params->get('stopdropdownlevel', '0');
 					$stopdropdownclass = ($stopdropdown != '0' && $item->level >= $stopdropdown) ? ' nodropdown' : '';
@@ -125,8 +125,7 @@ $direction = $langdirection == 'rtl' ? 'right' : 'left';
 							$item->innerstyles = "";
 						}
 						$itemlevel == 1 ? $tmpitems['main'] .=  "\n\t\t</li>" : '';
-
-						$tmpitems['sub'] .= "\n\t<div class=\"floatck submenuck" . $item->id . "\" " . $item->styles . ">" . $close . "<div class=\"maxidrop-main\" " . $item->innerstyles . "><div class=\"maximenuck2 first \" " . $nextcolumnstyles . ">\n\t<ul class=\"maximenuck2\">";
+						$tmpitems['sub'] .= "\n\t<div class=\"floatck submenuck" . $item->id . "\" " . $item->styles . ">" . $closeHtml . "<div class=\"maxidrop-main\" " . $item->innerstyles . "><div class=\"maximenuck2 first \" " . $nextcolumnstyles . ">\n\t<ul class=\"maximenuck2\">";
 						// if (isset($item->coltitle))
 						// echo $item->coltitle;
 					}

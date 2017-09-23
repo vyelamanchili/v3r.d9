@@ -1,6 +1,6 @@
 /**
  * @author              Steven Palmer
- * @author url          http://coalaweb.com
+ * @author url          https://coalaweb.com
  * @author email        support@coalaweb.com
  * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
 */
@@ -30,7 +30,9 @@ Inner Container Styling
     background-image: none;
 }
 
-#cw-spanel li.cwsp-content-pi { margin: 40px 0 -5px 0 !important}
+#cw-spanel li.cwsp-content-pi.count { margin: 40px 0 -5px 0 !important}
+#cw-spanel li.cwsp-content-mc { margin-bottom: 5px !important}
+#cw-spanel li.cwsp-content-gp iframe { width:60px !important}
 
 
 /*------------------------------------------------------------------------------
@@ -59,22 +61,22 @@ Panel Styling
 }
 
 #cw-spanel.f-panel{
-    width: 70px;
+    width: 80px;
     padding:5px;
 }
 
 #cw-spanel.c-panel{
     left:0;
-    margin-left:-79px;
+    margin-left:-89px;
     padding:7px;
-    min-width:59px;
+    min-width:69px;
 }
 
 #c-panel-trigger{
     left:0;
     position: absolute;
     top: 15%;
-    margin-left:73px;
+    margin-left:83px;
 }
 
 #c-panel-trigger a{

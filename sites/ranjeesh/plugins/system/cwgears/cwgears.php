@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package             Joomla
  * @subpackage          CoalaWeb Gears
  * @author              Steven Palmer
- * @author url          http://coalaweb.com
+ * @author url          https://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
  * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html>.
  */
 jimport('joomla.plugin.plugin');
 jimport('joomla.environment.browser');
@@ -39,13 +39,13 @@ class plgSystemCwgears extends JPlugin {
     function __construct(&$subject, $config) {
         parent::__construct($subject, $config);
 
-        // load the CoalaWeb Gears language file
-        $lang = JFactory::getLanguage();
-        if ($lang->getTag() != 'en-GB') {
-            // Loads English language file as fallback (for undefined stuff in other language files)
-            $lang->load('plg_system_cwgears', JPATH_ADMINISTRATOR, 'en-GB');
-        }
-        $lang->load('plg_system_cwgears', JPATH_ADMINISTRATOR, null, 1);
+        // Load the language files
+        $jlang = JFactory::getLanguage();
+
+        // Plugin
+        $jlang->load('plg_system_cwgears', JPATH_ADMINISTRATOR, 'en-GB', true);
+        $jlang->load('plg_system_cwgears', JPATH_ADMINISTRATOR, $jlang->getDefault(), true);
+        $jlang->load('plg_system_cwgears', JPATH_ADMINISTRATOR, null, true);
     }
 
     public function onAfterInitialise() {
@@ -190,7 +190,7 @@ class plgSystemCwgears extends JPlugin {
         //Lets add some style for backend extension configurations.
         if ($app->isAdmin()) {
 
-            if ($option == 'com_categories' && ($ext == 'com_coalawebcomments' || $ext == 'com_coalawebmarket' || $ext == 'com_coalawebtraffic' || $ext == 'com_coalaweblingual')) {
+            if ($option == 'com_categories' && ($ext == 'com_coalawebcomments' || $ext == 'com_coalawebmarket' || $ext == 'com_coalawebtraffic' || $ext == 'com_coalaweblingual' || $ext == 'com_coalawebmembers')) {
                 if (version_compare(JVERSION, '3.0', '>')) {
                     $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base-v2.css");
                     $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base-j3.css");
@@ -201,7 +201,7 @@ class plgSystemCwgears extends JPlugin {
                 }
             }
 
-            if (in_array($option, array('com_coalawebcontact', 'com_coalawebsociallinks', 'com_coalawebtraffic', 'com_coalawebmarket', 'com_coalawebpaypal', 'com_coalaweblingual', 'com_coalawebcomments'))) {
+            if (in_array($option, array('com_coalawebcontact', 'com_coalawebsociallinks', 'com_coalawebtraffic', 'com_coalawebmarket', 'com_coalawebpaypal', 'com_coalaweblingual', 'com_coalawebcomments', 'com_coalawebmembers'))) {
 
                 if (version_compare(JVERSION, '3.0', '>')) {
                     $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base-v2.css");

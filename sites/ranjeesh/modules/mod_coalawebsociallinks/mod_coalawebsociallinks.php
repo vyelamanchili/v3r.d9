@@ -5,7 +5,7 @@ defined("_JEXEC") or die("Restricted access");
  * @package             Joomla
  * @subpackage          CoalaWeb Social Links Module
  * @author              Steven Palmer
- * @author url          http://coalaweb.com
+ * @author url          https://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
  * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
@@ -21,7 +21,7 @@ defined("_JEXEC") or die("Restricted access");
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 require_once dirname(__FILE__) . '/helper.php';			
 include_once JPATH_ADMINISTRATOR . '/components/com_coalawebsociallinks/version.php';
@@ -48,19 +48,18 @@ if ($checkOk === TRUE) {
 //Keeping the parameters in the component keeps things clean and tidy.
 $comParams = JComponentHelper::getParams('com_coalawebsociallinks');
 
-$lang = JFactory::getLanguage();
+// Load the language files
+$jlang = JFactory::getLanguage();
 
-//Load the module language strings
-if ($lang->getTag() != 'en-GB') {
-    $lang->load('mod_coalawebsociallinks', JPATH_SITE, 'en-GB');
-}
-$lang->load('mod_coalawebsociallinks', JPATH_SITE, null, 1);
+// Module
+$jlang->load('mod_coalawebsociallinks', JPATH_SITE, 'en-GB', true);
+$jlang->load('mod_coalawebsociallinks', JPATH_SITE, $jlang->getDefault(), true);
+$jlang->load('mod_coalawebsociallinks', JPATH_SITE, null, true);
 
-//Load the component language strings
-if ($lang->getTag() != 'en-GB') {
-    $lang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, 'en-GB');
-}
-$lang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, null, 1);
+// Component
+$jlang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, 'en-GB', true);
+$jlang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, $jlang->getDefault(), true);
+$jlang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, null, true);
 
 $moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
@@ -164,7 +163,8 @@ $linkfacebook = $params->get('link_facebook');
 $linkgoogle = $params->get('link_google');
 $linklinkedin = $params->get('link_linkedin');
 $linktwitter = $params->get('link_twitter');
-$linkrss = $params->get('link_rss');
+$rootRss = $params->get('root_rss', 'http://');
+$linkrss = $params->get('link_rss', 'http://');
 $linkmyspace = $params->get('link_myspace');
 $linkvimeo = $params->get('link_vimeo');
 $linkyoutube = $params->get('link_youtube');
@@ -175,7 +175,8 @@ if ($params->get('link_target_contact', 'self') === 'anchor'){
     $linkcontact = $params->get('link_contact');
     $linkTargetContact = '';
 } else {
-    $linkcontact = 'http://' . $params->get('link_contact');
+    $rootContact = $params->get('root_contact', 'http://');
+    $linkcontact = $rootContact . $params->get('link_contact');
     $linkTargetContact = 'target="_' . $params->get('link_target_contact', 'self') . '"';
 }
 
@@ -224,7 +225,8 @@ if (COM_CWSOCIALLINKS_PRO == 1) {
         $linkcustomone = $params->get('link_customone');
         $linkTargetCustomone = '';
     } else {
-        $linkcustomone = 'http://' . $params->get('link_customone');
+        $rootCustomone  = $params->get('root_customone', 'http://');
+        $linkcustomone = $rootCustomone . $params->get('link_customone');
         $linkTargetCustomone = 'target="_' . $params->get('link_target_customone', 'self') . '"';
     }    
     $textcustomone = $params->get('text_customone');
@@ -240,7 +242,8 @@ if (COM_CWSOCIALLINKS_PRO == 1) {
         $linkcustomtwo = $params->get('link_customtwo');
         $linkTargetCustomtwo = '';
     } else {
-        $linkcustomtwo = 'http://' . $params->get('link_customtwo');
+        $rootCustomtwo  = $params->get('root_customtwo', 'http://');
+        $linkcustomtwo = $rootCustomtwo . $params->get('link_customtwo');
         $linkTargetCustomtwo = 'target="_' . $params->get('link_target_customtwo', 'self') . '"';
     }
     $textcustomtwo = $params->get('text_customtwo');
@@ -256,6 +259,7 @@ if (COM_CWSOCIALLINKS_PRO == 1) {
         $linkcustomthree = $params->get('link_customthree');
         $linkTargetCustomthree = '';
     } else {
+
         $linkcustomthree = 'http://' . $params->get('link_customthree');
         $linkTargetCustomthree = 'target="_' . $params->get('link_target_customthree', 'self') . '"';
     }

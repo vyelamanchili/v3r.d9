@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package             Joomla
  * @subpackage          CoalaWeb Social Links Component
  * @author              Steven Palmer
- * @author url          http://coalaweb.com
+ * @author url          https://coalaweb.com
  * @author email        support@coalaweb.com
  * @license             GNU/GPL, see /assets/en-GB.license.txt
  * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 JHtml::_('jquery.framework');
 $user = JFactory::getUser();
@@ -46,7 +46,7 @@ $doc->addStyleSheet(JURI::root(true) . '/media/coalawebsocial/components/sociall
                 <input type="hidden" name="option" value="com_coalawebsociallinks" />
                 <input type="hidden" name="view" value="controlpanel" />
                 <input type="hidden" name="task" value="controlpanel.applydlid" />
-                <input type="hidden" name="<?php echo JFactory::getSession()->getFormToken() ?>" value="1" />
+                <?php echo JHtml::_('form.token'); ?>
             </form>
         </div>
     </div>
@@ -68,7 +68,7 @@ $doc->addStyleSheet(JURI::root(true) . '/media/coalawebsocial/components/sociall
     <?php if ($this->isPro): ?>
         <div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
             <div class="icon">
-                <a class="red-dark purge-sociallinks" href="index.php?option=com_coalawebsociallinks&task=controlpanel.purge">
+                <a class="red-dark purge-sociallinks" href="<?php echo JRoute::_('index.php?option=com_coalawebsociallinks&task=controlpanel.purge&'. JSession::getFormToken() .'=1' ); ?>">
                     <img alt="<?php echo JText::_('COM_CWSOCIALLINKS_TITLE_PURGE'); ?>" src="<?php echo JURI::root() ?>/media/coalaweb/components/generic/images/icons/icon-48-cw-trash-v2.png" />
                     <span><?php echo JText::_('COM_CWSOCIALLINKS_TITLE_PURGE'); ?></span>
                 </a>
@@ -79,7 +79,7 @@ $doc->addStyleSheet(JURI::root(true) . '/media/coalawebsocial/components/sociall
     <?php if ($this->isPro): ?>
         <div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
             <div class="icon">
-                <a class="orange-dark optimize" href="index.php?option=com_coalawebsociallinks&task=controlpanel.optimize">
+                <a class="orange-dark optimize" href="<?php echo JRoute::_('index.php?option=com_coalawebsociallinks&task=controlpanel.optimize&'. JSession::getFormToken() .'=1' ); ?>">
                     <img alt="<?php echo JText::_('COM_CWSOCIALLINKS_TITLE_OPTIMIZE'); ?>" src="<?php echo JURI::root() ?>/media/coalaweb/components/generic/images/icons/icon-48-cw-speed-v2.png" />
                     <span><?php echo JText::_('COM_CWSOCIALLINKS_TITLE_OPTIMIZE'); ?></span>
                 </a>
@@ -89,7 +89,7 @@ $doc->addStyleSheet(JURI::root(true) . '/media/coalawebsocial/components/sociall
         
     <div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
         <div class="icon">
-            <a class="red-light" onclick="Joomla.popupWindow('http://coalaweb.com/support/documentation/item/coalaweb-social-links-guide', 'Help', 700, 500, 1)" href="#">
+            <a class="red-light" onclick="Joomla.popupWindow('https://coalaweb.com/support/documentation/item/coalaweb-social-links-guide', 'Help', 700, 500, 1)" href="#">
                 <img alt="<?php echo JText::_('COM_CWSOCIALLINKS_TITLE_HELP'); ?>" src="<?php echo JURI::root() ?>/media/coalaweb/components/generic/images/icons/icon-48-cw-support-v2.png" />
                 <span><?php echo JText::_('COM_CWSOCIALLINKS_TITLE_HELP'); ?></span>
             </a>
@@ -108,7 +108,7 @@ $doc->addStyleSheet(JURI::root(true) . '/media/coalawebsocial/components/sociall
     <?php if (!$this->isPro): ?>
         <div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
             <div class="icon">
-                <a class="pink-light" href="http://coalaweb.com/extensions/joomla-extensions/coalaweb-social-links/feature-comparison" target="_blank">
+                <a class="pink-light" href="https://coalaweb.com/extensions/joomla-extensions/coalaweb-social-links/feature-comparison" target="_blank">
                     <img alt="<?php echo JText::_('COM_CWSOCIALLINKS_TITLE_UPGRADE'); ?>" src="<?php echo JURI::root() ?>/media/coalaweb/components/generic/images/icons/icon-48-cw-upgrade-v2.png" />
                     <span><?php echo JText::_('COM_CWSOCIALLINKS_TITLE_UPGRADE'); ?></span>
                 </a>
