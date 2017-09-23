@@ -3,16 +3,31 @@
 /**
  * @file
  * The theme system, which controls the output of views slideshow.
+ */
+
+/**
+ * @defgroup vss_templates Templates
+ * @{
+ * Slideshow and component templates.
  *
- * This just adds a wrapper div to the slideshow.
+ * @see vss_theme
+ * @}
+ */
+
+/**
+ * @defgroup vss_theme Theme Functions
+ * @{
+ * Theme processing and display generation.
+ *
+ * Most of the logic behind the generation of the slideshow is here.
+ *
+ * @see vss_templates
  */
 
 use Drupal\Component\Utility\Html;
 
 /**
  * Views Slideshow: slideshow.
- *
- * @ingroup themeable
  */
 function _views_slideshow_preprocess_views_view_slideshow(&$vars) {
   $options = $vars['view']->style_plugin->options;
@@ -128,7 +143,7 @@ function _views_slideshow_preprocess_views_view_slideshow(&$vars) {
       foreach ($weight as $location => $order) {
         if ($options['widgets'][$location][$widgetTypeId]['enable']) {
           // If hide on single slide and only a single slide skip rendering.
-          if ($options['widgets'][$location][$widgetTypeId]['hide_on_single_slide'] && $slide_count < 2) {
+          if ($options['widgets'][$location][$widgetTypeId]['hide_on_single_slide'] && $slide_count <= 1) {
             continue;
           }
           $widgetWeight = ($options['widgets'][$location][$widgetTypeId]['weight'] > count($widgetTypes)) ? count($widgetTypes) : $options['widgets'][$location][$widgetTypeId]['weight'];
@@ -180,8 +195,6 @@ function _views_slideshow_preprocess_views_view_slideshow(&$vars) {
 
 /**
  * Views Slideshow: pager.
- *
- * @ingroup themeable
  */
 function template_preprocess_views_slideshow_pager_widget_render(&$vars) {
   // Add JavaScript settings for the pager type.
@@ -259,8 +272,6 @@ function template_preprocess_views_slideshow_pager_fields(&$vars) {
 
 /**
  * Views Slideshow: pager item.
- *
- * @ingroup themeable
  */
 function template_preprocess_views_slideshow_pager_field_item(&$vars) {
   $vars['attributes']['class'][] = 'views_slideshow_pager_field_item';
@@ -275,8 +286,6 @@ function template_preprocess_views_slideshow_pager_field_item(&$vars) {
 
 /**
  * Views Slideshow: Controls.
- *
- * @ingroup themeable
  */
 function template_preprocess_views_slideshow_controls_widget_render(&$vars) {
   // Add JavaScript settings for the controls type.
@@ -301,8 +310,6 @@ function template_preprocess_views_slideshow_controls_widget_render(&$vars) {
 
 /**
  * The slideshow controls.
- *
- * @ingroup themeable
  */
 function template_preprocess_views_slideshow_controls_text(&$vars) {
   $vars['#attached']['library'][] = 'views_slideshow/controls_text';
@@ -333,8 +340,6 @@ function template_preprocess_views_slideshow_controls_text(&$vars) {
 
 /**
  * Views Slideshow: "previous" control.
- *
- * @ingroup themeable
  */
 function template_preprocess_views_slideshow_controls_text_previous(&$vars) {
   $vars['attributes']['class'][] = 'views_slideshow_controls_text_previous';
@@ -342,18 +347,14 @@ function template_preprocess_views_slideshow_controls_text_previous(&$vars) {
 
 /**
  * Views Slideshow: "pause" control.
- *
- * @ingroup themeable
  */
 function template_preprocess_views_slideshow_controls_text_pause(&$vars) {
-  $vars['attributes']['class'][]  = 'views_slideshow_controls_text_pause  views-slideshow-controls-text-status-play';
+  $vars['attributes']['class'][] = 'views_slideshow_controls_text_pause  views-slideshow-controls-text-status-play';
   $vars['start_text'] = t('Pause');
 }
 
 /**
  * Views Slideshow: "next" control.
- *
- * @ingroup themeable
  */
 function template_preprocess_views_slideshow_controls_text_next(&$vars) {
   $vars['attributes']['class'][] = 'views_slideshow_controls_text_next';
@@ -361,8 +362,6 @@ function template_preprocess_views_slideshow_controls_text_next(&$vars) {
 
 /**
  * Views Slideshow: Slide Counter.
- *
- * @ingroup themeable
  */
 function template_preprocess_views_slideshow_slide_counter_widget_render(&$vars) {
   $slide = [
@@ -379,10 +378,12 @@ function template_preprocess_views_slideshow_slide_counter_widget_render(&$vars)
 
 /**
  * Views Slideshow: slide counter.
- *
- * @ingroup themeable
  */
 function template_preprocess_views_slideshow_slide_counter(&$vars) {
   $vars['attributes']['class'][] = 'views_slideshow_slide_counter';
   $vars['slide_count'] = count($vars['rows']);
 }
+
+/**
+ * @} End of "defgroup vss_theme".
+ */
