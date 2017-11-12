@@ -28,6 +28,7 @@
 			showactivesubitems: '0',
 			topfixedeffect: '1',
 			topfixedoffset: '',
+			clickclose: '0',
 			effecttype: 'dropdown'
 		};
 
@@ -554,6 +555,7 @@
 
 						$('> .maxiclose', el.submenu).click(function() {
 							hideSubmenuck(el);
+							el.removeClass('clickedck');
 						});
 					} else if (itembehavior == 'clickclose') {
 						el.mouseenter(function() {
@@ -577,6 +579,7 @@
 
 						$('> div > .maxiclose', el).click(function() {
 							hideSubmenuck(el);
+							el.removeClass('clickedck');
 						});
 					} else if (itembehavior == 'click') {
 						if (el.hasClass('parent') && $('> a.maximenuck', el).length) {
@@ -626,7 +629,10 @@
 								showSubmenuck(el);
 							}
 						});
-
+						$('> .maxiclose', el.submenu).click(function() {
+							hideSubmenuck(el);
+							el.removeClass('clickedck');
+						});
 					} else {
 						el.mouseenter(function() {
 							if (effecttype == 'pushdown') {
@@ -643,11 +649,11 @@
 							}
 							showSubmenuck(el);
 						});
-						if (effecttype == 'pushdown') {
+						if (effecttype == 'pushdown' && defaults.clickclose != '1') {
 							maximenuObj.mouseleave(function() {
 								hideSubmenuck(el);
 							});
-						} else {
+						} else if (defaults.clickclose != '1') {
 							el.mouseleave(function() {
 								hideSubmenuck(el);
 								el.find('li.maximenuck.parent.level'+el.attr('data-level')+':not(.nodropdown)').each(function(j, el2) {
@@ -661,6 +667,10 @@
 								});
 							});
 						}
+						$('> .maxiclose', el.submenu).click(function() {
+							hideSubmenuck(el);
+							el.removeClass('clickedck');
+						});
 					}
 				});
 

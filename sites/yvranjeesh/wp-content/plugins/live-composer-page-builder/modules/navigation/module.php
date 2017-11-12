@@ -43,6 +43,13 @@ class DSLC_Navigation extends DSLC_Module {
 	 */
 	function options() {
 
+		// Check if we have this module options already calculated
+		// and cached in WP Object Cache.
+		$cached_dslc_options = wp_cache_get( 'dslc_options_' . $this->module_id, 'dslc_modules' );
+		if ( $cached_dslc_options ) {
+			return apply_filters( 'dslc_module_options', $cached_dslc_options, $this->module_id );
+		}
+
 		$locs = get_registered_nav_menus();
 
 		$loc_choices = array();
@@ -836,7 +843,7 @@ class DSLC_Navigation extends DSLC_Module {
 				'std' => 'left',
 				'type' => 'text_align',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-navigation .menu ul',
+				'affect_on_change_el' => '.dslc-navigation .menu ul:before',
 				'affect_on_change_rule' => 'text-align',
 				'section' => 'styling',
 				'tab' => __( 'Subnav', 'live-composer-page-builder' ),
@@ -847,7 +854,7 @@ class DSLC_Navigation extends DSLC_Module {
 				'std' => '#fff',
 				'type' => 'color',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-navigation .menu ul',
+				'affect_on_change_el' => '.dslc-navigation .menu ul:before',
 				'affect_on_change_rule' => 'background-color',
 				'section' => 'styling',
 				'tab' => __( 'Subnav', 'live-composer-page-builder' ),
@@ -858,7 +865,7 @@ class DSLC_Navigation extends DSLC_Module {
 				'std' => '',
 				'type' => 'image',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-navigation .menu ul',
+				'affect_on_change_el' => '.dslc-navigation .menu ul:before',
 				'affect_on_change_rule' => 'background-image',
 				'section' => 'styling',
 				'tab' => __( 'Subnav', 'live-composer-page-builder' ),
@@ -887,7 +894,7 @@ class DSLC_Navigation extends DSLC_Module {
 					),
 				),
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-navigation .menu ul',
+				'affect_on_change_el' => '.dslc-navigation .menu ul:before',
 				'affect_on_change_rule' => 'background-repeat',
 				'section' => 'styling',
 				'tab' => __( 'Subnav', 'live-composer-page-builder' ),
@@ -908,7 +915,7 @@ class DSLC_Navigation extends DSLC_Module {
 					),
 				),
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-navigation .menu ul',
+				'affect_on_change_el' => '.dslc-navigation .menu ul:before',
 				'affect_on_change_rule' => 'background-attachment',
 				'section' => 'styling',
 				'tab' => __( 'Subnav', 'live-composer-page-builder' ),
@@ -957,7 +964,7 @@ class DSLC_Navigation extends DSLC_Module {
 					),
 				),
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-navigation .menu ul',
+				'affect_on_change_el' => '.dslc-navigation .menu ul:before',
 				'affect_on_change_rule' => 'background-position',
 				'section' => 'styling',
 				'tab' => __( 'Subnav', 'live-composer-page-builder' ),
@@ -968,7 +975,7 @@ class DSLC_Navigation extends DSLC_Module {
 				'std' => '#ededed',
 				'type' => 'color',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-navigation .menu ul',
+				'affect_on_change_el' => '.dslc-navigation .menu ul:before',
 				'affect_on_change_rule' => 'border-color',
 				'section' => 'styling',
 				'tab' => __( 'Subnav', 'live-composer-page-builder' ),
@@ -981,7 +988,7 @@ class DSLC_Navigation extends DSLC_Module {
 				'std' => '1',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-navigation .menu ul',
+				'affect_on_change_el' => '.dslc-navigation .menu ul:before',
 				'affect_on_change_rule' => 'border-width',
 				'section' => 'styling',
 				'ext' => 'px',
@@ -1011,7 +1018,7 @@ class DSLC_Navigation extends DSLC_Module {
 					),
 				),
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-navigation .menu ul',
+				'affect_on_change_el' => '.dslc-navigation .menu ul:before',
 				'affect_on_change_rule' => 'border-style',
 				'section' => 'styling',
 				'tab' => __( 'Subnav', 'live-composer-page-builder' ),
@@ -1023,7 +1030,7 @@ class DSLC_Navigation extends DSLC_Module {
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-navigation .menu ul',
+				'affect_on_change_el' => '.dslc-navigation .menu ul:before',
 				'affect_on_change_rule' => 'border-top-left-radius,border-top-right-radius',
 				'section' => 'styling',
 				'ext' => 'px',
@@ -1036,7 +1043,7 @@ class DSLC_Navigation extends DSLC_Module {
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-navigation .menu ul',
+				'affect_on_change_el' => '.dslc-navigation .menu ul:before',
 				'affect_on_change_rule' => 'border-bottom-left-radius,border-bottom-right-radius',
 				'section' => 'styling',
 				'ext' => 'px',
@@ -1046,7 +1053,7 @@ class DSLC_Navigation extends DSLC_Module {
 				'label' => __( 'Padding Vertical', 'live-composer-page-builder' ),
 				'id' => 'css_subnav_padding_vertical',
 				'onlypositive' => true, // Value can't be negative.
-				'max' => 600,
+				'max' => 40,
 				'std' => '10',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -1060,7 +1067,8 @@ class DSLC_Navigation extends DSLC_Module {
 				'label' => __( 'Padding Horizontal', 'live-composer-page-builder' ),
 				'id' => 'css_subnav_padding_horizontal',
 				'onlypositive' => true, // Value can't be negative.
-				'std' => '25',
+				'max' => 40,
+				'std' => '10',
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-navigation .menu ul',
@@ -1539,6 +1547,9 @@ class DSLC_Navigation extends DSLC_Module {
 
 		$dslc_options = array_merge( $dslc_options, $this->presets_options() );
 
+		// Cache calculated array in WP Object Cache.
+		wp_cache_add( 'dslc_options_' . $this->module_id, $dslc_options ,'dslc_modules' );
+
 		return apply_filters( 'dslc_module_options', $dslc_options, $this->module_id );
 
 	}
@@ -1550,7 +1561,6 @@ class DSLC_Navigation extends DSLC_Module {
 	 */
 	function output( $options ) {
 
-		$this->module_start( $options );
 
 		/* Module output starts here */
 
@@ -1578,41 +1588,12 @@ class DSLC_Navigation extends DSLC_Module {
 			?>
 			<div class="dslc-navigation dslc-navigation-sub-position-<?php echo esc_attr( $options['css_subnav_position'] ); ?> dslc-navigation-res-t-<?php echo esc_attr( $options['css_res_t'] ); ?> dslc-navigation-res-p-<?php echo esc_attr( $options['css_res_p'] ); ?> dslc-navigation-orientation-<?php echo esc_attr( $options['nav_orientation'] ); ?>">
 				<div class="dslc-navigation-inner">
-					<?php wp_nav_menu( array( 'theme_location' => $options['location'] ) ); ?>
+					[dslc_nav_render_menu theme_location="<?php echo $options['location'] ?>"]
+					<?php // wp_nav_menu( array( 'theme_location' => $options['location'] ) ); ?>
 				</div>
 			</div>
 			<div class="dslc-mobile-navigation dslc-navigation-res-t-<?php echo esc_attr( $options['css_res_t'] ); ?>  dslc-navigation-res-p-<?php echo esc_attr( $options['css_res_p'] ); ?>">
-				<?php
-				if ( has_nav_menu( $options['location'] ) ) {
-
-					$mobile_nav_output = '';
-					$mobile_nav_output .= '<select>';
-					$mobile_nav_output .= '<option>' . __( '- Select -', 'live-composer-page-builder' ) . '</option>';
-
-					if ( has_nav_menu( $options['location'] ) ) {
-
-						$locations = get_nav_menu_locations();
-						$menu = wp_get_nav_menu_object( $locations[ $options['location'] ] );
-						$menu_items = wp_get_nav_menu_items( $menu->term_id );
-
-						foreach ( $menu_items as $key => $menu_item ) {
-
-							$title = $menu_item->title;
-							$url = $menu_item->url;
-							$nav_selected = '';
-
-							if ( 0 !== $menu_item->post_parent ) {
-								$mobile_nav_output .= '<option value="' . $url . '" ' . $nav_selected . '> - ' . $title . '</option>';
-							} else {
-								$mobile_nav_output .= '<option value="' . $url . '" ' . $nav_selected . '>' . $title . '</option>';
-							}
-						}
-					}
-
-					$mobile_nav_output .= '</select>';
-					echo $mobile_nav_output;
-				}
-				?>
+				[dslc_nav_render_mobile_menu theme_location="<?php echo $options['location'] ?>"]
 				<div class="dslc-mobile-navigation-hook"><span class="dslc-icon dslc-icon-reorder"></span></div>
 			</div><!-- .dslc-mobile-navigation -->
 
@@ -1651,9 +1632,7 @@ class DSLC_Navigation extends DSLC_Module {
 			<?php }
 		}
 
-		/* Module output ends here */
 
-		$this->module_end( $options );
 
 	}
 }

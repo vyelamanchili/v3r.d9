@@ -44,7 +44,7 @@ JHtml::_('bootstrap.tooltip');
 <?php endif; ?>
 
 <!-- Article -->
-<article itemscope itemtype="http://schema.org/Article">
+<article>
 	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? JFactory::getConfig()->get('language') : $this->item->language; ?>" />
 	<meta itemprop="url" content="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)) ?>" />
 
@@ -93,7 +93,7 @@ JHtml::_('bootstrap.tooltip');
 	endif;
 	?>
 
-	<section class="article-content clearfix" itemprop="articleBody">
+	<section class="article-content clearfix">
 		<?php echo $this->item->text; ?>
 	</section>
   

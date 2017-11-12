@@ -54,7 +54,7 @@ class plgSystemCwgears extends JPlugin {
         if ($app->getName() !== 'site') {
             return;
         }
-        
+
         //Lets keep our resource loading table nice and up to date
         $dbClean = $this->params->get('db_clean', '1');
         $db = JFactory::getDbo();
@@ -190,25 +190,18 @@ class plgSystemCwgears extends JPlugin {
         //Lets add some style for backend extension configurations.
         if ($app->isAdmin()) {
 
-            if ($option == 'com_categories' && ($ext == 'com_coalawebcomments' || $ext == 'com_coalawebmarket' || $ext == 'com_coalawebtraffic' || $ext == 'com_coalaweblingual' || $ext == 'com_coalawebmembers')) {
-                if (version_compare(JVERSION, '3.0', '>')) {
-                    $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base-v2.css");
-                    $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base-j3.css");
-                    $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-categories.css");
-                } else {
-                    $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base.css");
-                    $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-categories.css");
-                }
+            if ($option == 'com_categories' && ($ext == 'com_coalawebcomments' || $ext == 'com_coalawebmarket' || $ext == 'com_coalawebtraffic' || $ext == 'com_coalaweblingual' || $ext == 'com_coalawebmembers'|| $ext == 'com_coalawebvideo')) {
+
+                $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base-v2.css");
+                $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base-j3.css");
+
             }
 
-            if (in_array($option, array('com_coalawebcontact', 'com_coalawebsociallinks', 'com_coalawebtraffic', 'com_coalawebmarket', 'com_coalawebpaypal', 'com_coalaweblingual', 'com_coalawebcomments', 'com_coalawebmembers'))) {
+            if (in_array($option, array('com_coalawebcontact', 'com_coalawebsociallinks', 'com_coalawebtraffic', 'com_coalawebmarket', 'com_coalawebpaypal', 'com_coalaweblingual', 'com_coalawebcomments', 'com_coalawebmembers', 'com_coalawebvideo'))) {
 
-                if (version_compare(JVERSION, '3.0', '>')) {
-                    $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base-v2.css");
-                    $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base-j3.css");
-                } else {
-                    $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base.css");
-                }
+                $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base-v2.css");
+                $doc->addStyleSheet($baseUrl . "components/generic/css/com-coalaweb-base-j3.css");
+
             }
         }
 
@@ -889,6 +882,12 @@ class plgSystemCwgears extends JPlugin {
             case 'com_coalawebcomments':
                 $updateurl = 'http://cdn.coalaweb.com/updates/cw-comments-pro.xml';
                 break;
+            case 'com_coalawebvideo':
+                $updateurl = 'http://cdn.coalaweb.com/updates/cw-video-pro.xml';
+                break;
+            case 'com_coalawebmembers':
+                $updateurl = 'http://cdn.coalaweb.com/updates/cw-members-pro.xml';
+                break;
             
             default:
                 $updateurl = '';
@@ -994,6 +993,9 @@ class plgSystemCwgears extends JPlugin {
         $print = 'http://cdn.coalaweb.com/updates/cw-print-pro.xml';
         $panel = 'http://cdn.coalaweb.com/updates/cw-panel-pro.xml';
         $date = 'http://cdn.coalaweb.com/updates/cw-date-pro.xml';
+        $versions = 'http://cdn.coalaweb.com/updates/cw-versions-pro.xml';
+        $analytics = 'http://cdn.coalaweb.com/updates/cw-analytics-pro.xml';
+        $offline = 'http://cdn.coalaweb.com/updates/cw-offline-pro.xml';
         $dbtools = 'http://cdn.coalaweb.com/updates/cw-dbtools-pro.xml';
 
         
@@ -1012,6 +1014,9 @@ class plgSystemCwgears extends JPlugin {
                 ->where($db->qn('location') . ' = ' . $db->q($print), 'OR')
                 ->where($db->qn('location') . ' = ' . $db->q($panel), 'OR')
                 ->where($db->qn('location') . ' = ' . $db->q($date), 'OR')
+                ->where($db->qn('location') . ' = ' . $db->q($versions), 'OR')
+                ->where($db->qn('location') . ' = ' . $db->q($analytics), 'OR')
+                ->where($db->qn('location') . ' = ' . $db->q($offline), 'OR')
                 ->where($db->qn('location') . ' = ' . $db->q($dbtools));
         $db->setQuery($query);
         
@@ -1034,6 +1039,9 @@ class plgSystemCwgears extends JPlugin {
                 ->where($db->qn('location') . ' = ' . $db->q($print), 'OR')
                 ->where($db->qn('location') . ' = ' . $db->q($panel), 'OR')
                 ->where($db->qn('location') . ' = ' . $db->q($date), 'OR')
+                ->where($db->qn('location') . ' = ' . $db->q($versions), 'OR')
+                ->where($db->qn('location') . ' = ' . $db->q($analytics), 'OR')
+                ->where($db->qn('location') . ' = ' . $db->q($offline), 'OR')
                 ->where($db->qn('location') . ' = ' . $db->q($dbtools));
         $db->setQuery($query);
         

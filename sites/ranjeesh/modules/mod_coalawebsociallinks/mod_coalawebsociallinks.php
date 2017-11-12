@@ -21,7 +21,7 @@ defined("_JEXEC") or die("Restricted access");
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
 require_once dirname(__FILE__) . '/helper.php';			
 include_once JPATH_ADMINISTRATOR . '/components/com_coalawebsociallinks/version.php';

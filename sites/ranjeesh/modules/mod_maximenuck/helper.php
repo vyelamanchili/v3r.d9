@@ -90,6 +90,13 @@ class modMaximenuckHelper {
 			foreach ($items as $i => $item) {
 				$isdependant = $params->get('dependantitems', false) ? ($start > 1 && !in_array($item->tree[$start - 2], $path)) : false;
 				$item->isthirdparty = (isset($item->isthirdparty) && $item->isthirdparty) ? true : false;
+				$item->parent = false;
+
+				if (isset($items[$lastitem]) && $items[$lastitem]->id == $item->parent_id && $item->params->get('menu_show', 1) == 1)
+				{
+					$items[$lastitem]->parent = true;
+				}
+
 				if (! $item->isthirdparty && (($start && $start > $item->level) || ($end && $item->level > $end) || $isdependant)
 				) {
 					unset($items[$i]);
@@ -118,7 +125,7 @@ class modMaximenuckHelper {
 				// Test if this is the last item
 				$item->is_end = !isset($items[$i + 1]);
 
-				if (! $item->isthirdparty) $item->parent = (boolean) $menu->getItems('parent_id', (int) $item->id, true);
+				// if (! $item->isthirdparty) $item->parent = (boolean) $menu->getItems('parent_id', (int) $item->id, true);
 				$item->active = false;
 				$item->current = false;
 				$item->flink = $item->link;
@@ -215,9 +222,9 @@ class modMaximenuckHelper {
 					$item->classe .= ' deeper';
 				}
 
-				if ($item->parent && ($end == 0 || (int)$item->level < (int)$end) && ! $item->isthirdparty) {
+				if ($items[$lastitem]->parent && ($end == 0 || (int)$items[$lastitem]->level < (int)$end) && ! $items[$lastitem]->isthirdparty) {
 					if ($params->get('layout', 'default') != '_:flatlist')
-						$item->classe .= ' parent';
+						$items[$lastitem]->classe .= ' parent';
 				}
 
 				// add last and first class

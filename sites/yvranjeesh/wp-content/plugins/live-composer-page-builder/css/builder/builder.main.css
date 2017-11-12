@@ -446,6 +446,16 @@ body a:focus {
 		padding-right: 5px;
 	}
 
+	/* Disabled actions while module saving is in progress. */
+
+	.dslca-module-saving-in-progress .dslca-actions .dslca-save-composer-helptext,
+	.dslca-module-saving-in-progress .dslca-actions .dslca-save-draft-composer-helptext,
+	.dslca-module-saving-in-progress .dslca-actions .dslca-save-composer-icon,
+	.dslca-module-saving-in-progress .dslca-actions .dslca-save-draft-composer-icon {
+		opacity: .5;
+		cursor: wait!important;
+	}
+
 	/**
 	 * Sections
 	 */
@@ -588,6 +598,10 @@ body a:focus {
 	/**
 	 * Modules
 	 */
+
+	.dslca-module-non-active {
+		opacity: 0.5 !important ;
+	}
 
 	.dslca-modules {
 
@@ -936,60 +950,6 @@ body a:focus {
 						font-weight: 400;
 						font-family: 'Open Sans', sans-serif;
 					}
-
-			/**
-			 * Icon option type - Switch set
-			 */
-
-			.dslca-module-edit-field-icon-switch-set {
-				/*display: inline-block;*/
-				position: absolute;
-				/*top: 0;*/
-				/*right: 0;*/
-				margin-top: 8px;
-				font-size: 10px;
-				line-height: 13px;
-				cursor: pointer;
-			}
-
-				.dslca-module-edit-field-icon-switch-set .dslca-icon {
-					color: rgba( 255, 255, 255, 0.7 );
-					margin-right: 4px;
-				}
-
-			.dslca-module-edit-field-icon-switch-sets {
-				background: #fff;
-				color: #8a8a8a;
-				font-family: 'Open Sans', sans-serif;
-				font-size: 13px;
-				display: none;
-				border-radius: 3px;
-				padding: 20px 25px;
-				border: 1px solid rgba(0,0,0,.12);
-				position: absolute;
-				-moz-box-shadow: 0 2px 2px rgba(0,0,0,.04), 0 0 7px rgba(0,0,0,.12);
-				-webkit-box-shadow: 0 2px 2px rgba(0,0,0,.04), 0 0 7px rgba(0,0,0,.12);
-				box-shadow: 0 2px 2px rgba(0,0,0,.04), 0 0 7px rgba(0,0,0,.12);
-				text-align: center;
-				z-index: 999999;
-			}
-
-				.dslca-module-edit-field-icon-switch-sets span {
-					display: block;
-					padding: 5px 10px;
-					cursor: pointer;
-					border-radius: 3px;
-				}
-
-				.dslca-module-edit-field-icon-switch-sets span:hover {
-					background: rgba( 0, 0, 0, 0.1 );
-				}
-
-				.dslca-module-edit-field-icon-switch-sets span.dslca-active {
-					background: #5890e5;
-					color: #fff;
-				}
-
 
 			/**
 			 * Box shadow option type
@@ -1820,7 +1780,7 @@ body.section-editing-in-progress .dslc-modules-section:not(.dslca-modules-sectio
 		margin-left: auto;
 		margin-right: auto;
 		max-width: 100%;
-		margin-bottom: 120px;
+		margin-bottom: 180px;
 		overflow: hidden;
 	}
 
@@ -2736,6 +2696,10 @@ body.rtl .dslca-modules-area-placeholder {
 			overflow: hidden;
 		}
 
+			.dslca-enabled.dslca-composer-hidden #dslc-content .dslca-wysiwyg-actions-edit {
+				display: none;
+			}
+
 			#dslc-content .dslca-wysiwyg-actions-edit-hook {
 				background: #5890e5;
 				color: #fff;
@@ -3288,14 +3252,12 @@ span.dslca-manage-action:hover * {
  * Tooltip
  */
 
-.dslca-module-edit-field-ttip-content,
-.dslca-modules-section-edit-field-ttip-content {
+.dslca-module-edit-field-ttip-content {
 	display: none;
 }
 
 .dslca-module-edit-field-icon-ttip-hook,
-.dslca-module-edit-field-ttip-hook,
-.dslca-modules-section-edit-field-ttip-hook {
+.dslca-module-edit-field-ttip-hook {
 	background: #3b6fbe;
 	color: #5890e5;
 	cursor: pointer;
@@ -3309,8 +3271,7 @@ span.dslca-manage-action:hover * {
 }
 
 .dslca-module-edit-field-icon-ttip-hook .dslca-icon,
-.dslca-module-edit-field-ttip-hook .dslca-icon,
-.dslca-modules-section-edit-field-ttip-hook .dslca-icon {
+.dslca-module-edit-field-ttip-hook .dslca-icon {
 	position: absolute;
 	left: 5px;
 	font-weight: normal;
@@ -3319,8 +3280,7 @@ span.dslca-manage-action:hover * {
 }
 
 .dslca-module-edit-field-icon-ttip,
-.dslca-module-edit-field-ttip,
-.dslca-modules-section-edit-field-ttip {
+.dslca-module-edit-field-ttip {
 	background: #fff;
 	color: #8a8a8a;
 	font-family: 'Opens Sans', sans-serif;
@@ -3339,8 +3299,7 @@ span.dslca-manage-action:hover * {
 }
 
 	.dslca-module-edit-field-icon-ttip a,
-	.dslca-module-edit-field-ttip a,
-	.dslca-modules-section-edit-field-ttip a {
+	.dslca-module-edit-field-ttip a {
 		color: #5890e5;
 		font-weight: bold;
 		text-decoration: none;
@@ -3349,9 +3308,7 @@ span.dslca-manage-action:hover * {
 	.dslca-module-edit-field-icon-ttip:after,
 	.dslca-module-edit-field-icon-ttip:before,
 	.dslca-module-edit-field-ttip:after,
-	.dslca-module-edit-field-ttip:before,
-	.dslca-modules-section-edit-field-ttip:after,
-	.dslca-modules-section-edit-field-ttip:before {
+	.dslca-module-edit-field-ttip:before {
 		top: 100%;
 		border: solid transparent;
 		content: " ";
@@ -3362,8 +3319,7 @@ span.dslca-manage-action:hover * {
 	}
 
 	.dslca-module-edit-field-icon-ttip:after,
-	.dslca-module-edit-field-ttip:after,
-	.dslca-modules-section-edit-field-ttip:after {
+	.dslca-module-edit-field-ttip:after {
 		border-color: rgba(255, 255, 255, 0);
 		border-top-color: #fff;
 		border-width: 8px;
@@ -3372,8 +3328,7 @@ span.dslca-manage-action:hover * {
 	}
 
 	.dslca-module-edit-field-icon-ttip:before,
-	.dslca-module-edit-field-ttip:before,
-	.dslca-modules-section-edit-field-ttip:before {
+	.dslca-module-edit-field-ttip:before {
 		border-color: rgba(224, 224, 224, 0);
 		border-top-color: #d2d2d2;
 		border-width: 9px;
@@ -3381,8 +3336,7 @@ span.dslca-manage-action:hover * {
 		margin-left: -9px;
 	}
 
-	.dslca-module-edit-field-ttip-close,
-	.dslca-modules-section-edit-field-ttip-close {
+	.dslca-module-edit-field-ttip-close {
 		cursor: pointer;
 		position: absolute;
 		background: #e55f5f;
@@ -3407,12 +3361,13 @@ span.dslca-manage-action:hover * {
 .dslca-modules-section-edit-field-image-add-hook,
 .dslca-modules-section-edit-field-image-remove-hook,
 .dslca-module-edit-field-image-add-hook,
-.dslca-module-edit-field-image-remove-hook {
+.dslca-module-edit-field-image-remove-hook,
+.dslca-module-edit-field-button-hook {
 	background: #3b6fbe;
 	border: 1px solid #3565ad;
 	border-radius: 3px;
 	color: #a0c0f0;
-	cursor: pointer;
+	cursor: pointer!important;
 	display: inline-block;
 	font-size: 12px;
 	font-family: 'Open Sans', sans-serif;
@@ -3478,6 +3433,15 @@ span.dslca-manage-action:hover * {
 		margin-top: 5px;
 	}
 
+	.dslc-hf-block-overlay-button {
+		padding: 40px 90px;
+	}
+
+	.dslc-hf-block-overlay-button:hover {
+		color: #fff;
+		cursor: pointer;
+	}
+
 
 /**
  * Composer Hidden
@@ -3494,7 +3458,16 @@ body.dslca-composer-hidden .dslca-module-manage,
 body.dslca-composer-hidden .dslca-modules-area-manage,
 body.dslca-composer-hidden .dslc-modules-section .dslca-modules-section-manage,
 .dslca-composer-hidden .dslc-modules-section:hover .dslca-modules-section-manage,
-.dslca-composer-hidden .dslca-add-modules-section {
+.dslca-composer-hidden .dslca-add-modules-section,
+body.dslca-composer-hidden .dslc-hf-block-overlay {
+	display: none !important;
+}
+
+body.dslca-composer-hidden .dslca-container.active-message-panel {
+	margin-bottom: 0;
+}
+
+body.dslca-composer-hidden .dslc-editor-messages-section {
 	display: none !important;
 }
 
@@ -4021,6 +3994,17 @@ body.page .dslca-module.dslca-origin-single[data-id="DSLC_TP_Staff_Social"] {
 		padding: 5px 8px 12px;
 	}
 
+	.dslca-modal-icons .set-heading {
+		text-transform: uppercase;
+		padding: 30px;
+		text-align: center;
+		letter-spacing: 6px;
+		font-family: 'Open Sans', sans-serif;
+		font-size: 16px;
+		font-weight: 300;
+		line-height: 1.25;
+	}
+
 
 /**
  * ----------------------------------------------------------------------
@@ -4371,3 +4355,41 @@ a.dslc-editor-messages-title:hover {
 a.dslc-editor-messages-hide:hover {
     color: #fff;
 }
+
+.dslca-enabled.dslc-res-tablet .dslc-modules-section:hover, .dslca-enabled.dslc-res-phone .dslc-modules-section:hover {
+	box-shadow: none;
+}
+
+.dslca-enabled.dslc-res-tablet .dslc-modules-section:hover .dslca-modules-section-manage, .dslca-enabled.dslc-res-phone .dslc-modules-section:hover .dslca-modules-section-manage {
+	visibility: hidden !important;
+}
+
+.dslca-enabled.dslc-res-tablet .dslc-modules-area:hover, .dslca-enabled.dslc-res-phone .dslc-modules-area:hover {
+    box-shadow: none;
+}
+
+.dslca-enabled.dslc-res-tablet .dslc-modules-area:hover .dslca-modules-area-manage, .dslca-enabled.dslc-res-phone .dslc-modules-area:hover .dslca-modules-area-manage {
+	visibility: hidden !important;
+	opacity: 0;
+}
+
+.dslca-enabled.dslca-drag-not-in-progress.dslc-res-tablet #dslc-content .dslc-module-front .dslca-module-manage-inner:hover,
+.dslca-enabled.dslca-drag-not-in-progress.dslc-res-tablet #dslc-content .dslc-module-front:hover .dslca-module-manage-inner,
+.dslca-enabled.dslca-drag-not-in-progress.dslc-res-tablet #dslc-content .dslc-module-front:hover .dslca-wysiwyg-actions-edit,
+.dslca-enabled.dslca-drag-not-in-progress.dslc-res-phone #dslc-content .dslc-module-front .dslca-module-manage-inner:hover,
+.dslca-enabled.dslca-drag-not-in-progress.dslc-res-phone #dslc-content .dslc-module-front:hover .dslca-module-manage-inner,
+.dslca-enabled.dslca-drag-not-in-progress.dslc-res-phone #dslc-content .dslc-module-front:hover .dslca-wysiwyg-actions-edit {
+	opacity: 0;
+}
+
+.dslca-enabled.dslc-res-tablet .dslc-modules-area:hover .dslc-module-front:hover, .dslca-enabled.dslc-res-phone .dslc-modules-area:hover .dslc-module-front:hover {
+	box-shadow: none;
+}
+
+body.module-editing-in-progress.dslc-res-tablet .dslc-module-front:not(.dslca-module-being-edited):before,
+body.section-editing-in-progress.dslc-res-tablet .dslc-modules-section:not(.dslca-modules-section-being-edited):before,
+body.module-editing-in-progress.dslc-res-phone .dslc-module-front:not(.dslca-module-being-edited):before,
+body.section-editing-in-progress.dslc-res-phone .dslc-modules-section:not(.dslca-modules-section-being-edited):before {
+	z-index: 1;
+}
+

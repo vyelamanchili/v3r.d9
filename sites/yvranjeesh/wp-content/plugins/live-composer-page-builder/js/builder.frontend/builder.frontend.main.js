@@ -20,3 +20,22 @@ function dslca_publish_event( eventName, eventData ) {
 		message: {details: eventData}
 	} );
 }
+
+/**
+ * Scroll editing page to the content page area (skipping header section).
+ *
+ * Don't user document.ready
+ * as we need all styles/images loaded before scrolling.
+ */
+jQuery(window).load(function($) {
+	var mainContentBlock = jQuery('#dslc-main');
+	// Condition fixes issues/756.
+	if ( mainContentBlock.length ) {
+		var scrollTo = mainContentBlock.offset().top;
+		if ( scrollTo ) {
+			jQuery('html, body').animate({
+				scrollTop: scrollTo
+			}, 1000);
+		}
+	}
+});

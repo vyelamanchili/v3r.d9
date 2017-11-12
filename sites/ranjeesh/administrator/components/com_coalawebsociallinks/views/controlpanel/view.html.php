@@ -20,13 +20,18 @@
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
 
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.view');
 jimport('joomla.filesystem.file');
+
+$latestVersion = JPATH_SITE . '/plugins/system/cwgears/helpers/latestversion.php';
+if (JFile::exists($latestVersion) && !class_exists('CwGearsLatestversion')) {
+    JLoader::register('CwGearsLatestversion', $latestVersion);
+}
 
 /**
  * View class for control panel
@@ -70,6 +75,17 @@ class CoalawebsociallinksViewControlpanel extends JViewLegacy {
          // We don't need toolbar in the modal window.
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();
+        }
+
+        // Lets check the current version against the latest
+        $type = $isPro ? 'pro' : 'core';
+        if (class_exists('CwGearsLatestversion')) {
+            $this->current = CwGearsLatestversion::getCurrent('cw-sociallinks-'. $type, $version );
+        } else {
+            $this->current = [
+                'remote' => JText::_('COM_CWSOCIALLINKS_NO_FILE'),
+                'update' => ''
+            ];
         }
 
         parent::display($tpl);

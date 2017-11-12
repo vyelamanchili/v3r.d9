@@ -79,12 +79,10 @@ if ( ! class_exists( 'Cptch_Whitelist' ) ) {
 							<td>
 								<label>
 									<input type="checkbox" name="cptch_use_la_whitelist" value="1" "<?php echo $disabled . $checked; ?>/>
-									<?php echo $limit_attempts_info['label']; ?>
+									use the whitelist of Limit Attempts
 								</label>
 								<?php $content = sprintf( __( 'With this option, CAPTCHA will not be displayed for IP-addresses from the whitelist of %s', 'captcha' ), $limit_attempts_info['name'] );
-								if ( ! empty( $limit_attempts_info['notice'] ) )
-									$content .=  '<p class="bws_info">' . $limit_attempts_info['notice'] . '</p>';
-								echo bws_add_help_box( $content ); ?>
+								 ?>
 							<td>
 						</tr>
 						<tr>
@@ -98,7 +96,7 @@ if ( ! class_exists( 'Cptch_Whitelist' ) ) {
 										$content = sprintf( __( 'By click on this button, all IP-addresses from the whitelist of %s will be loaded to the whitelist of %s', 'captcha' ), $limit_attempts_info['name'], 'Captcha by BestWebSoft' );
 										if ( ! empty( $limit_attempts_info['notice'] ) )
 											$content .=  '<p class="bws_info">' . $limit_attempts_info['notice'] . '</p>';
-										echo bws_add_help_box( $content, 'cptch_thumb_block' );
+										
 									} ?>
 								</div>
 								<noscript>

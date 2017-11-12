@@ -20,9 +20,9 @@ defined('_JEXEC') or die('Restricted access');
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
 
-define('COM_CWSOCIALLINKS_VERSION', '0.4.1');
-define('COM_CWSOCIALLINKS_DATE', '2017-07-03');
+define('COM_CWSOCIALLINKS_VERSION', '0.4.2');
+define('COM_CWSOCIALLINKS_DATE', '2017-09-21');
 define('COM_CWSOCIALLINKS_PRO', '0');

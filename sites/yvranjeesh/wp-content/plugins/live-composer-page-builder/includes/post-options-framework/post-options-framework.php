@@ -183,14 +183,11 @@ function dslc_editorinterface_post_options( $object, $metabox ) {
 			// Get current value as array.
 			$curr_value_no_esc = get_post_meta( $object->ID, $post_option['id'] );
 
+			$curr_value  = esc_attr( $post_option['std'] );
+
 			// If there is only one value in array – transform it into the string.
 			if ( 1 === count( $curr_value_no_esc ) && is_string( $curr_value_no_esc[0] ) ) {
 				$curr_value = esc_attr( $curr_value_no_esc[0] );
-			}
-
-			if ( empty( $curr_value_no_esc ) ) {
-				// $curr_value_no_esc[] = $post_option['std'];
-				$curr_value  = esc_attr( $post_option['std'] );
 			}
 
 			?>
@@ -251,7 +248,20 @@ function dslc_editorinterface_post_options( $object, $metabox ) {
 
 					<?php elseif ( 'checkbox' === $post_option['type'] ) : ?>
 
-						<div class="dslca-post-option-field-inner-wrapper">
+						<?php
+
+						foreach ( $post_option['choices'] as $key => $choice ) {
+
+							if ( 'list-heading' === $choice['value'] && 'dslca_single_post_templates' === $choice['id'] ) {
+								$dslca_post_option_id = 'id="' . $choice['id'] . '"';
+							} else {
+								$dslca_post_option_id = '';
+							}
+						}
+
+						?>
+
+						<div class="dslca-post-option-field-inner-wrapper" <?php echo $dslca_post_option_id; ?> >
 
 							<?php
 							$curr_value_array = maybe_unserialize( $curr_value_no_esc );
@@ -276,7 +286,18 @@ function dslc_editorinterface_post_options( $object, $metabox ) {
 
 									<?php if ( 0 !== $key ) : ?>
 										</div>
-										<div class="dslca-post-option-field-inner-wrapper">
+										<?php
+
+										if ( 'dslca_archive_index_templates' === $choice['id'] ) {
+											$dslca_post_option_id = 'id="' . $choice['id'] . '"';
+										} elseif ( 'dslca_special_page_templates' === $choice['id'] ) {
+											$dslca_post_option_id = 'id="' . $choice['id'] . '"';
+										} else {
+											$dslca_post_option_id = '';
+										}
+
+										?>
+										<div class="dslca-post-option-field-inner-wrapper" <?php echo $dslca_post_option_id; ?>>
 									<?php endif;?>
 
 										<p>

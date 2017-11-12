@@ -62,40 +62,7 @@ if ( ! class_exists( 'Cptch_Package_Loader' ) ) {
 					}
 				</style>
 			</noscript>
-			<div class="upload-plugin cptch_install_package_wrap">
-				<form id="cptch_install_package_form" class="bws_form wp-upload-form" method="post" enctype="multipart/form-data" action="admin.php?page=captcha_pro.php&amp;action=packages&amp;cptch_action=new">
-					<fieldset>
-						<p>
-							<label>
-								<input id="cptch_install_package_input" type="file" name="cptch_packages" />
-							</label>
-						</p>
-						<p><?php _e( 'If the package already exists', 'captcha' ); ?></p>
-						<p>
-
-							<label for="cptch_skip_existed">
-								<input type="radio" name="cptch_existed_package" value="skip" checked="checked" id="cptch_skip_existed" class="cptch_install_disabled" />
-								<?php _e( 'Skip it', 'captcha' ); ?>
-							</label><br/>
-							<label for="cptch_update_existed">
-								<input type="radio" name="cptch_existed_package" value="update" id="cptch_update_existed" class="cptch_install_disabled" />
-								<?php _e( 'Update the existed one', 'captcha' ); ?>
-							</label><br/>
-							<label for="cptch_save_as_new_existed">
-								<input type="radio" name="cptch_existed_package" value="save_as_new" id="cptch_save_as_new_existed" class="cptch_install_disabled" />
-								<?php _e( 'Save it as new', 'captcha' ); ?>
-							</label>
-						</p>
-						<p>
-							<label>
-								<input class="button-primary cptch_install_disabled" name="cptch_install_package_submit" type="submit" value="<?php _e( 'Install Now', 'captcha' ); ?>" />
-							</label>
-							<a class="cptch_add_ons_link" href="https://bestwebsoft.com/products/wordpress/plugins/captcha/#addons" target="_blank"><?php _e( 'Browse packages', 'captcha' ); ?></a>
-						</p>
-						<?php wp_nonce_field( $this->basename, 'cptch_load_package' ); ?>
-					</fieldset>
-				</form>
-			</div>
+			
 		<?php }
 
 

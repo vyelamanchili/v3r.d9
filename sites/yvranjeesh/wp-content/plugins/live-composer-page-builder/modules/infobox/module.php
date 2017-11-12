@@ -39,6 +39,13 @@ class DSLC_Info_Box extends DSLC_Module {
 	 */
 	function options() {
 
+		// Check if we have this module options already calculated
+		// and cached in WP Object Cache.
+		$cached_dslc_options = wp_cache_get( 'dslc_options_' . $this->module_id, 'dslc_modules' );
+		if ( $cached_dslc_options ) {
+			return apply_filters( 'dslc_module_options', $cached_dslc_options, $this->module_id );
+		}
+
 		$dslc_options = array(
 
 			array(
@@ -2327,8 +2334,20 @@ class DSLC_Info_Box extends DSLC_Module {
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-info-box-image',
+				'affect_on_change_el' => '.dslc-info-box-image, .dslc-info-box-icon-pos-aside .dslc-info-box-image',
 				'affect_on_change_rule' => 'margin-right',
+				'section' => 'responsive',
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
+			),
+			array(
+				'label' => __( 'Icon - Margin Bottom', 'live-composer-page-builder' ),
+				'id' => 'css_res_t_icon_margin_bottom',
+				'std' => '0',
+				'type' => 'slider',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-info-box-image',
+				'affect_on_change_rule' => 'margin-bottom',
 				'section' => 'responsive',
 				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 				'ext' => 'px',
@@ -2657,8 +2676,20 @@ class DSLC_Info_Box extends DSLC_Module {
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-info-box-image',
+				'affect_on_change_el' => '.dslc-info-box-image, .dslc-info-box-icon-pos-aside .dslc-info-box-image',
 				'affect_on_change_rule' => 'margin-right',
+				'section' => 'responsive',
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
+			),
+			array(
+				'label' => __( 'Icon - Margin Bottom', 'live-composer-page-builder' ),
+				'id' => 'css_res_p_icon_margin_bottom',
+				'std' => '0',
+				'type' => 'slider',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-info-box-image',
+				'affect_on_change_rule' => 'margin-bottom',
 				'section' => 'responsive',
 				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 				'ext' => 'px',
@@ -2870,6 +2901,9 @@ class DSLC_Info_Box extends DSLC_Module {
 		$dslc_options = array_merge( $dslc_options, $this->shared_options( 'animation_options', array( 'hover_opts' => false ) ) );
 		$dslc_options = array_merge( $dslc_options, $this->presets_options() );
 
+		// Cache calculated array in WP Object Cache.
+		wp_cache_add( 'dslc_options_' . $this->module_id, $dslc_options ,'dslc_modules' );
+
 		return apply_filters( 'dslc_module_options', $dslc_options, $this->module_id );
 
 	}
@@ -2885,21 +2919,20 @@ class DSLC_Info_Box extends DSLC_Module {
 		global $dslc_active;
 
 		if ( $dslc_active && is_user_logged_in() && current_user_can( DS_LIVE_COMPOSER_CAPABILITY ) ) {
-					$dslc_is_admin = true;
+			$dslc_is_admin = true;
 		} else {
-					$dslc_is_admin = false;
+			$dslc_is_admin = false;
 		}
 
-		$this->module_start( $options );
 
 		/* Module output stars here */
 
 		// Main Elements.
 		$elements = $options['elements'];
 		if ( ! empty( $elements ) ) {
-					$elements = explode( ' ', trim( $elements ) );
+			$elements = explode( ' ', trim( $elements ) );
 		} else {
-					$elements = array();
+			$elements = array();
 		}
 
 		$image_alt = $options['image_alt'];
@@ -3030,10 +3063,5 @@ class DSLC_Info_Box extends DSLC_Module {
 			</div><!-- .dslc-info-box -->
 
 		<?php
-
-		/* Module output ends here */
-
-		$this->module_end( $options );
-
 	}
 }

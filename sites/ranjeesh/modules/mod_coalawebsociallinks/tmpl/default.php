@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
 
 ?>
@@ -70,8 +70,9 @@ defined('_JEXEC') or die('Restricted access');
                             if ($params->get("display_twitter_bm")) {
                                 $via = substr($comParams->get('twitter_via'), 1);
                                 $via = ($via ? '&amp;via=' . $via : '');
+                                $hash = $comParams->get('twitter_hash');
                                 $popupTweet = ($params->get('include_twitter_js', 1) ? '' : $popup);
-                                echo $helpFunc->getTwitterBookmark($title, $link, $size, $linknofollow, $via, $popupTweet, $linkText);
+                                echo $helpFunc->getTwitterBookmark($title, $link, $size, $linknofollow, $via, $hash, $popupTweet, $linkText);
                             }
                             if ($params->get("display_linkedin_bm")) {
                                 echo $helpFunc->getLinkedInBookmark($title, $link, $size, $linknofollow, $popup, $linkText);

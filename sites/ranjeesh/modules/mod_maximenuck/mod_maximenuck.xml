@@ -11,7 +11,7 @@
 	<license>GNU/GPL 3 http://www.gnu.org/licenses/gpl.html</license>
 	<authorEmail>ced1870@gmail.com</authorEmail>
 	<authorUrl>http://www.joomlack.fr</authorUrl>
-	<version>8.2.5</version>
+	<version>8.2.7</version>
 	<description>MOD_MAXIMENUCK_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_maximenuck">mod_maximenuck.php</filename>
@@ -333,7 +333,18 @@
 					<option value="click">MOD_MAXIMENUCK_CLICK</option>
 					<option value="clickclose">MOD_MAXIMENUCK_CLOSECLICK</option>
 				</field>
-
+				<field
+					name="clickclose"
+					type="ckradio"
+					default="0"
+					label="MOD_MAXIMENUCK_CLICKCLOSE_LABEL"
+					description="MOD_MAXIMENUCK_CLICKCLOSE_DESC"
+					icon="control_eject_blue.png"
+					class="btn-group"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 				<field
 					name="opentype"
 					type="cklist"

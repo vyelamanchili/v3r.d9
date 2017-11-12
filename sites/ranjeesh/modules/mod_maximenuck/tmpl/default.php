@@ -42,6 +42,8 @@ $direction = $langdirection == 'rtl' ? 'right' : 'left';
 					// test if need to be dropdown
 					//    $stopdropdown = ($item->level > 120) ? '-nodrop' : '';
 					$itemlevel = ($start > 1) ? $item->level - $start + 1 : $item->level;
+					$closeHtml = ($params->get('clickclose', '0') == '1' || $params->get('behavior', 'mouseover') == 'clickclose' || stristr($item->liclass, 'clickclose') != false) ? $close : '';
+
 					if ($params->get('calledfromlevel')) {
 						$itemlevel = $itemlevel + $params->get('calledfromlevel') - 1;
 					}
@@ -98,7 +100,7 @@ $direction = $langdirection == 'rtl' ? 'right' : 'left';
 							$item->styles = "";
 							$item->innerstyles = "";
 						}
-						echo "\n\t<div class=\"floatck\" " . $item->styles . ">" . ( ($params->get('behavior', 'mouseover') == 'clickclose' || stristr($item->liclass, 'clickclose') != false) ? $close : '' ) . "<div class=\"maxidrop-top\"><div class=\"maxidrop-top2\"></div></div><div class=\"maxidrop-main\" " . $item->innerstyles . "><div class=\"maxidrop-main2\"><div class=\"maximenuck2 first \" " . $nextcolumnstyles . ">\n\t<ul class=\"maximenuck2\">";
+						echo "\n\t<div class=\"floatck\" " . $item->styles . ">" . $closeHtml . "<div class=\"maxidrop-top\"><div class=\"maxidrop-top2\"></div></div><div class=\"maxidrop-main\" " . $item->innerstyles . "><div class=\"maxidrop-main2\"><div class=\"maximenuck2 first \" " . $nextcolumnstyles . ">\n\t<ul class=\"maximenuck2\">";
 						// if (isset($item->coltitle))
 						// echo $item->coltitle;
 					}

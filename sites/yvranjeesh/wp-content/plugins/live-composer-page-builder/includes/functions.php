@@ -208,7 +208,9 @@ function dslc_module_settings( $options, $module_id ) {
 
 		// Go through all options and fill array with default/standard values.
 		foreach ( $options as $option ) {
-			$settings[ $option['id'] ] = $option['std'];
+			if ( isset( $option['std'] ) ) {
+				$settings[ $option['id'] ] = $option['std'];
+			}
 		}
 
 	} else {
@@ -776,6 +778,40 @@ function dslc_code_migration( $settings ) {
 			} elseif ( ! isset( $settings[ $id ] ) ) {
 				/* Fix bug with disappearing borders when migrating to new version */
 				$settings[ $id ] = $control['std'];
+			}
+		} elseif ( 'elements' === $id ) {
+
+			if ( isset( $settings[ $id ] ) && '' === $settings[ $id ] ) {
+				$settings[ $id ] = '';
+			} elseif ( ! isset( $settings[ $id ] ) ) {
+				$settings[ $id ] = $control['std'];
+			}
+		} elseif ( 'content' === $id ) {
+
+			if ( isset( $settings[ $id ] ) && '' === $settings[ $id ] ) {
+				$settings[ $id ] = '';
+			} elseif ( ! isset( $settings[ $id ] ) && isset( $control['std'] ) ) {
+				$settings[ $id ] = $control['std']; // Fix missing default content.
+			}
+		} elseif ( 'button_text' === $id ) {
+
+			if ( isset( $settings[ $id ] ) && '' === $settings[ $id ] ) {
+				$settings[ $id ] = '';
+			} elseif ( ! isset( $settings[ $id ] ) && isset( $control['std'] ) ) {
+				$settings[ $id ] = $control['std']; // Fix missing default button labels.
+			}
+
+		} elseif ( 'main_heading_link_title' === $id ) {
+
+			if ( isset( $settings[ $id ] ) && '' === $settings[ $id ] ) {
+				$settings[ $id ] = '';
+			}
+		} elseif ( stristr( $id, 'font_family' ) ) {
+
+			if ( isset( $settings[ $id ] ) && '' === $settings[ $id ] ) {
+				$settings[ $id ] = '';
+			} elseif ( ! isset( $settings[ $id ] ) && isset( $control['std'] ) ) {
+				$settings[ $id ] = $control['std']; // Fix missing default font family.
 			}
 		} elseif ( ( ! isset( $settings[ $id ] ) || '' === $settings[ $id ] ) &&
 					isset( $control['std'] ) ) {

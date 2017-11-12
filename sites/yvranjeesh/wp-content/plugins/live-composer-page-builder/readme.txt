@@ -1,9 +1,9 @@
 === Page Builder: Live Composer - drag and drop website builder (visual front end site editor) ===
 Contributors: LiveComposer
 Tags: page builder, visual composer, visual editor, visual builder, drag and drop builder, landing page builder, frontend editor, frontend builder, landing pages, landing page, website builder, theme builder, site-builder, layout builder, drag-and-drop, builder, editor, responsive, mobile, layout, front end, frontend, Page Layout, squeeze page, page builder plugin, drag-n-drop page builder
-Requires at least: 4.3
-Tested up to: 4.7.3
-Stable tag: 1.2.9
+Requires at least: 4.7
+Tested up to: 4.8.2
+Stable tag: 1.3.7
 License: GPLv3
 
 Front-end page builder for WordPress with drag and drop editing. Build PRO responsive websites and landing pages. Visually customize any page element.
@@ -132,7 +132,168 @@ The Page Builder Sandwich available on WordPress.org is a light version of Page 
 Upcoming Releases:
 
 * [Please, report any bugs on GitHub](https://github.com/livecomposer/live-composer-page-builder/issues/)
-* [You can download any previous version here](https://wordpress.org/plugins/live-composer-page-builder/developers/)
+* [You can download any previous version here](https://github.com/live-composer/live-composer-page-builder/releases)
+
+= 1.3.7 - October 4th 2017 =
+
+= Bug Fixes: =
+* Issue [#804](https://github.com/livecomposer/live-composer-page-builder/issues/804): Fixed: Link is not correct on LC WordPress
+* Issue [#797](https://github.com/livecomposer/live-composer-page-builder/issues/797): Fixed: The filter buttons should not be visible on mobile
+* Issue [#787](https://github.com/livecomposer/live-composer-page-builder/issues/787): Fixed: The sticky/fixed header option is not working properly
+* Issue [#784](https://github.com/livecomposer/live-composer-page-builder/issues/784): Fixed: The category archive listing issue with the very first post
+
+= Thanks to the next contributors for helping with this update: =
+
+* [emingus](https://github.com/emingus)
+
+
+
+
+
+
+
+
+= 1.3.6 - September 19th 2017 =
+
+= Bug Fixes: =
+* Issue [#800](https://github.com/livecomposer/live-composer-page-builder/issues/800): Fixed: Archives listing template is broken
+* Issue [#796](https://github.com/livecomposer/live-composer-page-builder/issues/796): Fixed: WPML - Translate Header and Footer
+* Issue [#795](https://github.com/livecomposer/live-composer-page-builder/issues/795): Fixed: Module 'Comments Form' - Rename shortcode
+
+
+
+
+
+
+
+
+= 1.3.5 - September 8th 2017 =
+
+= Bug Fixes: =
+* Issue [#722](https://github.com/livecomposer/live-composer-page-builder/issues/722): Fixed notice of module 'Image'
+* Issue [#776](https://github.com/livecomposer/live-composer-page-builder/issues/776): Fixed issue on templates import
+* Issue [#777](https://github.com/livecomposer/live-composer-page-builder/issues/777): Fixed blog comments
+
+= New: =
+* Issue [#788](https://github.com/livecomposer/live-composer-page-builder/issues/788): Added filter for WPML
+* Issue [#788](https://github.com/livecomposer/live-composer-page-builder/issues/788): Added new icon for module 'Social Element'
+
+= Thanks to the next contributors for helping with this update: =
+
+* [lejardindeden](https://github.com/lejardindeden)
+
+
+
+
+
+
+
+
+= 1.3.4 - August 13th 2017 =
+
+= Bug Fixes: =
+* Issue [#760](https://github.com/livecomposer/live-composer-page-builder/issues/760): Fixed NAVIGATION module subnav styling settings
+* Issue [#762](https://github.com/livecomposer/live-composer-page-builder/issues/762): Fixed Header/Footer Editing Functionality
+* Issue [#763](https://github.com/livecomposer/live-composer-page-builder/issues/763): Add option for developers to filter controls with on/off toggle
+* Issue [#764](https://github.com/livecomposer/live-composer-page-builder/issues/764): Fixed issue with height ( Footer )
+
+* [You can download any previous version here](https://wordpress.org/plugins/live-composer-page-builder/advanced/)
+* If something isn't working as expected, please try to disable cache first and report a problem.You can disable the Live Composer caching feature from WP Admin > Live Composer > Settings > Performance > HTML/CSS caching.
+
+
+
+
+
+
+
+
+= 1.3.3 - August 9th 2017 =
+
+= Bug Fixes: =
+* Fixes the broken div wrappers in header/footers introduced in the previous version
+* Fixes a JS error that appears in the Menu Pro (no outerHide function)
+* Issue [#753](https://github.com/livecomposer/live-composer-page-builder/issues/753): Fixes a bug of pagination when the LC caching is active
+* Issue [#754](https://github.com/livecomposer/live-composer-page-builder/issues/754): Fixes a bug with the active menu style when the LC caching is active
+* Issue [#755](https://github.com/livecomposer/live-composer-page-builder/issues/755): Fixes the broken google map when the LC caching is active
+* Issue [#756](https://github.com/livecomposer/live-composer-page-builder/issues/756): Fixes a bug in builder.frontend.main.js
+* Issue [#757](https://github.com/livecomposer/live-composer-page-builder/issues/757): Fixes a bug with the header/footer editing overlay
+
+= Information about cache: =
+
+If have problems with the cache, you can disable the Live Composer caching feature from WP Admin > Live Composer > Settings > Performance > HTML/CSS caching.
+
+
+
+
+
+
+
+
+= 1.3.2.1 - July 25th 2017 =
+
+= New: =
+* Live Composer now comes with a simple object-based cache. It will use 2-5 times fewer server resources. Pages will load 3-5 times faster. You can clear cache or disable it completely in WP Admin > Live Composer > Performance > HTML/CSS caching.
+
+= Bug Fixes: =
+* Issue [#720](https://github.com/livecomposer/live-composer-page-builder/issues/720): Social icons do not space out from center
+
+= Improved: =
+* Code optimization for faster loading times and better performance.
+* Issue [#725](https://github.com/livecomposer/live-composer-page-builder/issues/725): Added "Edit in Live Composer" buttons (posts list + editing screen)
+* Issue [#722](https://github.com/livecomposer/live-composer-page-builder/issues/722): Module 'Image' Show message to the site admins only.
+* Issue [#717](https://github.com/livecomposer/live-composer-page-builder/issues/717): Removed the ordering criteria which don't belong to the module
+* Issue [#709](https://github.com/livecomposer/live-composer-page-builder/issues/709): Added 'Enable/Disable' custom CSS for the module Shortcode
+* Improved function dslc_icons_current_set
+* Improved builder.main.css
+* Module InfoBox - Improved the controls for the icon ( Tablet and Phone )
+* Removed unwanted console.log form js code
+
+= Thanks to the next contributors for helping with this update: =
+
+* [lejardindeden](https://github.com/lejardindeden)
+* [lukeperrie](https://github.com/lukeperrie)
+
+
+
+
+
+
+
+
+= 1.3.1 - May 31th 2017 =
+
+= Improved: =
+* Module Comments Form: Fixed Notice
+* Added new filters for developers to insert custom HTML before and after any header or footer.
+* Added new filters for developers to insert custom HTML before and after content.
+* Improve function lc_welcome
+* Improve function dslc_code_migration
+
+
+
+
+
+
+
+
+= 1.3 - April 25th 2017 =
+
+= Improved: =
+* Issue [#639](https://github.com/livecomposer/live-composer-page-builder/issues/639): New filter added for the developers to adjust display of the composer panels
+* Issue [#684](https://github.com/livecomposer/live-composer-page-builder/issues/684): Improved filter allowing to insert custom code before and after any module or section.
+* Issue [#680](https://github.com/livecomposer/live-composer-page-builder/issues/680): Text module: Added margin-bottom (paragraph) for Tablets and Phones
+* Issue [#673](https://github.com/livecomposer/live-composer-page-builder/issues/673): Improved 'help' control for modules and sections
+* Issue [#576](https://github.com/livecomposer/live-composer-page-builder/issues/576): Improved the comments form
+* Issue [#435](https://github.com/livecomposer/live-composer-page-builder/issues/435): Simplified settings for the template posts
+* Issue [#404](https://github.com/livecomposer/live-composer-page-builder/issues/404): When editing any template LC, it will send you back to the original post when closed
+* Issue [#302](https://github.com/livecomposer/live-composer-page-builder/issues/302): Image Module: ALT and TITLE attributes now synchronize with the ones set in WP Media library
+
+
+
+
+
+
+
 
 = 1.2.9 - April 12th 2017 =
 

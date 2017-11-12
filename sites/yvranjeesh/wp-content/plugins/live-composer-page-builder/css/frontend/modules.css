@@ -22,9 +22,9 @@
  	#dslc-content .dslc-cpt-post {
 	}
 
-		#dslc-content .dslc-cpt-post-main {
+		/*#dslc-content .dslc-cpt-post-main {
 			border: 0px solid transparent;
-		}
+		}*/
 
 			#dslc-content .dslc-cpt-post-thumb {
 				margin-bottom: 20px;
@@ -214,7 +214,7 @@
 				}
 
 			#dslc-content .dslc-blog-post-meta {
-				border: 1px solid #e5e5e5;
+				/*border: 1px solid #e5e5e5;*/
 				border-left: 0;
 				border-right: 0;
 				margin-bottom: 20px;
@@ -1150,9 +1150,9 @@ input[type="button"], input[type="submit"], input[type="reset"], input[type="fil
 	height: auto;
 }
 
-.dslc-text-module-content {
+/*.dslc-text-module-content {
 	border: 0px solid transparent;
-}
+}*/
 
 /**
  * WIDGETS MODULE
@@ -1211,9 +1211,9 @@ input[type="button"], input[type="submit"], input[type="reset"], input[type="fil
 		margin-right: 0;
 	}
 
-	#dslc-content .dslc-widget li {
+	/*#dslc-content .dslc-widget li {
 		border-style: solid;
-	}
+	}*/
 
 /**
  * PRODUCTS MODULE
@@ -1564,6 +1564,10 @@ input[type="button"], input[type="submit"], input[type="reset"], input[type="fil
 			float: left;
 			display: block;
 		}
+
+#dslc-content ul.dslc-social li:last-child {
+	margin-right: 0;
+}
 
 /**
  * Staff Social
@@ -1960,11 +1964,17 @@ body.dslca-enabled .dslc-notification-box-has-timeout {
  */
 
 #dslc-content .dslc-navigation {
-	z-index: 99998;
+	z-index: 999;
 	position: relative;
 	text-align: right;
 	font-size: 0;
 }
+	/* Disable pro menu icons in a regular navigation module. */
+	body .dslc-navigation .menu-item[class^="dslc-icon-"]:before,
+	body .dslc-navigation .menu-item[class*=" dslc-icon-"]:before {
+		display: none;
+	}
+
 
 	/* https://github.com/live-composer/live-composer-page-builder/issues/547 */
 	/*#dslc-content .dslc-navigation-inner {
@@ -1981,7 +1991,7 @@ body.dslca-enabled .dslc-notification-box-has-timeout {
 		#dslc-content .dslc-navigation .menu > li {
 			display: inline-block;
 			position: relative;
-			z-index: 99998;
+			/*z-index: 99998; – it breaks sub-menu popups. No z-index should be here.*/
 		}
 
 		/* Top level horizontal menu li */
@@ -2021,14 +2031,15 @@ body.dslca-enabled .dslc-notification-box-has-timeout {
 
 	/* Inner level menu ul */
 	#dslc-content .dslc-navigation .menu ul {
-		border-style: solid;
 		display: none;
 		list-style-type: none;
 		margin: 0;
 		opacity: 0;
 		position: absolute;
+		z-index:10; /* Required to have sub-menu pop-up to cover other meny items properly*/
 		top: 100%;
 		left: -28px;
+		text-align: left;
 	}
 
 	/* Left position menu */
@@ -2064,6 +2075,8 @@ body.dslca-enabled .dslc-notification-box-has-timeout {
 		/* Inner level menu li */
 		#dslc-content .dslc-navigation .menu ul li {
 			display: block;
+			position: relative;
+			z-index: 3;
 			white-space: nowrap;
 			margin: 0;
 		}
@@ -2100,8 +2113,35 @@ body.dslca-enabled .dslc-notification-box-has-timeout {
 		/* Second Level menu ul */
 		#dslc-content .dslc-navigation .menu ul ul {
 			left: 100%;
-			margin-left: -10px;
+			margin-left: -1px;
 			top: -1px;
+		}
+
+		/* We don't apply design settings to sub-menu ul directly
+			but using pseudo element. */
+		#dslc-content .dslc-navigation .menu ul:before {
+		    position: absolute;
+		    content: '';
+		    display: block;
+		    left: 0;
+		    top: 0;
+		    bottom: 0;
+		    right: 0;
+		    z-index: 2;
+
+		    border-style: solid;
+		}
+
+		/* Invisible buffer for better hover experience */
+		#dslc-content .dslc-navigation .menu li:hover > ul.sub-menu:after {
+		    display: block;
+		    content: "";
+		    left: -10px;
+		    right: -10px;
+		    bottom: -10px;
+		    top: -10px;
+		    z-index: 0;
+		    position: absolute;
 		}
 
 			/* Second level menu inverted */
@@ -2111,8 +2151,9 @@ body.dslca-enabled .dslc-notification-box-has-timeout {
 			}
 
 		/* Inner level menu show */
-		#dslc-content .dslc-navigation .menu li:hover > ul {
+		#dslc-content .dslc-navigation .menu li:hover > ul.sub-menu {
 			display: block;
+			opacity: 1;
 		}
 
 /**

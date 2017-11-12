@@ -365,6 +365,7 @@ if ($usejavascript && $params->get('layout', 'default') != '_:flatlist' && $para
 			. "effecttype : '" . $effecttype . "',"
 			. "topfixedeffect : '" . $params->get('topfixedeffect', '1') . "',"
 			. "topfixedoffset : '" . $params->get('topfixedoffset', '') . "',"
+			. "clickclose : '" . $params->get('clickclose', '0') . "',"
 			. "fxduration : " . $fxduration . "});"
 			. "});";
 

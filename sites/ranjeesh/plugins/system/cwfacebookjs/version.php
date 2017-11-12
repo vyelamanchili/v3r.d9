@@ -20,9 +20,9 @@ defined('_JEXEC') or die('Restricted access');
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
 
-define('PLG_CWFACEBOOKJS_VERSION', '1.0.5');
-define('PLG_CWFACEBOOKJS_DATE', '2017-05-05');
+define('PLG_CWFACEBOOKJS_VERSION', '1.0.6');
+define('PLG_CWFACEBOOKJS_DATE', '2017-09-20');
 define('PLG_CWFACEBOOKJS_PRO', '0');

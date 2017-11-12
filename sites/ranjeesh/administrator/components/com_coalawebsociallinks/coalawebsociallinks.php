@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
 
 // Access check.
@@ -44,9 +44,12 @@ $lang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, null, 1);
 
 JLoader::register('CoalawebsociallinksHelper', dirname(__FILE__) . '/helpers/coalawebsociallinks.php');
 
-// Check Gears plugin
-if (JPluginHelper::isEnabled('system', 'cwgears', true) == false) {
-    echo JText::_('COM_CWSOCIALLINKS_NOGEARSPLUGIN_GENERAL_MESSAGE');
+// Lets make sure CoalaWeb Gears is loaded
+$cwgp = JPluginHelper::getPlugin('system', 'cwgears');
+if (!isset($cwgp->name)) {
+    JFactory::getApplication()->set('_messageQueue', '');
+    $msg = JText::_('COM_CWSOCIALLINKS_NOGEARSPLUGIN_GENERAL_MESSAGE');
+    JFactory::getApplication()->enqueueMessage($msg, 'warning');
 }
 
 $controller = JControllerLegacy::getInstance('Coalawebsociallinks');
@@ -55,13 +58,9 @@ $controller->redirect();
 ?>
 <div class="cw-powerby-back">
     <span class="cw-powerby-back">
-        <?php echo JTEXT::_('COM_CWSOCIALLINKS_POWEREDBY_MSG'); ?> <a href="http://www.coalaweb.com" target="_blank" title="CoalaWeb">CoalaWeb</a> <?php
-        echo JTEXT::_('COM_CWSOCIALLINKS_POWEREDBY_VERSION');
-        if (COM_CWSOCIALLINKS_PRO == 1) {
-            echo COM_CWSOCIALLINKS_VERSION . ' ' . JTEXT::_('COM_CWSOCIALLINKS_POWEREDBY_PRO');
-        } else {
-            echo COM_CWSOCIALLINKS_VERSION;
-        }
-        ?>
+        <span class="icon-cogs"></span><?php echo JTEXT::_('COM_CWSOCIALLINKS_POWEREDBY_MSG'); ?>
+        <a href="https://www.coalaweb.com" target="_blank" title="CoalaWeb">CoalaWeb</a> -
+        <?php echo JTEXT::_('COM_CWSOCIALLINKS_FIELD_RELEASE_VERSION_LABEL');
+        echo COM_CWSOCIALLINKS_PRO == 1 ? ' ' .COM_CWSOCIALLINKS_VERSION . ' ' . JTEXT::_('COM_CWSOCIALLINKS_RELEASE_TYPE_PRO') : ' ' . COM_CWSOCIALLINKS_VERSION . ' ' . JTEXT::_('COM_CWSOCIALLINKS_RELEASE_TYPE_CORE')?>
     </span>
 </div>

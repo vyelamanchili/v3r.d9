@@ -37,6 +37,12 @@ body.dslca-enabled:not(.dslca-composer-hidden) #dslc-header.dslc-header-pos-abso
 	position: relative;
 }
 
+/* https://github.com/live-composer/live-composer-page-builder/issues/764 */
+.dslca-enabled:not(.dslca-composer-hidden) #dslc-footer {
+	margin-bottom: 74px;
+}
+
+
 #dslc-footer.dslc-footer-pos-absolute {
 	position: absolute;
 	bottom: 0;
@@ -1170,6 +1176,16 @@ a img.aligncenter { display: block; margin-left: auto; margin-right: auto }
 		display: none !important;
 	}
 
+	/* https://github.com/live-composer/live-composer-page-builder/issues/797 */
+
+	.dslc-post-heading {
+		overflow: hidden;
+	}
+
+	.dslc-post-filters {
+		float: left;
+	}
+
 }
 
 /* Smartphone */
@@ -1183,7 +1199,7 @@ a img.aligncenter { display: block; margin-left: auto; margin-right: auto }
 	.dslc-no-columns-spacing .dslc-col {
 		width: 100%;
 		margin: 0;
-		/*margin-bottom: 30px;*/
+		margin-bottom: 30px;
 		min-width: 0px;
 	}
 
@@ -1195,6 +1211,15 @@ a img.aligncenter { display: block; margin-left: auto; margin-right: auto }
 		display: none !important;
 	}
 
+	/* https://github.com/live-composer/live-composer-page-builder/issues/797 */
+
+	.dslc-post-heading {
+		overflow: hidden;
+	}
+
+	.dslc-post-filters {
+		float: left;
+	}
 }
 
 /* @hack: IE10+ specific styles only.

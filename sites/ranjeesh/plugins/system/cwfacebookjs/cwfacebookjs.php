@@ -19,7 +19,7 @@ defined("_JEXEC") or die("Restricted access");
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
 jimport('joomla.plugin.plugin');
 jimport('joomla.filesystem.file');
@@ -160,7 +160,8 @@ class plgSystemCwfacebookjs extends JPlugin
               xfbml      : true,
               status     : true,
               cookie     : true,
-              version    : "v2.6"
+              autoLogAppEvents : true,
+              version    : "v2.10"
             });
             ' . $fbComments . '
           };

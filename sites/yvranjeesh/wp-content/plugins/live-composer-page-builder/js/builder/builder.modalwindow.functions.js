@@ -19,10 +19,12 @@
 
 	function dslc_show_modal( hook, modal ) {
 
-		if ( dslcDebug ) console.log( 'dslc_show_modal' );
+		if ( typeof dslcDebug !== 'undefined' && dslcDebug ) console.log( 'dslc_show_modal' );
 
-		// If a modal already visibile hide it
-		dslc_hide_modal( '', jQuery('.dslca-modal:visible') );
+		if ( jQuery('.dslca-modal:visible').length ) {
+			// If a modal already visibile hide it
+			dslc_hide_modal( '', jQuery('.dslca-modal:visible') );
+		}
 
 		// Vars
 		var modal = jQuery(modal);
@@ -42,19 +44,21 @@
 		offset = position.left - diff;
 
 		// Show Modal
-		modal.css({ left : offset }).show();
+		modal.css({ left : offset });
 		jQuery(".dslca-prompt-modal-custom").insertAfter( modal );
-		jQuery(".dslca-prompt-modal-custom").length > 0 && jQuery(".dslca-prompt-modal-custom").fadeIn();
-		modal.addClass('dslca-modal-open');
+		if ( jQuery(".dslca-prompt-modal-custom").length > 0 ) {
+			jQuery(".dslca-prompt-modal-custom").fadeIn();
+		}
+		modal.addClass('dslca-modal-open').show();
 
 		// Animate Modal
-		modal.css({
+		// modal.css({
 			// '-webkit-animation-name' : 'dslcBounceIn',
 			// '-moz-animation-name' : 'dslcBounceIn',
 			// 'animation-name' : 'dslcBounceIn',
 			// 'animation-duration' : '0.6s',
 			// '-webkit-animation-duration' : '0.6s'
-		}).fadeIn(600);
+		// }).fadeIn(600);
 	}
 
 	/**
@@ -63,7 +67,9 @@
 
 	function dslc_hide_modal( hook, modal ) {
 
-		if ( dslcDebug ) console.log( 'dslc_hide_modal' );
+		if ( typeof dslcDebug !== 'undefined' && dslcDebug ) console.log( 'dslc_hide_modal' );
+
+		console.log( 'dslc_hide_modal' );
 
 		// Vars
 		var modal = jQuery(modal);
@@ -71,7 +77,9 @@
 		// Hide ( with animation )
 		modal.outerHide( 'destroy' );
 		modal.hide();
-		jQuery(".dslca-prompt-modal-custom").length > 0 && jQuery(".dslca-prompt-modal-custom").fadeOut();
+		if ( jQuery(".dslca-prompt-modal-custom").length > 0 ) {
+			jQuery(".dslca-prompt-modal-custom").fadeOut();
+		}
 		modal.removeClass('dslca-modal-open');
 		/*
 		modal.css({
@@ -107,9 +115,7 @@
 		 */
 
 		$(document).on( 'click', '.dslca-open-modal-hook', function(e){
-
 			e.preventDefault();
-
 			var modal = jQuery(this).data('modal');
 			dslc_show_modal( jQuery(this), modal );
 		});
@@ -140,10 +146,9 @@
  * - dslc_js_confirm_close
  *
  ***********************************/
-
 	function dslc_js_confirm( dslcID, dslcContent, dslcTarget ) {
 
-		if ( dslcDebug ) console.log( 'dslc_js_confirm' );
+		if ( typeof dslcDebug !== 'undefined' && dslcDebug ) console.log( 'dslc_js_confirm' );
 
 		// Add "active" class
 		jQuery('.dslca-prompt-modal').addClass('dslca-prompt-modal-active');
@@ -168,7 +173,7 @@
 
 	function dslc_js_confirm_close() {
 
-		if ( dslcDebug ) console.log( 'dslc_js_confirm_close' );
+		if ( typeof dslcDebug !== 'undefined' && dslcDebug ) console.log( 'dslc_js_confirm_close' );
 
 		// Remove "active" class
 		jQuery('.dslca-prompt-modal').removeClass('dslca-prompt-modal-active');
@@ -292,3 +297,41 @@
 		});
 
 	});
+
+	/**
+	 * DON'T MOVE THE FUNCTION BELLOW OUT OF THIS FILE!
+	 * Hide element when click on another element on the page
+	 *
+	 * @author Alexey Petlenko
+	 */
+	jQuery.fn.outerHide = function(params)
+	{
+	    var $ = jQuery;
+	    params = params ? params : {};
+
+	    var self = this;
+
+	    if ( 'destroy' == params ) {
+
+	        $(document).unbind('click.outer_hide');
+	        return false;
+	    }
+
+	    $(document).bind('click.outer_hide', function(e) {
+
+	        if ($(e.target).closest(self).length == 0 &&
+	            e.target != self &&
+	            $.inArray($(e.target)[0], $(params.clickObj)) == -1 &&
+	            $(self).css('display') != 'none'
+	        )
+	        {
+	            if(params.clbk)
+	            {
+	                params.clbk();
+	            }else{
+	                $(self).hide();
+	            }
+	        }
+	    });
+	}
+

@@ -26,23 +26,23 @@
 }
 .t3-logo,
 .t3-logo-color {
-  background-image: url("//joomlart.s3.amazonaws.com/images/jat3v3-documents/logo-complete/t3logo-big-color.png");
+  background-image: url("//static.joomlart.com/images/jat3v3-documents/logo-complete/t3logo-big-color.png");
 }
 .t3-logo-small,
 .t3-logo-small.t3-logo-color {
-  background-image: url("//joomlart.s3.amazonaws.com/images/jat3v3-documents/logo-complete/t3logo-small-color.png");
+  background-image: url("//static.joomlart.com/images/jat3v3-documents/logo-complete/t3logo-small-color.png");
 }
 .t3-logo-dark {
-  background-image: url("//joomlart.s3.amazonaws.com/images/jat3v3-documents/logo-complete/t3logo-big-dark.png");
+  background-image: url("//static.joomlart.com/images/jat3v3-documents/logo-complete/t3logo-big-dark.png");
 }
 .t3-logo-small.t3-logo-dark {
-  background-image: url("//joomlart.s3.amazonaws.com/images/jat3v3-documents/logo-complete/t3logo-small-dark.png");
+  background-image: url("//static.joomlart.com/images/jat3v3-documents/logo-complete/t3logo-small-dark.png");
 }
 .t3-logo-light {
-  background-image: url("//joomlart.s3.amazonaws.com/images/jat3v3-documents/logo-complete/t3logo-big-light.png");
+  background-image: url("//static.joomlart.com/images/jat3v3-documents/logo-complete/t3logo-big-light.png");
 }
 .t3-logo-small.t3-logo-light {
-  background-image: url("//joomlart.s3.amazonaws.com/images/jat3v3-documents/logo-complete/t3logo-small-light.png");
+  background-image: url("//static.joomlart.com/images/jat3v3-documents/logo-complete/t3logo-small-light.png");
 }
 @media (max-width: 990px) {
   .logo-control .logo-img-sm {
@@ -1434,8 +1434,8 @@ article img,
   max-width: 100%;
   height: auto;
 }
-article img[align=left],
-.article-intro img[align=left],
+article img[align="right"],
+.article-intro img[align="right"],
 article .img-fulltext-left,
 .article-intro .img-fulltext-left,
 article .img-intro-left,
@@ -1448,8 +1448,8 @@ article .pull-left.item-image,
   max-width: 100%;
 }
 @media screen and (max-width: 767px) {
-  article img[align=left],
-  .article-intro img[align=left],
+  article img[align="right"],
+  .article-intro img[align="right"],
   article .img-fulltext-left,
   .article-intro .img-fulltext-left,
   article .img-intro-left,
@@ -1458,11 +1458,11 @@ article .pull-left.item-image,
   .article-intro .img_caption.left,
   article .pull-left.item-image,
   .article-intro .pull-left.item-image {
-    margin: 0;
+    margin: 0 0 20px;
   }
 }
-article img[align=right],
-.article-intro img[align=right],
+article img[align="left"],
+.article-intro img[align="left"],
 article .img-fulltext-right,
 .article-intro .img-fulltext-right,
 article .img_caption.right,
@@ -1475,8 +1475,8 @@ article .pull-right.item-image,
   max-width: 100%;
 }
 @media screen and (max-width: 767px) {
-  article img[align=right],
-  .article-intro img[align=right],
+  article img[align="left"],
+  .article-intro img[align="left"],
   article .img-fulltext-right,
   .article-intro .img-fulltext-right,
   article .img_caption.right,
@@ -1485,7 +1485,7 @@ article .pull-right.item-image,
   .article-intro .img-intro-right,
   article .pull-right.item-image,
   .article-intro .pull-right.item-image {
-    margin: 0;
+    margin: 0 0 20px;
   }
 }
 .img-intro-none,
@@ -1592,10 +1592,11 @@ article aside .btn-group > .dropdown-toggle .caret {
   border-bottom: 1px solid #eeeeee;
   padding: 20px 0;
 }
-@media screen and (min-width: 768px) {
-  .tag-category .filters {
-    padding: 20px;
-  }
+.tag-category .filters #filter-search {
+  float: right;
+}
+.tag-category .filters.btn-toolbar > .btn-group {
+  margin-right: 0;
 }
 .tag-category .thumbnails {
   list-style: none;
@@ -1943,6 +1944,67 @@ div.finder {
 }
 .categories-list {
   margin-bottom: 20px;
+}
+.contact-category ul.category {
+  border-top: 0;
+  overflow: hidden;
+}
+.contact-category ul.category li.row-fluid {
+  border: 1px solid #eeeeee;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+.contact-category ul.category li.row-fluid:before,
+.contact-category ul.category li.row-fluid:after {
+  content: " ";
+  display: table;
+}
+.contact-category ul.category li.row-fluid:after {
+  clear: both;
+}
+.contact-category ul.category li.row-fluid > div {
+  margin: 0;
+}
+.contact-category .cat-children ul {
+  border: 0;
+  border-top: 1px solid #eeeeee;
+}
+.contact-category .cat-children ul li {
+  background: transparent;
+  border-bottom: 1px solid #eeeeee;
+  padding: 5px 0 5px 0;
+}
+.contact-category .cat-children ul li h4 {
+  border-right: 1px dotted #999999;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0;
+  padding-right: 15px;
+  margin-right: 20px;
+  position: relative;
+}
+.contact-category .cat-children ul li h4:after {
+  border-top: 1px dotted #999999;
+  display: block;
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 8px;
+  height: 1px;
+  width: 10px;
+}
+.contact-category .cat-children ul li li h4 {
+  margin-right: 40px;
+}
+.contact-category .cat-children ul li li li h4 {
+  margin-right: 60px;
+}
+.contact-category .cat-children ul li li li li h4 {
+  margin-right: 80px;
+}
+.contact-category .cat-children ul li:last-child {
+  border: 0;
 }
 .category-item:before,
 .category-item:after {
@@ -2433,18 +2495,18 @@ dl.tabs dt.tabs.open a {
   padding-right: 0;
   padding-left: 0;
 }
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 991px) {
   .page-masthead .jumbotron {
     padding-top: 40px;
     padding-bottom: 40px;
-  }
-  .page-masthead .jumbotron .container {
-    padding: 0;
   }
 }
 @media screen and (max-width: 767px) {
   .page-masthead .jumbotron {
     padding-right: 20px;
+  }
+  .page-masthead .jumbotron .container {
+    padding: 0;
   }
 }
 .label {
@@ -2749,9 +2811,26 @@ a.list-group-item.active:focus .list-group-item-text {
 .com_weblinks .weblink-categories .page-header.item-title .btn.collapsed .fa-plus {
   display: block;
 }
+.t3-spotlight {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+}
+@media screen and (max-width: 767px) {
+  .t3-spotlight > div {
+    margin-bottom: 20px;
+  }
+}
 .t3-sl {
   padding-bottom: 40px;
   padding-top: 40px;
+}
+@media screen and (max-width: 767px) {
+  .t3-sl {
+    padding-bottom: 20px;
+    padding-top: 20px;
+  }
 }
 .t3-sl .t3-module {
   margin-bottom: 0;

@@ -48,7 +48,7 @@ if ( ! class_exists( 'Cptch_Basic_Settings' ) ) {
 				'wp_register'               => array( __( 'WordPress Registration form', 'captcha' ), 'register_form.jpg' ),
 				'wp_lost_password'          => array( __( 'WordPress Reset Password form', 'captcha' ), 'lost_password_form.jpg' ),
 				'wp_comments'               => array( __( 'WordPress Comments form', 'captcha' ), 'comment_form.jpg' ),
-				'bws_contact'               => array( 'Contact Form by BestWebSoft', 'contact_form.jpg' )
+				
 			);
 			/*
 			 * Add users forms to the forms lists
@@ -84,15 +84,7 @@ if ( ! class_exists( 'Cptch_Basic_Settings' ) ) {
 			 * to display custom forms tabs before Pro ad tabs
 			 */
 			$pro_forms = array(
-				'bws_subscriber'            => array( 'Subscriber by BestWebSoft', 'subscribe_form.jpg' ),
-				'cf7_contact'               => array( 'Contact Form 7', 'contact_form.jpg' ),
-				'buddypress_register'       => array( __( 'Buddypress Registration form', 'captcha' ), 'bdp_register_form.jpg' ),
-				'buddypress_comments'       => array( __( 'Buddypress Comments form', 'captcha' ), 'bdp_comments_form.jpg' ),
-				'buddypress_group'          => array( __( 'Buddypress "Create a Group" form', 'captcha' ), 'bdp_group_form.jpg' ),
-				'woocommerce_login'         => array( __( 'WooCommerce Login form', 'captcha' ), 'woocommerce.png' ),
-				'woocommerce_register'      => array( __( 'WooCommerce Register form', 'captcha' ), 'woocommerce-register.png' ),
-				'woocommerce_lost_password' => array( __( 'WooCommerce Lost Password form', 'captcha' ), 'woocommerce-lostpassword.png' ),
-				'woocommerce_checkout'      => array( __( 'WooCommerce Checkout Billing form', 'captcha' ), 'woocommerce-checkout.png' )
+				
 			);
 			$this->forms     = array_merge( $this->forms, $pro_forms );
 			$this->pro_forms = array_keys( $pro_forms );

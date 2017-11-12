@@ -13,34 +13,57 @@ defined('_JEXEC') or die('Restricted access');
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
-
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
-
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
 
 jimport('joomla.filesystem.file');
 
-class CoalawebPageHelper {
-    
-    public static function getPageHtml5(
-            $fbPageLink, $fbWidth, $fbHeight, $fbFacepile, $fbCover, $fbPosts){
-            
-	$output[] = '<div class="fb-page"' 
-                . ' data-href="' . $fbPageLink . '"' 
-                . ' data-width="' . $fbWidth . '"'
-                . ' data-height="' . $fbHeight . '"'
-                . ' data-show-facepile="' . $fbFacepile . '"'
-                . ' data-show-posts="' . $fbPosts . '"' 
-                . ' data-hide-cover="' . $fbCover. '">'
-                . ' </div>';
-        
+class CoalawebPageHelper extends JObject
+{
+
+    public static function getPageHtml5($pageParams)
+    {
+
+        $output[] = '<div class="fb-page"'
+            . ' data-href="' . $pageParams['fbPageLink'] . '"'
+            . ' data-tabs="' . $pageParams['fbTabsList'] . '"'
+            . ' data-small-header="' . $pageParams['fbSmallHeader'] . '"'
+            . ' data-adapt-container-width="true"'
+            . ' data-width="' . $pageParams['fbWidth'] . '"'
+            . ' data-height="' . $pageParams['fbHeight'] . '"'
+            . ' data-show-facepile="' . $pageParams['fbFacepile'] . '"'
+            . ' data-hide-cover="' . $pageParams['fbCover'] . '">'
+            . ' </div>';
+
         return implode("\n", $output);
     }
+
+    /**
+     * Clean and minimize code
+     *
+     * @param type $code
+     * @return string
+     */
+    private function cleanCode($code)
+    {
+
+        // Remove comments.
+        $pass1 = preg_replace('~//<!\[CDATA\[\s*|\s*//\]\]>~', '', $code);
+        $pass2 = preg_replace('/(?:(?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:(?<!\:|\\\)\/\/[^"\'].*))/', '', $pass1);
+
+        // Minimize.
+        $pass3 = str_replace(array("\r\n", "\r", "\n", "\t"), '', $pass2);
+        $pass4 = preg_replace('/ +/', ' ', $pass3); // Replace multiple spaces with single space.
+        $codeClean = trim($pass4);  // Trim the string of leading and trailing space.
+
+        return $codeClean;
+    }
+
 
     /**
      * Check extension dependencies are available

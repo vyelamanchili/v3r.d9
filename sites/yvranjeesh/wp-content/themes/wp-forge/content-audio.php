@@ -1,10 +1,9 @@
 <?php
 /**
- * The template for displaying posts in the Audio post format on index and archive pages
- * @version 6.3.1.2
+ * @version 6.4.3
  */
 ?>
-	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> <?php wpforge_article_schema( 'CreativeWork' ); ?>>
 		<header class="entry-header">
 			<?php  if( get_theme_mod( 'wpforge_cat_display','yes' ) == 'yes') { ?>
 				<?php  if( get_theme_mod( 'wpforge_cat_position','top' ) == 'top') { ?>
@@ -21,19 +20,19 @@
 		</div><!-- end .entry-meta-header -->
 			<?php the_post_thumbnail(); ?>
 			<?php if ( is_single() ) : ?>
-			<h1 class="entry-title-post"><?php the_title(); ?></h1>
+			<h2 class="entry-title-post"><?php the_title(); ?></h1>
 			<?php else : ?>
-			<h1 class="entry-title-post">
+			<h2 class="entry-title-post">
 				<a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'wp-forge' ), the_title_attribute( 'echo=0' ) ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
 			</h1>
 			<?php endif; // is_single() ?>
 		</header><!-- .entry-header -->
 		<?php if ( is_search() ) : // Only display Excerpts for Search ?>
-		<div class="entry-summary">
+		<div class="entry-summary" itemprop="text">
 			<?php the_excerpt(); ?>
 		</div><!-- .entry-summary -->
 		<?php else : ?>
-		<div class="entry-content-post">
+		<div class="entry-content-post" itemprop="text">
 			<?php the_content( __( 'Continue reading <span class="meta-nav">&raquo;</span>', 'wp-forge' ) ); ?>
 			<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'wp-forge' ), 'after' => '</div>' ) ); ?>
 		</div><!-- .entry-content -->

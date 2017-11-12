@@ -43,7 +43,7 @@ $direction = $langdirection == 'rtl' ? 'right' : 'left';
 				foreach ($items as $i => &$item) {
 					$item->mobile_data = isset($item->mobile_data) ? $item->mobile_data : '';
 					$itemlevel = ($start > 1) ? $item->level - $start + 1 : $item->level;
-					$closeHtml = ($itemlevel > 1) ? '' : ( ($params->get('behavior', 'mouseover') == 'clickclose' || stristr($item->liclass, 'clickclose') != false) ? $close : '' );
+					$closeHtml = ($itemlevel > 1) ? '' : ( ($params->get('clickclose', '0') == '1' || $params->get('behavior', 'mouseover') == 'clickclose' || stristr($item->liclass, 'clickclose') != false) ? $close : '' );
 					$indexer = $itemlevel == 1 ? 'main' : 'sub';
 					$stopdropdown = $params->get('stopdropdownlevel', '0');
 					$stopdropdownclass = ($stopdropdown != '0' && $item->level >= $stopdropdown) ? ' nodropdown' : '';

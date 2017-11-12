@@ -42,6 +42,13 @@ class DSLC_Testimonials extends DSLC_Module {
 	 */
 	function options() {
 
+		// Check if we have this module options already calculated
+		// and cached in WP Object Cache.
+		$cached_dslc_options = wp_cache_get( 'dslc_options_' . $this->module_id, 'dslc_modules' );
+		if ( $cached_dslc_options ) {
+			return apply_filters( 'dslc_module_options', $cached_dslc_options, $this->module_id );
+		}
+
 		$cats = get_terms( 'dslc_testimonials_cats' );
 		$cats_choices = array();
 
@@ -180,10 +187,6 @@ class DSLC_Testimonials extends DSLC_Module {
 					array(
 						'label' => __( 'Alphabetic', 'live-composer-page-builder' ),
 						'value' => 'title',
-					),
-					array(
-						'label' => __( 'Comment Count', 'live-composer-page-builder' ),
-						'value' => 'comment_count',
 					),
 				)
 			),
@@ -1829,6 +1832,9 @@ class DSLC_Testimonials extends DSLC_Module {
 		$dslc_options = array_merge( $dslc_options, $this->shared_options( 'animation_options' ) );
 		$dslc_options = array_merge( $dslc_options, $this->presets_options() );
 
+		// Cache calculated array in WP Object Cache.
+		wp_cache_add( 'dslc_options_' . $this->module_id, $dslc_options ,'dslc_modules' );
+
 		return apply_filters( 'dslc_module_options', $dslc_options, $this->module_id );
 
 	}
@@ -1839,6 +1845,18 @@ class DSLC_Testimonials extends DSLC_Module {
 	 * @return void
 	 */
 	function output( $options ) {
+	?>
+		[dslc_module_testimonials_output]<?php echo serialize($options); ?>[/dslc_module_testimonials_output]
+	<?php
+
+	}
+}
+
+function dslc_module_testimonials_output ( $atts, $content = null ) {
+	// Uncode module options passed as serialized content.
+	$options = unserialize( $content );
+
+	ob_start();
 
 		global $dslc_active;
 
@@ -1847,7 +1865,6 @@ class DSLC_Testimonials extends DSLC_Module {
 		else
 			$dslc_is_admin = false;
 
-		$this->module_start( $options );
 
 		/* Module output stars here */
 
@@ -1889,10 +1906,9 @@ class DSLC_Testimonials extends DSLC_Module {
 						'taxonomy' => 'dslc_testimonials_cats',
 						'field' => 'slug',
 						'terms' => $cats_array,
-						'operator' => $options['categories_operator']
-					)
+						'operator' => $options['categories_operator'],
+					),
 				);
-
 			}
 
 			// Exlcude and Include arrays
@@ -2039,6 +2055,8 @@ class DSLC_Testimonials extends DSLC_Module {
 
 						<?php if ( $show_heading ) : ?>
 
+						<div class="dslc-post-heading">
+
 							<h2 class="dslca-editable-content" data-id="main_heading_title" data-type="simple" <?php if ( $dslc_is_admin ) echo 'contenteditable'; ?> ><?php echo stripslashes( $options['main_heading_title'] ); ?></h2>
 
 							<!-- View all -->
@@ -2048,6 +2066,8 @@ class DSLC_Testimonials extends DSLC_Module {
 								<span class="dslc-module-heading-view-all"><a href="<?php echo $options['view_all_link']; ?>" class="dslca-editable-content" data-id="main_heading_link_title" data-type="simple" <?php if ( $dslc_is_admin ) echo 'contenteditable'; ?> ><?php echo $options['main_heading_link_title']; ?></a></span>
 
 							<?php endif; ?>
+
+						</div>
 
 						<?php endif; ?>
 
@@ -2197,7 +2217,7 @@ class DSLC_Testimonials extends DSLC_Module {
 										<?php if ( $post_elements == 'all' || in_array( 'quote', $post_elements ) ) : ?>
 
 											<div class="dslc-testimonial-quote">
-												<?php echo do_shortcode( get_the_content() ); ?>
+												<?php echo get_the_content(); ?>
 											</div><!-- .dslc-testimonial-quote -->
 
 										<?php endif; ?>
@@ -2255,10 +2275,9 @@ class DSLC_Testimonials extends DSLC_Module {
 
 			wp_reset_postdata();
 
-		/* Module output ends here */
+	$shortcode_rendered = ob_get_contents();
+	ob_end_clean();
 
-		$this->module_end( $options );
+	return $shortcode_rendered;
 
-	}
-
-}
+} add_shortcode( 'dslc_module_testimonials_output', 'dslc_module_testimonials_output' );

@@ -1,6 +1,6 @@
 <?php
 /*
-* Function for displaying BestWebSoft menu
+* Function for displaying simplywordpres
 * Version: 2.0.6
 */
 

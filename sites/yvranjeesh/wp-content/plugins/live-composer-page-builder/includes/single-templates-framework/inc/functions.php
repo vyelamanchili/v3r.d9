@@ -62,6 +62,7 @@ function dslc_st_init() {
 		'label' => __( 'Single Post Templates:', 'live-composer-page-builder' ),
 		'description' => __( 'Design for a single blog post or custom post type entries', 'live-composer-page-builder' ),
 		'value' => 'list-heading',
+		'id' => 'dslca_single_post_templates',
 	);
 
 	foreach ( $dslc_var_templates_pt as $pt_id => $pt_label ) {
@@ -76,6 +77,7 @@ function dslc_st_init() {
 		'label' => __( 'Archive Index Templates:', 'live-composer-page-builder' ),
 		'description' => __( 'Design for posts listings like Category, Tag, Date or Custom Taxonomies', 'live-composer-page-builder' ),
 		'value' => 'list-heading',
+		'id' => 'dslca_archive_index_templates',
 	);
 
 	foreach ( $dslc_var_templates_pt as $pt_id => $pt_label ) {
@@ -90,6 +92,7 @@ function dslc_st_init() {
 		'label' => __( 'Special Page Templates:', 'live-composer-page-builder' ),
 		'description' => __( 'Design a custom "Page Not Found" screen or search results page', 'live-composer-page-builder' ),
 		'value' => 'list-heading',
+		'id' => 'dslca_special_page_templates',
 	);
 
 	$template_for[] = array(
@@ -245,6 +248,7 @@ function dslc_get_archive_template_by_pt( $post_type_slug ) {
 	/**
 	 * Add back-compatability with post archive options without '_archive' suffix.
 	 * In some of the past versions with didn't add '_archive' to these.
+	 * Also important for '404_page', etc. templates.
 	 */
 	if ( ! $template_id && stristr( $post_type_slug, '_archive' ) ) {
 		$template_id = dslc_get_option( str_replace( '_archive', '', $post_type_slug ), 'dslc_plugin_options_archives' );

@@ -1,12 +1,69 @@
 Theme Name: WP-Forge
 Tags: light, black, white, one-column, two-columns, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, full-width-template, microformats, post-formats, sticky-post, translation-ready
-Requires at least: 4.7.3
-Tested up to: 4.8-alpha-40387
-Stable tag: 6.3.1.2
+Requires at least: 4.8.1
+Tested up to: 4.9-alpha-41268
+Stable tag: 6.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Changelog ==
+
+= 6.4.3 =
+
+Theme updated 08/19/17
+
+* Updated theme to latest version of Foundation, 6.4.3 - Nothing to really worry about. Mostly updates for scss. Just keeping up with the versioning. Here is a list of what Zurb changed in this version https://github.com/zurb/foundation-sites/releases/tag/v6.4.3
+* Corrected the css for related products that were on sale. The sale banner was appearing off center.
+* Also corrected the date of the last update in the changelog.txt file.
+
+= 6.4.2 =
+
+Theme updated 08/16/17
+
+* Updated theme to Foundation 6.4.2 - Here is a list of what Zurb changed in this version https://github.com/zurb/foundation-sites/releases/tag/v6.4.2
+* Removed the `wpforge_footer_sidebar_class` function from `functions.php` - before, this function was used to calculate the number of widgets added in the footer sidebar area, and then it would apply the necessary classes to make sure the widget areas appeared properly. With the 6.4 update, this is done automatically so the function is not needed any longer.
+* Rewrote the `wpforge_widgets_init` function in functions.php - its smaller now, means less bloat.
+* Switched some of the html where rows and columns were still being used.
+* Adjusted the comments area.
+* Adjusted the `margin-bottom` of pagination.
+* Added support for WooCommerce. This should correct any layout issues when using the plugin, as well as prevent the end user from having to add it themselves.
+* Adjusted the `.dropdown.menu .is-active > a` color in css as well as the customizer.
+* Reworked the header image portion of `header.php` - if an image is displayed then display the div along with the image. If no image is displayed, do not show the empty div.
+* Changed the priority of all the WP-Forge css scripts and files.
+
+= 6.4.1.1 =
+
+Theme updated 07/12/17
+
+* Corrected issue with footer sidebar area. Switched to `large auto cells` for each sidebar area. This moves towards the new XY grid from foundation. The calculation in `functions.php` is no longer needed to calculate and add the apropriate sizes to the individual sidebars.
+* Added a image size for the custom logo. Logo is set to 1170px wide which is the full length of the theme and the image has auto height. If your image is smaller than the logo area it will shrink accordingly.
+* Added back the custom header feature that the custom logo was supposed to replace, so now users can use either the custom logo or custom header feature, as well as random header images.
+
+= 6.4.1 =
+
+Theme updated 07/06/17
+
+* Updated to the latest version of Foundation for Sites v6.4.3 - not really needed but I like to stay on top of things.
+* Corrected the `no-js` in styles.css. There was an issue where the menu was loading after the js was loaded and this caused the menu to kind of flash or delay when it finally loaded. This was bugging me that it was happening. Seems to have gotten corrected. See this issue https://github.com/zurb/foundation-sites/issues/10339
+* Removed the Russian.mo file as it is not needed.
+
+= 6.4 =
+
+Theme updated 06/30/17
+
+* Updated to the latest version of Foundation for Sites v6.4.
+* Switched the "felx-video" to "Responsive Embed" - This makes sure embedded content, like videos, maintain their aspect ratio as the width of the screen changes.
+* Removed the `margin` from responsive embed (flex video), this was causing the bottom portion of embedded videos to be cut off.
+* Added selective refresh to the site-title and site-description.
+* Added the ability to show or hide the site title and the site description individually.
+* Site-title and site-description are now wrapped in a `p` tag when not on the front page. 
+* Post titles are wrapped in a H2 tag, except when viewing the actual post, then the post title is wrapped in a H1 tag
+* Switched from custom header to custom logo introduced in 4.5
+* Added the new Accordion Menu to Off-Canvas and Top-Bar
+* Added Schema markup to posts and pages.
+* Moved Skip to Content link out of `content-navigation.php` to right after the opening `body` tag.
+* Corrected some issues with the customizer css. When some options were changed, those options were not reflecting in the in-line css or preview.
+* Added Russian translation files - Thanks to Spartak Klain, https://sajtprint.ru, for taking the time to do this.
 
 = 6.3.1.2 =
 
@@ -66,7 +123,7 @@ Theme updated 02/27/17
 * Moved to one off-canvas file for the theme. There is no need to have two of the same files being called by two different fuinctions, when one file and one function will do.
 * Moved Use Off-Canvas for Mobile? to Top-Bar Settings section.
 * Added options for off-canvas that will appear when Use Off-Canvas for Mobile? is set to 'Yes' in Top-Bar Settings. These settings only affect mobile Off-Canvas (the off-canvas menu used in conjunction with the top-bar)
-* Switched 'data-accordion' to 'data-drilldown' in off-canvas. 'data-accordion' still does not work as of 6.3.1.2 and is slated to be possibly added to next major release, 6.4. See this thread https://github.com/zurb/foundation-sites/pull/9348 - For now 'data-drilldown' will remain in place until the 'data-accordion' is corrected and functions properly. Thanks to @cbirdsong for asking how this is done, which promted the switch: See https://wordpress.org/support/topic/parent-links-of-off-canvas-mobile-menu-not-working/
+* Switched 'data-accordion' to 'data-drilldown' in off-canvas. 'data-accordion' still does not work as of 6.3.0 and is slated to be possibly added to next major release, 6.4. See this thread https://github.com/zurb/foundation-sites/pull/9348 - For now 'data-drilldown' will remain in place until the 'data-accordion' is corrected and functions properly. Thanks to @cbirdsong for asking how this is done, which promted the switch: See https://wordpress.org/support/topic/parent-links-of-off-canvas-mobile-menu-not-working/
 * Updated 'off-canvas' menu to the latest version. Unfortunately, only two Off-Canvas Directions are available: 'position-left' and 'position-right'. The other positions, 'position-top' and 'position-bottom', are slated for possible inclusion in the next update, keep in mind I make no guarantee that they will. The reason they were not added in this update is due to the fact that currently the menu does not look proper if top or bottom is used.
 * Added the abilty for the user to set the Off-Canvas Transitions to 'push' or 'overlap'.
 * Removed Foundation 'active' class from menus. Switched to'current-menu-item', which is already built into WP core. In my opinion this is a much better option and is easier to style. Thanks @OttoPotto for bringing up this request which gave me the idea to switch. See this thread https://github.com/tsquez/wp-forge/issues/50
@@ -99,7 +156,7 @@ Theme updated 10/27/16
 
 Theme updated 10/23/16
 
-* Updated Foundation to latest version, 6.3.1.2
+* Updated Foundation to latest version, 6.2.4
 * Corrected issue with 'active' class css in menu widget. The background was filled the active color.
 * Added '!important' to line 4353 of customizer.php - this portion of the file deals whith the hover color of the active link in the sidebar menu widget. Before adding '!important', when hovering over an active link in the menu widget, the link would disappear.
 * Added Pricing Table css from Foundation 5.
@@ -133,7 +190,7 @@ Theme updated 06/25/16
 
 Theme updated 05/29/16
 
-* Updated to the latest version of Foundation, 6.3.1.2. (foundation-flex.css was not updated by ZURB so version is still at 6.2.1)
+* Updated to the latest version of Foundation, 6.4. (foundation-flex.css was not updated by ZURB so version is still at 6.2.1)
 * Changed the name of 'wpforge-functions.js' to 'theme-functions.js'.
 * Added support for selective refresh for widgets. See https://make.wordpress.org/core/2016/03/22/implementing-selective-refresh-support-for-widgets/
 

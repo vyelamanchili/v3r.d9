@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
 
 require_once dirname(__FILE__) . '/helper.php';
@@ -53,20 +53,23 @@ $fbLocale = str_replace('-', '_', $fbLocale);
 // Facebook and Google only seem to support es_ES and es_LA for all of LATAM
 $fbLocale = (substr($fbLocale, 0, 3) == 'es_' && $fbLocale != 'es_ES') ? 'es_LA' : $fbLocale;
 
-
 //Page parameters
-$fbPageLink = $params->get('fb_page_link');
-$fbWidth = $params->get('fb_width', '300');
-$fbHeight = $params->get('fb_height', '400');
-$fbAlign = $params->get('fb_align', 'center');
-$moduleAlign = 'text-align: ' . $fbAlign . ';';
-$setHeight = $params->get('module_height', 0);
-$moduleHeight = $setHeight? 'height: ' . $fbHeight . 'px;': '';
-$fbFacepile = $params->get('fb_facepile') ? 'true' : 'false';
-$fbPosts = $params->get('fb_posts') ? 'true' : 'false';
-$fbCover = $params->get('fb_cover') ? 'false' : 'true';
+$pageParams = [
+    'fbPageLink' => $params->get('fb_page_link'),
+    'fbWidth' => $params->get('fb_width', '300'),
+    'fbHeight' => $params->get('fb_height', '400'),
+    'fbAlign' => $params->get('fb_align', 'center'),
+    'fbFacepile' => $params->get('fb_facepile') ? 'true' : 'false',
+    'fbSmallHeader' => $params->get('fb_small_header') ? 'true' : 'false',
+    'fbCover' => $params->get('fb_cover') ? 'false' : 'true',
+    'fbTabsList' => is_array($params->get('fb_tabs')) ? implode(', ', $params->get('fb_tabs')) : $params->get('fb_tabs')
+];
 
 /* Module Settings */
+$fbAlign = $params->get('fb_align', 'center');
+$moduleAlign = 'text-align: ' . $pageParams['fbAlign'] . ';';
+$setHeight = $params->get('module_height', 0);
+$moduleHeight = $setHeight ? 'height: ' . $pageParams['fbHeight'] . 'px;': '';
 $moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx'));
 $module_unique_id = 'cw-page-' . $module->id;
 $module_width = $params->get('module_width', '100');
@@ -77,6 +80,7 @@ $urlModMedia = JURI::base(true) . '/media/coalawebsocial/modules/page/css/';
 if ($loadCss) {
     $doc->addStyleSheet($urlModMedia . 'cwp-default.css');
 }
+
 
 if ($checkOk === true) {
     $helpFunc = new CwGearsHelperLoadcount();

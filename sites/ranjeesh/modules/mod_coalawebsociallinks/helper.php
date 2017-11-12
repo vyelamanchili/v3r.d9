@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
 
 jimport('joomla.filesystem.file');
@@ -77,10 +77,11 @@ class ModCoalawebSocialLinksHelper {
         return implode("\n", $output);
     }
 
-    function getTwitterBookmark($title, $link, $size, $linknofollow, $via, $popup, $linkText) {
+    function getTwitterBookmark($title, $link, $size, $linknofollow, $via, $hash, $popup, $linkText) {
         $linkTextOn = ($linkText ? JText::sprintf("MOD_COALAWEBSOCIALLINKS_BOOKMARK", "Twitter") : '');
+        $tags = $hash ? '&amp;hashtags=' . $hash . '&amp;' : '';
         $output[] = '<li>';
-        $output[] = '<a class="' . $popup . 'twitter' . $size . '" href="https://twitter.com/intent/tweet?text=' . $title . '&amp;url=' . $link . '' . $via .'" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_BOOKMARK", "Twitter") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
+        $output[] = '<a class="' . $popup . 'twitter' . $size . '" href="https://twitter.com/intent/tweet?text=' . $title . '&amp;url=' . $link . $tags . $via .'" title="' . JText::sprintf("MOD_COALAWEBSOCIALLINKS_BOOKMARK", "Twitter") . '" ' . $linknofollow . ' target="_blank">' . $linkTextOn . '</a>';
         $output[] = '</li>';
         return implode("\n", $output);
     }

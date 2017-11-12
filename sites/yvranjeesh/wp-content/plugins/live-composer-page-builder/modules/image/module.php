@@ -39,6 +39,13 @@ class DSLC_Image extends DSLC_Module {
 	 */
 	function options() {
 
+		// Check if we have this module options already calculated
+		// and cached in WP Object Cache.
+		$cached_dslc_options = wp_cache_get( 'dslc_options_' . $this->module_id, 'dslc_modules' );
+		if ( $cached_dslc_options ) {
+			return apply_filters( 'dslc_module_options', $cached_dslc_options, $this->module_id );
+		}
+
 		$dslc_options = array(
 
 			array(
@@ -152,7 +159,6 @@ class DSLC_Image extends DSLC_Module {
 				'std' => '',
 				'type' => 'text',
 			),
-
 			array(
 				'label' => __( 'Image - TITLE attribute', 'live-composer-page-builder' ),
 				'id' => 'image_title',
@@ -749,12 +755,13 @@ class DSLC_Image extends DSLC_Module {
 				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 				'ext' => 'px',
 			),
-
-
 		);
 
-		$dslc_options = array_merge( $dslc_options, $this->shared_options( 'animation_options', array('hover_opts' => false) ) );
+		$dslc_options = array_merge( $dslc_options, $this->shared_options( 'animation_options', array( 'hover_opts' => false ) ) );
 		$dslc_options = array_merge( $dslc_options, $this->presets_options() );
+
+		// Cache calculated array in WP Object Cache.
+		wp_cache_add( 'dslc_options_' . $this->module_id, $dslc_options ,'dslc_modules' );
 
 		return apply_filters( 'dslc_module_options', $dslc_options, $this->module_id );
 
@@ -767,7 +774,6 @@ class DSLC_Image extends DSLC_Module {
 	 */
 	function output( $options ) {
 
-		$this->module_start( $options );
 
 		/* Module output starts here */
 
@@ -790,7 +796,7 @@ class DSLC_Image extends DSLC_Module {
 		}
 
 		if ( ! empty( $options['link_url'] ) ) {
-			$anchor_href = do_shortcode( $options['link_url'] );
+			$anchor_href = $options['link_url'];
 		}
 
 		if ( 'lightbox' === $options['link_type'] && ! empty( $options['link_lb_image'] ) ) {
@@ -802,9 +808,19 @@ class DSLC_Image extends DSLC_Module {
 		<div class="dslc-image-container">
 		<div class="dslc-image"<?php if ( $dslc_is_admin ) echo ' data-exportable-content'; ?>>
 
-			<?php if ( empty( $options['image'] ) && empty( $options['image_url'] ) ) : ?>
+			<?php if ( empty( $options['image'] ) && empty( $options['image_url'] ) && is_user_logged_in() ) : ?>
 
 				<div class="dslc-notification dslc-red"><?php _e( 'No image has been set yet, edit the module to set one.', 'live-composer-page-builder' ); ?></div>
+
+				<?php
+
+				// Alt and title empty when an image will remove.
+				if ( $dslc_is_admin ) {
+					$options['image_alt'] = '';
+					$options['image_title'] = '';
+				}
+
+				?>
 
 			<?php else : ?>
 
@@ -815,7 +831,7 @@ class DSLC_Image extends DSLC_Module {
 
 				if ( empty( $options['image'] ) ) {
 
-					$the_image = do_shortcode( $options['image_url'] );
+					$the_image = $options['image_url'];
 
 				} else {
 
@@ -835,6 +851,27 @@ class DSLC_Image extends DSLC_Module {
 
 						$the_image = dslc_aq_resize( $options['image'], $resize_width, $resize_height, true );
 
+					}
+				}
+
+				if ( $dslc_is_admin && ( strlen( $options['image'] ) > 0 ) ) {
+					$image_id = attachment_url_to_postid( $options['image'] );
+					$image_alt = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
+					$image_title = get_the_title( $image_id );
+
+					if ( strlen( $options['image_alt'] ) === 0 ) {
+						$options['image_alt'] = $image_alt;
+					} elseif ( $options['image_alt'] !== $image_alt ) {
+						update_post_meta( $image_id, '_wp_attachment_image_alt', $options['image_alt'] );
+					}
+
+					if ( strlen( $options['image_title'] ) === 0 ) {
+						$options['image_title'] = $image_title;
+					} elseif ( $options['image_title'] !== $image_title ) {
+						$image = array();
+						$image['ID'] = $image_id;
+						$image['post_title'] = $options['image_title'];
+						wp_update_post( $image );
 					}
 				}
 
@@ -876,9 +913,7 @@ class DSLC_Image extends DSLC_Module {
 		</div>
 		<?php
 
-		/* Module output ends here */
 
-		$this->module_end( $options );
 
 	}
 }

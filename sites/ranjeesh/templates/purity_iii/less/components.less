@@ -198,17 +198,17 @@ h2.article-title,
     padding-left: 0;
     padding-right: 0;
     // Smaller Padding on Mobile
-    @media screen and (max-width: @screen-md) {
+    @media screen and (max-width: @screen-sm-max) {
       padding-top: @t3-global-padding * 2;
       padding-bottom: @t3-global-padding * 2;
-      .container {
-        padding: 0;
-      }
     }
 
     // Control screen mobile
     @media screen and (max-width: @screen-xs-max) {
       padding-left: @t3-global-padding;
+      .container {
+        padding: 0;
+      }
     }
   }
 }

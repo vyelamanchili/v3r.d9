@@ -1,3 +1,16 @@
+.dslc-clear-cache {
+    color: #D54E21;
+    margin-left: 12px;
+    vertical-align: middle;
+}
+
+.dslc-clear-cache .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-top: 7px;
+}
+
 .dslc-settigns-notice {
     background: #fff none repeat scroll 0 0;
     border-left: 4px solid #fff;
@@ -2179,28 +2192,32 @@ margin-left: -90px;
   width: 281px;
 }
 
- .dslc-settings-form {
- /*   float: left;
+.dslc-settings-form {
+    /*float: left;
     width: 70%;
     max-width: 640px;
     padding-left: 4%;
     padding-top: 20px;
     border-left: solid 1px #E3E3E3;*/
- }
+}
 
- .dslc-settings-form .dslc-panel {
+.dslc-settings-form .dslc-panel {
     padding: 40px;
     margin-top: 10px;
     max-width: 640px;
- }
+}
 
- .dslc-settings-form .dslc-panel h2 {
+.dslc-settings-form .dslc-panel h2 {
     margin-bottom: 30px;
 }
 
- .dslc-submenu-section {
-  border-bottom: 1px solid #ddd;
-  margin: 0;
+.dslc-panel.dslc-hide-panel {
+    display: none;
+}
+
+.dslc-submenu-section {
+    border-bottom: 1px solid #ddd;
+    margin: 0;
 }
 
 .dslc-submenu-section:hover {
@@ -2243,4 +2260,60 @@ margin-left: -90px;
 #dslc-settings-frame {
     margin-left: 300px;
 margin-top: 23px;
+}
+
+
+/* Animated rotating dslc-icon */
+.dslc-icon-spin {
+  display: inline-block;
+  -moz-animation: spin 2s infinite linear;
+  -o-animation: spin 2s infinite linear;
+  -webkit-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+}
+/* Prevent stack and spinners from being taken inline when inside a link */
+a .dslc-icon-spin {
+  display: inline-block;
+  text-decoration: none;
+}
+
+@-moz-keyframes spin {
+  0% {
+    -moz-transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(359deg);
+  }
+}
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+  }
+}
+@-o-keyframes spin {
+  0% {
+    -o-transform: rotate(0deg);
+  }
+  100% {
+    -o-transform: rotate(359deg);
+  }
+}
+@-ms-keyframes spin {
+  0% {
+    -ms-transform: rotate(0deg);
+  }
+  100% {
+    -ms-transform: rotate(359deg);
+  }
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
 }

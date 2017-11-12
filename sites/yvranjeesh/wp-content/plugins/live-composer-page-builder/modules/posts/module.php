@@ -39,6 +39,13 @@ class DSLC_Posts extends DSLC_Module {
 	 */
 	function options() {
 
+		// Check if we have this module options already calculated
+		// and cached in WP Object Cache.
+		$cached_dslc_options = wp_cache_get( 'dslc_options_' . $this->module_id, 'dslc_modules' );
+		if ( $cached_dslc_options ) {
+			return apply_filters( 'dslc_module_options', $cached_dslc_options, $this->module_id );
+		}
+
 		// Get registered post types.
 		$post_types = get_post_types( array('public' => true), 'objects' );
 		$post_types_choices = array();
@@ -89,7 +96,7 @@ class DSLC_Posts extends DSLC_Module {
 				'label' => __( 'Post Types', 'live-composer-page-builder' ),
 				'id' => 'post_type',
 				'std' => 'post',
-				'type' => 'checkbox',
+				'type' => 'select',
 				'choices' => $post_types_choices,
 				'tab' => 'posts query',
 			),
@@ -2440,6 +2447,9 @@ class DSLC_Posts extends DSLC_Module {
 		$dslc_options = array_merge( $dslc_options, $this->shared_options( 'animation_options' ) );
 		$dslc_options = array_merge( $dslc_options, $this->presets_options() );
 
+		// Cache calculated array in WP Object Cache.
+		wp_cache_add( 'dslc_options_' . $this->module_id, $dslc_options ,'dslc_modules' );
+
 		return apply_filters( 'dslc_module_options', $dslc_options, $this->module_id );
 
 	}
@@ -2450,7 +2460,24 @@ class DSLC_Posts extends DSLC_Module {
 	 * @return void
 	 */
 	function output( $options ) {
+		// Render the module output in the shortcode
+		// to make sure it's not cached in LC and pagination works as expected.
 
+		// @todo: add conditional caching only if pagination used.
+		// if ( 'disabled' === $options['pagination_type'] )
+		// 	# code...
+		// }
+?>
+		[dslc_module_posts_output]<?php echo serialize($options); ?>[/dslc_module_posts_output]
+<?php
+	}
+}
+
+function dslc_module_posts_output ( $atts, $content = null ) {
+	// Uncode module options passed as serialized content.
+	$options = unserialize( $content );
+
+	ob_start();
 
 		if ( is_feed() ) {
 			// Prevent category/tag feeds to stuck in an infinite loop.
@@ -2470,7 +2497,6 @@ class DSLC_Posts extends DSLC_Module {
 			$options['button_text'] = stripslashes( $options['button_text'] );
 		}
 
-		$this->module_start( $options );
 
 		/* CUSTOM START */
 
@@ -2709,6 +2735,8 @@ class DSLC_Posts extends DSLC_Module {
 
 						<?php if ( $show_heading ) : ?>
 
+						<div class="dslc-post-heading">
+
 							<h2 class="dslca-editable-content" data-id="main_heading_title" data-type="simple" <?php if ( $dslc_is_admin ) echo 'contenteditable'; ?> ><?php echo stripslashes( $options['main_heading_title'] ); ?></h2>
 
 							<!-- View all -->
@@ -2718,6 +2746,8 @@ class DSLC_Posts extends DSLC_Module {
 								<span class="dslc-module-heading-view-all"><a href="<?php echo $options['view_all_link']; ?>" class="dslca-editable-content" data-id="main_heading_link_title" data-type="simple" <?php if ( $dslc_is_admin ) echo 'contenteditable'; ?> ><?php echo $options['main_heading_link_title']; ?></a></span>
 
 							<?php endif; ?>
+
+						</div>
 
 						<?php endif; ?>
 
@@ -2923,27 +2953,24 @@ class DSLC_Posts extends DSLC_Module {
 															<div class="dslc-cpt-post-excerpt">
 																<?php if ( $options['excerpt_or_content'] == 'content' ) : ?>
 																	<?php
-																	// Disable LC content filering in this case
-																	// to prevent infitie loop on custon archive listing
-																	global $dslc_should_filter;
-																	$dslc_should_filter = false;
-
-																		the_content();
-
-																	$dslc_should_filter = true;
+																	if ( $options['excerpt_length'] > 0 ) {
+																		echo wp_trim_words( get_the_content(), $options['excerpt_length'] );
+																	} else {
+																		echo get_the_content();
+																	}
 																?>
 																<?php else : ?>
 																	<?php
 																		if ( $options['excerpt_length'] > 0 ) {
 																			if ( has_excerpt() )
-																				echo do_shortcode( wp_trim_words( get_the_excerpt(), $options['excerpt_length'] ) );
+																				echo wp_trim_words( get_the_excerpt(), $options['excerpt_length'] );
 																			else
-																				echo do_shortcode( wp_trim_words( get_the_content(), $options['excerpt_length'] ) );
+																				echo wp_trim_words( get_the_content(), $options['excerpt_length'] );
 																		} else {
 																			if ( has_excerpt() )
-																				echo do_shortcode( get_the_excerpt() );
+																				echo get_the_excerpt();
 																			else
-																				echo do_shortcode( get_the_content() );
+																				echo get_the_content();
 																		}
 																	?>
 																<?php endif; ?>
@@ -3021,27 +3048,25 @@ class DSLC_Posts extends DSLC_Module {
 											<div class="dslc-cpt-post-excerpt">
 												<?php if ( $options['excerpt_or_content'] == 'content' ) : ?>
 													<?php
-														// Disable LC content filering in this case
-														// to prevent infitie loop on custon archive listing
-														global $dslc_should_filter;
-														$dslc_should_filter = false;
-
-															the_content();
-
-														$dslc_should_filter = true;
+														if ( $options['excerpt_length'] > 0 ) {
+															echo wp_trim_words( get_the_content(), $options['excerpt_length'] );
+														} else {
+															echo get_the_content();
+														}
 													?>
+
 												<?php else : ?>
 													<?php
 														if ( $options['excerpt_length'] > 0 ) {
 															if ( has_excerpt() )
-																echo do_shortcode( wp_trim_words( get_the_excerpt(), $options['excerpt_length'] ) );
+																echo wp_trim_words( get_the_excerpt(), $options['excerpt_length'] );
 															else
-																echo do_shortcode( wp_trim_words( get_the_content(), $options['excerpt_length'] ) );
+																echo wp_trim_words( get_the_content(), $options['excerpt_length'] );
 														} else {
 															if ( has_excerpt() )
-																echo do_shortcode( get_the_excerpt() );
+																echo get_the_excerpt();
 															else
-																echo do_shortcode( get_the_content() );
+																echo get_the_content();
 														}
 													?>
 												<?php endif; ?>
@@ -3109,8 +3134,9 @@ class DSLC_Posts extends DSLC_Module {
 
 		wp_reset_postdata();
 
-		$this->module_end( $options );
+	$shortcode_rendered = ob_get_contents();
+	ob_end_clean();
 
-	}
+	return $shortcode_rendered;
 
-}
+} add_shortcode( 'dslc_module_posts_output', 'dslc_module_posts_output' );

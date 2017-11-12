@@ -1,7 +1,7 @@
 <?php
 /**
 * The template for displaying the theme information page under Appearance
-* @version 6.3.1.2
+* @version 6.4.3
 */
 // Load CSS
 if ( ! function_exists( 'wpforge_load_admin_scripts' ) ) {
@@ -50,7 +50,7 @@ function wpforge_theme_info_page() {
     <div class="wrap about-wrap theme_info_wrapper">
         <h1><?php printf( esc_html__('%s %1s', 'wp-forge'), $theme_data->Name, $theme_data->Version ); ?></h1>
         <div class="about-text">
-            <?php esc_html_e( 'A WordPress theme built with Foundation for Sites (6.3.1) from Zurb, the most advanced responsive front-end framework in the world. By combining WordPress and Foundation you get a resposive WordPress theme that makes creating websites fun and exciting again!', 'wp-forge' ); ?>
+            <?php esc_html_e( 'A WordPress theme built using the latest version of Foundation for Sites, from Zurb, the most advanced responsive front-end framework in the world. By combining WordPress and Foundation you get a resposive WordPress theme that makes creating websites fun and exciting again!', 'wp-forge' ); ?>
         </div><!-- end about-text -->
 
         <a target="_blank" href="<?php echo esc_url('https://themeawesome.com/'); ?>" class="theme-badge wp-badge"><span>ThemeAwesome.com</span></a>
@@ -61,15 +61,13 @@ function wpforge_theme_info_page() {
 
             <a href="?page=wpforge&tab=changelog" class="nav-tab<?php echo $tab == 'changelog' ? ' nav-tab-active' : null; ?>"><?php esc_html_e( 'Changelog', 'wp-forge' ); ?></a>
 
-            <a href="?page=wpforge&tab=themes" class="nav-tab<?php echo $tab == 'themes' ? ' nav-tab-active' : null; ?>"><?php esc_html_e( 'Themes', 'wp-forge' ); ?></span></a>
-
         </h2><!-- end nav-tab-wrapper -->
 
         <?php if ( is_null( $tab ) ) { ?>
 
             <div class="row rtop">
 
-                    <div class="small-12 large-4 columns">
+                    <div class="small-12 large-4 column">
 
                         <div class="theme_link">
                             <h3><?php esc_html_e( 'Theme Customizer', 'wp-forge' ); ?></h3>
@@ -83,7 +81,7 @@ function wpforge_theme_info_page() {
                             <h3><?php esc_html_e( 'Theme Documentation', 'wp-forge' ); ?></h3>
                             <p class="about"><?php printf(esc_html__('Need any help to setup and configure %s? Please read the theme documentation.', 'wp-forge'), $theme_data->Name); ?></p>
                             <p>
-                                <a href="<?php echo esc_url( 'https://themeawesome.com/docs/wp-forge/' ); ?>" target="_blank" class="button button-primary"><?php esc_html_e('WP-Forge Documentation', 'wp-forge'); ?></a>
+                                <a href="<?php echo esc_url( 'https://themeawesome.com/docs/wp-forge/' ); ?>" target="_blank" class="button button-secondary"><?php esc_html_e('WP-Forge Documentation', 'wp-forge'); ?></a>
                             </p>
                         </div><!-- end theme_link -->
 
@@ -91,13 +89,13 @@ function wpforge_theme_info_page() {
                             <h3><?php esc_html_e( 'Having Trouble, Need some help?', 'wp-forge' ); ?></h3>
                             <p class="about"><?php printf(esc_html__('Support for %s is provided through the WordPress Support Forums.', 'wp-forge'), $theme_data->Name); ?></p>
                             <p>
-                                <a href="<?php echo esc_url('https://wordpress.org/support/theme/wp-forge' ); ?>" target="_blank" class="button button-primary"><?php echo sprintf( esc_html__('Visit Support Forums', 'wp-forge'), $theme_data->Name); ?></a>
+                                <a href="<?php echo esc_url('https://wordpress.org/support/theme/wp-forge' ); ?>" target="_blank" class="button button-secondary"><?php echo sprintf( esc_html__('Visit Support Forums', 'wp-forge'), $theme_data->Name); ?></a>
                             </p>
                         </div><!-- end theme_link -->
 
                     </div><!-- end theme_info_left -->
 
-                    <div class="small-12 large-7 columns">
+                    <div class="small-12 large-7 column">
                         <img src="<?php echo get_template_directory_uri(); ?>/screenshot.png" alt="Theme Screenshot" />
                         <p class="cntr"><strong><?php esc_html_e( 'What do you think of WP-Forge?', 'wp-forge' ); ?></strong><br />
                         <?php _e('Please <a target="_blank" href="https://wordpress.org/support/theme/wp-forge/reviews/">rate and review WP-Forge</a> on WordPress.org.', 'wp-forge'); ?><br />
@@ -110,7 +108,74 @@ function wpforge_theme_info_page() {
 
          <?php if ( $tab == 'changelog' ) { ?>
                 <div class="row">
-                    <div class="changelog small-12 large-12 columns">
+                    <div class="changelog small-12 large-12 column">
+
+                        <h4>6.4.3</h4>
+
+                        <small>Theme updated 08/19/17</small>
+
+                        <ul>
+                            <li>Updated theme to Foundation 6.4.3 - Nothing to really worry about. Just keeping up with the versioning. Mostly updates for scss. Here is a list of what Zurb changed in this version <a href="<?php echo esc_url('https://github.com/zurb/foundation-sites/releases/tag/v6.4.3' ); ?>" target="_blank">https://github.com/zurb/foundation-sites/releases/tag/v6.4.3</a></li>
+                            <li>Corrected the css for related products that were on sale. The sale banner was appearing off center.</li>
+                            <li>Also corrected the date of the last update in the changelog.txt file.</li>
+                        </ul>
+
+                        <h4>6.4.2</h4>
+
+                        <small>Theme updated 08/16/17</small>
+
+                        <ul>
+                            <li>Updated theme to Foundation 6.4.2 - Here is a list of what Zurb changed in this version <a href="<?php echo esc_url('https://github.com/zurb/foundation-sites/releases/tag/v6.4.2' ); ?>" target="_blank">https://github.com/zurb/foundation-sites/releases/tag/v6.4.2</a></li>
+                            <li>Removed the <code>wpforge_footer_sidebar_class</code> function from <code>functions.php</code> - before, this function was used to calculate the number of widgets added in the footer sidebar area, and then it would apply the necessary classes to make sure the widget areas appeared properly. With the 6.4 update, this is done automatically so the function is not needed any longer.</li>
+                            <li>Rewrote the <code>wpforge_widgets_init</code> function in functions.php - its smaller now, means less bloat.</li>
+                            <li>Switched some of the html where rows and columns were still being used.</li>
+                            <li>Adjusted the comments area.</li>
+                            <li>Adjusted the <code>margin-bottom</code> of pagination.</li>
+                            <li>Added support for WooCommerce. This should correct any layout issues when using the plugin, as well as prevent the end user from having to add it themselves.</li>
+                            <li>Adjusted the <code>.dropdown.menu .is-active > a</code> color in css as well as the customizer.</li>
+                            <li>Reworked the header image portion of <code>header.php</code> - if an image is displayed then display the div along with the image. If no image is displayed, do not show the empty div.</li>
+                            <li>Changed the priority of all the WP-Forge css scripts and files.</li>
+                        </ul>
+
+                        <h4>6.4.1.1</h4>
+
+                        <small>Theme updated 07/12/17</small>
+
+                        <ul>
+                            <li>Corrected issue with footer sidebar area. Switched to <code>large auto columns</code> for each sidebar area. This moves towards the new XY grid from foundation. The calculation in <code>functions.php</code> is no longer needed to calculate and add the apropriate sizes to the individual sidebars.</li>
+                            <li>Added a image size for the custom logo. Logo is set to 1200px wide which is the full length of the theme and the image has auto height. If your image is smaller than the logo area it will shrink accordingly.</li>
+                            <li>Added back the custom header feature that the custom logo was supposed to replace, so now users can use either the custom logo or custom header feature, as well as random header images.</li>
+                        </ul>
+
+                        <h4>6.4.1</h4>
+
+                        <small>Theme updated 07/06/17</small>
+
+                        <ul>
+                            <li>Updated to the latest version of Foundation for Sites v6.4.3 - not really need but I like to on top of things.</li>
+                            <li>Corrected the <code>no-js</code> in styles.css. There is an issue where the menu was loading after the <strong>js</strong> was loaded and this caused the menu to kind of flash or delay when it finally loaded. This was bugging me that it was happening. Seems to have gotten corrected. See this issue <a href="<?php echo esc_url('https://github.com/zurb/foundation-sites/issues/10339' ); ?>" target="_blank">https://github.com/zurb/foundation-sites/issues/10339</a>.</li>
+                            <li>Removed the Russian .mo file as it is not needed.</li>
+                        </ul>
+
+                        <h4>6.4</h4>
+
+                        <small>Theme updated 06/30/17</small>
+
+                        <ul>
+                            <li> Updated to the latest version of Foundation for Sites v6.4.</li>
+                            <li> Switched the "felx-video" to "Responsive Embed" - This makes sure embedded content, like videos, maintain their aspect ratio as the width of the screen changes.</li>
+                            <li> Removed the <code>margin</code> from responsive embed (flex video), this was causing the bottom portion of embedded videos to be cut off.</li>
+                            <li> Added selective refresh to the site-title and site-description.</li>
+                            <li> Added the ability to show or hide the site title and the site description individually.</li>
+                            <li> Site-title and site-description are now wrapped in a <code>p</code> tag when not on the front page.</li>
+                            <li> Post titles are wrapped in a H2 tag, except when viewing the actual post, then the post title is wrapped in a H1 tag</li>
+                            <li> Switched from custom header to custom logo introduced in 4.5</li>
+                            <li> Added the new Accordion Menu to Off-Canvas and Top-Bar</li>
+                            <li> Added Schema markup to posts and pages.</li>
+                            <li> Moved Skip to Content link out of <code>content-navigation.php</code> to right after the opening <code>body</code> tag.</li>
+                            <li> Corrected some issues with the customizer css. When some options were changed, those options were not reflecting in the in-line css or preview.</li>
+                            <li> Added Russian translation files - Thanks to Spartak Klain, <a href="<?php echo esc_url('https://sajtprint.ru' ); ?>" target="_blank">https://sajtprint.ru</a>, for taking the time to do this.</li>
+                        </ul>
 
                         <h4>6.3.1.2</h4>
 
@@ -164,14 +229,14 @@ function wpforge_theme_info_page() {
                         <h4>6.3.0</h4>
                         <small>Theme updated 02/27/17</small>
                         <ul>
-                            <li>Updated to Foundation version 6.3.1.2</li>
+                            <li>Updated to Foundation version 6.4</li>
                             <li>Updated Font-Awesome to 4.7</li>
                             <li>Removed <code>ap.js</code> - moved the actual call for foundation to theme-functions.js - now there is only one file.</li>
                             <li>Added <code>what-input.js</code> and <code>foundation.js</code> to the <code>wpforge_theme_functions</code> of functions.php - this makes the scripts load closer to the closing body tag as they were meant to be.</li>
                             <li>Moved to one off-canvas file for the theme by removing <code>off-canvas-mobile.php</code>. There is no need to have two of the same files being called by two different fuinctions, when one file and one function will do.</li>
                             <li>Moved Use <code>Off-Canvas for Mobile?</code> to <code>Top-Bar Settings section.</code></li>
                             <li>Added options for off-canvas that will appear when <code>Use Off-Canvas for Mobile?</code> is set to <code>Yes</code> in <code>Top-Bar Settings</code>. These settings only affect mobile Off-Canvas (the off-canvas menu used in conjunction with the top-bar)</li>
-                            <li>Switched <code>data-accordion</code> to <code>data-drilldown</code> in off-canvas. <code>data-accordion</code> still does not work as of 6.3.1.2 and is slated to be possibly added to next major release, 6.4. See this thread <a href="<?php echo esc_url('https://github.com/zurb/foundation-sites/pull/9348' ); ?>" target="_blank">https://github.com/zurb/foundation-sites/pull/9348</a> - For now <code>data-drilldown</code> will remain in place until the <code>data-accordion</code> is corrected and functions properly. Thanks to @cbirdsong for asking how this is done, which promted the switch: See <a href="<?php echo esc_url('https://wordpress.org/support/topic/parent-links-of-off-canvas-mobile-menu-not-working/' ); ?>" target="_blank">https://wordpress.org/support/topic/parent-links-of-off-canvas-mobile-menu-not-working/</a></li>
+                            <li>Switched <code>data-accordion</code> to <code>data-drilldown</code> in off-canvas. <code>data-accordion</code> still does not work as of 6.4 and is slated to be possibly added to next major release, 6.4. See this thread <a href="<?php echo esc_url('https://github.com/zurb/foundation-sites/pull/9348' ); ?>" target="_blank">https://github.com/zurb/foundation-sites/pull/9348</a> - For now <code>data-drilldown</code> will remain in place until the <code>data-accordion</code> is corrected and functions properly. Thanks to @cbirdsong for asking how this is done, which promted the switch: See <a href="<?php echo esc_url('https://wordpress.org/support/topic/parent-links-of-off-canvas-mobile-menu-not-working/' ); ?>" target="_blank">https://wordpress.org/support/topic/parent-links-of-off-canvas-mobile-menu-not-working/</a></li>
                             <li>Updated <code>off-canvas</code> menu to the latest version. Unfortunately, only two Off-Canvas Directions are available: <code>position-left</code> and <code>position-right</code>. The other positions, <code>position-top</code> and <code>position-bottom</code>, are slated for possible inclusion in the next update, keep in mind I make no guarantee that they will. The reason they were not added in this update is due to the fact that currently the menu does not look proper if top or bottom is used.</li>
                             <li>Added the abilty for the user to set the Off-Canvas Transitions to <code>push</code> or <code>overlap</code>.</li>
                             <li>Removed Foundation <code>active</code> class from menus. Switched to <code>current-menu-item</code>, which is already built into WP core. In my opinion this is a much better option and is easier to style. Thanks @OttoPotto for bringing up this request which gave me the idea to switch. See this thread <a href="<?php echo esc_url('https://github.com/tsquez/wp-forge/issues/50' ); ?>" target="_blank">https://github.com/tsquez/wp-forge/issues/50</a></li>
@@ -335,35 +400,6 @@ function wpforge_theme_info_page() {
 
                 </div><!-- end col -->
 
-        <?php } ?>
-
-        <?php if ( $tab == 'themes' ) { ?>
-            <div class="row rtop">
-
-                <div class="small-12 large-12 columns">
-
-                    <div class="small-12 large-4 columns">
-
-                        <div class="theme_link">
-                            <h2><?php esc_html_e( 'WP-Edify', 'wp-forge' ); ?></h2>
-                            <p class="about"><?php printf(esc_html__('A one page WordPress theme built with Foundation for Sites (Foundation 6.3.1.2) from Zurb. Built specifically with the LearnDash LMS plugin in mind. If creating an educational site is not your goal, you can still use WP-Edify to create any kind of site you desire. Simple and easy! Keep in mind the demo is not complete.', 'wp-forge'), $theme_data->Name); ?></p>
-                            <p>
-                                <a href="<?php echo esc_url('https://themeawesome.com/wp-edify/'); ?>" class="button button-primary" target="_blank"><?php esc_html_e('Get Notified', 'wp-forge'); ?></a>
-                                <a href="<?php echo esc_url('https://themeawesome.com/themes/wp-edify'); ?>" class="button button-secondary" target="_blank">
-                                <?php esc_html_e('Check Out the Demo', 'wp-forge'); ?></a>
-                            </p>
-                        </div><!-- end theme_link -->
-
-                    </div><!-- end theme_info_left -->
-
-                    <div class="small-12 large-7 columns">
-                        <img src="<?php echo get_template_directory_uri(); ?>/inc/img/wp-edify.jpg" alt="WP-Edify" />
-                        <p class="cntr"><strong><?php esc_html_e( 'COMING SOON!', 'wp-forge' ); ?></strong></p>
-                    </div><!-- end theme_info_right -->
-
-                </div><!-- end columns -->
-
-            </div><!-- end row -->
         <?php } ?>
 
         <?php do_action( 'wpforge_more_tabs_details', $tab ); ?>
