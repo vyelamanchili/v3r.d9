@@ -1,15 +1,12 @@
 <?php
 
-defined('_JEXEC') or die('Restricted access');
-
 /**
- * @package             Joomla
- * @subpackage          CoalaWeb Page Module
- * @author              Steven Palmer
- * @author url          https://coalaweb.com
- * @author email        support@coalaweb.com
- * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
+ * @package     Joomla
+ * @subpackage  CoalaWeb Social Links
+ * @author      Steven Palmer <support@coalaweb.com>
+ * @link        https://coalaweb.com/
+ * @license     GNU/GPL V3 or later; https://www.gnu.org/licenses/gpl-3.0.html
+ * @copyright   Copyright (c) 2020 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,15 +17,28 @@ defined('_JEXEC') or die('Restricted access');
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
-
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
+
+defined('_JEXEC') or die('Restricted access');
 
 require_once dirname(__FILE__) . '/helper.php';
 
 $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
+
+//Keeping the parameters in the component keeps things clean and tidy.
+$comParams = JComponentHelper::getParams('com_coalawebsociallinks');
+
+//Check dependencies
+$checkOk = CoalawebPageHelper::checkDependencies();
+// Use local param or from the component
+$debug = null !== $params->get('debug') ? $params->get('debug') : $comParams->get('debug', '0');
+if ($checkOk['ok'] === false) {
+    if ($debug === '1') {
+        JFactory::getApplication()->enqueueMessage($checkOk['msg'], $checkOk['type']);
+    }
+    return;
+}
 
 // Load the language files
 $jlang = JFactory::getLanguage();
@@ -43,14 +53,11 @@ $jlang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, 'en-GB', true);
 $jlang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, $jlang->getDefault(), true);
 $jlang->load('com_coalawebsociallinks', JPATH_ADMINISTRATOR, null, true);
 
-//Check dependencies
-$checkOk = CoalawebPageHelper::checkDependencies();
-
 // Detect language
 $fbLocale = $lang->getTag();
 $fbLocale = str_replace('-', '_', $fbLocale);
 
-// Facebook and Google only seem to support es_ES and es_LA for all of LATAM
+// Facebook only seems to support es_ES and es_LA for all of LATAM
 $fbLocale = (substr($fbLocale, 0, 3) == 'es_' && $fbLocale != 'es_ES') ? 'es_LA' : $fbLocale;
 
 //Page parameters
@@ -72,20 +79,16 @@ $setHeight = $params->get('module_height', 0);
 $moduleHeight = $setHeight ? 'height: ' . $pageParams['fbHeight'] . 'px;': '';
 $moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx'));
 $module_unique_id = 'cw-page-' . $module->id;
-$module_width = $params->get('module_width', '100');
 
 /* Load css */
-$loadCss = $params->get('load_layout_css');
-$urlModMedia = JURI::base(true) . '/media/coalawebsocial/modules/page/css/';
-if ($loadCss) {
+$urlModMedia = JURI::base(true) . '/media/coalawebsociallinks/modules/page/css/';
+if ($params->get('load_layout_css', '1')) {
     $doc->addStyleSheet($urlModMedia . 'cwp-default.css');
 }
 
+$helpFunc = new CwGearsHelperLoadcount();
+$url = JURI::getInstance()->toString();
+$helpFunc::setFacebookJSCount($url);
 
-if ($checkOk === true) {
-    $helpFunc = new CwGearsHelperLoadcount();
-    $url = JURI::getInstance()->toString();
-    $helpFunc::setFacebookJSCount($url);
-}
 
 require JModuleHelper::getLayoutPath('mod_coalawebpage', $params->get('layout', 'default'));

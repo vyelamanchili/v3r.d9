@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.2" method="upgrade">
     <name>COM_COALAWEBSOCIALLINKS</name>
-    <creationDate>2017-09-21</creationDate>
+    <creationDate>2020-03-24</creationDate>
     <author>Steven Palmer</author>
     <authorEmail>support@coalaweb.com</authorEmail>
     <authorUrl>https://coalaweb.com</authorUrl>
-    <copyright>Copyright (c) 2017 Steven Palmer All rights reserved.</copyright>
-    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <version>0.4.2</version>
+    <copyright>© 2020 Steven Palmer (CoalaWeb), All rights reserved.</copyright>
+    <license>GNU/GPL V3 or later.</license>
+    <version>1.1.1</version>
+    <level>Core</level>
     <description>COM_COALAWEBSOCIALLINKS_DESCRIPTION</description>
  
     <install> <!-- Runs on install -->
@@ -26,45 +27,45 @@
         </schemas>
     </update>
     
-    <media destination="coalawebsocial" folder="media/coalawebsocial">
-        <filename>index.html</filename>
-        <folder>components</folder>
+    <media destination="coalawebsociallinks" folder="media/coalawebsociallinks">
         <folder>modules</folder>
-        <folder>plugins</folder>
+		<file>index.html</file>
+		<folder>components</folder>
     </media>
     
     <administration>
-        <menu img ="../media/coalawebsocial/components/sociallinks/images/icon-16-cw-menu.png">COM_COALAWEBSOCIALLINKS</menu>
-        <files folder="administrator">
-            <!-- Admin Main File Copy Section -->
-            <filename>index.html</filename>
-            <filename>config.xml</filename>
-            <filename>access.xml</filename>
-            <filename>coalawebsociallinks.php</filename>
-            <filename>controller.php</filename>
-            <filename>version.php</filename>
-            <folder>assets</folder>
+        <menu>COM_COALAWEBSOCIALLINKS</menu>
+        <files folder="administrator/components/com_coalawebsociallinks">
             <folder>sql</folder>
-            <folder>tables</folder>
-            <folder>controllers</folder>
-            <folder>helpers</folder>
-            <folder>language</folder>
-            <folder>models</folder>
-            <folder>views</folder>
+			<file>coalawebsociallinks.php</file>
+			<file>access.xml</file>
+			<folder>tables</folder>
+			<folder>helpers</folder>
+			<folder>assets</folder>
+			<folder>views</folder>
+			<folder>controllers</folder>
+			<file>index.html</file>
+			<file>version.php</file>
+			<folder>language</folder>
+			<file>config.xml</file>
+			<file>controller.php</file>
+			<folder>models</folder>
+			<folder>layouts</folder>
         </files>
  
-        <languages folder="administrator/">
-            <language tag="en-GB">language/en-GB/en-GB.com_coalawebsociallinks.ini</language>
-            <language tag="en-GB">language/en-GB/en-GB.com_coalawebsociallinks.sys.ini</language>
+        <languages folder="administrator/components/com_coalawebsociallinks/language">
+            <language tag="en-GB">en-GB/en-GB.com_coalawebsociallinks.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_coalawebsociallinks.sys.ini</language>
         </languages>
     </administration>
- 
-    <!-- Update Server -->
+
     <updateservers>
-        <server type="extension" priority="1" name="CoalaWeb Social Links Update">http://cdn.coalaweb.com/updates/cw-sociallinks-core.xml</server>
+        <server type="extension" priority="1" name="CoalaWeb Social Links Update">
+            <![CDATA[https://coalaweb.com/index.php?option=com_rdsubs&view=updater&format=xml&cat=11&type=.xml]]>
+        </server>
     </updateservers>
         
     <!-- Installation / Uninstallation Script File -->
-    <scriptfile>script.coalawebsociallinks.php</scriptfile>
+    <scriptfile>script.com_coalawebsociallinks.php</scriptfile>
         
 </extension>

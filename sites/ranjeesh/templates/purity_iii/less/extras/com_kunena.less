@@ -27,6 +27,10 @@
     }
   }
 
+  input[type="checkbox"] {
+    height: auto;
+  }
+
 
   // NAVIGATION BAR
   .navbar {
@@ -1126,6 +1130,10 @@
             }
           }
         }
+
+        .wysibb-toolbar {
+          min-height: 34px;
+        }
       }
     }
   }
@@ -1305,5 +1313,12 @@ div.kstats-module ul.kstats-items li {
     background: @white;
     border-color: darken(@gray-lighter, 10%);
     padding: 10px;
+  }
+}
+
+.view-topic {
+
+  body.modal-open {
+    overflow: auto;
   }
 }

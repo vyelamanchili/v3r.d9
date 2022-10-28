@@ -1,13 +1,12 @@
 <?php
-defined('_JEXEC') or die('Restricted access');
+
 /**
- * @package             Joomla
- * @subpackage          CoalaWeb Tweet Module
- * @author              Steven Palmer
- * @author url          https://coalaweb.com
- * @author email        support@coalaweb.com
- * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
+ * @package     Joomla
+ * @subpackage  CoalaWeb Social Links
+ * @author      Steven Palmer <support@coalaweb.com>
+ * @link        https://coalaweb.com/
+ * @license     GNU/GPL V3 or later; https://www.gnu.org/licenses/gpl-3.0.html
+ * @copyright   Copyright (c) 2020 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,10 +17,10 @@ defined('_JEXEC') or die('Restricted access');
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
-
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
+
+defined('_JEXEC') or die('Restricted access');
+
 ?>
 <?php if ($myparams['moduleClassSfx']) : ?>
     <div class="custom<?php echo $myparams['moduleClassSfx'] ?>">
@@ -37,7 +36,7 @@ defined('_JEXEC') or die('Restricted access');
     <?php else : ?>
         <div class="cwt" id="<?php echo $uniqueId ?>">
             <div class="<?php echo $myparams['uikitPrefix']; ?>-grid" data-<?php echo $myparams['uikitPrefix']; ?>-grid-margin="">
-                <ul id="<?php echo $uniqueId ?>Set" ></ul>
+                <ul id="<?php echo $uniqueId ?>Set" class="<?php echo $myparams['uikitPrefix']; ?>-width-1-1"></ul>
             </div>
         </div>
     <?php endif ?>
@@ -51,7 +50,7 @@ defined('_JEXEC') or die('Restricted access');
         "dataOnly": true,
         "maxTweets": <?php echo $myparams['maxTweets'] ?>,
         "customCallback": <?php echo $uniqueId ?>Get
-    };
+    }
 
     twitterFetcher.fetch(<?php echo $uniqueId ?>);
 

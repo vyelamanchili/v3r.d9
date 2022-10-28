@@ -197,12 +197,15 @@ abstract class HandlerBase extends PluginBase implements ViewsHandlerInterface {
       case 'xss':
         $value = Xss::filter($value);
         break;
+
       case 'xss_admin':
         $value = Xss::filterAdmin($value);
         break;
+
       case 'url':
         $value = Html::escape(UrlHelper::stripDangerousProtocols($value));
         break;
+
       default:
         $value = Html::escape($value);
         break;
@@ -230,11 +233,14 @@ abstract class HandlerBase extends PluginBase implements ViewsHandlerInterface {
       default:
         return $string;
       case 'upper':
-        return Unicode::strtoupper($string);
+        return mb_strtoupper($string);
+
       case 'lower':
-        return Unicode::strtolower($string);
+        return mb_strtolower($string);
+
       case 'ucfirst':
         return Unicode::ucfirst($string);
+
       case 'ucwords':
         return Unicode::ucwords($string);
     }
@@ -313,6 +319,7 @@ abstract class HandlerBase extends PluginBase implements ViewsHandlerInterface {
   public function usesGroupBy() {
     return TRUE;
   }
+
   /**
    * Provide a form for aggregation settings.
    */
@@ -843,6 +850,21 @@ abstract class HandlerBase extends PluginBase implements ViewsHandlerInterface {
    */
   public function submitFormCalculateOptions(array $options, array $form_state_options) {
     return $form_state_options + $options;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function calculateDependencies() {
+    $dependencies = parent::calculateDependencies();
+    if ($this->table) {
+      // Ensure that the view depends on the module that provides the table.
+      $data = $this->getViewsData()->get($this->table);
+      if (isset($data['table']['provider'])) {
+        $dependencies['module'][] = $data['table']['provider'];
+      }
+    }
+    return $dependencies;
   }
 
 }

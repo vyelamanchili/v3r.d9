@@ -6,6 +6,7 @@ use Drupal\feeds\Event\FeedsEvents;
 use Drupal\feeds\FeedClearHandler;
 use Drupal\feeds\State;
 use Drupal\feeds\StateInterface;
+use Exception;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -14,10 +15,30 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  */
 class FeedClearHandlerTest extends FeedsUnitTestCase {
 
+  /**
+   * The event dispatcher.
+   *
+   * @var \Symfony\Component\EventDispatcher\EventDispatcher
+   */
   protected $dispatcher;
+
+  /**
+   * The feed entity.
+   *
+   * @var \Drupal\feeds\FeedInterface
+   */
   protected $feed;
+
+  /**
+   * Status of the batch.
+   *
+   * @var array
+   */
   protected $context;
 
+  /**
+   * {@inheritdoc}
+   */
   public function setUp() {
     parent::setUp();
 
@@ -28,13 +49,16 @@ class FeedClearHandlerTest extends FeedsUnitTestCase {
 
     $state = new State();
 
-    $this->feed = $this->getMock('Drupal\feeds\FeedInterface');
+    $this->feed = $this->createMock('Drupal\feeds\FeedInterface');
     $this->feed->expects($this->any())
       ->method('getState')
       ->with(StateInterface::CLEAR)
       ->will($this->returnValue($state));
   }
 
+  /**
+   * @covers ::startBatchClear
+   */
   public function testStartBatchClear() {
     $this->feed
       ->expects($this->once())
@@ -44,6 +68,9 @@ class FeedClearHandlerTest extends FeedsUnitTestCase {
     $this->handler->startBatchClear($this->feed);
   }
 
+  /**
+   * @covers ::clear
+   */
   public function testClear() {
     $this->feed->expects($this->exactly(2))
       ->method('progressClearing')
@@ -56,16 +83,17 @@ class FeedClearHandlerTest extends FeedsUnitTestCase {
   }
 
   /**
-   * @expectedException \Exception
+   * @covers ::clear
    */
   public function testException() {
-    $this->dispatcher->addListener(FeedsEvents::CLEAR, function($event) {
+    $this->dispatcher->addListener(FeedsEvents::CLEAR, function ($event) {
       throw new \Exception();
     });
 
     $this->feed->expects($this->once())
       ->method('unlock');
 
+    $this->expectException(Exception::class);
     $this->handler->clear($this->feed, $this->context);
   }
 

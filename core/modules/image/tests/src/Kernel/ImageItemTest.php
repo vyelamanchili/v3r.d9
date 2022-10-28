@@ -11,6 +11,8 @@ use Drupal\field\Entity\FieldConfig;
 use Drupal\Tests\field\Kernel\FieldKernelTestBase;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\file\Entity\File;
+use Drupal\user\Entity\Role;
+use PHPUnit\Framework\Error\Warning;
 
 /**
  * Tests using entity fields of the image field type.
@@ -41,6 +43,14 @@ class ImageItemTest extends FieldKernelTestBase {
   protected function setUp() {
     parent::setUp();
 
+    $this->installEntitySchema('user');
+    $this->installConfig(['user']);
+    // Give anonymous users permission to access content, so that we can view
+    // and download public file.
+    $anonymous_role = Role::load(Role::ANONYMOUS_ID);
+    $anonymous_role->grantPermission('access content');
+    $anonymous_role->save();
+
     $this->installEntitySchema('file');
     $this->installSchema('file', ['file_usage']);
 
@@ -58,7 +68,7 @@ class ImageItemTest extends FieldKernelTestBase {
         'file_extensions' => 'jpg',
       ],
     ])->save();
-    file_unmanaged_copy(\Drupal::root() . '/core/misc/druplicon.png', 'public://example.jpg');
+    \Drupal::service('file_system')->copy($this->root . '/core/misc/druplicon.png', 'public://example.jpg');
     $this->image = File::create([
       'uri' => 'public://example.jpg',
     ]);
@@ -79,8 +89,8 @@ class ImageItemTest extends FieldKernelTestBase {
     $entity->save();
 
     $entity = EntityTest::load($entity->id());
-    $this->assertTrue($entity->image_test instanceof FieldItemListInterface, 'Field implements interface.');
-    $this->assertTrue($entity->image_test[0] instanceof FieldItemInterface, 'Field item implements interface.');
+    $this->assertInstanceOf(FieldItemListInterface::class, $entity->image_test);
+    $this->assertInstanceOf(FieldItemInterface::class, $entity->image_test[0]);
     $this->assertEqual($entity->image_test->target_id, $this->image->id());
     $this->assertEqual($entity->image_test->alt, $alt);
     $this->assertEqual($entity->image_test->title, $title);
@@ -91,7 +101,7 @@ class ImageItemTest extends FieldKernelTestBase {
     $this->assertEqual($entity->image_test->entity->uuid(), $this->image->uuid());
 
     // Make sure the computed entity reflects updates to the referenced file.
-    file_unmanaged_copy(\Drupal::root() . '/core/misc/druplicon.png', 'public://example-2.jpg');
+    \Drupal::service('file_system')->copy($this->root . '/core/misc/druplicon.png', 'public://example-2.jpg');
     $image2 = File::create([
       'uri' => 'public://example-2.jpg',
     ]);
@@ -144,7 +154,7 @@ class ImageItemTest extends FieldKernelTestBase {
       $this->fail('Exception did not fail');
     }
     catch (EntityStorageException $exception) {
-      $this->assertInstanceOf(\PHPUnit_Framework_Error_Warning::class, $exception->getPrevious());
+      $this->assertInstanceOf(Warning::class, $exception->getPrevious());
       $this->assertEquals($exception->getMessage(), 'Missing file with ID 9999.');
       $this->assertEmpty($entity->image_test->width);
       $this->assertEmpty($entity->image_test->height);

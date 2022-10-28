@@ -28,7 +28,6 @@ class ComputedFieldTest extends ViewsKernelTestBase {
    */
   public static $modules = ['entity_test'];
 
-
   /**
    * {@inheritdoc}
    */
@@ -51,7 +50,7 @@ class ComputedFieldTest extends ViewsKernelTestBase {
 
     $rendered_view = $view->preview();
     $output = $this->container->get('renderer')->renderRoot($rendered_view);
-    $this->assertContains('computed string', (string) $output);
+    $this->assertStringContainsString('computed string', (string) $output);
   }
 
 }

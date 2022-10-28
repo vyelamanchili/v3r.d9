@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------
  * JA Extenstion Manager Component for J3.x
  * ------------------------------------------------------------------------
- * Copyright (C) 2004-2011 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
+ * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
  * Author: J.O.O.M Solutions Co., Ltd
  * Websites: http://www.joomlart.com - http://www.joomlancers.com
@@ -35,7 +35,7 @@ class Com_jaextmanagerInstallerScript
 				margin:15px 0;
 			}
 	 	</style>
-	 	<p><img alt="JA Extension Manager" src="http://ja.static.s3.amazonaws.com/images/stories/extensions/joomla/jamanager_ext.jpg" /></p>
+	 	<p><img alt="JA Extension Manager" src="http://static.joomlart.com/images/extension-icon/7-JA-Extensions-Manager.jpg"  width="100" height="100" /></p>
 		<div style='font-weight:normal'>
 	 	JA Extensions Manager is the first Joomla! extension to upgrade the way to manage extensions via AJAX technologies <br/>
 	 	<p style="clear:both"><span style="color: #ff6600;"><strong>Features:</strong></span></p>
@@ -107,7 +107,7 @@ class Com_jaextmanagerInstallerScript
                 <p> </p>
             <p><span style="color: #008000;"><strong>Links:</strong></span></p>
 		<ul><li><a target="_blank" href="http://wiki.joomlart.com/wiki/JA_Extensions_Manager/Overview">JA Extension Manager Wiki</a></li><li><a target="_blank" href="http://pm.joomlart.com/browse/JAECCOMJAEXTMANAGER">Report Bug</a></li><li><a target="_blank" href="http://update.joomlart.com/">Updates &amp; Versions</a></li></ul>
-				<p>Copyright 2004 - 2012 <a href="http://www.joomlart.com/" title="Visit Joomlart.com!">JoomlArt.com</a>.</p>
+				<p>Copyright 2004 - 2019 <a href="http://www.joomlart.com/" title="Visit Joomlart.com!">JoomlArt.com</a>.</p>
                 <!-- / message -->
                 </fieldset>
 

@@ -132,12 +132,6 @@
                 label="COM_CWSOCIALLINKS_FIELD_SHORT_PLGSHARE_LABEL"
                 description="COM_CWSOCIALLINKS_FIELD_SHORT_PLGSHARE_DESC"/>
 
-        <field
-                name="shorten_panel_plg"
-                type="pro"
-                label="COM_CWSOCIALLINKS_FIELD_SHORT_PLGPANEL_LABEL"
-                description="COM_CWSOCIALLINKS_FIELD_SHORT_PLGPANEL_DESC"/>
-
     </fieldset>
 
     <fieldset
@@ -246,19 +240,9 @@
                 description="COM_CWSOCIALLINKS_FIELD_BTNLAYOUT_DESC"/>
 
         <field
-                name="btn_layout_gp"
-                type="pro"
-                label="COM_CWSOCIALLINKS_FIELD_BTNLAYOUT_GP_LABEL"
-                description="COM_CWSOCIALLINKS_FIELD_BTNLAYOUT_DESC"/>
-        <field
                 name="btn_layout_pi"
                 type="pro"
                 label="COM_CWSOCIALLINKS_FIELD_BTNLAYOUT_PI_LABEL"
-                description="COM_CWSOCIALLINKS_FIELD_BTNLAYOUT_DESC"/>
-        <field
-                name="btn_layout_su"
-                type="pro"
-                label="COM_CWSOCIALLINKS_FIELD_BTNLAYOUT_SU_LABEL"
                 description="COM_CWSOCIALLINKS_FIELD_BTNLAYOUT_DESC"/>
         <field
                 name="btn_layout_xi"
@@ -291,22 +275,17 @@
                 description="COM_CWSOCIALLINKS_FIELD_BTNTWITTER_DESC"/>
 
         <field
-                name="gplus"
-                type="pro"
-                label="COM_CWSOCIALLINKS_FIELD_BTNGOOGLE_LABEL"
-                description="COM_CWSOCIALLINKS_FIELD_BTNGOOGLE_DESC"/>
-
-        <field
                 name="pinterest"
                 type="pro"
                 label="COM_CWSOCIALLINKS_FIELD_BTNPINTEREST_LABEL"
                 description="COM_CWSOCIALLINKS_FIELD_BTNPINTEREST_DESC"/>
 
         <field
-                name="supon"
+                name="pinterest_image"
                 type="pro"
-                label="COM_CWSOCIALLINKS_FIELD_BTNSTUMBLE_LABEL"
-                description="COM_CWSOCIALLINKS_FIELD_BTNSTUMBLE_DESC"/>
+                label="COM_CWSOCIALLINKS_FIELD_BTNPINTEREST_IMAGE_LABEL"
+                description="COM_CWSOCIALLINKS_FIELD_BTNPINTEREST_IMAGE_DESC"/>
+
         <field
                 name="xing"
                 type="pro"
@@ -477,6 +456,12 @@
                 description="COM_CWSOCIALLINKS_FIELD_SIZE_DESC"/>
 
         <field
+                name="icon_effect_s"
+                type="pro"
+                label="COM_CWSOCIALLINKS_FIELD_HOVER_EFFECT_LABEL"
+                description="COM_CWSOCIALLINKS_FIELD_HOVER_EFFECT_DESC"/>
+
+        <field
                 type="spacer"
                 name="uikit_spacer_s"
                 label="COM_CWSOCIALLINKS_PLG_SPACER_UIKIT"
@@ -526,12 +511,6 @@
                 description="COM_CWSOCIALLINKS_FIELD_INCLUDE_TWITTER_JS_DESC"/>
 
         <field
-                name="gplus_s"
-                type="pro"
-                label="COM_CWSOCIALLINKS_FIELD_BTNGOOGLE_LABEL"
-                description="COM_CWSOCIALLINKS_FIELD_BTNGOOGLE_DESC"/>
-
-        <field
                 name="reddit_s"
                 type="pro"
                 label="COM_CWSOCIALLINKS_FIELD_BTNREDDIT_LABEL"
@@ -544,12 +523,6 @@
                 description="COM_CWSOCIALLINKS_FIELD_BTNMAIL_DESC"/>
 
         <field
-                name="digg_s"
-                type="pro"
-                label="COM_CWSOCIALLINKS_FIELD_BTNDIGG_LABEL"
-                description="COM_CWSOCIALLINKS_FIELD_BTNDIGG_DESC"/>
-
-        <field
                 name="pinterest_s"
                 type="pro"
                 label="COM_CWSOCIALLINKS_FIELD_BTNPINTEREST_LABEL"
@@ -560,12 +533,6 @@
                 type="pro"
                 label="COM_CWSOCIALLINKS_FIELD_BTNPINTEREST_IMAGE_LABEL"
                 description="COM_CWSOCIALLINKS_FIELD_BTNPINTEREST_IMAGE_DESC"/>
-
-        <field
-                name="supon_s"
-                type="pro"
-                label="COM_CWSOCIALLINKS_FIELD_BTNSTUMBLE_LABEL"
-                description="COM_CWSOCIALLINKS_FIELD_BTNSTUMBLE_DESC"/>
 
         <field
                 name="fbappid_info"
@@ -622,6 +589,13 @@
                 type="pro"
                 label="COM_CWSOCIALLINKS_FIELD_OG_ONLYART_LABEL"
                 description="COM_CWSOCIALLINKS_FIELD_OG_ONLYART_DESC"/>
+
+        <field
+                name="menu_featured_info"
+                type="note"
+                class="alert alert-info"
+                close="true"
+                description="COM_CWSOCIALLINKS_FIELD_OG_FEATURED_MENU_MSG"/>
 
         <field
                 name="menu_featured_og"
@@ -747,6 +721,11 @@
                 label="COM_CWSOCIALLINKS_FIELD_LOAD_TW_LABEL"
                 description="COM_CWSOCIALLINKS_FIELD_LOAD_TW_DESC"/>
 
+        <field
+                name="twitter_card_type"
+                type="pro"
+                label="COM_CWSOCIALLINKS_FIELD_TWITTER_CARD_TYPE_LABEL"
+                description="COM_CWSOCIALLINKS_FIELD_TWITTER_CARD_TYPE_DESC"/>
         <field
                 name="twitter_username"
                 type="pro"
@@ -1053,12 +1032,17 @@
                 description="COM_CWSOCIALLINKS_FIELD_COUNT_DESC"/>
 
         <field
-                name="fb_token_info"
+                name="fb_count_reaction"
+                type="pro"
+                label="COM_CWSOCIALLINKS_FIELD_COUNT_FACEBOOK_REACTIONS_LABEL"
+                description="COM_CWSOCIALLINKS_FIELD_COUNT_FACEBOOK_REACTIONS_DESC"/>
+
+        <field
+                name="fb_use_id_info"
                 type="note"
                 class="alert alert-info"
                 close="true"
-                showon="count_facebook:1"
-                description="COM_CWSOCIALLINKS_TOKEN_MSG"/>
+                description="COM_CWSOCIALLINKS_FIELD_COUNT_FACEBOOK_USE_ID_DESC"/>
 
         <field
                 name="fb_count_id"
@@ -1087,12 +1071,6 @@
                 description="COM_CWSOCIALLINKS_EXTRA_SECURE_MSG"/>
 
         <field
-                name="count_google"
-                type="pro"
-                label="COM_CWSOCIALLINKS_FIELD_COUNT_GOOGLE_LABEL"
-                description="COM_CWSOCIALLINKS_FIELD_COUNT_DESC"/>
-
-        <field
                 name="count_linkedin"
                 type="pro"
                 label="COM_CWSOCIALLINKS_FIELD_COUNT_LINKEDIN_LABEL"
@@ -1102,12 +1080,6 @@
                 name="count_pinterest"
                 type="pro"
                 label="COM_CWSOCIALLINKS_FIELD_COUNT_PINTEREST_LABEL"
-                description="COM_CWSOCIALLINKS_FIELD_COUNT_DESC"/>
-
-        <field
-                name="count_stumbleupon"
-                type="pro"
-                label="COM_CWSOCIALLINKS_FIELD_COUNT_STUMBLEUPON_LABEL"
                 description="COM_CWSOCIALLINKS_FIELD_COUNT_DESC"/>
 
         <field
@@ -1128,47 +1100,80 @@
                 label="COM_CWSOCIALLINKS_FIELD_LOCKTIME"
                 description="COM_CWSOCIALLINKS_FIELD_LOCKTIME_DESC"/>
 
-    </fieldset>
-
-
-    <fieldset
-            name="updates"
-            label="COM_CWSOCIALLINKS_UPDATES_TAB">
+        <field
+                type="spacer"
+                name="count_extra"
+                label="COM_CWSOCIALLINKS_SPACER_COUNT_EXTRA"
+                class="cw_label"/>
 
         <field
-                name="updates_header"
-                type="header"
-                default="COM_CWSOCIALLINKS_FIELD_UPDATES_DESC"/>
-
-        <field
-                name="downloadid_info"
+                name="count_both_info"
                 type="note"
                 class="alert alert-info"
                 close="true"
-                description="COM_CWSOCIALLINKS_NODOWNLOADID_GENERAL_MESSAGE"/>
+                description="COM_CWSOCIALLINKS_COUNT_BOTH_URLS_MSG"/>
 
         <field
-                name="downloadid"
+                name="count_both_urls"
                 type="pro"
-                label="COM_CWSOCIALLINKS_FIELD_DOWNLOADID_LABEL"
-                description="COM_CWSOCIALLINKS_FIELD_DOWNLOADID_DESC"/>
+                label="COM_CWSOCIALLINKS_FIELD_COUNT_BOTH_URLS_LABEL"
+                description="COM_CWSOCIALLINKS_FIELD_COUNT_BOTH_URLS_DESC"/>
 
     </fieldset>
-        
-    <fieldset 
-        name="permissions"
-        label="JCONFIG_PERMISSIONS_LABEL">
 
-        <field 
-            name="rules" 
-            type="rules"
-            component="com_coalawebsociallinks"
-            class="inputbox"
-            filter="rules"
-            validate="rules"
-            label="JCONFIG_PERMISSIONS_LABEL"
-            section="component" />
-        
+    <fieldset
+            name="advanced"
+            label="COM_CWSOCIALLINKS_ADVANCED_TAB">
+
+        <field
+                name="advanced_header"
+                type="header"
+                default="COM_CWSOCIALLINKS_ADVANCED_SEPARATOR"/>
+
+        <field
+                name="uikit_prefix"
+                type="list"
+                default="cw"
+                label="COM_CWSOCIALLINKS_FIELD_UIKIT_PREFIX_LABEL"
+                description="COM_CWSOCIALLINKS_FIELD_UIKIT_PREFIX_DESC">
+            <option value="cw">CW</option>
+            <option value="uk">UK</option>
+        </field>
+
+        <field
+                name="debug_info"
+                type="note"
+                class="alert alert-info"
+                close="true"
+                description="COM_CWSOCIALLINKS_MSG_DEBUG"/>
+
+        <field
+                name="debug"
+                class="btn-group btn-group-yesno"
+                type="radio"
+                default="0"
+                label="COM_CWSOCIALLINKS_FIELD_DEBUG_LABEL"
+                description="COM_CWSOCIALLINKS_FIELD_DEBUG_DESC">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
     </fieldset>
-    
+
+    <fieldset
+            name="permissions"
+            label="JCONFIG_PERMISSIONS_LABEL">
+
+        <field
+                name="rules"
+                type="rules"
+                component="com_coalawebsociallinks"
+                class="inputbox"
+                filter="rules"
+                validate="rules"
+                label="JCONFIG_PERMISSIONS_LABEL"
+                section="component"/>
+
+    </fieldset>
+
 </config>

@@ -3,6 +3,7 @@
 namespace Drupal\Tests\Component;
 
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -30,6 +31,34 @@ class DrupalComponentTest extends TestCase {
     foreach ($this->findPhpClasses($component_path) as $class) {
       $this->assertNoCoreUsage($class);
     }
+  }
+
+  /**
+   * Tests LICENSE.txt is present and has the correct content.
+   *
+   * @param $component_path
+   *   The path to the component.
+   * @dataProvider \Drupal\Tests\Component\DrupalComponentTest::getComponents
+   */
+  public function testComponentLicence($component_path) {
+    $this->assertFileExists($component_path . DIRECTORY_SEPARATOR . 'LICENSE.txt');
+    $this->assertSame('e84dac1d9fbb5a4a69e38654ce644cea769aa76b', hash_file('sha1', $component_path . DIRECTORY_SEPARATOR . 'LICENSE.txt'));
+  }
+
+  /**
+   * Data provider.
+   *
+   * @return array
+   */
+  public function getComponents() {
+    $root_component_path = dirname(substr(__DIR__, 0, -strlen(__NAMESPACE__))) . '/lib/Drupal/Component';
+    $component_paths = [];
+    foreach (new \DirectoryIterator($root_component_path) as $file) {
+      if ($file->isDir() && !$file->isDot()) {
+        $component_paths[$file->getBasename()] = [$file->getPathname()];
+      }
+    }
+    return $component_paths;
   }
 
   /**
@@ -116,7 +145,7 @@ class DrupalComponentTest extends TestCase {
       $pass = TRUE;
       $this->assertNoCoreUsage($file_uri);
     }
-    catch (\PHPUnit_Framework_AssertionFailedError $e) {
+    catch (AssertionFailedError $e) {
       $pass = FALSE;
     }
     $this->assertEquals($expected_pass, $pass, $expected_pass ?

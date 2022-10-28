@@ -71,7 +71,7 @@ abstract class StylePluginBase extends PluginBase {
   protected $usesGrouping = TRUE;
 
   /**
-   * Does the style plugin for itself support to add fields to it's output.
+   * Does the style plugin for itself support to add fields to its output.
    *
    * This option only makes sense on style plugins without row plugins, like
    * for example table.
@@ -457,8 +457,8 @@ abstract class StylePluginBase extends PluginBase {
    */
   public function render() {
     if ($this->usesRowPlugin() && empty($this->view->rowPlugin)) {
-      debug('Drupal\views\Plugin\views\style\StylePluginBase: Missing row plugin');
-      return;
+      trigger_error('Drupal\views\Plugin\views\style\StylePluginBase: Missing row plugin', E_WARNING);
+      return [];
     }
 
     // Group the rows according to the grouping instructions, if specified.
@@ -537,6 +537,7 @@ abstract class StylePluginBase extends PluginBase {
    *   Views 7.x-3.0-rc2. After Views 7.x-3.0 this boolean is only used if
    *   $groupings is an old-style string or if the rendered option is missing
    *   for a grouping instruction.
+   *
    * @return
    *   The grouped record set.
    *   A nested set structure is generated if multiple grouping fields are used.
@@ -742,6 +743,15 @@ abstract class StylePluginBase extends PluginBase {
 
       unset($this->view->row_index);
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function trustedCallbacks() {
+    $callbacks = parent::trustedCallbacks();
+    $callbacks[] = 'elementPreRenderRow';
+    return $callbacks;
   }
 
   /**

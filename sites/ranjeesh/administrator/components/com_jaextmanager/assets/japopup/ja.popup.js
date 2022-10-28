@@ -2,7 +2,7 @@
  * ------------------------------------------------------------------------
  * JA Extenstion Manager Component for J3.x
  * ------------------------------------------------------------------------
- * Copyright (C) 2004-2011 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
+ * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
  * Author: J.O.O.M Solutions Co., Ltd
  * Websites: http://www.joomlart.com - http://www.joomlancers.com
@@ -18,7 +18,7 @@ function jaCreatePopup(target, jaWidth, jaHeight, title, dsave, titlesave, locat
 	if (!titlesave) titlesave = 'Save';
 
 	//message holder
-	if (jQuery('#system-message-container').size() == 0) {
+	if (jQuery('#system-message-container').length == 0) {
 		jQuery('<div>').attr({
 			'id': 'system-message-container',
 			'style': ''
@@ -148,11 +148,7 @@ function jaCreatePopup(target, jaWidth, jaHeight, title, dsave, titlesave, locat
 	//
 	var yPos;
 
-	if (jQuery.browser.opera && jQuery.browser.version > "9.5" && jQuery.fn.jquery <= "1.2.6") {
-		yPos = document.documentElement['clientHeight'] - 20;
-	} else {
-		yPos = jQuery(window).height() - 20;
-	}
+	yPos = jQuery(window).height() - 20;
 
 	var leftPos = (myWidth - jaWidth) / 2;
 
@@ -185,7 +181,7 @@ function jaCreatePopup(target, jaWidth, jaHeight, title, dsave, titlesave, locat
 			'width': jaWidth,
 			'height': jaHeight - 80
 		}).appendTo(jQuery('#jaFormContent'));
-		jQuery("#iContent").load(function () {
+		jQuery("#iContent").on('load', function () {
 			loadIFrameComplete();
 		});
 	}
@@ -355,7 +351,7 @@ function checkError() {
 		}
 	});
 	var errors = jQuery('#iContent').contents().find('li.error');
-	return (errors.size() > 0) ? false : true;
+	return (errors.length > 0) ? false : true;
 }
 
 function submitbuttonAdmin() {

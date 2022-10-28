@@ -35,7 +35,10 @@ class JaextmanagerViewRepo extends JAEMView
 		JHtml::_('behavior.framework', true);
 		$assets = JURI::root() . 'administrator/components/com_jaextmanager/assets/';
 		$document = JFactory::getDocument();
-		if(jaIsJoomla3x()){
+		if (jaIsJoomla4x()) {
+			$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'top');
+			JHtml::_('stylesheet', $assets . 'repo_manager_3/' . 'repomanager.css', false, true);
+		} else if(jaIsJoomla3x()){
 			$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'top');
 			JHtml::_('script', $assets . 'repo_manager_3/' . 'repomanager.js', false, true);
 			JHtml::_('stylesheet', $assets . 'repo_manager_3/' . 'repomanager.css', false, true);
@@ -44,12 +47,6 @@ class JaextmanagerViewRepo extends JAEMView
 			JHtml::_('script', $assets . 'repo_manager/' . 'repomanager.js', false, true);
 			JHtml::_('stylesheet', $assets . 'repo_manager/' . 'repomanager.css', false, true);
 		}
-		
-		JHtml::_('behavior.modal', 'a.modal');
-		$document->addScriptDeclaration("
-		window.addEvent('domready', function() {
-			document.preview = SqueezeBox;
-		});");
 		
 		JHtml::_('script', 'system/mootree.js', true, true, false, false);
 		JHtml::_('stylesheet', 'system/mootree.css', array(), true);

@@ -35,6 +35,10 @@
 
       &.pull-left {
         max-width: 100%;
+
+        @media screen and (max-width: @screen-xs-max) {
+          float: none !important;
+        }
       }
 
       img {

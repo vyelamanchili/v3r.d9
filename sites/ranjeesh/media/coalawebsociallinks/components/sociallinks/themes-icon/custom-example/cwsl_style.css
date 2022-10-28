@@ -1,0 +1,424 @@
+/**
+ * @author      Steven Palmer <support@coalaweb.com>
+ * @link        https://coalaweb.com/
+ * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
+ */
+
+/* Social Icons
+----------------------------------------------------------------------------------------------------*/
+
+ul.cw-social-mod-icons-custom-example {
+    margin: 0 !important;
+    padding: 0!important;
+    list-style: none;
+    overflow: hidden;
+}
+
+ul.cw-social-mod-icons-custom-example li {
+    padding: 3px !important;
+    margin: 0px !important;
+    display:inline-block;
+    vertical-align: top;
+    overflow:hidden;
+    background:none repeat scroll 0 0 transparent !important;
+    border: none;
+}
+
+ul.cw-social-mod-icons-custom-example li > a::before {
+    content: none;
+}
+
+.cw-social-mod-icons-custom-example a { 
+    display: block !important;
+    border:none !important;
+    padding:0px !important;
+    margin: 0px !important;
+    position: relative;
+}
+
+/* Size 16 styles
+------------------------------------------------------------------------------- */
+.cw-social-mod-icons-custom-example a[class$="16"]{ 
+    width: 16px;
+    height: 16px;
+    opacity:1.0;
+    filter:alpha(opacity=100);
+}
+
+.cw-social-mod-icons-custom-example a[class$="16"]:hover{ 
+    width: 16px;
+    height: 16px;
+    opacity:0.6;
+    filter:alpha(opacity=60);
+}
+
+.cw-social-mod-icons-custom-example a.android16{ background: url("16/android.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.behance16{ background: url("16/behance.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.blogger16{ background: url("16/blogger.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.delicious16{ background: url("16/delicious.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.designmoo16{ background: url("16/designmoo.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.deviantart16{ background: url("16/deviantart.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.digg16{ background: url("16/digg.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.dribbble16{ background: url("16/dribbble.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.ebay16{ background: url("16/ebay.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.facebook16{ background: url("16/facebook.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.flickr16{ background: url("16/flickr.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.gmail16{ background: url("16/gmail.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.googleplus-alt16{ background: url("16/googleplus.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.googleplus16{ background: url("16/googleplus-alt.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.instagram16{ background: url("16/instagram.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.lastfm16{ background: url("16/lastfm.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.linkedin16{ background: url("16/linkedin.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.myspace16{ background: url("16/myspace.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.newsvine16{ background: url("16/newsvine.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.pinterest16{ background: url("16/pinterest.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.reddit16{ background: url("16/reddit.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.rss16{ background: url("16/rss.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.spotify16{ background: url("16/spotify.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.stumbleupon16{ background: url("16/stumbleupon.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.tripadvisor16{ background: url("16/tripadvisor.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.tuenti16{ background: url("16/tuenti.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.tumblr16{ background: url("16/tumblr.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.twitter16{ background: url("16/twitter.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.vimeo16{ background: url("16/vimeo.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.xing16{ background: url("16/xing.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.youtube16{ background: url("16/youtube.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.github16{ background: url("16/github.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.whatsapp16{ background: url("16/whatsapp.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.weibo16{ background: url("16/weibo.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.itunes16{ background: url("16/itunes.png") 0 0 no-repeat;} 
+
+/* Size 24 styles
+------------------------------------------------------------------------------- */
+.cw-social-mod-icons-custom-example a[class$="24"]{  
+    width: 24px;
+    height: 24px;
+    opacity:1.0;
+    filter:alpha(opacity=100);
+}
+
+.cw-social-mod-icons-custom-example a[class$="24"]:hover{  
+    width: 24px;
+    height: 24px;
+    opacity:0.6;
+    filter:alpha(opacity=60);
+}
+
+.cw-social-mod-icons-custom-example a.android24{ background: url("24/android.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.behance24{ background: url("24/behance.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.blogger24{ background: url("24/blogger.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.delicious24{ background: url("24/delicious.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.designmoo24{ background: url("24/designmoo.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.deviantart24{ background: url("24/deviantart.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.digg24{ background: url("24/digg.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.dribbble24{ background: url("24/dribbble.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.ebay24{ background: url("24/ebay.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.facebook24{ background: url("24/facebook.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.flickr24{ background: url("24/flickr.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.gmail24{ background: url("24/gmail.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.googleplus-alt24{ background: url("24/googleplus.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.googleplus24{ background: url("24/googleplus-alt.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.instagram24{ background: url("24/instagram.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.lastfm24{ background: url("24/lastfm.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.linkedin24{ background: url("24/linkedin.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.myspace24{ background: url("24/myspace.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.newsvine24{ background: url("24/newsvine.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.pinterest24{ background: url("24/pinterest.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.reddit24{ background: url("24/reddit.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.rss24{ background: url("24/rss.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.spotify24{ background: url("24/spotify.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.stumbleupon24{ background: url("24/stumbleupon.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.tripadvisor24{ background: url("24/tripadvisor.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.tuenti24{ background: url("24/tuenti.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.tumblr24{ background: url("24/tumblr.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.twitter24{ background: url("24/twitter.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.vimeo24{ background: url("24/vimeo.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.xing24{ background: url("24/xing.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.youtube24{ background: url("24/youtube.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.github24{ background: url("24/github.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.whatsapp24{ background: url("24/whatsapp.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.weibo24{ background: url("24/weibo.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.itunes24{ background: url("24/itunes.png") 0 0 no-repeat;} 
+
+/* Size 32 styles
+------------------------------------------------------------------------------- */
+.cw-social-mod-icons-custom-example a[class$="32"]{  
+    width: 32px;
+    height: 32px;
+    opacity:1.0;
+    filter:alpha(opacity=100);
+}
+
+.cw-social-mod-icons-custom-example a[class$="32"]:hover{
+    width: 32px;
+    height: 32px;
+    opacity:0.6;
+    filter:alpha(opacity=60);
+}
+
+.cw-social-mod-icons-custom-example a.android32{ background: url("32/android.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.behance32{ background: url("32/behance.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.blogger32{ background: url("32/blogger.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.delicious32{ background: url("32/delicious.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.designmoo32{ background: url("32/designmoo.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.deviantart32{ background: url("32/deviantart.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.digg32{ background: url("32/digg.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.dribbble32{ background: url("32/dribbble.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.ebay32{ background: url("32/ebay.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.facebook32{ background: url("32/facebook.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.flickr32{ background: url("32/flickr.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.gmail32{ background: url("32/gmail.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.googleplus-alt32{ background: url("32/googleplus.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.googleplus32{ background: url("32/googleplus-alt.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.instagram32{ background: url("32/instagram.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.lastfm32{ background: url("32/lastfm.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.linkedin32{ background: url("32/linkedin.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.myspace32{ background: url("32/myspace.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.newsvine32{ background: url("32/newsvine.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.pinterest32{ background: url("32/pinterest.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.reddit32{ background: url("32/reddit.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.rss32{ background: url("32/rss.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.spotify32{ background: url("32/spotify.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.stumbleupon32{ background: url("32/stumbleupon.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.tripadvisor32{ background: url("32/tripadvisor.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.tuenti32{ background: url("32/tuenti.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.tumblr32{ background: url("32/tumblr.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.twitter32{ background: url("32/twitter.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.vimeo32{ background: url("32/vimeo.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.xing32{ background: url("32/xing.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.youtube32{ background: url("32/youtube.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.github32{ background: url("32/github.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.whatsapp32{ background: url("32/whatsapp.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.weibo32{ background: url("32/weibo.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.itunes32{ background: url("32/itunes.png") 0 0 no-repeat;} 
+
+/* Size 48 styles
+------------------------------------------------------------------------------- */
+.cw-social-mod-icons-custom-example a[class$="48"]{
+    width: 48px;
+    height: 48px;
+    opacity:1.0;
+    filter:alpha(opacity=100);
+}
+
+.cw-social-mod-icons-custom-example a[class$="48"]:hover{
+    width: 48px;
+    height: 48px;
+    opacity:0.6;
+    filter:alpha(opacity=60);
+}
+
+.cw-social-mod-icons-custom-example a.android48{ background: url("48/android.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.behance48{ background: url("48/behance.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.blogger48{ background: url("48/blogger.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.delicious48{ background: url("48/delicious.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.designmoo48{ background: url("48/designmoo.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.deviantart48{ background: url("48/deviantart.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.digg48{ background: url("48/digg.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.dribbble48{ background: url("48/dribbble.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.ebay48{ background: url("48/ebay.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.facebook48{ background: url("48/facebook.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.flickr48{ background: url("48/flickr.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.gmail48{ background: url("48/gmail.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.googleplus-alt48{ background: url("48/googleplus.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.googleplus48{ background: url("48/googleplus-alt.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.instagram48{ background: url("48/instagram.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.lastfm48{ background: url("48/lastfm.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.linkedin48{ background: url("48/linkedin.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.myspace48{ background: url("48/myspace.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.newsvine48{ background: url("48/newsvine.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.pinterest48{ background: url("48/pinterest.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.reddit48{ background: url("48/reddit.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.rss48{ background: url("48/rss.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.spotify48{ background: url("48/spotify.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.stumbleupon48{ background: url("48/stumbleupon.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.tripadvisor48{ background: url("48/tripadvisor.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.tuenti48{ background: url("48/tuenti.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.tumblr48{ background: url("48/tumblr.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.twitter48{ background: url("48/twitter.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.vimeo48{ background: url("48/vimeo.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.xing48{ background: url("48/xing.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.youtube48{ background: url("48/youtube.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.github48{ background: url("48/github.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.whatsapp48{ background: url("48/whatsapp.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.weibo48{ background: url("48/weibo.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.itunes48{ background: url("48/itunes.png") 0 0 no-repeat;} 
+
+/* Size 64 styles
+------------------------------------------------------------------------------- */
+.cw-social-mod-icons-.cw-social-mod-icons-custom-example a[class$="64"]{
+    width: 64px;
+    height: 64px;
+    opacity:1.0;
+    filter:alpha(opacity=100);
+}
+
+.cw-social-mod-icons-.cw-social-mod-icons-custom-example a[class$="64"]:hover{
+    width: 64px;
+    height: 64px;
+    opacity:0.6;
+    filter:alpha(opacity=60);
+}
+
+.cw-social-mod-icons-custom-example a.android64{ background: url("64/android.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.behance64{ background: url("64/behance.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.blogger64{ background: url("64/blogger.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.delicious64{ background: url("64/delicious.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.designmoo64{ background: url("64/designmoo.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.deviantart64{ background: url("64/deviantart.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.digg64{ background: url("64/digg.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.dribbble64{ background: url("64/dribbble.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.ebay64{ background: url("64/ebay.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.facebook64{ background: url("64/facebook.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.flickr64{ background: url("64/flickr.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.gmail64{ background: url("64/gmail.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.googleplus-alt64{ background: url("64/googleplus.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.googleplus64{ background: url("64/googleplus-alt.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.instagram64{ background: url("64/instagram.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.lastfm64{ background: url("64/lastfm.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.linkedin64{ background: url("64/linkedin.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.myspace64{ background: url("64/myspace.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.newsvine64{ background: url("64/newsvine.png") 0 0 no-repeat;}  
+.cw-social-mod-icons-custom-example a.pinterest64{ background: url("64/pinterest.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.reddit64{ background: url("64/reddit.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.rss64{ background: url("64/rss.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.spotify64{ background: url("64/spotify.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.stumbleupon64{ background: url("64/stumbleupon.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.tripadvisor64{ background: url("64/tripadvisor.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.tuenti64{ background: url("64/tuenti.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.tumblr64{ background: url("64/tumblr.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.twitter64{ background: url("64/twitter.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.vimeo64{ background: url("64/vimeo.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.xing64{ background: url("64/xing.png") 0 0 no-repeat;}
+.cw-social-mod-icons-custom-example a.youtube64{ background: url("64/youtube.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.github64{ background: url("64/github.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.whatsapp64{ background: url("64/whatsapp.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.weibo64{ background: url("64/weibo.png") 0 0 no-repeat;} 
+.cw-social-mod-icons-custom-example a.itunes64{ background: url("64/itunes.png") 0 0 no-repeat;} 
+
+/* Count Badge
+----------------------------------------------------------------------------------------------------*/
+
+.cw-social-mod-icons-custom-example a[class*="googleplus"]::before,
+.cw-social-mod-icons-custom-example a[class*="reddit"]::before,
+.cw-social-mod-icons-custom-example a[class*="facebook"]::before,
+.cw-social-mod-icons-custom-example a[class*="stumbleupon"]::before,
+.cw-social-mod-icons-custom-example a[class*="linkedin"]::before,
+.cw-social-mod-icons-custom-example a[class*="pinterest"]::before{
+    content: attr(data-count);
+    text-align: center;
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 500px;
+    border-bottom: medium none;
+    background: #41A9BE none repeat scroll 0% 0%;
+    color: #FFF;
+    position: absolute;
+    left: auto;
+    font-weight:bold;
+    vertical-align: middle;
+    text-transform: none;
+}
+
+/* Size 16
+------------------------------------------------------------------------------- */
+
+.cw-social-mod-icons-custom-example  a.cw-count16 { 
+    margin: 8px 10px 0px 0px !important;
+}
+
+.cw-social-mod-icons-custom-example  a.cw-nocount16 { 
+    margin: 8px 2px 0px 0px !important;
+}
+
+.cw-social-mod-icons-custom-example a[class$="16"]::before{
+    padding: 0px 4px;
+    min-width: 18px;
+    font-size: 8px;
+    line-height: 18px;
+    top: -10px;
+    right: -12px;
+}
+
+/* Size 24
+------------------------------------------------------------------------------- */
+
+.cw-social-mod-icons-custom-example  a.cw-count24 { 
+    margin: 8px 10px 0px 0px !important;
+}
+
+.cw-social-mod-icons-custom-example  a.cw-nocount24 { 
+    margin: 8px 4px 0px 0px !important;
+}
+
+.cw-social-mod-icons-custom-example a[class$="24"]::before{
+    padding: 0px 4px;
+    min-width: 20px;
+    font-size: 10px;
+    line-height: 20px;
+    top: -8px;
+    right: -12px;
+}
+
+/* Size 32
+------------------------------------------------------------------------------- */
+
+.cw-social-mod-icons-custom-example  a.cw-count32 { 
+    margin: 8px 15px 0px 0px !important;
+}
+
+.cw-social-mod-icons-custom-example  a.cw-nocount32 { 
+    margin: 8px 6px 0px 0px !important;
+}
+
+.cw-social-mod-icons-custom-example a[class$="32"]::before{
+    padding: 0px 6px;
+    min-width: 22px;
+    font-size: 12px;
+    line-height: 22px;
+    top: -10px;
+    right: -15px;
+}
+
+/* Size 48
+------------------------------------------------------------------------------- */
+
+.cw-social-mod-icons-custom-example  a.cw-count48 { 
+    margin: 8px 15px 0px 0px !important;
+}
+
+.cw-social-mod-icons-custom-example  a.cw-nocount48 { 
+    margin: 8px 8px 0px 0px !important;
+}
+
+.cw-social-mod-icons-custom-example a[class$="48"]::before{
+    padding: 0px 6px;
+    min-width: 26px;
+    font-size: 14px;
+    line-height: 26px;
+    top: -10px;
+    right: -15px;
+}
+
+/* Size 64
+------------------------------------------------------------------------------- */
+
+.cw-social-mod-icons-custom-example  a.cw-count64 { 
+    margin: 8px 15px 0px 0px !important;
+}
+
+.cw-social-mod-icons-custom-example  a.cw-nocount64 { 
+    margin: 8px 8px 0px 0px !important;
+}
+
+.cw-social-mod-icons-custom-example a[class$="64"]::before{
+    padding: 0px 6px;
+    min-width: 26px;
+    font-size: 14px;
+    line-height: 26px;
+    top: -10px;
+    right: -15px;
+}
+
+/* End
+------------------------------------------------------------------------------- */

@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------
  * JA Extenstion Manager Component for J3.x
  * ------------------------------------------------------------------------
- * Copyright (C) 2004-2011 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
+ * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
  * Author: J.O.O.M Solutions Co., Ltd
  * Websites: http://www.joomlart.com - http://www.joomlancers.com
@@ -19,7 +19,6 @@ $compareVersion = JRequest::getVar('version');
 ?>
 <script language="javascript">
 // Proccess for check update button
-/*<![CDATA[*/
 Joomla.submitbutton = function(pressbutton) {
 	var form = document.adminForm;
 	// Check update
@@ -31,30 +30,43 @@ Joomla.submitbutton = function(pressbutton) {
 	submitform( pressbutton );
 }
 
-jQuery(document).ready(function(){
-	new JATooltips ([$('diffview-status-new')], {
-		content: '<?php echo JText::_("THESE_FILES_ARE_NEWLY_ADDED_TO_NEW_VERSIONBR__THESE_WILL_BE_ADDED_TO_USER_SITE_ON_UPGRADE", true); ?>'
+jQuery(document).ready(function($){
+	$('#diffview-status-new').popover({
+		html: true,
+		trigger: 'hover',
+		content: '<?php echo JText::_("THESE_FILES_ARE_NEWLY_ADDED_TO_NEW_VERSIONBR__THESE_WILL_BE_ADDED_TO_USER_SITE_ON_UPGRADE"); ?>'
 	});
-	new JATooltips ([$('diffview-status-bmodified')], {
+	$('#diffview-status-bmodified').popover( {
+		html: true,
+		trigger: 'hover',
 		content: '<?php echo JText::sprintf("CONFICT_FILES_DESCRIPTION", $compareVersion, $compareVersion); ?>'
 	});
-	new JATooltips ([$('diffview-status-updated')], {
+	$('#diffview-status-updated').popover({
+		html: true,
+		trigger: 'hover',
 		content: '<?php echo JText::sprintf("THESE_FILES_ARE_CHANGED_IN_S_AND_ARE_NOT_MODIFIED_BY_YOU_IN_YOUR_LIVE_SITEBR__THESE_WILL_BE_UPDATED_TO_USER_SITE_ON_UPGRADE", $compareVersion, $compareVersion); ?>'
 	});
-	new JATooltips ([$('diffview-status-removed')], {
+	$('#diffview-status-removed').popover({
+		html: true,
+		trigger: 'hover',
 		content: '<?php echo JText::sprintf("THESE_FILES_ARE_DELETED_IN_S_VERSIONBR__THESE_WILL_BE_REMOVED_FROM_USER_SITE_ON_UPGRADE", $compareVersion, $compareVersion); ?>'
 	});
-	new JATooltips ([$('diffview-status-umodified')], {
+	$('#diffview-status-umodified').popover({
+		html: true,
+		trigger: 'hover',
 		content: '<?php echo JText::sprintf("MODIFIED_BY_YOU_ONLY_THERE_IS_NO_CODE_CHANGE_FROM_VERSION_S_TO_SBR__THIS_FILE_WILL_NOT_BE_OVERWRITTEN_YOUR_CUSTOMIZATION_WILL_BE_RETAINED_AFTER_THE_UPGRADE_HOWEVER_IF_YOUR_CUSTOMIZATION_CAUSE_THE_ERRORBR__YOU_WILL_NEED_TO_OVERWRITE_WITH_THE_CLEAN_FILE_OF_VERSION_S_AND_THEN_REAPPLY_YOUR_CUSTOMIZATION", $this->obj->version, $compareVersion, $compareVersion); ?>'
 	});
-	new JATooltips ([$('diffview-status-ucreated')], {
+	$('#diffview-status-ucreated').popover({
+		html: true,
+		trigger: 'hover',
 		content: '<?php echo JText::_("THESE_FILES_ARE_CUSTOM_CREATED_BY_USER__OR_WERE_MOVED_TO_NEW_DIRECTORY_DURING_THE_INSTALLATION_PROCESSBR__NONEXTENSION_FILES_WILL_NOT_BE_AFFECTED_EXTENSION_FILES_WHICH_NEEDS_TO_MOVE_TO_OTHER_FOLDERS_DURING_INSTALLATION_WILL_BE_OVERWRITTEN", true); ?>'
 	});
-	new JATooltips ([$('diffview-status-nochange')], {
+	$('#diffview-status-nochange').popover({
+		html: true,
+		trigger: 'hover',
 		content: '<?php echo JText::_("THESE_FILES_ARE_NOT_CHANGED_BETWEEN_THE_OLD_AND_NEW_VERSIONBR__THEY_WILL_NOT_BE_AFFECTED_BY_UPGRADE", true); ?>'
 	});
 });
-/*]]>*/
 </script>
 <form name="adminForm" id="adminForm" action="index.php" method="post">
   <?php echo JHtml::_( 'form.token'); ?>

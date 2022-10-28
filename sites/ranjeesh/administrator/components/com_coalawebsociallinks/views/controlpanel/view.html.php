@@ -1,13 +1,12 @@
 <?php
 
 /**
- * @package             Joomla
- * @subpackage          CoalaWeb Social Links Component
- * @author              Steven Palmer
- * @author url          https://coalaweb.com
- * @author email        support@coalaweb.com
- * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
+ * @package     Joomla
+ * @subpackage  CoalaWeb Social Links
+ * @author      Steven Palmer <support@coalaweb.com>
+ * @link        https://coalaweb.com/
+ * @license     GNU/GPL V3 or later; https://www.gnu.org/licenses/gpl-3.0.html
+ * @copyright   Copyright (c) 2020 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,36 +17,42 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
-
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-jimport('joomla.filesystem.file');
+use Joomla\CMS\Factory as JFactory;
+use Joomla\CMS\HTML\HTMLHelper as JHtml;
+use Joomla\CMS\Language\Text as JText;
+use Joomla\CMS\MVC\View\HtmlView as JView;
+use Joomla\CMS\Object\CMSObject as JObject;
+use Joomla\CMS\Toolbar\Toolbar as JToolbar;
+use CoalaWeb\Parameters as CW_Parameters;
+use CoalaWeb\UpdateKey as CW_UpdateKey;
+use CoalaWeb\Xml as CW_Xml;
 
-$latestVersion = JPATH_SITE . '/plugins/system/cwgears/helpers/latestversion.php';
-if (JFile::exists($latestVersion) && !class_exists('CwGearsLatestversion')) {
-    JLoader::register('CwGearsLatestversion', $latestVersion);
-}
+jimport('joomla.application.component.view');
 
 /**
  * View class for control panel
  */
-class CoalawebsociallinksViewControlpanel extends JViewLegacy {
+class CoalawebsociallinksViewControlpanel extends JView {
 
-        /**
+    protected $config;
+    protected $version;
+    protected $component;
+    protected $proCore;
+    protected $license;
+
+    /**
      * Display the view
      *
      * @param string $tpl The name of the template file to parse; automatically searches through the template paths.
      *
      * @return void
+     * @throws Exception
      */
     function display($tpl = null) {
-
-        $model = $this->getModel();
 
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {
@@ -56,36 +61,21 @@ class CoalawebsociallinksViewControlpanel extends JViewLegacy {
         
         CoalawebsociallinksHelper::addSubmenu('controlpanel');
 
-        // Is this the Pro release
-        $isPro = (COM_CWSOCIALLINKS_PRO == 1);
-        $this->isPro = $isPro;
-        
-        // The curent version and release date
-        $version = (COM_CWSOCIALLINKS_VERSION);
-        $this->version = $version;
-        
-        //Release date
-        $releaseDate = (COM_CWSOCIALLINKS_DATE);
-        $this->release_date = $releaseDate;
-        
-        //Need a download ID?
-        $needsDlid = $model->needsDownloadID();
-        $this->needsdlid = $needsDlid;
-        
+        // Load component params
+        $this->config    = CW_Parameters::getInstance()->getComponentParams('coalawebsociallinks');
+
+        // Load extension data such as the manifest cache
+        $this->component = (new CW_UpdateKey)->getExtensionData('com_coalawebsociallinks');
+
+        // Is this the PRO or CORE version?
+        $xml = JPATH_ADMINISTRATOR . '/components/com_coalawebsociallinks/coalawebsociallinks.xml';
+        $this->extXml = (new CW_Xml)->toObject($xml);
+        $this->proCore = $this->extXml->level;
+        $this->license = $this->extXml->license;
+
          // We don't need toolbar in the modal window.
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();
-        }
-
-        // Lets check the current version against the latest
-        $type = $isPro ? 'pro' : 'core';
-        if (class_exists('CwGearsLatestversion')) {
-            $this->current = CwGearsLatestversion::getCurrent('cw-sociallinks-'. $type, $version );
-        } else {
-            $this->current = [
-                'remote' => JText::_('COM_CWSOCIALLINKS_NO_FILE'),
-                'update' => ''
-            ];
         }
 
         parent::display($tpl);
@@ -100,19 +90,15 @@ class CoalawebsociallinksViewControlpanel extends JViewLegacy {
     {
         $canDo = JHelperContent::getActions('com_coalawebsociallinks');
 
-       if (COM_CWSOCIALLINKS_PRO == 1) {
-            JToolBarHelper::title(JText::_('COM_CWSOCIALLINKS_TITLE_PRO') . ' [ ' . JText::_('COM_CWSOCIALLINKS_TITLE_CPANEL') . ' ]', 'cogs');
-        } else {
-            JToolBarHelper::title(JText::_('COM_CWSOCIALLINKS_TITLE_CORE') . ' [ ' . JText::_('COM_CWSOCIALLINKS_TITLE_CPANEL') . ' ]', 'cogs');
-        }
-        
+        $title = JText::_('COM_CWSOCIALLINKS_TITLE_' . $this->proCore);
+        JToolBarHelper::title($title . ' [ ' . JText::_('COM_CWSOCIALLINKS_TITLE_CPANEL') . ' ]', 'cogs');
+
         if ($canDo->get('core.admin')) {
             JToolBarHelper::preferences('com_coalawebsociallinks');
         }
 
         $help_url = 'https://coalaweb.com/support/documentation/item/coalaweb-social-links-guide';
         JToolBarHelper::help('COM_CWSOCIALLINKS_TITLE_HELP', false, $help_url);
-
     }
 
 }

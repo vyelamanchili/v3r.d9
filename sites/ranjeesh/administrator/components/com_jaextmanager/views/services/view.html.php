@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------
  * JA Extenstion Manager Component for J3.x
  * ------------------------------------------------------------------------
- * Copyright (C) 2004-2011 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
+ * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
  * Author: J.O.O.M Solutions Co., Ltd
  * Websites: http://www.joomlart.com - http://www.joomlancers.com
@@ -56,9 +56,6 @@ class JaextmanagerViewServices extends JAEMView
 
 	function displayList()
 	{
-		
-		JHtml::_('behavior.calendar');
-		
 		$model =  JAEMModel::getInstance('services', 'JaextmanagerModel');
 		
 		$lists = $model->_getVars_admin();
@@ -95,9 +92,6 @@ class JaextmanagerViewServices extends JAEMView
 
 	function edit($item = null)
 	{
-		
-		JHtml::_('behavior.calendar');
-		
 		$model = $this->getModel('services');
 		
 		if (!$item) {

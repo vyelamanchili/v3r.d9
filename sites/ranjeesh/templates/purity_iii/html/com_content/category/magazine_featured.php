@@ -16,6 +16,7 @@ $params        = $this->params;
 $count_leading = $params->get ('featured_leading', 1);
 $count_intro   = $params->get ('featured_intro', 3);
 $intro_columns = $params->get ('featured_intro_columns', 3);
+$featured_links= $params->get ('featured_links', 5);
 $leading       = $intro = $links = array();
 
 $dispatcher    = JEventDispatcher::getInstance();
@@ -48,7 +49,7 @@ foreach ($this->items as &$item) {
 		$leading[] = $item;
 	} elseif ($i < $count_leading + $count_intro) {
 		$intro[] = $item;
-	} else {
+	} elseif ($i < $count_leading + $count_intro + $featured_links) {
 		$links[] = $item;
 	}
 

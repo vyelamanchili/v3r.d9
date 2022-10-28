@@ -12,7 +12,7 @@ use Drupal\comment\Entity\Comment;
 /**
  * Provides setup and helper methods for comment views tests.
  *
- * @deprecated in Drupal 8.4.0 and will be removed before Drupal 9.0.0.
+ * @deprecated in drupal:8.4.0 and is removed from drupal:9.0.0.
  *   Use \Drupal\Tests\comment\Functional\Views\CommentTestBase instead.
  *
  * @see https://www.drupal.org/node/2908490
@@ -63,8 +63,8 @@ abstract class CommentTestBase extends ViewTestBase {
    */
   protected $comment;
 
-  protected function setUp() {
-    parent::setUp();
+  protected function setUp($import_test_views = TRUE) {
+    parent::setUp($import_test_views);
 
     ViewTestData::createTestViews(get_class($this), ['comment_test_views']);
 

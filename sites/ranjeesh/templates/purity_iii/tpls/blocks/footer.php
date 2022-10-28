@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 <!-- BACK TOP TOP BUTTON -->
 <div id="back-to-top" data-spy="affix" data-offset-top="300" class="back-to-top hidden-xs hidden-sm affix-top">
-  <button class="btn btn-primary" title="Back to Top"><i class="fa fa-caret-up"></i></button>
+  <button class="btn btn-primary" title="<?php echo JText::_('TPL_PURITY_III_BACKTOTOP'); ?>"><i class="fa fa-caret-up"></i></button>
 </div>
 <script type="text/javascript">
 (function($) {

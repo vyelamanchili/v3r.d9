@@ -8,8 +8,8 @@
             x1="0%" y1="0%"
             x2="0%" y2="100%"
             spreadMethod="pad">
-            <stop offset="0%"   stop-color="#70AAB0" stop-opacity="1"/>
-            <stop offset="100%" stop-color="#457173" stop-opacity="1"/>
+            <stop offset="0%"   stop-color="#FF861C" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#013953" stop-opacity="1"/>
             </linearGradient>
             </defs>
 

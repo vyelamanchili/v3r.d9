@@ -4,7 +4,7 @@ namespace Drupal\feeds\Feeds\Fetcher;
 
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\File\FileSystemInterface;
-use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\feeds\Exception\EmptyFeedException;
 use Drupal\feeds\FeedInterface;
 use Drupal\feeds\Plugin\Type\ClearableInterface;
@@ -16,6 +16,7 @@ use Drupal\feeds\Utility\Feed;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\RequestOptions;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -23,16 +24,15 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @FeedsFetcher(
  *   id = "http",
- *   title = @Translation("Download"),
+ *   title = @Translation("Download from url"),
  *   description = @Translation("Downloads data from a URL using Drupal's HTTP request handler."),
  *   form = {
  *     "configuration" = "Drupal\feeds\Feeds\Fetcher\Form\HttpFetcherForm",
  *     "feed" = "Drupal\feeds\Feeds\Fetcher\Form\HttpFetcherFeedForm",
- *   },
- *   arguments = {"@http_client", "@cache.feeds_download", "@file_system"}
+ *   }
  * )
  */
-class HttpFetcher extends PluginBase implements ClearableInterface, FetcherInterface {
+class HttpFetcher extends PluginBase implements ClearableInterface, FetcherInterface, ContainerFactoryPluginInterface {
 
   /**
    * The Guzzle client.
@@ -81,13 +81,32 @@ class HttpFetcher extends PluginBase implements ClearableInterface, FetcherInter
   /**
    * {@inheritdoc}
    */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('http_client'),
+      $container->get('cache.feeds_download'),
+      $container->get('file_system')
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function fetch(FeedInterface $feed, StateInterface $state) {
     $sink = $this->fileSystem->tempnam('temporary://', 'feeds_http_fetcher');
     $sink = $this->fileSystem->realpath($sink);
 
-    $response = $this->get($feed->getSource(), $sink, $this->getCacheKey($feed));
+    // Get cache key if caching is enabled.
+    $cache_key = $this->useCache() ? $this->getCacheKey($feed) : FALSE;
+
+    $response = $this->get($feed->getSource(), $sink, $cache_key);
     // @todo Handle redirects.
+    // @codingStandardsIgnoreStart
     // $feed->setSource($response->getEffectiveUrl());
+    // @codingStandardsIgnoreEnd
 
     // 304, nothing to see here.
     if ($response->getStatusCode() == Response::HTTP_NOT_MODIFIED) {
@@ -103,6 +122,9 @@ class HttpFetcher extends PluginBase implements ClearableInterface, FetcherInter
    *
    * @param string $url
    *   The URL to GET.
+   * @param string $sink
+   *   The location where the downloaded content will be saved. This can be a
+   *   resource, path or a StreamInterface object.
    * @param string $cache_key
    *   (optional) The cache key to find cached headers. Defaults to false.
    *
@@ -111,6 +133,8 @@ class HttpFetcher extends PluginBase implements ClearableInterface, FetcherInter
    *
    * @throws \RuntimeException
    *   Thrown if the GET request failed.
+   *
+   * @see \GuzzleHttp\RequestOptions
    */
   protected function get($url, $sink, $cache_key = FALSE) {
     $url = Feed::translateSchemes($url);
@@ -143,6 +167,16 @@ class HttpFetcher extends PluginBase implements ClearableInterface, FetcherInter
   }
 
   /**
+   * Returns if the cache should be used.
+   *
+   * @return bool
+   *   True if results should be cached. False otherwise.
+   */
+  protected function useCache() {
+    return !$this->configuration['always_download'];
+  }
+
+  /**
    * Returns the download cache key for a given feed.
    *
    * @param \Drupal\feeds\FeedInterface $feed
@@ -167,8 +201,12 @@ class HttpFetcher extends PluginBase implements ClearableInterface, FetcherInter
    */
   public function defaultConfiguration() {
     return [
-      'auto_detect_feeds' => TRUE,
+      // @todo auto_detect_feeds causes issues with downloading files that are
+      // not a RSS feed. Set the default to TRUE as soon as that issue is
+      // resolved.
+      'auto_detect_feeds' => FALSE,
       'use_pubsubhubbub' => FALSE,
+      'always_download' => FALSE,
       'fallback_hub' => '',
       'request_timeout' => 30,
     ];

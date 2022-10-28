@@ -1,13 +1,12 @@
 <?php
-defined('_JEXEC') or die('Restricted access');
+
 /**
- * @package             Joomla
- * @subpackage          CoalaWeb Social Links Component
- * @author              Steven Palmer
- * @author url          https://coalaweb.com
- * @author email        support@coalaweb.com
- * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
+ * @package     Joomla
+ * @subpackage  CoalaWeb Social Links
+ * @author      Steven Palmer <support@coalaweb.com>
+ * @link        https://coalaweb.com/
+ * @license     GNU/GPL V3 or later; https://www.gnu.org/licenses/gpl-3.0.html
+ * @copyright   Copyright (c) 2020 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,11 +17,11 @@ defined('_JEXEC') or die('Restricted access');
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
-
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
 
-define('COM_CWSOCIALLINKS_VERSION', '0.4.2');
-define('COM_CWSOCIALLINKS_DATE', '2017-09-21');
+defined('_JEXEC') or die('Restricted access');
+
+define('COM_CWSOCIALLINKS_VERSION', '1.1.1');
+define('COM_CWSOCIALLINKS_DATE', '2020-03-24');
 define('COM_CWSOCIALLINKS_PRO', '0');
+define('COM_CWSOCIALLINKS_MIN_GEARS_VERSION', '0.5.9');

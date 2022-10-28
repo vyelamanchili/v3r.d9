@@ -1,41 +1,53 @@
 <?php
 
-defined("_JEXEC") or die("Restricted access");
 /**
- * @package             Joomla
- * @subpackage          CoalaWeb Facebook JS Plugin
- * @author              Steven Palmer
- * @author url          https://coalaweb.com
- * @author email        support@coalaweb.com
- * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
+ * @package     Joomla
+ * @subpackage  CoalaWeb Facebook JS
+ * @author      Steven Palmer <support@coalaweb.com>
+ * @link        https://coalaweb.com/
+ * @license     GNU/GPL V3 or later; https://www.gnu.org/licenses/gpl-3.0.html
+ * @copyright   Copyright (c) 2020 Steven Palmer All rights reserved.
  *
  * CoalaWeb Facebook JS is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
+
+defined('_JEXEC') or die('Restricted access');
+
 jimport('joomla.plugin.plugin');
 jimport('joomla.filesystem.file');
 
+// Load version.php
+$version_php = JPATH_SITE . '/plugins/system/cwfacebookjs/version.php';
+if (!defined('PLG_CWFACEBOOKJS_VERSION') && JFile::exists($version_php)) {
+    include_once $version_php;
+}
+
+/**
+ * Class plgSystemCwfacebookjs
+ */
 class plgSystemCwfacebookjs extends JPlugin
 {
 
-    var $checkOk;
+    private $checkOk;
+    private $debug;
 
-    public function __construct($subject, $config)
+    /**
+     * plgSystemCwfacebookjs constructor.
+     * @param $subject
+     * @param $config
+     */
+    public function __construct(&$subject, $config)
     {
 
         parent::__construct($subject, $config);
-
-        $this->joomla = JFactory::getApplication();
-        $this->checkOk = $this->checkDependencies();
 
         // Load the language files
         $jlang = JFactory::getLanguage();
@@ -45,28 +57,38 @@ class plgSystemCwfacebookjs extends JPlugin
         $jlang->load('plg_system_cwfacebookjs', JPATH_ADMINISTRATOR, $jlang->getDefault(), true);
         $jlang->load('plg_system_cwfacebookjs', JPATH_ADMINISTRATOR, null, true);
 
+        $this->checkOk = $this->checkDependencies();
+        $this->debug = $this->params->get('debug', '0');
+
     }
 
     /**
      *
-     * @return type
+     * @return void
      */
     function onAfterRender()
     {
         $doc = JFactory::getDocument();
-        $joomla = JFactory::getApplication();
+        $app = JFactory::getApplication();
 
         // Lets do a few checks first
         if (
-            $joomla->getName() !== 'site' ||
-            $doc->getType() !== 'html' ||
-            $this->checkOk === false
+            $app->getName() !== 'site' ||
+            $doc->getType() !== 'html'
         ) {
 
             return;
         }
 
-        //Social Links
+        // Dependency checks
+        if ($this->checkOk['ok'] === false) {
+            if ($this->debug === '1') {
+                $app->enqueueMessage($this->checkOk['msg'], $this->checkOk['type']);
+            }
+            return;
+        }
+
+        // Social Links
         $socialLoad = '';
         $appIdS = '';
         $social = 'com_coalawebsociallinks';
@@ -81,7 +103,7 @@ class plgSystemCwfacebookjs extends JPlugin
             }
         }
 
-        //Comments
+        // Comments
         $commentLoad = '';
         $fbComments = '';
         $appIdC = '';
@@ -104,12 +126,12 @@ class plgSystemCwfacebookjs extends JPlugin
             $loadJs = '';
         }
 
-        //Do we want to load Facebook JS?
+        // Do we want to load Facebook JS?
         if (!$loadJs) {
             return;
         }
 
-        //Lets check for a Facebook App ID
+        // Lets check for a Facebook App ID
         if ($appIdS) {
             $appId = $comParams->get('fb_app_id');
         } elseif ($appIdC) {
@@ -118,14 +140,17 @@ class plgSystemCwfacebookjs extends JPlugin
             $appId = '';
         }
 
-        //Type of SDK
+        // Type of SDK
         $sdkType = $this->params->get('sdk_type', 'all');
 
-        //Comments
+        // Load on all pages
+        $loadAll = $this->params->get('load_all', '0');
+
+        // Comments
         $url = JURI::getInstance()->toString();
         $mailUrl = JRoute::_('index.php');
 
-        //Helper class to check if we should load Facebook JS on the current page
+        // Helper class to check if we should load Facebook JS on the current page
         $helpFunc = new CwGearsHelperLoadcount();
 
         // Detect language
@@ -136,7 +161,7 @@ class plgSystemCwfacebookjs extends JPlugin
         // Facebook and Google only seem to support es_ES and es_LA for all of LATAM
         $locale = (substr($locale, 0, 3) == 'es_' && $locale != 'es_ES') ? 'es_LA' : $locale;
 
-        $body = $joomla->getBody();
+        $body = $app->getBody();
 
         if (file_exists($versionC)) {
             if ($comParamsTwo->get('send_mail') && $comParamsTwo->get('recipient')) {
@@ -177,27 +202,132 @@ class plgSystemCwfacebookjs extends JPlugin
         //Should we load the Facebook code?
         $facebookJs = $helpFunc::getCounts($url, 'facebook_js');
 
-        if ($facebookJs > 0) {
+
+        if ($loadAll || $facebookJs > 0) {
+            $load = TRUE;
+        } else {
+            $load = FALSE;
+        }
+
+        if ($load) {
             $matches = preg_split('/(<body.*?>)/i', $body, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 
             /* assemble the HTML output back with the code in it */
             $injectedHTML = $matches[0] . $matches[1] . $html . $matches[2];
 
-            $joomla->setBody($injectedHTML);
+            $app->setBody($injectedHTML);
         }
 
         return;
     }
 
     /**
-     * Check extension dependencies are available
+     * Check dependencies
      *
-     * @return boolean
+     * @return array
      */
-    public function checkDependencies()
+    private function checkDependencies()
     {
-        $checkOk = false;
-        $minVersion = '0.1.5';
+
+        $langRoot = 'PLG_CWFACEBOOKJS';
+
+        /**
+         * Gears dependencies
+         */
+        $version = (PLG_CWFACEBOOKJS_MIN_GEARS_VERSION); // Minimum version
+
+        // Classes that are needed
+        $assets = [
+            'mobile' => false,
+            'count' => true,
+            'tools' => true,
+            'latest' => false
+        ];
+
+        // Check if Gears dependencies are meet and return result
+        $results = self::checkGears($version, $assets, $langRoot);
+
+        if ($results['ok'] == false) {
+            $result = [
+                'ok' => $results['ok'],
+                'type' => $results['type'],
+                'msg' => $results['msg']
+            ];
+
+            return $result;
+        }
+
+
+        // Lets use our tools class from Gears
+        $tools = new CwGearsHelperTools();
+
+        /**
+         * File and folder dependencies
+         * Note: JPATH_ROOT . '/' prefix will be added to file and folder names
+         */
+        $filesAndFolders = array(
+            'files' => array(),
+            'folders' => array()
+        );
+
+        // Check if they are available
+        $exists = $tools::checkFilesAndFolders($filesAndFolders, $langRoot);
+
+        // If any of the file/folder dependencies fail return
+        if ($exists['ok'] == false) {
+            $result = [
+                'ok' => $exists['ok'],
+                'type' => $exists['type'],
+                'msg' => $exists['msg']
+            ];
+
+            return $result;
+        }
+
+        /**
+         * Extension Dependencies
+         * Note: Plugins always need to be entered in the following format plg_type_name
+         */
+        $extensions = array(
+            'components' => array(
+            ),
+            'modules' => array(
+            ),
+            'plugins' => array(
+            )
+        );
+
+        // Check if they are available
+        $extExists = $tools::checkExtensions($extensions, $langRoot);
+
+        // If any of the extension dependencies fail return
+        if ($extExists['ok'] == false) {
+            $result = [
+                'ok' => $extExists['ok'],
+                'type' => $extExists['type'],
+                'msg' => $extExists['msg']
+            ];
+
+            return $result;
+        }
+
+        // No problems? return all good
+        $result = ['ok' => true];
+
+        return $result;
+    }
+
+    /**
+     * Check Gears dependencies
+     *
+     * @param $version - minimum version
+     * @param array $assets - list of required assets
+     * @param $langRoot
+     * @return array
+     */
+    private function checkGears($version, $assets = array(), $langRoot)
+    {
+        jimport('joomla.filesystem.file');
 
         // Load the version.php file for the CW Gears plugin
         $version_php = JPATH_SITE . '/plugins/system/cwgears/version.php';
@@ -205,23 +335,93 @@ class plgSystemCwfacebookjs extends JPlugin
             include_once $version_php;
         }
 
-        // Check CW Gears plugin is installed and the right version otherwise tell the user that it's needed
-        $loadcount_php = JPATH_SITE . '/plugins/system/cwgears/helpers/loadcount.php';
+        // Is Gears installed and the right version and published?
         if (
-            JPluginHelper::isEnabled('system', 'cwgears', true) == true &&
+            JPluginHelper::isEnabled('system', 'cwgears') &&
             JFile::exists($version_php) &&
-            version_compare(PLG_CWGEARS_VERSION, $minVersion, 'ge') &&
-            JFile::exists($loadcount_php)
+            version_compare(PLG_CWGEARS_VERSION, $version, 'ge')
         ) {
+            // Base helper directory
+            $helperDir = JPATH_SITE . '/plugins/system/cwgears/helpers/';
 
-            if (!class_exists('CwGearsHelperLoadcount')) {
-                JLoader::register('CwGearsHelperLoadcount', $loadcount_php);
+            // Do we need the mobile detect class?
+            if ($assets['mobile'] == true && !class_exists('Cwmobiledetect')) {
+                $mobiledetect_php = $helperDir . 'cwmobiledetect.php';
+                if (JFile::exists($mobiledetect_php)) {
+                    JLoader::register('Cwmobiledetect', $mobiledetect_php);
+                } else {
+                    $result = [
+                        'ok' => false,
+                        'type' => 'warning',
+                        'msg' => JText::_($langRoot . '_NOGEARSPLUGIN_HELPER_MESSAGE')
+                    ];
+                    return $result;
+                }
             }
 
-            $checkOk = true;
+            // Do we need the load count class?
+            if ($assets['count'] == true && !class_exists('CwGearsHelperLoadcount')) {
+                $loadcount_php = $helperDir . 'loadcount.php';
+                if (JFile::exists($loadcount_php)) {
+                    JLoader::register('CwGearsHelperLoadcount', $loadcount_php);
+                } else {
+                    $result = [
+                        'ok' => false,
+                        'type' => 'warning',
+                        'msg' => JText::_($langRoot . '_NOGEARSPLUGIN_HELPER_MESSAGE')
+                    ];
+                    return $result;
+                }
+            }
+
+            // Do we need the tools class?
+            if ($assets['tools'] == true && !class_exists('CwGearsHelperTools')) {
+                $tools_php = $helperDir . 'tools.php';
+                if (JFile::exists($tools_php)) {
+                    JLoader::register('CwGearsHelperTools', $tools_php);
+                } else {
+                    $result = [
+                        'ok' => false,
+                        'type' => 'warning',
+                        'msg' => JText::_($langRoot . '_NOGEARSPLUGIN_HELPER_MESSAGE')
+                    ];
+                    return $result;
+                }
+            }
+
+            // Do we need the latest class?
+            if ($assets['latest'] == true && !class_exists('CwGearsLatestversion')) {
+                $latest_php = $helperDir . 'latestversion.php';
+                if (JFile::exists($latest_php)) {
+                    JLoader::register('CwGearsLatestversion', $latest_php);
+                } else {
+                    $result = [
+                        'ok' => false,
+                        'type' => 'warning',
+                        'msg' => JText::_($langRoot . '_NOGEARSPLUGIN_HELPER_MESSAGE')
+                    ];
+                    return $result;
+                }
+            }
+        } else {
+            // Looks like Gears isn't meeting the requirements
+            $result = [
+                'ok' => false,
+                'type' => 'warning',
+                'msg' => JText::sprintf($langRoot . '_NOGEARSPLUGIN_CHECK_MESSAGE', $version)
+            ];
+            return $result;
         }
 
-        return $checkOk;
-    }
+        // Set up our response array
+        $result = [
+            'ok' => true,
+            'type' => '',
+            'msg' => ''
+        ];
 
+        // Return our result
+        return $result;
+
+    }
 }

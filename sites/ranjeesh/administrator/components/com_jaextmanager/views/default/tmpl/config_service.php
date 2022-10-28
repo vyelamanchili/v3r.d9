@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------
  * JA Extenstion Manager Component for J3.x
  * ------------------------------------------------------------------------
- * Copyright (C) 2004-2011 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
+ * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
  * Author: J.O.O.M Solutions Co., Ltd
  * Websites: http://www.joomlart.com - http://www.joomlancers.com
@@ -46,10 +46,8 @@ Joomla.submitbutton = function(pressbutton) {
         </td>
         <td>
         <?php $hideNoneJA = (int) $this->params->get("HIDE_NONJA", 0); ?>
-        <input type="radio" name="params[HIDE_NONJA]" value="0" id="hide_nonja_0" <?php if(!$hideNoneJA) echo 'checked="checked"' ?> />
-        <label for="hide_nonja_0"><?php echo JText::_('JNO' ); ?></label>
-        <input type="radio" name="params[HIDE_NONJA]" value="1" id="hide_nonja_1" <?php if($hideNoneJA) echo 'checked="checked"' ?> />
-        <label for="hide_nonja_1"><?php echo JText::_('JYES' ); ?></label>
+		<label><input type="radio" name="params[HIDE_NONJA]" value="1" id="hide_nonja_1" <?php if($hideNoneJA) echo 'checked="checked"' ?> /><?php echo JText::_('JYES' ); ?></label>
+		<label><input type="radio" name="params[HIDE_NONJA]" value="0" id="hide_nonja_0" <?php if(!$hideNoneJA) echo 'checked="checked"' ?> /><?php echo JText::_('JNO' ); ?></label>
         </td>
       </tr>
       <tr>

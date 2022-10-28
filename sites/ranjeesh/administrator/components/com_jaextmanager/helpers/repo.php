@@ -127,7 +127,7 @@ class RepoHelper
 	}
 
 
-	function parseSize($size)
+	static function parseSize($size)
 	{
 		if ($size < 1024) {
 			return $size . ' bytes';

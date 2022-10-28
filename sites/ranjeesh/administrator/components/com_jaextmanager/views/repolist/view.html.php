@@ -27,7 +27,7 @@ class JaextmanagerViewRepolist extends JAEMView
 		$app = JFactory::getApplication('administrator');
 		
 		// Do not allow cache
-		JResponse::allowCache(false);
+		JFactory::getApplication()->allowCache(false);
 		
 		//$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'details', 'word');
 		$style = "details";
@@ -37,16 +37,6 @@ class JaextmanagerViewRepolist extends JAEMView
 		$document = JFactory::getDocument();
 		$document->addStyleSheet('components/com_jaextmanager/assets/repo_manager/repolist-' . $style . '.css');
 		
-		$document->addScriptDeclaration("
-		window.addEvent('domready', function() {
-			window.top.document.updateUploader && window.top.document.updateUploader();
-			$$('a.img-preview').each(function(el) {
-				el.addEvent('click', function(e) {
-					new Event(e).stop();
-					window.top.document.preview.fromElement(el);
-				});
-			});
-		});");
 		$images 	= $this->get('images');
 		$documents 	= $this->get('documents');
 		$folders	= $this->get('folders');

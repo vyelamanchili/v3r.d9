@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------
  * JA Extenstion Manager Component for J3.x
  * ------------------------------------------------------------------------
- * Copyright (C) 2004-2011 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
+ * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
  * Author: J.O.O.M Solutions Co., Ltd
  * Websites: http://www.joomlart.com - http://www.joomlancers.com
@@ -164,7 +164,7 @@ class JaextmanagerHelper extends JComponentHelper
 		$found = false;
 		if (!empty($xmlfiles)) {
 			foreach ($xmlfiles as $xmlfile) {
-				if ($data = JApplicationHelper::parseXMLInstallFile($xmlfile)) {
+				if ($data = \JInstaller::parseXMLInstallFile($xmlfile)) {
 					$found = true;
 					break;
 				}
@@ -174,7 +174,7 @@ class JaextmanagerHelper extends JComponentHelper
 			$xmlfiles = JFolder::files($siteDir, '.xml$', 1, true);
 			if (!empty($xmlfiles)) {
 				foreach ($xmlfiles as $xmlfile) {
-					if ($data = JApplicationHelper::parseXMLInstallFile($xmlfile)) {
+					if ($data = \JInstaller::parseXMLInstallFile($xmlfile)) {
 						$found = true;
 						break;
 					}
@@ -199,7 +199,7 @@ class JaextmanagerHelper extends JComponentHelper
 	function parseXMLInstallFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
-		if (!$xml = JFactory::getXML($path)) {
+		if (!$xml = simplexml_load_file($path)) {
 			return false;
 		}
 		
@@ -237,6 +237,14 @@ class JaextmanagerHelper extends JComponentHelper
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
 		
+		// if no update server tag will make it error if element <> folder name in server.
+        if (!empty($xml->updateservers->server)) {
+            $extKey = str_replace('.xml','',basename((string)$xml->updateservers->server));
+//             if ($extKey !== strtolower((string)$xml->name)) {
+                $data['extKey'] = strtolower($extKey);
+//             }
+        }
+
 		return $data;
 	}
 }

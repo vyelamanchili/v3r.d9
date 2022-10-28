@@ -20,6 +20,11 @@ class CommentActionsTest extends CommentTestBase {
   public static $modules = ['dblog', 'action'];
 
   /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
+
+  /**
    * Tests comment publish and unpublish actions.
    */
   public function testCommentPublishUnpublishActions() {
@@ -32,7 +37,7 @@ class CommentActionsTest extends CommentTestBase {
     $action = Action::load('comment_unpublish_action');
     $action->execute([$comment]);
     $this->assertTrue($comment->isPublished() === FALSE, 'Comment was unpublished');
-
+    $this->assertArraySubset(['module' => ['comment']], $action->getDependencies());
     // Publish a comment.
     $action = Action::load('comment_publish_action');
     $action->execute([$comment]);

@@ -4,8 +4,10 @@ namespace Drupal\KernelTests;
 
 use Drupal\Component\FileCache\FileCacheFactory;
 use Drupal\Core\Database\Database;
+use GuzzleHttp\Exception\GuzzleException;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * @coversDefaultClass \Drupal\KernelTests\KernelTestBase
@@ -137,6 +139,10 @@ class KernelTestBaseTest extends KernelTestBase {
     $this->assertInstanceOf('Symfony\Component\HttpFoundation\Request', $new_request);
     $this->assertSame($new_request, \Drupal::request());
     $this->assertSame($request, $new_request);
+
+    // Ensure getting the router.route_provider does not trigger a deprecation
+    // message that errors.
+    $this->container->get('router.route_provider');
   }
 
   /**
@@ -157,6 +163,21 @@ class KernelTestBaseTest extends KernelTestBase {
   public function testSubsequentContainerIsolation() {
     $this->enableModules(['system', 'user']);
     $this->assertNull($this->installConfig('user'));
+  }
+
+  /**
+   * Tests that an outbound HTTP request can be performed inside of a test.
+   */
+  public function testOutboundHttpRequest() {
+    // The middleware test.http_client.middleware calls drupal_generate_test_ua
+    // which checks the DRUPAL_TEST_IN_CHILD_SITE constant, that is not defined
+    // in Kernel tests.
+    try {
+      $this->container->get('http_client')->get('http://example.com');
+    }
+    catch (GuzzleException $e) {
+      // Ignore any HTTP errors.
+    }
   }
 
   /**
@@ -210,8 +231,8 @@ class KernelTestBaseTest extends KernelTestBase {
   /**
    * @covers ::bootKernel
    */
-  public function testFileDefaultScheme() {
-    $this->assertEquals('public', file_default_scheme());
+  public function testBootKernel() {
+    $this->assertNull($this->container->get('request_stack')->getParentRequest(), 'There should only be one request on the stack');
     $this->assertEquals('public', \Drupal::config('system.file')->get('default_scheme'));
   }
 
@@ -245,7 +266,7 @@ class KernelTestBaseTest extends KernelTestBase {
       $stub_test->publicCheckRequirements();
       $this->fail('Missing required module throws skipped test exception.');
     }
-    catch (\PHPUnit_Framework_SkippedTestError $e) {
+    catch (SkippedTestError $e) {
       $this->assertEqual('Required modules: module_does_not_exist', $e->getMessage());
     }
   }
@@ -272,7 +293,7 @@ class KernelTestBaseTest extends KernelTestBase {
       $stub_test->publicCheckRequirements();
       $this->fail('Missing required module throws skipped test exception.');
     }
-    catch (\PHPUnit_Framework_SkippedTestError $e) {
+    catch (SkippedTestError $e) {
       $this->assertEqual('Required modules: module_does_not_exist', $e->getMessage());
     }
   }
@@ -300,6 +321,17 @@ class KernelTestBaseTest extends KernelTestBase {
 
       $this->assertTrue(empty($result), 'All test tables have been removed.');
     }
+  }
+
+  /**
+   * Ensures KernelTestBase tests can access modules in profiles.
+   */
+  public function testProfileModules() {
+    $this->assertFileExists('core/profiles/demo_umami/modules/demo_umami_content/demo_umami_content.info.yml');
+    $this->assertSame(
+      'core/profiles/demo_umami/modules/demo_umami_content/demo_umami_content.info.yml',
+      \Drupal::service('extension.list.module')->getPathname('demo_umami_content')
+    );
   }
 
 }

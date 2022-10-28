@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------
  * JA Extenstion Manager Component for J3.x
  * ------------------------------------------------------------------------
- * Copyright (C) 2004-2011 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
+ * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
  * Author: J.O.O.M Solutions Co., Ltd
  * Websites: http://www.joomlart.com - http://www.joomlancers.com
@@ -70,7 +70,7 @@ class jaExtUploaderComponent extends JObject
 		// Get the component description
 		$this->parent->set('description', JText::_((string) $this->manifest->description));
 		
-		$jaProduct = $this->parent->buildProduct($name);
+		$jaProduct = $this->parent->buildProduct($element);
 		
 		if ($jaProduct !== false) {
 			//path for install, we dont need it on upload to local reposiotry :)

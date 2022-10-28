@@ -4,18 +4,21 @@ namespace Drupal\Tests\feeds\Unit\Component;
 
 use Drupal\feeds\Component\CsvParser;
 use Drupal\Tests\feeds\Unit\FeedsUnitTestCase;
+use InvalidArgumentException;
 
 /**
- * @group feeds
  * @coversDefaultClass \Drupal\feeds\Component\CsvParser
+ * @group feeds
  */
 class CsvParserTest extends FeedsUnitTestCase {
 
   /**
+   * Tests parsing a CSV source with several line endings.
+   *
    * @dataProvider provider
    */
   public function testAlternateLineEnding(array $expected, $ending) {
-    $text = file_get_contents(dirname(dirname(dirname(dirname(__DIR__)))) . '/tests/resources/example.csv');
+    $text = file_get_contents(dirname(dirname(dirname(dirname(__DIR__)))) . '/tests/resources/csv/example.csv');
     $text = str_replace("\r\n", $ending, $text);
 
     $parser = new \LimitIterator(CsvParser::createFromString($text), 0, 4);
@@ -36,13 +39,16 @@ class CsvParserTest extends FeedsUnitTestCase {
     $second = array_slice($expected, 4);
 
     // // Test that rewinding works as expected.
-    $this->assertSame(2, count(iterator_to_array($parser)));
-    $this->assertSame(2, count(iterator_to_array($parser)));
+    $this->assertSame(3, count(iterator_to_array($parser)));
+    $this->assertSame(3, count(iterator_to_array($parser)));
     foreach ($parser as $delta => $row) {
       $this->assertSame($second[$delta], $row);
     }
   }
 
+  /**
+   * Data provider for testAlternateLineEnding().
+   */
   public function provider() {
     $expected = [
       ['Header A', 'Header B', 'Header C'],
@@ -51,6 +57,7 @@ class CsvParserTest extends FeedsUnitTestCase {
       ["\r\n\r\nline1", "\r\n\r\nline2", "\r\n\r\nline3"],
       ["new\r\nline 1", "new\r\nline 2", "new\r\nline 3"],
       ["\r\n\r\nline1\r\n\r\n", "\r\n\r\nline2\r\n\r\n", "\r\n\r\nline3\r\n\r\n"],
+      ['Col A', 'Col B', 'Col, C'],
     ];
 
     $unix = $expected;
@@ -70,15 +77,22 @@ class CsvParserTest extends FeedsUnitTestCase {
     ];
   }
 
+  /**
+   * @covers ::setHasHeader
+   * @covers ::getHeader
+   */
   public function testHasHeader() {
-    $file = dirname(dirname(dirname(dirname(__DIR__)))) . '/tests/resources/example.csv';
+    $file = dirname(dirname(dirname(dirname(__DIR__)))) . '/tests/resources/csv/example.csv';
     $parser = CsvParser::createFromFilePath($file)->setHasHeader();
 
-    $this->assertSame(count(iterator_to_array($parser)), 5);
+    $this->assertSame(count(iterator_to_array($parser)), 6);
     $this->assertSame(['Header A', 'Header B', 'Header C'], $parser->getHeader());
   }
 
-  public function  testAlternateSeparator() {
+  /**
+   * Tests using an asterisk as delimiter.
+   */
+  public function testAlternateSeparator() {
     // This implicitly tests lines without a newline.
     $parser = CsvParser::createFromString("a*b*c")
       ->setDelimiter('*');
@@ -87,20 +101,24 @@ class CsvParserTest extends FeedsUnitTestCase {
   }
 
   /**
-   * @expectedException \InvalidArgumentException
+   * Tries to create a CsvParser instance with an invalid file path.
    */
   public function testInvalidFilePath() {
+    $this->expectException(InvalidArgumentException::class);
     CsvParser::createFromFilePath('beep boop');
   }
 
   /**
-   * @expectedException \InvalidArgumentException
+   * Creates a new CsvParser instance with an invalid CSV source.
    */
   public function testInvalidResourcePath() {
+    $this->expectException(InvalidArgumentException::class);
     new CsvParser('beep boop');
   }
 
   /**
+   * Basic test for parsing CSV.
+   *
    * @dataProvider csvFileProvider
    */
   public function testCsvParsing($file, $expected) {
@@ -124,11 +142,14 @@ class CsvParserTest extends FeedsUnitTestCase {
     $this->assertSame($expected, $output);
   }
 
+  /**
+   * Data provider for testCsvParsing().
+   */
   public function csvFileProvider() {
-    $path = dirname(dirname(dirname(dirname(__DIR__)))) . '/tests/resources/csvs';
+    $path = dirname(dirname(dirname(dirname(__DIR__)))) . '/tests/resources/csv-parser-component-files';
     $return = [];
 
-    foreach (glob($path . '/*.csv') as $file) {
+    foreach (glob($path . '/csv/*.csv') as $file) {
       $json_file = $path . '/json/' . str_replace('.csv', '.json', basename($file));
 
       $return[] = [

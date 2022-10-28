@@ -13,7 +13,7 @@ use Drupal\comment\Entity\Comment;
 /**
  * Base class for all tracker tests.
  *
- * @deprecated Scheduled for removal in Drupal 9.0.0.
+ * @deprecated in drupal:8.?.? and is removed from drupal:9.0.0.
  *   Use \Drupal\Tests\tracker\Functional\Views\TrackerTestBase instead.
  */
 abstract class TrackerTestBase extends ViewTestBase {
@@ -41,8 +41,8 @@ abstract class TrackerTestBase extends ViewTestBase {
    */
   protected $comment;
 
-  protected function setUp() {
-    parent::setUp();
+  protected function setUp($import_test_views = TRUE) {
+    parent::setUp($import_test_views);
 
     ViewTestData::createTestViews(get_class($this), ['tracker_test_views']);
 

@@ -1357,6 +1357,9 @@ ul.latestusers li {
   padding: 6px 12px;
   margin-left: 0;
 }
+.newsflash img {
+  width: 100%;
+}
 
 .item-page {
   margin-bottom: 40px;
@@ -1696,6 +1699,33 @@ article aside .btn-group > .dropdown-toggle .caret {
 }
 .login-wrap .other-links ul {
   padding-left: 20px;
+}
+#jform_privacyconsent_privacy-lbl a.modal,
+#jform_consentbox-lbl a.modal,
+#jform_terms_terms-lbl a.modal,
+#jform_profile_tos-lbl a.modal {
+  display: inline-block;
+  position: relative;
+}
+#jform_terms_terms input[type="radio"],
+#jform_privacyconsent_privacy input[type="radio"],
+#jform_consentbox input[type="radio"],
+#jform_profile_tos input[type="radio"],
+#jform_terms_terms input[type="checkbox"],
+#jform_privacyconsent_privacy input[type="checkbox"],
+#jform_consentbox input[type="checkbox"],
+#jform_profile_tos input[type="checkbox"] {
+  position: relative;
+  margin: 0;
+  margin-right: 5px;
+  width: auto;
+}
+#jform_terms_terms label,
+#jform_privacyconsent_privacy label,
+#jform_consentbox label,
+#jform_profile_tos label {
+  margin-right: 10px;
+  padding: 0;
 }
 .form-register fieldset {
   padding: 0 0 10px;
@@ -2350,6 +2380,32 @@ dl.tabs dt.tabs.open a {
 .btn-group .chzn-results {
   white-space: normal;
 }
+.js-stools-container-filters .js-stools-field-filter .chzn-single,
+.js-stools-container-filters .js-stools-field-filter .chzn-drop {
+  border-radius: 0;
+}
+.js-stools-container-filters .js-stools-field-filter #filter_tag_chzn,
+.js-stools-container-filters .js-stools-field-filter #filter_category_id_chzn,
+.js-stools-container-filters .js-stools-field-filter #filter_access_chzn,
+.js-stools-container-filters .js-stools-field-filter #filter_author_id_chzn {
+  width: auto !important;
+}
+.js-stools-container-filters .js-stools-field-filter #filter_tag_chzn ul li input,
+.js-stools-container-filters .js-stools-field-filter #filter_category_id_chzn ul li input,
+.js-stools-container-filters .js-stools-field-filter #filter_access_chzn ul li input,
+.js-stools-container-filters .js-stools-field-filter #filter_author_id_chzn ul li input {
+  width: 208px !important;
+  height: 24px !important;
+}
+.picker {
+  background: green !important;
+}
+.picker .picker__box .picker__header {
+  display: flex;
+}
+.picker .picker__box .picker__header .picker__select--month {
+  margin-left: 20px;
+}
 
 .page-header {
   padding-bottom: 20px;
@@ -2820,6 +2876,48 @@ a.list-group-item.active:focus .list-group-item-text {
 @media screen and (max-width: 767px) {
   .t3-spotlight > div {
     margin-bottom: 20px;
+  }
+}
+@media screen and (min-width: 992px) {
+  .t3-spotlight:not(:root:root) .col-md-3 {
+    width: 24.9%;
+  }
+  .t3-spotlight:not(:root:root) .col-md-4 {
+    width: 33.2%;
+  }
+  .t3-spotlight:not(:root:root) .col-md-6 {
+    width: 49.8%;
+  }
+  .t3-spotlight:not(:root:root) .col-md-12 {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 991px) {
+  .t3-spotlight:not(:root:root) .col-sm-3 {
+    width: 24.9%;
+  }
+  .t3-spotlight:not(:root:root) .col-sm-4 {
+    width: 33.2%;
+  }
+  .t3-spotlight:not(:root:root) .col-sm-6 {
+    width: 49.8%;
+  }
+  .t3-spotlight:not(:root:root) .col-sm-12 {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 767px) {
+  .t3-spotlight:not(:root:root) .col-xs-3 {
+    width: 24.9%;
+  }
+  .t3-spotlight:not(:root:root) .col-xs-4 {
+    width: 33.2%;
+  }
+  .t3-spotlight:not(:root:root) .col-xs-6 {
+    width: 49.8%;
+  }
+  .t3-spotlight:not(:root:root) .col-xs-12 {
+    width: 100%;
   }
 }
 .t3-sl {

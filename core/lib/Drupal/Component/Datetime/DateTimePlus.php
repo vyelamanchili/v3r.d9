@@ -41,12 +41,12 @@ class DateTimePlus {
 
   use ToStringTrait;
 
-  const FORMAT   = 'Y-m-d H:i:s';
+  const FORMAT = 'Y-m-d H:i:s';
 
   /**
    * A RFC7231 Compliant date.
    *
-   * http://tools.ietf.org/html/rfc7231#section-7.1.1.1
+   * @see http://tools.ietf.org/html/rfc7231#section-7.1.1.1
    *
    * Example: Sun, 06 Nov 1994 08:49:37 GMT
    */
@@ -129,7 +129,8 @@ class DateTimePlus {
    * @param \DateTime $datetime
    *   A DateTime object.
    * @param array $settings
-   *   @see __construct()
+   *   (optional) A keyed array for settings, suitable for passing on to
+   *   __construct().
    *
    * @return static
    *   A new DateTimePlus object.
@@ -183,9 +184,11 @@ class DateTimePlus {
    * @param int $timestamp
    *   A UNIX timestamp.
    * @param mixed $timezone
-   *   @see __construct()
+   *   (optional) \DateTimeZone object, time zone string or NULL. See
+   *   __construct() for more details.
    * @param array $settings
-   *   @see __construct()
+   *   (optional) A keyed array for settings, suitable for passing on to
+   *   __construct().
    *
    * @return static
    *   A new DateTimePlus object.
@@ -211,11 +214,14 @@ class DateTimePlus {
    *   any other specialized input with a known format. If provided the
    *   date will be created using the createFromFormat() method.
    *   @see http://php.net/manual/datetime.createfromformat.php
-   * @param mixed $time
-   *   @see __construct()
+   * @param string $time
+   *   String representing the time.
    * @param mixed $timezone
-   *   @see __construct()
+   *   (optional) \DateTimeZone object, time zone string or NULL. See
+   *   __construct() for more details.
    * @param array $settings
+   *   (optional) A keyed array for settings, suitable for passing on to
+   *   __construct(). Supports an additional key:
    *   - validate_format: (optional) Boolean choice to validate the
    *     created date using the input format. The format used in
    *     createFromFormat() allows slightly different values than format().
@@ -223,7 +229,6 @@ class DateTimePlus {
    *     possible to a validation step to confirm that the date created
    *     from a format string exactly matches the input. This option
    *     indicates the format can be used for validation. Defaults to TRUE.
-   *   @see __construct()
    *
    * @return static
    *   A new DateTimePlus object.
@@ -280,7 +285,7 @@ class DateTimePlus {
    *   parameter and the current timezone are ignored when the $time parameter
    *   either is a UNIX timestamp (e.g. @946684800) or specifies a timezone
    *   (e.g. 2010-01-28T15:00:00+02:00).
-   *   @see http://php.net/manual/en/datetime.construct.php
+   *   @see http://php.net/manual/datetime.construct.php
    * @param array $settings
    *   (optional) Keyed array of settings. Defaults to empty array.
    *   - langcode: (optional) String two letter language code used to control
@@ -477,7 +482,6 @@ class DateTimePlus {
     return $format;
   }
 
-
   /**
    * Examines getLastErrors() to see what errors to report.
    *
@@ -620,11 +624,10 @@ class DateTimePlus {
     $valid_date = FALSE;
     $valid_time = TRUE;
     // Check for a valid date using checkdate(). Only values that
-    // meet that test are valid.
-    if (array_key_exists('year', $array) && array_key_exists('month', $array) && array_key_exists('day', $array)) {
-      if (@checkdate($array['month'], $array['day'], $array['year'])) {
-        $valid_date = TRUE;
-      }
+    // meet that test are valid. An empty value, either a string or a 0, is not
+    // a valid value.
+    if (!empty($array['year']) && !empty($array['month']) && !empty($array['day'])) {
+      $valid_date = checkdate($array['month'], $array['day'], $array['year']);
     }
     // Testing for valid time is reversed. Missing time is OK,
     // but incorrect values are not.
@@ -637,6 +640,7 @@ class DateTimePlus {
               $valid_time = FALSE;
             }
             break;
+
           case 'minute':
           case 'second':
           default:
@@ -671,7 +675,7 @@ class DateTimePlus {
    * Formats the date for display.
    *
    * @param string $format
-   *   A format string using either PHP's date().
+   *   Format accepted by date().
    * @param array $settings
    *   - timezone: (optional) String timezone name. Defaults to the timezone
    *     of the date object.
@@ -702,6 +706,27 @@ class DateTimePlus {
     }
 
     return $value;
+  }
+
+  /**
+   * Sets the default time for an object built from date-only data.
+   *
+   * The default time for a date without time can be anything, so long as it is
+   * consistently applied. If we use noon, dates in most timezones will have the
+   * same value for in both the local timezone and UTC.
+   */
+  public function setDefaultDateTime() {
+    $this->dateTimeObject->setTime(12, 0, 0);
+  }
+
+  /**
+   * Gets a clone of the proxied PHP \DateTime object wrapped by this class.
+   *
+   * @return \DateTime
+   *   A clone of the wrapped PHP \DateTime object.
+   */
+  public function getPhpDateTime() {
+    return clone $this->dateTimeObject;
   }
 
 }

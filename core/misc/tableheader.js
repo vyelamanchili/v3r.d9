@@ -6,57 +6,6 @@
 **/
 
 (function ($, Drupal, displace) {
-  Drupal.behaviors.tableHeader = {
-    attach: function attach(context) {
-      $(window).one('scroll.TableHeaderInit', { context: context }, tableHeaderInitHandler);
-    }
-  };
-
-  function scrollValue(position) {
-    return document.documentElement[position] || document.body[position];
-  }
-
-  function tableHeaderInitHandler(e) {
-    var $tables = $(e.data.context).find('table.sticky-enabled').once('tableheader');
-    var il = $tables.length;
-    for (var i = 0; i < il; i++) {
-      TableHeader.tables.push(new TableHeader($tables[i]));
-    }
-    forTables('onScroll');
-  }
-
-  function forTables(method, arg) {
-    var tables = TableHeader.tables;
-    var il = tables.length;
-    for (var i = 0; i < il; i++) {
-      tables[i][method](arg);
-    }
-  }
-
-  function tableHeaderResizeHandler(e) {
-    forTables('recalculateSticky');
-  }
-
-  function tableHeaderOnScrollHandler(e) {
-    forTables('onScroll');
-  }
-
-  function tableHeaderOffsetChangeHandler(e, offsets) {
-    forTables('stickyPosition', offsets.top);
-  }
-
-  $(window).on({
-    'resize.TableHeader': tableHeaderResizeHandler,
-
-    'scroll.TableHeader': tableHeaderOnScrollHandler
-  });
-
-  $(document).on({
-    'columnschange.TableHeader': tableHeaderResizeHandler,
-
-    'drupalViewportOffsetChange.TableHeader': tableHeaderOffsetChangeHandler
-  });
-
   function TableHeader(table) {
     var $table = $(table);
 
@@ -82,6 +31,57 @@
     this.createSticky();
   }
 
+  function forTables(method, arg) {
+    var tables = TableHeader.tables;
+    var il = tables.length;
+    for (var i = 0; i < il; i++) {
+      tables[i][method](arg);
+    }
+  }
+
+  function tableHeaderInitHandler(e) {
+    var $tables = $(e.data.context).find('table.sticky-enabled').once('tableheader');
+    var il = $tables.length;
+    for (var i = 0; i < il; i++) {
+      TableHeader.tables.push(new TableHeader($tables[i]));
+    }
+    forTables('onScroll');
+  }
+
+  Drupal.behaviors.tableHeader = {
+    attach: function attach(context) {
+      $(window).one('scroll.TableHeaderInit', { context: context }, tableHeaderInitHandler);
+    }
+  };
+
+  function scrollValue(position) {
+    return document.documentElement[position] || document.body[position];
+  }
+
+  function tableHeaderResizeHandler(e) {
+    forTables('recalculateSticky');
+  }
+
+  function tableHeaderOnScrollHandler(e) {
+    forTables('onScroll');
+  }
+
+  function tableHeaderOffsetChangeHandler(e, offsets) {
+    forTables('stickyPosition', offsets.top);
+  }
+
+  $(window).on({
+    'resize.TableHeader': tableHeaderResizeHandler,
+
+    'scroll.TableHeader': tableHeaderOnScrollHandler
+  });
+
+  $(document).on({
+    'columnschange.TableHeader drupalToolbarTrayChange': tableHeaderResizeHandler,
+
+    'drupalViewportOffsetChange.TableHeader': tableHeaderOffsetChangeHandler
+  });
+
   $.extend(TableHeader, {
     tables: []
   });
@@ -98,7 +98,7 @@
     createSticky: function createSticky() {
       var $stickyHeader = this.$originalHeader.clone(true);
 
-      this.$stickyTable = $('<table class="sticky-header"/>').css({
+      this.$stickyTable = $('<table class="sticky-header"></table>').css({
         visibility: 'hidden',
         position: 'fixed',
         top: '0px'
@@ -164,4 +164,4 @@
   });
 
   Drupal.TableHeader = TableHeader;
-})(jQuery, Drupal, window.parent.Drupal.displace);
+})(jQuery, Drupal, window.Drupal.displace);

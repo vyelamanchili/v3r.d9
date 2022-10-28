@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\system\Functional\Form;
 
-use Drupal\Component\Utility\SafeMarkup;
+use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Url;
 use Drupal\Tests\BrowserTestBase;
 
@@ -20,11 +20,16 @@ class ConfirmFormTest extends BrowserTestBase {
    */
   public static $modules = ['form_test'];
 
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
+
   public function testConfirmForm() {
     // Test the building of the form.
     $this->drupalGet('form-test/confirm-form');
     $site_name = $this->config('system.site')->get('name');
-    $this->assertTitle(t('ConfirmFormTestForm::getQuestion(). | @site-name', ['@site-name' => $site_name]), 'The question was found as the page title.');
+    $this->assertTitle("ConfirmFormTestForm::getQuestion(). | $site_name");
     $this->assertText(t('ConfirmFormTestForm::getDescription().'), 'The description was used.');
     $this->assertFieldByXPath('//input[@id="edit-submit"]', t('ConfirmFormTestForm::getConfirmText().'), 'The confirm text was used.');
 
@@ -79,7 +84,7 @@ class ConfirmFormTest extends BrowserTestBase {
    */
   public function assertCancelLinkUrl(Url $url, $message = '', $group = 'Other') {
     $links = $this->xpath('//a[@href=:url]', [':url' => $url->toString()]);
-    $message = ($message ? $message : SafeMarkup::format('Cancel link with URL %url found.', ['%url' => $url->toString()]));
+    $message = ($message ? $message : new FormattableMarkup('Cancel link with URL %url found.', ['%url' => $url->toString()]));
     return $this->assertTrue(isset($links[0]), $message, $group);
   }
 

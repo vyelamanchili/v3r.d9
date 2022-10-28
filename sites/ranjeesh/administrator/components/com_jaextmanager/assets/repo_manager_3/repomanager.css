@@ -159,3 +159,9 @@ div#media-noimages {
 .overall-title, .current-title {
 	font-size:12px;
 }
+
+/* folder list */
+
+#treeview .nav-list {
+	padding: 5px 15px;
+}

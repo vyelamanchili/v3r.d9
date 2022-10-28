@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------
  * JA Extenstion Manager Component for J3.x
  * ------------------------------------------------------------------------
- * Copyright (C) 2004-2011 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
+ * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
  * Author: J.O.O.M Solutions Co., Ltd
  * Websites: http://www.joomlart.com - http://www.joomlancers.com
@@ -53,7 +53,7 @@ Joomla.submitbutton = function(pressbutton) {
       <tr>
         <td align="left"><?php 
 		$tipid = uniqid("ja-tooltip-");
-		$linkRepo = "<a href=\"#\" id=\"{$tipid}\" class=\"ja-tips-title\" title=\"\">".JText::_("JA_REPOSITORY")."</a>";
+		$linkRepo = "<a href=\"#\" id=\"{$tipid}\" class=\"ja-tips-title hasPopover\" data-original-title=\"".JText::_("JA_REPOSITORY")."\" data-content=\"".JA_WORKING_DATA_FOLDER."\">".JText::_("JA_REPOSITORY")."</a>";
 		$linkEditRepo = "<a href=\"index.php?option=com_jaextmanager&view=default&layout=config_service\" title=\"\">".JText::_("EDIT")."</a>";
 		$linkUpload = "<a href=\"#\" onclick=\"jaOpenUploader(); return false;\" title=\"".JText::_("UPLOAD")."\" class=\"highlight\">".JText::_("UPLOAD")."</a> ";
 		$linkHelp = "<a href=\"index.php?option=com_jaextmanager&view=default&layout=help_support\" title=\"".JText::_("HELP_AND_SUPPORT")."\" class=\"highlight\">".JText::_("HELP_AND_SUPPORT")."</a>";
@@ -61,15 +61,6 @@ Joomla.submitbutton = function(pressbutton) {
 		$intro = JText::sprintf($intro, $linkRepo, $linkEditRepo, $linkUpload, $linkHelp);
 		echo $intro;
 		?>
-          <script type="text/javascript">
-		/*<![CDATA[*/
-		window.addEvent('domready', function(){
-			new JATooltips ([$('<?php echo $tipid; ?>')], {
-					content: '<?php echo addslashes(JText::_("JA_REPOSITORY")."<br />".JA_WORKING_DATA_FOLDER); ?>'
-			});
-		});
-		/*]]>*/
-		</script>
         </td>
         <td align="right" valign="top" width="260">
 	        <?php echo JText::_("FILTER");?>:
@@ -136,20 +127,10 @@ Joomla.submitbutton = function(pressbutton) {
 			}
 			
 			$tipid = uniqid("ja-tooltip-");
-			$authorTip = "<strong>{$obj->author}</strong><br />";
-			$authorTip .= JText::_('WEBSITE') . ": <a href=\"{$obj->authorUrl}\" title=\"\">{$obj->authorUrl}</a><br />";
+			$authorTip = JText::_('WEBSITE') . ": <a href=\"{$obj->authorUrl}\" title=\"\">{$obj->authorUrl}</a><br />";
 			$authorTip .= JText::_('EMAIL') . ": <a href=\"mailto:{$obj->authorEmail}\" title=\"\">{$obj->authorEmail}</a><br />";
 			?>
-          <a id="<?php echo $tipid; ?>" class="ja-tips-title author" href="<?php echo $obj->authorUrl; ?>" target="_blank"><?php echo $obj->author; ?></a>
-          <script type="text/javascript">
-            /*<![CDATA[*/
-            window.addEvent('domready', function(){
-                new JATooltips ([$('<?php echo $tipid; ?>')], {
-                        content: '<?php echo addslashes($authorTip); ?>'
-                });
-            });
-            /*]]>*/
-            </script>        
+			<a id="<?php echo $tipid; ?>" class="ja-tips-title author hasPopover" data-original-title="<?php echo $obj->author ?>" data-content="<?php echo JHtml::_('tooltipText', $authorTip) ?>" href="<?php echo $obj->authorUrl; ?>" target="_blank"><?php echo $obj->author; ?></a>
         </td>
         <td valign="top" align="left">
         <span class="icon-<?php echo $obj->type; ?>" title="<?php echo JText::_($obj->type); ?>"><?php echo JText::_($obj->type); ?></span>

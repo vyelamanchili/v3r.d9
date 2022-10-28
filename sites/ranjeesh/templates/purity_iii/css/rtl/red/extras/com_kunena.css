@@ -14,6 +14,9 @@
 #kunena.layout .btn-group .dropdown-menu li:empty {
   display: none;
 }
+#kunena.layout input[type="checkbox"] {
+  height: auto;
+}
 #kunena.layout .navbar {
   background: transparent;
   border: 0;
@@ -918,6 +921,9 @@
 .view-topic #kunena.layout .message .qreplyform .panel-default .panel-body .modal-header h3 {
   margin-top: 0;
 }
+.view-topic #kunena.layout .message .qreplyform .wysibb-toolbar {
+  min-height: 34px;
+}
 .view-user #kunena.layout h1 {
   margin-top: 0;
 }
@@ -1042,4 +1048,7 @@ div.kstats-module ul.kstats-items li {
   background: #ffffff;
   border-color: #d5d5d5;
   padding: 10px;
+}
+.view-topic body.modal-open {
+  overflow: auto;
 }

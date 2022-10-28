@@ -1,13 +1,12 @@
 <?php
 
 /**
- * @package             Joomla
- * @subpackage          CoalaWeb Gears
- * @author              Steven Palmer
- * @author url          https://coalaweb.com
- * @author email        support@coalaweb.com
- * @license             GNU/GPL, see /files/en-GB.license.txt
- * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
+ * @package     Joomla
+ * @subpackage  CoalaWeb Gears
+ * @author      Steven Palmer <support@coalaweb.com>
+ * @link        https://coalaweb.com/
+ * @license     GNU/GPL V3 or later; https://www.gnu.org/licenses/gpl-3.0.html
+ * @copyright   Copyright (c) 2020 Steven Palmer All rights reserved.
  *
  * CoalaWeb Gears is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,25 +17,22 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
-
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html>.
  */
 
 defined('_JEXEC') or die('Restricted access');
 
 /**
- *  Extension helper.
+ * Class CwGearsLatestversion
  */
 class CwGearsLatestversion
 {
 
     /**
-     * Get latests version of an extension and compare to currently installed
-     * 
-     * @param type $ext
-     * @param type $installed
-     * @return string
+     * Get latest version of an extension and compare to currently installed
+     *
+     * @param string $ext
+     * @param datetime $installed
+     * @return array
      */
     public static function getCurrent($ext, $installed) {
 
@@ -52,7 +48,7 @@ class CwGearsLatestversion
         }
         
         if ($exist){
-        $update = $remote > $installed? '<a class="btn btn-mini btn-success" href="https://coalaweb.com/downloads/joomla-extensions/latest-releases" target="_blank"><span class="icon-upload"></span>' . JText::_('PLG_CWGEARS_UPDATE_BTN') . '</a>' : '';
+        $update = $remote > $installed ? '<a class="btn btn-mini btn-success" href="https://coalaweb.com/downloads/joomla-extensions/latest-releases" target="_blank"><span class="icon-upload"></span>' . JText::_('PLG_CWGEARS_UPDATE_BTN') . '</a>' : '';
         } else {
             $update = '';
         }

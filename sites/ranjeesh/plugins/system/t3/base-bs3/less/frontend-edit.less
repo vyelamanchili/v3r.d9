@@ -46,9 +46,11 @@
     .add-on {
       width: 35px;
     }
+
     input {
       display: inline-block;
     }
+
     .btn {
       border: 1px solid @btn-default-border;
     }
@@ -214,6 +216,12 @@
   .minicolors-input {
     height: 28px;
     width: auto;
+  }
+
+  .chzn-container {
+    .chzn-search {
+      .clearfix();
+    }
   }
 }
 
@@ -422,6 +430,14 @@
     }
   }
 
+}
+
+.com_config.view-modules .btn-group {
+  label {
+    float: left;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
 }
 
 
@@ -664,7 +680,9 @@ fieldset.radio.btn-group {
 // ---------------------------------------
 .window.view-modules,
 .window.view-articles,
-.window.view-contacts {
+.window.view-contacts,
+.window.view-fields,
+.window.view-items {
   .js-stools {
     margin-bottom: 20px;
 
@@ -874,5 +892,23 @@ fieldset.radio.btn-group {
     height: 16px;
     width: 16px;
     color: #333;
+  }
+}
+
+// Fix modal in joomla 3.9
+body.modal-open {
+  .modal.hide {
+    background-color: #fff;
+    display: block !important;
+    left: auto;
+    right: auto;
+    top: 0;
+    bottom: auto;
+    transform: translateY(50%);
+    z-index: 1050;
+
+    .iframe {
+      border: 1px solid #ddd;
+    }
   }
 }

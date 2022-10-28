@@ -16,10 +16,12 @@ use Drupal\migrate_drupal\Plugin\migrate\cckfield\CckFieldPluginBase;
  *     "text_long" = "text_long",
  *     "text_with_summary" = "text_with_summary"
  *   },
- *   core = {6,7}
+ *   core = {6,7},
+ *   source_module = "text",
+ *   destination_module = "text",
  * )
  *
- * @deprecated in Drupal 8.3.x, to be removed before Drupal 9.0.x. Use
+ * @deprecated in drupal:8.3.0 and is removed from drupal:9.0.0. Use
  * \Drupal\text\Plugin\migrate\field\d6\TextField or
  * \Drupal\text\Plugin\migrate\field\d7\TextField instead.
  *
@@ -98,7 +100,7 @@ class TextField extends CckFieldPluginBase {
     }
 
     $process = [
-      'plugin' => 'iterator',
+      'plugin' => 'sub_process',
       'source' => $field_name,
       'process' => $process,
     ];

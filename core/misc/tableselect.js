@@ -38,7 +38,7 @@
       });
     };
 
-    $table.find('th.select-all').prepend($('<input type="checkbox" class="form-checkbox" />').attr('title', strings.selectAll)).on('click', function (event) {
+    $table.find('th.select-all').prepend($(Drupal.theme('checkbox')).attr('title', strings.selectAll)).on('click', function (event) {
       if ($(event.target).is('input[type="checkbox"]')) {
         checkboxes.each(function () {
           var $checkbox = $(this);
@@ -74,12 +74,11 @@
     var mode = from.rowIndex > to.rowIndex ? 'previousSibling' : 'nextSibling';
 
     for (var i = from[mode]; i; i = i[mode]) {
-      var $i;
+      var $i = $(i);
 
       if (i.nodeType !== 1) {
         continue;
       }
-      $i = $(i);
 
       $i.toggleClass('selected', state);
       $i.find('input[type="checkbox"]').prop('checked', state);

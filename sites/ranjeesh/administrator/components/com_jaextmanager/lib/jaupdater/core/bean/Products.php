@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------
  * JA Extenstion Manager Component for J3.x
  * ------------------------------------------------------------------------
- * Copyright (C) 2004-2011 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
+ * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
  * Author: J.O.O.M Solutions Co., Ltd
  * Websites: http://www.joomlart.com - http://www.joomlancers.com
@@ -116,7 +116,7 @@ class jaProducts
 	function getFullInfo()
 	{
 		$vars = get_object_vars($this);
-		$aExclude = array('config', 'description');
+		$aExclude = array('config', 'description', 'params');
 		
 		$obj = new stdClass();
 		foreach ($vars as $key => $value) {
@@ -447,7 +447,7 @@ XML;
 		} else {
 			//context = upgrade
 			if (isset($xmlinstall) && JFile::exists($xmlinstall)) {
-				$oXml = JFactory::getXML($xmlinstall);
+				$oXml = simplexml_load_file($xmlinstall);
 				if ($oXml) {
 					$xmlManifest = $oXml;
 					switch ($this->type) {
@@ -523,7 +523,7 @@ XML;
 		//remove file base on $objectFilter
 		//important note: do not remove sql files (for rollback db)
 		$FileSystemHelper = new FileSystemHelper();
-		if (count($objectFilter) > 0) {
+		if (!empty($objectFilter)) {
 			foreach ($objectFilter as $entry => $status) {
 				$element = $FileSystemHelper->clean($applyLocation.'/'.$entry);
 				if (is_object($status)) {
@@ -1103,11 +1103,11 @@ XML;
 		
 		switch ($this->type) {
 			case 'component':
-				$pathAdmin = $path . "administrator/components/".$this->extKey.'/';
+				$pathAdmin = $path . "administrator/components/".$this->element.'/';
 				if (JFolder::exists($pathAdmin)) {
 					$location['admin'] = $pathAdmin;
 				}
-				$pathSite = $path . "components/".$this->extKey.'/';
+				$pathSite = $path . "components/".$this->element.'/';
 				if (JFolder::exists($pathSite)) {
 					$location['site'] = $pathSite;
 				}
@@ -1118,17 +1118,20 @@ XML;
 				if (isset($this->client_id) && $this->client_id) {
 					$path .= "administrator/";
 				}
-				$location['location'] = $path . "modules/".$this->extKey.'/';
+				$location['location'] = $path . "modules/".$this->element.'/';
 				break;
 			case 'plugin':
 				//new stuture for plugins folder from 1.6
 				//each plugin will be stored at individual folder
-				$basePath = $path . "plugins/".$this->folder.'/'.$this->extKey.'/';
+				$basePath = $path . "plugins/".$this->folder.'/'.$this->element.'/';
 				$location['location'] = $basePath;
 				
 				break;
 			case 'template':
-				$location['location'] = $path . "templates/".$this->extKey.'/';
+				if (isset($this->client_id) && $this->client_id) {
+					$path .= "administrator/";
+				}
+				$location['location'] = $path . "templates/".$this->element.'/';
 				break;
 			default:
 				//not match any type

@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------
  * JA Extenstion Manager Component for J3.x
  * ------------------------------------------------------------------------
- * Copyright (C) 2004-2011 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
+ * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
  * Author: J.O.O.M Solutions Co., Ltd
  * Websites: http://www.joomlart.com - http://www.joomlancers.com
@@ -199,8 +199,15 @@ class JaextmanagerViewDefault extends JAEMView
 		foreach ($services as $service) {
 			JToolBarHelper::custom('config_extensions_' . $service->id, 'default', 'default', $service->ws_name, true);
 		}
-		JToolBarHelper::custom('checkupdate', 'preview', 'preview', JText::_('CHECK_UPDATE'), true);
-		JToolBarHelper::custom('recovery', 'restore', 'restore', JText::_('ROLLBACK'), true);
+		//checking if installed joomla version is less  3.0   
+		if ( version_compare( JVERSION, '3.0', '<' ) == 1) {             
+			JToolBarHelper::custom('checkupdate', 'refresh', 'refresh', JText::_('CHECK_UPDATE'), true);
+			JToolBarHelper::custom('recovery', 'restore', 'restore', JText::_('ROLLBACK'), true);
+		}
+		else{
+			JToolBarHelper::custom('checkupdate', 'loop', 'loop', JText::_('CHECK_UPDATE'), true);
+			JToolBarHelper::custom('recovery', 'undo', 'undo', JText::_('ROLLBACK'), true);
+		}		
 		// JToolBarHelper::preferences(JACOMPONENT);
 		
 

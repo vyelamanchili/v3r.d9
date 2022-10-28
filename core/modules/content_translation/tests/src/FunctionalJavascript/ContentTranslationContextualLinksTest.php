@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\content_translation\FunctionalJavascript;
 
-use Drupal\FunctionalJavascriptTests\JavascriptTestBase;
+use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 use Drupal\language\Entity\ConfigurableLanguage;
 
 /**
@@ -10,7 +10,7 @@ use Drupal\language\Entity\ConfigurableLanguage;
  *
  * @group content_translation
  */
-class ContentTranslationContextualLinksTest extends JavascriptTestBase {
+class ContentTranslationContextualLinksTest extends WebDriverTestBase {
 
   /**
    * The 'translator' user to use during testing.
@@ -23,6 +23,11 @@ class ContentTranslationContextualLinksTest extends JavascriptTestBase {
    * {@inheritdoc}
    */
   public static $modules = ['content_translation', 'contextual', 'node'];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
 
   /**
    * {@inheritdoc}
@@ -66,7 +71,7 @@ class ContentTranslationContextualLinksTest extends JavascriptTestBase {
     $this->drupalLogin($this->translator);
     $this->drupalGet('node/' . $node->id());
     $link = $this->assertSession()->waitForElement('css', '[data-contextual-id^="node:node=1"] .contextual-links a:contains("Translate")');
-    $this->assertContains('node/1/translations', $link->getAttribute('href'));
+    $this->assertStringContainsString('node/1/translations', $link->getAttribute('href'));
   }
 
 }

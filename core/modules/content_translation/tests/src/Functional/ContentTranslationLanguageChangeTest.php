@@ -3,7 +3,8 @@
 namespace Drupal\Tests\content_translation\Functional;
 
 use Drupal\language\Entity\ConfigurableLanguage;
-use Drupal\node\Tests\NodeTestBase;
+use Drupal\Tests\node\Functional\NodeTestBase;
+use Drupal\Tests\TestFileCreationTrait;
 
 /**
  * Tests the content translation language that is set.
@@ -12,12 +13,29 @@ use Drupal\node\Tests\NodeTestBase;
  */
 class ContentTranslationLanguageChangeTest extends NodeTestBase {
 
+  use TestFileCreationTrait {
+    getTestFiles as drupalGetTestFiles;
+  }
+
   /**
    * Modules to enable.
    *
    * @var array
    */
-  public static $modules = ['language', 'content_translation', 'content_translation_test', 'node', 'block', 'field_ui', 'image'];
+  public static $modules = [
+    'language',
+    'content_translation',
+    'content_translation_test',
+    'node',
+    'block',
+    'field_ui',
+    'image',
+  ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
 
   /**
    * {@inheritdoc}
@@ -94,9 +112,9 @@ class ContentTranslationLanguageChangeTest extends NodeTestBase {
 
     // Check that the translation languages are correct.
     $node = $this->getNodeByTitle('english_title');
-    $translation_languages = array_keys($node->getTranslationLanguages());
-    $this->assertTrue(in_array('fr', $translation_languages));
-    $this->assertTrue(in_array('de', $translation_languages));
+    $translation_languages = $node->getTranslationLanguages();
+    $this->assertArrayHasKey('fr', $translation_languages);
+    $this->assertArrayHasKey('de', $translation_languages);
   }
 
   /**
@@ -135,15 +153,15 @@ class ContentTranslationLanguageChangeTest extends NodeTestBase {
     $this->assertRaw('<title>Edit Article english_title | Drupal</title>');
     $edit = [
       'langcode[0][value]' => 'en',
-      'field_image_field[0][alt]' => 'alternative_text'
+      'field_image_field[0][alt]' => 'alternative_text',
     ];
     $this->drupalPostForm(NULL, $edit, t('Save (this translation)'));
 
     // Check that the translation languages are correct.
     $node = $this->getNodeByTitle('english_title');
-    $translation_languages = array_keys($node->getTranslationLanguages());
-    $this->assertTrue(in_array('fr', $translation_languages));
-    $this->assertTrue(!in_array('de', $translation_languages));
+    $translation_languages = $node->getTranslationLanguages();
+    $this->assertArrayHasKey('fr', $translation_languages);
+    $this->assertArrayNotHasKey('de', $translation_languages);
   }
 
 }

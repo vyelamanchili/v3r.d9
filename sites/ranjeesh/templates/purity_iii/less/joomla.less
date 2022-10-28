@@ -519,7 +519,33 @@ article aside .btn-group {
 
 }
 
+#jform_privacyconsent_privacy-lbl,
+#jform_consentbox-lbl ,
+#jform_terms_terms-lbl,
+#jform_profile_tos-lbl {
+  a.modal {
+    display: inline-block;
+    position: relative;
+  }
+}
 
+#jform_terms_terms,
+#jform_privacyconsent_privacy,
+#jform_consentbox,
+#jform_profile_tos {
+  input[type="radio"],
+  input[type="checkbox"] {
+    position: relative;
+    margin: 0;
+    margin-right: 5px;
+    width: auto;
+  }
+
+  label {
+    margin-right: @t3-global-margin / 2;
+    padding: 0;
+  }
+}
 
 //
 // REGISTER
@@ -1483,4 +1509,43 @@ dl.tabs {
 // Chosen proper wrapping in Bootstrap btn-group
 .btn-group .chzn-results {
   white-space: normal;
+}
+
+
+.js-stools-container-filters {
+  .js-stools-field-filter {
+    .chzn-single,
+    .chzn-drop {
+      border-radius: 0;
+    }
+
+    #filter_tag_chzn,
+    #filter_category_id_chzn,
+    #filter_access_chzn,
+    #filter_author_id_chzn {
+      width: auto !important;
+
+      ul {
+        li {
+          input {
+            width: 208px !important;
+            height: 24px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+.picker {
+  background: green !important;
+  .picker__box {
+    .picker__header {
+      display: flex;
+
+      .picker__select--month {
+        margin-left: @t3-global-padding;
+      }
+    }
+  }
 }

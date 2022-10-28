@@ -9,6 +9,7 @@ namespace Drupal\Tests\migrate\Kernel;
 
 use Drupal\Core\Database\Query\ConditionInterface;
 use Drupal\Core\Database\Query\SelectInterface;
+use Drupal\Core\Database\StatementInterface;
 use Drupal\migrate\Exception\RequirementsException;
 use Drupal\Core\Database\Database;
 use Drupal\migrate\Plugin\migrate\source\SqlBase;
@@ -34,7 +35,7 @@ class SqlBaseTest extends MigrateTestBase {
   protected function setUp() {
     parent::setUp();
 
-    $this->migration = $this->getMock(MigrationInterface::class);
+    $this->migration = $this->createMock(MigrationInterface::class);
     $this->migration->method('id')->willReturn('fubar');
   }
 
@@ -46,8 +47,8 @@ class SqlBaseTest extends MigrateTestBase {
 
     // Verify that falling back to the default 'migrate' connection (defined in
     // the base class) works.
-    $this->assertSame($sql_base->getDatabase()->getTarget(), 'default');
-    $this->assertSame($sql_base->getDatabase()->getKey(), 'migrate');
+    $this->assertSame('default', $sql_base->getDatabase()->getTarget());
+    $this->assertSame('migrate', $sql_base->getDatabase()->getKey());
 
     // Verify the fallback state key overrides the 'migrate' connection.
     $target = 'test_fallback_target';
@@ -122,8 +123,8 @@ class SqlBaseTest extends MigrateTestBase {
     \Drupal::state()->delete('migrate.fallback_state_key');
     $sql_base->setConfiguration([]);
     Database::renameConnection('migrate', 'fallback_connection');
-    $this->setExpectedException(RequirementsException::class,
-      'No database connection configured for source plugin');
+    $this->expectException(RequirementsException::class);
+    $this->expectExceptionMessage('No database connection configured for source plugin');
     $sql_base->getDatabase();
   }
 
@@ -149,13 +150,13 @@ class SqlBaseTest extends MigrateTestBase {
       $source->getHighWaterStorage()->set($this->migration->id(), $high_water);
     }
 
-    $query_result = new \ArrayIterator($query_result);
-
-    $query = $this->getMock(SelectInterface::class);
-    $query->method('execute')->willReturn($query_result);
+    $statement = $this->createMock(StatementInterface::class);
+    $statement->expects($this->atLeastOnce())->method('setFetchMode')->with(\PDO::FETCH_ASSOC);
+    $query = $this->createMock(SelectInterface::class);
+    $query->method('execute')->willReturn($statement);
     $query->expects($this->atLeastOnce())->method('orderBy')->with('order', 'ASC');
 
-    $condition_group = $this->getMock(ConditionInterface::class);
+    $condition_group = $this->createMock(ConditionInterface::class);
     $query->method('orConditionGroup')->willReturn($condition_group);
 
     $source->setQuery($query);

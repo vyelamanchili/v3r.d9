@@ -1,34 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.2" client="site" method="upgrade">
     <name>MOD_COALAWEBPAGE</name>
-    <creationDate>2017-09-21</creationDate>
+    <creationDate>2020-03-24</creationDate>
     <author>Steven Palmer</author>
     <authorEmail>support@coalaweb.com</authorEmail>
     <authorUrl>https://coalaweb.com</authorUrl>
-    <copyright>Copyright (c) 2017 Steven Palmer All rights reserved.</copyright>
-    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <version>0.4.2</version>
+    <copyright>© 2020 Steven Palmer (CoalaWeb), All rights reserved.</copyright>
+    <license>GNU/GPL V3 or later.</license>
+    <version>1.1.1</version>
     <description>MOD_COALAWEBPAGE_DESC</description>
 
     <languages folder="language">
         <language tag="en-GB">en-GB/en-GB.mod_coalawebpage.ini</language>
-        <language tag="en-GB">en-GB/en-GB.mod_coalawebpage.sys.ini</language>
+		<language tag="en-GB">en-GB/en-GB.mod_coalawebpage.sys.ini</language>>
     </languages>
 
     <files>
-        <filename module="mod_coalawebpage">mod_coalawebpage.php</filename>
-        <filename>index.html</filename>
-        <filename>helper.php</filename>
-        <folder>tmpl</folder>
-        <folder>assets</folder>
-        <folder>language</folder>
+        <file>helper.php</file>
+		<folder>assets</folder>
+		<file>index.html</file>
+		<folder>language</folder>
+		<file module="mod_coalawebpage">mod_coalawebpage.php</file>
+		<folder>tmpl</folder>
     </files>
 
     <!-- HELP FILE -->
     <help url="MOD_COALAWEBPAGE_HELP_URL"/>
-
-    <!-- UPDATESERVER DEFINITION -->
-    <updateservers></updateservers>
 
     <config>
         <fields
@@ -184,35 +181,97 @@
             <fieldset name="advanced">
 
                 <field
-                        name="moduleclass_sfx"
-                        type="text"
-                        label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-                        description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"/>
+                        name="dependency_spacer"
+                        type="spacer"
+                        label="MOD_CWPAGE_SPACER_DEPENDENCY"
+                        class="cw_label"/>
 
                 <field
-                        name="owncache"
+                        name="dependency_info"
+                        type="note"
+                        class="alert alert-info"
+                        close="true"
+                        description="MOD_CWPAGE_DEPENDENCY_MSG"/>
+
+                <field
+                        name="dependent_gears"
+                        type="dependent"
+                        label="MOD_CWPAGE"
+                        description="plg_system_cwgears"/>
+
+                <field
+                        name="dependent_facebookjs"
+                        type="dependent"
+                        label="MOD_CWPAGE"
+                        description="plg_system_cwfacebookjs"/>
+
+                <field
+                        name="dependent_component"
+                        type="dependent"
+                        label="MOD_CWPAGE"
+                        description="com_coalawebsociallinks"/>
+
+                <field
+                        name="debug_spacer"
+                        type="spacer"
+                        label="MOD_CWPAGE_SPACER_DEBUG"
+                        class="cw_label"/>
+
+                <field
+                        name="debug_info"
+                        type="note"
+                        class="alert alert-info"
+                        close="true"
+                        description="MOD_CWPAGE_MSG_DEBUG"/>
+
+                <field
+                        name="debug"
+                        class="btn-group btn-group-yesno"
                         type="list"
-                        default="1"
-                        label="COM_MODULES_FIELD_CACHING_LABEL"
-                        description="COM_MODULES_FIELD_CACHING_DESC">
+                        default=""
+                        label="MOD_CWPAGE_FIELD_DEBUG_LABEL"
+                        description="MOD_CWPAGE_FIELD_DEBUG_DESC">
+                    <option value="">MOD_CWPAGE_FIELD_COM_OPT</option>
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field
+                        name="advanced_spacer"
+                        type="spacer"
+                        label="MOD_CWPAGE_SPACER_ADVANCED"
+                        class="cw_label"/>
+
+                <field
+                    name="moduleclass_sfx"
+                    type="text"
+                    label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                    description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+
+                <field
+                    name="cache"
+                    type="list"
+                    default="1"
+                    label="COM_MODULES_FIELD_CACHING_LABEL"
+                    description="COM_MODULES_FIELD_CACHING_DESC" >
                     <option value="1">JGLOBAL_USE_GLOBAL</option>
                     <option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
                 </field>
 
                 <field
-                        name="cache_time"
-                        type="text"
-                        default="900"
-                        label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-                        description="COM_MODULES_FIELD_CACHE_TIME_DESC"/>
+                    name="cache_time"
+                    type="text"
+                    default="900"
+                    label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+                    description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
 
                 <field
-                        name="load_layout_css"
-                        type="radio"
-                        class="btn-group"
-                        default="1"
-                        label="MOD_CWPAGE_FIELD_LOADCSS_LABEL"
-                        description="MOD_CWPAGE_FIELD_LOADCSS_DESC">
+                    name="load_layout_css"
+                    type="radio"
+                    class="btn-group"
+                    default="1"
+                    label="MOD_CWPAGE_FIELD_LOADCSS_LABEL"
+                    description="MOD_CWPAGE_FIELD_LOADCSS_DESC">
                     <option value="0">JNO</option>
                     <option value="1">JYES</option>
                 </field>
@@ -225,11 +284,6 @@
 
                 <field
                         name="go_pro"
-                        type="upgrade"
-                        label="MOD_CWPAGE_MSG_UPGRADE"/>
-
-                <field
-                        name="go_pro"
                         type="note"
                         class="alert alert-danger"
                         close="true"
@@ -238,7 +292,7 @@
 
                 <field
                         name="version_info"
-                        type="version"
+                        type="versioncheck"
                         label="com_coalawebsociallinks"/>
             </fieldset>
 

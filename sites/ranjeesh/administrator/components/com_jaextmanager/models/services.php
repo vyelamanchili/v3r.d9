@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------
  * JA Extenstion Manager Component for J3.x
  * ------------------------------------------------------------------------
- * Copyright (C) 2004-2011 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
+ * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
  * Author: J.O.O.M Solutions Co., Ltd
  * Websites: http://www.joomlart.com - http://www.joomlancers.com
@@ -29,7 +29,7 @@ class JaextmanagerModelServices extends JAEMModel
 		$edit = JRequest::getVar('edit', true);
 		if (!$cid || @!$cid[0]) {
 			$cid = JRequest::getVar('cid', array(0), '', 'array');
-			JArrayHelper::toInteger($cid, array(0));
+			Joomla\Utilities\ArrayHelper::toInteger($cid, array(0));
 		}
 		
 		if ($edit) {
@@ -178,7 +178,7 @@ class JaextmanagerModelServices extends JAEMModel
 		//make default
 		$query = "UPDATE #__jaem_services SET ws_default = 1 WHERE id IN ( $ids )";
 		$db->setQuery($query);
-		if (!$db->query()) {
+		if (!$db->execute()) {
 			return false;
 		}
 		return true;
@@ -190,7 +190,7 @@ class JaextmanagerModelServices extends JAEMModel
 		$db = JFactory::getDbo();
 		$query = "UPDATE #__jaem_services SET ws_default = 0 WHERE id <> {$defaultId}";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 
@@ -198,7 +198,7 @@ class JaextmanagerModelServices extends JAEMModel
 	{
 		$query = "DELETE FROM #__jaem_services WHERE id={$id} AND ws_core = 0 AND ws_default = 0";
 		$this->_db->setQuery($query);
-		$result = $this->_db->query();
+		$result = $this->_db->execute();
 		return $result;
 	}
 }

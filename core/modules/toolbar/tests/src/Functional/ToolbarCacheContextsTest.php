@@ -24,6 +24,11 @@ class ToolbarCacheContextsTest extends BrowserTestBase {
   public static $modules = ['toolbar', 'test_page_test'];
 
   /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
+
+  /**
    * An authenticated user to use for testing.
    *
    * @var \Drupal\user\UserInterface
@@ -59,6 +64,18 @@ class ToolbarCacheContextsTest extends BrowserTestBase {
   }
 
   /**
+   * Tests toolbar cache integration.
+   */
+  public function testCacheIntegration() {
+    $this->installExtraModules(['dynamic_page_cache']);
+    $this->drupalLogin($this->adminUser);
+    $this->drupalGet('test-page');
+    $this->assertSame('MISS', $this->getSession()->getResponseHeader('X-Drupal-Dynamic-Cache'));
+    $this->drupalGet('test-page');
+    $this->assertSame('HIT', $this->getSession()->getResponseHeader('X-Drupal-Dynamic-Cache'));
+  }
+
+  /**
    * Tests toolbar cache contexts.
    */
   public function testToolbarCacheContextsCaller() {
@@ -81,11 +98,6 @@ class ToolbarCacheContextsTest extends BrowserTestBase {
     $this->adminUser2 = $this->drupalCreateUser(array_merge($this->perms, ['access tour']));
     $this->assertToolbarCacheContexts(['user.permissions'], 'Expected cache contexts found with tour module enabled.');
     \Drupal::service('module_installer')->uninstall(['tour']);
-
-    // Test with shortcut module enabled.
-    $this->installExtraModules(['shortcut']);
-    $this->adminUser2 = $this->drupalCreateUser(array_merge($this->perms, ['access shortcuts', 'administer shortcuts']));
-    $this->assertToolbarCacheContexts(['user'], 'Expected cache contexts found with shortcut module enabled.');
   }
 
   /**
@@ -119,12 +131,7 @@ class ToolbarCacheContextsTest extends BrowserTestBase {
     $this->drupalGet('test-page');
     $return = $return && $this->assertCacheContexts($cache_contexts);
 
-    if ($return) {
-      $this->pass($message);
-    }
-    else {
-      $this->fail($message);
-    }
+    $this->assertTrue($return, $message);
     return $return;
   }
 

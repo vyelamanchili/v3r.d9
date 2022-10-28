@@ -1,14 +1,12 @@
 <?php
 
-defined("_JEXEC") or die("Restricted access");
 /**
- * @package             Joomla
- * @subpackage          CoalaWeb Social Links Module
- * @author              Steven Palmer
- * @author url          https://coalaweb.com
- * @author email        support@coalaweb.com
- * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
+ * @package     Joomla
+ * @subpackage  CoalaWeb Social Links
+ * @author      Steven Palmer <support@coalaweb.com>
+ * @link        https://coalaweb.com/
+ * @license     GNU/GPL V3 or later; https://www.gnu.org/licenses/gpl-3.0.html
+ * @copyright   Copyright (c) 2020 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,24 +17,38 @@ defined("_JEXEC") or die("Restricted access");
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
-
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
-require_once dirname(__FILE__) . '/helper.php';			
-include_once JPATH_ADMINISTRATOR . '/components/com_coalawebsociallinks/version.php';
+
+defined('_JEXEC') or die('Restricted access');
+
+require_once dirname(__FILE__) . '/helper.php';
 
 $doc = JFactory::getDocument();
 JHtml::_('jquery.framework');
 
-//Lets get our helper functions
-$helpFunc = new ModCoalawebSocialLinksHelper();
+// Lets get our helper functions
+$help= new ModCoalawebSocialLinksHelper();
 
-//Check dependencies
-$checkOk = $helpFunc->checkDependencies();
+// Keeping the parameters in the component keeps things clean and tidy.
+$comParams = JComponentHelper::getParams('com_coalawebsociallinks');
+
+// Check dependencies
+$checkOk = $help::checkDependencies();
+// Use local param or from the component
+$debug = null !== $params->get('debug') ? $params->get('debug') : $comParams->get('debug', '0');
+if ($checkOk['ok'] === false) {
+    if ($debug === '1') {
+        JFactory::getApplication()->enqueueMessage($checkOk['msg'], $checkOk['type']);
+    }
+    return;
+}
+
+// Load component helper
+$comPath = '/components/com_coalawebsociallinks/helpers/';
+JLoader::register('CoalawebsociallinksHelper', JPATH_ADMINISTRATOR . $comPath . 'coalawebsociallinks.php');
 
 // Are we viewing on a mobile device?
-if ($checkOk === TRUE) {
+if ($checkOk['ok']) {
     $detect = new Cwmobiledetect();
     $mobile = $detect->isMobile();
     $tablet = $detect->isTablet();
@@ -44,9 +56,6 @@ if ($checkOk === TRUE) {
     $mobile = false;
     $tablet = false;
 }
-
-//Keeping the parameters in the component keeps things clean and tidy.
-$comParams = JComponentHelper::getParams('com_coalawebsociallinks');
 
 // Load the language files
 $jlang = JFactory::getLanguage();
@@ -75,7 +84,7 @@ $link = rawurlencode($link);
 
 // Let's shorten that URL!
 if($comParams->get('short_url_service', '') && $comParams->get('shorten_social_mod', 0)) {
-    $link = $helpFunc->getShortUrl($link, $params);
+    $link = $help->getShortUrl($link, $params);
 }
 
 /* Title details */
@@ -88,9 +97,8 @@ if ($titleDefault) {
 $title= rawurlencode($title);
 
 //Lets get a description
-$descDefault = $params->get('desc_default');
-if ($descDefault) {
-    $desc = $descDefault;
+if ($params->get('desc_default')) {
+    $desc = $params->get('desc_default');
 } else {
     $desc = $doc->getDescription();
 }
@@ -122,8 +130,14 @@ $icon_align = $params->get('icon_align');
 
 //Theme
 $themes_icon = $params->get('themes_icon');
+$iconEffect = $params->get('icon_effect', 'fadein');
 $size = $params->get('icon_size');
 
+$themeUpdate = CoalawebsociallinksHelper::checkTheme($themes_icon);
+if ($themeUpdate['changed'] === true){
+    $themes_icon = $themeUpdate['theme'];
+    $iconEffect = $themeUpdate['effect'];
+}
 
 //Module Settings
 $module_unique_id = 'cw-sl-' . $module->id;
@@ -160,7 +174,6 @@ $text_f = $params->get('text_f');
 
 //Follow Links
 $linkfacebook = $params->get('link_facebook');
-$linkgoogle = $params->get('link_google');
 $linklinkedin = $params->get('link_linkedin');
 $linktwitter = $params->get('link_twitter');
 $rootRss = $params->get('root_rss', 'http://');
@@ -170,6 +183,10 @@ $linkvimeo = $params->get('link_vimeo');
 $linkyoutube = $params->get('link_youtube');
 $linkdribbble = $params->get('link_dribbble');
 $linkdeviantart = $params->get('link_deviantart');
+$linkjoomla = $params->get('link_joomla', '');
+$linkyelp = $params->get('link_yelp', '');
+$linkitunes= $params->get('link_itunes', '');
+$linkweibo = $params->get('link_weibo', '');
 
 if ($params->get('link_target_contact', 'self') === 'anchor'){
     $linkcontact = $params->get('link_contact');
@@ -197,111 +214,42 @@ $linktripadvisor = $params->get('link_tripadvisor');
 $linkgithub = $params->get('link_github');
 $linkandroid = $params->get('link_android');
 
-//Icon Alternatives
-$googleIcon = ($params->get('google_alt') ? 'googleplus-alt' : 'googleplus');
-
 //Load css
 $load_layout_css = $params->get('load_layout_css');
-$urlModMedia = JURI::base(true) . '/media/coalawebsocial/modules/sociallinks/';
-$urlComMedia = JURI::base(true) . '/media/coalawebsocial/components/sociallinks/';
+$urlModMedia = JURI::base(true) . '/media/coalawebsociallinks/modules/sociallinks/';
+$urlComMedia = JURI::base(true) . '/media/coalawebsociallinks/components/sociallinks/';
 
 if ($load_layout_css) {
     $doc->addStyleSheet($urlModMedia . 'css/cw-' . $layout . '.css');
 }
 $doc->addStyleSheet($urlComMedia . 'themes-icon/' . $themes_icon . '/cwsl_style.css');
 
-if ($params->get('display_pinterest_bm', 0)) {
-    $doc->addScript(JURI::base(true) . '/media/coalaweb/modules/generic/js/pinimage.js');
-}
-
 if ($params->get('display_twitter_bm', 0) && $params->get('include_twitter_js', 1)) {
     $doc->addScript('//platform.twitter.com/widgets.js');
 }
             
 //Follow Custom Links
-if (COM_CWSOCIALLINKS_PRO == 1) {
-    //Custom One
-    if ($params->get('link_target_customone', 'self') === 'anchor'){
-        $linkcustomone = $params->get('link_customone');
-        $linkTargetCustomone = '';
-    } else {
-        $rootCustomone  = $params->get('root_customone', 'http://');
-        $linkcustomone = $rootCustomone . $params->get('link_customone');
-        $linkTargetCustomone = 'target="_' . $params->get('link_target_customone', 'self') . '"';
-    }    
-    $textcustomone = $params->get('text_customone');
-    if ($params->get('icon_customone')){
-        $iconcustomone = JURI::base(true) . '/' . $params->get('icon_customone');
-    } elseif ($params->get('icon_ext_customone')) {
-         $iconcustomone =  $params->get('icon_ext_customone');
-    } else{
-         $iconcustomone = '';
-    }
-    //Custom Two
-    if ($params->get('link_target_customtwo', 'self') === 'anchor'){
-        $linkcustomtwo = $params->get('link_customtwo');
-        $linkTargetCustomtwo = '';
-    } else {
-        $rootCustomtwo  = $params->get('root_customtwo', 'http://');
-        $linkcustomtwo = $rootCustomtwo . $params->get('link_customtwo');
-        $linkTargetCustomtwo = 'target="_' . $params->get('link_target_customtwo', 'self') . '"';
-    }
-    $textcustomtwo = $params->get('text_customtwo');
-    if ($params->get('icon_customtwo')){
-        $iconcustomtwo = JURI::base(true) . '/' . $params->get('icon_customtwo');
-    } elseif ($params->get('icon_ext_customtwo')) {
-         $iconcustomtwo =  $params->get('icon_ext_customtwo');
-    } else{
-         $iconcustomtwo = '';
-    }
-    //Custom Three
-    if ($params->get('link_target_customthree', 'self') === 'anchor'){
-        $linkcustomthree = $params->get('link_customthree');
-        $linkTargetCustomthree = '';
-    } else {
 
-        $linkcustomthree = 'http://' . $params->get('link_customthree');
-        $linkTargetCustomthree = 'target="_' . $params->get('link_target_customthree', 'self') . '"';
-    }
-    $textcustomthree = $params->get('text_customthree');
-    if ($params->get('icon_customthree')){
-        $iconcustomthree = JURI::base(true) . '/' . $params->get('icon_customthree');
-    } elseif ($params->get('icon_ext_customthree')) {
-         $iconcustomthree =  $params->get('icon_ext_customthree');
-    } else{
-         $iconcustomthree = '';
-    }
-    //Custom Styles
-    if ($params->get("display_customone_f")) {
-        $helpFunc->getCustomonestyle($themes_icon ,$iconcustomone, $size, $module_unique_id);
-    }
-    if ($params->get("display_customtwo_f")) {
-        $helpFunc->getCustomtwostyle($themes_icon ,$iconcustomtwo, $size, $module_unique_id);
-    }
-    if ($params->get("display_customthree_f")) {
-        $helpFunc->getCustomthreestyle($themes_icon ,$iconcustomthree, $size, $module_unique_id);
-    }
+//Custom One
+if ($params->get('link_target_customone', 'self') === 'anchor') {
+    $linkcustomone = $params->get('link_customone');
+    $linkTargetCustomone = '';
 } else {
-    //Custom One
-    if ($params->get('link_target_customone', 'self') === 'anchor'){
-        $linkcustomone = $params->get('link_customone');
-        $linkTargetCustomone = '';
-    } else {
-        $linkcustomone = 'http://' . $params->get('link_customone');
-        $linkTargetCustomone = 'target="_' . $params->get('link_target_customone', 'self') . '"';
-    } 
-    $textcustomone = $params->get('text_customone');
-    if ($params->get('icon_customone')){
-        $iconcustomone = JURI::base(true) . '/' . $params->get('icon_customone');
-    } elseif ($params->get('icon_ext_customone')) {
-         $iconcustomone =  $params->get('icon_ext_customone');
-    } else{
-         $iconcustomone = '';
-    }   
-    //Custom Styles
-    if ($params->get("display_customone_f")) {
-        $helpFunc->getCustomonestyle($themes_icon ,$iconcustomone, $size, $module_unique_id);
-    }
+    $rootCustomone = $params->get('root_customone', 'http://');
+    $linkcustomone = $rootCustomone . $params->get('link_customone');
+    $linkTargetCustomone = 'target="_' . $params->get('link_target_customone', 'self') . '"';
+}
+$textcustomone = $params->get('text_customone');
+if ($params->get('icon_customone')) {
+    $iconcustomone = JURI::base(true) . '/' . $params->get('icon_customone');
+} elseif ($params->get('icon_ext_customone')) {
+    $iconcustomone = $params->get('icon_ext_customone');
+} else {
+    $iconcustomone = '';
+}
+//Custom Styles
+if ($params->get("display_customone_f")) {
+    $help->getCustomonestyle($themes_icon, $iconcustomone, $size, $module_unique_id);
 }
 
 require JModuleHelper::getLayoutPath('mod_coalawebsociallinks', $params->get('layout', 'default'));

@@ -38,8 +38,8 @@ interface FieldItemInterface extends ComplexDataInterface {
    * Returns the name of the main property, if any.
    *
    * Some field items consist mainly of one main property, e.g. the value of a
-   * text field or the @code target_id @endcode of an entity reference. If the
-   * field item has no main property, the method returns NULL.
+   * text field or the target_id of an entity reference. If the field item has
+   * no main property, the method returns NULL.
    *
    * @return string|null
    *   The name of the value property, or NULL if there is none.
@@ -162,7 +162,7 @@ interface FieldItemInterface extends ComplexDataInterface {
   /**
    * Returns a renderable array for a single field item.
    *
-   * @param array $display_options
+   * @param string|array $display_options
    *   Can be either the name of a view mode, or an array of display settings.
    *   See EntityViewBuilderInterface::viewField() for more information.
    *

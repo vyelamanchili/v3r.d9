@@ -1645,3 +1645,9 @@ button.btn-primary:active {
   }
 
 }
+
+
+.field-media-wrapper .input-prepend .button-select,
+.field-media-wrapper .input-prepend .button-clear{
+  height: auto;
+}

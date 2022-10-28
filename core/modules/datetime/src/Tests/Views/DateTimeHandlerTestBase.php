@@ -14,7 +14,7 @@ use Drupal\field\Entity\FieldStorageConfig;
 /**
  * Base class for testing datetime handlers.
  *
- * @deprecated in Drupal 8.4.0 and will be removed before Drupal 9.0.0.
+ * @deprecated in drupal:8.4.0 and is removed from drupal:9.0.0.
  *   Use \Drupal\Tests\BrowserTestBase.
  */
 abstract class DateTimeHandlerTestBase extends HandlerTestBase {
@@ -43,13 +43,13 @@ abstract class DateTimeHandlerTestBase extends HandlerTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
-    parent::setUp();
+  protected function setUp($import_test_views = TRUE) {
+    parent::setUp($import_test_views);
 
     // Add a date field to page nodes.
     $node_type = NodeType::create([
       'type' => 'page',
-      'name' => 'page'
+      'name' => 'page',
     ]);
     $node_type->save();
     $fieldStorage = FieldStorageConfig::create([

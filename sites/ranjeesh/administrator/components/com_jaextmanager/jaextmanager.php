@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------
  * JA Extenstion Manager Component for J3.x
  * ------------------------------------------------------------------------
- * Copyright (C) 2004-2011 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
+ * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
  * Author: J.O.O.M Solutions Co., Ltd
  * Websites: http://www.joomlart.com - http://www.joomlancers.com
@@ -22,6 +22,10 @@ define('JACOMPONENT', 'com_jaextmanager');
 JLoader::register('JAEMController', JPATH_COMPONENT.'/controllers/controller.php');
 JLoader::register('JAEMView', JPATH_COMPONENT.'/views/view.php');
 JLoader::register('JAEMModel', JPATH_COMPONENT.'/models/model.php');
+
+if (version_compare(JVERSION, '4', 'ge')) {
+	JLoader::register('JRequest', JPATH_COMPONENT . '/lib/request.php');
+}
 
 require_once (JPATH_COMPONENT . '/controller.php');
 require_once (JPATH_COMPONENT . "/jaupdate.php");
@@ -50,27 +54,24 @@ if(JFile::exists(JPATH_COMPONENT."/installer/update/update.php")){
 if (!defined('JA_GLOBAL_SKIN')) {
 	define('JA_GLOBAL_SKIN', 1);
 	$assets = JURI::root() . 'administrator/components/com_jaextmanager/assets/';
-	JHtml::_('behavior.framework', true);
-	//JHtml::_('behavior.mootools');
-	//JHtml::_('behavior.tooltip');
+	
 	JHtml::_('behavior.modal', 'a.modal');
 	
-	JHtml::_('stylesheet', $assets . 'css/' . 'default.css', false, true);
-	JHtml::_('stylesheet', $assets . 'css/' . 'style.css', false, true);
-	JHtml::_('stylesheet', $assets . 'japopup/' . 'ja.popup.css', false, true);
-	JHtml::_('stylesheet', $assets . 'jadiffviewer/' . 'diffviewer.css', false, true);
-	JHtml::_('stylesheet', $assets . 'jatooltips/themes/default/' . 'style.css', false, true);
-	JHtml::_('stylesheet', $assets . 'jquery.alerts/' . 'jquery.alerts.css', false, true);
+	JHtml::_('stylesheet', $assets . 'css/' . 'default.css');
+	JHtml::_('stylesheet', $assets . 'css/' . 'style.css');
+	JHtml::_('stylesheet', $assets . 'japopup/' . 'ja.popup.css');
+	JHtml::_('stylesheet', $assets . 'jadiffviewer/' . 'diffviewer.css');
+	JHtml::_('stylesheet', $assets . 'jatooltips/themes/default/' . 'style.css');
+	JHtml::_('stylesheet', $assets . 'jquery.alerts/' . 'jquery.alerts.css');
 	
-	//JHtml::_('script',  $assets. 'js/'.'mootools-legacy.js', false, true);//Mootools 1.11 Legacy
-	JHtml::_('script', $assets . 'js/' . 'jquery.js', false, true);
+	JHtml::_('bootstrap.popover');
+	JHtml::_('script', $assets . 'js/' . 'js.cookie.js', false, true);
 	JHtml::_('script', $assets . 'js/' . 'jquery.event.drag-1.4.min.js', false, true);
 	JHtml::_('script', $assets . 'js/' . 'jauc.js', false, true);
 	JHtml::_('script', $assets . 'js/' . 'jatree.js', false, true);
 	JHtml::_('script', $assets . 'js/' . 'menu.js', false, true);
 	JHtml::_('script', $assets . 'japopup/' . 'ja.popup.js', false, true);
 	JHtml::_('script', $assets . 'jadiffviewer/' . 'diffviewer.js', false, true);
-	JHtml::_('script', $assets . 'jatooltips/' . 'ja.tooltips.js', false, true);
 	JHtml::_('script', $assets . 'jquery.alerts/' . 'jquery.alerts.js', false, true);
 
 }

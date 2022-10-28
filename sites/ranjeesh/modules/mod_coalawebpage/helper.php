@@ -1,31 +1,43 @@
 <?php
-defined('_JEXEC') or die('Restricted access');
+
 /**
- * @package             Joomla
- * @subpackage          CoalaWeb Page Module
- * @author              Steven Palmer
- * @author url          https://coalaweb.com
- * @author email        support@coalaweb.com
- * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
+ * @package     Joomla
+ * @subpackage  CoalaWeb Social Links
+ * @author      Steven Palmer <support@coalaweb.com>
+ * @link        https://coalaweb.com/
+ * @license     GNU/GPL V3 or later; https://www.gnu.org/licenses/gpl-3.0.html
+ * @copyright   Copyright (c) 2020 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
+
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
+
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.filesystem.file');
 
+// Load version.php
+$version_php = JPATH_ADMINISTRATOR . '/components/com_coalawebsociallinks/version.php';
+if (!defined('COM_CWSOCIALLINKS_VERSION') && JFile::exists($version_php)) {
+    include_once $version_php;
+}
+
+/**
+ * Class CoalawebPageHelper
+ */
 class CoalawebPageHelper extends JObject
 {
-
+    /**
+     * @param $pageParams
+     * @return string
+     */
     public static function getPageHtml5($pageParams)
     {
 
@@ -43,61 +55,222 @@ class CoalawebPageHelper extends JObject
         return implode("\n", $output);
     }
 
+
     /**
-     * Clean and minimize code
+     * Check dependencies
      *
-     * @param type $code
-     * @return string
+     * @return array
      */
-    private function cleanCode($code)
-    {
+    public static function checkDependencies() {
 
-        // Remove comments.
-        $pass1 = preg_replace('~//<!\[CDATA\[\s*|\s*//\]\]>~', '', $code);
-        $pass2 = preg_replace('/(?:(?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:(?<!\:|\\\)\/\/[^"\'].*))/', '', $pass1);
+        $langRoot = 'MOD_CWPAGE';
 
-        // Minimize.
-        $pass3 = str_replace(array("\r\n", "\r", "\n", "\t"), '', $pass2);
-        $pass4 = preg_replace('/ +/', ' ', $pass3); // Replace multiple spaces with single space.
-        $codeClean = trim($pass4);  // Trim the string of leading and trailing space.
+        if(!defined('COM_CWSOCIALLINKS_VERSION')){
+            $result = [
+                'ok' => false,
+                'type' => 'warning',
+                'msg' => JText::_($langRoot . '_FILE_MISSING_MESSAGE')
+            ];
 
-        return $codeClean;
+            return $result;
+
+        }
+
+        /**
+         * Gears dependencies
+         */
+        $version = (COM_CWSOCIALLINKS_MIN_GEARS_VERSION); // Minimum version
+
+        // Classes that are needed
+        $assets = [
+            'mobile' => false,
+            'count' => true,
+            'tools' => true,
+            'latest' => false
+        ];
+
+        // Check if Gears dependencies are meet and return result
+        $results = self::checkGears($version, $assets, $langRoot);
+
+        if($results['ok'] == false){
+            $result = [
+                'ok' => $results['ok'],
+                'type' => $results['type'],
+                'msg' => $results['msg']
+            ];
+
+            return $result;
+        }
+
+
+        // Lets use our tools class from Gears
+        $tools = new CwGearsHelperTools();
+
+        /**
+         * File and folder dependencies
+         * Note: JPATH_ROOT . '/' prefix will be added to file and folder names
+         */
+        $filesAndFolders = array(
+            'files' => array(
+            ),
+            'folders' => array(
+            )
+        );
+
+        // Check if they are available
+        $exists = $tools::checkFilesAndFolders($filesAndFolders, $langRoot);
+
+        // If any of the file/folder dependencies fail return
+        if($exists['ok'] == false){
+            $result = [
+                'ok' => $exists['ok'],
+                'type' => $exists['type'],
+                'msg' => $exists['msg']
+            ];
+
+            return $result;
+        }
+
+        /**
+         * Extension Dependencies
+         * Note: Plugins always need to be entered in the following format plg_type_name
+         */
+        $extensions = array(
+            'components' => array(
+                'com_coalawebsociallinks'
+            ),
+            'modules' => array(
+            ),
+            'plugins' => array(
+                'plg_system_cwfacebookjs'
+            )
+        );
+
+        // Check if they are available
+        $extExists = $tools::checkExtensions($extensions, $langRoot);
+
+        // If any of the extension dependencies fail return
+        if($extExists['ok'] == false){
+            $result = [
+                'ok' => $extExists['ok'],
+                'type' => $extExists['type'],
+                'msg' => $extExists['msg']
+            ];
+
+            return $result;
+        }
+
+        // No problems? return all good
+        $result = ['ok' => true];
+
+        return $result;
     }
 
-
     /**
-     * Check extension dependencies are available
+     * Check Gears dependencies
      *
-     * @return boolean
+     * @param $version - minimum version
+     * @param array $assets - list of required assets
+     * @param $langRoot
+     * @return array
      */
-    public static function checkDependencies()
+    public static function checkGears($version, $assets = array(), $langRoot)
     {
-        $checkOk = false;
-        $minVersion = '0.1.5';
+        jimport('joomla.filesystem.file');
 
         // Load the version.php file for the CW Gears plugin
         $version_php = JPATH_SITE . '/plugins/system/cwgears/version.php';
         if (!defined('PLG_CWGEARS_VERSION') && JFile::exists($version_php)) {
-            require_once $version_php;
+            include_once $version_php;
         }
 
-        $loadcount_php = JPATH_SITE . '/plugins/system/cwgears/helpers/loadcount.php';
+        // Is Gears installed and the right version and published?
         if (
-            JPluginHelper::isEnabled('system', 'cwgears', true) == true &&
+            JPluginHelper::isEnabled('system', 'cwgears') &&
             JFile::exists($version_php) &&
-            version_compare(PLG_CWGEARS_VERSION, $minVersion, 'ge') &&
-            JFile::exists($loadcount_php)
+            version_compare(PLG_CWGEARS_VERSION, $version, 'ge')
         ) {
+            // Base helper directory
+            $helperDir = JPATH_SITE . '/plugins/system/cwgears/helpers/';
 
-            if (!class_exists('CwGearsHelperLoadcount')) {
-                JLoader::register('CwGearsHelperLoadcount', $loadcount_php);
+            // Do we need the mobile detect class?
+            if ($assets['mobile'] == true && !class_exists('Cwmobiledetect')) {
+                $mobiledetect_php = $helperDir . 'cwmobiledetect.php';
+                if (JFile::exists($mobiledetect_php)) {
+                    JLoader::register('Cwmobiledetect', $mobiledetect_php);
+                } else {
+                    $result = [
+                        'ok' => false,
+                        'type' => 'warning',
+                        'msg' => JText::_($langRoot . '_NOGEARSPLUGIN_HELPER_MESSAGE')
+                    ];
+                    return $result;
+                }
             }
 
-            $checkOk = true;
+            // Do we need the load count class?
+            if ($assets['count'] == true && !class_exists('CwGearsHelperLoadcount')) {
+                $loadcount_php = $helperDir . 'loadcount.php';
+                if (JFile::exists($loadcount_php)) {
+                    JLoader::register('CwGearsHelperLoadcount', $loadcount_php);
+                } else {
+                    $result = [
+                        'ok' => false,
+                        'type' => 'warning',
+                        'msg' => JText::_($langRoot . '_NOGEARSPLUGIN_HELPER_MESSAGE')
+                    ];
+                    return $result;
+                }
+            }
 
+            // Do we need the tools class?
+            if ($assets['tools'] == true && !class_exists('CwGearsHelperTools')) {
+                $tools_php = $helperDir . 'tools.php';
+                if (JFile::exists($tools_php)) {
+                    JLoader::register('CwGearsHelperTools', $tools_php);
+                } else {
+                    $result = [
+                        'ok' => false,
+                        'type' => 'warning',
+                        'msg' => JText::_($langRoot . '_NOGEARSPLUGIN_HELPER_MESSAGE')
+                    ];
+                    return $result;
+                }
+            }
+
+            // Do we need the latest class?
+            if ($assets['latest'] == true && !class_exists('CwGearsLatestversion')) {
+                $latest_php = $helperDir . 'latestversion.php';
+                if (JFile::exists($latest_php)) {
+                    JLoader::register('CwGearsLatestversion', $latest_php);
+                } else {
+                    $result = [
+                        'ok' => false,
+                        'type' => 'warning',
+                        'msg' => JText::_($langRoot . '_NOGEARSPLUGIN_HELPER_MESSAGE')
+                    ];
+                    return $result;
+                }
+            }
+        } else {
+            // Looks like Gears isn't meeting the requirements
+            $result = [
+                'ok' => false,
+                'type' => 'warning',
+                'msg' => JText::sprintf($langRoot . '_NOGEARSPLUGIN_CHECK_MESSAGE', $version)
+            ];
+            return $result;
         }
 
-        return $checkOk;
-    }
+        // Set up our response array
+        $result = [
+            'ok' => true,
+            'type' => '',
+            'msg' => ''
+        ];
 
+        // Return our result
+        return $result;
+
+    }
 }

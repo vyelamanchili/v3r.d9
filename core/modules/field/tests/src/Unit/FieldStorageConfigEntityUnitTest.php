@@ -8,6 +8,7 @@
 namespace Drupal\Tests\field\Unit;
 
 use Drupal\Core\DependencyInjection\ContainerBuilder;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldException;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
@@ -22,11 +23,11 @@ use Drupal\Tests\UnitTestCase;
 class FieldStorageConfigEntityUnitTest extends UnitTestCase {
 
   /**
-   * The entity manager used for testing.
+   * The entity type manager used for testing.
    *
-   * @var \Drupal\Core\Entity\EntityManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface|\PHPUnit\Framework\MockObject\MockObject
    */
-  protected $entityManager;
+  protected $entityTypeManager;
 
   /**
    * The ID of the type of the entity under test.
@@ -38,14 +39,14 @@ class FieldStorageConfigEntityUnitTest extends UnitTestCase {
   /**
    * The UUID generator used for testing.
    *
-   * @var \Drupal\Component\Uuid\UuidInterface|\PHPUnit_Framework_MockObject_MockObject
+   * @var \Drupal\Component\Uuid\UuidInterface|\PHPUnit\Framework\MockObject\MockObject
    */
   protected $uuid;
 
   /**
    * The field type manager.
    *
-   * @var \Drupal\Core\Field\FieldTypePluginManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+   * @var \Drupal\Core\Field\FieldTypePluginManagerInterface|\PHPUnit\Framework\MockObject\MockObject
    */
   protected $fieldTypeManager;
 
@@ -53,12 +54,12 @@ class FieldStorageConfigEntityUnitTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp() {
-    $this->entityManager = $this->getMock('\Drupal\Core\Entity\EntityManagerInterface');
-    $this->uuid = $this->getMock('\Drupal\Component\Uuid\UuidInterface');
-    $this->fieldTypeManager = $this->getMock(FieldTypePluginManagerInterface::class);
+    $this->entityTypeManager = $this->createMock(EntityTypeManagerInterface::class);
+    $this->uuid = $this->createMock('\Drupal\Component\Uuid\UuidInterface');
+    $this->fieldTypeManager = $this->createMock(FieldTypePluginManagerInterface::class);
 
     $container = new ContainerBuilder();
-    $container->set('entity.manager', $this->entityManager);
+    $container->set('entity_type.manager', $this->entityTypeManager);
     $container->set('uuid', $this->uuid);
     $container->set('plugin.manager.field.field_type', $this->fieldTypeManager);
     \Drupal::setContainer($container);
@@ -69,14 +70,14 @@ class FieldStorageConfigEntityUnitTest extends UnitTestCase {
    */
   public function testCalculateDependencies() {
     // Create a mock entity type for FieldStorageConfig.
-    $fieldStorageConfigentityType = $this->getMock('\Drupal\Core\Config\Entity\ConfigEntityTypeInterface');
+    $fieldStorageConfigentityType = $this->createMock('\Drupal\Core\Config\Entity\ConfigEntityTypeInterface');
     $fieldStorageConfigentityType->expects($this->any())
       ->method('getProvider')
       ->will($this->returnValue('field'));
 
     // Create a mock entity type to attach the field to.
     $attached_entity_type_id = $this->randomMachineName();
-    $attached_entity_type = $this->getMock('\Drupal\Core\Entity\EntityTypeInterface');
+    $attached_entity_type = $this->createMock('\Drupal\Core\Entity\EntityTypeInterface');
     $attached_entity_type->expects($this->any())
       ->method('getProvider')
       ->will($this->returnValue('entity_provider_module'));
@@ -85,7 +86,7 @@ class FieldStorageConfigEntityUnitTest extends UnitTestCase {
     // ConfigEntityBase::addDependency() to get the provider of the field config
     // entity type and once in FieldStorageConfig::calculateDependencies() to
     // get the provider of the entity type that field is attached to.
-    $this->entityManager->expects($this->any())
+    $this->entityTypeManager->expects($this->any())
       ->method('getDefinition')
       ->willReturnMap([
         ['field_storage_config', TRUE, $fieldStorageConfigentityType],
@@ -191,7 +192,8 @@ class FieldStorageConfigEntityUnitTest extends UnitTestCase {
       'module' => 'test_module',
     ]);
 
-    $this->setExpectedException(FieldException::class, "Invalid enforced cardinality '$enforced_cardinality'. Allowed values: a positive integer or -1.");
+    $this->expectException(FieldException::class);
+    $this->expectExceptionMessage("Invalid enforced cardinality '$enforced_cardinality'. Allowed values: a positive integer or -1.");
     $field_storage->getCardinality();
   }
 

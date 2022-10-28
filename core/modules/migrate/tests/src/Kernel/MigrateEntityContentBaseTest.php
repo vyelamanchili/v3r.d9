@@ -2,10 +2,10 @@
 
 namespace Drupal\Tests\migrate\Kernel;
 
+use Drupal\entity_test\Entity\EntityTestMul;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\migrate\MigrateExecutable;
-use Drupal\migrate\MigrateMessage;
 use Drupal\migrate\Plugin\migrate\destination\EntityContentBase;
 use Drupal\migrate\Plugin\MigrateIdMapInterface;
 use Drupal\migrate\Plugin\MigrationInterface;
@@ -45,12 +45,17 @@ class MigrateEntityContentBaseTest extends KernelTestBase {
    */
   protected function setUp() {
     parent::setUp();
+
+    // Enable two required fields with default values: a single-value field and
+    // a multi-value field.
+    \Drupal::state()->set('entity_test.required_default_field', TRUE);
+    \Drupal::state()->set('entity_test.required_multi_default_field', TRUE);
     $this->installEntitySchema('entity_test_mul');
 
     ConfigurableLanguage::createFromLangcode('en')->save();
     ConfigurableLanguage::createFromLangcode('fr')->save();
 
-    $this->storage = $this->container->get('entity.manager')->getStorage('entity_test_mul');
+    $this->storage = $this->container->get('entity_type.manager')->getStorage('entity_test_mul');
   }
 
   /**
@@ -65,7 +70,7 @@ class MigrateEntityContentBaseTest extends KernelTestBase {
    */
   protected function assertTranslations($id, $default, $others = []) {
     $entity = $this->storage->load($id);
-    $this->assertTrue($entity, "Entity exists");
+    $this->assertNotEmpty($entity, "Entity exists");
     $this->assertEquals($default, $entity->language()->getId(), "Entity default translation");
     $translations = array_keys($entity->getTranslationLanguages(FALSE));
     sort($others);
@@ -84,10 +89,10 @@ class MigrateEntityContentBaseTest extends KernelTestBase {
       $configuration,
       'fake_plugin_id',
       [],
-      $this->getMock(MigrationInterface::class),
+      $this->createMock(MigrationInterface::class),
       $this->storage,
       [],
-      $this->container->get('entity.manager'),
+      $this->container->get('entity_field.manager'),
       $this->container->get('plugin.manager.field.field_type')
     );
   }
@@ -110,7 +115,7 @@ class MigrateEntityContentBaseTest extends KernelTestBase {
     $this->assertTranslations(1, 'en');
     $this->assertTranslations(2, 'fr');
     $this->assertTranslations(3, 'en', ['fr']);
-    $this->assertFalse($this->storage->load(4));
+    $this->assertNull($this->storage->load(4));
 
     $destination_rows = [
       // Existing default translation.
@@ -191,7 +196,7 @@ class MigrateEntityContentBaseTest extends KernelTestBase {
     ];
 
     $migration = \Drupal::service('plugin.manager.migration')->createStubMigration($definition);
-    $executable = new MigrateExecutable($migration, new MigrateMessage());
+    $executable = new MigrateExecutable($migration);
     $result = $executable->import();
     $this->assertEquals(MigrationInterface::RESULT_COMPLETED, $result);
 
@@ -239,7 +244,7 @@ class MigrateEntityContentBaseTest extends KernelTestBase {
 
     $migration = \Drupal::service('plugin.manager.migration')
       ->createStubMigration($definition);
-    $executable = new MigrateExecutable($migration, new MigrateMessage());
+    $executable = new MigrateExecutable($migration);
     $executable->import();
 
     /** @var \Drupal\migrate_entity_test\Entity\StringIdEntityTest $entity */
@@ -256,7 +261,7 @@ class MigrateEntityContentBaseTest extends KernelTestBase {
 
     $migration = \Drupal::service('plugin.manager.migration')
       ->createStubMigration($definition);
-    $executable = new MigrateExecutable($migration, new MigrateMessage());
+    $executable = new MigrateExecutable($migration);
     $executable->import();
 
     /** @var \Drupal\migrate_entity_test\Entity\StringIdEntityTest $entity */
@@ -264,6 +269,36 @@ class MigrateEntityContentBaseTest extends KernelTestBase {
     $this->assertNull($entity->version->value);
     $entity = StringIdEntityTest::load('123456789012');
     $this->assertNull($entity->version->value);
+  }
+
+  /**
+   * Tests stub rows.
+   */
+  public function testStubRows() {
+    // Create a destination.
+    $this->createDestination([]);
+
+    // Import a stub row.
+    $row = new Row([], [], TRUE);
+    $row->setDestinationProperty('type', 'test');
+    $ids = $this->destination->import($row);
+    $this->assertCount(1, $ids);
+
+    // Make sure the entity was saved.
+    $entity = EntityTestMul::load(reset($ids));
+    $this->assertInstanceOf(EntityTestMul::class, $entity);
+    // Make sure the default value was applied to the required fields.
+    $single_field_name = 'required_default_field';
+    $single_default_value = $entity->getFieldDefinition($single_field_name)->getDefaultValueLiteral();
+    $this->assertSame($single_default_value, $entity->get($single_field_name)->getValue());
+
+    $multi_field_name = 'required_multi_default_field';
+    $multi_default_value = $entity->getFieldDefinition($multi_field_name)->getDefaultValueLiteral();
+    $count = 3;
+    $this->assertCount($count, $multi_default_value);
+    for ($i = 0; $i < $count; ++$i) {
+      $this->assertSame($multi_default_value[$i], $entity->get($multi_field_name)->get($i)->getValue());
+    }
   }
 
 }

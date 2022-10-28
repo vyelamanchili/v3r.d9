@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------
  * JA Extenstion Manager Component for J3.x
  * ------------------------------------------------------------------------
- * Copyright (C) 2004-2011 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
+ * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
  * Author: J.O.O.M Solutions Co., Ltd
  * Websites: http://www.joomlart.com - http://www.joomlancers.com
@@ -193,7 +193,7 @@ class JaextmanagerModelDefault extends JAEMModel
 		$filter = " AND (`type` = " . implode(" OR `type` = ", $this->supportedTypes) . ") ";
 		
 		//filter by core extensions
-		$filter .= "AND `element` <> " . implode(" AND `element` <> ", $this->coreExts) . " ";
+		$filter .= "AND (folder = 'jamegafilter' OR folder = 'jagdpr' OR `element` <> " . implode(" AND `element` <> ", $this->coreExts) . ") ";
 		
 		//filter by keyword
 		$filter .= "AND (name LIKE '%{$keyword}%' OR '' = '{$keyword}') ";
@@ -208,7 +208,7 @@ class JaextmanagerModelDefault extends JAEMModel
 			$aIds = $this->_splitTypes($cIds);
 			$filter .= "AND extension_id IN (" . implode(',', $aIds) . ") ";
 		}
-		
+
 		return $filter;
 	}
 
@@ -255,7 +255,7 @@ class JaextmanagerModelDefault extends JAEMModel
 		$sFilter = $this->_getFilterExtensions();
 		
 		$db = JFactory::getDbo();
-		
+
 		$query = "
 				SELECT 
 					`type`, `element` AS extKey,
@@ -265,7 +265,7 @@ class JaextmanagerModelDefault extends JAEMModel
 				WHERE (`type` = " . $db->Quote($type) . " OR '' = " . $db->Quote($type) . ")
 				AND `element` NOT LIKE '%jaupdater.%'
 				{$sFilter}
-				GROUP BY extension_id
+				GROUP BY extension_id, `type`, `element`, name, params, protected, `state`, client_id, folder
 				ORDER BY `type`, `name`
 				LIMIT {$limitstart}, {$limit}";
 		//echo nl2br($query);
@@ -462,7 +462,7 @@ class JaextmanagerModelDefault extends JAEMModel
 				check_date = '" . date('Y-m-d H:i:s') . "',
 				check_info = '" . addslashes($status) . "'";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 
@@ -918,7 +918,7 @@ class JaextmanagerModelDefault extends JAEMModel
 		
 		$query = "UPDATE #__extensions SET params =" . $db->Quote($sConfig) . " WHERE `element` = 'com_jaextmanager'";
 		$db->setQuery($query);
-		$result = $db->query();
+		$result = $db->execute();
 		return $result;
 	}
 
@@ -938,7 +938,7 @@ class JaextmanagerModelDefault extends JAEMModel
 						service_id = " . $db->Quote($service_id) . "
 					";
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 		}
 	}

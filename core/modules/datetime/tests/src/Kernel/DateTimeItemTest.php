@@ -5,10 +5,12 @@ namespace Drupal\Tests\datetime\Kernel;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\entity_test\Entity\EntityTest;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\Tests\field\Kernel\FieldKernelTestBase;
 use Drupal\field\Entity\FieldStorageConfig;
+use PHPUnit\Framework\AssertionFailedError;
 
 /**
  * Tests the new entity API for the date field type.
@@ -76,23 +78,26 @@ class DateTimeItemTest extends FieldKernelTestBase {
     // Verify entity has been created properly.
     $id = $entity->id();
     $entity = EntityTest::load($id);
-    $this->assertTrue($entity->field_datetime instanceof FieldItemListInterface, 'Field implements interface.');
-    $this->assertTrue($entity->field_datetime[0] instanceof FieldItemInterface, 'Field item implements interface.');
+    $this->assertInstanceOf(FieldItemListInterface::class, $entity->field_datetime);
+    $this->assertInstanceOf(FieldItemInterface::class, $entity->field_datetime[0]);
     $this->assertEqual($entity->field_datetime->value, $value);
     $this->assertEqual($entity->field_datetime[0]->value, $value);
-    $this->assertEquals(DATETIME_STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
+    $this->assertEqual(DateTimeItemInterface::STORAGE_TIMEZONE, $entity->field_datetime[0]->getProperties()['value']->getDateTime()->getTimeZone()->getName());
+    $this->assertEquals(DateTimeItemInterface::STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
 
     // Verify changing the date value.
     $new_value = '2016-11-04T00:21:00';
     $entity->field_datetime->value = $new_value;
     $this->assertEqual($entity->field_datetime->value, $new_value);
-    $this->assertEquals(DATETIME_STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
+    $this->assertEqual(DateTimeItemInterface::STORAGE_TIMEZONE, $entity->field_datetime[0]->getProperties()['value']->getDateTime()->getTimeZone()->getName());
+    $this->assertEquals(DateTimeItemInterface::STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
 
     // Read changed entity and assert changed values.
     $this->entityValidateAndSave($entity);
     $entity = EntityTest::load($id);
     $this->assertEqual($entity->field_datetime->value, $new_value);
-    $this->assertEquals(DATETIME_STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
+    $this->assertEqual(DateTimeItemInterface::STORAGE_TIMEZONE, $entity->field_datetime[0]->getProperties()['value']->getDateTime()->getTimeZone()->getName());
+    $this->assertEquals(DateTimeItemInterface::STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
 
     // Test the generateSampleValue() method.
     $entity = EntityTest::create();
@@ -117,27 +122,39 @@ class DateTimeItemTest extends FieldKernelTestBase {
     // Verify entity has been created properly.
     $id = $entity->id();
     $entity = EntityTest::load($id);
-    $this->assertTrue($entity->field_datetime instanceof FieldItemListInterface, 'Field implements interface.');
-    $this->assertTrue($entity->field_datetime[0] instanceof FieldItemInterface, 'Field item implements interface.');
+    $this->assertInstanceOf(FieldItemListInterface::class, $entity->field_datetime);
+    $this->assertInstanceOf(FieldItemInterface::class, $entity->field_datetime[0]);
     $this->assertEqual($entity->field_datetime->value, $value);
     $this->assertEqual($entity->field_datetime[0]->value, $value);
-    $this->assertEquals(DATETIME_STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
+    $this->assertEquals(DateTimeItemInterface::STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
+    $this->assertEquals('12:00:00', $entity->field_datetime->date->format('H:i:s'));
+    $entity->field_datetime->date->setDefaultDateTime();
+    $this->assertEquals('12:00:00', $entity->field_datetime->date->format('H:i:s'));
 
     // Verify changing the date value.
     $new_value = '2016-11-04';
     $entity->field_datetime->value = $new_value;
     $this->assertEqual($entity->field_datetime->value, $new_value);
-    $this->assertEquals(DATETIME_STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
+    $this->assertEquals(DateTimeItemInterface::STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
+    $this->assertEquals('12:00:00', $entity->field_datetime->date->format('H:i:s'));
+    $entity->field_datetime->date->setDefaultDateTime();
+    $this->assertEquals('12:00:00', $entity->field_datetime->date->format('H:i:s'));
 
     // Read changed entity and assert changed values.
     $this->entityValidateAndSave($entity);
     $entity = EntityTest::load($id);
     $this->assertEqual($entity->field_datetime->value, $new_value);
-    $this->assertEquals(DATETIME_STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
+    $this->assertEquals(DateTimeItemInterface::STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
+    $this->assertEquals('12:00:00', $entity->field_datetime->date->format('H:i:s'));
+    $entity->field_datetime->date->setDefaultDateTime();
+    $this->assertEquals('12:00:00', $entity->field_datetime->date->format('H:i:s'));
 
     // Test the generateSampleValue() method.
     $entity = EntityTest::create();
     $entity->field_datetime->generateSampleItems();
+    $this->assertEquals('12:00:00', $entity->field_datetime->date->format('H:i:s'));
+    $entity->field_datetime->date->setDefaultDateTime();
+    $this->assertEquals('12:00:00', $entity->field_datetime->date->format('H:i:s'));
     $this->entityValidateAndSave($entity);
   }
 
@@ -158,7 +175,7 @@ class DateTimeItemTest extends FieldKernelTestBase {
     $id = $entity->id();
     $entity = EntityTest::load($id);
     $this->assertEqual($entity->field_datetime[0]->value, $value, 'DateTimeItem::setValue() works with string value.');
-    $this->assertEquals(DATETIME_STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
+    $this->assertEquals(DateTimeItemInterface::STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
 
     // Test DateTimeItem::setValue() using property array.
     $entity = EntityTest::create();
@@ -169,7 +186,7 @@ class DateTimeItemTest extends FieldKernelTestBase {
     $id = $entity->id();
     $entity = EntityTest::load($id);
     $this->assertEqual($entity->field_datetime[0]->value, $value, 'DateTimeItem::setValue() works with array value.');
-    $this->assertEquals(DATETIME_STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
+    $this->assertEquals(DateTimeItemInterface::STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
 
     // Test a date-only field.
     $this->fieldStorage->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE);
@@ -184,7 +201,7 @@ class DateTimeItemTest extends FieldKernelTestBase {
     $id = $entity->id();
     $entity = EntityTest::load($id);
     $this->assertEqual($entity->field_datetime[0]->value, $value, 'DateTimeItem::setValue() works with string value.');
-    $this->assertEquals(DATETIME_STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
+    $this->assertEquals(DateTimeItemInterface::STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
 
     // Test DateTimeItem::setValue() using property array.
     $entity = EntityTest::create();
@@ -195,7 +212,7 @@ class DateTimeItemTest extends FieldKernelTestBase {
     $id = $entity->id();
     $entity = EntityTest::load($id);
     $this->assertEqual($entity->field_datetime[0]->value, $value, 'DateTimeItem::setValue() works with array value.');
-    $this->assertEquals(DATETIME_STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
+    $this->assertEquals(DateTimeItemInterface::STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
   }
 
   /**
@@ -215,7 +232,7 @@ class DateTimeItemTest extends FieldKernelTestBase {
     $id = $entity->id();
     $entity = EntityTest::load($id);
     $this->assertEqual($entity->field_datetime[0]->value, $value, '"Value" property can be set directly.');
-    $this->assertEquals(DATETIME_STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
+    $this->assertEquals(DateTimeItemInterface::STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
 
     // Test Date::setValue() with a date-only field.
     // Test a date+time field.
@@ -230,7 +247,7 @@ class DateTimeItemTest extends FieldKernelTestBase {
     $id = $entity->id();
     $entity = EntityTest::load($id);
     $this->assertEqual($entity->field_datetime[0]->value, $value, '"Value" property can be set directly.');
-    $this->assertEquals(DATETIME_STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
+    $this->assertEquals(DateTimeItemInterface::STORAGE_TIMEZONE, $entity->field_datetime->date->getTimeZone()->getName());
   }
 
   /**
@@ -239,7 +256,7 @@ class DateTimeItemTest extends FieldKernelTestBase {
    * @dataProvider datetimeValidationProvider
    */
   public function testDatetimeValidation($value) {
-    $this->setExpectedException(\PHPUnit_Framework_AssertionFailedError::class);
+    $this->expectException(AssertionFailedError::class);
 
     $this->fieldStorage->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATETIME);
     $this->fieldStorage->save();
@@ -299,7 +316,7 @@ class DateTimeItemTest extends FieldKernelTestBase {
    * @dataProvider dateonlyValidationProvider
    */
   public function testDateonlyValidation($value) {
-    $this->setExpectedException(\PHPUnit_Framework_AssertionFailedError::class);
+    $this->expectException(AssertionFailedError::class);
 
     $this->fieldStorage->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE);
     $this->fieldStorage->save();

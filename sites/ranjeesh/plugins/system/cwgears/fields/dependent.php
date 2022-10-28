@@ -1,27 +1,25 @@
 <?php
 
-defined('_JEXEC') or die('Restricted access');
-
 /**
- * @package             Joomla
- * @subpackage          CoalaWeb Dependent Element
- * @author              Steven Palmer
- * @author url          https://coalaweb.com
- * @author email        support@coalaweb.com
- * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
+ * @package     Joomla
+ * @subpackage  CoalaWeb Gears
+ * @author      Steven Palmer <support@coalaweb.com>
+ * @link        https://coalaweb.com/
+ * @license     GNU/GPL V3 or later; https://www.gnu.org/licenses/gpl-3.0.html
+ * @copyright   Copyright (c) 2020 Steven Palmer All rights reserved.
  *
  * CoalaWeb Gears is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
+
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html>.
  */
+
+defined('_JEXEC') or die('Restricted access');
 
 JFormHelper::loadFieldClass('note');
 
@@ -53,7 +51,7 @@ class JFormFieldDependent extends JFormFieldNote
         }
 
         $description = (string)$this->element['description'];
-        $label = (string)$this->element['label'];
+        $langRoot = (string)$this->element['label'];
 
         $html = array();
 
@@ -63,22 +61,31 @@ class JFormFieldDependent extends JFormFieldNote
             case "com":
                 $url = JPATH_ADMINISTRATOR . '/' . 'components/' . $description . '/version.php';
                 $check = JComponentHelper::isEnabled($description, true);
+                if (!file_exists($url) || !$check) {
+                    $html[] = '<div class="alert alert-warning"><span class="icon-notification"></span><button type="button" class="close" data-dismiss="alert">&times;</button>' . JText::sprintf($langRoot . '_NOEXT_CHECK_MESSAGE', $description);
+                    return '</div>' . implode('', $html);
+                }
                 break;
             case "mod":
                 $url = JPATH_SITE . '/' . 'modules/' . $description . '/version.php';
+                $check = JModuleHelper::isEnabled($description, true);
+                if (!file_exists($url) || !$check) {
+                    $html[] = '<div class="alert alert-warning"><span class="icon-notification"></span><button type="button" class="close" data-dismiss="alert">&times;</button>' . JText::sprintf($langRoot . '_NOEXT_CHECK_MESSAGE', $description);
+                    return '</div>' . implode('', $html);
+                }
                 break;
             case "plg":
                 $url = JPATH_SITE . '/' . 'plugins/' . $arr[1] . '/' . $arr[2] . '/version.php';
                 $check = JPluginHelper::isEnabled($arr[1], $arr[2], true);
+                if (!file_exists($url) || !$check) {
+                    $html[] = '<div class="alert alert-warning"><span class="icon-notification"></span><button type="button" class="close" data-dismiss="alert">&times;</button>' . JText::sprintf($langRoot . '_NOEXT_CHECK_MESSAGE', $description);
+                    return '</div>' . implode('', $html);
+                }
                 break;
         }
 
-        if (!file_exists($url) || !$check) {
-            $html[] = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button>' . JText::_($label . '_MSG_DEPENDENT');
-            return '</div>' . implode('', $html);
-        } else {
-            return '';
-        }
+        return;
+
     }
 
     /**

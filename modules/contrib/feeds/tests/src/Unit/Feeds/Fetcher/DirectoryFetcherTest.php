@@ -3,10 +3,11 @@
 namespace Drupal\Tests\feeds\Unit\Feeds\Fetcher;
 
 use Drupal\Core\DependencyInjection\ContainerBuilder;
-use Drupal\Core\Form\FormState;
+use Drupal\feeds\Exception\EmptyFeedException;
 use Drupal\feeds\Feeds\Fetcher\DirectoryFetcher;
 use Drupal\feeds\State;
 use Drupal\Tests\feeds\Unit\FeedsUnitTestCase;
+use RuntimeException;
 
 /**
  * @coversDefaultClass \Drupal\feeds\Feeds\Fetcher\DirectoryFetcher
@@ -14,14 +15,34 @@ use Drupal\Tests\feeds\Unit\FeedsUnitTestCase;
  */
 class DirectoryFetcherTest extends FeedsUnitTestCase {
 
+  /**
+   * The Feeds fetcher plugin under test.
+   *
+   * @var \Drupal\feeds\Feeds\Fetcher\DirectoryFetcher
+   */
   protected $fetcher;
+
+  /**
+   * The state object.
+   *
+   * @var \Drupal\feeds\StateInterface
+   */
   protected $state;
+
+  /**
+   * The feed entity.
+   *
+   * @var \Drupal\feeds\FeedInterface
+   */
   protected $feed;
 
+  /**
+   * {@inheritdoc}
+   */
   public function setUp() {
     parent::setUp();
 
-    $feed_type = $this->getMock('Drupal\feeds\FeedTypeInterface');
+    $feed_type = $this->createMock('Drupal\feeds\FeedTypeInterface');
     $container = new ContainerBuilder();
     $container->set('stream_wrapper_manager', $this->getMockStreamWrapperManager());
     $this->fetcher = new DirectoryFetcher(['feed_type' => $feed_type], 'directory', []);
@@ -29,7 +50,7 @@ class DirectoryFetcherTest extends FeedsUnitTestCase {
 
     $this->state = new State();
 
-    $this->feed = $this->getMock('Drupal\feeds\FeedInterface');
+    $this->feed = $this->createMock('Drupal\feeds\FeedInterface');
     $this->feed->expects($this->any())
       ->method('getSource')
       ->will($this->returnValue('vfs://feeds'));
@@ -45,8 +66,13 @@ class DirectoryFetcherTest extends FeedsUnitTestCase {
     touch('vfs://feeds/subdir/test_file_4.mp3');
   }
 
+  /**
+   * Tests fetching a file.
+   *
+   * @covers ::fetch
+   */
   public function testFetchFile() {
-    $feed = $this->getMock('Drupal\feeds\FeedInterface');
+    $feed = $this->createMock('Drupal\feeds\FeedInterface');
     $feed->expects($this->any())
       ->method('getSource')
       ->will($this->returnValue('vfs://feeds/test_file_1.txt'));
@@ -55,7 +81,9 @@ class DirectoryFetcherTest extends FeedsUnitTestCase {
   }
 
   /**
-   * @expectedException \RuntimeException
+   * Tests fetching from a directory on which we don't have read permissions.
+   *
+   * @covers ::fetch
    */
   public function testFetchDir() {
     $result = $this->fetcher->fetch($this->feed, $this->state);
@@ -64,9 +92,15 @@ class DirectoryFetcherTest extends FeedsUnitTestCase {
     $this->assertSame('vfs://feeds/test_file_2.txt', $this->fetcher->fetch($this->feed, $this->state)->getFilePath());
 
     chmod('vfs://feeds', 0333);
+    $this->expectException(RuntimeException::class);
     $result = $this->fetcher->fetch($this->feed, $this->state);
   }
 
+  /**
+   * Tests fetching a directory resursively.
+   *
+   * @covers ::fetch
+   */
   public function testRecursiveFetchDir() {
     $this->fetcher->setConfiguration(['recursive_scan' => TRUE]);
 
@@ -78,14 +112,18 @@ class DirectoryFetcherTest extends FeedsUnitTestCase {
   }
 
   /**
-   * @expectedException \Drupal\feeds\Exception\EmptyFeedException
+   * Tests fetching an empty directory.
+   *
+   * @covers ::fetch
    */
   public function testEmptyDirectory() {
     mkdir('vfs://feeds/emptydir');
-    $feed = $this->getMock('Drupal\feeds\FeedInterface');
+    $feed = $this->createMock('Drupal\feeds\FeedInterface');
     $feed->expects($this->any())
       ->method('getSource')
       ->will($this->returnValue('vfs://feeds/emptydir'));
+
+    $this->expectException(EmptyFeedException::class);
     $result = $this->fetcher->fetch($feed, $this->state);
   }
 

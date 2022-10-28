@@ -1,13 +1,12 @@
 <?php
 
 /**
- * @package             Joomla
- * @subpackage          CoalaWeb Social Links Component
- * @author              Steven Palmer
- * @author url          https://coalaweb.com
- * @author email        support@coalaweb.com
- * @license             GNU/GPL, see /assets/en-GB.license.txt
- * @copyright           Copyright (c) 2017 Steven Palmer All rights reserved.
+ * @package     Joomla
+ * @subpackage  CoalaWeb Social Links
+ * @author      Steven Palmer <support@coalaweb.com>
+ * @link        https://coalaweb.com/
+ * @license     GNU/GPL V3 or later; https://www.gnu.org/licenses/gpl-3.0.html
+ * @copyright   Copyright (c) 2020 Steven Palmer All rights reserved.
  *
  * CoalaWeb Social Links is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,9 +17,6 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
-
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/gpl.html/>.
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -34,29 +30,5 @@ jimport('joomla.application.component.model');
  * @subpackage com_coalawebsociallinks
  */
 class CoalawebsociallinksModelControlpanel extends JModelLegacy {
-    
-    /**
-     * Check if a download ID is needed (Pro versions)
-     * 
-     * @return boolean
-     */
-    public function needsDownloadID() {
-        // Do I need a Download ID?
-        $ret = true;
-        $isPro = defined('COM_CWSOCIALLINKS_PRO') ? COM_CWSOCIALLINKS_PRO : 0;
-        if (!$isPro) {
-            $ret = false;
-        } else {
-            jimport('joomla.application.component.helper');
-            $componentParams = JComponentHelper::getParams('com_coalawebsociallinks');
-            $dlid = $componentParams->get('downloadid');
-            
-            if (preg_match('/^([0-9]{1,}:)?[0-9a-f]{32}$/i', $dlid)) {
-                $ret = false;
-            }
-        }
-
-        return $ret;
-    }
 
 }

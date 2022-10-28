@@ -11,10 +11,12 @@ use Drupal\migrate_drupal\Plugin\migrate\cckfield\CckFieldPluginBase;
 /**
  * @MigrateCckField(
  *   id = "file",
- *   core = {7}
+ *   core = {7},
+ *   source_module = "file",
+ *   destination_module = "file"
  * )
  *
- * @deprecated in Drupal 8.3.x, to be removed before Drupal 9.0.x. Use
+ * @deprecated in drupal:8.3.0 and is removed from drupal:9.0.0. Use
  * \Drupal\file\Plugin\migrate\field\d7\FileField instead.
  *
  * @see https://www.drupal.org/node/2751897
@@ -49,7 +51,7 @@ class FileField extends CckFieldPluginBase {
    */
   public function processCckFieldValues(MigrationInterface $migration, $field_name, $data) {
     $process = [
-      'plugin' => 'iterator',
+      'plugin' => 'sub_process',
       'source' => $field_name,
       'process' => [
         'target_id' => 'fid',

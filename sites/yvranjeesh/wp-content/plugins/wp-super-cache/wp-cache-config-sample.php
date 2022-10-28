@@ -21,7 +21,7 @@ $ossdlcdn = 0;
 $cache_acceptable_files = array( 'wp-comments-popup.php', 'wp-links-opml.php', 'wp-locations.php' );
 
 $cache_rejected_uri = array('wp-.*\\.php', 'index\\.php');
-$cache_rejected_user_agent = array ( 0 => 'bot', 1 => 'ia_archive', 2 => 'slurp', 3 => 'crawl', 4 => 'spider', 5 => 'Yandex' );
+$cache_rejected_user_agent = array();
 
 $cache_rebuild_files = 1;
 
@@ -54,7 +54,6 @@ $wp_super_cache_front_page_clear = 0;
 $wp_super_cache_front_page_check = 0;
 $wp_super_cache_front_page_notification = '0';
 
-$wp_cache_object_cache = 0;
 $wp_cache_anon_only = 0;
 $wp_supercache_cache_list = 0;
 $wp_cache_debug_to_file = 0;
@@ -102,4 +101,5 @@ $cache_gc_email_me = 0;
 $wpsc_save_headers = 0;
 $cache_schedule_interval = 'daily';
 $wp_super_cache_comments = 1;
+$wpsc_version = 169;
 ?>

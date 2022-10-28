@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 class YamlTest extends TestCase {
 
   /**
-   * @var \PHPUnit_Framework_MockObject_MockObject
+   * @var \PHPUnit\Framework\MockObject\MockObject
    */
   protected $mockParser;
 
@@ -77,20 +77,41 @@ class YamlTest extends TestCase {
   }
 
   /**
-   * Ensures that decoding php objects is similar for PECL and Symfony.
+   * Ensures that decoding php objects does not work in PECL.
    *
    * @requires extension yaml
+   *
+   * @see \Drupal\Tests\Component\Serialization\YamlTest::testObjectSupportDisabledSymfony()
    */
-  public function testObjectSupportDisabled() {
+  public function testObjectSupportDisabledPecl() {
     $object = new \stdClass();
     $object->foo = 'bar';
     // In core all Yaml encoding is done via Symfony and it does not support
-    // objects so in order to encode an object we hace to use the PECL
+    // objects so in order to encode an object we have to use the PECL
     // extension.
     // @see \Drupal\Component\Serialization\Yaml::encode()
     $yaml = YamlPecl::encode([$object]);
     $this->assertEquals(['O:8:"stdClass":1:{s:3:"foo";s:3:"bar";}'], YamlPecl::decode($yaml));
-    $this->assertEquals(['!php/object "O:8:\"stdClass\":1:{s:3:\"foo\";s:3:\"bar\";}"'], YamlSymfony::decode($yaml));
+  }
+
+  /**
+   * Ensures that decoding php objects does not work in Symfony.
+   *
+   * @requires extension yaml
+   *
+   * @see \Drupal\Tests\Component\Serialization\YamlTest::testObjectSupportDisabledPecl()
+   */
+  public function testObjectSupportDisabledSymfony() {
+    $this->expectException(InvalidDataTypeException::class);
+    $this->expectExceptionMessageRegExp('/^Object support when parsing a YAML file has been disabled/');
+    $object = new \stdClass();
+    $object->foo = 'bar';
+    // In core all Yaml encoding is done via Symfony and it does not support
+    // objects so in order to encode an object we have to use the PECL
+    // extension.
+    // @see \Drupal\Component\Serialization\Yaml::encode()
+    $yaml = YamlPecl::encode([$object]);
+    YamlSymfony::decode($yaml);
   }
 
   /**
@@ -101,11 +122,11 @@ class YamlTest extends TestCase {
     $dirs = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(__DIR__ . '/../../../../../', \RecursiveDirectoryIterator::FOLLOW_SYMLINKS));
     foreach ($dirs as $dir) {
       $pathname = $dir->getPathname();
-      // Exclude vendor.
-      if ($dir->getExtension() == 'yml' && strpos($pathname, '/../../../../../vendor') === FALSE) {
+      // Exclude core/node_modules.
+      if ($dir->getExtension() == 'yml' && strpos($pathname, '/../../../../../node_modules') === FALSE) {
         if (strpos($dir->getRealPath(), 'invalid_file') !== FALSE) {
           // There are some intentionally invalid files provided for testing
-          // library API behaviours, ignore them.
+          // library API behaviors, ignore them.
           continue;
         }
         $files[] = [$dir->getRealPath()];
