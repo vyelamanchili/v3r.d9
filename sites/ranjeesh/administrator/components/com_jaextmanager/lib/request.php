@@ -528,7 +528,7 @@ class JRequest
 		elseif ($mask & 4)
 		{
 			// If the allow HTML flag is set, apply a safe HTML filter to the variable
-			$safeHtmlFilter = JFilterInput::getInstance(null, null, 1, 1);
+			$safeHtmlFilter = JFilterInput::getInstance(array(), array(), 1, 1);
 			$var = $safeHtmlFilter->clean($var, $type);
 		}
 		else

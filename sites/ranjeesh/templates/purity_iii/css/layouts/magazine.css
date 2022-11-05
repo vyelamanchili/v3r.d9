@@ -6,8 +6,8 @@
 .magazine-featured-leading:after,
 .magazine-featured-intro:after,
 .magazine-category:after {
-  content: " ";
   display: table;
+  content: " ";
 }
 .magazine-item:after,
 .magazine-featured-leading:after,

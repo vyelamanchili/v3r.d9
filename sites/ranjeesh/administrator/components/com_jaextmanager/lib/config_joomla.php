@@ -1,7 +1,7 @@
 <?php
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -30,10 +30,8 @@ function jaucRaiseMessage($message, $error = false)
 	if (!empty($message)) {
 		if ($error) {
 			echo "<div style=\"color:red; font-weight:bold;\">$message</div>";
-			JError::raiseWarning(100, $message);
 		} else {
 			echo "<div style=\"color:green; font-weight:bold;\">$message</div>";
-			JError::raiseNotice(100, $message);
 		}
 	}
 }

@@ -19,5 +19,6 @@ defined('_JEXEC') or die;
 		, ADMIN_URL : '<?php echo JUri::root(true) ?>/administrator/index.php?option=com_maximenuck'
 		, FRONT_URL : '<?php echo JUri::root(true) ?>/index.php?option=com_maximenuck'
 		, BASE_URL : '<?php echo JUri::base(true) ?>/index.php?option=com_maximenuck'
+		, ISJ4 : '<?php echo version_compare(JVERSION, "4") ?>'
 	};
 </script>

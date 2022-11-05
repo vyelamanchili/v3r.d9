@@ -35,9 +35,68 @@ function ckInitTabs(wrap, allowClose) {
 	});
 }
 
-function ckCallImageManagerPopup(id) {
-	CKBox.open({handler: 'iframe', url: 'index.php?option=com_maximenuck&view=browse&type=image&func=ckSelectFile&field='+id+'&tmpl=component'});
+function ckCallImageManagerPopup(id, type) {
+	if (MAXIMENUCK.ISJ4 == '1') {
+		$boxfooterhtml = '<a class="ckboxmodal-button" href="javascript:void(0);" onclick="ckGetJ4Image(\'' + id + '\');CKBox.close(this);">' + Joomla.Text._('CK_SAVE_CLOSE') + '</a>';
+		CKBox.open({id: 'ckmediamanager', handler: 'iframe', url: MAXIMENUCK.URIROOT + '/administrator/index.php?option=com_media&view=media&e_name='+id+'&tmpl=component'
+		, footerHtml: $boxfooterhtml});
+	} else {
+		if (! type) type = 'image';
+		CKBox.open({id: 'ckmediamanager', handler: 'iframe', url: MAXIMENUCK.ADMIN_URL + '&view=browse&type=' + type + '&func=ckSelectFile&field='+id+'&tmpl=component'});
+	}
 }
+
+// automatically catch the event for the J4 media manager
+window.document.addEventListener('onMediaFileSelected', e => {
+	MAXIMENUCK.selectedImage = e.detail;
+});
+
+function ckGetJ4Image(field_id) {
+	var data = MAXIMENUCK.selectedImage;
+	if (!data || typeof data === 'object' && (!data.path || data.path === '')) {
+	  Joomla.selectedFile = {};
+	  // resolve({
+		// resp: {
+		  // success: false
+		// }
+	  // });
+	  return;
+	}
+
+	const execTransform = (resp) => {
+		if (resp.success === true) {
+		  if (resp.data[0].url) {
+			if (/local-/.test(resp.data[0].adapter)) {
+			  // const {
+				// rootFull
+			  // } = Joomla.getOptions('system.paths'); // eslint-disable-next-line prefer-destructuring
+
+			  // Joomla.selectedFile.url = resp.data[0].url.split(rootFull)[1];
+			  // }
+			  var imageurl = resp.data[0].url.split(MAXIMENUCK.URIROOTABS)[1];
+			  ckSelectFile(imageurl, field_id);
+			} else if (resp.data[0].thumb_path) {
+			  Joomla.selectedFile.thumb = resp.data[0].thumb_path;
+			}
+		  } else {
+			Joomla.selectedFile.url = false;
+		  }
+		}
+	}
+
+	$ck.ajax({
+		url: MAXIMENUCK.URIROOT + '/administrator/index.php?option=com_media&format=json&task=api.files&url=true&path=' + data.path + '&format=json&' + MAXIMENUCK.TOKEN,
+	})
+	.done(function( response ) {
+		const resp = JSON.parse(response);
+		execTransform(resp);
+		MAXIMENUCK.selectedImage = {}; // empty the image selection
+	})
+	.fail(function() {
+		alert('FAILED');
+	});
+}
+
 
 function ckCallVideoManagerPopup(id) {
 	CKBox.open({handler: 'iframe', url: 'index.php?option=com_maximenuck&view=browse&type=video&func=ckSelectVideo&field='+id+'&tmpl=component'});
@@ -49,6 +108,7 @@ function ckSelectFile(file, field) {
 		return;
 	}
 	$ck('#'+field).val(file).trigger('change');
+	CKBox.close('#ckmediamanager')
 }
 
 function ckSelectFolder(path, field) {
@@ -116,7 +176,7 @@ function ckMakeJsonFields(wrapper) {
 		el = $ck(el);
 		if (el.attr('type') == 'radio') {
 			if (el.attr('checked')) {
-				fields[el.attr('name')] = el.attr('value');
+				fields[el.attr('name')] = el.val();
 			} else {
 				// fields[el.attr('id')] = '';
 			}
@@ -127,7 +187,7 @@ function ckMakeJsonFields(wrapper) {
 				fields[el.attr('name')] = '0';
 			}
 		} else {
-			fields[el.attr('name')] = el.attr('value')
+			fields[el.attr('name')] = el.val()
 				.replace(/"/g, '|qq|')
 				.replace(/{/g, '|ob|')
 				.replace(/}/g, '|cb|')

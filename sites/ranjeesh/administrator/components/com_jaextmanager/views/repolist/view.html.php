@@ -32,8 +32,6 @@ class JaextmanagerViewRepolist extends JAEMView
 		//$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'details', 'word');
 		$style = "details";
 		
-		JHtml::_('behavior.framework', true);
-		
 		$document = JFactory::getDocument();
 		$document->addStyleSheet('components/com_jaextmanager/assets/repo_manager/repolist-' . $style . '.css');
 		

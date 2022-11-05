@@ -375,7 +375,7 @@ class modMaximenuckHelper {
 						}
 					}
 				}
-
+				$item->fparams = $item->params;
 				$lastitem = $i;
 			} // end of boucle for each items
 

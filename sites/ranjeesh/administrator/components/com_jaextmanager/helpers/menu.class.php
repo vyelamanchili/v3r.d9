@@ -1,7 +1,7 @@
 <?php
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -152,7 +152,7 @@ if (!defined('_JA_BASE_MENU_CLASS')) {
 		}
 
 
-		function beginMenuItem($item = null, $level)
+		function beginMenuItem($item = null, $level = 0)
 		{
 			echo "<li " . $this->getclass($item, $level) . ">";
 		}

@@ -19,19 +19,8 @@ $direction = $langdirection == 'rtl' ? 'right' : 'left';
 			<?php require dirname(__FILE__) . '/_mobile.php'; ?>
             <ul<?php echo $microdata_ul ?> class="<?php echo $params->get('moduleclass_sfx'); ?> maximenuck" style="position:relative;" >
 				<?php
-				if ($logoimage) {
-					$logoheight = $logoheight ? ' height="' . $logoheight . '"' : '';
-					$logowidth = $logowidth ? ' width="' . $logowidth . '"' : '';
-					$logofloat = ($params->get('orientation', 'horizontal') == 'vertical') ? '' : 'float: ' . $params->get('logoposition', 'left') . ';';
-					$styles = ' style="' . $logofloat . 'margin: ' . $params->get('logomargintop', '0') . 'px ' . $params->get('logomarginright', '0') . 'px ' . $params->get('logomarginbottom', '0') . 'px ' . $params->get('logomarginleft', '0') . 'px' . '"';
-					$logolinkstart = $logolink ? '<a href="' . JRoute::_($logolink) . '" style="margin-bottom: 0 !important;margin-left: 0 !important;margin-right: 0 !important;margin-top: 0 !important;padding-bottom: 0 !important;padding-left: 0 !important;padding-right: 0 !important;padding-top: 0 !important;background: none !important;">' : '';
-					$logolinkend = $logolink ? '</a>' : '';
-					?>
-					<li class="maximenucklogo" style="margin-bottom: 0 !important;margin-left: 0 !important;margin-right: 0 !important;margin-top: 0 !important;">
-						<?php echo $logolinkstart ?><img src="<?php echo $logoimage ?>" alt="<?php echo $params->get('logoalt', '') ?>" <?php echo $logowidth . $logoheight . $styles ?> /><?php echo $logolinkend ?>
-					</li>
-				<?php } ?>
-				<?php
+				include dirname(__FILE__) . '/_logo.php';
+
 				$zindex = 12000;
 
 				foreach ($items as $i => &$item) {
@@ -39,7 +28,7 @@ $direction = $langdirection == 'rtl' ? 'right' : 'left';
 					// test if need to be dropdown
 					//    $stopdropdown = ($item->level > 120) ? '-nodrop' : '';
 					$itemlevel = ($start > 1) ? $item->level - $start + 1 : $item->level;
-					$closeHtml = ($itemlevel > 1) ? '' : ( ($params->get('clickclose', '0') == '1' || $params->get('behavior', 'mouseover') == 'clickclose' || stristr($item->liclass, 'clickclose') != false) ? $close : '' );
+					$closeHtml = ($itemlevel > 1) ? '' : ( (($params->get('clickclose', '0') == '1' && $params->get('behavior', 'mouseover') == 'clickclose') || stristr($item->liclass, 'clickclose') != false) ? $close : '' );
 					$stopdropdown = $params->get('stopdropdownlevel', '0');
 					$stopdropdownclass = ( $item->level > 1 && $item->level > $start) ? ' nodropdown' : '';
 					if ($item->level > $start) {
@@ -63,7 +52,7 @@ $direction = $langdirection == 'rtl' ? 'right' : 'left';
 						$title = $item->anchor_title ? ' title="' . $item->anchor_title . '"' : '';
 						$description = $item->desc ? '<span class="descck">' . $item->desc . '</span>' : '';
 						// manage HTML encapsulation
-						$classcoltitle = $item->params->get('maximenu_classcoltitle', '') ? ' class="' . $item->params->get('maximenu_classcoltitle', '') . '"' : '';
+						$classcoltitle = $item->fparams->get('maximenu_classcoltitle', '') ? ' class="' . $item->fparams->get('maximenu_classcoltitle', '') . '"' : '';
 						$opentag = (isset($item->tagcoltitle) AND $item->tagcoltitle != 'none') ? '<' . $item->tagcoltitle . $classcoltitle . '>' : '';
 						$closetag = (isset($item->tagcoltitle) AND $item->tagcoltitle != 'none') ? '</' . $item->tagcoltitle . '>' : '';
 
@@ -83,7 +72,7 @@ $direction = $langdirection == 'rtl' ? 'right' : 'left';
 							$item->styles .= "position:absolute;left:0;right:0;";
 							$item->innerstyles .= "width:auto;";
 						} else if ( $item->level == $start && $params->get('orientation', 'horizontal') == 'vertical' ) {
-							$item->styles .= "position:absolute;left:100%;top:0;bottom:0;";
+							$item->styles .= "position:absolute;" . $direction . ":100%;top:0;bottom:0;";
 							if (isset($item->submenuswidth))
 								$item->innerstyles .= "width:" . modMaximenuckHelper::testUnit($item->submenuswidth) . ";";
 						} else {

@@ -126,6 +126,8 @@
   border: 1px solid #eeeeee;
   padding: 20px;
   min-width: 270px;
+  right: auto;
+  left: 0;
 }
 #kunena.layout .navbar .mobile-user .dropdown-menu .form-group > div + div {
   margin-top: 10px;
@@ -152,6 +154,26 @@
 }
 #kunena.layout .navbar .mobile-user .dropdown-menu#userdropdownlogin .form-signin .list-unstyled li {
   font-size: 11px;
+}
+#kunena.layout .navbar .mobile-user .dropdown-menu select,
+#kunena.layout .navbar .mobile-user .dropdown-menu textarea,
+#kunena.layout .navbar .mobile-user .dropdown-menu input[type="text"],
+#kunena.layout .navbar .mobile-user .dropdown-menu input[type="password"],
+#kunena.layout .navbar .mobile-user .dropdown-menu input[type="datetime"],
+#kunena.layout .navbar .mobile-user .dropdown-menu input[type="datetime-local"],
+#kunena.layout .navbar .mobile-user .dropdown-menu input[type="date"],
+#kunena.layout .navbar .mobile-user .dropdown-menu input[type="month"],
+#kunena.layout .navbar .mobile-user .dropdown-menu input[type="time"],
+#kunena.layout .navbar .mobile-user .dropdown-menu input[type="week"],
+#kunena.layout .navbar .mobile-user .dropdown-menu input[type="number"],
+#kunena.layout .navbar .mobile-user .dropdown-menu input[type="email"],
+#kunena.layout .navbar .mobile-user .dropdown-menu input[type="url"],
+#kunena.layout .navbar .mobile-user .dropdown-menu input[type="search"],
+#kunena.layout .navbar .mobile-user .dropdown-menu input[type="tel"],
+#kunena.layout .navbar .mobile-user .dropdown-menu input[type="color"],
+#kunena.layout .navbar .mobile-user .dropdown-menu .inputbox {
+  width: auto;
+  display: inline-block;
 }
 #kunena.layout .navbar .mobile-user .dropdown-menu .divider {
   background: #eeeeee;
@@ -308,8 +330,8 @@
 #kunena.layout .table tr td.col-md-5 {
   position: relative;
   min-height: 1px;
-  padding-right: 20px;
   padding-left: 20px;
+  padding-right: 20px;
 }
 @media (min-width: 992px) {
   #kunena.layout .table tr td.col-md-5 {
@@ -320,8 +342,8 @@
 #kunena.layout .table tr td.col-md-2 + .col-md-2 {
   position: relative;
   min-height: 1px;
-  padding-right: 20px;
   padding-left: 20px;
+  padding-right: 20px;
 }
 @media (min-width: 992px) {
   #kunena.layout .table tr td.col-md-2 + .col-md-2 {
@@ -388,8 +410,8 @@
 }
 #kunena.layout .kfrontend:before,
 #kunena.layout .kfrontend:after {
-  content: " ";
   display: table;
+  content: " ";
 }
 #kunena.layout .kfrontend:after {
   clear: both;
@@ -450,8 +472,8 @@
 }
 #kunena.layout .kfrontend .section:before,
 #kunena.layout .kfrontend .section:after {
-  content: " ";
   display: table;
+  content: " ";
 }
 #kunena.layout .kfrontend .section:after {
   clear: both;
@@ -656,8 +678,8 @@
 }
 #kunena.layout #postform .column-item fieldset #iconset_topic_list:before,
 #kunena.layout #postform .column-item fieldset #iconset_topic_list:after {
-  content: " ";
   display: table;
+  content: " ";
 }
 #kunena.layout #postform .column-item fieldset #iconset_topic_list:after {
   clear: both;
@@ -709,8 +731,8 @@
 }
 #kunena.layout #postform .column-item fieldset .markItUp .markItUpHeader ul:before,
 #kunena.layout #postform .column-item fieldset .markItUp .markItUpHeader ul:after {
-  content: " ";
   display: table;
+  content: " ";
 }
 #kunena.layout #postform .column-item fieldset .markItUp .markItUpHeader ul:after {
   clear: both;
@@ -767,8 +789,8 @@
 }
 #kunena.layout #files:before,
 #kunena.layout #files:after {
-  content: " ";
   display: table;
+  content: " ";
 }
 #kunena.layout #files:after {
   clear: both;
@@ -875,8 +897,8 @@
 }
 .view-topic #kunena.layout .message .kattach .thumbnails:before,
 .view-topic #kunena.layout .message .kattach .thumbnails:after {
-  content: " ";
   display: table;
+  content: " ";
 }
 .view-topic #kunena.layout .message .kattach .thumbnails:after {
   clear: both;
@@ -979,8 +1001,8 @@
 }
 #kunena.layout ul.pagination:before,
 #kunena.layout ul.pagination:after {
-  content: " ";
   display: table;
+  content: " ";
 }
 #kunena.layout ul.pagination:after {
   clear: both;
@@ -1002,8 +1024,8 @@
   padding: 5px 15px;
 }
 #kunena.layout ul.pagination li a.disabled {
-  opacity: 0.4;
   filter: alpha(opacity=40);
+  opacity: 0.4;
 }
 input#ksearch-keywords {
   width: 100%;

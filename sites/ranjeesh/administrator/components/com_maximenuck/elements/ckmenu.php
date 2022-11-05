@@ -10,8 +10,6 @@ defined('JPATH_PLATFORM') or die;
 use Maximenuck\Helper;
 use Maximenuck\CKFramework;
 
-require_once 'ckformfield.php';
-
 JText::script('MAXIMENUCK_SAVE_CLOSE');
 require_once JPATH_ROOT . '/administrator/components/com_maximenuck/helpers/helper.php';
 require_once JPATH_ROOT . '/administrator/components/com_maximenuck/helpers/ckframework.php';
@@ -19,11 +17,16 @@ require_once JPATH_ROOT . '/administrator/components/com_maximenuck/helpers/ckfr
 CKFramework::load();
 Helper::loadCkbox();
 
-class JFormFieldCkmenu extends CKFormField {
+class JFormFieldCkmenu extends JFormField {
 
 	protected $type = 'ckmenu';
 
 	protected function getInput() {
+		// loads the language files from the frontend
+		$lang	= JFactory::getLanguage();
+		$lang->load('com_maximenuck', JPATH_SITE . '/components/com_maximenuck', $lang->getTag(), false);
+		$lang->load('com_maximenuck', JPATH_SITE, $lang->getTag(), false);
+
 		$doc = JFactory::getDocument();
 		// Initialize some field attributes.
 		$js = 'function ckSelectMenu(id, name, close) {

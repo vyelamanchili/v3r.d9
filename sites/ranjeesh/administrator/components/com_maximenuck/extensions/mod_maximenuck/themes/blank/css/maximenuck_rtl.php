@@ -651,10 +651,15 @@ div#<?php echo $id; ?>.maximenuckv li.fullwidth > div.floatck {
 	padding: 0;
 	top: 0;
 	bottom: 0;
-	left: 100%;
-	right: auto !important;
+	left: auto;
+	right: 100% !important;
 }
 
 div#<?php echo $id; ?> li.fullwidth > div.floatck > div.maxidrop-main {
-	width: auto;
+	width: auto !important;
+}
+
+div#<?php echo $id; ?>.maximenuckv li.fullwidth > div.floatck > .maxidrop-main {
+	height: 100%;
+	overflow-y: auto;
 }

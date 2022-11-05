@@ -5,8 +5,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
-use \Maximenuck\CKInput;
-use \Maximenuck\CKText;
+use Maximenuck\CKInput;
+use Maximenuck\CKText;
 
 /**
  * CK Development Framework layer
@@ -25,14 +25,14 @@ class CKFof {
 
 	public static function getInput() {
 		if (empty(self::$input)) {
-			self::$input = new CKInput();
+			self::$input = Factory::getApplication()->input;
 		}
 		return self::$input;
 	}
 
 	public static function userCan($task, $environment = false) {
 		$environment = $environment ? $environment : self::$environment;
-		$user = Factory::getUser();
+		$user = CKFof::getUser();
 		switch ($task) {
 			case 'edit' :
 			default :
@@ -73,7 +73,8 @@ class CKFof {
 	}
 
 	public static function getCurrentUri() {
-		$uri = \JFactory::getURI();
+//		$uri = \JFactory::getURI();
+		$uri = \Joomla\CMS\Uri\Uri::getInstance();
 		return $uri->toString();
 	}
 
@@ -144,7 +145,7 @@ class CKFof {
 				jexit($msg);
 			}
 			echo '{"result": "0", "message": "' . $msg . '"}';
-			return false;
+			exit;
 		}
 		return true;
 	}
@@ -169,7 +170,6 @@ class CKFof {
 
 	public static function dbLoadObject($query) {
 		$db = self::getDbo();
-		// $query = $db->getQuery(true);
 		$db->setQuery($query);
 		$results = $db->loadObject();
 
@@ -274,17 +274,17 @@ class CKFof {
 
 		// Create a new query object.
 		$query = $db->getQuery(true);
+		$columsData = self::getTableStructure($tableName);
 
 		if ((int)$data['id'] === 0) {
 			$columns = array();
 			$values = array();
 			$fields = self::dbLoadTable($tableName);
 
-			$columsData = self::getTableStructure($tableName);
 
 			foreach($fields as $key => $val) {
 				$columns[] = $key;
-				if (isset($data[$key])) {
+				if (isset($data[$key]) && !empty($data[$key])) {
 					$values[] = is_numeric($data[$key]) ? $data[$key] : $db->quote($data[$key]);
 				} else {
 					if (strpos($columsData[$key]->Type, 'int') === 0 || strpos($columsData[$key]->Type, 'tinyint') === 0) {
@@ -315,14 +315,16 @@ class CKFof {
 			$fields = self::dbLoadTable($tableName);
 			$fieldsToInsert = array();
 			foreach($fields as $key => $val) {
+				if (strpos($columsData[$key]->Type, 'date') === 0 && empty($data[$key])) {
+					continue;
+				}
 				if (isset($data[$key])) {
-					$value = is_numeric($data[$key]) ? $data[$key] : $db->quote($data[$key]);
+					$value = is_numeric($data[$key]) ? (int)$data[$key] : $db->quote($data[$key]);
 				} else {
-					$value = $db->quote('');
+					continue;
 				}
 				$fieldsToInsert[] = $db->quoteName($key) . ' = ' . $value;
 			}
-
 			// Conditions for which records should be updated.
 			$conditions = array(
 				$db->quoteName('id') . ' = ' . $data['id']
@@ -340,6 +342,32 @@ class CKFof {
 		}
 
 		return $id;
+	}
+
+	public static function dbUpdate($tableName, $id, $fields) {
+		// Create a new query object.
+		$db = self::getDbo();
+		$query = $db->getQuery(true);
+
+		// Conditions for which records should be updated.
+		$conditions = array(
+			$db->quoteName('id') . ' = ' . $id
+		);
+
+		$fieldsToInsert = array();
+		foreach ($fields as $key => $value) {
+			$fieldsToInsert[] = $db->quoteName($key) . ' = ' . $value;
+		}
+
+		$query->update($db->quoteName($tableName))->set($fieldsToInsert)->where($conditions);
+
+		// Set the query using our newly populated query object and execute it.
+		$db->setQuery($query);
+		if ($db->execute()) {
+			$id = $data['id'];
+		} else {
+			return false;
+		}
 	}
 
 	public static function dbDelete($tableName, $id) {
@@ -435,7 +463,7 @@ class CKFof {
 		$doc->addScriptDeclaration($js);
 	}
 
-	public static function loadScriptDeclarationInline($js) {
+	public static function addScriptDeclarationInline($js) {
 		echo '<script>' . $js . '</script>';
 	}
 
@@ -444,7 +472,7 @@ class CKFof {
 		$doc->addScript($file);
 	}
 
-	public static function loadScriptInline($file) {
+	public static function addScriptInline($file) {
 		echo '<script src="' . $file . '"></script>';
 	}
 
@@ -453,7 +481,7 @@ class CKFof {
 		$doc->addStyleDeclaration($css);
 	}
 
-	public static function loadStyleDeclarationInline($css) {
+	public static function addStyleDeclarationInline($css) {
 		echo '<style>' . $css . '</style>';
 	}
 
@@ -462,7 +490,7 @@ class CKFof {
 		$doc->addStylesheet($file);
 	}
 
-	public static function loadStylesheetInline($file) {
+	public static function addStylesheetInline($file) {
 		echo '<link href="' . $file . '"" rel="stylesheet" />';
 	}
 
@@ -486,4 +514,27 @@ class CKFof {
 			PluginHelper::importPlugin($group);
 		}
 	}
+
+	public static function cleanCache($group = '') {
+		$conf = \JFactory::getConfig();
+
+		$options = [
+			'defaultgroup' => '',
+			'storage'      => $conf->get('cache_handler', ''),
+			'caching'      => true,
+			'cachebase'    => $conf->get('cache_path', JPATH_SITE . '/cache'),
+		];
+
+		$cache = \JCache::getInstance('callback', $options);
+
+		foreach ($cache->getAll() as $group)
+		{
+			if ($group && $group->group == $group);
+				$cache->clean($group->group);
+		}
+	}
+
+		public static function getModel($modelName, $classPrefix = 'Maximenuck') {
+			return CKModel::getInstance($modelName, $classPrefix);
+		}
 }

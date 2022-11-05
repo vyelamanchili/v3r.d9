@@ -99,7 +99,13 @@ var T3Admin = window.T3Admin || {};
 			$('#t3-admin-tb-close').on('click', function(){
 				Joomla.submitbutton(($(this).hasClass('template') ? 'template' : 'style') + '.cancel');
 			});
-
+			var _submitform = Joomla.submitform;
+			Joomla.submitform = function(task,form,validate){
+				if(!form){
+					form = document.adminForm;
+				}
+				_submitform(task,form,validate);
+			}
             // menu assignment toggle
             $('.menu-assignment-toggle').on ('click', function () {
                var $this = $(this),

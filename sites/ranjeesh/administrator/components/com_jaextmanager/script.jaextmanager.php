@@ -1,7 +1,7 @@
 <?php
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -35,27 +35,19 @@ class Com_jaextmanagerInstallerScript
 				margin:15px 0;
 			}
 	 	</style>
-	 	<p><img alt="JA Extension Manager" src="http://static.joomlart.com/images/extension-icon/7-JA-Extensions-Manager.jpg"  width="100" height="100" /></p>
 		<div style='font-weight:normal'>
 	 	JA Extensions Manager is the first Joomla! extension to upgrade the way to manage extensions via AJAX technologies <br/>
 	 	<p style="clear:both"><span style="color: #ff6600;"><strong>Features:</strong></span></p>
 	 	<ol><li>Internal Repository</li>
 		<li>Updates Checker</li> <li>Version Comparison</li><li>Upgrade and Backup User Setup</li><li>Remote Install and Upgrade</li></ol>
 		
-	    <p><strong><span style='color: #ff0000;'>Usage Instructions:</span><br /></strong></p>
-                <p>This component eases difficulties faced during each upgrade to newer versions. It allows the user to compare the files across the versions, check and backup files in conflict and also rollback to older versions, if necessary. This is an extension to our <a href="http://www.joomlart.com/forums/download.php" target="_blank">New Download System</a> and <a href="http://update.joomlart.com/" target="_blank">Update / Comparison System</a>. In the upcoming versions, it would be possible to download and upgrade right from this backend. Furthermore, this component can be used for all the extensions (templates / plugins / modules / components), irrespective of developers<strong>. <br /></strong></p>
-                <p>
-                    <a href="http://www.youtube.com/watch?v=bruMQxudvdI&fmt=22" target="_blank" title="">
-                    <img src="components/com_jaextmanager/assets/images/video1.jpg" />
-                    </a>
-                    <a href="http://www.youtube.com/watch?v=MaiCRUF2pQI&fmt=22" target="_blank" title="">
-                    <img src="components/com_jaextmanager/assets/images/video2.jpg" />
-                    </a>
-                </p>
+            <p><strong><span style='color: #ff0000;'>Usage Instructions:</span><br /></strong></p>
+                <p>This component eases difficulties faced during each upgrade to newer versions. It allows the user to compare the files across the versions, check and backup files in conflict and also rollback to older versions, if necessary.</p>
+               
                 <p><strong>Documentation:</strong></p>
-                <p>Detailed Documentation and Usage instructions can be viewed at JoomlArt <a href="http://wiki.joomlart.com/wiki/JA_Exensions_Manager/Overview" target="_blank">Wiki Page</a>, Watch <a href="http://www.youtube.com/watch?v=bruMQxudvdI&amp;fmt=22" target="_blank">YouTube  Video for Local Repository Usage</a> and Watch <a href="http://www.youtube.com/watch?v=MaiCRUF2pQI&amp;fmt=22" target="_blank">YouTube  Video for See upgrades from online repository.</a></p>
-                <p> </p>
-				<br/>
+
+                <p>Detailed Documentation and Usage instructions can be viewed at JoomlArt <a href="https://www.joomlart.com/documentation/joomla-component/ja-extension-manager" target="_blank">Documentation Page</a>, Watch <a href="https://www.youtube.com/watch?v=t6W0bM0duS4" target="_blank">YouTube Video tutorial</a></p>
+
                 <p><strong>Important things to do before using this component:</strong></p>
                 <ol>
                 <li>Make sure you have an working backup of the site, before you use this component. Although it works fine and has been tested, but the results might vary based on user environment.</li>
@@ -66,14 +58,7 @@ class Com_jaextmanagerInstallerScript
                 <li>Based on the comparison, you can take the backup of your customized files and redo the customization on the new files.</li>
                 <li>We recommend using file comparison utility such as <a href="http://winmerge.org/" target="_blank">Win Merge</a>, to compare and move your customized codes to the new file.</li>
                 </ol>
-                <p> </p>
-                <p><strong>Requirements:</strong></p>
-                <ol>
-                <li>This component works well on Linux environment.</li>
-                <li>You must have the original files of the version used on your site for comparison to work. If you do not have the original files with you, the comparison results will be wrong and your customization would be lost. For example, if you are using version 1.1.0 on your site, you will have to upload the original 1.1.0 into the JA Extension Manager Repository along with the new version (1.1.1).</li>
-                </ol>
-                <p> </p>
-                <p><strong>How it works:</strong></p>
+                               <p><strong>How it works:</strong></p>
                 <p>This Component compares files based on checksum values and interprets the results based on comparison between the live version (A), original version (B) and new version (C).</p>
                 <p> </p>
                 <p><strong>Legends and their Explanation:</strong></p>
@@ -91,23 +76,12 @@ class Com_jaextmanagerInstallerScript
                 <li><strong><img src="components/com_jaextmanager/assets/dtree/img/icon_ucreated.gif" border="0" alt="User Created File" width="15" height="15" /> Created By User</strong>: These files are either user created (<strong>A</strong>)or files which needs to be moved between folders while installation. If these are unique (non-package dependent), they would be left as it is. But if these are files which are moved during installation, they would be overwritten. Be careful with these files.</li>
                 <li><strong><img src="components/com_jaextmanager/assets/dtree/img/icon_nochange.gif" border="0" alt="No Change in files" width="15" height="15" /> No Change</strong>: Not modified across (<strong>A</strong>), (<strong>B</strong>) and (<strong>C</strong>). These files will not be replaced.</li>
                 </ul>
-                <p> </p>
-                <p><strong>Known Issues:</strong></p>
+            
+                <p><span style="color: #008000;"><strong>Links:</strong></span></p>
                 <ul>
-                <li>Language files, which are moved to language folders post-installation, are not covered and should be backed up by user and replaced back after cross-examination with the new file.</li>
-                <li>If your XML does not carry Database downgrade / upgrade info, then this component will only replace file and will not upgrade your Database. Ask your extension provider for such information.</li>
-                <li>The component reads the new version based on Version info in XML and Date. If this is not correct, the Component may not work properly.</li>
-                <li>Irrespective of how powerful this component may become, it should never replace the basic instinct of taking backup. This is just a tool.</li>
+                  <li><a target="_blank" href="https://www.joomlart.com/documentation/joomla-component/ja-extension-manager">JA Extension Manager documentation</a></li>
+                  <li><a target="_blank" href="https://www.joomlart.com/forums/t/ja-extension-manager-component">Report Bug</a></li>
                 </ul>
-                <p> </p>
-                <p><strong>Discussion:</strong></p>
-                <ul>
-                <li>Issues relating to this component can be discussed at <a href="http://www.joomlart.com/forums/forumdisplay.php?f=199" target="_blank" title="JoomlArt Forum - JA Extension Manager">JoomlArt.com Forums</a>.</li>
-                </ul>
-                <p> </p>
-            <p><span style="color: #008000;"><strong>Links:</strong></span></p>
-		<ul><li><a target="_blank" href="http://wiki.joomlart.com/wiki/JA_Extensions_Manager/Overview">JA Extension Manager Wiki</a></li><li><a target="_blank" href="http://pm.joomlart.com/browse/JAECCOMJAEXTMANAGER">Report Bug</a></li><li><a target="_blank" href="http://update.joomlart.com/">Updates &amp; Versions</a></li></ul>
-				<p>Copyright 2004 - 2019 <a href="http://www.joomlart.com/" title="Visit Joomlart.com!">JoomlArt.com</a>.</p>
                 <!-- / message -->
                 </fieldset>
 

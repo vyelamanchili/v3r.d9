@@ -8,9 +8,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once dirname(__FILE__) . '/ckradio.php';
-
-class JFormFieldCktestv9 extends JFormFieldCkradio {
+class JFormFieldCktestv9 extends JFormFieldRadio {
 
 	protected $type = 'cktestv9';
 

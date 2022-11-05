@@ -58,6 +58,13 @@ $items = $loaderClass::getItems($params);
 
 if (empty($items)) return;
 
+// Logo layout
+$nLevel1 = 0;
+foreach ($items as $item) {
+	if ($item->level == 1) $nLevel1++;
+	// B/C to avoid php errors, because of migration to J4
+	if (! isset($item->fparams)) $item->fparams = $item->params;
+}
 
 $document = JFactory::getDocument();
 $app = JFactory::getApplication();
@@ -65,7 +72,7 @@ $menu = $app->getMenu();
 $active = $menu->getActive();
 $active_id = isset($active) ? $active->id : $menu->getDefault()->id;
 $path = isset($active) ? $active->tree : array();
-$class_sfx = htmlspecialchars($params->get('class_sfx'));
+$class_sfx = htmlspecialchars((string)$params->get('class_sfx', ''));
 jimport('joomla.plugin.helper');
 
 // get the language direction
@@ -301,7 +308,6 @@ $mobilecss = "
     }
 	
 	div#" . $menuID . ".maximenuckh ul:not(.noresponsive) li:hover > div.floatck {
-		/*display: block !important;*/
 		position: relative !important;
 		margin-left: 0 !important;
     }
@@ -362,7 +368,6 @@ $mobilecss = "
     }
 	
 	div#" . $menuID . ".maximenuckv ul:not(.noresponsive) li:hover > div.floatck {
-		/*display: block !important;*/
 		position: relative !important;
 		margin-left: 0 !important;
     }
@@ -430,7 +435,7 @@ if ($usejavascript && $params->get('layout', 'default') != '_:flatlist' && $para
 			. "effecttype : '" . $effecttype . "',"
 			. "topfixedeffect : '" . $params->get('topfixedeffect', '1') . "',"
 			. "topfixedoffset : '" . $params->get('topfixedoffset', '') . "',"
-			. "clickclose : '" . $params->get('clickclose', '0') . "',"
+			. "clickclose : '" . ($behavior == 'clickclose' ? $params->get('clickclose', '0') : '0') . "',"
 			. "closeclickoutside : '" . $params->get('closeclickoutside', '0') . "',"
 			. "fxduration : " . $fxduration . "});"
 			. "});";
@@ -442,7 +447,7 @@ if ($usejavascript && $params->get('layout', 'default') != '_:flatlist' && $para
 // add fancy effect
 	if ($orientation == 'horizontal' && $usefancy == 1) {
 		// $document->addScript(JURI::base(true) . '/modules/mod_maximenuck/assets/fancymenuck.js');
-		$js = "jQuery(window).load(function(){"
+		$js = "jQuery(document).ready(function(){"
 				. "new FancyMaximenuck('#" . $menuID . "', {"
 				. "fancyTransition : '" . $fancytransition . "',"
 				. "fancyDuree : " . $fancyduree . "});"
@@ -489,8 +494,11 @@ $styleCss = '';
 $styleId = $params->get('styles', 0, 'int');
 if ($styleId) {
 	require_once MAXIMENUCK_PATH . '/helpers/style.php';
-	$styleCss = Maximenuck\Style::getCss($styleId);
+	$style = Maximenuck\Style::getCss($styleId, true);
+	$styleCss = $style->css;
 	$styleCss = str_replace('|ID|', $menuID, $styleCss);
+	if ($orientation == 'horizontal') $styleCss = str_replace('.maximenuckv', '.maximenuckh', $styleCss);
+	if ($orientation == 'vertical') $styleCss = str_replace('.maximenuckh', '.maximenuckv', $styleCss);
 }
 
 require JModuleHelper::getLayoutPath('mod_maximenuck', $params->get('layout', 'default'));
@@ -512,11 +520,29 @@ if ($params->get('loadfontawesomescript', '1') == '1') {
 // manage googlefonts
 $loadgooglefonts = $params->get('loadgooglefonts', 'auto');
 if ($loadgooglefonts == 'auto') {
-	preg_match( '/font-family: \'(.*?)\'/', $styleCss, $matches);
-	foreach($matches as $font) {
+	
+	
+	if (isset($style->params)) {
+		$styleParams = json_decode($style->params);
+		if (! isset($styleParams->level3menustylestextgfont)) $styleParams->level3menustylestextgfont = '';
+		$gfonts = array ($styleParams->menustylestextgfont
+			, $styleParams->level2menustylestextgfont
+			,$styleParams->level3menustylestextgfont);
+		foreach($gfonts as $font) {
 		$font = str_replace(' ', '+', ucwords (trim($font)));
 		$font = trim(trim($font, "'"));
 		if (isset($font[1])) $document->addStylesheet('https://fonts.googleapis.com/css?family=' . $font);
+	}
+	} else {
+		preg_match_all( '/font-family: \'(.*?)\'/', $styleCss, $matches);
+		if (isset($matches[1])) {
+			foreach($matches[1] as $font) {
+				$font = str_replace(' ', '+', ucwords (trim($font)));
+				$font = trim(trim($font, "'"));
+				if (isset($font[1])) $document->addStylesheet('https://fonts.googleapis.com/css?family=' . $font);
+			}
+
+		}
 	}
 } else if ($loadgooglefonts == 'custom') {
 	$customgooglefonts = $params->get('customgooglefonts', '');
@@ -547,6 +573,22 @@ if ($loadfontawesome) {
 
 #' . $menuID . ' li.maximenuck.level1 {
 	vertical-align: top;
+}';
+}
+
+if ($behavior == 'clickclose' && $params->get('clickclose', '0')) {
+	$allCss .= '.maxiclose {
+	color: #fff;
+	background: rgba(0,0,0,0.3);
+	padding: 10px;
+	border-radius: 4px;
+	margin: 5px;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.maxiclose:hover {
+	background: rgba(0,0,0,0.7);
 }';
 }
 
@@ -653,8 +695,37 @@ $allCss .= '/*---------------------------------------------
 ';
 }
 
+
+if ($params->get('logoposition', 'left') == 'center') {
+	$nLogo = (int)($nLevel1 / 2) + 1;
+	if (($nLevel1 % 2) === 1 && $params->get('logopositionpartition', 'even') == 'even') $nLogo += 1;
+	$allCss .= 'div#' . $menuID . ' > ul.maximenuck {
+	display: flex !important;
+	align-items : center; /* center, start, end, normal, */
+	justify-content: center; /* center, left, right, space-between, space-around */
+}
+
+div#' . $menuID . ' > ul.maximenuck > .maximenucklogo {
+	order :1;
+}
+
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1:nth-of-type(n+' . ($nLogo + 1) . ') {
+	order: 2;
+}
+';
+}
+
+// GENERAL USE
+$generalCss = 'div#' . $menuID . ' .titreck-text {
+	flex: 1;
+}
+
+div#' . $menuID . ' .maximenuck.rolloveritem  img {
+	display: none !important;
+}';
+
 // combine all styles
-$allCss = $themeCss . $allCss . $styleCss . $iconCss;
+$allCss = $generalCss . $themeCss . $allCss . $styleCss . $iconCss;
 if ( $doCompile ) {
 	$cssfile = dirname(__FILE__) . '/themes/custom/css/maximenuck_' . $menuID . '.css';
 	if (! file_exists(dirname(__FILE__) . '/themes/custom/css/')) {

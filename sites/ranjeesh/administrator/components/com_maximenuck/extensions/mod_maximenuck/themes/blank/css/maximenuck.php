@@ -188,6 +188,7 @@ div#<?php echo $id; ?> ul.maximenuck li.level1.parent div.floatck.fixRight li.pa
 div#<?php echo $id; ?> ul.maximenuck li.level1.parent.menu_right li.parent > a:after,
 div#<?php echo $id; ?> ul.maximenuck li.level1.parent.menu_right li.parent > span.separator:after {
 	border-color: transparent #007bff transparent transparent;
+	border-width: 6px 7px 6px 0;
 }
 
 /* margin for right elements that rolls to the left */
@@ -664,5 +665,10 @@ div#<?php echo $id; ?>.maximenuckv li.fullwidth > div.floatck {
 }
 
 div#<?php echo $id; ?> li.fullwidth > div.floatck > div.maxidrop-main {
-	width: auto;
+	width: auto !important;
+}
+
+div#<?php echo $id; ?>.maximenuckv li.fullwidth > div.floatck > .maxidrop-main {
+	height: 100%;
+	overflow-y: auto;
 }

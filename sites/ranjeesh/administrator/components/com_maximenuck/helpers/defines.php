@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 define('MAXIMENUCK_PLATFORM', 'joomla');
 define('MAXIMENUCK_PATH', JPATH_SITE . '/administrator/components/com_maximenuck');
 define('MAXIMENUCK_ADMIN_PATH', MAXIMENUCK_PATH);
+define('MAXIMENUCK_BASE_PATH', JPATH_BASE . '/components/com_maximenuck');
 define('MAXIMENUCK_FRONT_PATH', JPATH_SITE . '/components/com_maximenuck');
 define('MAXIMENUCK_PROJECTS_PATH', JPATH_SITE . '/administrator/components/com_maximenuck/projects');
 define('MAXIMENUCK_ADMIN_URL', JUri::root(true) . '/administrator/index.php?option=com_maximenuck');

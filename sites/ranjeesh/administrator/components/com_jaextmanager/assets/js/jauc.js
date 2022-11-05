@@ -1,6 +1,6 @@
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -205,4 +205,28 @@ function configExtensions(element, extId) {
 	var top = offset.top - jQuery(window).scrollTop() - 30;
 	jaCreatePopup('index.php?option=com_jaextmanager&tmpl=component&view=default&layout=config_extensions&cId[]=' + extId, 370, 250, jQuery(element).attr('title'));
 	//jQuery('#jaForm').css({'top': top, 'left': offset.left - 370});
+}
+
+function doShowChangeLog($extId, jirakey = "", version = ""){
+	jQuery.ajax({
+		url: "index.php?option=com_jaextmanager&view=default&task=changelogs&ajax=1",
+		type: "POST",
+		data: {
+			'cId[]': $extId,
+			'jirakey': jirakey,
+			'version': version
+		},
+		success: function (msg) {
+			if(jQuery('body').find('#tplChangelogs').length){
+				jQuery('body').find('#tplChangelogs').remove();
+			}
+			jQuery('body').append(msg);
+			if(jQuery('form.jaext-4').length){
+				var modal = new window.bootstrap.Modal(document.getElementById('tplChangelogs'));
+				modal.show();
+			}else{
+				jQuery('body').find('#tplChangelogs').modal('show');
+			}
+		}
+	});
 }

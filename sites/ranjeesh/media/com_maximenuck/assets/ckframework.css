@@ -218,6 +218,7 @@
 	font-family: Segoe UI, "Helvetica Neue", Helvetica, Arial,sans-serif;
 	background: #fff;
 	line-height: 22px;
+	font-size: 13px;
 }
 
 .ckinterface label {
@@ -558,7 +559,7 @@
 	visibility: visible;
 }
 
-.ckinterfacetab input[type="radio"], input[type="checkbox"] {
+.ckinterfacetab input[type="radio"] {
 	border: none;
 }
 
@@ -708,6 +709,10 @@ img.ckoption-icon {
 	border-right: 1px solid #000;
 	height: 65px;
 	overflow: hidden;
+}
+
+#ckheader .ckheaderlogo a:before{
+	display: none;
 }
 
 #ckheader .ckheadertitle {

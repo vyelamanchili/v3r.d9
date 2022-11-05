@@ -10,12 +10,13 @@ $input = JFactory::getApplication()->input;
 $menu = JFactory::getApplication()->getMenu();
 $activemenu = $menu->getActive() ? $menu->getActive() : $menu->getDefault();
 $query = $activemenu->query;
+$activemenuParams = version_compare(JVERSION,"4",'ge') ? $activemenu->getParams() : $activemenu->params;
 $mast_title = $mast_slogan = '';
 if ((!isset ($query['option']) || $query['option'] == $input->get ('option'))
 		&& (!isset ($query['view']) || $query['view'] == $input->get ('view'))
 		&& (!isset ($query['id']) || $query['id'] == $input->get ('id'))) {
-	$mast_title = $activemenu->params->get ('masthead-title');
-	$mast_slogan = $activemenu->params->get ('masthead-slogan');
+	$mast_title = $activemenuParams->get ('masthead-title');
+	$mast_slogan = $activemenuParams->get ('masthead-slogan');
 }
 
 $masthead_position = 'masthead';

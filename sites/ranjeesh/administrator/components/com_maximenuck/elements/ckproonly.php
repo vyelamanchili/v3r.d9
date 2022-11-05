@@ -7,9 +7,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once 'ckformfield.php';
-
-class JFormFieldCkproonly extends CKFormField
+class JFormFieldCkproonly extends JFormField
 {
 	/**
 	 * The form field type.
@@ -38,8 +36,7 @@ class JFormFieldCkproonly extends CKFormField
 	 */
 	protected function getInput()
 	{
-		$text = $this->element['label'] ? JText::_($this->element['label']) : JText::_('SLIDESHOWCK_ONLY_PRO');
-		$html = '<div class="ckinfo"><i class="fas fa-info"></i><a href="https://www.joomlack.fr/en/joomla-extensions/maximenu-ck" target="_blank">' . $text . '</a></div>';
+		$html = '<div class="ckinfo"><i class="fas fa-info"></i><a href="https://www.joomlack.fr/en/joomla-extensions/maximenu-ck" target="_blank">' . JText::_('MAXIMENUCK_ONLY_PRO') . '</a></div>';
 
 		return $html;
 	}

@@ -3,15 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Language\Text;
 
+if(version_compare(JVERSION, '4', 'ge')){
+	class TagsHelperRoute extends \Joomla\Component\Tags\Site\Helper\RouteHelper{};
+}
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
-
-JHtml::_('behavior.caption');
+if(version_compare(JVERSION, '4','lt')){
+  JHtml::_('behavior.caption'); 
+}
 JHtml::_('behavior.core');
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -51,13 +56,13 @@ JFactory::getDocument()->addScriptDeclaration("
 		<?php if ($this->params->get('filter_field')) : ?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search">
-					<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL') . '&#160;'; ?>
+					<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL') . '&#160;'; ?>
 				</label>
-				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>" />
-				<button type="button" name="filter-search-button" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" onclick="document.adminForm.submit();" class="btn">
+				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo Text::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>" />
+				<button type="button" name="filter-search-button" title="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>" onclick="document.adminForm.submit();" class="btn">
 					<span class="fa fa-search"></span>
 				</button>
-				<button type="reset" name="filter-clear-button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn" onclick="resetFilter(); document.adminForm.submit();">
+				<button type="reset" name="filter-clear-button" title="<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn" onclick="resetFilter(); document.adminForm.submit();">
 					<span class="fa fa-remove"></span>
 				</button>
 			</div>
@@ -65,7 +70,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
 			<div class="btn-group pull-right">
 				<label for="limit" class="element-invisible">
-					<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
+					<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
 				</label>
 				<?php echo $this->pagination->getLimitBox(); ?>
 			</div>
@@ -80,7 +85,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	<?php endif; ?>
 
 <?php if ($this->items == false || $n === 0) : ?>
-	<p><?php echo JText::_('COM_TAGS_NO_TAGS'); ?></p>
+	<p><?php echo Text::_('COM_TAGS_NO_TAGS'); ?></p>
 <?php else : ?>
 	<?php foreach ($this->items as $i => $item) : ?>
 		<?php if ($n === 1 || $i === 0 || $bscolumns === 1 || $i % $bscolumns === 0) : ?>

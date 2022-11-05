@@ -134,8 +134,8 @@
 .profile-edit .chzn-container .chzn-search:before,
 .edit.item-page .chzn-container .chzn-search:after,
 .profile-edit .chzn-container .chzn-search:after {
-  content: " ";
   display: table;
+  content: " ";
 }
 .edit.item-page .chzn-container .chzn-search:after,
 .profile-edit .chzn-container .chzn-search:after {
@@ -198,8 +198,8 @@
 }
 .edit .tab-pane:before,
 .edit .tab-pane:after {
-  content: " ";
   display: table;
+  content: " ";
 }
 .edit .tab-pane:after {
   clear: both;
@@ -304,8 +304,8 @@
 }
 .window .manager:before,
 .window .manager:after {
-  content: " ";
   display: table;
+  content: " ";
 }
 .window .manager:after {
   clear: both;
@@ -361,7 +361,7 @@
   left: -1px;
   z-index: 1;
   text-transform: uppercase;
-  background: url(../../../../../plugins/system/t3/base-bs3/imgs/blank.gif) no-repeat transparent;
+  background: url(../../../../../../plugins/system/t3/base-bs3/imgs/blank.gif) no-repeat transparent;
   text-indent: -999em;
 }
 .t3onoff label:before,
@@ -644,4 +644,16 @@ body.modal-open .modal.hide {
 }
 body.modal-open .modal.hide .iframe {
   border: 1px solid #ddd;
+}
+.thumbnails-media .imgFolder span {
+  line-height: 70px;
+}
+.j4 joomla-tab {
+  margin-bottom: 20px;
+}
+.j40 joomla-tab-element {
+  margin-bottom: 20px;
+}
+ul.chosen-results {
+  clear: both;
 }

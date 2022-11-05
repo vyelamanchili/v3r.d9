@@ -6,7 +6,6 @@ use Maximenuck\CKFof;
 use Maximenuck\Helper;
 use Maximenuck\CKFramework;
 
-require_once(MAXIMENUCK_PATH . '/helpers/defines.js.php');
 
 $user		= JFactory::getUser();
 $canEdit    = $user->authorise('core.edit', 'com_maximenuck');
@@ -15,20 +14,24 @@ $canEdit    = $user->authorise('core.edit', 'com_maximenuck');
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB" dir="ltr">
 <head>
 <?php 
+require_once(MAXIMENUCK_PATH . '/helpers/defines.js.php');
 // load everything inline
-CKFof::loadScriptInline(JUri::root(true) . '/media/jui/js/jquery.min.js');
+CKFof::addScriptInline(MAXIMENUCK_MEDIA_URI . '/assets/jqueryck.js');
 CKFramework::loadInline();
 CKFramework::loadFaIconsInline();
 Helper::loadCkboxInline();
 
-CKFof::loadStylesheetInline(MAXIMENUCK_MEDIA_URI . '/assets/admin.css');
-CKFof::loadStylesheetInline(MAXIMENUCK_MEDIA_URI . '/assets/joomlamenu.css');
+CKFof::addStylesheetInline(MAXIMENUCK_MEDIA_URI . '/assets/admin.css');
+CKFof::addStylesheetInline(MAXIMENUCK_MEDIA_URI . '/assets/joomlamenu.css');
 
-CKFof::loadScriptInline(MAXIMENUCK_MEDIA_URI . '/assets/jscolor/jscolor.js');
-CKFof::loadScriptInline(MAXIMENUCK_MEDIA_URI . '/assets/admin.js');
-CKFof::loadScriptInline(MAXIMENUCK_MEDIA_URI . '/assets/jquery-ui-1.10.2.custom.min.js');
-CKFof::loadScriptInline(MAXIMENUCK_MEDIA_URI . '/assets/nestedsortable.js');
-CKFof::loadScriptInline(MAXIMENUCK_MEDIA_URI . '/assets/joomlamenu.js');
+// fix until get better solution to work with the drag and drop
+CKFof::addScriptInline(MAXIMENUCK_MEDIA_URI . '/assets/jquery.min.1.8.1.js');
+
+CKFof::addScriptInline(MAXIMENUCK_MEDIA_URI . '/assets/jscolor/jscolor.js');
+CKFof::addScriptInline(MAXIMENUCK_MEDIA_URI . '/assets/admin.js');
+CKFof::addScriptInline(MAXIMENUCK_MEDIA_URI . '/assets/jquery-ui-1.10.2.custom.min.js');
+CKFof::addScriptInline(MAXIMENUCK_MEDIA_URI . '/assets/nestedsortable.js');
+CKFof::addScriptInline(MAXIMENUCK_MEDIA_URI . '/assets/joomlamenu.js');
 ?>
 <style>
 body {
@@ -130,7 +133,7 @@ require dirname(__FILE__) . '/default_mainmenu.php';
 									<span id="imageremove" class="ckbutton cktip" title="<?php echo JText::_('COM_MAXIMENUCK_ITEM_IMAGE_REMOVE'); ?>" onclick="ckRemoveImage(this);"><i class="fas fa-times"></i></span>
 								</span>
 								<span class="ckbutton-group iconoptions">
-									<span id="iconselect<?php echo $item->id ?>" class="iconselect ckbutton cktip <?php echo ($item->params->get('maximenu_icon','') ? 'active' : '') ?>" style="padding-top: 1px;" title="<?php echo JText::_('COM_MAXIMENUCK_ITEM_ICON_DESC'); ?>" onclick="ckProOny()"><?php echo JText::_('COM_MAXIMENUCK_ITEM_ICON'); ?>&nbsp;<span class="<?php echo $item->params->get('maximenu_icon','') ?>"></span></span>
+									<span id="iconselect<?php echo $item->id ?>" class="iconselect ckbutton cktip <?php echo ($item->params->get('maximenu_icon','') ? 'active' : '') ?>" title="<?php echo JText::_('COM_MAXIMENUCK_ITEM_ICON_DESC'); ?>" onclick="ckProOny()"><?php echo JText::_('COM_MAXIMENUCK_ITEM_ICON'); ?>&nbsp;<span class="<?php echo $item->params->get('maximenu_icon','') ?>"></span></span>
 									<span id="iconremove" class="ckbutton cktip" title="<?php echo JText::_('COM_MAXIMENUCK_ITEM_ICON_REMOVE'); ?>" onclick="ckRemoveIcon(this);"><i class="fas fa-times"></i></span>
 								</span>
 								<?php

@@ -115,7 +115,9 @@ class T3Less
 		$doc		 = JFactory::getDocument();
 		$theme   = $app->getUserState('current_theme', '');
 		$is_rtl      = ($app->getUserState('current_direction') == 'rtl');
-
+		if(array_key_exists("HTTP_USER_AGENT", $_SERVER)){
+			$_SERVER['HTTP_USER_AGENT'] = "";
+		}
 		$ie8 = preg_match('/MSIE 8\./', $_SERVER['HTTP_USER_AGENT']);
 
 		// get css cached file
@@ -383,7 +385,7 @@ class T3Less
 	{
 		$app  = JFactory::getApplication();
 		$params = null;
-		if ($app->isAdmin()) {
+		if (T3::isAdmin()) {
 			$params = $app->getUserState ('current_template_params');
 		} else {
 			$tpl   =  $app->getTemplate(true);

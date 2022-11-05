@@ -7,13 +7,13 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once 'ckformfield.php';
 require_once JPATH_ROOT . '/administrator/components/com_maximenuck/helpers/helper.php';
+require_once JPATH_ROOT . '/administrator/components/com_maximenuck/helpers/ckframework.php';
 
 use Maximenuck\CKFramework;
 use Maximenuck\Helper;
 
-class JFormFieldCkinfo extends CKFormField
+class JFormFieldCkinfo extends JFormField
 {
 	/**
 	 * The form field type.

@@ -38,7 +38,7 @@ class T3AdminLayout
 		$app   = JFactory::getApplication();
 		$input = $app->input;
 		
-		if (!$app->isAdmin()) {
+		if (!T3::isAdmin()) {
 			
 			$tpl = $app->getTemplate(true);
 			
@@ -159,7 +159,7 @@ class T3AdminLayout
 		$layout   = $input->getCmd('layout');
 		
 		//safe name
-		$layout = JApplication::stringURLSafe($layout);
+		$layout = JApplicationHelper::stringURLSafe($layout);
 		
 		if (!$template || !$original || !$layout) {
 			return self::error(JText::_('T3_LAYOUT_INVALID_DATA_TO_SAVE'));

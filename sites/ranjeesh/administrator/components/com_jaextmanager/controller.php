@@ -1,7 +1,7 @@
 <?php
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -16,15 +16,7 @@ jimport('joomla.application.component.controller');
 
 class JaextmanagerController extends JAEMController
 {
-	public function display($cachable = false, $urlparams = false)
-	{
-		$view = JRequest::getVar("view");
-		if (empty($view)) {
-			JRequest::setVar("view", "default");
-		}
-		parent::display();
-	}
-
+	protected $default_view = 'default';
 
 	public function getLink()
 	{

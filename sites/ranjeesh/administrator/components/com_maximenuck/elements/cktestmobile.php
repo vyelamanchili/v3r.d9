@@ -8,9 +8,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once 'ckformfield.php';
-
-class JFormFieldCktestmobile extends CKFormField {
+class JFormFieldCktestmobile extends JFormField {
 
     protected $type = 'cktestmobile';
 
@@ -32,7 +30,7 @@ class JFormFieldCktestmobile extends CKFormField {
 			$db->setQuery("SELECT enabled FROM #__extensions WHERE `element` = 'maximenuckmobile' AND `type` = 'plugin'");
 			$enabled = $db->loadResult();
 			if (! $enabled) {
-				$html[] = '<style>a[href*="mobileparams"], #attrib-maximenu_mobileparams { display: none !important; }</style>';
+				$html[] = '<style>a[href*="mobileparams"], #attrib-maximenu_mobileparams, [aria-controls="attrib-maximenu_mobileparams"] { display: none !important; }</style>';
 				return implode('', $html);
 			}
 		}
@@ -67,7 +65,7 @@ class JFormFieldCktestmobile extends CKFormField {
 
             // Add the label text and closing tag.
             // $label .= $styles . '>';
-            $label .= $icon ? '<img src="' . $this->mediaPath . $icon . '" style="margin-right:5px;" />' : '';
+            $label .= $icon ? '<img src="' . MAXIMENUCK_MEDIA_URI . '/images/' . $icon . '" style="margin-right:5px;" />' : '';
             $label .= $text;
 			// $label .= '</label>';
             // $html[] = $label;

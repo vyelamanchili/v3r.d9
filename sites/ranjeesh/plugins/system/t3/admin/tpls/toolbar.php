@@ -13,13 +13,21 @@
  */
 
 defined('_JEXEC') or die;
+jimport('joomla.language.help');
+$input = JFactory::getApplication()->input;
+$params  = T3::getTplParams();
+if(version_compare(JVERSION, '4','ge')){
+	$dropdown = 'data-bs-toggle="dropdown"';
+}else{
+	$dropdown = 'data-toggle="dropdown"';
+}
 ?>
 <div id="t3-admin-toolbar" class="btn-toolbar">
 
 	<?php if($input->getCmd('view') == 'style'): ?>
 	<div id="t3-admin-tb-save" class="btn-group">
 		<button id="t3-admin-tb-style-save-save" class="btn btn-success"><i class="icon-save"></i>  <?php echo JText::_('T3_TOOLBAR_SAVE') ?></button>
-		<button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+		<button class="btn btn-success dropdown-toggle" <?php echo $dropdown;?>>
 			<span class="caret"></span>&nbsp;
 		</button>
 		<ul class="dropdown-menu">
@@ -32,7 +40,7 @@ defined('_JEXEC') or die;
 	<div id="t3-admin-tb-recompile" class="btn-group">
 		<button id="t3-admin-tb-compile-all" class="btn hasTip" title="<?php echo JText::_('T3_TOOLBAR_COMPILE_LESS_CSS') ?>::<?php echo JText::_('T3_TOOLBAR_COMPILE_LESS_CSS_DESC') ?>"><i class="icon-code"></i>  <i class="icon-loading"></i>  <?php echo JText::_('T3_TOOLBAR_COMPILE_LESS_CSS') ?></button>
 		<?php if($input->getCmd('view') == 'style') : ?>
-		<button class="btn dropdown-toggle" data-toggle="dropdown">
+		<button class="btn dropdown-toggle" <?php echo $dropdown;?>>
 			<span class="caret"></span>&nbsp;
 		</button>
 		<ul class="dropdown-menu">
@@ -40,7 +48,7 @@ defined('_JEXEC') or die;
 		</ul>
 		<?php endif ?>
 	</div>
-
+	<?php if(version_compare(JVERSION, '4', 'lt')): ?>
 	<div id="t3-admin-tb-themer" 
 		class="btn-group">
 		<button 
@@ -52,7 +60,7 @@ defined('_JEXEC') or die;
 			<i class="icon-magic"></i>  <?php echo JText::_('T3_TOOLBAR_THEMER') ?>
 		</button>
 	</div>
-
+<?php endif ?>
 	<div id="t3-admin-tb-megamenu" 
 		class="btn-group" >
 		<button 
@@ -73,8 +81,13 @@ defined('_JEXEC') or die;
 	<div id="t3-admin-tb-close" class="btn-group <?php echo $input->getCmd('view') ?>">
 		<button class="btn"><i class="icon-remove"></i>  <?php echo JText::_('T3_TOOLBAR_CLOSE') ?></button>
 	</div>
-	<div id="t3-admin-tb-help" class="btn-group <?php echo $input->getCmd('view') ?>">
-		<button class="btn"><i class="icon-question-sign"></i>  <?php echo JText::_('T3_TOOLBAR_HELP') ?></button>
-	</div>
-
+	<?php if(version_compare(JVERSION, '4', 'ge')): ?>
+		<div id="t3-admin-tb-help" class="btn-group <?php echo $input->getCmd('view') ?>">
+			<button class="btn"><i class="icon-question-sign"></i>  <a href="https://www.joomlart.com/documentation/joomla-framework/t3-framework-for-joomla-2-5-and-joomla-3" target="_blank"><?php echo JText::_('T3_TOOLBAR_HELP') ?></a></button>
+		</div>
+	<?php else: ?>
+		<div id="t3-admin-tb-help" class="btn-group <?php echo $input->getCmd('view') ?>">
+			<button class="btn"><i class="icon-question-sign"></i>  <?php echo JText::_('T3_TOOLBAR_HELP') ?></button>
+		</div>
+	<?php endif; ?>
 </div>

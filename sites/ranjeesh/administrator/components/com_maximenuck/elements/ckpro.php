@@ -8,9 +8,7 @@
 // no direct access
 defined('JPATH_PLATFORM') or die;
 
-require_once 'ckformfield.php';
-
-class JFormFieldCkpro extends CKFormField {
+class JFormFieldCkpro extends JFormField {
 
 	protected $type = 'ckpro';
 

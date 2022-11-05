@@ -3,13 +3,21 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
 
-JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+if(!class_exists('ContentHelperRoute')){
+	if(version_compare(JVERSION, '4', 'ge')){
+		abstract class ContentHelperRoute extends \Joomla\Component\content\Site\Helper\RouteHelper{};
+	}else{
+		JLoader::register('ContentHelperRoute', JPATH_ROOT . 'components/com_content/helpers/route.php');
+	}
+}
 
 ?>
 <?php if ($this->params->get('show_articles')) : ?>

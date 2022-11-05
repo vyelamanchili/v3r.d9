@@ -5,6 +5,10 @@
  * @license		GNU/GPL
  * */
 
+// v9.0.8	- 25/06/21 : fix issue with rollover image
+// v9.0.7	- 03/06/21 : fix issue with fade effect and close outside click
+// v9.0.6	- 10/05/21 : add rollover image effect
+// v9.0.5	- 13/07/20 : fix issue with click and focus conflict
 // v9.0.4	- 28/06/20 : add offcanvas feature
 // v9.0.3	- 17/06/20 : add WCAG feature
 // v9.0.2	- 17/06/20 : fix issue with openck css class
@@ -234,7 +238,11 @@
 						el.data('status', 'opening');
 						el.submenu.hide();
 						el.submenu.stop(true, true);
-						el.submenu.fadeIn(fxduration, fxtransition, {
+						el.submenu.css('display', 'block').css('opacity', '0');
+						el.submenu.animate({'opacity': '1'}, {
+								duration: fxduration,
+								queue: false,
+								easing: fxtransition,
 							complete: function() {
 								status[el.data('level')] = '';
 								el.data('status', 'opened');
@@ -585,6 +593,7 @@
 				} else {
 					els = $('li.maximenuck.parent', maximenuObj);
 				}
+				initRolloverImage();
 				els.each(function(i, el) {
 					el = $(el);
 					// test if dropdown is required
@@ -832,6 +841,9 @@
 							$li.addClass('maximenuckanimation');
 						}
 					}
+					$link.on('mousedown', function() {
+						$(this).off('focus');
+					});
 					$link.on('focus', function() {
 						if ($li.hasClass('parent')) {
 							$li.submenu.show();
@@ -849,9 +861,6 @@
 								// maximenuObj.removeClass('maximenuck-wcag-active');
 							}
 						});
-					}).off('focus', function() {
-//						console.log('offfocus');
-						
 					});
 					
 			
@@ -886,6 +895,29 @@
 				});
 			}
 
+			function initRolloverImage() {
+				let items = maximenuObj.find('.rolloveritem');
+				if (! items.length) return;
+
+				items.each(function() {
+					$item = $(this);
+					var submenu = $($item.parents('.floatck')[0]);
+					var rolloverimage = submenu.find('.rolloverimage');
+					if (! rolloverimage.length) {
+						console.log('MAXIMENU CK message : rolloveritem items found but no rolloverimage.');
+						return;
+					}
+					rolloverimage.attr('data-oldsrc', rolloverimage.attr('src'));
+					var rolloverimageSrc = rolloverimage.attr('data-oldsrc');
+
+					$item.mouseenter(function() {
+						rolloverimage.attr('src', $(this).find('img').attr('src'));
+					});
+					submenu.mouseleave(function() {
+						rolloverimage.attr('src', rolloverimageSrc);
+					});
+				});
+			}
 		});
 	};
 	window.Maximenuck = Maximenuck;

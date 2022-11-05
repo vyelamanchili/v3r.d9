@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-
+$moduleclass_sfx = $params->get('moduleclass_sfx','');
 ?>
 <ul class="category-module<?php echo $moduleclass_sfx; ?>">
 <?php if ($grouped) : ?>
@@ -87,11 +87,6 @@ defined('_JEXEC') or die;
 				</a>
 			<?php else : ?>
 				<?php echo $item->title; ?>
-			<?php endif; ?>
-
-			<?php if ($item->displayHits) :?>
-				<span class="mod-articles-category-hits">
-				(<?php echo $item->displayHits; ?>)  </span>
 			<?php endif; ?>
 
 			<?php if ($params->get('show_author')) :?>

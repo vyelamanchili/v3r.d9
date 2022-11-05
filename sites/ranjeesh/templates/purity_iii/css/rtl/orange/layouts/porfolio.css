@@ -62,7 +62,7 @@
 .porfolio .item-state {
   width: 70px;
   height: 70px;
-  background: url(../../../../images/porfolio-item-states.png) no-repeat center top;
+  background: url(../../../../../images/porfolio-item-states.png) no-repeat center top;
   display: block;
   text-indent: -9999em;
   position: absolute;

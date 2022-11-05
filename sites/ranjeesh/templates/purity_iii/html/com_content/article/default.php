@@ -26,8 +26,9 @@ $aInfo2 = ($params->get('show_create_date') || $params->get('show_modify_date') 
 $topInfo = ($aInfo1 && $info != 1) || ($aInfo2 && $info == 0);
 $botInfo = ($aInfo1 && $info == 1) || ($aInfo2 && $info != 0);
 $icons = $params->get('access-edit') || $params->get('show_print_icon') || $params->get('show_email_icon');
-
-JHtml::_('behavior.caption');
+if(version_compare(JVERSION, '4', 'lt')){
+	JHtml::_('behavior.caption');
+}
 JHtml::_('bootstrap.tooltip');
 ?>
 

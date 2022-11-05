@@ -1,7 +1,7 @@
 <?php
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -50,12 +50,13 @@ if(JFile::exists(JPATH_COMPONENT."/installer/update/update.php")){
 	require_once JPATH_COMPONENT."/installer/update/update.php";
 }
 
+if(version_compare(JVERSION, '4', 'ge')){
+	JHtml::_('jquery.framework');
+}
 // Load global stylesheets and javascript
 if (!defined('JA_GLOBAL_SKIN')) {
 	define('JA_GLOBAL_SKIN', 1);
 	$assets = JURI::root() . 'administrator/components/com_jaextmanager/assets/';
-	
-	JHtml::_('behavior.modal', 'a.modal');
 	
 	JHtml::_('stylesheet', $assets . 'css/' . 'default.css');
 	JHtml::_('stylesheet', $assets . 'css/' . 'style.css');
@@ -65,14 +66,15 @@ if (!defined('JA_GLOBAL_SKIN')) {
 	JHtml::_('stylesheet', $assets . 'jquery.alerts/' . 'jquery.alerts.css');
 	
 	JHtml::_('bootstrap.popover');
-	JHtml::_('script', $assets . 'js/' . 'js.cookie.js', false, true);
-	JHtml::_('script', $assets . 'js/' . 'jquery.event.drag-1.4.min.js', false, true);
-	JHtml::_('script', $assets . 'js/' . 'jauc.js', false, true);
-	JHtml::_('script', $assets . 'js/' . 'jatree.js', false, true);
-	JHtml::_('script', $assets . 'js/' . 'menu.js', false, true);
-	JHtml::_('script', $assets . 'japopup/' . 'ja.popup.js', false, true);
-	JHtml::_('script', $assets . 'jadiffviewer/' . 'diffviewer.js', false, true);
-	JHtml::_('script', $assets . 'jquery.alerts/' . 'jquery.alerts.js', false, true);
+	JHtml::_('bootstrap.modal');
+	JHtml::_('script', $assets . 'js/' . 'js.cookie.js');
+	JHtml::_('script', $assets . 'js/' . 'jquery.event.drag-1.4.min.js');
+	JHtml::_('script', $assets . 'js/' . 'jauc.js');
+	JHtml::_('script', $assets . 'js/' . 'jatree.js');
+	JHtml::_('script', $assets . 'js/' . 'menu.js');
+	JHtml::_('script', $assets . 'japopup/' . 'ja.popup.js');
+	JHtml::_('script', $assets . 'jadiffviewer/' . 'diffviewer.js');
+	JHtml::_('script', $assets . 'jquery.alerts/' . 'jquery.alerts.js');
 
 }
 

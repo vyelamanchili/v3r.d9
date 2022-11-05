@@ -1,7 +1,7 @@
 <?php
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -9,6 +9,9 @@
  * Websites: http://www.joomlart.com - http://www.joomlancers.com
  * ------------------------------------------------------------------------
  */
+
+use Joomla\Archive\Archive;
+
 // no direct access
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
 jimport('joomla.filesystem.file');
@@ -67,7 +70,8 @@ class ArchiveHelper
 	 */
 	 public static function unZip($zipFile, $extractPath)
 	{
-		$archiveHelper = JArchive::getAdapter('zip');
+		$archive = new Archive();
+		$archiveHelper = $archive->getAdapter('zip');
 		$result = $archiveHelper->extract($zipFile, $extractPath);
 		if ($result === false) {
 			return false;

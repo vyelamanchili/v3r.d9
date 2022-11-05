@@ -3,35 +3,41 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Language\Text;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 JHtml::addIncludePath(T3_PATH.'/html/com_content');
 JHtml::addIncludePath(dirname(dirname(__FILE__)));
-JHtml::_('behavior.caption');
-
-$dispatcher = JEventDispatcher::getInstance();
+if(version_compare(JVERSION, '4','lt')){
+	JHtml::_('behavior.caption');	
+}
+$this->columns = !empty($this->columns) ? $this->columns : $this->params->get('num_columns','1');
+if(!$this->columns) $this->columns = 1;
+$app = JFactory::getApplication();
 
 $this->category->text = $this->category->description;
-$dispatcher->trigger('onContentPrepare', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
+$app->triggerEvent('onContentPrepare', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
 $this->category->description = $this->category->text;
 
-$results = $dispatcher->trigger('onContentAfterTitle', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
+$results = $app->triggerEvent('onContentAfterTitle', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
 $afterDisplayTitle = trim(implode("\n", $results));
 
-$results = $dispatcher->trigger('onContentBeforeDisplay', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
+$results = $app->triggerEvent('onContentBeforeDisplay', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
 $beforeDisplayContent = trim(implode("\n", $results));
 
-$results = $dispatcher->trigger('onContentAfterDisplay', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
+$results = $app->triggerEvent('onContentAfterDisplay', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
 $afterDisplayContent = trim(implode("\n", $results));
+
+$htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 
 ?>
 
-<div class="blog<?php echo $this->pageclass_sfx;?>" itemscope itemtype="https://schema.org/Blog">
+<div class="com-content-category-blog blog<?php echo $this->pageclass_sfx;?>" itemscope itemtype="https://schema.org/Blog">
 	<?php if ($this->params->get('show_page_heading', 1)) : ?>
 	<div class="page-header clearfix">
 		<h1 class="page-title"> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -39,11 +45,11 @@ $afterDisplayContent = trim(implode("\n", $results));
 	<?php endif; ?>
 	<?php if ($this->params->get('show_category_title', 1) or $this->params->get('page_subheading')) : ?>
   	<div class="page-subheader clearfix">
-  		<h2 class="page-subtitle"><?php echo $this->escape($this->params->get('page_subheading')); ?>
+  		<<?php echo $htag; ?> class="page-subtitle"><?php echo $this->escape($this->params->get('page_subheading')); ?>
 			<?php if ($this->params->get('show_category_title')) : ?>
 			<small class="subheading-category"><?php echo $this->category->title;?></small>
 			<?php endif; ?>
-  		</h2>
+  		</<?php echo $htag; ?>>
 	</div>
 	<?php endif; ?>
 
@@ -68,7 +74,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 
 	<?php if (empty($this->lead_items) && empty($this->link_items) && empty($this->intro_items)) : ?>
 		<?php if ($this->params->get('show_no_articles', 1)) : ?>
-			<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
+			<p><?php echo Text::_('COM_CONTENT_NO_ARTICLES'); ?></p>
 		<?php endif; ?>
 	<?php endif; ?>
 
@@ -93,25 +99,21 @@ $afterDisplayContent = trim(implode("\n", $results));
 	?>
 
 	<?php if (!empty($this->intro_items)) : ?>
-	<?php foreach ($this->intro_items as $key => &$item) : ?>
-		<?php $rowcount = ((int) $key % (int) $this->columns) + 1; ?>
-		<?php if ($rowcount === 1) : ?>
-			<?php $row = $counter / $this->columns; ?>
-		<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row; ?> row">
-		<?php endif; ?>
-			<div class="col-sm-<?php echo round((12 / $this->columns));?>">
-				<div class="item column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-					<?php
-					$this->item = &$item;
-					echo $this->loadTemplate('item');
-				?>
-				</div><!-- end item -->
-				<?php $counter++; ?>
-			</div><!-- end span -->
-			<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>			
-		</div><!-- end row -->
-			<?php endif; ?>
-	<?php endforeach; ?>
+		<div class="items-row row row-flex">
+		<?php foreach ($this->intro_items as $key => &$item) : ?>
+			<?php $rowcount = ((int) $key % (int) $this->columns) + 1; ?>
+
+				<div class="col-12<?php echo ($this->columns >= 2) ? ' col-sm-6':''; ?> col-md-<?php echo round((12 / $this->columns));?>">
+					<div class="item column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+						<?php
+						$this->item = &$item;
+						echo $this->loadTemplate('item');
+					?>
+					</div><!-- end item -->
+					<?php $counter++; ?>
+				</div><!-- end span -->
+		<?php endforeach; ?>
+		</div>
 	<?php endif; ?>
 	
 	<?php if (!empty($this->link_items)) : ?>
@@ -123,7 +125,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 	<?php if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) : ?>
 	<div class="cat-children">
 		<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
-		<h3> <?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?> </h3>
+		<h3> <?php echo Text::_('JGLOBAL_SUBCATEGORIES'); ?> </h3>
 		<?php endif; ?>
 		<?php echo $this->loadTemplate('children'); ?> </div>
 	<?php endif; ?>

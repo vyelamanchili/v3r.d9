@@ -16,22 +16,25 @@ $listDirn = $this->state->get('filter_order_Dir', 'ASC');
 $filter_search = $this->state->get('filter_search', '');
 $limitstart = $this->state->get('limitstart', 0);
 $limit = $this->state->get('limit', 20);
+CKFof::addStyleSheet(MAXIMENUCK_MEDIA_URI . '/assets/adminlist.css');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_maximenuck'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php Helper::addSidebar(); ?>
 	<div class="ckadminarea">
-		<div id="filter-bar" class="btn-toolbar">
-			<div class="filter-search ckbutton-group">
+		<div id="filter-bar" class="btn-toolbar input-group">
+			<div class="filter-search btn-group pull-left">
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->state->get('filter_search'); ?>" class="hasTooltip" title="" />
-				<button type="submit" class="ckbutton hasTooltip" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="ckbutton hasTooltip" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="this.form.filter_search.value = '';
+				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->state->get('filter_search'); ?>" class="form-control" />
+			</div>
+			<div class="input-group-append btn-group pull-left hidden-phone">
+				<button type="submit" class="btn btn btn-primary hasTooltip" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+				<button type="button" class="btn btn-secondary hasTooltip" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="this.form.filter_search.value = '';
 						this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
-				<div class="ckbutton-group pull-right hidden-phone">
-					<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
-				<?php echo $this->pagination->getLimitBox(); ?>
-				</div>
+			<div class="btn-group pull-right hidden-phone ordering-select">
+				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
+			<?php echo $this->pagination->getLimitBox(); ?>
+			</div>
 		</div>
 	
 		<table class="table table-striped" id="itemsList">

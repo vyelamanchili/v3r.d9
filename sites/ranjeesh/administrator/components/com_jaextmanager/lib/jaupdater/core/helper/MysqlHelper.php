@@ -1,7 +1,7 @@
 <?php
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -76,7 +76,7 @@ class jaMysqlHelper
 			return false;
 		}
 		
-		$tables = count($aTables > 0) ? implode(' ', $aTables) : '';
+		$tables = (count($aTables) > 0) ? implode(' ', $aTables) : '';
 		
 		$command = sprintf("%s -u%s %s %s %s --opt > \"%s\"", $this->_mysqlDumpPath, $this->_user, $this->_pass, $this->_db, $tables, $backupFile);
 		return $this->_exec($command, $this->_pass);

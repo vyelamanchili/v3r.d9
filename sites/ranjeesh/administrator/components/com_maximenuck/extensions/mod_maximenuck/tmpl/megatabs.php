@@ -20,19 +20,8 @@ $column_width = new stdClass();
 			<?php require dirname(__FILE__) . '/_mobile.php'; ?>
 			<ul<?php echo $microdata_ul ?> class="<?php echo $params->get('moduleclass_sfx'); ?> maximenuck">
 				<?php
-				if ($logoimage) {
-					$logoheight = $logoheight ? ' height="' . $logoheight . '"' : '';
-					$logowidth = $logowidth ? ' width="' . $logowidth . '"' : '';
-					$logofloat = ($params->get('orientation', 'horizontal') == 'vertical') ? '' : 'float: ' . $params->get('logoposition', 'left') . ';';
-					$styles = ' style="' . $logofloat . 'margin: ' . $params->get('logomargintop', '0') . 'px ' . $params->get('logomarginright', '0') . 'px ' . $params->get('logomarginbottom', '0') . 'px ' . $params->get('logomarginleft', '0') . 'px' . '"';
-					$logolinkstart = $logolink ? '<a href="' . JRoute::_($logolink) . '" style="margin-bottom: 0 !important;margin-left: 0 !important;margin-right: 0 !important;margin-top: 0 !important;padding-bottom: 0 !important;padding-left: 0 !important;padding-right: 0 !important;padding-top: 0 !important;background: none !important;">' : '';
-					$logolinkend = $logolink ? '</a>' : '';
-					?>
-					<li class="maximenucklogo" style="margin-bottom: 0 !important;margin-left: 0 !important;margin-right: 0 !important;margin-top: 0 !important;">
-						<?php echo $logolinkstart ?><img src="<?php echo $logoimage ?>" alt="<?php echo $params->get('logoalt', '') ?>" <?php echo $logowidth . $logoheight . $styles ?> /><?php echo $logolinkend ?>
-					</li>
-				<?php } ?>
-				<?php
+				include dirname(__FILE__) . '/_logo.php';
+
 				$zindex = 12000;
 				foreach ($items as $i => &$item) {
 					$item->mobile_data = isset($item->mobile_data) ? $item->mobile_data : '';
@@ -41,7 +30,7 @@ $column_width = new stdClass();
 					// test if need to be dropdown
 					//    $stopdropdown = ($item->level > 120) ? '-nodrop' : '';
 					$itemlevel = ($start > 1) ? $item->level - $start + 1 : $item->level;
-					$closeHtml = ($itemlevel > 1) ? '' : ( ($params->get('clickclose', '0') == '1' || $params->get('behavior', 'mouseover') == 'clickclose' || stristr($item->liclass, 'clickclose') != false) ? $close : '' );
+					$closeHtml = ($itemlevel > 1) ? '' : ( (($params->get('clickclose', '0') == '1' && $params->get('behavior', 'mouseover') == 'clickclose') || stristr($item->liclass, 'clickclose') != false) ? $close : '' );
 					$stopdropdown = $params->get('stopdropdownlevel', '0');
 					$stopdropdownclass = ($stopdropdown != '0' && $item->level >= $stopdropdown) ? ' nodropdown' : '';
 
@@ -62,7 +51,7 @@ $column_width = new stdClass();
 						$title = $item->anchor_title ? ' title="' . $item->anchor_title . '"' : '';
 						$description = $item->desc ? '<span class="descck">' . $item->desc . '</span>' : '';
 						// manage HTML encapsulation
-						$classcoltitle = $item->params->get('maximenu_classcoltitle', '') ? ' class="' . $item->params->get('maximenu_classcoltitle', '') . '"' : '';
+						$classcoltitle = $item->fparams->get('maximenu_classcoltitle', '') ? ' class="' . $item->fparams->get('maximenu_classcoltitle', '') . '"' : '';
 						$opentag = (isset($item->tagcoltitle) AND $item->tagcoltitle != 'none') ? '<' . $item->tagcoltitle . $classcoltitle . '>' : '';
 						$closetag = (isset($item->tagcoltitle) AND $item->tagcoltitle != 'none') ? '</' . $item->tagcoltitle . '>' : '';
 

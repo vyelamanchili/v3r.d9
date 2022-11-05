@@ -57,6 +57,10 @@ class T3Template extends ObjectExtendable
 	protected $_pageclass = array();
 
 
+	// after dispatch
+	public function init() {
+
+	}
 	/**
 	 * Class constructor
 	 *
@@ -96,8 +100,9 @@ class T3Template extends ObjectExtendable
 				$this->_layoutsettings->loadString(file_get_contents($fconfig), 'INI', array('processSections' => true));
 			}
 		}
+		JFactory::getApplication()->triggerEvent('onT3TplInit', array($this));
 
-		JDispatcher::getInstance()->trigger('onT3TplInit', array($this));
+		//JDispatcher::getInstance()->trigger('onT3TplInit', array($this));
 	}
 
 
@@ -213,7 +218,7 @@ class T3Template extends ObjectExtendable
 	{
 		$path = T3Path::getPath('tpls/' . $layout . '.php', 'tpls/default.php');
 
-		JDispatcher::getInstance()->trigger('onT3LoadLayout', array(&$path, $layout));
+		JFactory::getApplication()->triggerEvent('onT3LoadLayout', array(&$path, $layout));
 
 		if (is_file($path)) {
 
@@ -348,7 +353,7 @@ class T3Template extends ObjectExtendable
 		$vars['datas']     = $datas;
 		$vars['cols']      = $cols;
 
-		JDispatcher::getInstance()->trigger('onT3Spotlight', array(&$vars, $name, $positions));
+		JFactory::getApplication()->triggerEvent('onT3Spotlight', array(&$vars, $name, $positions));
 
 		$this->loadBlock('spotlight', $vars);
 	}
@@ -559,9 +564,12 @@ class T3Template extends ObjectExtendable
 		}
 
 		$this->_pageclass[] = 'j' . str_replace('.', '', (number_format((float)JVERSION, 1, '.', '')));
+		if(version_compare(JVERSION,'4','ge')){
+			$this->_pageclass[] = 'j40';
+		}
 		$this->_pageclass = array_unique($this->_pageclass);
 
-		JDispatcher::getInstance()->trigger('onT3BodyClass', array(&$this->_pageclass));
+		JFactory::getApplication()->triggerEvent('onT3BodyClass', array(&$this->_pageclass));
 
 		echo implode(' ', $this->_pageclass);
 	}
@@ -605,10 +613,10 @@ class T3Template extends ObjectExtendable
 		}
 
 		if (count($places)) {			
-			$body = JResponse::getBody();
+			$body = JFactory::getApplication()->getBody();
 			$body = preg_replace($places, $contents, $body);
 
-			JResponse::setBody($body);
+			JFactory::getApplication()->setBody($body);
 		}
 	}
 
@@ -909,7 +917,8 @@ class T3Template extends ObjectExtendable
 			// megamenu.css override in template
 			$this->addCss('megamenu');
 		}
-
+		// JFactory::getDocument()->getWebAssetManager()->disableAsset('script','bootstrap.es5');
+		
 		// Add scripts
 		if (version_compare(JVERSION, '3.0', 'ge')) {
 			JHtml::_('jquery.framework');

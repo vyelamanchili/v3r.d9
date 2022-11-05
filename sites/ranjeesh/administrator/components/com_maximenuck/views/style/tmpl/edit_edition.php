@@ -67,6 +67,7 @@ body.contentpane {
 
 <div class="menustylescustom" data-prefix="menustyles" data-rule="[menustyles]"></div>
 <div class="menustylescustom" data-prefix="level1itemnormalstyles" data-rule="[level1itemnormalstyles]"></div>
+<div class="menustylescustom" data-prefix="level1itemdescstyles" data-rule="[level1itemdescstyles]"></div>
 <div class="menustylescustom" data-prefix="level1itemhoverstyles" data-rule="[level1itemhoverstyles]"></div>
 <div class="menustylescustom" data-prefix="level1itemactivestyles" data-rule="[level1itemactivestyles]"></div>
 <div class="menustylescustom" data-prefix="level1itemparentstyles" data-rule="[level1itemparentstyles]"></div>
@@ -121,6 +122,7 @@ body.contentpane {
 					<div class="ckcol_left">
 						<div class="ckinterfacetablink current" data-tab="tab_menustyles" data-group="mainmenu"><?php echo JText::_('CK_MENUBAR'); ?></div>
 						<div class="ckinterfacetablink" data-tab="tab_level1itemnormalstyles" data-group="mainmenu"><?php echo JText::_('CK_MENULINK'); ?></div>
+						<div class="ckinterfacetablink" data-tab="tab_level1itemdescstyles" data-group="mainmenu"><?php echo JText::_('CK_MENULINK_DESC'); ?></div>
 						<div class="ckinterfacetablink" data-tab="tab_level1itemhoverstyles" data-group="mainmenu"><?php echo JText::_('CK_MENULINK_HOVER'); ?></div>
 						<div class="ckinterfacetablink" data-tab="tab_level1itemactivestyles" data-group="mainmenu"><?php echo JText::_('CK_MENULINK_ACTIVE'); ?></div>
 						<div class="ckinterfacetablink" data-tab="tab_level1itemactivehoverstyles" data-group="mainmenu"><?php echo JText::_('CK_MENULINK_ACTIVE_HOVER'); ?></div>
@@ -147,6 +149,9 @@ body.contentpane {
 							?>
 						</div>
 						<div class="ckinterfacetab" id="tab_level1itemnormalstyles" data-group="mainmenu">
+							<?php echo Helper::getProMessage() ?>
+						</div>
+						<div class="ckinterfacetab" id="tab_level1itemdescstyles" data-group="mainmenu">
 							<?php echo Helper::getProMessage() ?>
 						</div>
 						<div class="ckinterfacetab" id="tab_level1itemhoverstyles" data-group="mainmenu">

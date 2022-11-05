@@ -779,5 +779,10 @@ div#<?php echo $id; ?>.maximenuckv li.fullwidth > div.floatck {
 }
 
 div#<?php echo $id; ?> li.fullwidth > div.floatck > div.maxidrop-main {
-	width: auto;
+	width: auto !important;
+}
+
+div#<?php echo $id; ?>.maximenuckv li.fullwidth > div.floatck > .maxidrop-main {
+	height: 100%;
+	overflow-y: auto;
 }

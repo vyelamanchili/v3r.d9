@@ -34,7 +34,7 @@ class plgSystemT3 extends JPlugin
 
 		//must be in frontend
 		$app = JFactory::getApplication();
-		if ($app->isAdmin()) {
+		if (T3::isAdmin()) {
 			return;
 		}
 
@@ -96,32 +96,60 @@ class plgSystemT3 extends JPlugin
 					include_once T3_TEMPLATE_PATH . '/templateHook.php';
 				}
 
-				$tplHookCls = preg_replace('/(^[^A-Z_]+|[^A-Z0-9_])/i', '', T3_TEMPLATE . 'Hook');
-				$dispatcher = JDispatcher::getInstance();
+				// $tplHookCls = preg_replace('/(^[^A-Z_]+|[^A-Z0-9_])/i', '', T3_TEMPLATE . 'Hook');
+				// $dispatcher = JDispatcher::getInstance();
 
-				if (class_exists($tplHookCls)) {
-					new $tplHookCls($dispatcher, array());
+				// if (class_exists($tplHookCls)) {
+				// 	new $tplHookCls($dispatcher, array());
+				// }
+				
+
+				JFactory::getApplication()->triggerEvent('onT3Init');
+
+				$jinput = JFactory::getApplication()->input;
+				$t3Task = $jinput->get('t3task', '');
+				$template = $jinput->getCmd('template');
+				$layout   = $jinput->getCmd('layout');
+				if($layout && $t3Task){
+					//check and execute the t3action
+					T3::checkAction();
+				}
+				if(version_compare(JVERSION, '4', 'lt')){
+					//check and execute the t3action
+					T3::checkAction();
+
+					//check and change template for ajax
+					T3::checkAjax();
 				}
 
-				$dispatcher->trigger('onT3Init');
-
-				//check and execute the t3action
-				T3::checkAction();
-
-				//check and change template for ajax
-				T3::checkAjax();
 			}
+		}
+	}
+	function onAfterDispatch() {
+
+		if (defined('T3_PLUGIN') && T3::detect()) {
+			$t3app = T3::getApp();
+			if ($t3app) $t3app->init();
+		}
+
+		if(version_compare(JVERSION, '4', 'ge')){
+			//check and execute the t3action
+			T3::checkAction();
+
+			//check and change template for ajax
+			T3::checkAjax();
 		}
 	}
 
 	function onBeforeRender()
 	{
+
 		if (defined('T3_PLUGIN') && T3::detect()) {
 			$japp = JFactory::getApplication();
 
-			JDispatcher::getInstance()->trigger('onT3BeforeRender');
+			JFactory::getApplication()->triggerEvent('onT3BeforeRender');
 
-			if ($japp->isAdmin()) {
+			if (T3::isAdmin()) {
 
 				$t3app = T3::getApp();
 				$t3app->addAssets();
@@ -169,16 +197,16 @@ class plgSystemT3 extends JPlugin
 
 	function onBeforeCompileHead()
 	{
-		if (defined('T3_PLUGIN') && T3::detect() && !JFactory::getApplication()->isAdmin()) {
+		if (defined('T3_PLUGIN') && T3::detect()) {
 			// call update head for replace css to less if in devmode
 			$t3app = T3::getApp();
 			if ($t3app) {
 
-				JDispatcher::getInstance()->trigger('onT3BeforeCompileHead');
+				JFactory::getApplication()->triggerEvent('onT3BeforeCompileHead');
 
 				$t3app->updateHead();
 
-				JDispatcher::getInstance()->trigger('onT3AfterCompileHead');
+				JFactory::getApplication()->triggerEvent('onT3AfterCompileHead');
 			}
 		}
 	}
@@ -190,13 +218,13 @@ class plgSystemT3 extends JPlugin
 
 			if ($t3app) {
 
-				if (JFactory::getApplication()->isAdmin()) {
+				if (T3::isAdmin()) {
 					$t3app->render();
 				} else {
 					$t3app->snippet();
 				}
 
-				JDispatcher::getInstance()->trigger('onT3AfterRender');
+				JFactory::getApplication()->triggerEvent('onT3AfterRender');
 			}
 		}
 	}
@@ -283,6 +311,18 @@ class plgSystemT3 extends JPlugin
 		}
 	}
 
+	function onContentBeforeSave($context, $data, $isNew)
+	{
+		// Check we are handling the frontend edit form.
+		if ($context == 'com_content.form')
+		{
+			// $this->t4->onContentBeforeSave($context, $data, $isNew);
+			//extend extra fields update value
+			T3Bot::onContentBeforeSave($context, $data, $isNew);
+		}
+		return true;
+	}
+	
 	function onExtensionAfterSave($option, $data)
 	{
 		if (defined('T3_PLUGIN') && T3::detect() && $option == 'com_templates.style' && !empty($data->id)) {

@@ -12,8 +12,8 @@ CKFramework::load();
 CKFramework::loadFaIconsInline();
 //Helper::loadCkbox();
 
-CKFof::loadStylesheetInline(MAXIMENUCK_MEDIA_URI . '/assets/ckbox.css');
-CKFof::loadScriptInline(MAXIMENUCK_MEDIA_URI . '/assets/ckbox.js');
+CKFof::addStylesheetInline(MAXIMENUCK_MEDIA_URI . '/assets/ckbox.css');
+CKFof::addScriptInline(MAXIMENUCK_MEDIA_URI . '/assets/ckbox.js');
 
 $imagespath = MAXIMENUCK_MEDIA_URI .'/images/';
 

@@ -8,9 +8,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once 'ckformfield.php';
-
-class JFormFieldCkdocumentation extends CKFormField {
+class JFormFieldCkdocumentation extends JFormField {
 
 	protected $type = 'ckdocumentation';
 

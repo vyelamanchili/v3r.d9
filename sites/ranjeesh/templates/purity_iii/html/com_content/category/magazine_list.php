@@ -24,7 +24,6 @@ $cols       = $params->get('highlight_columns', 2);
 $positions  = $params->get('featured_info_positions', array());
 $col_width  = round(12 / $cols);
 
-$dispatcher = JEventDispatcher::getInstance();
 JPluginHelper::importPlugin('content');
 ?>
 
@@ -54,18 +53,18 @@ JPluginHelper::importPlugin('content');
 			$item->text = $item->introtext;
 		}
 
-		$dispatcher->trigger('onContentPrepare', array ('com_content.category', &$item, &$this->params, 0));
+		jFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_content.category', &$item, &$this->params, 0));
 
 		// Old plugins: Use processed text as introtext
 		$item->introtext = $item->text;
 
-		$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.category', &$item, &$item->params, 0));
+		$results = jFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.category', &$item, &$item->params, 0));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.category', &$item, &$item->params, 0));
+		$results = jFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.category', &$item, &$item->params, 0));
 		$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.category', &$item, &$item->params, 0));
+		$results = jFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.category', &$item, &$item->params, 0));
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 	}
 	?>
@@ -114,41 +113,21 @@ JPluginHelper::importPlugin('content');
 							<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $item, 'params' => $params, 'position' => 'below')); ?>
 						</aside>
 					<?php endif; ?>
+				  
+				  <?php if ($params->get('show_readmore')) :
+				    if ($params->get('access-view')) :
+				      $link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				    else :
+				      $menu = JFactory::getApplication()->getMenu();
+				      $active = $menu->getActive();
+				      $itemId = $active->id;
+				      $link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
+				      $link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)));
+				    endif; ?>
 
-					<?php if ($params->get('show_readmore') && $item->readmore) :
-						if ($item->params->get('access-view')) :
-							$link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid));
-						else :
-							$menu      = JFactory::getApplication()->getMenu();
-							$active    = $menu->getActive();
-							$itemId    = $active->id;
-							$link1     = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
-							$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid));
-							$link      = new JUri($link1);
-							$link->setVar('return', base64_encode($returnURL));
-						endif; ?>
+				    <?php echo JLayoutHelper::render('joomla.content.readmore', array('item' => $item, 'params' => $params, 'link' => $link)); ?>
 
-						<section class="readmore">
-							<a class="btn btn-default" href="<?php echo $link; ?>"><span>
-
-								<?php if (!$item->params->get('access-view')) :
-									echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
-								elseif ($readmore = $item->alternative_readmore) :
-									echo $readmore;
-									if ($params->get('show_readmore_title', 0) != 0) :
-										echo JHtml::_('string.truncate', ($item->title), $params->get('readmore_limit'));
-									endif;
-								elseif ($params->get('show_readmore_title', 0) == 0) :
-									echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
-								else :
-									echo JText::_('COM_CONTENT_READ_MORE');
-									echo JHtml::_('string.truncate', ($item->title), $params->get('readmore_limit'));
-								endif; ?>
-
-							</span></a>
-						</section>
-
-					<?php endif; ?>
+				  <?php endif; ?>
 
 					<?php echo $item->event->afterDisplayContent; ?>
 				</div>

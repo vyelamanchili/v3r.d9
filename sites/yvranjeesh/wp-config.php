@@ -17,17 +17,17 @@
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define('WP_CACHE', true);
-define( 'WPCACHEHOME', '/var/www/html/v3r.us/sites/yvranjeesh/wp-content/plugins/wp-super-cache/' );
+define( 'WPCACHEHOME', '/var/www/html/v4ecc/sites/yvranjeesh/wp-content/plugins/wp-super-cache/' );
 define('DB_NAME', 'v3r_yvranjeesh_wordpress');
 
 /** MySQL database username */
 define('DB_USER', 'v3r');
 
 /** MySQL database password */
-define('DB_PASSWORD', 'Ranjureetu59');
+define('DB_PASSWORD', 'v3rpassword');
 
 /** MySQL hostname */
-define('DB_HOST', 'localhost');
+define('DB_HOST', '127.0.0.1');
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8');
@@ -87,6 +87,14 @@ define('WPLANG', '');
  * in their development environments.
  */
 define('WP_DEBUG', false);
+
+define('FORCE_SSL_ADMIN', true);
+// in some setups HTTP_X_FORWARDED_PROTO might contain
+// a comma-separated list e.g. http,https
+// so check for https existence
+if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && strpos( $_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') !== false ) {
+   $_SERVER['HTTPS'] = 'on';
+}
 
 /* That's all, stop editing! Happy blogging. */
 

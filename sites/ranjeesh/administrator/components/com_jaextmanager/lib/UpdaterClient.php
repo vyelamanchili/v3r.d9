@@ -1,7 +1,7 @@
 <?php
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -556,17 +556,43 @@ class UpdaterClient
 				return $changelog;
 			}
 		}
-		
 		$pro = new jaProducts($product, $this->config);
-		
 		$content["service"] = "getChangeLog";
 		$content["args"]["product"] = $pro->getInfo();
 		$content["args"]["logVersion"] = $logVersion;
 		
 		$result = $this->invokeService($this->buildMessage($content), $product);
+
 		return $result;
 	}
+	function makeChangeLogsLocal($product, $data){
+		if (!($productDir = $this->getLocalBasePath($product))) {
+			return false;
+		}
+		if(gettype($data) != 'string'){
+			$data = json_encode($data);
+		}
+		$logFile = $productDir . "change_log.log";
+		JFile::write($logFile, $data);
+		return true;
+	}
 
+	/**
+	 * @return same result with buildDiff but getting information from local repo
+	 */
+	function getChangeLogsLocal($product)
+	{
+		if (!($productDir = $this->getLocalBasePath($product))) {
+			return false;
+		}
+
+		$logFile = $productDir . "change_log.log";
+		if (JFile::exists($logFile)) {
+			return file_get_contents($logFile);
+		} else {
+			return false;
+		}
+	}
 
 	/**
 	 * @return same result with buildDiff but getting information from local repo
@@ -576,8 +602,11 @@ class UpdaterClient
 		if (!($productDir = $this->getLocalVersionsPath($product))) {
 			return false;
 		}
-		
-		$logFile = $productDir . $logVersion."/change_log.log";
+		if($logVersion){
+			$logFile = $productDir . $logVersion."/change_log.log";
+		}else{
+			$logFile = $productDir . "change_log.log";
+		}
 		if (JFile::exists($logFile)) {
 			return file_get_contents($logFile);
 		} else {
@@ -993,6 +1022,7 @@ class UpdaterClient
 		} else {
 			$path = $basePath . $product->type.'/'.$product->extKey.'/';
 		}
+
 		return $path;
 	}
 

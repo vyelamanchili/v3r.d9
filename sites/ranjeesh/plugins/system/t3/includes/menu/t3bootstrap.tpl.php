@@ -20,12 +20,15 @@ class T3BootstrapTpl
 		$active    = T3Bootstrap::getActive();
 		$active_id = $active->id;
 		$path      = $base->tree;
+
 		?>
 		<ul class="nav navbar-nav">
 			<?php
 			foreach ($list as &$item) :
+				$ItemParams = version_compare(JVERSION, '4', 'ge') ? $item->getParams() : $item->params;
+				$item->itemParams = $ItemParams;
 				//intergration with new params joomla 3.6.x (menu_show)
-				$menu_show = (int)$item->params->get('menu_show', 1);
+				$menu_show = (int)$ItemParams->get('menu_show', 1);
 				if ($menu_show!=1)
 					continue;
 				$class = 'item-' . $item->id;
@@ -36,7 +39,7 @@ class T3BootstrapTpl
 				if (in_array($item->id, $path)) {
 					$class .= ' active';
 				} elseif ($item->type == 'alias') {
-					$aliasToId = $item->params->get('aliasoptions');
+					$aliasToId = $ItemParams->get('aliasoptions');
 					if (count($path) > 0 && $aliasToId == $path[count($path) - 1]) {
 						$class .= ' active';
 					} elseif (in_array($aliasToId, $path)) {
@@ -125,7 +128,7 @@ class T3BootstrapTpl
 		}
 
 		if ($item->menu_image) {
-			$item->params->get('menu_text', 1) ?
+			$item->itemParams->get('menu_text', 1) ?
 				$linktype = '<img class="' . $item->menu_image_css . '"  src="' . $item->menu_image . '" alt="' . $item->title . '" /><span class="image-title">' . $item->title . '</span> ' :
 				$linktype = '<img class="' . $item->menu_image_css . '"  src="' . $item->menu_image . '" alt="' . $item->title . '" />';
 		} else {
@@ -166,7 +169,7 @@ class T3BootstrapTpl
 		// Note. It is important to remove spaces between elements.
 		$title = $item->anchor_title ? ' title="' . $item->anchor_title . '" ' : '';
 		if ($item->menu_image) {
-			$item->params->get('menu_text', 1) ?
+			$item->itemParams->get('menu_text', 1) ?
 				$linktype = '<img class="' . $item->menu_image_css . '"  src="' . $item->menu_image . '" alt="' . $item->title . '" /><span class="image-title">' . $item->title . '</span> ' :
 				$linktype = '<img class="' . $item->menu_image_css . '"  src="' . $item->menu_image . '" alt="' . $item->title . '" />';
 		} else {
@@ -198,7 +201,7 @@ class T3BootstrapTpl
 		}
 
 		if ($item->menu_image) {
-			$item->params->get('menu_text', 1) ?
+			$item->itemParams->get('menu_text', 1) ?
 				$linktype = '<img class="' . $item->menu_image_css . '"  src="' . $item->menu_image . '" alt="' . $item->title . '" /><span class="image-title">' . $item->title . '</span> ' :
 				$linktype = '<img class="' . $item->menu_image_css . '"  src="' . $item->menu_image . '" alt="' . $item->title . '" />';
 		} else {
@@ -222,7 +225,7 @@ class T3BootstrapTpl
 				break;
 			case 2:
 				// window.open
-				$options = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,' . $params->get('window_open');
+				$options = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,' . $item->itemParams->get('window_open');
 				?>
 				<a <?php echo $class; ?>href="<?php echo $flink; ?>" onclick="window.open(this.href,'targetWindow','<?php echo $options; ?>');return false;" <?php echo $title, $dropdown; ?>><?php echo $linktype, $caret; ?></a>
 				<?php

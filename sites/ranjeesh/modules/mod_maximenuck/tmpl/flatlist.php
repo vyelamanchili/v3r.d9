@@ -41,8 +41,8 @@ foreach ($items as $i => &$item) {
 		$title = $item->anchor_title ? ' title="'.$item->anchor_title.'"' : '';
 		$description = $item->desc ? '<span class="descck">' . $item->desc . '</span>' : '';
 		// manage HTML encapsulation
-		// $item->tagcoltitle = $item->params->get('maximenu_tagcoltitle', 'none');
-		$classcoltitle = $item->params->get('maximenu_classcoltitle', '') ? ' class="'.$item->params->get('maximenu_classcoltitle', '').'"' : '';
+		// $item->tagcoltitle = $item->fparams->get('maximenu_tagcoltitle', 'none');
+		$classcoltitle = $item->fparams->get('maximenu_classcoltitle', '') ? ' class="'.$item->fparams->get('maximenu_classcoltitle', '').'"' : '';
 		// if ($item->tagcoltitle != 'none') {
 			// $item->ftitle = '<'.$item->tagcoltitle.$classcoltitle.'>'.$item->ftitle.'</'.$item->tagcoltitle.'>';
 		// }

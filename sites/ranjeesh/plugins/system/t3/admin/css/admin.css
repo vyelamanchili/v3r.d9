@@ -2,7 +2,7 @@
  *------------------------------------------------------------------------------
  * @package       T3 Framework for Joomla!
  *------------------------------------------------------------------------------
- * @copyright     Copyright (C) 2004-2013 JoomlArt.com. All Rights Reserved.
+ * @copyright     Copyright (C) 2004-2021 JoomlArt.com. All Rights Reserved.
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  * @authors       JoomlArt, JoomlaBamboo, (contribute to this project at github 
  *                & Google group to become co-author)
@@ -17,6 +17,7 @@
 ----------------------------------------------------*/
 
 @import "../fonts/fa3/css/font-awesome.css";
+@import "../fonts/fa4/css/font-awesome.css";
 
 body {
   background: #fff;
@@ -24,6 +25,8 @@ body {
   line-height: 20px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
+  margin: 0;
+  padding-top: 0;
 }
 
 /* Need to redefine cause of Default Joomla Style */
@@ -116,6 +119,11 @@ hr {
   text-align: left;
 }
 
+.header .page-title {
+  font-size: 20px;
+  margin: 0;
+}
+
 .header .container-logo .logo {
   
 }
@@ -177,6 +185,70 @@ h1.page-title small {
   background-image: none;
 }
 
+/* FIX TO COMPATIBLE WITH JOOMLA 4
+---------------------------------- */
+#t3-admin-toolbar button.show {
+  display: inline-block;
+}
+
+#t3-admin-toolbar .dropdown-menu {
+  inset: auto !important;
+  transform: none !important;
+}
+
+#system-message-container joomla-alert {
+  border-radius: 0;
+  border-width: 1px;
+  border-radius: 5px;
+  margin: 0 20px 10px;
+  padding: 4px 12px;
+  width: auto;
+}
+
+#system-message-container joomla-alert .alert-heading {
+  align-self: center;
+  border-radius: 50%;
+  height: 32px;
+  line-height: 32px;
+  padding: 0;
+  text-align: center;
+  width: 32px;
+}
+
+#system-message-container joomla-alert .alert-heading .success {
+  display: block;
+  height: 32px;
+  padding-top: 8px;
+  text-align: center;
+  width: 32px;
+}
+
+#system-message-container joomla-alert .alert-heading .success::before {
+  height: 24px;
+  width: 24px;
+}
+
+#system-message-container joomla-alert .alert-message {
+  margin: 0;
+}
+
+#system-message-container joomla-alert .joomla-alert--close {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Media */
+joomla-field-media .input-group {
+  display: flex;
+  max-width: 378px;
+}
+
+joomla-field-media .input-group .field-media-input {
+  flex: 1;
+  width: auto;
+}
+
+
 /* Loading */
 #t3-admin-tb-recompile .icon-loading,
 #t3-admin-tb-recompile.loading .icon-code {
@@ -190,6 +262,7 @@ h1.page-title small {
   height: 14px;
   margin-bottom: -2px;
 }
+
 
 /* Header 
 --------- */
@@ -216,6 +289,7 @@ h1.page-title small {
 
 /* THE NAV
 ----------- */
+#t3-admin-tabsTabs,
 .t3-admin-nav .nav-tabs {
   margin: 0;
   border-top: 1px solid #ccc;
@@ -227,24 +301,27 @@ h1.page-title small {
   padding: 0;
 }
 
+#t3-admin-tabsTabs > li,
 .t3-admin-nav .nav-tabs > li {
   margin-bottom: -1px;
-  margin-right: 20px;
-  margin-left: 20px;
+  margin-right: 20px !important;
+  margin-left: 20px !important;
   position: relative;
 }
 
+#t3-admin-tabsTabs > li > a,
 .t3-admin-nav .nav-tabs > li > a {
   color: #555;
   border-radius: 0;
   border: 0;
   border-bottom: 5px solid transparent;
   margin: 0;
-  padding: 15px 0 10px;
+  padding: 15px 0 10px !important;
   font-weight: bold;
   text-align: center;
 }
 
+#t3-admin-tabsTabs > li > a:hover,
 .t3-admin-nav .nav-tabs > li > a:hover {
   border: 0;
   border-bottom: 5px solid #07b;
@@ -252,6 +329,8 @@ h1.page-title small {
   background: transparent;
 }
 
+#t3-admin-tabsTabs > li > .nav-link.active,
+#t3-admin-tabsTabs > li > .nav-link.active:hover,
 .t3-admin-nav .nav-tabs > .active > a, 
 .t3-admin-nav .nav-tabs > .active > a:hover {
   border: 0;
@@ -259,6 +338,7 @@ h1.page-title small {
   font-weight: bold;
   background: transparent;
   border-bottom: 5px solid #07b;
+  text-decoration: none;
 }
 
 
@@ -432,6 +512,7 @@ input[type="tel"], input[type="color"], .uneditable-input,
   line-height: 22px;
   border-radius: 0;
   font-size: 14px;
+  box-sizing: content-box;
 }
 
 select, input[type="file"] {
@@ -490,6 +571,7 @@ input[type="color"]:focus,
   text-indent: 0;
 }
 
+.t3-admin-fieldset-desc + .t3-admin-form-legend,
 .t3-admin-fieldset-desc + * + .t3-admin-form-legend{
   border-top: 1px solid #ccc;
   margin-top: 0;
@@ -666,6 +748,10 @@ input[type="color"]:focus,
   box-sizing: border-box;
 }
 
+.t3onoff label:hover {
+  cursor: pointer;
+}
+
 /* use before as background */
 .t3onoff label:before {
   content: "ON";
@@ -754,6 +840,87 @@ input[type="color"]:focus,
 .t3onoff label.on.active:after {
   left: 60%;
 }
+
+
+/* [Joomla 4] Radio
+-------------------*/
+/* .btn-group.radio {
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  border-radius: 0;
+  height: 30px;
+  display: block;
+  overflow: hidden;
+  padding: 0 !important;
+  position: relative;
+  white-space: nowrap;
+  width: 90px;
+}
+
+.btn-group.radio input[type="radio"] {
+  display: none;
+}
+
+.btn-group.radio label {
+  box-sizing: border-box;
+  height: 30px;
+  overflow: hidden;
+  display: block;
+  border-radius: 0;
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  z-index: 1;
+  text-transform: uppercase;
+  background: url(../images/blank.gif) no-repeat transparent;
+  text-indent: -999em;
+  width: 90px;
+}
+
+/* use before as background */
+.btn-group.radio label::before {
+  content: "ON";
+  display: block;
+  position: absolute;
+  top: 0;
+  border-radius: 0;
+  width: 90px;
+  height: 30px;
+
+  -webkit-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+
+  text-indent: 0;
+  color: white;
+  padding: 6px 18px;
+  font-weight: normal;
+}
+
+/* use after as switch */
+.btn-group.radio label::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  border-radius: 0;
+  border: 1px solid #aaa;
+  width: 34px;
+  height: 28px;
+  background: #fff;
+
+  -webkit-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+#jform_params_devmode0 + label {
+
+} */
+
 
 /* btn group radio */
 fieldset.radio.btn-group .btn {
@@ -935,7 +1102,7 @@ button.btn-primary:active {
 
 #system-message > dd > ul {
   color: #0055BB;
-  background-position: 4px top;
+  background-position: 4px 6px;
   background-repeat: no-repeat;
   margin-bottom: 10px;
   list-style: none;
@@ -1142,7 +1309,11 @@ button.btn-primary:active {
 }
 
 .chzn-container-single .chzn-single div b {
-  background-position: 0 4px;
+  background-position: 4px 4px;
+}
+
+.chzn-container-single .chzn-single div b:before {
+  display: none;
 }
 
 .chzn-container-single .chzn-search {
@@ -1246,7 +1417,12 @@ button.btn-primary:active {
 
 .chzn-container-active .chzn-single-with-drop div b,
 .chzn-container-active.chzn-with-drop .chzn-single div b {
-  background-position: -18px 5px;
+  background-position: 4px 4px;
+}
+
+.chzn-container-active .chzn-single-with-drop div b:after,
+.chzn-container-active.chzn-with-drop .chzn-single div b:after {
+  display: none;
 }
 
 .chzn-container-active .chzn-choices {
@@ -1273,6 +1449,20 @@ button.btn-primary:active {
   cursor: pointer;
   margin-right: 5px;
   z-index: 10;
+}
+
+/* Fix on Joomla 4 */
+joomla-tab > ul {
+  background: #eee;
+  margin: 0;
+}
+
+joomla-tab > section {
+  padding: 0;
+}
+
+.visually-hidden {
+  display: none;
 }
 
 
@@ -1550,6 +1740,16 @@ button.btn-primary:active {
   font-family: 'IcoMoon';
 }
 
+.icon-times::before {
+  content: "\f00d";
+}
+
+.icon-paint-brush::before {
+  content: "\f1fc";
+  font-family: Font Awesome 5 Free;
+  font-weight: 900;
+}
+
 /* Fix for new Off-canvas Button */
 .fa-bars:before {
   font-family: "FontAwesome";
@@ -1591,6 +1791,134 @@ button.btn-primary:active {
   margin-bottom: 10px;
 }
 
+
+/* JOOMLA 4 COMPATIBLE
+---------------------- */
+/* Media field */
+.j4 joomla-field-media .field-media-preview {
+  border-radius: 0;
+  height: 60px;
+}
+
+.j4 joomla-field-media .field-media-preview-icon {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  height: 100%;
+  min-width: 100px;
+}
+
+/* Modal */
+.j4 .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+}
+
+.j4 .modal.show {
+  opacity: 1;
+}
+
+.j4 .modal-dialog.jviewport-width80 {
+  max-width: none;
+  margin: 1.75rem auto;
+  width: 80vw;
+}
+
+.j4 .jviewport-height60 {
+  height: 60vh;
+}
+
+.j4 .modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: .3rem;
+  outline: 0;
+}
+
+.modal-header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  padding: .5rem 1rem;
+  border-bottom: 1px solid #dee2e6;
+  border-top-left-radius: calc(.3rem - 1px);
+  border-top-right-radius: calc(.3rem - 1px);
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.btn-close {
+  box-sizing: content-box;
+  width: 1em;
+  height: 1em;
+  padding: .25em;
+  color: #000;
+  background: transparent url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3E%3C/svg%3E") 50%/1em auto no-repeat;
+  border: 0;
+  border-radius: .25rem;
+  opacity: .5;
+}
+
+.btn-close {
+  color: #000;
+  text-decoration: none;
+  opacity: .75;
+}
+
+iframe {
+  border: 0;
+}
+
+.modal-footer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: flex-end;
+  padding: .75rem;
+  border-top: 1px solid #dee2e6;
+  border-bottom-right-radius: calc(.3rem - 1px);
+  border-bottom-left-radius: calc(.3rem - 1px);
+}
+
+.modal-footer .btn {
+  margin: 0 8px;
+}
+
+
+/* Modal Backdrop */
+.modal-backdrop.show {
+  opacity: .5;
+}
+
+.modal-backdrop {
+  background-color: #000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+}
 
 /* -------------------------------------------------
 /* Responsive
@@ -1644,10 +1972,4 @@ button.btn-primary:active {
     width: 100%;
   }
 
-}
-
-
-.field-media-wrapper .input-prepend .button-select,
-.field-media-wrapper .input-prepend .button-clear{
-  height: auto;
 }

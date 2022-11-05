@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 // Create a shortcut for params.
 $params  = & $this->item->params;
 $images  = json_decode($this->item->images);
@@ -97,10 +99,11 @@ $icons = $params->get('access-edit') || $params->get('show_print_icon') || $para
 									echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
 								endif;
 							elseif ($params->get('show_readmore_title', 0) == 0) :
-								echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
+								$readmoreText = version_compare(JVERSION, '4', 'ge') ? JText::_('JGLOBAL_READ_MORE') : JText::_('COM_CONTENT_READ_MORE_TITLE');
+            		echo $readmoreText;
 							else :
-								echo JText::_('COM_CONTENT_READ_MORE');
-								echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+								$readmoreShowTitle = version_compare(JVERSION, '4', 'ge') ? JText::sprintf('JGLOBAL_READ_MORE_TITLE', HTMLHelper::_('string.truncate', $this->item->title, $params->get('readmore_limit'))) : JText::_('COM_CONTENT_READ_MORE') ." ".HTMLHelper::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
+            		echo $readmoreShowTitle;
 							endif; ?>
 							</span>
 						</a>

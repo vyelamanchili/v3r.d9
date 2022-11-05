@@ -150,10 +150,10 @@ class MaximenuckControllerJoomlamenu extends CKController
 		$rgt = $this->input->post->get('rgt', array(), 'array');
 
 		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
-		JArrayHelper::toInteger($lft);
-		JArrayHelper::toInteger($rgt);
+//		JArrayHelper::toInteger($pks);
+//		JArrayHelper::toInteger($order);
+//		JArrayHelper::toInteger($lft);
+//		JArrayHelper::toInteger($rgt);
 
 		// Get the model
 		$model = $this->getModel();

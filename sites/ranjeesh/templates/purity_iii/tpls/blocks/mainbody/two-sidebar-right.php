@@ -36,13 +36,13 @@ defined('_JEXEC') or die;
 				<?php endif ?>
 
 				<!-- SIDEBAR 1 -->
-				<div class="t3-sidebar t3-sidebar-1 col-xs-6 col-sm-12 col-md-6 <?php $this->_c($vars['sidebar1']) ?>">
+				<div class="t3-sidebar t3-sidebar-1 col-xs-12 col-md-6 <?php $this->_c($vars['sidebar1']) ?>">
 					<jdoc:include type="modules" name="<?php $this->_p($vars['sidebar1']) ?>" style="T3Xhtml" />
 				</div>
 				<!-- //SIDEBAR 1 -->
 			
 				<!-- SIDEBAR 2 -->
-				<div class="t3-sidebar t3-sidebar-2 col-xs-6 col-sm-12 col-md-6 <?php $this->_c($vars['sidebar2']) ?>">
+				<div class="t3-sidebar t3-sidebar-2 col-xs-12 col-md-6 <?php $this->_c($vars['sidebar2']) ?>">
 					<jdoc:include type="modules" name="<?php $this->_p($vars['sidebar2']) ?>" style="T3Xhtml" />
 				</div>
 				<!-- //SIDEBAR 2 -->

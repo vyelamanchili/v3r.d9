@@ -7,7 +7,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once 'ckformfield.php';
 require_once JPATH_ROOT . '/administrator/components/com_maximenuck/helpers/helper.php';
 require_once JPATH_ROOT . '/administrator/components/com_maximenuck/helpers/ckframework.php';
 
@@ -19,7 +18,7 @@ JText::script('MAXIMENUCK_SAVE_CLOSE');
 // CKFramework::load();
 Helper::loadCkbox();
 
-class JFormFieldCkstyle extends CKFormField {
+class JFormFieldCkstyle extends JFormField {
 
 	protected $type = 'ckstyle';
 
@@ -31,7 +30,7 @@ class JFormFieldCkstyle extends CKFormField {
 			jQuery("#' . $this->id . '").val(id);
 			jQuery("#' . $this->id . 'name").val(name);
 			if (close) 
-				CKBox.close(\'#ckstylesmodal\');
+				CKBox.close(\'#ckstylesmodal .ckboxmodal-button\');
 		}';
 		$doc->addScriptDeclaration($js);
 			
@@ -40,7 +39,7 @@ class JFormFieldCkstyle extends CKFormField {
 			$html = '<input name="' 
 				. $this->name . '_button" id="' 
 				. $this->name . '_button" class="ckpopupwizardmanager_button ckbutton" style="padding:20px;background-image:url(' 
-				. $this->mediaPath . 'pencil.png);background-repeat: no-repeat; background-position:10px center;width:300px;min-width: 300px;" type="button" value="' 
+				. MAXIMENUCK_MEDIA_URI . '/images/' . 'pencil.png);background-repeat: no-repeat; background-position:10px center;width:300px;min-width: 300px;" type="button" value="' 
 				. JText::_('MAXIMENUCK_STYLES_WIZARD') . '" onclick="CKBox.open({handler:\'iframe\', fullscreen: true, url:\'' 
 				. JUri::root(true) . '/administrator/index.php?option=com_maximenuck&view=style&layout=edit&tmpl=component&frommoduleid=' 
 				. JFactory::getApplication()->input->get('id',0,'int')

@@ -7,8 +7,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once dirname(__FILE__) . '/cklist.php';
-class JFormFieldCksource extends JFormFieldCklist
+class JFormFieldCksource extends JFormFieldlist
 {
 
 	protected $type = 'cksource';

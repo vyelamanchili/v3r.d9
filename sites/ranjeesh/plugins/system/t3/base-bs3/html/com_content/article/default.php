@@ -3,11 +3,27 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+
+if(!class_exists('ContentHelperRoute')){
+	if(version_compare(JVERSION, '4', 'ge')){
+		abstract class ContentHelperRoute extends \Joomla\Component\content\Site\Helper\RouteHelper{};
+	}else{
+		JLoader::register('ContentHelperRoute', $com_path . '/helpers/route.php');
+	}
+}
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
@@ -33,7 +49,9 @@ $icons = !empty($this->print) || $canEdit || $params->get('show_print_icon') || 
 
 // Check if associations are implemented. If they are, define the parameter.
 $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associations'));
-JHtml::_('behavior.caption');
+if(version_compare(JVERSION, '4', 'lt')){
+	JHtml::_('behavior.caption');
+}
 ?>
 
 <!-- Page header -->
@@ -146,16 +164,16 @@ JHtml::_('behavior.caption');
 						<?php $attribs = json_decode($this->item->attribs); ?>
 						<?php
 						if ($attribs->alternative_readmore == null) :
-							echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
+							echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE');
 						elseif ($readmore = $attribs->alternative_readmore) :
 							echo $readmore;
 							if ($params->get('show_readmore_title', 0) != 0) :
 								echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 							endif;
 						elseif ($params->get('show_readmore_title', 0) == 0) :
-							echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
+							echo Text::sprintf('COM_CONTENT_READ_MORE_TITLE');
 						else :
-							echo JText::_('COM_CONTENT_READ_MORE');
+							echo Text::_('COM_CONTENT_READ_MORE');
 							echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 						endif; ?>
 						</span></a>

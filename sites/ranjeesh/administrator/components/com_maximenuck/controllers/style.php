@@ -30,6 +30,7 @@ class MaximenuckControllerStyle extends CKController {
 		$menuID = '|ID|';
 		$menustyles = $this->input->get('menustyles', '', 'raw');
 		$level1itemnormalstyles = $this->input->get('level1itemnormalstyles', '', 'raw');
+		$level1itemdescstyles = $this->input->get('level1itemdescstyles', '', 'raw');
 		$level1itemhoverstyles = $this->input->get('level1itemhoverstyles', '', 'raw');
 		$level1itemactivestyles = $this->input->get('level1itemactivestyles', '', 'raw');
 		$level1itemactivehoverstyles = $this->input->get('level1itemactivehoverstyles', '', 'raw');
@@ -40,6 +41,7 @@ class MaximenuckControllerStyle extends CKController {
 		$level2itemnormalstyles = $this->input->get('level2itemnormalstyles', '', 'raw');
 		$level2itemhoverstyles = $this->input->get('level2itemhoverstyles', '', 'raw');
 		$level2itemactivestyles = $this->input->get('level2itemactivestyles', '', 'raw');
+		$level2itemactivehoverstyles = $this->input->get('level2itemactivehoverstyles', '', 'raw');
 		$level2itemnormalstylesicon = $this->input->get('level2itemnormalstylesicon', '', 'raw');
 		$level2itemhoverstylesicon = $this->input->get('level2itemhoverstylesicon', '', 'raw');
 		$level3menustyles = $this->input->get('level3menustyles', '', 'raw');
@@ -54,6 +56,7 @@ class MaximenuckControllerStyle extends CKController {
 		$params= new JRegistry();
 		$params->set('menustyles', Style::updateInterface($menustyles, 2));
 		$params->set('level1itemnormalstyles', Style::updateInterface($level1itemnormalstyles, 2));
+		$params->set('level1itemdescstyles', Style::updateInterface($level1itemdescstyles, 2));
 		$params->set('level1itemhoverstyles', Style::updateInterface($level1itemhoverstyles, 2));
 		$params->set('level1itemactivestyles', Style::updateInterface($level1itemactivestyles, 2));
 		$params->set('level1itemactivehoverstyles', Style::updateInterface($level1itemactivehoverstyles, 2));
@@ -64,6 +67,7 @@ class MaximenuckControllerStyle extends CKController {
 		$params->set('level2itemnormalstyles', Style::updateInterface($level2itemnormalstyles, 2));
 		$params->set('level2itemhoverstyles', Style::updateInterface($level2itemhoverstyles, 2));
 		$params->set('level2itemactivestyles', Style::updateInterface($level2itemactivestyles, 2));
+		$params->set('level2itemactivehoverstyles', Style::updateInterface($level2itemactivehoverstyles, 2));
 		$params->set('level2itemnormalstylesicon', Style::updateInterface($level2itemnormalstylesicon, 2));
 		$params->set('level2itemhoverstylesicon', Style::updateInterface($level2itemhoverstylesicon, 2));
 		$params->set('level3menustyles', Style::updateInterface($level3menustyles, 2));
@@ -486,7 +490,7 @@ class MaximenuckControllerStyle extends CKController {
 		}
 
 		// read the file
-		if (!$filecontent = JFile::read($src)) {
+		if (!$filecontent = file_get_contents($src)) {
 			$msg = JText::_('CK_UNABLE_READ_FILE', true);
 			echo json_encode(array('error'=> $msg));
 			exit();

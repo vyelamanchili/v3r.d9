@@ -8,6 +8,7 @@
  */
 
 defined('JPATH_BASE') or die;
+use Joomla\CMS\Language\Text;
 
 /**
  * Note that this layout opens a div with the page class suffix. If you do not use the category children
@@ -19,21 +20,35 @@ $category  = $displayData->get('category');
 $extension = $displayData->get('category')->extension;
 $canEdit = $params->get('access-edit');
 $className = substr($extension, 4);
-
-$dispatcher = JEventDispatcher::getInstance();
-
 $category->text = $category->description;
-$dispatcher->trigger('onContentPrepare', array($extension . '.categories', &$category, &$params, 0));
-$category->description = $category->text;
+if(version_compare(JVERSION, '3', 'ge')){
+	JFactory::getApplication()->triggerEvent('onContentPrepare', array($extension . '.categories', &$category, &$params, 0));
+	$category->description = $category->text;
 
-$results = $dispatcher->trigger('onContentAfterTitle', array($extension . '.categories', &$category, &$params, 0));
-$afterDisplayTitle = trim(implode("\n", $results));
+	$results = JFactory::getApplication()->triggerEvent('onContentAfterTitle', array($extension . '.categories', &$category, &$params, 0));
+	$afterDisplayTitle = trim(implode("\n", $results));
 
-$results = $dispatcher->trigger('onContentBeforeDisplay', array($extension . '.categories', &$category, &$params, 0));
-$beforeDisplayContent = trim(implode("\n", $results));
+	$results = JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array($extension . '.categories', &$category, &$params, 0));
+	$beforeDisplayContent = trim(implode("\n", $results));
 
-$results = $dispatcher->trigger('onContentAfterDisplay', array($extension . '.categories', &$category, &$params, 0));
-$afterDisplayContent = trim(implode("\n", $results));
+	$results = JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array($extension . '.categories', &$category, &$params, 0));
+	$afterDisplayContent = trim(implode("\n", $results));
+}else{
+	$dispatcher = JEventDispatcher::getInstance();
+
+	$dispatcher->trigger('onContentPrepare', array($extension . '.categories', &$category, &$params, 0));
+	$category->description = $category->text;
+
+	$results = $dispatcher->trigger('onContentAfterTitle', array($extension . '.categories', &$category, &$params, 0));
+	$afterDisplayTitle = trim(implode("\n", $results));
+
+	$results = $dispatcher->trigger('onContentBeforeDisplay', array($extension . '.categories', &$category, &$params, 0));
+	$beforeDisplayContent = trim(implode("\n", $results));
+
+	$results = $dispatcher->trigger('onContentAfterDisplay', array($extension . '.categories', &$category, &$params, 0));
+	$afterDisplayContent = trim(implode("\n", $results));
+}
+
 
 /**
  * This will work for the core components but not necessarily for other components
@@ -85,7 +100,7 @@ $tagsData = $displayData->get('category')->tags->itemTags;
 			<div class="cat-children">
 <?php if ($params->get('show_category_heading_title_text', 1) == 1) : ?>
 				<h3>
-					<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
+					<?php echo TEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
 				</h3>
 <?php endif; ?>
 				<?php echo $displayData->loadTemplate('children'); ?>

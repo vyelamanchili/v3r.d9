@@ -63,7 +63,7 @@ class CKInterface extends \stdClass {
 		<img class="ckicon" src="<?php echo $this->imagespath ?>/image.png" />
 		<div class="ckbutton-group">
 			<input type="text" id="<?php echo $prefix; ?>backgroundimageurl" name="<?php echo $prefix; ?>backgroundimageurl" class="cktip <?php echo $prefix; ?>" title="<?php echo CKText::_('CK_BACKGROUNDIMAGE_DESC'); ?>" onchange="ckCheckGradientImageConflict(this, '<?php echo $prefix; ?>backgroundcolorend')" style="max-width: none; width: 150px;"/>
-			<a class="modal ckbutton" href="<?php echo CKUri::base(true) ?>/index.php?option=com_maximenuck&view=browse&tmpl=component&field=<?php echo $prefix; ?>backgroundimageurl" rel="{handler: 'iframe', id: 'ckimagemanager'}" ><?php echo CKText::_('CK_SELECT'); ?></a>
+			<a class="ckbutton" onclick="ckCallImageManagerPopup('<?php echo $prefix; ?>backgroundimageurl')" href="javascript:void(0)" ><?php echo CKText::_('CK_SELECT'); ?></a>
 			<a class="ckbutton" href="javascript:void(0)" onclick="$ck(this).parent().find('input').val('');"><?php echo CKText::_('CK_CLEAR'); ?></a>
 		</div>
 	</div>

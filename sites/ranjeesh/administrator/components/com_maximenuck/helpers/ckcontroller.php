@@ -12,7 +12,7 @@ class CKController {
 
 	protected $name;
 
-	protected $perfix;
+	protected $prefix;
 
 	protected $view;
 
@@ -25,15 +25,13 @@ class CKController {
 	}
 
 	static function getInstance($prefix) {
-
 		if (is_object(self::$instance))
 		{
 			return self::$instance;
 		}
-		$basePath = MAXIMENUCK_PATH;
+		$basePath = MAXIMENUCK_BASE_PATH;
 		// Check for a controller.task command.
 		$input = CKFof::getInput();
-
 		$cmd = $input->get('task', '', 'cmd');
 		if (strpos($cmd, '.') !== false)
 		{
@@ -44,6 +42,7 @@ class CKController {
 			$file = self::createFileName('controller', array('name' => $name));
 			$path = $basePath . '/controllers/' . $file;
 			$backuppath = $basePath . '/controller/' . $file;
+
 			// Reset the task without the controller context.
 			$input->set('task', $task);
 		}
@@ -107,8 +106,8 @@ class CKController {
 	// public function getModel($base = '\Maximenuck\CKModel') {
 		// if (empty($this->model)) {
 			// $name = $this->getName();
-			// require_once(MAXIMENUCK_PATH . '/helpers/ckmodel.php');
-			// require_once(MAXIMENUCK_PATH . '/models/' . strtolower($name) . '.php');
+			// require_once(MAXIMENUCK_BASE_PATH . '/helpers/ckmodel.php');
+			// require_once(MAXIMENUCK_BASE_PATH . '/models/' . strtolower($name) . '.php');
 			// $className = ucfirst($base) . ucfirst($name);
 			// $this->model = new $className;
 		// }
@@ -155,11 +154,11 @@ class CKController {
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
 		// Build the view class name
-		$viewClass = $classPrefix . $viewName;
+		$viewClass = $classPrefix . ucfirst($viewName);
 
 		if (!class_exists($viewClass))
 		{
-			$path = MAXIMENUCK_PATH . '/views/' . $this->createFileName('view', array('name' => $viewName));
+			$path = MAXIMENUCK_BASE_PATH . '/views/' . $this->createFileName('view', array('name' => $viewName));
 
 			if (!$path)
 			{
@@ -190,7 +189,6 @@ class CKController {
 			// Push the model into the view (as default)
 			$view->setModel($model);
 		}
-
 
 		$view->display();
 
@@ -281,14 +279,14 @@ class CKController {
 
 	public function edit($id = null, $appendUrl = '') {
 		$editIds = $this->input->get('cid', $id, 'array');
-		if (count($editIds)) {
+		if (! empty($editIds)) {
 			$editId = (int) $editIds[0];
 		} else {
 			$editId = (int) $this->input->get('id', $id, 'int');
 		}
 
 		// Redirect to the edit screen.
-		CKFof::redirect(MAXIMENUCK_ADMIN_URL . '&view=' . $this->getName() . '&layout=edit&id=' . $editId . $appendUrl);
+		CKFof::redirect(MAXIMENUCK_URL . '&view=' . $this->getName() . '&layout=edit&id=' . $editId . $appendUrl);
 	}
 
 	public function copy() {
@@ -298,8 +296,8 @@ class CKController {
 		} else {
 			$id = (int) $this->input->get('id', null, 'int');
 		}
-		$model = $this->getModel($this->getName());
 
+		$model = $this->getModel($this->getName());
 		if ($model->copy($id)) {
 			CKFof::enqueueMessage('Item copied with success');
 		} else {
@@ -307,7 +305,7 @@ class CKController {
 		}
 
 		// Redirect to the edit screen.
-		CKFof::redirect(MAXIMENUCK_ADMIN_URL);
+		CKFof::redirect(MAXIMENUCK_URL);
 	}
 
 	public function delete() {
@@ -325,6 +323,6 @@ class CKController {
 		}
 
 		// Redirect to the edit screen.
-		CKFof::redirect(MAXIMENUCK_ADMIN_URL);
+		CKFof::redirect(MAXIMENUCK_URL);
 	}
 }

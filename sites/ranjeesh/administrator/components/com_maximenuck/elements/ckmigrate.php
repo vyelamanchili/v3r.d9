@@ -12,13 +12,12 @@ use Maximenuck\CKFolder;
 use Maximenuck\CKFile;
 use Maximenuck\CKText;
 
-require_once 'ckformfield.php';
 require_once JPATH_ROOT . '/administrator/components/com_maximenuck/helpers/ckfof.php';
 require_once JPATH_ROOT . '/administrator/components/com_maximenuck/helpers/ckfolder.php';
 require_once JPATH_ROOT . '/administrator/components/com_maximenuck/helpers/ckfile.php';
 require_once JPATH_ROOT . '/administrator/components/com_maximenuck/helpers/cktext.php';
 
-class JFormFieldCkmigrate extends CKFormField
+class JFormFieldCkmigrate extends JFormField
 {
 	/**
 	 * The form field type.

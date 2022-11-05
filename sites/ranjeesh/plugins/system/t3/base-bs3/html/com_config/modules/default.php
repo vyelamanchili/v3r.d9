@@ -8,32 +8,65 @@
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+if(version_compare(JVERSION, '4', 'ge')){
+	HTMLHelper::_('behavior.combobox');
 
-JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.framework', true);
-JHtml::_('behavior.combobox');
-JHtml::_('formbehavior.chosen', 'select');
+	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	$wa = $this->document->getWebAssetManager();
+	$wa->useScript('keepalive')
+		->useScript('form.validate')
+		->useScript('com_config.modules');
 
-$hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom';
+	$hasContent  = false;
+	$moduleXml   = JPATH_SITE . '/modules/' . $this->item['module'] . '/' . $this->item['module'] . '.xml';
 
-// If multi-language site, make language read-only
-if (JLanguageMultilang::isEnabled())
-{
-	$this->form->setFieldAttribute('language', 'readonly', 'true');
-}
-
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
+	if (File::exists($moduleXml))
 	{
-		if (task == 'config.cancel.modules' || document.formvalidator.isValid(document.getElementById('modules-form')))
+		$xml = simplexml_load_file($moduleXml);
+
+		if (isset($xml->customContent))
 		{
-			Joomla.submitform(task, document.getElementById('modules-form'));
+			$hasContent = true;
 		}
 	}
-");
 
+	// If multi-language site, make language read-only
+	if (Multilanguage::isEnabled())
+	{
+		$this->form->setFieldAttribute('language', 'readonly', 'true');
+	}
+}else{
+	JHtml::_('bootstrap.tooltip');
+	JHtml::_('behavior.formvalidator');
+	JHtml::_('behavior.keepalive');
+	JHtml::_('behavior.framework', true);
+	JHtml::_('behavior.combobox');
+	JHtml::_('formbehavior.chosen', 'select');
+
+	$hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom';
+
+	// If multi-language site, make language read-only
+	if (JLanguageMultilang::isEnabled())
+	{
+		$this->form->setFieldAttribute('language', 'readonly', 'true');
+	}
+
+	JFactory::getDocument()->addScriptDeclaration("
+		Joomla.submitbutton = function(task)
+		{
+			if (task == 'config.cancel.modules' || document.formvalidator.isValid(document.getElementById('modules-form')))
+			{
+				Joomla.submitform(task, document.getElementById('modules-form'));
+			}
+		}
+	");
+}
 ?>
 
 <form
@@ -45,40 +78,55 @@ JFactory::getDocument()->addScriptDeclaration("
 
 		<!-- Begin Content -->
 		<div class="span12">
-
-			<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
+			<?php if(version_compare(JVERSION, '4.0', 'ge')): ?>
+				<div class="mb-2">
+			<button type="button" class="btn btn-primary" data-submit-task="modules.apply">
+				<span class="icon-check" aria-hidden="true"></span>
+				<?php echo Text::_('JAPPLY'); ?>
+			</button>
+			<button type="button" class="btn btn-primary" data-submit-task="modules.save">
+				<span class="icon-check" aria-hidden="true"></span>
+				<?php echo Text::_('JSAVE'); ?>
+			</button>
+			<button type="button" class="btn btn-danger" data-submit-task="modules.cancel">
+				<span class="icon-times" aria-hidden="true"></span>
+				<?php echo Text::_('JCANCEL'); ?>
+			</button>
+			</div>
+			<?php else: ?>
+			<div class="btn-toolbar" role="toolbar" aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
 				<div class="btn-group">
 					<button type="button" class="btn btn-default btn-primary"
 						onclick="Joomla.submitbutton('config.save.modules.apply')">
 						<span class="icon-apply" aria-hidden="true"></span>
-						<?php echo JText::_('JAPPLY'); ?>
+						<?php echo Text::_('JAPPLY'); ?>
 					</button>
 				</div>
 				<div class="btn-group">
 					<button type="button" class="btn btn-default"
 						onclick="Joomla.submitbutton('config.save.modules.save')">
 						<span class="icon-save" aria-hidden="true"></span>
-						<?php echo JText::_('JSAVE'); ?>
+						<?php echo Text::_('JSAVE'); ?>
 					</button>
 				</div>
 				<div class="btn-group">
 					<button type="button" class="btn btn-default"
 						onclick="Joomla.submitbutton('config.cancel.modules')">
 						<span class="icon-cancel" aria-hidden="true"></span>
-						<?php echo JText::_('JCANCEL'); ?>
+						<?php echo Text::_('JCANCEL'); ?>
 					</button>
 				</div>
 			</div>
-
+			<?php endif; ?>
 			<hr class="hr-condensed" />
 			
-			<legend><?php echo JText::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
+			<legend><?php echo Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
 
 			<div>
-				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
+				<?php echo Text::_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
 				<span class="label label-default"><?php echo $this->item['title']; ?></span>
 				&nbsp;&nbsp;
-				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
+				<?php echo Text::_('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
 				<span class="label label-default"><?php echo $this->item['module']; ?></span>
 			</div>
 

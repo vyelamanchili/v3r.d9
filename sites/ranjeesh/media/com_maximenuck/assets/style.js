@@ -23,8 +23,10 @@ function ckSetValueToField(id, value) {
 				radio = $ck(radio);
 				if (radio.val() == value) {
 					radio.attr('checked', 'checked');
+					radio.prop('checked', 'checked');
 				} else {
-					radio.removeAttr('checked');
+//					radio.removeAttr('checked');
+//					radio.removeProp('checked');
 				}
 			});
 		}
@@ -42,20 +44,20 @@ function ckMakeJsonFields() {
 	$ck('#styleswizard_options input, #styleswizard_options select, #styleswizard_options textarea').each(function(i, el) {
 		el = $ck(el);
 		if (el.attr('type') == 'radio') {
-			if (el.attr('checked')) {
-				fields[el.attr('name')] = el.attr('value');
+			if (el.prop('checked')) {
+				fields[el.attr('name')] = el.val();
 			} else {
 				// fields[el.attr('id')] = '';
 			}
 		} else if (el.attr('type') == 'checkbox') {
-			if (el.attr('checked')) {
+			if (el.prop('checked')) {
 				fields[el.attr('name')] = '1';
 			} else {
 				fields[el.attr('name')] = '0';
 			}
 		} else {
 			if (el.attr('id') != 'customcss') {
-			var value = el.attr('value') ? el.attr('value') : '';
+			var value = el.val() ? el.val() : '';
 			fields[el.attr('name')] = value
 				.replace(/"/g, '|quot|')
 				.replace(/{/g, '|ob|')
@@ -82,7 +84,7 @@ function make_json_fields(prefix) {
 		field = $ck(field);
 		var  fieldobj = {};
 		if ( field.attr('type') == 'radio' ) {
-			if ( field.attr('checked') == 'checked' ) {
+			if ( field.prop('checked') == true ) {
 				fieldobj['id'] = field.attr('name');
 				fieldobj['value'] = field.val();
 				fields.push(fieldobj);
@@ -118,7 +120,7 @@ function ckApplyStylesparams() {
 			if (window.parent.document.getElementById('jform_params_'+param)) {
 				var json_value = window.parent.document.getElementById('jform_params_'+param).value;
 			} else {
-				console.log(param + ' not found in the parent module page'); 
+//				console.log(param + ' not found in the parent module page'); 
 				continue;
 			}
 			json_value = ckBCFieldsInterface(json_value);
@@ -131,7 +133,10 @@ function ckApplyStylesparams() {
 			}
 		}
 	}
-	ckChangeMenuOrientation($ck('input[name=orientation]:checked').val())
+//	ckChangeMenuOrientation($ck('input[name=orientation]:checked').val());
+	if (window.parent.document.getElementById('jform_params_layout')) {
+		ckChangeLayout(window.parent.document.getElementById('jform_params_layout').value.replace('_:', ''), $ck('input[name=orientation]:checked').val())
+	}
 	// launch the preview to update the interface
 	ckPreviewStyles();
 }
@@ -150,6 +155,7 @@ function ckPreviewStyles(button) {
 			menuID: 'maximenuck_previewmodule',
 			menustyles: make_json_fields('menustyles'),
 			level1itemnormalstyles: make_json_fields('level1itemnormalstyles'),
+			level1itemdescstyles: make_json_fields('level1itemdescstyles'),
 			level1itemhoverstyles: make_json_fields('level1itemhoverstyles'),
 			level1itemactivestyles: make_json_fields('level1itemactivestyles'),
 			level1itemactivehoverstyles: make_json_fields('level1itemactivehoverstyles'),
@@ -196,42 +202,6 @@ function ckPreviewStyles(button) {
 /**
 * Render the styles from the module helper
 */
-// new method à implémenter
-/*function ckPreviewStylesparams() {
-	var button = '#ckpopupstyleswizard_makepreview';
-	ckAddWaitIcon(button);
-	var fields = ckMakeJsonFields();
-	customstyles = new Object();
-	$ck('.menustylescustom').each(function() {
-		$this = $ck(this);
-		customstyles[$this.attr('data-prefix')] = $this.attr('data-rule');
-	});
-	customstyles = JSON.stringify(customstyles);
-	var myurl = MAXIMENUCK.BASE_URL + "&task=style.ajaxRenderCss&" + MAXIMENUCK.TOKEN;
-	$ck.ajax({
-		type: "POST",
-		url: myurl,
-		data: {
-			customstyles: customstyles,
-			customcss: $ck('#customcss').val(),
-			fields: fields
-		}
-	}).done(function(code) {
-		$ck('#layoutcss').val(code);
-		code = ckMakeCssReplacement(code);
-		var csscode = '<style>' + code.replace(/\|ID\|/g, '#maximenuckdemo1') + '</style>';
-		$ck('#previewarea > .ckstyle').empty().append(csscode);
-		ckRemoveWaitIcon(button);
-	}).fail(function() {
-		alert(Joomla.JText._('CK_FAILED', 'Failed'));
-	});
-}*/
-
-
-
-/**
-* Render the styles from the module helper
-*/
 function ckSaveStyles(button) {
 	if (! $ck('#name').val() && $ck('#name').attr('type') == 'text') {
 		$ck('#name').addClass('invalid').focus();
@@ -258,6 +228,7 @@ function ckSaveStyles(button) {
 			menuID: 'maximenuck_previewmodule',
 			menustyles: make_json_fields('menustyles'),
 			level1itemnormalstyles: make_json_fields('level1itemnormalstyles'),
+			level1itemdescstyles: make_json_fields('level1itemdescstyles'),
 			level1itemhoverstyles: make_json_fields('level1itemhoverstyles'),
 			level1itemactivestyles: make_json_fields('level1itemactivestyles'),
 			level1itemactivehoverstyles: make_json_fields('level1itemactivehoverstyles'),
@@ -304,11 +275,12 @@ function ckSaveStyles(button) {
 
 					if (window.parent.document.getElementById('jform_params_'+param)) window.parent.document.getElementById('jform_params_'+param).value = value;
 				}
+
 				// save theme and layout
-				if (window.parent.document.getElementById('jform_params_layout')) window.parent.document.getElementById('jform_params_layout').value = '_:' + $ck('.layoutthumb.selected').attr('data-name');
 				// if (window.parent.document.getElementById('jform_params_theme')) window.parent.document.getElementById('jform_params_theme').value = $ck('#theme').val();
 				// if (window.parent.document.getElementById('jform_params_customcss')) window.parent.document.getElementById('jform_params_customcss').value = $ck('#customcss').val();
 			}
+			if (window.parent.document.getElementById('jform_params_layout')) window.parent.document.getElementById('jform_params_layout').value = '_:' + $ck('.layoutthumb.selected').attr('data-name');
 		}
 		catch (e) {
 			alert(e);
@@ -352,9 +324,10 @@ function ckFloatElement(el) {
 
 function ckLoadGfontStylesheets() {
 	var gfonturl1 = $ck('#menustylestextisgfont').val() ? ckGetGfontStylesheet($ck('#menustylestextgfont').val())  : '';
-	var gfonturl2 = $ck('#level2itemnormalstylestextisgfont').val() ?ckGetGfontStylesheet($ck('#level2itemnormalstylestextgfont').val()) : '';
+	var gfonturl2 = $ck('#level2menustylestextisgfont').val() ? ckGetGfontStylesheet($ck('#level2menustylestextgfont').val()) : '';
+	var gfonturl3 = $ck('#level3menustylestextisgfont').val() ? ckGetGfontStylesheet($ck('#level3menustylestextgfont').val()) : '';
 
-	jQuery('#previewarea > .ckgfontstylesheet').html(gfonturl1 + gfonturl2);
+	jQuery('#previewarea > .ckgfontstylesheet').html(gfonturl1 + gfonturl2 + gfonturl3);
 }
 
 function ckGetGfontStylesheet(family) {
@@ -369,6 +342,7 @@ function ckGetGfontStylesheet(family) {
 function get_params_list() {
 	var styles = new Array('menustyles'
 						,'level1itemnormalstyles'
+						,'level1itemdescstyles'
 						,'level1itemnormalstylesicon'
 						,'level1itemhoverstyles'
 						,'level1itemactivestyles'
@@ -473,7 +447,7 @@ function ckMakeCharReplacements(data) {
 function ckBCFieldsInterface(fields) {
 	fields = fields.replace(/fontcolor/g, 'color');
 	fields = fields.replace(/bgcolor1/g, 'backgroundcolorstart');
-	fields = fields.replace(/bgcolor/g, 'backgroundcolorend');
+	fields = fields.replace(/bgcolor2/g, 'backgroundcolorend');
 	fields = fields.replace(/bgimage/g, 'backgroundimageurl');
 	fields = fields.replace(/bordertopwidth/g, 'bordertopsize');
 
@@ -645,6 +619,9 @@ function ckUploadParamsFile(formData) {
 function ckImportParamsFile(data) {
 	var fields = jQuery.parseJSON(data.replace(/\|qq\|/g, "\""));
 	for (var field in fields) {
+		if (field == 'customcss') {
+			fields[field] = ckMakeCharReplacements(fields[field]);
+		}
 		ckSetValueToField(field, fields[field])
 	}
 

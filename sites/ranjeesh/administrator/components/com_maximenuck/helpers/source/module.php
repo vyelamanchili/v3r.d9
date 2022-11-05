@@ -119,6 +119,16 @@ class MaximenuckHelpersourceModule extends CKModel {
 					'l.lang_code, uc.id, ag.id, mm.moduleid, e.element, a.publish_up, a.publish_down,e.enabled'
 			);
 
+		// Filter by current user access level.
+		$user = JFactory::getUser();
+
+		// Get the current user for authorisation checks
+		if ($user->authorise('core.admin') !== true)
+		{
+			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN (' . $groups . ')');
+		}
+
 		// Filter by access level.
 		// if ($access = $this->getState('filter.access'))
 		// {

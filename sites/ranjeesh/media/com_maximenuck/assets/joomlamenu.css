@@ -238,16 +238,16 @@ li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div.itemwrapper {
     height: 35px;
     font-size: 16px;
     font-weight: 100;
-    line-height: 30px;
+    line-height: 17px;
     vertical-align: top;
     padding: 8px;
 }
 
 .ckmove {
 	cursor: move;
-	float: left;
+	/*float: left;*/
 	text-align: center;
-	line-height: 20pc;
+	line-height: 20px;
 	padding-top: 8px;
 	font-size: 16px;
 }

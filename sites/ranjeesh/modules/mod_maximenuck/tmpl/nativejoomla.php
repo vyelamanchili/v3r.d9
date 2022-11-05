@@ -23,19 +23,7 @@ $start = (int) $params->get('startLevel');
 	}
 ?>>
 <?php
-if ($logoimage) {
-	$logoheight = $logoheight ? ' height="' . $logoheight . '"' : '';
-	$logowidth = $logowidth ? ' width="' . $logowidth . '"' : '';
-	$logofloat = ($params->get('orientation', 'horizontal') == 'vertical') ? '' : 'float: ' . $params->get('logoposition', 'left') . ';';
-	$styles = ' style="' .$logofloat . 'margin: '.$params->get('logomargintop','0').'px '.$params->get('logomarginright','0').'px '.$params->get('logomarginbottom','0').'px '.$params->get('logomarginleft','0').'px' . '"';
-	$logolinkstart = $logolink  ? '<a href="'. JRoute::_($logolink).'" style="margin-bottom: 0 !important;margin-left: 0 !important;margin-right: 0 !important;margin-top: 0 !important;padding-bottom: 0 !important;padding-left: 0 !important;padding-right: 0 !important;padding-top: 0 !important;background: none !important;">' : '';
-	$logolinkend = $logolink  ? '</a>' : '';
-	?>
-	<li class="maximenucklogo" style="margin-bottom: 0 !important;margin-left: 0 !important;margin-right: 0 !important;margin-top: 0 !important;">
-		<?php echo $logolinkstart ?><img src="<?php echo $logoimage ?>" alt="<?php echo $params->get('logoalt','') ?>" <?php echo $logowidth.$logoheight.$styles ?> /><?php echo $logolinkend ?>
-	</li>
-<?php } ?>
-<?php
+include dirname(__FILE__) . '/_logo.php';
 $zindex = 12000;
 
 foreach ($items as $i => &$item) :
@@ -50,8 +38,8 @@ foreach ($items as $i => &$item) :
 		$title = $item->anchor_title ? ' title="'.$item->anchor_title.'"' : '';
 		$description = $item->desc ? '<span class="descck">' . $item->desc . '</span>' : '';
 		// manage HTML encapsulation
-		$item->tagcoltitle = $item->params->get('maximenu_tagcoltitle', 'none');
-		$classcoltitle = $item->params->get('maximenu_classcoltitle', '') ? ' class="'.$item->params->get('maximenu_classcoltitle', '').'"' : '';
+		$item->tagcoltitle = $item->fparams->get('maximenu_tagcoltitle', 'none');
+		$classcoltitle = $item->fparams->get('maximenu_classcoltitle', '') ? ' class="'.$item->fparams->get('maximenu_classcoltitle', '').'"' : '';
 		$opentag = (isset($item->tagcoltitle) AND $item->tagcoltitle != 'none') ? '<'.$item->tagcoltitle.$classcoltitle.'>' : '';
 		$closetag = (isset($item->tagcoltitle) AND $item->tagcoltitle != 'none') ? '</'.$item->tagcoltitle.'>' : '';
 

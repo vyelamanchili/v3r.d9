@@ -10,6 +10,7 @@
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\HTML\HTMLHelper;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 if(version_compare(JVERSION, '3.0', 'lt')){
@@ -30,7 +31,7 @@ $icons = $params->get('access-edit') || $params->get('show_print_icon') || $para
 
 // update catslug if not exists - compatible with 2.5
 if (empty ($this->item->catslug)) {
-  $this->item->catslug = $this->item->category_alias ? ($this->item->catid.':'.$this->item->category_alias) : $this->item->catid;
+	$this->item->catslug = $this->item->category_alias ? ($this->item->catid.':'.$this->item->category_alias) : $this->item->catid;
 }
 ?>
 <?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
@@ -43,27 +44,27 @@ if (empty ($this->item->catslug)) {
 
 		<!-- Intro image -->
 		<div class="col-md-4">
-      <?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
+			<?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
 		</div>
 
 		<div class="col-md-8">
-      <?php if ($params->get('show_title')) : ?>
-        <?php echo JLayoutHelper::render('joomla.content.item_title', array('item' => $this->item, 'params' => $params, 'title-tag'=>'h2')); ?>
-      <?php endif; ?>
+			<?php if ($params->get('show_title')) : ?>
+				<?php echo JLayoutHelper::render('joomla.content.item_title', array('item' => $this->item, 'params' => $params, 'title-tag'=>'h2')); ?>
+			<?php endif; ?>
 
-      <!-- Aside -->
-      <?php if ($topInfo || $icons) : ?>
-      <aside class="article-aside clearfix">
-        <?php if ($topInfo): ?>
-        <?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
-        <?php endif; ?>
-        
-        <?php if ($icons): ?>
-        <?php echo JLayoutHelper::render('joomla.content.icons', array('item' => $this->item, 'params' => $params)); ?>
-        <?php endif; ?>
-      </aside>  
-      <?php endif; ?>
-      <!-- //Aside -->
+			<!-- Aside -->
+			<?php if ($topInfo || $icons) : ?>
+			<aside class="article-aside clearfix">
+				<?php if ($topInfo): ?>
+				<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
+				<?php endif; ?>
+				
+				<?php if ($icons): ?>
+				<?php echo JLayoutHelper::render('joomla.content.icons', array('item' => $this->item, 'params' => $params)); ?>
+				<?php endif; ?>
+			</aside>  
+			<?php endif; ?>
+			<!-- //Aside -->
 
 			<section class="article-intro clearfix">
 				<?php if (!$params->get('show_intro')) : ?>
@@ -74,47 +75,27 @@ if (empty ($this->item->catslug)) {
 
 				<?php echo $this->item->introtext; ?>
 			</section>
-      
-      <!-- footer -->
-      <?php if ($botInfo) : ?>
-      <footer class="article-footer clearfix">
-        <?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
-      </footer>
-      <?php endif; ?>
-      <!-- //footer -->
-
-			<?php if ($params->get('show_readmore') && $this->item->readmore) :
+			
+			<!-- footer -->
+			<?php if ($botInfo) : ?>
+			<footer class="article-footer clearfix">
+				<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
+			</footer>
+			<?php endif; ?>
+			<!-- //footer -->
+			<?php if ($params->get('show_readmore')) :
 				if ($params->get('access-view')) :
-					$link = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));
+					$link = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language));
 				else :
-					$menu      = JFactory::getApplication()->getMenu();
-					$active    = $menu->getActive();
-					$itemId    = $active->id;
-					$link1     = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
-					$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));
-					$link      = new JURI($link1);
-					$link->setVar('return', base64_encode($returnURL));
-				endif;
-				?>
-				<section class="readmore">
-					<a class="btn btn-default" href="<?php echo $link; ?>" itemprop="url">
-						<span>
-						<?php if (!$params->get('access-view')) :
-							echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
-						elseif ($readmore = $this->item->alternative_readmore) :
-							echo $readmore;
-							if ($params->get('show_readmore_title', 0) != 0) :
-								echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
-							endif;
-						elseif ($params->get('show_readmore_title', 0) == 0) :
-							echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
-						else :
-							echo JText::_('COM_CONTENT_READ_MORE');
-							echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
-						endif; ?>
-						</span>
-					</a>
-				</section>
+					$menu = JFactory::getApplication()->getMenu();
+					$active = $menu->getActive();
+					$itemId = $active->id;
+					$link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
+					$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)));
+				endif; ?>
+
+				<?php echo JLayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>
+
 			<?php endif; ?>
 		</div>
 	</article>

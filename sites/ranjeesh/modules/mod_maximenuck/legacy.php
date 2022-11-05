@@ -112,6 +112,11 @@ endswitch;
 if (!$items OR !count($items))
 	return false;
 
+foreach ($items as $item) {
+	// B/C to avoid php errors, because of migration to J4
+	if (! isset($item->fparams)) $item->fparams = $item->params;
+}
+
 $document = JFactory::getDocument();
 $app = JFactory::getApplication();
 $menu = $app->getMenu();
@@ -325,7 +330,7 @@ $mobilecss = "@media screen and (max-width: " . (int)$resolution . "px) {"
 	. "@media screen and (min-width: " . ((int)$resolution+1) . "px) {"
 	. "div#" . $menuID . " ul.maximenuck li.maximenuck.nodesktopck, div#" . $menuID . " .maxipushdownck ul.maximenuck2 li.maximenuck.nodesktopck { display: none !important; }"
 	. "}"
-		. "#' . $menuID . ' .maximenuck-toggler-anchor {
+		. "#" . $menuID . " .maximenuck-toggler-anchor {
 	height: 0;
 	opacity: 0;
 	overflow: hidden;
@@ -404,7 +409,7 @@ if ($params->get('microdata', '1') == '1') {
 	$microdata_a = '';
 }
 
-require JModuleHelper::getLayoutPath('mod_maximenuck', $params->get('layout', 'defaultv9'));
+require JModuleHelper::getLayoutPath('mod_maximenuck', $params->get('layout', 'default'));
 
 // load font awesome if needed
 global $ckfontawesomeisloaded;

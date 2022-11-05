@@ -61,12 +61,10 @@ T3AdminLayout = window.T3AdminLayout || {};
 			}
 
 			var onsubmit = form.onsubmit;
-
-			form.onsubmit = function(e){
-
+			form.addEventListener('submit', function(e){
 				(form.task.value && form.task.value.indexOf('.cancel') != -1) ?
 					($.isFunction(onsubmit) ? onsubmit() : false) : T3AdminLayout.t3savelayout(onsubmit);
-			};
+			});
 		},
 
 		initPrepareLayout: function(){
@@ -229,6 +227,7 @@ T3AdminLayout = window.T3AdminLayout || {};
 						.next().remove();
 				}
 			}
+			jtplpos.chosen();
 		},
 
 		initLayoutClone: function(){
@@ -1351,7 +1350,7 @@ T3AdminLayout = window.T3AdminLayout || {};
 									}
 								})
 								.parents('select')
-								.trigger('liszt:updated')
+								// .trigger('liszt:updated') dont need trigger
 								.next('.t3-admin-layout-rmvbtn').toggleClass('disabled', !jallpos.val())
 								.next('.t3-admin-layout-defbtn').toggleClass('disabled', jspan.siblings('h3').html() == jspan.closest('[data-original]').attr('data-original'));
 

@@ -11,7 +11,7 @@
 			type="rules"
 			label="JCONFIG_PERMISSIONS_LABEL"
 			filter="rules"
-			component="com_media"
+			component="com_jaextmanager"
 			section="component">
 			<action
 				name="core.admin"
@@ -35,7 +35,7 @@
 				description="JACTION_EDIT_COMPONENT_DESC" />
 			<action
 				name="core.edit.state"
-				title="JACTION_EDIT_STATE"
+				title="JACTION_EDITSTATE"
 				description="JACTION_EDIT_STATE_COMPONENT_DESC" />
 		</field>
 	</fieldset>

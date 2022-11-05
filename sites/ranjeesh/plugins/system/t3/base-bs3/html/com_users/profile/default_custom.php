@@ -3,14 +3,17 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Language\Text;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-JHtml::register('users.spacer', array('JHtmlUsers', 'spacer'));
+if(version_compare(JVERSION, '4', 'lt')){
+	JHtml::register('users.spacer', array('JHtmlUsers', 'spacer'));
+}
 
 $fieldsets = $this->form->getFieldsets();
 
@@ -36,11 +39,11 @@ foreach ($tmp as $customField)
 	<?php $fields = $this->form->getFieldset($group); ?>
 	<?php if (count($fields)) : ?>
 		<fieldset id="users-profile-custom-<?php echo $group; ?>" class="users-profile-custom-<?php echo $group; ?>">
-			<?php if (isset($fieldset->label) && ($legend = trim(JText::_($fieldset->label))) !== '') : ?>
+			<?php if (isset($fieldset->label) && ($legend = trim(Text::_($fieldset->label))) !== '') : ?>
 				<legend><?php echo $legend; ?></legend>
 			<?php endif; ?>
 			<?php if (isset($fieldset->description) && trim($fieldset->description)) : ?>
-				<p><?php echo $this->escape(JText::_($fieldset->description)); ?></p>
+				<p><?php echo $this->escape(Text::_($fieldset->description)); ?></p>
 			<?php endif; ?>
 			<dl class="dl-horizontal">
 				<?php foreach ($fields as $field) : ?>
@@ -48,7 +51,7 @@ foreach ($tmp as $customField)
 						<dt><?php echo $field->title; ?></dt>
 						<dd>
 							<?php if (key_exists($field->fieldname, $customFields)) : ?>
-								<?php echo strlen($customFields[$field->fieldname]->value) ? $customFields[$field->fieldname]->value : JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
+								<?php echo strlen($customFields[$field->fieldname]->value) ? $customFields[$field->fieldname]->value : Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
 							<?php elseif (JHtml::isRegistered('users.' . $field->id)) : ?>
 								<?php echo JHtml::_('users.' . $field->id, $field->value); ?>
 							<?php elseif (JHtml::isRegistered('users.' . $field->fieldname)) : ?>

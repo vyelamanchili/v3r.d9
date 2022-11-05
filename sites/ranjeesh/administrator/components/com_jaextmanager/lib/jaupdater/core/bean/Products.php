@@ -1,7 +1,7 @@
 <?php
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -752,7 +752,6 @@ XML;
 					 * The source file does not exist.  Nothing to copy so set an error
 					 * and return false.
 					 */
-					JError::raiseWarning(1, 'JInstaller::install: ' . JText::sprintf('File does not exist', $filesource));
 					return false;
 				} elseif (file_exists($filedest) && !$overwrite) {
 					return true;

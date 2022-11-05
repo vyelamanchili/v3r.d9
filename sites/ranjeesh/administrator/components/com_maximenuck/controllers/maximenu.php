@@ -103,7 +103,7 @@ class MaximenuckControllerMaximenu extends CKController {
 		}
 
 		// read the file
-		if (!$filecontent = JFile::read($src)) {
+		if (!$filecontent = file_get_contents($src)) {
 			$msg = JText::_('CK_UNABLE_READ_FILE', true);
 			echo json_encode(array('error'=> $msg));
 			exit();

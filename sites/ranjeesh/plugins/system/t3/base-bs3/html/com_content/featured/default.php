@@ -3,16 +3,29 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Language\Text;
+
+if(!class_exists('ContentHelperRoute')){
+	if(version_compare(JVERSION, '4', 'ge')){
+		abstract class ContentHelperRoute extends \Joomla\Component\content\Site\Helper\RouteHelper{};
+	}else{
+		JLoader::register('ContentHelperRoute', $com_path . '/helpers/route.php');
+	}
+}
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 JHtml::addIncludePath(T3_PATH.'/html/com_content');
 JHtml::addIncludePath(dirname(dirname(__FILE__)));
-JHtml::_('behavior.caption');
+if (version_compare(JVERSION, '4', 'lt')) {
+	JHtml::_('behavior.caption');
+}
+$this->columns = !empty($this->columns) ? $this->columns : $this->params->get('num_columns',1);
+if(!$this->columns) $this->columns = 1;
 
 // If the page class is defined, add to class as suffix.
 // It will be a separate class if the user starts it with a space
@@ -28,7 +41,7 @@ JHtml::_('behavior.caption');
 
 <?php $leadingcount = 0; ?>
 <?php if (!empty($this->lead_items)) : ?>
-<div class="items-leading clearfix">
+<div class="blog-items items-leading clearfix <?php echo $this->params->get('blog_class_leading'); ?>">
 	<?php foreach ($this->lead_items as &$item) : ?>
 		<div class="leading leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 			<?php
@@ -47,36 +60,27 @@ JHtml::_('behavior.caption');
 	$counter = 0;
 ?>
 <?php if (!empty($this->intro_items)) : ?>
+	<div class="row row-flex">
 	<?php foreach ($this->intro_items as $key => &$item) : ?>
-
 		<?php
 		$key = ($key - $leadingcount) + 1;
 		$rowcount = (((int) $key - 1) % (int) $this->columns) + 1;
 		$row = $counter / $this->columns;
-
-		if ($rowcount == 1) : ?>
-
-		<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row; ?> row">
-		<?php endif; ?>
-			<div class="item column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?> col-sm-<?php echo round((12 / $this->columns));?>" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+		?>
+			<div class="item col-12 column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?> <?php echo ((int)$this->columns >= 2) ? ' col-sm-6':''; ?> col-md-<?php echo round((12 / $this->columns));?>" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 			<?php
 				$this->item = &$item;
 				echo $this->loadTemplate('item');
 			?>
 			</div>
 			<?php $counter++; ?>
-
-			<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>
-
-		</div>
-		<?php endif; ?>
-
 	<?php endforeach; ?>
+	</div>
 <?php endif; ?>
 
 <?php if (!empty($this->link_items)) : ?>
 	<section class="items-more">
-		<h3><?php echo JText::_('COM_CONTENT_MORE_ARTICLES'); ?></h3>
+		<h3><?php echo Text::_('COM_CONTENT_MORE_ARTICLES'); ?></h3>
 		<?php echo $this->loadTemplate('links'); ?>
 	</section>
 <?php endif; ?>

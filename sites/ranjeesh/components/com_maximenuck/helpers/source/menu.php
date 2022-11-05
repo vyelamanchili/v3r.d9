@@ -62,13 +62,28 @@ class MaximenuckHelpersourceMenu {
 			// check for imbrication with third party items
 			$nbadditems = 0;
 			foreach ($items as $i => $item) {
-				if ($item->type == 'component' && $item->component == 'com_maximenuckhikashop') {
-					require_once JPATH_ROOT . '/plugins/system/maximenuck_hikashop/helper/helper_maximenuck_hikashop.php';
-					$className = 'modMaximenuckhikashopHelper';
+				if ($item->type == 'component' && 
+				($item->component == 'com_maximenuckhikashop' || ($item->component == 'com_maximenuck' && $item->query['view'] == 'sources') )
+				) {
 					$itemparams = new JRegistry();
 					if (isset($item->query) && is_array($item->query)) {
 						$itemparams->loadArray($item->query);
 					}
+					
+					if ($item->component == 'com_maximenuckhikashop') {
+						require_once JPATH_ROOT . '/plugins/system/maximenuck_hikashop/helper/helper_maximenuck_hikashop.php';
+						$className = 'modMaximenuckhikashopHelper';
+					} else {
+						$source = $itemparams->get('maximenuck_plugin_type');
+						$sourceFile = MAXIMENUCK_PLUGINS_PATH . '/' . strtolower($source) . '/helper/helper_' . strtolower($source) . '.php';
+						if (! file_exists($sourceFile)) {
+							echo '<p syle="color:red;">Error : File plugins/maximenuck/' . strtolower($source) . '/helpers/helper_' . strtolower($source) . '.php not found !</p>';
+							return;
+						}
+						require_once $sourceFile;
+						$className = 'MaximenuckHelpersource' . ucfirst($source);
+					}
+					
 					$additems = $className::getItems($itemparams, false, $item->level, $item->parent_id);
 
 					if (is_int($i)) {
@@ -89,11 +104,27 @@ class MaximenuckHelpersourceMenu {
 			$lastitem = 0;
 
 			foreach ($items as $i => $item) {
-				$isdependant = $params->get('dependantitems', false) ? ($start > 1 && !in_array($item->tree[$start - 2], $path)) : false;
+				// migration method to use with Joomla 4 where $item->params is protected
+				if (method_exists($item, 'getParams')) {
+					$item->fparams = $item->getParams();
+					try {
+						$prop = new ReflectionProperty(get_class($item), 'params');
+						if (! $prop->isProtected()) {
+							$item->params = $item->fparams;
+						}
+					} catch (Exception $e) {
+						// echo 'Exception reÃ§ue : ',  $e->getMessage(), "\n";
+					}
+					// B/C definition, and for other items not coming from the joomla menus
+					} else {
+						$item->fparams = $item->params;
+					}
+
+				$isdependant = $params->get('dependantitems', false) ? ($start > 1 && isset($item->tree[$start - 2]) && !in_array($item->tree[$start - 2], $path)) : false;
 				$item->isthirdparty = (isset($item->isthirdparty) && $item->isthirdparty) ? true : false;
 				$item->parent = false;
 
-				if (isset($items[$lastitem]) && isset($item->parent_id) && $items[$lastitem]->id == $item->parent_id && $item->params->get('menu_show', 1) == 1)
+				if (isset($items[$lastitem]) && isset($item->parent_id) && $items[$lastitem]->id == $item->parent_id && $item->fparams->get('menu_show', 1) == 1)
 				{
 					$items[$lastitem]->parent = true;
 				}
@@ -105,7 +136,7 @@ class MaximenuckHelpersourceMenu {
 				}
 
 				// Exclude item with menu item option set to exclude from menu modules
-				if (! $item->isthirdparty && (($item->params->get('menu_show', 1) == 0) || in_array($item->parent_id, $hidden_parents))
+				if (! $item->isthirdparty && (($item->fparams->get('menu_show', 1) == 0) || in_array($item->parent_id, $hidden_parents))
 				)
 				{
 					$hidden_parents[] = $item->id;
@@ -121,6 +152,9 @@ class MaximenuckHelpersourceMenu {
 					$items[$lastitem]->deeper = ($item->level > $items[$lastitem]->level);
 					$items[$lastitem]->shallower = ($item->level < $items[$lastitem]->level);
 					$items[$lastitem]->level_diff = ($items[$lastitem]->level - $item->level);
+				}
+				if (isset($items[$lastitem]) && $items[$lastitem]->deeper && isset($item->colwidth)) {
+					$items[$lastitem]->nextcolumnwidth = $item->colwidth;
 				}
 
 				// Test if this is the last item
@@ -153,23 +187,23 @@ class MaximenuckHelpersourceMenu {
 
 					case 'alias':
 						// If this is an alias use the item id stored in the parameters to make the link.
-						$item->flink = 'index.php?Itemid=' . $item->params->get('aliasoptions');
+						$item->flink = 'index.php?Itemid=' . $item->fparams->get('aliasoptions');
 						break;
 
 					default:
-						$item->flink = 'index.php?Itemid=' . $item->id;
+							if (! $item->isthirdparty) $item->flink = 'index.php?Itemid=' . $item->id;
 						break;
 				}
 
 				if (strcasecmp(substr($item->flink, 0, 4), 'http') && (strpos($item->flink, 'index.php?') !== false)) {
-					$item->flink = JRoute::_($item->flink, true, $item->params->get('secure'));
+					$item->flink = JRoute::_($item->flink, true, $item->fparams->get('secure'));
 				} else {
 					$item->flink = JRoute::_($item->flink);
 				}
 
-				$item->anchor_css = htmlspecialchars($item->params->get('menu-anchor_css', ''), ENT_COMPAT, 'UTF-8', false);
-				$item->anchor_title = htmlspecialchars($item->params->get('menu-anchor_title', ''), ENT_COMPAT, 'UTF-8', false);
-				$item->menu_image = $item->params->get('menu_image', '') ? htmlspecialchars($item->params->get('menu_image', ''), ENT_COMPAT, 'UTF-8', false) : ($item->menu_image ? $item->menu_image : '');
+				$item->anchor_css = htmlspecialchars($item->fparams->get('menu-anchor_css', ''), ENT_COMPAT, 'UTF-8', false);
+				$item->anchor_title = htmlspecialchars($item->fparams->get('menu-anchor_title', ''), ENT_COMPAT, 'UTF-8', false);
+				$item->menu_image = $item->fparams->get('menu_image', '') ? htmlspecialchars($item->fparams->get('menu_image', ''), ENT_COMPAT, 'UTF-8', false) : (isset($item->menu_image) && $item->menu_image ? $item->menu_image : '');
 
 
 
@@ -179,7 +213,7 @@ class MaximenuckHelpersourceMenu {
 				$item->ftitle = JFilterOutput::ampReplace($item->ftitle);
 				$parentItem = new stdClass();
 				
-				if (isset($item->parent_id) && $item->parent_id) $parentItem = modmaximenuckHelper::getParentItem($item->parent_id, $items);
+				if (isset($item->parent_id) && $item->parent_id) $parentItem = self::getParentItem($item->parent_id, $items);
 
 				// ---- add some classes ----
 				// add itemid class
@@ -191,7 +225,7 @@ class MaximenuckHelpersourceMenu {
 				}
 				// add active class
 				if (is_array($path) &&
-						( ($item->type == 'alias' && in_array($item->params->get('aliasoptions'), $path)) || in_array($item->id, $path))) {
+						( ($item->type == 'alias' && in_array($item->fparams->get('aliasoptions'), $path)) || in_array($item->id, $path))) {
 					$item->classe .= ' active';
 					$item->active = true;
 				}
@@ -218,31 +252,31 @@ class MaximenuckHelpersourceMenu {
 				}
 
 				// manage the class to show the item on desktop and mobile
-				if ($item->params->get('maximenu_disablemobile') == '1') {
+				if ($item->fparams->get('maximenu_disablemobile') == '1') {
 					$item->classe .= ' nomobileck';
 				}
 
 				// compatibility with Mobile Menu CK
-				if ($item->params->get('mobilemenuck_enablemobile', '1') == '0') {
+				if ($item->fparams->get('mobilemenuck_enablemobile', '1') == '0') {
 					$item->classe .= ' mobilemenuck-hide';
 				}
 				
-				if ($item->params->get('maximenu_disabledesktop') == '1' || $item->params->get('mobilemenuck_enabledesktop', '1') == '0') {
+				if ($item->fparams->get('maximenu_disabledesktop') == '1' || $item->fparams->get('mobilemenuck_enabledesktop', '1') == '0') {
 					$item->classe .= ' nodesktopck';
 				}
 
 
 				// ---- manage params ----
 				// -- manage column --
-				$item->colwidth = $item->params->get('maximenu_colwidth', '180');
-				$item->createnewrow = $item->params->get('maximenu_createnewrow', 0) || stristr($item->ftitle, '[newrow]');
+				$item->colwidth = $item->fparams->get('maximenu_colwidth', '180');
+				$item->createnewrow = $item->fparams->get('maximenu_createnewrow', 0) || stristr($item->ftitle, '[newrow]');
 				// check if there is a width for the subcontainer
 				preg_match('/\[subwidth=([0-9]+)\]/', $item->ftitle, $subwidth);
 				$subwidth = isset($subwidth[1]) ? $subwidth[1] : '';
 				if ($subwidth)
 					$item->ftitle = preg_replace('/\[subwidth=[0-9]+\]/', '', $item->ftitle);
-				$item->submenucontainerwidth = $item->params->get('maximenu_submenucontainerwidth', '') ? $item->params->get('maximenu_submenucontainerwidth', '') : $subwidth;
-				if ($item->params->get('maximenu_createcolumn', 0)) {
+				$item->submenucontainerwidth = $item->fparams->get('maximenu_submenucontainerwidth', '') ? $item->fparams->get('maximenu_submenucontainerwidth', '') : $subwidth;
+				if ($item->fparams->get('maximenu_createcolumn', 0)) {
 					$item->colonne = true;
 					// add the value to give the total parent container width
 					if (isset($parentItem->submenuswidth)) {
@@ -282,9 +316,10 @@ class MaximenuckHelpersourceMenu {
 				}
 
 				// -- manage module --
-				$moduleid = $item->params->get('maximenu_module', '');
-				$style = $item->params->get('maximenu_forcemoduletitle', 0) ? 'xhtml' : '';
-				if ($item->params->get('maximenu_insertmodule', 0)) {
+				$moduleid = $item->fparams->get('maximenu_module', '');
+//				$style = $item->fparams->get('maximenu_forcemoduletitle', 0) ? 'html5' : '';
+				$style = 'html5';
+				if ($item->fparams->get('maximenu_insertmodule', 0)) {
 					if (!isset($modules[$moduleid])) {
 						$modules[$moduleid] = Helperfront::GenModuleById($moduleid, $params, $modulesList, $style, $item->level);
 					}
@@ -300,7 +335,7 @@ class MaximenuckHelpersourceMenu {
 
 				// -- manage rel attribute --
 				$item->rel = '';
-				if ($rel = $item->params->get('maximenu_relattr', $item->params->get('menu-anchor_rel', ''))) {
+				if ($rel = $item->fparams->get('maximenu_relattr', $item->fparams->get('menu-anchor_rel', ''))) {
 					$item->rel = ' rel="' . $rel . '"';
 				} elseif (preg_match('/\[rel=([a-z]+)\]/i', $item->ftitle, $resultat)) {
 					$item->ftitle = preg_replace('/\[rel=[a-z]+\]/i', '', $item->ftitle);
@@ -308,7 +343,7 @@ class MaximenuckHelpersourceMenu {
 				}
 
 				// -- manage link description --
-				$item->description = $item->params->get('maximenu_desc', '');
+				$item->description = $item->fparams->get('maximenu_desc', '');
 				if ($item->description) {
 					$item->desc = $item->description;
 				} else {
@@ -322,26 +357,26 @@ class MaximenuckHelpersourceMenu {
 				}
 
 				// add the anchor tag and url suffix
-				$item->flink .= $item->params->get('maximenu_urlsuffix', '') ? $item->params->get('maximenu_urlsuffix', '') : '';
-				$item->flink .= $item->params->get('maximenu_anchor', '') ? '#' . $item->params->get('maximenu_anchor', '') : '';
+				$item->flink .= $item->fparams->get('maximenu_urlsuffix', '') ? $item->fparams->get('maximenu_urlsuffix', '') : '';
+				$item->flink .= $item->fparams->get('maximenu_anchor', '') ? '#' . $item->fparams->get('maximenu_anchor', '') : '';
 
 				// add styles to the page for customization
 				$menuID = $params->get('menuid', 'maximenuck');
 
 				// get plugin parameters that are used directly in the layout
-				$item->leftmargin = $item->params->get('maximenu_leftmargin', '');
-				$item->topmargin = $item->params->get('maximenu_topmargin', '');
-				$item->liclass = $item->params->get('maximenu_liclass', '');
-				$item->colbgcolor = $item->params->get('maximenu_colbgcolor', '');
-				$item->tagcoltitle = $item->params->get('maximenu_tagcoltitle', 'none');
-				$item->submenucontainerheight = $item->params->get('maximenu_submenucontainerheight', '');
-				$item->access_key = htmlspecialchars($item->params->get('maximenu_accesskey', ''), ENT_COMPAT, 'UTF-8', false);
+				$item->leftmargin = $item->fparams->get('maximenu_leftmargin', '');
+				$item->topmargin = $item->fparams->get('maximenu_topmargin', '');
+				$item->liclass = $item->fparams->get('maximenu_liclass', '');
+				$item->colbgcolor = $item->fparams->get('maximenu_colbgcolor', '');
+				$item->tagcoltitle = $item->fparams->get('maximenu_tagcoltitle', 'none');
+				$item->submenucontainerheight = $item->fparams->get('maximenu_submenucontainerheight', '');
+				$item->access_key = htmlspecialchars($item->fparams->get('maximenu_accesskey', ''), ENT_COMPAT, 'UTF-8', false);
 
 				// get mobile plugin parameters that are used directly in the layout
 				$item->mobile_data = '';
-				$mobileicon = $item->params->get('maximenumobile_icon', $item->params->get('mobilemenuck_icon', ''));
+				$mobileicon = $item->fparams->get('maximenumobile_icon', $item->fparams->get('mobilemenuck_icon', ''));
 				$item->mobile_data .= $mobileicon ? ' data-mobileicon="' . $mobileicon . '"' : '';
-				$mobiletext = $item->params->get('maximenumobile_textreplacement', $item->params->get('mobilemenuck_textreplacement', ''));
+				$mobiletext = $item->fparams->get('maximenumobile_textreplacement', $item->fparams->get('mobilemenuck_textreplacement', ''));
 				$item->mobile_data .= $mobiletext ? ' data-mobiletext="' . $mobiletext . '"' : '';
 
 				// set the item styles if the plugin is enabled
@@ -501,134 +536,134 @@ class MaximenuckHelpersourceMenu {
 		$itemlevel = ($start > 1) ? $item->level - $start + 1 : $item->level;
 		$itemlevel = $params->get('calledfromlevel','') ? $itemlevel + $params->get('calledfromlevel') - 1 : $itemlevel;
 		$itemcss = '';
-		$cssitemnormal = Style::createCss($menuID, $item->params, 'itemnormalstyles', true, $item->id);
-		$cssitemhover = Style::createCss($menuID, $item->params, 'itemhoverstyles', true, $item->id);
-		$cssitemactive = Style::createCss($menuID, $item->params, 'itemactivestyles', true, $item->id);
-		$csssubmenu = Style::createCss($menuID, $item->params, 'submenustyles', true, $item->id);
-		//$cssheading = Style::createCss($menuID, $item->params, 'headingstyles');
+		$cssitemnormal = Style::createCss($menuID, $item->fparams, 'itemnormalstyles', true, $item->id);
+		$cssitemhover = Style::createCss($menuID, $item->fparams, 'itemhoverstyles', true, $item->id);
+		$cssitemactive = Style::createCss($menuID, $item->fparams, 'itemactivestyles', true, $item->id);
+		$csssubmenu = Style::createCss($menuID, $item->fparams, 'submenustyles', true, $item->id);
+		//$cssheading = Style::createCss($menuID, $item->fparams, 'headingstyles');
 
-		$separator = ($item->type == 'separator' && !$item->params->get('maximenu_insertmodule', 0) && $itemlevel > 1) ? '.headingck > span.separator' : '';
+		$separator = ($item->type == 'separator' && !$item->fparams->get('maximenu_insertmodule', 0) && $itemlevel > 1) ? '.headingck > span.separator' : '';
 		$document = JFactory::getDocument();
 
 		// for parent arrow normal state
-		$itemnormalstylesparentarrowcolor = $item->params->get('itemnormalstylesparentarrowcolor', '') ? $item->params->get('itemnormalstylesparentarrowcolor', '') : $item->params->get('itemnormalstylesfontcolor', '');
-		if ($item->params->get('itemnormalstylesparentarrowtype', '') == 'image') {
+		$itemnormalstylesparentarrowcolor = $item->fparams->get('itemnormalstylesparentarrowcolor', '') ? $item->fparams->get('itemnormalstylesparentarrowcolor', '') : $item->fparams->get('itemnormalstylesfontcolor', '');
+		if ($item->fparams->get('itemnormalstylesparentarrowtype', '') == 'image') {
 			$itemcss .= "\ndiv#" . $menuID . " ul.maximenuck li.maximenuck.parent.item" . $item->id . " > a:after, div#" . $menuID . " ul.maximenuck li.maximenuck.parent.item" . $item->id . " > span.separator:after { "
 					// . ( $params->get('orientation', 'horizontal') === 'vertical'  ? "border-left-color: " . $itemnormalstylesparentarrowcolor . ";" : "border-top-color: " . $itemnormalstylesparentarrowcolor . ";" )
 					. "border: none;"
 					. "display:block;"
 					. "position:absolute;"
-					. (($item->params->get('itemnormalstylesparentitemimage', '') != '') ? "background-image: url(" . JUri::root(true) . "/" . $item->params->get('itemnormalstylesparentitemimage', '') . ") !important;" : "")
-					. (($item->params->get('itemnormalstylesparentitemimagepositionx', '') != '' && $item->params->get('itemnormalstylesparentitemimagepositiony', '') != '') ? "background-position: " . $item->params->get('itemnormalstylesparentitemimagepositionx', '') . " " . $item->params->get('itemnormalstylesparentitemimagepositiony', '') . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentitemimagerepeat', '') != '') ? "background-repeat: " . $item->params->get('itemnormalstylesparentitemimagerepeat', '') . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowwidth', '') != '') ? "width: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowwidth', '')) . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowheight', '') != '') ? "height: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowheight', '')) . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowmargintop', '') != '') ? "margin-top: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowmargintop', '')) . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowmarginright', '') != '') ? "margin-right: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowmarginright', '')) . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowmarginbottom', '') != '') ? "margin-bottom: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowmarginbottom', '')) . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowmarginleft', '') != '') ? "margin-left: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowmarginleft', '')) . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowpositiontop', '') != '') ? "top: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowpositiontop', '')) . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowpositionright', '') != '') ? "right: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowpositionright', '')) . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowpositionbottom', '') != '') ? "bottom: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowpositionbottom', '')) . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowpositionleft', '') != '') ? "left: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowpositionleft', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentitemimage', '') != '') ? "background-image: url(" . JUri::root(true) . "/" . $item->fparams->get('itemnormalstylesparentitemimage', '') . ") !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentitemimagepositionx', '') != '' && $item->fparams->get('itemnormalstylesparentitemimagepositiony', '') != '') ? "background-position: " . $item->fparams->get('itemnormalstylesparentitemimagepositionx', '') . " " . $item->fparams->get('itemnormalstylesparentitemimagepositiony', '') . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentitemimagerepeat', '') != '') ? "background-repeat: " . $item->fparams->get('itemnormalstylesparentitemimagerepeat', '') . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowwidth', '') != '') ? "width: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowwidth', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowheight', '') != '') ? "height: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowheight', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowmargintop', '') != '') ? "margin-top: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowmargintop', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowmarginright', '') != '') ? "margin-right: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowmarginright', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowmarginbottom', '') != '') ? "margin-bottom: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowmarginbottom', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowmarginleft', '') != '') ? "margin-left: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowmarginleft', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowpositiontop', '') != '') ? "top: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowpositiontop', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowpositionright', '') != '') ? "right: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowpositionright', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowpositionbottom', '') != '') ? "bottom: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowpositionbottom', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowpositionleft', '') != '') ? "left: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowpositionleft', '')) . " !important;" : "")
 					. "} ";
-		} else if ($item->params->get('itemnormalstylesparentarrowtype', '') == 'triangle' || $itemnormalstylesparentarrowcolor) {
+		} else if ($item->fparams->get('itemnormalstylesparentarrowtype', '') == 'triangle' || $itemnormalstylesparentarrowcolor) {
 			if ($itemnormalstylesparentarrowcolor) {
 				$itemcss .= "\ndiv#" . $menuID . " ul.maximenuck li.maximenuck.parent.item" . $item->id . " > a:after, div#" . $menuID . " ul.maximenuck li.maximenuck.parent.item" . $item->id . " > span.separator:after { " 
 					. ( $params->get('orientation', 'horizontal') === 'vertical'  ? "border-left-color: " . $itemnormalstylesparentarrowcolor . " !important;" : ( $itemlevel == 1 ? "border-top-color: " . $itemnormalstylesparentarrowcolor . " !important;" : "border-left-color: " . $itemnormalstylesparentarrowcolor . " !important;") )
 					. "color: " . $itemnormalstylesparentarrowcolor . " !important;"
 					. "display:block;"
 					. "position:absolute;"
-					. (($item->params->get('itemnormalstylesparentarrowmargintop', '') != '') ? "margin-top: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowmargintop', '')) . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowmarginright', '') != '') ? "margin-right: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowmarginright', '')) . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowmarginbottom', '') != '') ? "margin-bottom: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowmarginbottom', '')) . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowmarginleft', '') != '') ? "margin-left: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowmarginleft', '')) . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowpositiontop', '') != '') ? "top: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowpositiontop', '')) . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowpositionright', '') != '') ? "right: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowpositionright', '')) . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowpositionbottom', '') != '') ? "bottom: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowpositionbottom', '')) . " !important;" : "")
-					. (($item->params->get('itemnormalstylesparentarrowpositionleft', '') != '') ? "left: " . Helper::testUnit($item->params->get('itemnormalstylesparentarrowpositionleft', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowmargintop', '') != '') ? "margin-top: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowmargintop', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowmarginright', '') != '') ? "margin-right: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowmarginright', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowmarginbottom', '') != '') ? "margin-bottom: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowmarginbottom', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowmarginleft', '') != '') ? "margin-left: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowmarginleft', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowpositiontop', '') != '') ? "top: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowpositiontop', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowpositionright', '') != '') ? "right: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowpositionright', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowpositionbottom', '') != '') ? "bottom: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowpositionbottom', '')) . " !important;" : "")
+					. (($item->fparams->get('itemnormalstylesparentarrowpositionleft', '') != '') ? "left: " . Helper::testUnit($item->fparams->get('itemnormalstylesparentarrowpositionleft', '')) . " !important;" : "")
 					
 					. "} ";
 			}
 		}
 		// for parent arrow hover state
-		$itemhoverstylesparentarrowcolor = $item->params->get('itemhoverstylesparentarrowcolor', '') ? $item->params->get('itemhoverstylesparentarrowcolor', '') : $item->params->get('itemhoverstylesfontcolor', '');
-		if ($item->params->get('itemhoverstylesparentarrowtype', '') == 'image') {
+		$itemhoverstylesparentarrowcolor = $item->fparams->get('itemhoverstylesparentarrowcolor', '') ? $item->fparams->get('itemhoverstylesparentarrowcolor', '') : $item->fparams->get('itemhoverstylesfontcolor', '');
+		if ($item->fparams->get('itemhoverstylesparentarrowtype', '') == 'image') {
 			$itemcss .= "\ndiv#" . $menuID . " ul.maximenuck li.maximenuck.parent.item" . $item->id . ":hover > a:after, div#" . $menuID . " ul.maximenuck li.maximenuck.parent.item" . $item->id . ":hover > span.separator:after { "
 					// . ( $params->get('orientation', 'horizontal') === 'vertical'  ? "border-left-color: " . $itemhoverstylesparentarrowcolor . ";" : "border-top-color: " . $itemhoverstylesparentarrowcolor . ";" )
 					. "border: none;"
 					. "display:block;"
 					. "position:absolute;"
-					. (($item->params->get('itemhoverstylesparentitemimage', '') != '') ? "background-image: url(" . JUri::root(true) . "/" . $item->params->get('itemhoverstylesparentitemimage', '') . ") !important;" : "")
-					. (($item->params->get('itemhoverstylesparentitemimagepositionx', '') != '' && $item->params->get('itemhoverstylesparentitemimagepositiony', '') != '') ? "background-position: " . $item->params->get('itemhoverstylesparentitemimagepositionx', '') . " " . $item->params->get('itemhoverstylesparentitemimagepositiony', '') . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentitemimagerepeat', '') != '') ? "background-repeat: " . $item->params->get('itemhoverstylesparentitemimagerepeat', '') . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowwidth', '') != '') ? "width: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowwidth', '')) . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowheight', '') != '') ? "height: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowheight', '')) . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowmargintop', '') != '') ? "margin-top: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowmargintop', '')) . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowmarginright', '') != '') ? "margin-right: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowmarginright', '')) . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowmarginbottom', '') != '') ? "margin-bottom: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowmarginbottom', '')) . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowmarginleft', '') != '') ? "margin-left: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowmarginleft', '')) . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowpositiontop', '') != '') ? "top: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowpositiontop', '')) . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowpositionright', '') != '') ? "right: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowpositionright', '')) . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowpositionbottom', '') != '') ? "bottom: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowpositionbottom', '')) . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowpositionleft', '') != '') ? "left: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowpositionleft', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentitemimage', '') != '') ? "background-image: url(" . JUri::root(true) . "/" . $item->fparams->get('itemhoverstylesparentitemimage', '') . ") !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentitemimagepositionx', '') != '' && $item->fparams->get('itemhoverstylesparentitemimagepositiony', '') != '') ? "background-position: " . $item->fparams->get('itemhoverstylesparentitemimagepositionx', '') . " " . $item->fparams->get('itemhoverstylesparentitemimagepositiony', '') . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentitemimagerepeat', '') != '') ? "background-repeat: " . $item->fparams->get('itemhoverstylesparentitemimagerepeat', '') . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowwidth', '') != '') ? "width: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowwidth', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowheight', '') != '') ? "height: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowheight', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowmargintop', '') != '') ? "margin-top: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowmargintop', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowmarginright', '') != '') ? "margin-right: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowmarginright', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowmarginbottom', '') != '') ? "margin-bottom: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowmarginbottom', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowmarginleft', '') != '') ? "margin-left: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowmarginleft', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowpositiontop', '') != '') ? "top: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowpositiontop', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowpositionright', '') != '') ? "right: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowpositionright', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowpositionbottom', '') != '') ? "bottom: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowpositionbottom', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowpositionleft', '') != '') ? "left: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowpositionleft', '')) . " !important;" : "")
 					. "} ";
-		} else if ($item->params->get('itemhoverstylesparentarrowtype', '') == 'triangle' || $itemhoverstylesparentarrowcolor) {
+		} else if ($item->fparams->get('itemhoverstylesparentarrowtype', '') == 'triangle' || $itemhoverstylesparentarrowcolor) {
 			if ($itemhoverstylesparentarrowcolor) {
 				$itemcss .= "\ndiv#" . $menuID . " ul.maximenuck li.maximenuck.parent.item" . $item->id . ":hover > a:after, div#" . $menuID . " ul.maximenuck li.maximenuck.parent.item" . $item->id . ":hover > span.separator:after { " 
 					. ( $params->get('orientation', 'horizontal') === 'vertical'  ? "border-left-color: " . $itemhoverstylesparentarrowcolor . " !important;" : ( $itemlevel == 1 ? "border-top-color: " . $itemhoverstylesparentarrowcolor . " !important;" : "border-left-color: " . $itemhoverstylesparentarrowcolor . " !important;") )
 					. "color: " . $itemhoverstylesparentarrowcolor . " !important;"
 					. "display:block;"
 					. "position:absolute;"
-					. (($item->params->get('itemhoverstylesparentarrowmargintop', '') != '') ? "margin-top: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowmargintop', '')) . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowmarginright', '') != '') ? "margin-right: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowmarginright', '')) . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowmarginbottom', '') != '') ? "margin-bottom: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowmarginbottom', '')) . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowmarginleft', '') != '') ? "margin-left: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowmarginleft', '')) . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowpositiontop', '') != '') ? "top: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowpositiontop', '')) . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowpositionright', '') != '') ? "right: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowpositionright', '')) . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowpositionbottom', '') != '') ? "bottom: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowpositionbottom', '')) . " !important;" : "")
-					. (($item->params->get('itemhoverstylesparentarrowpositionleft', '') != '') ? "left: " . Helper::testUnit($item->params->get('itemhoverstylesparentarrowpositionleft', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowmargintop', '') != '') ? "margin-top: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowmargintop', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowmarginright', '') != '') ? "margin-right: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowmarginright', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowmarginbottom', '') != '') ? "margin-bottom: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowmarginbottom', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowmarginleft', '') != '') ? "margin-left: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowmarginleft', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowpositiontop', '') != '') ? "top: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowpositiontop', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowpositionright', '') != '') ? "right: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowpositionright', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowpositionbottom', '') != '') ? "bottom: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowpositionbottom', '')) . " !important;" : "")
+					. (($item->fparams->get('itemhoverstylesparentarrowpositionleft', '') != '') ? "left: " . Helper::testUnit($item->fparams->get('itemhoverstylesparentarrowpositionleft', '')) . " !important;" : "")
 					
 					. "} ";
 			}
 		}
 		// for parent arrow active state
-		$itemactivestylesparentarrowcolor = $item->params->get('itemactivestylesparentarrowcolor', '') ? $item->params->get('itemactivestylesparentarrowcolor', '') : $item->params->get('itemactivestylesfontcolor', '');
-		if ($item->params->get('itemactivestylesparentarrowtype', '') == 'image') {
+		$itemactivestylesparentarrowcolor = $item->fparams->get('itemactivestylesparentarrowcolor', '') ? $item->fparams->get('itemactivestylesparentarrowcolor', '') : $item->fparams->get('itemactivestylesfontcolor', '');
+		if ($item->fparams->get('itemactivestylesparentarrowtype', '') == 'image') {
 			$itemcss .= "\ndiv#" . $menuID . " ul.maximenuck li.maximenuck.parent.item" . $item->id . ".active > a:after, div#" . $menuID . " ul.maximenuck li.maximenuck.parent.item" . $item->id . ".active > span.separator:after { "
 					// . ( $params->get('orientation', 'horizontal') === 'vertical'  ? "border-left-color: " . $itemactivestylesparentarrowcolor . ";" : "border-top-color: " . $itemactivestylesparentarrowcolor . ";" )
 					. "border: none;"
 					. "display:block;"
 					. "position:absolute;"
-					. (($item->params->get('itemactivestylesparentitemimage', '') != '') ? "background-image: url(" . JUri::root(true) . "/" . $item->params->get('itemactivestylesparentitemimage', '') . ") !important;" : "")
-					. (($item->params->get('itemactivestylesparentitemimagepositionx', '') != '' && $item->params->get('itemactivestylesparentitemimagepositiony', '') != '') ? "background-position: " . $item->params->get('itemactivestylesparentitemimagepositionx', '') . " " . $item->params->get('itemactivestylesparentitemimagepositiony', '') . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentitemimagerepeat', '') != '') ? "background-repeat: " . $item->params->get('itemactivestylesparentitemimagerepeat', '') . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowwidth', '') != '') ? "width: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowwidth', '')) . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowheight', '') != '') ? "height: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowheight', '')) . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowmargintop', '') != '') ? "margin-top: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowmargintop', '')) . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowmarginright', '') != '') ? "margin-right: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowmarginright', '')) . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowmarginbottom', '') != '') ? "margin-bottom: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowmarginbottom', '')) . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowmarginleft', '') != '') ? "margin-left: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowmarginleft', '')) . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowpositiontop', '') != '') ? "top: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowpositiontop', '')) . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowpositionright', '') != '') ? "right: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowpositionright', '')) . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowpositionbottom', '') != '') ? "bottom: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowpositionbottom', '')) . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowpositionleft', '') != '') ? "left: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowpositionleft', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentitemimage', '') != '') ? "background-image: url(" . JUri::root(true) . "/" . $item->fparams->get('itemactivestylesparentitemimage', '') . ") !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentitemimagepositionx', '') != '' && $item->fparams->get('itemactivestylesparentitemimagepositiony', '') != '') ? "background-position: " . $item->fparams->get('itemactivestylesparentitemimagepositionx', '') . " " . $item->fparams->get('itemactivestylesparentitemimagepositiony', '') . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentitemimagerepeat', '') != '') ? "background-repeat: " . $item->fparams->get('itemactivestylesparentitemimagerepeat', '') . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowwidth', '') != '') ? "width: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowwidth', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowheight', '') != '') ? "height: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowheight', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowmargintop', '') != '') ? "margin-top: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowmargintop', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowmarginright', '') != '') ? "margin-right: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowmarginright', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowmarginbottom', '') != '') ? "margin-bottom: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowmarginbottom', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowmarginleft', '') != '') ? "margin-left: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowmarginleft', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowpositiontop', '') != '') ? "top: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowpositiontop', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowpositionright', '') != '') ? "right: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowpositionright', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowpositionbottom', '') != '') ? "bottom: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowpositionbottom', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowpositionleft', '') != '') ? "left: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowpositionleft', '')) . " !important;" : "")
 					. "} ";
-		} else if ($item->params->get('itemactivestylesparentarrowtype', '') == 'triangle' || $itemactivestylesparentarrowcolor) {
+		} else if ($item->fparams->get('itemactivestylesparentarrowtype', '') == 'triangle' || $itemactivestylesparentarrowcolor) {
 			if ($itemactivestylesparentarrowcolor) {
 				$itemcss .= "\ndiv#" . $menuID . " ul.maximenuck li.maximenuck.parent.item" . $item->id . ".active > a:after, div#" . $menuID . " ul.maximenuck li.maximenuck.parent.item" . $item->id . ".active > span.separator:after { " 
 					. ( $params->get('orientation', 'horizontal') === 'vertical'  ? "border-left-color: " . $itemactivestylesparentarrowcolor . " !important;" : ( $itemlevel == 1 ? "border-top-color: " . $itemactivestylesparentarrowcolor . " !important;" : "border-left-color: " . $itemactivestylesparentarrowcolor . " !important;") )
 					. "color: " . $itemactivestylesparentarrowcolor . " !important;"
 					. "display:block;"
 					. "position:absolute;"
-					. (($item->params->get('itemactivestylesparentarrowmargintop', '') != '') ? "margin-top: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowmargintop', '')) . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowmarginright', '') != '') ? "margin-right: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowmarginright', '')) . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowmarginbottom', '') != '') ? "margin-bottom: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowmarginbottom', '')) . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowmarginleft', '') != '') ? "margin-left: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowmarginleft', '')) . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowpositiontop', '') != '') ? "top: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowpositiontop', '')) . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowpositionright', '') != '') ? "right: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowpositionright', '')) . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowpositionbottom', '') != '') ? "bottom: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowpositionbottom', '')) . " !important;" : "")
-					. (($item->params->get('itemactivestylesparentarrowpositionleft', '') != '') ? "left: " . Helper::testUnit($item->params->get('itemactivestylesparentarrowpositionleft', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowmargintop', '') != '') ? "margin-top: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowmargintop', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowmarginright', '') != '') ? "margin-right: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowmarginright', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowmarginbottom', '') != '') ? "margin-bottom: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowmarginbottom', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowmarginleft', '') != '') ? "margin-left: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowmarginleft', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowpositiontop', '') != '') ? "top: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowpositiontop', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowpositionright', '') != '') ? "right: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowpositionright', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowpositionbottom', '') != '') ? "bottom: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowpositionbottom', '')) . " !important;" : "")
+					. (($item->fparams->get('itemactivestylesparentarrowpositionleft', '') != '') ? "left: " . Helper::testUnit($item->fparams->get('itemactivestylesparentarrowpositionleft', '')) . " !important;" : "")
 					
 					. "} ";
 			}
@@ -647,7 +682,7 @@ div#" . $menuID . " ul.maximenuck li.maximenuck.item" . $item->id . ".level" . $
 			}
 			if ($cssitemnormal['fontcolor'] || $cssitemnormal['fontsize'] || $cssitemnormal['fontweight']
 			) {
-				$itemcss .= "\ndiv#" . $menuID . " ul.maximenuck li.maximenuck.item" . $item->id . ".level" . $itemlevel . " > a.maximenuck span.titreck, div#" . $menuID . " ul.maximenuck li.maximenuck.item" . $item->id . ".level" . $itemlevel . ".headingck > span.separator span.titreck, div#" . $menuID . " ul.maximenuck li.maximenuck.item" . $item->id . ".level" . $itemlevel . ".headingck > .nav-header span.titreck,
+				$itemcss .= "\ndiv#" . $menuID . " ul.maximenuck li.maximenuck.item" . $item->id . ".level" . $itemlevel . " > a.maximenuck span.titreck, div#" . $menuID . " ul.maximenuck li.maximenuck.item" . $item->id . ".level" . $itemlevel . " > span.separator span.titreck, div#" . $menuID . " ul.maximenuck li.maximenuck.item" . $item->id . ".level" . $itemlevel . ".headingck > .nav-header span.titreck,
 div#" . $menuID . " ul.maximenuck2 li.maximenuck.item" . $item->id . ".level" . $itemlevel . " > a.maximenuck span.titreck, div#" . $menuID . " li.maximenuck.item" . $item->id . ".level" . $itemlevel . ".headingck > span.separator span.titreck, div#" . $menuID . " li.maximenuck.item" . $item->id . ".level" . $itemlevel . ".headingck > .nav-header span.titreck { " . $cssitemnormal['fontcolor'] . $cssitemnormal['fontsize'] . $cssitemnormal['fontweight'] . " } ";
 			}
 			if ($cssitemnormal['descfontcolor'] || $cssitemnormal['descfontsize']

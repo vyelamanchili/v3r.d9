@@ -58,7 +58,7 @@ $prefix = 'level2menustyles';
 		<label class="ckbutton cktip" title="<?php echo JText::_('CK_UPPERCASE'); ?>" for="level2itemnormalstylestexttransformuppercase"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_uppercase.png" />
 		</label><input class="level2itemnormalstyles" type="radio" value="capitalize" id="level2itemnormalstylestexttransformcapitalize" name="level2itemnormalstylestexttransform" />
 		<label class="ckbutton cktip" title="<?php echo JText::_('CK_CAPITALIZE'); ?>" for="level2itemnormalstylestexttransformcapitalize"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_capitalize.png" />
-		</label><input class="level2itemnormalstyles" type="radio" value="default" id="level2itemnormalstylestexttransformdefault" name="level2itemnormalstylestexttransform" />
+		</label><input class="level2itemnormalstyles" type="radio" value="initial" id="level2itemnormalstylestexttransformdefault" name="level2itemnormalstylestexttransform" />
 		<label class="ckbutton cktip" title="<?php echo JText::_('CK_DEFAULT'); ?>" for="level2itemnormalstylestexttransformdefault"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_default.png" />
 		</label>
 	</div>

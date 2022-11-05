@@ -10,8 +10,6 @@ defined('JPATH_PLATFORM') or die;
 use Maximenuck\Helper;
 use Maximenuck\CKFramework;
 
-require_once 'ckformfield.php';
-
 JText::script('MAXIMENUCK_SAVE_CLOSE');
 require_once JPATH_ROOT . '/administrator/components/com_maximenuck/helpers/helper.php';
 require_once JPATH_ROOT . '/administrator/components/com_maximenuck/helpers/ckframework.php';
@@ -19,7 +17,7 @@ require_once JPATH_ROOT . '/administrator/components/com_maximenuck/helpers/ckfr
 CKFramework::load();
 Helper::loadCkbox();
 
-class JFormFieldCkmaximenu extends CKFormField {
+class JFormFieldCkmaximenu extends JFormField {
 
 	protected $type = 'ckmaximenu';
 

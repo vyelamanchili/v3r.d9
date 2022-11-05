@@ -1,7 +1,7 @@
 <?php
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -33,7 +33,7 @@ class JAFormHelpers
 	}
 
 
-	function message($iserror = 1, $messages)
+	function message($iserror = 1, $messages = array())
 	{
 		$content = '<div id="system-message">';
 		if ($iserror) {

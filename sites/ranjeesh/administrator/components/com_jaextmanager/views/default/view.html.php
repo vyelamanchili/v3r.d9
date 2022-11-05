@@ -1,7 +1,7 @@
 <?php
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -114,8 +114,8 @@ class JaextmanagerViewDefault extends JAEMView
 		// Display footer
 		if (!JRequest::getVar("ajax") && JRequest::getVar('tmpl') != 'component' && JRequest::getVar('viewmenu', 1) != 0) {
 			$file = JPATH_COMPONENT_ADMINISTRATOR."/views/default/tmpl/menu_footer.php";
-			if (@file_exists($file))
-				require_once ($file);
+			// if (@file_exists($file))
+				// require_once ($file);
 		}
 	}
 

@@ -62,7 +62,7 @@ class JaExtUpdatehelper extends JObject
 	protected function parseSQLFile($file) {
 		try {
 			if(JFile::exists($file)) {
-				$buffer = JFile::read($file);
+				$buffer = file_get_contents($file);
 				if($buffer) {
 					$db = JFactory::getDbo();
 					$queries = $db->splitSql($buffer);

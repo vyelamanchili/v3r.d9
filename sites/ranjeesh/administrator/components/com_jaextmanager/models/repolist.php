@@ -198,7 +198,8 @@ class JaextmanagerModelRepolist extends JAEMModel
 				}
 			}
 		} else {
-			JError::raiseWarning(100, JText::_("PATH_IS_NOT_A_FOLDER_OR_THIS_FOLDER_WAS_DELETED"));
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_("PATH_IS_NOT_A_FOLDER_OR_THIS_FOLDER_WAS_DELETED"), 'error');
 		}
 		
 		$list = array('folders' => $folders, 'docs' => $docs, 'images' => $images);

@@ -1,7 +1,7 @@
 <?php
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -26,8 +26,7 @@ Joomla.submitbutton = function(pressbutton) {
 		doUpgrade(jQuery("[name=id]").val(), jQuery("[name=version]").val(), 'UpgradeStatus');
 		return;
 	}
-	
-	submitform( pressbutton );
+	Joomla.submitform( pressbutton );
 }
 
 jQuery(document).ready(function($){

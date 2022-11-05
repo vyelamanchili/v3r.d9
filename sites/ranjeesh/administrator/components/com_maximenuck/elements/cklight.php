@@ -8,9 +8,7 @@
 // no direct access
 defined('JPATH_PLATFORM') or die;
 
-require_once 'ckformfield.php';
-
-class JFormFieldCklight extends CKFormField {
+class JFormFieldCklight extends JFormField {
 
 	protected $type = 'cklight';
 
@@ -29,10 +27,6 @@ class JFormFieldCklight extends CKFormField {
 		$html[] = '<span class="cklabel cklabel-info"><i class="fas fa-link"></i> ' . JText::_('MAXIMENUCK_GET_PRO_INFOS') . '</label>';
 		$html[] = '</a>';
 		$html[] = '</div>';
-
-//		if (! $testparams) {
-			// $html[] = 'Mettre ici description de la version pro avec les fonctionnalités et le lien';
-//		}
 
 		return implode('', $html);
 	}

@@ -35,6 +35,7 @@ foreach ($files as $file) {
 	} 
 	$thumb_title = '';
 	$file = JFile::stripExt($file);
+	if ($file === 'deault2') continue;
 	if ( file_exists($path . '/' . $file. '.png') ) {
 		$thumb = Juri::root(true) . '/modules/mod_maximenuck/tmpl/' . $file . '.png';
 	} else {

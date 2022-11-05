@@ -46,15 +46,15 @@ class JFormFieldT3FolderList extends JFormFieldFolderList
 	 */
 	protected function getOptions()
 	{
-		$table = JTable::getInstance('Style', 'TemplatesTable', array());
-		$table->load((int) JFactory::getApplication()->input->getInt('id'));
+		//$table = JTable::getInstance('Style', 'TemplatesTable', array());
+		//$table->load((int) JFactory::getApplication()->input->getInt('id'));
 		// update path to this template 
 		$path = (string) $this->element['directory'];
 		// process path in template
 		$options = array();
 		$vals = array();
 		// get all path in template
-		$paths = T3Path::getAllPath ($path);
+		$paths = T3Path::getAllPath ($path, true);
 		foreach ($paths as $path) {
 			$this->directory = $this->element['directory'] = JPath::clean($path);
 			$tmps = parent::getOptions();

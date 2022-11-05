@@ -1,7 +1,7 @@
 <?php
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -47,7 +47,7 @@ Joomla.submitbutton = function(pressbutton) {
 //]]>
 </script>
 
-<form name="adminForm" id="adminForm" action="index.php" method="post">
+<form name="adminForm" id="adminForm" action="index.php" method="post" class="jaext-<?php echo version_compare(JVERSION,'4','ge') ? '4' : '3'?>">
   <div id="ja-filter">
     <table width="100%">
       <tr>
@@ -113,13 +113,13 @@ Joomla.submitbutton = function(pressbutton) {
 		//$obj->author_info = @$obj->authorEmail .'<br />'. @$obj->authorUrl;
 		$extID = $obj->extId;
 		$css = "row".($index%2);
-		
+
 		$diffDate = $this->nicetime($obj->creationDate);
     ?>
       <tr class="row1" style="border-bottom:1px solid #CCC;">
         <td valign="top"><?php echo $this->pagination->getRowOffset( $obj->index ); ?></td>
         <td valign="top"><input type="checkbox" id="cId<?php echo $obj->index;?>" name="cId[]" value="<?php echo $extID; ?>" onclick="Joomla.isChecked(this.checked);" <?php echo $obj->cbd; ?> /></td>
-        <td valign="top"><strong class="addon-name"><?php echo $obj->name; ?></strong> </td>
+        <td valign="top"><strong class="addon-name"><?php echo JText::_($obj->name); ?></strong> </td>
         <td valign="top"><?php 
 			//fix url
 			if(strpos($obj->authorUrl, "http") !== 0) {
@@ -150,9 +150,14 @@ Joomla.submitbutton = function(pressbutton) {
         <td>&nbsp;</td>
         <td valign="top">&nbsp;<img src="<?php echo JURI::root().'administrator/components/com_jaextmanager/assets/css/images/arrow_point_right.gif'; ?>" alt="" /></td>
         <td valign="top">
-        <div class="clearfix"> 
+          <div class="clearfix"> 
             <a class="check-update" title="Check Update" href="#" onclick="checkNewVersion('<?php echo $extID;?>', 'LastCheckStatus_<?php echo $extID;?>'); return false;"><?php echo JText::_('CHECK_UPDATE'); ?></a> 
-            <a class="recovery" title="<?php echo JText::_('ROLLBACK'); ?>" href="#" onclick="recoveryItem('<?php echo $extID;?>', 'LastCheckStatus_<?php echo $extID;?>'); return false;"><?php echo JText::_('ROLLBACK'); ?></a>        </div>        </td>
+            <a class="recovery" title="<?php echo JText::_('ROLLBACK'); ?>" href="#" onclick="recoveryItem('<?php echo $extID;?>', 'LastCheckStatus_<?php echo $extID;?>'); return false;"><?php echo JText::_('ROLLBACK'); ?></a>
+            <?php if(strpos($obj->author,"JoomlArt") !== false): ?>
+            <a class="change-logs" title="<?php echo JText::_('CHANGE_LOGS_TITLE'); ?>" href="#" onclick="doShowChangeLog('<?php echo $extID;?>'); return false;"><?php echo JText::_('CHANGE_LOGS'); ?></a>
+          <?php endif; ?>
+          </div>        
+        </td>
         <td colspan="6" class="checkstatus" id="LastCheckStatus_<?php echo $extID; ?>"><?php echo $JaextmanagerModelDefault->getLastCheckStatus($checkLog, $extID);?></td>
       </tr>
       <?php endforeach; ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -29,7 +29,7 @@ class JaextmanagerControllerServices extends JaextmanagerController
 		
 		parent::__construct($default);
 		
-		$task = JRequest::getWord('task', '');
+		$task = $this->input->get('task', '');
 		switch ($task) {
 			case 'add':
 			case 'save':
@@ -46,7 +46,7 @@ class JaextmanagerControllerServices extends JaextmanagerController
 				break;
 		}
 		// Register Extra tasks
-		JRequest::setVar('view', 'services');
+		$this->input->set('view', 'services');
 		$this->registerTask('add', 'edit');
 		$this->registerTask('apply', 'save');
 		$this->registerTask('publish', 'setDefault');
@@ -60,10 +60,10 @@ class JaextmanagerControllerServices extends JaextmanagerController
 		$task = $this->getTask();
 		switch ($task) {
 			case 'edit':
-				JRequest::setVar('layout', 'form');
+				$this->input->set('layout', 'form');
 				break;
 			case 'config':
-				JRequest::setVar('layout', 'config');
+				$this->input->set('layout', 'config');
 				break;
 		}
 		if ($user->id == 0) {

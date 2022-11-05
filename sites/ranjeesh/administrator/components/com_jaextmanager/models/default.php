@@ -1,7 +1,7 @@
 <?php
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -403,7 +403,9 @@ class JaextmanagerModelDefault extends JAEMModel
 						$status .= jaEMTooltips($tipid, $title);
 					}
 					if (isset($vInfo->changelogUrl) && !empty($vInfo->changelogUrl)) {
-						$status .= ' <a href="' . $vInfo->changelogUrl . '" title="' . JText::_('SHOW_CHANGE_LOG') . '" target="_blank" >' . JText::_('CHANGE_LOG') . '</a>';
+						$jirakey = str_replace(array('http://pm.joomlart.com/browse/','?report=com.atlassian.jira.plugin.system.project:changelog-panel'),array("",""),$vInfo->changelogUrl);
+						// $status .= ' <a href="' . $vInfo->changelogUrl . '" title="' . JText::_('SHOW_CHANGE_LOG') . '" target="_blank" >' . JText::_('CHANGE_LOG') . '</a>';
+						// $status .= ' <a href="javascript:;" title="' . JText::_('SHOW_CHANGE_LOG') . '" onclick="doShowChangeLog(\''.$extID.'\',\''.$jirakey.'\',\''.$vInfo->version.'\')" >' . JText::_('CHANGE_LOG') . '</a>';
 					}
 					$status .= ' - <a href="index.php?option=com_jaextmanager&view=default&task=compare&cId[]=' . $extID . '&version=' . $v . '" title="' . JText::_('VIEW_DIFFERENCE_BETWEEN_TWO_VERSIONS') . '">' . JText::_('COMPARE') . '</a>';
 					$status .= ' - <a href="#" onclick="doUpgrade(\'' . $extID . '\', \'' . $v . '\', \'LastCheckStatus_' . $extID . '\'); return false;" title="' . JText::_('UPGARDE_TO_NEW_VERSION_NOW') . '">' . JText::_('UPGRADE_NOW') . '</a>';
@@ -662,13 +664,73 @@ class JaextmanagerModelDefault extends JAEMModel
 			return JText::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
 		}
 		
-		$version = JRequest::getVar('version');
+		$version = JRequest::getVar('version',$obj->version);
 		
 		$log = $jauc->getChangeLog($obj, $version);
+
 		if ($log === false) {
 			return JText::_("FAIL_TO_GET_CHANGE_LOG");
 		} else {
 			return $log;
+		}
+	}
+
+	/**
+	 * The third step
+	 * Return change log of extension
+	 *
+	 * @return unknown
+	 */
+	function getChangeLogs()
+	{
+		global $jauc;
+		$obj = $this->_getProduct();
+		if ($obj === false) {
+			return JText::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
+		}
+		$obj->version = '1.0.0';
+		$dataLogs = $jauc->getChangeLogsLocal($obj);
+
+		if(!$dataLogs){
+			$versions = $jauc->getNewerVersions($obj);
+
+			$vInfo = reset($versions);
+			$jirakey = str_replace(array('http://pm.joomlart.com/browse/','?report=com.atlassian.jira.plugin.system.project:changelog-panel'),array("",""),$vInfo->changelogUrl);
+			
+			if (!isset($jirakey)) {
+				return JText::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
+			}
+			// changelog
+			$jiraUrl = 'https://pm.joomlart.com/jira-projects.php?changelog&task=changelog&key='.$jirakey;
+			// get json data
+			$json = file_get_contents($jiraUrl);
+			$dataLogs = @json_decode($json, true);
+
+			if (empty($dataLogs)) {
+				return JText::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
+			}
+			krsort($dataLogs);
+
+			$jauc->makeChangeLogsLocal($obj, $dataLogs);
+
+		}
+		if(gettype($dataLogs) == "string") $dataLogs = @json_decode($dataLogs, true);
+		
+		$version = JRequest::getVar('version','');
+		$changelogs = array();
+		if($version){
+			foreach ($dataLogs as $jira_version => $data) {
+				if($jira_version  <= $version) $changelogs[$jira_version] = $data;
+			}	
+		}else{
+			$changelogs = $dataLogs;
+		}
+		$logs = JLayoutHelper::render('changelogs.item', array('changelog' => $changelogs), JPATH_ADMINISTRATOR.'/components/com_jaextmanager/layouts');
+
+		if (!$logs) {
+			return JText::_("FAIL_TO_GET_CHANGE_LOG");
+		} else {
+			return $logs;
 		}
 	}
 

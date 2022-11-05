@@ -40,12 +40,12 @@ div#<?php echo $id; ?>.maximenuckh ul.maximenuck {
 }
 
 div#<?php echo $id; ?> ul.maximenuck:after {
-    content: " ";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    font-size: 0;
+	content: " ";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+	font-size: 0;
 }
 
 /*---------------------------------------------
@@ -356,7 +356,7 @@ div#<?php echo $id; ?> div.floatck {
 	text-align:left;
 	background: #1a1a1a;
 	border: 1px solid #707070;
-	width: inherit !important;
+	width: inherit;
 	z-index:9999;
 	cursor: auto;
 }
@@ -720,5 +720,10 @@ div#<?php echo $id; ?>.maximenuckv li.fullwidth > div.floatck {
 }
 
 div#<?php echo $id; ?> li.fullwidth > div.floatck > div.maxidrop-main {
-	width: auto;
+	width: auto !important;
+}
+
+div#<?php echo $id; ?>.maximenuckv li.fullwidth > div.floatck > .maxidrop-main {
+	height: 100%;
+	overflow-y: auto;
 }

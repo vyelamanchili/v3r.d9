@@ -20,41 +20,41 @@ $prefix = 'level3menustyles';
 <div class="ckrow">
 	<label for="">&nbsp;</label><img class="ckicon" src="<?php echo $this->imagespath ?>/font.png" />
 	<div class="ckbutton-group">
-		<input class="<?php echo $prefix; ?>" type="radio" value="left" id="<?php echo $prefix; ?>textalignleft" name="<?php echo $prefix; ?>textalign" />
-		<label class="ckbutton first" for="<?php echo $prefix; ?>textalignleft"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_align_left.png" />
-		</label><input class="<?php echo $prefix; ?>" type="radio" value="center" id="<?php echo $prefix; ?>textaligncenter" name="<?php echo $prefix; ?>textalign" />
-		<label class="ckbutton"  for="<?php echo $prefix; ?>textaligncenter"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_align_center.png" />
-		</label><input class="<?php echo $prefix; ?>" type="radio" value="right" id="<?php echo $prefix; ?>textalignright" name="<?php echo $prefix; ?>textalign" />
-		<label class="ckbutton last"  for="<?php echo $prefix; ?>textalignright"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_align_right.png" /></label>
+		<input class="level3itemnormalstyles" type="radio" value="left" id="level3itemnormalstylestextalignleft" name="level3itemnormalstylestextalign" />
+		<label class="ckbutton first" for="level3itemnormalstylestextalignleft"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_align_left.png" />
+		</label><input class="level3itemnormalstyles" type="radio" value="center" id="level3itemnormalstylestextaligncenter" name="level3itemnormalstylestextalign" />
+		<label class="ckbutton"  for="level3itemnormalstylestextaligncenter"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_align_center.png" />
+		</label><input class="level3itemnormalstyles" type="radio" value="right" id="level3itemnormalstylestextalignright" name="level3itemnormalstylestextalign" />
+		<label class="ckbutton last"  for="level3itemnormalstylestextalignright"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_align_right.png" /></label>
 	</div>
 	<div class="ckbutton-group">
-		<input class="<?php echo $prefix; ?>" type="radio" value="lowercase" id="<?php echo $prefix; ?>texttransformlowercase" name="<?php echo $prefix; ?>texttransform" />
-		<label class="ckbutton first cktip" title="<?php echo JText::_('CK_LOWERCASE'); ?>" for="<?php echo $prefix; ?>texttransformlowercase"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_lowercase.png" />
-		</label><input class="<?php echo $prefix; ?>" type="radio" value="uppercase" id="<?php echo $prefix; ?>texttransformuppercase" name="<?php echo $prefix; ?>texttransform" />
-		<label class="ckbutton cktip" title="<?php echo JText::_('CK_UPPERCASE'); ?>" for="<?php echo $prefix; ?>texttransformuppercase"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_uppercase.png" />
-		</label><input class="<?php echo $prefix; ?>" type="radio" value="capitalize" id="<?php echo $prefix; ?>texttransformcapitalize" name="<?php echo $prefix; ?>texttransform" />
-		<label class="ckbutton cktip" title="<?php echo JText::_('CK_CAPITALIZE'); ?>" for="<?php echo $prefix; ?>texttransformcapitalize"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_capitalize.png" />
-		</label><input class="<?php echo $prefix; ?>" type="radio" value="default" id="<?php echo $prefix; ?>texttransformdefault" name="<?php echo $prefix; ?>texttransform" />
-		<label class="ckbutton cktip" title="<?php echo JText::_('CK_DEFAULT'); ?>" for="<?php echo $prefix; ?>texttransformdefault"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_default.png" />
+		<input class="level3itemnormalstyles" type="radio" value="lowercase" id="level3itemnormalstylestexttransformlowercase" name="level3itemnormalstylestexttransform" />
+		<label class="ckbutton first cktip" title="<?php echo JText::_('CK_LOWERCASE'); ?>" for="level3itemnormalstylestexttransformlowercase"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_lowercase.png" />
+		</label><input class="level3itemnormalstyles" type="radio" value="uppercase" id="level3itemnormalstylestexttransformuppercase" name="level3itemnormalstylestexttransform" />
+		<label class="ckbutton cktip" title="<?php echo JText::_('CK_UPPERCASE'); ?>" for="level3itemnormalstylestexttransformuppercase"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_uppercase.png" />
+		</label><input class="level3itemnormalstyles" type="radio" value="capitalize" id="level3itemnormalstylestexttransformcapitalize" name="level3itemnormalstylestexttransform" />
+		<label class="ckbutton cktip" title="<?php echo JText::_('CK_CAPITALIZE'); ?>" for="level3itemnormalstylestexttransformcapitalize"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_capitalize.png" />
+		</label><input class="level3itemnormalstyles" type="radio" value="initial" id="level3itemnormalstylestexttransformdefault" name="level3itemnormalstylestexttransform" />
+		<label class="ckbutton cktip" title="<?php echo JText::_('CK_DEFAULT'); ?>" for="level3itemnormalstylestexttransformdefault"><img class="ckicon" src="<?php echo $this->imagespath ?>/text_default.png" />
 		</label>
 	</div>
 </div>
 <div class="ckrow">
-	<label for="<?php echo $prefix; ?>fontweightbold"></label>
+	<label for="level3itemnormalstylesfontweightbold"></label>
 	<img class="ckicon" src="<?php echo $this->imagespath ?>/text_bold.png" />
 	<div class="ckbutton-group">
-		<input class="<?php echo $prefix; ?>" type="radio" value="bold" id="<?php echo $prefix; ?>fontweightbold" name="<?php echo $prefix; ?>fontweight" />
-		<label class="ckbutton first cktip" title="" for="<?php echo $prefix; ?>fontweightbold" style="width:auto;"><?php echo JText::_('CK_BOLD'); ?>
-		</label><input class="<?php echo $prefix; ?>" type="radio" value="normal" id="<?php echo $prefix; ?>fontweightnormal" name="<?php echo $prefix; ?>fontweight" />
-		<label class="ckbutton cktip" title="" for="<?php echo $prefix; ?>fontweightnormal" style="width:auto;"><?php echo JText::_('CK_NORMAL'); ?>
+		<input class="level3itemnormalstyles" type="radio" value="bold" id="level3itemnormalstylesfontweightbold" name="level3itemnormalstylesfontweight" />
+		<label class="ckbutton first cktip" title="" for="level3itemnormalstylesfontweightbold" style="width:auto;"><?php echo JText::_('CK_BOLD'); ?>
+		</label><input class="level3itemnormalstyles" type="radio" value="normal" id="level3itemnormalstylesfontweightnormal" name="level3itemnormalstylesfontweight" />
+		<label class="ckbutton cktip" title="" for="level3itemnormalstylesfontweightnormal" style="width:auto;"><?php echo JText::_('CK_NORMAL'); ?>
 		</label>
 	</div>
 	<img class="ckicon" src="<?php echo $this->imagespath ?>/text_underline.png" />
 	<div class="ckbutton-group">
-		<input class="<?php echo $prefix; ?>" type="radio" value="underline" id="<?php echo $prefix; ?>fontunderlineunderline" name="<?php echo $prefix; ?>fontunderline" />
-		<label class="ckbutton first cktip" title="" for="<?php echo $prefix; ?>fontunderlineunderline" style="width:auto;"><?php echo ucfirst(JText::_('CK_UNDERLINE')); ?>
-		</label><input class="<?php echo $prefix; ?>" type="radio" value="none" id="<?php echo $prefix; ?>fontunderlinenone" name="<?php echo $prefix; ?>fontunderline" />
-		<label class="ckbutton cktip" title="" for="<?php echo $prefix; ?>fontunderlinenone" style="width:auto;"><?php echo JText::_('CK_NORMAL'); ?>
+		<input class="level3itemnormalstyles" type="radio" value="underline" id="level3itemnormalstylesfontunderlineunderline" name="level3itemnormalstylesfontunderline" />
+		<label class="ckbutton first cktip" title="" for="level3itemnormalstylesfontunderlineunderline" style="width:auto;"><?php echo ucfirst(JText::_('CK_UNDERLINE')); ?>
+		</label><input class="level3itemnormalstyles" type="radio" value="none" id="level3itemnormalstylesfontunderlinenone" name="level3itemnormalstylesfontunderline" />
+		<label class="ckbutton cktip" title="" for="level3itemnormalstylesfontunderlinenone" style="width:auto;"><?php echo JText::_('CK_NORMAL'); ?>
 		</label>
 	</div>
 </div>

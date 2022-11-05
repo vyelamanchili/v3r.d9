@@ -1,6 +1,11 @@
+.row-flex {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
 .row-fluid {
-  margin-right: -20px;
   margin-left: -20px;
+  margin-right: -20px;
 }
 [class*="span"] {
   float: right;

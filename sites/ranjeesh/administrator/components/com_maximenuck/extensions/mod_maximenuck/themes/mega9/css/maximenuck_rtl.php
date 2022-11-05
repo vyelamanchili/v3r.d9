@@ -34,6 +34,7 @@ div#<?php echo $id; ?> ul.maximenuck {
     margin:0 auto;
     zoom:1;
 	filter: none;
+	background: #3598db;
 }
 
 div#<?php echo $id; ?> ul.maximenuck:after {
@@ -51,7 +52,7 @@ div#<?php echo $id; ?> ul.maximenuck:after {
 
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck.level1 {
 	display: inline-block;
-    float: none !important;
+    float: none;
     position:static;
     /*padding : 0;
     margin : 0;*/
@@ -76,7 +77,7 @@ div#<?php echo $id; ?>.maximenuckv ul.maximenuck li.maximenuck.level1 {
 
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck.level1:hover,
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck.level1.active {
-
+	background: #f0f0f0;
 }
 
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck.level1 > a,
@@ -87,9 +88,11 @@ div#<?php echo $id; ?> ul.maximenuck li.maximenuck.level1 > span.separator {
     position:relative;
 	text-decoration:none;
     outline : none;
-    border : none;
+    /*border : none;*/
     white-space: nowrap;
 	filter: none;
+	color: #fff;
+	padding: 15px 15px;
 }
 
 /* parent item on mouseover (if subemnus exists) */
@@ -103,12 +106,12 @@ div#<?php echo $id; ?> ul.maximenuck li.maximenuck.level1:hover > a span.titreck
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck.level1.active > a span.titreck,
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck.level1:hover > span.separator,
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck.level1.active > span.separator {
-
+	color: #333;
 }
 
 div#<?php echo $id; ?>.maximenuckh ul.maximenuck li.level1.parent > a,
 div#<?php echo $id; ?>.maximenuckh ul.maximenuck li.level1.parent > span.separator {
-	padding-left: 12px;
+	padding-left: 20px;
 }
 
 /* arrow image for parent item */
@@ -121,14 +124,14 @@ div#<?php echo $id; ?> ul.maximenuck li.level1.parent > span.separator:after {
 	height: 0; 
 	border-style: solid;
 	border-width: 7px 6px 0 6px;
-	border-color: #000 transparent transparent transparent;
-	top: 7px;
-	left: 0px;
+	border-color: #fff transparent transparent transparent;
+	top: 20px;
+	left: 4px;
 }
 
 div#<?php echo $id; ?> ul.maximenuck li.level1.parent:hover > a:after,
 div#<?php echo $id; ?> ul.maximenuck li.level1.parent:hover > span.separator:after {
-
+	border-color: #333 transparent transparent transparent;
 }
 
 /* vertical menu */
@@ -140,11 +143,16 @@ div#<?php echo $id; ?>.maximenuckv ul.maximenuck li.level1.parent > span.separat
 	height: 0;
 	border-style: solid;
 	border-width: 6px 7px 6px 0;
-	border-color: transparent #000 transparent transparent;
+	border-color: transparent #fff transparent transparent;
 	margin: 3px 0 3px 10px;
 	position: absolute;
 	left: 3px;
-	top: 3px;
+	top: calc(50% - 8px);
+}
+
+div#<?php echo $id; ?> ul.maximenuck li.level1.parent:hover > a:after,
+div#<?php echo $id; ?> ul.maximenuck li.level1.parent:hover > span.separator:after {
+	border-color: transparent #333 transparent transparent;
 }
 
 /* arrow image for submenu parent item */
@@ -158,11 +166,11 @@ div#<?php echo $id; ?> ul.maximenuck li.maximenuck ul.maximenuck2 li.parent > a:
 	height: 0;
 	border-style: solid;
 	border-width: 6px 7px 6px 0;
-	border-color: transparent #015b86 transparent transparent;
-	margin: 3px;
+	border-color: transparent #016da0 transparent transparent;
+	margin: 0 3px;
 	position: absolute;
 	left: 3px;
-	top: 2px;
+	top: 13px;
 }
 
 /* styles for right position */
@@ -187,13 +195,13 @@ div#<?php echo $id; ?> ul.maximenuck li.level1.parent div.floatck.fixRight li.pa
 div#<?php echo $id; ?> ul.maximenuck li.level1.parent div.floatck.fixRight li.parent > span.separator:after,
 div#<?php echo $id; ?> ul.maximenuck li.level1.parent.menu_right li.parent > a:after,
 div#<?php echo $id; ?> ul.maximenuck li.level1.parent.menu_right li.parent > span.separator:after {
-	border-color: transparent #000 transparent transparent;
+	border-color: transparent #333 transparent transparent;
 }
 
 /* margin for right elements that rolls to the left */
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck div.floatck div.floatck.fixRight,
 div#<?php echo $id; ?> ul.maximenuck li.level1.parent.menu_right div.floatck div.floatck  {
-    margin-right : 93%;
+	margin-right : 180px;
 }
 
 div#<?php echo $id; ?> ul.maximenuck li div.floatck.fixRight{
@@ -251,12 +259,25 @@ div#<?php echo $id; ?> ul.maximenuck2 li.maximenuck span.separator {
     outline : none;
     white-space: normal;
 	filter: none;
+	color: #3598db;
 }
 
 /* submenu link */
-div#<?php echo $id; ?> ul.maximenuck li.maximenuck ul.maximenuck2 li a,
-div#<?php echo $id; ?> ul.maximenuck2 li a {
+div#<?php echo $id; ?> ul.maximenuck li.maximenuck ul.maximenuck2 li > a,
+div#<?php echo $id; ?> ul.maximenuck2 li > a,
+div#<?php echo $id; ?> ul.maximenuck2 li > span.separator {
+	color: #016da0;
+	padding: 10px 5px;
+}
 
+/* heading type */
+div#<?php echo $id; ?> ul.maximenuck li.maximenuck ul.maximenuck2 li > .nav-header {
+	font-size: 18px;
+	font-weight: 100;
+	border-bottom: 1px solid #666;
+	color: #666;
+	margin: 10px 10px 10px 5px;
+	padding: 7px 0;
 }
 
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck ul.maximenuck2 a,
@@ -268,13 +289,14 @@ div#<?php echo $id; ?> ul.maximenuck li.maximenuck ul.maximenuck2 li:hover > a,
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck ul.maximenuck2 li:hover > h2 a,
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck ul.maximenuck2 li:hover > h3 a,
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck ul.maximenuck2 li.active > a,
+div#<?php echo $id; ?> ul.maximenuck li.maximenuck ul.maximenuck2 li:hover > span.separator,
 div#<?php echo $id; ?> ul.maximenuck2 li:hover > a,
 div#<?php echo $id; ?> ul.maximenuck2 li:hover > h2 a,
 div#<?php echo $id; ?> ul.maximenuck2 li:hover > h3 a,
-div#<?php echo $id; ?> ul.maximenuck2 li.active > a{
-
+div#<?php echo $id; ?> ul.maximenuck2 li.active > a,
+div#<?php echo $id; ?> ul.maximenuck li:hover > span.separator {
+	color: #000;
 }
-
 
 /* link image style */
 div#<?php echo $id; ?> li.maximenuck > a img {
@@ -323,10 +345,20 @@ div#<?php echo $id; ?> div.floatck {
 	width: auto;
 	z-index:9999;
 	cursor: auto;
+	background: #f0f0f0;
+	padding: 15px 20px;
+	border: 1px solid #e5e5e5;
+}
+
+/* remove border top on first submenu */
+div#<?php echo $id; ?> li.maximenuck.level1 > div.floatck {
+	border-top: none;
 }
 
 div#<?php echo $id; ?> div.maxidrop-main {
 	width : 180px; /* default width */
+	display: flex;
+	flex-wrap: wrap;
 }
 
 /* vertical menu */
@@ -340,19 +372,17 @@ div#<?php echo $id; ?> .maxipushdownck div.floatck {
 
 /* child blocks position (from level2 to n) */
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck div.floatck div.floatck {
-	margin : -39px 93% 0 0;
+    margin : -40px 180px 0 0; /* default sub submenu position */
 }
 
 /**
-** Show/hide sub menu if mootools is off - horizontal style
+** Show/hide sub menu if javascript is off - horizontal style
 **/
-div#<?php echo $id; ?> ul.maximenuck li:hover:not(.maximenuckanimation) div.floatck div.floatck, div#<?php echo $id; ?> ul.maximenuck li:hover:not(.maximenuckanimation) div.floatck:hover div.floatck div.floatck, div#<?php echo $id; ?> ul.maximenuck li:hover:not(.maximenuckanimation) div.floatck:hover div.floatck:hover div.floatck div.floatck,
-div#<?php echo $id; ?> ul.maximenuck li.sfhover:not(.maximenuckanimation) div.floatck div.floatck, div#<?php echo $id; ?> ul.maximenuck li.sfhover:not(.maximenuckanimation) div.floatck.sfhover div.floatck div.floatck, div#<?php echo $id; ?> ul.maximenuck li.sfhover:not(.maximenuckanimation) div.floatck.sfhover div.floatck.sfhover div.floatck div.floatck {
+div#<?php echo $id; ?> ul.maximenuck li:hover:not(.maximenuckanimation) div.floatck div.floatck, div#<?php echo $id; ?> ul.maximenuck li:hover:not(.maximenuckanimation) div.floatck:hover div.floatck div.floatck, div#<?php echo $id; ?> ul.maximenuck li:hover:not(.maximenuckanimation) div.floatck:hover div.floatck:hover div.floatck div.floatck {
 display: none;
 }
 
-div#<?php echo $id; ?> ul.maximenuck li.maximenuck:hover > div.floatck, div#<?php echo $id; ?> ul.maximenuck li.maximenuck:hover > div.floatck li.maximenuck:hover > div.floatck, div#<?php echo $id; ?> ul.maximenuck li.maximenuck:hover>  div.floatck li.maximenuck:hover > div.floatck li.maximenuck:hover > div.floatck, div#<?php echo $id; ?> ul.maximenuck li.maximenuck:hover > div.floatck li.maximenuck:hover > div.floatck li.maximenuck:hover > div.floatck li.maximenuck:hover > div.floatck,
-div#<?php echo $id; ?> ul.maximenuck li.sfhover > div.floatck, div#<?php echo $id; ?> ul.maximenuck li.sfhover > div.floatck li.sfhover > div.floatck, div#<?php echo $id; ?> ul.maximenuck li.sfhover > div.floatck li.sfhover > div.floatck li.sfhover > div.floatck, div#<?php echo $id; ?> ul.maximenuck li.sfhover > div.floatck li.sfhover > div.floatck li.sfhover > div.floatck li.sfhover > div.floatck {
+div#<?php echo $id; ?> ul.maximenuck li.maximenuck:hover > div.floatck, div#<?php echo $id; ?> ul.maximenuck li.maximenuck:hover > div.floatck li.maximenuck:hover > div.floatck, div#<?php echo $id; ?> ul.maximenuck li.maximenuck:hover>  div.floatck li.maximenuck:hover > div.floatck li.maximenuck:hover > div.floatck, div#<?php echo $id; ?> ul.maximenuck li.maximenuck:hover > div.floatck li.maximenuck:hover > div.floatck li.maximenuck:hover > div.floatck li.maximenuck:hover > div.floatck {
 display: block;
 }
 
@@ -364,9 +394,9 @@ display: block;
 ---	 	Columns management					---
 ----------------------------------------------*/
 
-div#<?php echo $id; ?>.rtl .maximenuck2 {
+/*div#<?php echo $id; ?>.rtl .maximenuck2 {
     float: right !important;
-}
+}*/
 
 
 div#<?php echo $id; ?> ul.maximenuck li div.floatck div.maximenuck2,
@@ -378,6 +408,12 @@ div#<?php echo $id; ?> .maxipushdownck div.floatck div.maximenuck2 {
 	width: 100%;
 }
 
+/* allow auto fill if no column created, default behavior */
+/*
+div#<?php echo $id; ?> ul.maximenuck li div.floatck div.maximenuck2:not([style]) {
+    flex: 1 1 auto;
+}
+*/
 
 /* h2 title */
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck ul.maximenuck2 h2 a,
@@ -480,6 +516,11 @@ div#<?php echo $id; ?> ul.maximenuck2 li.greybox:hover {
 	border:1px solid #aaaaaa;
 }
 
+/* create new row with flexbox */
+div#<?php echo $id; ?> .ck-column-break {
+	flex-basis: 100%;
+	height: 0;
+}
 
 /*---------------------------------------------
 ---	 	Module in submenus					---
@@ -561,6 +602,31 @@ div#<?php echo $id; ?> ul.maximenuck2 div.maximenuck_mod #form-login ul li {
     padding : 0 5px;
     height : 20px;
     background : transparent;
+}
+
+/*---------------------------------------------
+---	 	Mobile menu bar						---
+----------------------------------------------*/
+
+div#<?php echo $id; ?> .maximenumobiletogglericonck {
+    font-family: verdana;
+    background: #f0f0f0;
+	padding: 5px 10px;
+	padding-top: 5px;
+	height: 30px;
+	position: relative;
+	color: #333;
+}
+
+div#<?php echo $id; ?> .maximenumobiletogglericonck:after {
+    display: block;
+	content: "";
+	height: calc(100% - 10px);
+	border: 1px solid #e2e2e2;
+	position: absolute;
+	right: 45px;
+	top: 5px;
+	box-sizing: border-box;
 }
 
 
@@ -651,10 +717,15 @@ div#<?php echo $id; ?>.maximenuckv li.fullwidth > div.floatck {
 	padding: 0;
 	top: 0;
 	bottom: 0;
-	left: 100%;
-	right: auto !important;
+	left: auto;
+	right: 100% !important;
 }
 
-div#<?php echo $id; ?> li.fullwidth > div.floatck > div.maxidrop-main {
-	width: auto;
+div#<?php echo $id; ?>.maximenuckh li.fullwidth > div.floatck > div.maxidrop-main {
+	width: auto !important;
+}
+
+div#<?php echo $id; ?>.maximenuckv li.fullwidth > div.floatck > .maxidrop-main {
+	height: 100%;
+	overflow-y: auto;
 }

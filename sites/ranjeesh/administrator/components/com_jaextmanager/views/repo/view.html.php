@@ -31,25 +31,29 @@ class JaextmanagerViewRepo extends JAEMView
 		$lang	= JFactory::getLanguage();
 		//$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'details', 'word');
 		$style = "details";
-		
-		JHtml::_('behavior.framework', true);
+
+		if (version_compare(JVERSION, '4', '<')) {
+			JHtml::_('behavior.framework', true);
+			JHtml::_('script', 'system/mootree.js');
+			JHtml::_('stylesheet', 'system/mootree.css', array(), true);
+		}
+
 		$assets = JURI::root() . 'administrator/components/com_jaextmanager/assets/';
 		$document = JFactory::getDocument();
 		if (jaIsJoomla4x()) {
 			$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'top');
-			JHtml::_('stylesheet', $assets . 'repo_manager_3/' . 'repomanager.css', false, true);
+			JHtml::_('stylesheet', $assets . 'repo_manager_3/' . 'repomanager.css');
 		} else if(jaIsJoomla3x()){
 			$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'top');
-			JHtml::_('script', $assets . 'repo_manager_3/' . 'repomanager.js', false, true);
-			JHtml::_('stylesheet', $assets . 'repo_manager_3/' . 'repomanager.css', false, true);
+			JHtml::_('script', $assets . 'repo_manager_3/' . 'repomanager.js');
+			JHtml::_('stylesheet', $assets . 'repo_manager_3/' . 'repomanager.css');
 		}else{
 			$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');
-			JHtml::_('script', $assets . 'repo_manager/' . 'repomanager.js', false, true);
-			JHtml::_('stylesheet', $assets . 'repo_manager/' . 'repomanager.css', false, true);
+			JHtml::_('script', $assets . 'repo_manager/' . 'repomanager.js');
+			JHtml::_('stylesheet', $assets . 'repo_manager/' . 'repomanager.css');
 		}
 		
-		JHtml::_('script', 'system/mootree.js', true, true, false, false);
-		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
+		
 		if ($lang->isRTL()) :
 			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
 		endif;
@@ -89,7 +93,6 @@ class JaextmanagerViewRepo extends JAEMView
 		$this->addToolbar();
 		
 		parent::display($tpl);
-		echo JHtml::_('behavior.keepalive');
 	}
 
 

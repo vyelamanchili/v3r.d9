@@ -1,7 +1,7 @@
 <?php
 /**
  * ------------------------------------------------------------------------
- * JA Extenstion Manager Component for J3.x
+ * JA Extension Manager Component
  * ------------------------------------------------------------------------
  * Copyright (C) 2004-2018 J.O.O.M Solutions Co., Ltd. All Rights Reserved.
  * @license - GNU/GPL, http://www.gnu.org/licenses/gpl.html
@@ -26,6 +26,7 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 		$this->registerTask('compare', 'compare');
 		$this->registerTask('files_compare', 'filesCompare');
 		$this->registerTask('changelog', 'changelog');
+		$this->registerTask('changelogs', 'changelogs'); //kiendt get log from JIRA
 		$this->registerTask('checkupdate', 'checkUpdate');
 		$this->registerTask('upgrade', 'upgrade');
 		$this->registerTask('recovery', 'recovery');
@@ -68,7 +69,7 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 	 */
 	function checkUpdate()
 	{
-		JRequest::setVar('layout', 'checkupdate');
+		$this->input->set('layout', 'checkupdate');
 		parent::display();
 	}
 
@@ -133,7 +134,7 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 	 */
 	function recovery()
 	{
-		JRequest::setVar('layout', 'recovery');
+		$this->input->set('layout', 'recovery');
 		parent::display();
 	}
 
@@ -155,7 +156,7 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 			die($errors);
 		}
 		
-		JRequest::setVar('layout', 'doRecovery');
+		$this->input->set('layout', 'doRecovery');
 		parent::display();
 	}
 
@@ -168,7 +169,7 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 	 */
 	function compare()
 	{
-		JRequest::setVar('layout', 'diff_view');
+		$this->input->set('layout', 'diff_view');
 		parent::display();
 	}
 
@@ -180,7 +181,7 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 	 */
 	function filesCompare()
 	{
-		JRequest::setVar('layout', 'files_compare');
+		$this->input->set('layout', 'files_compare');
 		parent::display();
 	}
 
@@ -192,7 +193,7 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 	 */
 	function listBackupConflicted()
 	{
-		JRequest::setVar('layout', 'list_backup_conflicted');
+		$this->input->set('layout', 'list_backup_conflicted');
 		parent::display();
 	}
 
@@ -203,7 +204,7 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 	 */
 	function compareConflicted()
 	{
-		JRequest::setVar('layout', 'compare_conflicted');
+		$this->input->set('layout', 'compare_conflicted');
 		parent::display();
 	}
 
@@ -214,7 +215,7 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 	 */
 	function compareFilesConflicted()
 	{
-		JRequest::setVar('layout', 'files_compare_conflicted');
+		$this->input->set('layout', 'files_compare_conflicted');
 		parent::display();
 	}
 
@@ -274,10 +275,29 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 	 */
 	function changelog()
 	{
+
 		$message = '';
-		$model = &$this->getModel('default');
+		$model = $this->getModel('default');
 		$log = $model->getChangeLog();
 		echo nl2br($log);
+		die();
+	}
+
+	/**
+	 * Show change log of extension
+	 *
+	 */
+	function changelogs()
+	{
+		$app = JFactory::getApplication();
+		$user = JFactory::getUser();
+		if($user->guest){
+			$app->redirect('index','login first!');
+		}
+		$message = '';
+		$model = $this->getModel('default');
+		$log = $model->getChangeLogs();
+		echo $log;
 		die();
 	}
 
@@ -389,8 +409,8 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 		$model = $this->getModel('uploader');
 		$result = $model->upload();
 		
-		JRequest::setVar('uploadResult', $result, 'post');
-		JRequest::setVar('layout', 'uploader');
+		$this->input->set('uploadResult', $result, 'post');
+		$this->input->set('layout', 'uploader');
 		parent::display();
 	}
 }

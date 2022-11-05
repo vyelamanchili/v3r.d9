@@ -1,4 +1,10 @@
+div#maximenuck98 .titreck-text {
+	flex: 1;
+}
 
+div#maximenuck98 .maximenuck.rolloveritem  img {
+	display: none !important;
+}
 
 .ckclr {clear:both;visibility : hidden;}
 
@@ -19,17 +25,17 @@ div#maximenuck98 {
 /* container style */
 div#maximenuck98 ul.maximenuck {
 	clear:both;
-    position : relative;
-    z-index:999;
-    overflow: visible !important;
-    display: block !important;
-    float: none !important;
-    visibility: visible !important;
+	position : relative;
+	z-index:999;
+	overflow: visible !important;
+	display: block !important;
+	float: none !important;
+	visibility: visible !important;
 	opacity: 1 !important;
-    list-style:none;
+	list-style:none;
 	/*padding: 0;*/
-    margin:0 auto;
-    zoom:1;
+	margin:0 auto;
+	zoom:1;
 	filter: none;
 	background: #3598db;
 }
@@ -141,11 +147,16 @@ div#maximenuck98.maximenuckv ul.maximenuck li.level1.parent > span.separator:aft
 	height: 0;
 	border-style: solid;
 	border-width: 6px 0 6px 7px;
-	border-color: transparent transparent transparent #000;
+	border-color: transparent transparent transparent #fff;
 	margin: 3px 10px 3px 0;
 	position: absolute;
 	right: 3px;
-	top: 3px;
+	top: calc(50% - 8px);
+}
+
+div#maximenuck98.maximenuckv ul.maximenuck li.level1.parent:hover > a:after,
+div#maximenuck98.maximenuckv ul.maximenuck li.level1.parent:hover > span.separator:after {
+	border-color: transparent transparent transparent #333;
 }
 
 /* arrow image for submenu parent item */
@@ -262,7 +273,8 @@ div#maximenuck98 ul.maximenuck2 li.maximenuck span.separator {
 
 /* submenu link */
 div#maximenuck98 ul.maximenuck li.maximenuck ul.maximenuck2 li > a,
-div#maximenuck98 ul.maximenuck2 li > a {
+div#maximenuck98 ul.maximenuck2 li > a,
+div#maximenuck98 ul.maximenuck2 li > span.separator {
 	color: #016da0;
 	padding: 10px 5px;
 }
@@ -286,13 +298,14 @@ div#maximenuck98 ul.maximenuck li.maximenuck ul.maximenuck2 li:hover > a,
 div#maximenuck98 ul.maximenuck li.maximenuck ul.maximenuck2 li:hover > h2 a,
 div#maximenuck98 ul.maximenuck li.maximenuck ul.maximenuck2 li:hover > h3 a,
 div#maximenuck98 ul.maximenuck li.maximenuck ul.maximenuck2 li.active > a,
+div#maximenuck98 ul.maximenuck li.maximenuck ul.maximenuck2 li:hover > span.separator,
 div#maximenuck98 ul.maximenuck2 li:hover > a,
 div#maximenuck98 ul.maximenuck2 li:hover > h2 a,
 div#maximenuck98 ul.maximenuck2 li:hover > h3 a,
-div#maximenuck98 ul.maximenuck2 li.active > a {
+div#maximenuck98 ul.maximenuck2 li.active > a,
+div#maximenuck98 ul.maximenuck li:hover > span.separator {
 	color: #000;
 }
-
 
 /* link image style */
 div#maximenuck98 li.maximenuck > a img {
@@ -712,9 +725,14 @@ div#maximenuck98.maximenuckv li.fullwidth > div.floatck {
 	right: auto !important;
 }
 
-div#maximenuck98 li.fullwidth > div.floatck > div.maxidrop-main {
+div#maximenuck98.maximenuckh li.fullwidth > div.floatck > div.maxidrop-main {
 	width: auto;
-}@media screen and (max-width: 640px) {#maximenuck98 .maximenumobiletogglericonck {display: block !important;font-size: 33px !important;text-align: right !important;padding-top: 10px !important;}#maximenuck98 .maximenumobiletogglerck + ul.maximenuck {display: none !important;}#maximenuck98 .maximenumobiletogglerck:checked + ul.maximenuck {display: block !important;}}
+}
+
+div#maximenuck98.maximenuckv li.fullwidth > div.floatck > .maxidrop-main {
+	height: 100%;
+	overflow-y: auto;
+}
 @media screen and (max-width: 640px) {div#maximenuck98 ul.maximenuck li.maximenuck.nomobileck, div#maximenuck98 .maxipushdownck ul.maximenuck2 li.maximenuck.nomobileck { display: none !important; }
 	div#maximenuck98.maximenuckh {
         height: auto !important;
@@ -752,7 +770,6 @@ div#maximenuck98 li.fullwidth > div.floatck > div.maxidrop-main {
     }
 	
 	div#maximenuck98.maximenuckh ul:not(.noresponsive) li:hover > div.floatck {
-		/*display: block !important;*/
 		position: relative !important;
 		margin-left: 0 !important;
     }
@@ -813,7 +830,6 @@ div#maximenuck98 li.fullwidth > div.floatck > div.maxidrop-main {
     }
 	
 	div#maximenuck98.maximenuckv ul:not(.noresponsive) li:hover > div.floatck {
-		/*display: block !important;*/
 		position: relative !important;
 		margin-left: 0 !important;
     }
@@ -841,5 +857,21 @@ div#maximenuck98 li.fullwidth > div.floatck > div.maxidrop-main {
 	
 @media screen and (min-width: 641px) {
 	div#maximenuck98 ul.maximenuck li.maximenuck.nodesktopck, div#maximenuck98 .maxipushdownck ul.maximenuck2 li.maximenuck.nodesktopck { display: none !important; }
+}/*---------------------------------------------
+---	 WCAG				                ---
+----------------------------------------------*/
+#maximenuck98.maximenuck-wcag-active .maximenuck-toggler-anchor ~ ul {
+    display: block !important;
 }
-div#maximenuck98.maximenuckh ul.maximenuck { background: #40F2FF;background-color: #40F2FF;background-image: url("http://joomladev-light/images/joomla_black.png");background-repeat: no-repeat;background-position: 30px 0px; } 
+
+#maximenuck98 .maximenuck-toggler-anchor {
+	height: 0;
+	opacity: 0;
+	overflow: hidden;
+	display: none;
+}
+div#maximenuck98.maximenuckh ul.maximenuck { background: #40F2FF;background-color: #40F2FF;-moz-box-shadow: 10px 10px 10px 0px #7F6BFF;-webkit-box-shadow: 10px 10px 10px 0px #7F6BFF;box-shadow: 10px 10px 10px 0px #7F6BFF;text-align: center; } 
+div#maximenuck98.maximenuckh ul.maximenuck li.maximenuck > a span.titreck, div#maximenuck98.maximenuckh ul.maximenuck li.maximenuck > span.separator span.titreck,
+div#maximenuck98 .maxipushdownck li.maximenuck > a span.titreck, div#maximenuck98 .maxipushdownck li.maximenuck > span.separator span.titreck { text-shadow: 0px 0px 2px #FF683B; } 
+div#maximenuck98.maximenuckh ul.maximenuck li.maximenuck div.floatck, div#maximenuck98.maximenuckh ul.maximenuck li.maximenuck div.floatck div.floatck,
+div#maximenuck98 .maxipushdownck div.floatck { background: #FF52CB;background-color: #FF52CB; } 

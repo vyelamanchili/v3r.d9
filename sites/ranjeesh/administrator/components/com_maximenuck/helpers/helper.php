@@ -69,8 +69,8 @@ class Helper {
 	}
 
 	public static function loadCkboxInline() {
-		CKFof::loadStyleSheetInline(MAXIMENUCK_MEDIA_URI . '/assets/ckbox.css');
-		CKFof::loadScriptInline(MAXIMENUCK_MEDIA_URI . '/assets/ckbox.js');
+		CKFof::addStyleSheetInline(MAXIMENUCK_MEDIA_URI . '/assets/ckbox.css');
+		CKFof::addScriptInline(MAXIMENUCK_MEDIA_URI . '/assets/ckbox.js');
 	}
 
 	public static function htmlTemplateItem($item) {

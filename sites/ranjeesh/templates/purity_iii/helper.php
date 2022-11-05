@@ -1,9 +1,23 @@
 <?php
+defined('_JEXEC') or die;
+use Joomla\CMS\Helper\ModuleHelper as JModuleHelper;
+
+if(version_compare(JVERSION, '4', 'ge')){
+		class ModArticlesCategoryHelper extends \Joomla\Module\ArticlesCategory\Site\Helper\ArticlesCategoryHelper{};
+		class ModArticlesCategoriesHelper extends \Joomla\Module\ArticlesCategories\Site\Helper\ArticlesCategoriesHelper{};
+	}else{
+		// Include the helper functions mod_articles_category
+		JLoader::register('ModArticlesCategoryHelper',JPATH_ROOT . '/modules/mod_articles_category/helper.php');
+		JLoader::register('ModArticlesCategoriesHelper',JPATH_ROOT . '/modules/mod_articles_categories/helper.php');
+	}
 class JATemplateHelper
 {
+	public function __construct()
+	{
+		
+	}
 	public static function getArticles($params, $catid, $count, $front = 'show')
 	{
-		require_once JPATH_ROOT . '/modules/mod_articles_category/helper.php';
 		$aparams = clone $params;
 		$aparams->set('count', $count);
 		$aparams->set('show_front', $front);
@@ -17,7 +31,6 @@ class JATemplateHelper
 
 	public static function getCategories($parent = 'root', $count = 0)
 	{
-		require_once JPATH_ROOT . '/modules/mod_articles_categories/helper.php';
 		$params = new JRegistry();
 		$params->set('parent', $parent);
 		$params->set('count', $count);

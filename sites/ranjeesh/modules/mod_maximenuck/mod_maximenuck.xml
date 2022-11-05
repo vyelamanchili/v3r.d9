@@ -11,7 +11,7 @@
 	<license>GNU/GPL 3 https://www.gnu.org/licenses/gpl.html</license>
 	<authorEmail>ced1870@gmail.com</authorEmail>
 	<authorUrl>https://www.joomlack.fr</authorUrl>
-	<version>9.0.13</version>
+	<version>9.1.27</version>
 	<description>MOD_MAXIMENUCK_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_maximenuck">mod_maximenuck.php</filename>
@@ -34,6 +34,10 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldpath="/administrator/components/com_maximenuck/elements">
+				<field
+					name="maximenuckinterface"
+					type="maximenuckinterface"
+					/>
 				<field 
 					name="maximenuckversion" 
 					type="hidden"
@@ -46,11 +50,6 @@
 				<field
 					name="infospro"
 					type="cklight"
-					/>
-				<field
-					name="maximenuwizard"
-					type="ckmaximenuwizard"
-					label="MAXIMENUCK_WIZARD"
 					/>
 				<field
 					name="joomlackproducts"
@@ -78,7 +77,7 @@
 				/>
 				<field
 					name="menusourcespacer"
-					type="ckspacer"
+					type="maximenuckspacer"
 					label="MOD_MAXIMENUCK_SOURCE_MENU"
 					style="title"
 					showon="source:menu"
@@ -103,7 +102,7 @@
 				</field>
 				<field
 					name="dependantitems"
-					type="ckradio"
+					type="maximenuckradio"
 					class="btn-group"
 					default="1"
 					label="MOD_MAXIMENUCK_DEPENDANT_LABEL"
@@ -116,7 +115,7 @@
 				</field>
 				<field
 					name="startLevel"
-					type="cklist"
+					type="maximenucklist"
 					default="1"
 					label="MOD_MAXIMENUCK_FIELD_STARTLEVEL_LABEL"
 					description="MOD_MAXIMENUCK_FIELD_STARTLEVEL_DESC"
@@ -136,7 +135,7 @@
 				</field>
 				<field
 					name="endLevel"
-					type="cklist"
+					type="maximenucklist"
 					default="0"
 					label="MOD_MAXIMENUCK_FIELD_ENDLEVEL_LABEL"
 					description="MOD_MAXIMENUCK_FIELD_ENDLEVEL_DESC"
@@ -160,7 +159,7 @@
 			<fieldset name="effects" label="MOD_MAXIMENUCK_OPTIONS_EFFECTS">
 				<field
 					name="usejavascript"
-					type="ckradio"
+					type="maximenuckradio"
 					default="1"
 					label="MOD_MAXIMENUCK_USEJAVASCRIPT_LABEL"
 					description="MOD_MAXIMENUCK_USEJAVASCRIPT_DESC"
@@ -170,7 +169,7 @@
 				</field>
 				<field
 					name="load"
-					type="cklist"
+					type="maximenucklist"
 					default="domready"
 					label="MOD_MAXIMENUCK_LOADTYPE_LABEL"
 					description="MOD_MAXIMENUCK_LOADTYPE_DESC"
@@ -181,14 +180,14 @@
 				</field>
 				<field
 					name="effectckspacer1"
-					type="ckspacer"
+					type="maximenuckspacer"
 					label="MOD_MAXIMENUCK_SPACER_EFFECTOPEN"
 					style="title"
 					showon="usejavascript:1"
 					/>
 				<field
 					name="stopdropdownlevel"
-					type="cklist"
+					type="maximenucklist"
 					label="MOD_MAXIMENUCK_STOPDROPDOWNLEVEL_LABEL"
 					description="MOD_MAXIMENUCK_STOPDROPDOWNLEVEL_DESC"
 					default="0"
@@ -202,7 +201,7 @@
 				</field>
 				<field
 					name="menuposition"
-					type="cklist"
+					type="maximenucklist"
 					default="0"
 					label="MOD_MAXIMENUCK_MENUPOSITION_LABEL"
 					description="MOD_MAXIMENUCK_MENUPOSITION_DESC"
@@ -215,7 +214,7 @@
 				</field>
 				<field
 					name="fixedpositionwidth"
-					type="cktext"
+					type="maximenucktext"
 					default=""
 					label="MOD_MAXIMENUCK_FIXED_MAXWIDTH_LABEL"
 					description="MOD_MAXIMENUCK_FIXED_MAXWIDTH_DESC"
@@ -224,7 +223,7 @@
 					suffix="" />
 				<field
 					name="topfixedoffset"
-					type="cktext"
+					type="maximenucktext"
 					default=""
 					label="MOD_MAXIMENUCK_FIXED_OFFSET_LABEL"
 					description="MOD_MAXIMENUCK_FIXED_OFFSET_DESC"
@@ -233,7 +232,7 @@
 					suffix="" />
 				<field
 					name="topfixedeffect"
-					type="ckradio"
+					type="maximenuckradio"
 					default="1"
 					label="MOD_MAXIMENUCK_TOPFIXED_EFFECT_LABEL"
 					description="MOD_MAXIMENUCK_TOPFIXED_EFFECT_DESC"
@@ -246,7 +245,7 @@
 				</field>
 				<field
 					name="behavior"
-					type="cklist"
+					type="maximenucklist"
 					default="mouseover"
 					label="MOD_MAXIMENUCK_STYLE_LABEL"
 					description="MOD_MAXIMENUCK_STYLE_DESC"
@@ -259,7 +258,7 @@
 				</field>
 				<field
 					name="clickclose"
-					type="ckradio"
+					type="maximenuckradio"
 					default="0"
 					label="MOD_MAXIMENUCK_CLICKCLOSE_LABEL"
 					description="MOD_MAXIMENUCK_CLICKCLOSE_DESC"
@@ -272,7 +271,7 @@
 				</field>
 				<field
 					name="closeclickoutside"
-					type="ckradio"
+					type="maximenuckradio"
 					default="0"
 					label="MAXIMENUCK_CLICKOUTSIDE_LABEL"
 					description="MAXIMENUCK_CLICKOUTSIDE_DESC"
@@ -285,7 +284,7 @@
 				</field>
 				<field
 					name="opentype"
-					type="cklist"
+					type="maximenucklist"
 					default="open"
 					label="MOD_MAXIMENUCK_OPENTYPE_LABEL"
 					description="MOD_MAXIMENUCK_OPENTYPE_DESC"
@@ -304,7 +303,7 @@
 				</field>
 				<field
 					name="offcanvaswidth"
-					type="cktext"
+					type="maximenucktext"
 					default="300"
 					label="MAXIMENUCK_OFFCANVAS_WARNING_LABEL"
 					description="MAXIMENUCK_OFFCANVAS_WARNING_DESC"
@@ -313,7 +312,7 @@
 					/>
 				<field
 					name="fxduration"
-					type="cktext"
+					type="maximenucktext"
 					default="500"
 					label="MOD_MAXIMENUCK_MOODUREE_LABEL"
 					description="MOD_MAXIMENUCK_MOODUREE_DESC"
@@ -323,7 +322,7 @@
 
 				<field
 					name="fxtransition"
-					type="cklist"
+					type="maximenucklist"
 					default="linear"
 					label="MOD_MAXIMENUCK_TRANSITION_LABEL"
 					description="MOD_MAXIMENUCK_TRANSITION_DESC"
@@ -365,7 +364,7 @@
 
 				<field
 					name="dureein"
-					type="cktext"
+					type="maximenucktext"
 					default="0"
 					label="MOD_MAXIMENUCK_DUREEIN_LABEL"
 					description="MOD_MAXIMENUCK_DUREEIN_DESC"
@@ -374,7 +373,7 @@
 					suffix="ms" />
 				<field
 					name="dureeout"
-					type="cktext"
+					type="maximenucktext"
 					default="500"
 					label="MOD_MAXIMENUCK_DUREEOUT_LABEL"
 					description="MOD_MAXIMENUCK_DUREEOUT_DESC"
@@ -384,7 +383,7 @@
 
 				<field
 					name="testoverflow"
-					type="ckradio"
+					type="maximenuckradio"
 					default="0"
 					label="MOD_MAXIMENUCK_TESTOVERFLOW_LABEL"
 					description="MOD_MAXIMENUCK_TESTOVERFLOW_DESC"
@@ -398,7 +397,7 @@
 
 				<field
 					name="direction"
-					type="ckradio"
+					type="maximenuckradio"
 					default="normal"
 					label="MOD_MAXIMENUCK_DIRECTION_LABEL"
 					description="MOD_MAXIMENUCK_DIRECTION_DESC"
@@ -412,7 +411,7 @@
 
 				<field
 					name="directionoffset1"
-					type="cktext"
+					type="maximenucktext"
 					default="30"
 					label="MOD_MAXIMENUCK_DIRECTIONOFFSET1_LABEL"
 					description="MOD_MAXIMENUCK_DIRECTIONOFFSET1_DESC"
@@ -422,7 +421,7 @@
 
 				<field
 					name="directionoffset2"
-					type="cktext"
+					type="maximenucktext"
 					default="30"
 					label="MOD_MAXIMENUCK_DIRECTIONOFFSET2_LABEL"
 					description="MOD_MAXIMENUCK_DIRECTIONOFFSET2_DESC"
@@ -431,7 +430,7 @@
 					suffix="px" />
 				<field
 					name="showactivesubitems"
-					type="ckradio"
+					type="maximenuckradio"
 					default="0"
 					label="MOD_MAXIMENUCK_SHOWACTIVESUBITEMS_LABEL"
 					description="MOD_MAXIMENUCK_SHOWACTIVESUBITEMS_DESC"
@@ -444,14 +443,14 @@
 
 				<field
 					name="mootoolsckspacer2"
-					type="ckspacer"
+					type="maximenuckspacer"
 					label="MOD_MAXIMENUCK_SPACER_MOOTOOLSFANCY"
 					showon="usejavascript:1"
 					style="title" />
 
 				<field
 					name="usefancy"
-					type="ckradio"
+					type="maximenuckradio"
 					default="0"
 					label="MOD_MAXIMENUCK_USEFANCY_LABEL"
 					description="MOD_MAXIMENUCK_USEFANCY_DESC"
@@ -464,7 +463,7 @@
 
 				<field
 					name="fancyduration"
-					type="cktext"
+					type="maximenucktext"
 					default="500"
 					label="MOD_MAXIMENUCK_FANCYDUREE_LABEL"
 					description="MOD_MAXIMENUCK_FANCYDUREE_DESC"
@@ -474,7 +473,7 @@
 
 				<field
 					name="fancytransition"
-					type="cklist"
+					type="maximenucklist"
 					default="linear"
 					label="MOD_MAXIMENUCK_FANCYTRANSITION_LABEL"
 					description="MOD_MAXIMENUCK_FANCYTRANSITION_DESC"
@@ -519,7 +518,7 @@
 			<fieldset name="styles" label="MOD_MAXIMENUCK_OPTIONS_STYLES">
 				<field
 					name="spacerdisplay"
-					type="ckspacer"
+					type="maximenuckspacer"
 					label="MAXIMENUCK_DISPLAY_OPTIONS_LABEL"
 					style="title"
 					/>
@@ -543,7 +542,7 @@
 					/>
 				<field
 					name="orientation"
-					type="ckradio"
+					type="maximenuckradio"
 					default="horizontal"
 					label="MOD_MAXIMENUCK_ORIENTATION_LABEL"
 					description="MOD_MAXIMENUCK_ORIENTATION_DESC"
@@ -555,13 +554,13 @@
 				</field>
 				<field
 					name="spacerdisplay2"
-					type="ckspacer"
+					type="maximenuckspacer"
 					label="MAXIMENUCK_CSS_OPTIONS_LABEL"
 					style="title"
 					/>
 				<field
 					name="loadcompiledcss"
-					type="ckradio"
+					type="maximenuckradio"
 					default="2"
 					label="MOD_MAXIMENUCK_LOADCOMPILEDCSS_LABEL"
 					description="MOD_MAXIMENUCK_LOADCOMPILEDCSS_DESC" 
@@ -733,30 +732,44 @@
 					description="MOD_MAXIMENUCK_LOGOIMAGE_DESC" />
 				<field
 					name="logolink"
-					type="cktext"
+					type="maximenucktext"
 					icon="link_go.png"
 					label="MOD_MAXIMENUCK_LOGOLINK_LABEL"
 					description="MOD_MAXIMENUCK_LOGOLINK_DESC" />
 				<field
 					name="logoalt"
-					type="cktext"
+					type="maximenucktext"
 					icon="font.png"
 					label="MOD_MAXIMENUCK_LOGOALT_LABEL"
 					description="MOD_MAXIMENUCK_LOGOALT_DESC" />
 				<field
 					name="logoposition"
-					type="cklist"
+					type="maximenucklist"
 					default="left"
 					label="MOD_MAXIMENUCK_LOGOPOSITION_LABEL"
 					description="MOD_MAXIMENUCK_LOGOPOSITION_DESC"
 					icon="arrow_direction.png"
 				>
 					<option value="left">MOD_MAXIMENUCK_LEFT</option>
+					<option value="center">MOD_MAXIMENUCK_CENTER</option>
 					<option value="right">MOD_MAXIMENUCK_RIGHT</option>
+					<option value="top">MOD_MAXIMENUCK_TOP</option>
+				</field>
+				<field
+					name="logopositionpartition"
+					type="maximenucklist"
+					default="even"
+					label="MOD_MAXIMENUCK_LOGOPOSITION_PARTITION_LABEL"
+					description="MOD_MAXIMENUCK_LOGOPOSITION_PARTITION_DESC"
+					icon="document-binary.png"
+					showon="logoposition:center"
+				>
+					<option value="even">MOD_MAXIMENUCK_EVEN</option>
+					<option value="odd">MOD_MAXIMENUCK_ODD</option>
 				</field>
 				<field
 					name="logowidth"
-					type="cktext"
+					type="maximenucktext"
 					label="MOD_MAXIMENUCK_LOGOWIDTH_LABEL"
 					description="MOD_MAXIMENUCK_LOGOWIDTH_DESC"
 					icon="width.png"
@@ -764,7 +777,7 @@
 				/>
 				<field
 					name="logoheight"
-					type="cktext"
+					type="maximenucktext"
 					label="MOD_MAXIMENUCK_LOGOHEIGHT_LABEL"
 					description="MOD_MAXIMENUCK_LOGOHEIGHT_DESC"
 					icon="height.png"
@@ -772,7 +785,7 @@
 				/>
 				<field
 					name="logomargintop"
-					type="cktext"
+					type="maximenucktext"
 					default="0"
 					label="MOD_MAXIMENUCK_MARGINTOP_LABEL"
 					description="MOD_MAXIMENUCK_MARGINTOP_DESC"
@@ -781,7 +794,7 @@
 				/>
 				<field
 					name="logomarginright"
-					type="cktext"
+					type="maximenucktext"
 					default="0"
 					label="MOD_MAXIMENUCK_MARGINRIGHT_LABEL"
 					description="MOD_MAXIMENUCK_MARGINRIGHT_DESC"
@@ -790,7 +803,7 @@
 				/>
 				<field
 					name="logomarginbottom"
-					type="cktext"
+					type="maximenucktext"
 					default="0"
 					label="MOD_MAXIMENUCK_MARGINBOTTOM_LABEL"
 					description="MOD_MAXIMENUCK_MARGINBOTTOM_DESC"
@@ -799,7 +812,7 @@
 				/>
 				<field
 					name="logomarginleft"
-					type="cktext"
+					type="maximenucktext"
 					default="0"
 					label="MOD_MAXIMENUCK_MARGINLEFT_LABEL"
 					description="MOD_MAXIMENUCK_MARGINLEFT_DESC"
@@ -817,7 +830,7 @@
 				/>
 				<field
 					name="maximenumobile_resolution"
-					type="cktext"
+					type="maximenucktext"
 					label="MAXIMENUCK_MOBILERESOLUTION_LABEL"
 					description="MAXIMENUCK_MOBILERESOLUTION_DESC"
 					icon="width.png"
@@ -826,7 +839,7 @@
 				/>
 				<field
 					name="maximenumobile_enable"
-					type="ckradio"
+					type="maximenuckradio"
 					class="btn-group"
 					default="1"
 					label="MOD_MAXIMENUCK_USEMOBILEBURGERICON_LABEL"
@@ -843,10 +856,11 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="custom-select"
 					icon="layout.png" />
 				<field
 					name="zindexlevel"
-					type="cktext"
+					type="maximenucktext"
 					default="10"
 					label="MOD_MAXIMENUCK_ZINDEXLEVEL_LABEL"
 					description="MOD_MAXIMENUCK_ZINDEXLEVEL_DESC"
@@ -864,7 +878,7 @@
 				</field>
 				<field
 					name="datahover"
-					type="ckradio"
+					type="maximenuckradio"
 					default="1"
 					label="MOD_MAXIMENUCK_DATAHOVER_LABEL"
 					description="MOD_MAXIMENUCK_DATAHOVER_DESC"
@@ -875,7 +889,7 @@
 				</field>
 				<field
 					name="microdata"
-					type="ckradio"
+					type="maximenuckradio"
 					default="0"
 					label="MOD_MAXIMENUCK_MICRODATA_LABEL"
 					description="MOD_MAXIMENUCK_MICRODATA_DESC"
@@ -886,7 +900,7 @@
 				</field>
 				<field
 					name="menuid"
-					type="cktext"
+					type="maximenucktext"
 					default=""
 					label="MOD_MAXIMENUCK_ID_LABEL"
 					description="MOD_MAXIMENUCK_ID_DESC"
@@ -895,27 +909,25 @@
 				/>
 				<field
 					name="moduleclass_sfx"
-					type="cktext"
+					type="maximenucktext"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					icon="text_signature.png" />
 
 				<field
 					name="cache"
-					type="cklist"
+					type="maximenucklist"
 					default="0"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC" >
+					>
 					<option	value="1">JGLOBAL_USE_GLOBAL</option>
 					<option	value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
 
 				<field
 					name="cache_time"
-					type="cktext"
+					type="maximenucktext"
 					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					icon="hourglass.png"
 					suffix="min" />
 
@@ -927,16 +939,28 @@
 				</field>
 				<field
 					name="ckspaceradvancedicons"
-					type="ckspacer"
+					type="maximenuckspacer"
 					label="MAXIMENUCK_SPACER_ICONS"
 					style="title" />
 				<field
+					name="useicons"
+					type="maximenuckradio"
+					default="1"
+					label="MAXIMENUCK_USE_ICONS_LABEL"
+					icon="switch.png"
+					class="btn-group"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
 					name="fontawesomeversion"
-					type="cklist"
+					type="maximenucklist"
 					default="left"
 					label="MAXIMENUCK_FONTWESOME_VERSION_LABEL"
 					description="MAXIMENUCK_FONTWESOME_VERSION_DESC"
 					icon="text_padding_left.png"
+					showon="useicons:1"
 				>
 					<option value="5">MAXIMENUCK_FONTWESOME_VERSION_5</option>
 					<option value="4">MAXIMENUCK_FONTWESOME_VERSION_4</option>
@@ -944,47 +968,63 @@
 				</field>
 				<field
 					name="loadfontawesomescript"
-					type="ckradio"
+					type="maximenuckradio"
 					default="1"
 					label="MAXIMENUCK_LOADFONTWESOME_SCRIPT_LABEL"
 					description="MAXIMENUCK_LOADFONTWESOME_SCRIPT_DESC"
 					icon="switch.png"
 					class="btn-group"
-					showon="fontawesomeversion:4,5"
+					showon="fontawesomeversion:4,5[AND]useicons:1"
 				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
 				<field
 					name="ckspaceradvanced1"
-					type="ckspacer"
+					type="maximenuckspacer"
 					label="MOD_MAXIMENUCK_SPACER_IMAGES"
 					style="title" />
 
 				<field
+					name="useimages"
+					type="maximenuckradio"
+					default="1"
+					label="MAXIMENUCK_USE_IMAGES_LABEL"
+					icon="switch.png"
+					class="btn-group"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
 					name="imagerollprefix"
-					type="cktext"
+					type="maximenucktext"
 					default="_hover"
 					label="MOD_MAXIMENUCK_ROLLOVERPREFIX_LABEL"
 					description="MOD_MAXIMENUCK_ROLLOVERPREFIX_DESC"
-					icon="text_signature.png" />
+					icon="text_signature.png" 
+					showon="useimages:1"
+				/>
 
 				<field
 					name="imageactiveprefix"
-					type="cktext"
+					type="maximenucktext"
 					default="_active"
 					label="MOD_MAXIMENUCK_ACTIVEPREFIX_LABEL"
 					description="MOD_MAXIMENUCK_ACTIVEPREFIX_DESC"
-					icon="text_signature.png" />
+					icon="text_signature.png" 
+					showon="useimages:1"
+				/>
 
 				<field
 					name="imageonly"
-					type="ckradio"
+					type="maximenuckradio"
 					default="0"
 					label="MOD_MAXIMENUCK_IMAGEONLY_LABEL"
 					description="MOD_MAXIMENUCK_IMAGEONLY_DESC"
 					icon="image.png"
 					class="btn-group"
+					showon="useimages:1"
 				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -992,11 +1032,12 @@
 
 				<field
 					name="menu_images_align"
-					type="cklist"
+					type="maximenucklist"
 					default="top"
 					label="MOD_MAXIMENUCK_IMAGEALIGN_LABEL"
 					description="MOD_MAXIMENUCK_IMAGEALIGN_DESC"
 					icon="text_padding_left.png"
+					showon="useimages:1"
 				>
 					<option value="default">MOD_MAXIMENUCK_DEFAULT</option>
 					<option value="top">MOD_MAXIMENUCK_TOP</option>
@@ -1010,12 +1051,12 @@
 				</field>
 				<field
 					name="ckspaceradvancedaccessibilty"
-					type="ckspacer"
+					type="maximenuckspacer"
 					label="MAXIMENUCK_ACCESSIBILITY"
 					style="title" />
 				<field
 					name="enable_accessibility_focus"
-					type="ckradio"
+					type="maximenuckradio"
 					default="0"
 					label="MOD_MAXIMENUCK_ENABLE_FOCUS_LABEL"
 					description="MOD_MAXIMENUCK_ENABLE_FOCUS_DESC"
@@ -1027,7 +1068,7 @@
 				</field>
 				<field
 					name="accessibilty_border_color"
-					type="color"
+					type="maximenuckcolor"
 					default="#ff0000"
 					label="MAXIMENUCK_FOCUS_COLOR_LABEL"
 					desc="MAXIMENUCK_FOCUS_COLOR_DESC"
@@ -1035,7 +1076,7 @@
 					 />
 				<field
 					name="ckspaceradvanced2"
-					type="ckspacer"
+					type="maximenuckspacer"
 					label="MAXIMENUCK_OTHER"
 					style="title" />
 			</fieldset>
