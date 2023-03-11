@@ -56,5 +56,6 @@
 $sites = array(
 # 'shop.v3r.us' => 'default',
 # 'project.v3r.us' => 'default',
- 'peervision.v3r.us' => 'v4ecc'
+	'peervision.v3r.us' => 'v4ecc',
+	'sew-hfs.v3r.us' => 'sew-hfs'
 );
