@@ -103,7 +103,13 @@ class EntityView extends BlockBase implements ContextAwarePluginInterface, Conta
    * {@inheritdoc}
    */
   public function access(AccountInterface $account, $return_as_object = FALSE) {
-    /** @var $entity \Drupal\Core\Entity\EntityInterface */
+    // Check the parent's access.
+    $parent_access = parent::access($account, TRUE);
+    if (!$parent_access->isAllowed()) {
+      return $return_as_object ? $parent_access : $parent_access->isAllowed();
+    }
+
+    /** @var \Drupal\Core\Entity\EntityInterface $entity */
     $entity = $this->getContextValue('entity');
     return $entity->access('view', $account, $return_as_object);
   }
@@ -112,7 +118,7 @@ class EntityView extends BlockBase implements ContextAwarePluginInterface, Conta
    * {@inheritdoc}
    */
   public function build() {
-    /** @var $entity \Drupal\Core\Entity\EntityInterface */
+    /** @var \Drupal\Core\Entity\EntityInterface $entity */
     $entity = $this->getContextValue('entity');
 
     $view_builder = $this->entityTypeManager->getViewBuilder($entity->getEntityTypeId());

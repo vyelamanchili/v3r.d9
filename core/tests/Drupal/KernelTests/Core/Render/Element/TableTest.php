@@ -16,7 +16,7 @@ class TableTest extends KernelTestBase {
    *
    * @var array
    */
-  public static $modules = ['system', 'form_test'];
+  protected static $modules = ['system', 'form_test'];
 
   /**
    * Tableheader.js provides 'sticky' table headers, and is included by default.
@@ -81,9 +81,9 @@ class TableTest extends KernelTestBase {
       '#empty' => 'Empty row.',
     ];
 
-    // Enable the Classy theme.
-    \Drupal::service('theme_installer')->install(['classy']);
-    $this->config('system.theme')->set('default', 'classy')->save();
+    // Enable the Starterkit theme.
+    \Drupal::service('theme_installer')->install(['starterkit_theme']);
+    $this->config('system.theme')->set('default', 'starterkit_theme')->save();
 
     $this->render($table);
     $this->removeWhiteSpace();
@@ -111,7 +111,7 @@ class TableTest extends KernelTestBase {
   }
 
   /**
-   * Test that the 'footer' option works correctly.
+   * Tests that the 'footer' option works correctly.
    */
   public function testThemeTableFooter() {
     $footer = [

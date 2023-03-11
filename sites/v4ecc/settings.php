@@ -726,4 +726,4 @@ $databases['default']['default'] = array (
   'driver' => 'mysql',
 );
 $settings['install_profile'] = 'standard';
-$config_directories['sync'] = 'sites/v4ecc/files/config_c6rWOr5aOZpd3m-fFczOY_Yg-1cJ3qpvIs4LS00migZ7ys_0OaCSTgF9FJhlo7wE1HuVh9J88g/sync';
+$settings['config_sync_directory'] = 'sites/v4ecc/files/config_c6rWOr5aOZpd3m-fFczOY_Yg-1cJ3qpvIs4LS00migZ7ys_0OaCSTgF9FJhlo7wE1HuVh9J88g/sync';
