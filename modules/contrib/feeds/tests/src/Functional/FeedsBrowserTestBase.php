@@ -27,7 +27,7 @@ abstract class FeedsBrowserTestBase extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = [
+  protected static $modules = [
     'feeds',
     'node',
     'user',
@@ -44,7 +44,7 @@ abstract class FeedsBrowserTestBase extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     // Create a content type.

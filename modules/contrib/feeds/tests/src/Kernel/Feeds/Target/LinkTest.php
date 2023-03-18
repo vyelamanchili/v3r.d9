@@ -23,7 +23,7 @@ class LinkTest extends FeedsKernelTestBase {
    *
    * @var array
    */
-  public static $modules = [
+  protected static $modules = [
     'field',
     'node',
     'feeds',
@@ -35,7 +35,7 @@ class LinkTest extends FeedsKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->createFieldWithStorage('field_link', [

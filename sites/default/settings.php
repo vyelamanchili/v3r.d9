@@ -698,9 +698,9 @@ $settings['container_yamls'][] = __DIR__ . '/services.yml';
  * will allow the site to run off of all variants of example.com and
  * example.org, with all subdomains included.
  */
-#$settings['trusted_host_patterns'] = array(
-#  '^project\.v3r\.us$',
-#);
+$settings['trusted_host_patterns'] = array(
+  '^www\.v3r\.us$',
+);
 
 
 /**
@@ -726,5 +726,4 @@ $databases['default']['default'] = array (
   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
   'driver' => 'mysql',
 );
-$settings['install_profile'] = 'standard';
 $settings['config_sync_directory'] = 'sites/default/files/config_nZufRSGkU7ey1AHcRK122v6WqSSnrjQCfNSO5Ddh0VGtElTZApfXE9BnaonSVsj8QZ2jTDkiXQ/sync';

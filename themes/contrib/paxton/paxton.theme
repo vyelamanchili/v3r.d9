@@ -88,7 +88,7 @@ function paxton_get_slider_content() {
   for ($i = 1; $i < 6; $i++) {
     $fid = theme_get_setting('slide_image_path'.$i,'paxton');
     if (!empty($fid)) {
-      $file = file_load($fid[0]);
+      $file = \Drupal::service('entity_type.manager')->getStorage('file')->load($fid[0]);
       $uri = $file->getFileUri();
       $path = file_create_url($uri);
     }
@@ -96,10 +96,11 @@ function paxton_get_slider_content() {
       $path = base_path() . drupal_get_path('theme', 'paxton') . theme_get_setting('slide_image_path_' . $i, 'paxton');
     }
     $slider_content[$i] = '<div class="da-slide">
-      <h2>' . wordwrap(theme_get_setting('slide_title_' . $i, 'paxton'), 20, "<br>").'</h2>
-      <p>' . wordwrap(theme_get_setting('slide_description_' . $i, 'paxton'), 60, "<br>").'</p>
-      <a href=' . theme_get_setting('slide_url_' . $i, 'paxton') . ' class="da-link">Read more</a>
-      <div class="da-img"><img src="' . $path . '" alt="image01" /></div>
+      <a href=' . theme_get_setting('slide_url_' . $i, 'paxton') . ' class="da-nostyle">Click for details
+        <h2>' . wordwrap(theme_get_setting('slide_title_' . $i, 'paxton'), 20, "<br>").'</h2>
+        <p>' . wordwrap(theme_get_setting('slide_description_' . $i, 'paxton'), 60, "<br>").'</p>
+        <div class="da-img"><img src="' . $path . '" alt="slider_image_' . $i . '"/></div>
+      </a>
     </div>';
   }
   return $slider_content;
@@ -126,7 +127,7 @@ function paxton_preprocess_menu(&$variables, $hook) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function paxton_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+function paxton_form_system_theme_settings_alter(&$form, FormStateInterface $form_state) {
   $form['paxton_settings'] = array(
     '#type' => 'details',
     '#title' => t('Smart Blue Settings'),
@@ -230,13 +231,13 @@ function paxton_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormS
 /**
 * Custom submit handler for paxton settings form.
 */
-function paxton_settings_form_submit(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+function paxton_settings_form_submit(&$form, FormStateInterface $form_state) {
  $account = \Drupal::currentUser();
  $values = $form_state->getValues();
  for ($i = 0; $i < 6; $i++) {
    if (isset($values['slide_image_path' . $i]) && !empty($values['slide_image_path' . $i])) {
      // Load the file via file.fid.
-     $file = file_load($values['slide_image_path' . $i][0]);
+     $file = \Drupal::service('entity_type.manager')->getStorage('file')->load($values['slide_image_path' . $i][0]);
      // Change status to permanent.
      $file->setPermanent();
      $file->save();

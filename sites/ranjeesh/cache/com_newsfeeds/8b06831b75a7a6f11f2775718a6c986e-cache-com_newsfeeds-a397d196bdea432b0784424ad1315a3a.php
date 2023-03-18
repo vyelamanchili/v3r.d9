@@ -1,4 +1,4 @@
-<?php die("Access Denied"); ?>#x#a:5:{s:4:"body";s:6998:"										<div class="newsfeed redirect-ltr">
+<?php die("Access Denied"); ?>#x#a:5:{s:4:"body";s:6275:"										<div class="newsfeed redirect-ltr">
 				<h2 class=" redirect-ltr">
 						<a href="http://ranjeesh.tumblr.com/rss" target="_blank">
 				Deals 			</a>
@@ -17,6 +17,54 @@
 				<!-- Show Image -->
 				<!-- Show items -->
 					<ol>
+																													<li>
+													<h3 class="feed-link">
+								<a href="https://ranjeesh.tumblr.com/post/711530504880537600" target="_blank">
+									Low Battery Vertical Design T-Shirt for $20								</a>
+							</h3>
+																			<div class="feed-item-description">
+																								<img src="https://64.media.tumblr.com/91974eb1b927d8d4c3f0d7f87e5be587/4d88561507f3d167-b6/s500x750/3ba1d3462c045b5b427f4d26404a399009b9e43c.jpg" /><br /><br /><p>Low Battery Vertical Design T-Shirt for $20</p>							</div>
+											</li>
+																													<li>
+													<h3 class="feed-link">
+								<a href="https://ranjeesh.tumblr.com/post/710927872146161664" target="_blank">
+									Women’s Walking Shoes for $15								</a>
+							</h3>
+																			<div class="feed-item-description">
+																								<img src="https://64.media.tumblr.com/8d7c33eee91d582791a2695bed8475a2/e11b4ab118746342-17/s400x600/fed7d183c8fce6479f8a6eeb885a1eb847dfc0f2.jpg" /><br /><br /><p>Women’s Walking Shoes for $15</p>							</div>
+											</li>
+																													<li>
+													<h3 class="feed-link">
+								<a href="https://ranjeesh.tumblr.com/post/710806074070073344" target="_blank">
+									Chase Sapphire Travel Credit Card								</a>
+							</h3>
+																			<div class="feed-item-description">
+																								<img src="https://64.media.tumblr.com/77f4b7974a17839c944af02d78d59335/4fc2bbd6dbf617f0-fd/s250x400/a278471cb288d5f5694c609e4cc5abd380455025.jpg" /><br /><br /><p>Chase Sapphire Travel Credit Card</p>							</div>
+											</li>
+																													<li>
+													<h3 class="feed-link">
+								<a href="https://ranjeesh.tumblr.com/post/710723680648495104" target="_blank">
+									Snow Boots Water Resistant for Men and Women for $13								</a>
+							</h3>
+																			<div class="feed-item-description">
+																								<img src="https://64.media.tumblr.com/b6f051c25afb233fe6af786f302f5f16/da3d23911f44e80c-fe/s400x600/7505c01ae3acfe56644e2cb93bcce2dda0963df4.jpg" /><br /><br /><p>Snow Boots Water Resistant for Men and Women for $13</p>							</div>
+											</li>
+																													<li>
+													<h3 class="feed-link">
+								<a href="https://ranjeesh.tumblr.com/post/710708887043670016" target="_blank">
+									iFly 20" Carry On Luggage for $41								</a>
+							</h3>
+																			<div class="feed-item-description">
+																								<img src="https://64.media.tumblr.com/459f664a0b8f44dc34ca0eb0afd093fc/f8740101e1b7122d-a3/s500x750/190bfa3c88045bd1d4aa0e310fbd859899888291.jpg" /><br /><br /><p>iFly 20" Carry On Luggage for $41</p>							</div>
+											</li>
+																													<li>
+													<h3 class="feed-link">
+								<a href="https://ranjeesh.tumblr.com/post/710604664232722432" target="_blank">
+									Expandable Cup Holder Tray for $25								</a>
+							</h3>
+																			<div class="feed-item-description">
+																								<img src="https://64.media.tumblr.com/e66ace01ca7275fdcb1690bc27660e98/50691ad5115f449b-24/s500x750/5a8b9376a3afbd9ae99240c4aa6c7cbb1eb0d489.jpg" /><br /><br /><p>Expandable Cup Holder Tray for $25</p>							</div>
+											</li>
 																													<li>
 													<h3 class="feed-link">
 								<a href="https://ranjeesh.tumblr.com/post/710602379980079104" target="_blank">
@@ -48,58 +96,6 @@
 							</h3>
 																			<div class="feed-item-description">
 																								<img src="https://64.media.tumblr.com/aa493958cd6c6e642572a0d2fed704bf/eb806b4e54cd420c-22/s500x750/b90e7db42ce342b31d5274229ba344cbab408b99.jpg" /><br /><br /><p>2 pack Inflatable Toddler bed for Travel for $29</p>							</div>
-											</li>
-																													<li>
-													<h3 class="feed-link">
-								<a href="https://ranjeesh.tumblr.com/post/710360710752960512" target="_blank">
-									Free 8x10 photo print at Walgreens								</a>
-							</h3>
-																			<div class="feed-item-description">
-																								<p><a href="https://photo.walgreens.com/store/prints-and-enlargements-details#!/pdpview?sku=CommerceProduct_7192&amp;cjdata=MXxOfDB8WXww">free photo</a> <br /><br />code:BIG-LUCK
-
-<br /><br /><a href="https://deals.v3r.us/2023/02/26/free-8x10-photo-print-at-walgreens-2/" alt="Read the full article">Read the full article</a></p>							</div>
-											</li>
-																													<li>
-													<h3 class="feed-link">
-								<a href="https://ranjeesh.tumblr.com/post/709986887479296000" target="_blank">
-									36 Soft Bristle Toothbrush for $6								</a>
-							</h3>
-																			<div class="feed-item-description">
-																								<img src="https://64.media.tumblr.com/97b1ca2ba73e4e104ee73df9f2f247a0/de178b8754abbf19-1e/s500x750/897eaed27b2cdb6589d1c8c47340ac2ea635e948.jpg" /><br /><br /><p>36 Soft Bristle Toothbrush for $6</p>							</div>
-											</li>
-																													<li>
-													<h3 class="feed-link">
-								<a href="https://ranjeesh.tumblr.com/post/709834131631226880" target="_blank">
-									Blu-ray or DVD movies for $3.99								</a>
-							</h3>
-																			<div class="feed-item-description">
-																								<figure data-orig-height="315" data-orig-width="210" data-orig-src="https://images.redbox.com/Images/EPC/boxartvertical/215139.jpg?imwidth=210"><img alt="Blu-ray or DVD movies for $3.99" src="https://64.media.tumblr.com/a9000a69df3a6fd2cb41d2229b201d2f/4aed26160810d562-51/s540x810/b6650637d50fc076773f65b5fb725a8c4125b516.jpg" class="b2s-post-item-details-image-html-src" data-orig-height="315" data-orig-width="210" data-orig-src="https://images.redbox.com/Images/EPC/boxartvertical/215139.jpg?imwidth=210" /></figure><br /><a href="https://www.redbox.com/showcase/own-for-399?CID=aff:CJAffiliate:6:19:2019:191adfa150615c3dc25423e8f90a68f407ecd74e06c5e546d">great collection of movies. New and old in both Blu Ray and DVD at your nearest Redbox</a>
-
-<br /><br /><a href="https://deals.v3r.us/2023/02/21/blu-ray-or-dvd-movies-for-3-99/" alt="Read the full article">Read the full article</a>							</div>
-											</li>
-																													<li>
-													<h3 class="feed-link">
-								<a href="https://ranjeesh.tumblr.com/post/709545188112171008" target="_blank">
-									Dell Chromebook for $35								</a>
-							</h3>
-																			<div class="feed-item-description">
-																								<img src="https://64.media.tumblr.com/3741e51b46e9cfc8d2665c8b5f6154a4/84cf2400de391ceb-64/s500x750/3a1bca46623ca8e6b069844869cac98e60c748e7.jpg" /><br /><br /><p>Dell Chromebook for $35</p>							</div>
-											</li>
-																													<li>
-													<h3 class="feed-link">
-								<a href="https://ranjeesh.tumblr.com/post/709336013800194048" target="_blank">
-									Valentines Day Clearance at Walmart								</a>
-							</h3>
-																			<div class="feed-item-description">
-																								<img src="https://64.media.tumblr.com/84299ac351b132bf5e66dfae0872c9d2/fe11abe2f560d26f-68/s500x750/0eceed33167028c31670dec1ee0de2301f65eb5d.jpg" /><br /><br /><p>Valentines Day Clearance at Walmart</p>							</div>
-											</li>
-																													<li>
-													<h3 class="feed-link">
-								<a href="https://ranjeesh.tumblr.com/post/708525905145954304" target="_blank">
-									Battery Daddy for $10								</a>
-							</h3>
-																			<div class="feed-item-description">
-																								<img src="https://64.media.tumblr.com/8908036ec0b8951570e3d0426aac42dc/e8716f6f95ec4ae6-1c/s500x750/1be3a04386147acb3d9343f0ab06edd15a038729.jpg" /><br /><br /><p>Battery Daddy for $10</p>							</div>
 											</li>
 							</ol>
 			</div>
