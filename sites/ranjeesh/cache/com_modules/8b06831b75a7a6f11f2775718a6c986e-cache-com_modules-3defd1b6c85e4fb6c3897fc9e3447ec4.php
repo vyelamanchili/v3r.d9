@@ -104,4 +104,4 @@
 		var resetFilter = function() {
 		document.getElementById('filter-search').value = '';
 	}
-";}s:13:"scriptOptions";a:2:{s:10:"csrf.token";s:32:"4964954daf35436d28838f352c77e3c5";s:12:"system.paths";a:2:{s:4:"root";s:0:"";s:4:"base";s:0:"";}}}s:13:"mime_encoding";s:9:"text/html";}}
+";}s:13:"scriptOptions";a:2:{s:10:"csrf.token";s:32:"42b2dd255dc464952d26524fe07e8c00";s:12:"system.paths";a:2:{s:4:"root";s:0:"";s:4:"base";s:0:"";}}}s:13:"mime_encoding";s:9:"text/html";}}
