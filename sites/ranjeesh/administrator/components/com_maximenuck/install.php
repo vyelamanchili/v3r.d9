@@ -31,6 +31,18 @@ class com_maximenuckInstallerScript {
 	}
 
 	function preflight($type, $parent) {
+		// check for V8 modules
+		$db = JFactory::getDbo();
+		$db->setQuery("SELECT id FROM #__modules WHERE `module` = 'mod_maximenuck' AND `params` LIKE '%\"isv9\":\"0\"%'");
+		$oldItems = $db->loadObjectList();
+
+		if (! empty($oldItems)) {
+			foreach ($oldItems as $oldItem) {
+				throw new RuntimeException('<div>Installation error : You have an old module in V8 mode, ID <b>' . $oldItem->id . '. You must convert your module, please check the infos on https://forum.joomlack.fr</b>.<br/> This check is made to help you to update your website safely.</div>');
+			}
+			return;
+		}
+		
 		// check if a pro version already installed
 		$xmlPath = JPATH_ROOT . '/administrator/components/com_maximenuck/maximenuck.xml';
 

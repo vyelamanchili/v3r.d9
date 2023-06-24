@@ -7,6 +7,15 @@
 .list-group-item{
     border: 0px !important;
 }
+
+.nav > li > a{
+    padding: 8px 12px !important;
+}
+
+.b2s-settings-line{
+    margin-top: 5px !important;
+}
+
 @media(max-width: 767px) {
     .form-inline {
         display: none;
@@ -211,22 +220,6 @@ ul.b2s-network-item-auth-list li:last-child{
 .b2s-text-middle{
     vertical-align: middle;
     font: 13px/1 Arial,sans-serif;
-}
-
-.b2s-label-warning-border-left{
-    border-left: 3px solid #FDBF45;
-}
-
-.b2s-label-info-border-left{
-    border-left: 3px solid #31708f;
-}
-
-.b2s-label-danger-border-left{
-    border-left: 3px solid #d9534f;
-}
-
-.b2s-label-success-border-left{
-    border-left: 3px solid #398439;
 }
 
 .b2s-margin-top-8 {
@@ -746,10 +739,6 @@ ul.b2s-network-item-auth-list li:last-child{
     font-weight: bold;
 }
 
-#b2s-auth-network-6-location, #b2s-auth-network-6-board {
-    max-width: 100% !important;
-}
-
 .b2s-edit-template-title {
     display: inline;
 }
@@ -871,10 +860,6 @@ ul.b2s-network-item-auth-list li:last-child{
     border-left: 3px solid lightblue;
 }
 
-.b2s-auth-network-6-extension-download-area {
-    text-align: center;
-}
-
 .b2s-edit-template-preview-title-4 {
     font-size: 16px;
     padding-top: 10px;
@@ -908,4 +893,20 @@ ul.b2s-network-item-auth-list li:last-child{
 
 #clr-picker {
     z-index: 9999;
+}
+
+.alert-status{
+    color: #444;
+    background-color: #d4d4d4;
+    border-color: #dedede;
+}
+
+.b2s-network-video-not-supported{
+    display: none;
+}
+
+.b2s-disabled {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: default;
 }

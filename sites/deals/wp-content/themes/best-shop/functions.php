@@ -23,6 +23,7 @@ function best_shop_default_settings($setting_name){
         'enable_mobile_search' => false,
         'woo_ajax_search_code' => '',
         'woo_category_title' => esc_html__('Top Categories', 'best-shop'),
+        'hide_product_cat_list' => false,
         
         'heading_font' => 'Poppins',
         'body_font' => 'Open Sans',
@@ -137,8 +138,10 @@ function best_shop_custom_css() {
             --topbar-bg-color: <?php echo esc_html(best_shop_get_setting('topbar_bg_color')); ?> ;
             --topbar-text-color: <?php echo esc_html(best_shop_get_setting('topbar_text_color')); ?> ;
             --e-global-color-primary: <?php echo esc_html(best_shop_get_setting('primary_color')); ?> ;
+            --gbl-background-color:<?php echo esc_html('#'.get_background_color()); ?> ;
             
         }
+
         .site-branding img.custom-logo {
             max-width:<?php echo esc_html(best_shop_get_setting('logo_width')); ?>px ;    
         }
@@ -439,6 +442,10 @@ if( ! function_exists( 'best_shop_body_classes' ) ) :
         
         if( best_shop_get_setting('hide_product_cat_search')){
             $classes[] = 'hide-woo-search-cat';
+        }
+        
+        if( best_shop_get_setting('hide_product_cat_list')){
+            $classes[] = 'hide-woo-cat-list';
         }
         
         if( !best_shop_get_setting('enable_sticky_menu')){
@@ -864,10 +871,10 @@ global $pagenow;
 if($pagenow == 'index.php' || $pagenow == 'themes.php'){
     
       if ( isset( $_GET['hide_admin_notice'] ) ) {
-            update_option('best_shop_hide_admin_notice', 'nov-dismiss-notice');
+            update_option('best_shop_hide_admin_notice', 'aprl-dismiss-notice');
       } else {
           $best_shop_notice = get_option('best_shop_hide_admin_notice', '');
-          if ($best_shop_notice != 'nov-dismiss-notice' || $best_shop_notice == '') {	
+          if ($best_shop_notice != 'aprl-dismiss-notice' || $best_shop_notice == '') {	
              add_action( 'admin_notices', 'best_shop_admin_notice_info' );
           }
       }

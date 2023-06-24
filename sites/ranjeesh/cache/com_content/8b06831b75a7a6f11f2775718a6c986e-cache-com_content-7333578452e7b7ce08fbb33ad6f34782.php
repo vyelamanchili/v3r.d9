@@ -1,4 +1,4 @@
-<?php die("Access Denied"); ?>#x#a:5:{s:4:"body";s:12484:"
+<?php die("Access Denied"); ?>#x#a:5:{s:4:"body";s:14115:"
 
 <div class="item-page clearfix">
 
@@ -191,19 +191,35 @@
 <p>After years of working on code and making constant changes to site, I was introduced to version control systems like CVS and TFS. As I learnt the importance of the version control systems, I got deeper into the system administration and management of it and then learned the other more modern versions of it like <strong>SVN</strong> and Git. I have been lately using <strong>Github</strong> as the primary source control system and have been contributing to various private repositories for private projects.</p>
 <p> </p>
 <h3>A completed list of Languages and Tools that I have experience with are listed below:</h3>
-<p>PHP</p>
-<p>Drupal 6 / 7 / 8</p>
+<p>PHP 5 / 7 / 8</p>
+<p>Drupal 6 / 7 / 8 / 9 CMS</p>
+<p>Wordpress CMS</p>
+<p>Joomla CMS</p>
+<p>Luminous CMS</p>
+<p>Zend Framerwork</p>
+<p>CodeIgniter Framework</p>
+<p>CakePHP Framework</p>
+<p>Geeklog <span style="font-size: 12.16px;">Framework</span></p>
 <p>HTML</p>
+<p>DHTML</p>
+<p>XHTML</p>
 <p>CSS</p>
+<p>LESS</p>
+<p>SCSS</p>
 <p>Java</p>
+<p>Java Applets</p>
+<p>JSP</p>
 <p>JavaScript</p>
 <p>C#.net</p>
+<p>VB.Net</p>
 <p>Coldfusion</p>
 <p>MySQL</p>
 <p>Oracle</p>
-<p>Mssql server</p>
-<p>Momgodb</p>
+<p>MSSQL Server</p>
+<p>MongoDB</p>
+<p>Elastic Search</p>
 <p>jQuery</p>
+<p>AJAX</p>
 <p>NodeJs</p>
 <p>Yarn</p>
 <p>Npm</p>
@@ -215,13 +231,18 @@
 <p>Dreamweaver</p>
 <p>Netbeans</p>
 <p>Eclipse</p>
-<p>Visual studio</p>
+<p>Visual studio professional</p>
 <p>Adobe creative suite 5</p>
 <p>Photoshop</p>
+<p>Flash</p>
+<p>Illustrator</p>
 <p>InDesign</p>
 <p>Quark express</p>
+<p>Adobe Premiere</p>
+<p>Filmora Video Editing Tool</p>
+<p>Corel Video Studio</p>
 <p>Java</p>
-<p>Java sdk EE and ME</p>
+<p>Java SDK SE, EE and ME</p>
 <p>AWS</p>
 <p>Azure</p>
 <p>Dreamhost</p>
@@ -234,32 +255,70 @@
 <p>Twilio</p>
 <p>Bootstrap</p>
 <p>Git</p>
+<p>Bitbucket</p>
 <p>Jekyll</p>
 <p>SVN</p>
 <p>CVS</p>
 <p>Team foundation server</p>
+<p>VSTS</p>
+<p>Team City</p>
 <p>Apache</p>
 <p>IIS</p>
 <p>Tomcat</p>
+<p>Bea WebLogic</p>
 <p>Git scm</p>
 <p>Vmware esxi</p>
+<p>vCenter Manager</p>
+<p>Splunk</p>
 <p>Trackit</p>
 <p>Monitor it</p>
+<p>Oracle Health Monitor</p>
+<p>Languard</p>
+<p>Zabbix</p>
+<p>Monit</p>
 <p>Confluence</p>
 <p>Jenkins</p>
 <p>Slack</p>
 <p>Trello</p>
+<p>Unfuddle</p>
+<p>Clarizen</p>
+<p>Sifter</p>
+<p>Oracle Ticket Manager</p>
+<p>Jira</p>
+<p>Confluence</p>
+<p>WinSCP</p>
+<p>Putty</p>
+<p>Cute FTP</p>
+<p>Core FTP</p>
+<p>Secure FTP</p>
 <p>Pingdom</p>
 <p>Google analytics</p>
+<p>Optimizely</p>
+<p>Adobe DTM</p>
 <p>SEO</p>
 <p>Ruby</p>
-<p>SCSS</p>
-<p>LESS</p>
 <p>Compass</p>
 <p>AngularJS</p>
-<p>ReactJS<br /><br />DevOps<br /><br />CI/CD<br /><br />Redux<br /><br />Jest Unit Testing<br /><br />Monorepo<br /><br />VSCode</p>
+<p>ReactJS</p>
+<p>NodeJS<br /><br />DevOps<br /><br />CI/CD<br /><br />Redux<br /><br />Jest Unit Testing</p>
+<p>React Testing Library<br /><br />Monorepo<br /><br />VSCode</p>
 <p>Azure DevOps</p>
-<p>AWS EC2</p> 	</section>
+<p>AWS EC2</p>
+<p>AWS Route 53</p>
+<p>Azure IaaS</p>
+<p>Azure PaaS (AppServices)</p>
+<p>Azure Keyvault</p>
+<p>Azure Pipelines</p>
+<p>Azure App Configuration</p>
+<p>Azure Blob Storage</p>
+<p><span style="color: black;">Windows 95 / 98 / NT / XP / 2K / 7 / 8 / 10 / 11,</span></p>
+<p><span style="color: black;">Windows Server 2003/2008,</span></p>
+<p><span style="color: black;">Windows 2K Professional / Server</span></p>
+<p><span style="color: black;">Unix</span></p>
+<p><span style="color: black;">Linux</span></p>
+<p><span style="color: black;">Red Hat Linux</span></p>
+<p><span style="color: black;">Ubuntu</span></p>
+<p><span style="color: black;">WSL (Windows Subsystem Linux)</span></p> 	</section>
   
   <!-- footer -->
     <footer class="article-footer clearfix">

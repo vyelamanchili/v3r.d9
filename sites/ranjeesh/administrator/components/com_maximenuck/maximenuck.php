@@ -11,12 +11,12 @@
 defined('_JEXEC') or die;
 if (! defined('CK_LOADED')) define('CK_LOADED', 1);
 
-include_once JPATH_ADMINISTRATOR . '/components/com_maximenuck/helpers/defines.php';
-
 // Access check.
 if (!JFactory::getUser()->authorise('core.edit', 'com_maximenuck')) {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
+
+include_once JPATH_ADMINISTRATOR . '/components/com_maximenuck/helpers/defines.php';
 
 // loads the language files from the frontend
 $lang	= JFactory::getLanguage();

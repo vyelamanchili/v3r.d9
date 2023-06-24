@@ -400,6 +400,7 @@ jQuery(document).on('click', '.checkbox-post-sched-all-btn', function () {
         jQuery('.b2s-sched-delete-confirm-btn').prop('disabeld', false);
     }
 });
+
 jQuery(document).on('click', '.b2s-post-sched-area-drop-btn', function () {
     jQuery('#b2s-delete-confirm-post-id').val(jQuery(this).attr('data-post-id'));
     jQuery('#b2s-delete-confirm-post-count').html('1');

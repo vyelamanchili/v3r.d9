@@ -147,6 +147,10 @@ class fifu_cli extends WP_CLI_Command {
             }
             return;
         }
+        if (!empty($assoc_args['hide-formats'])) {
+            update_option('fifu_hide_format', $args[0], 'no');
+            return;
+        }
         if (!empty($assoc_args['default'])) {
             switch ($args[0]) {
                 case 'on':
@@ -244,6 +248,9 @@ class fifu_cli extends WP_CLI_Command {
 
     function dimensions() {
         fifu_run_get_and_save_sizes_api(new WP_REST_Request());
+    }
+
+    function sizes() {
     }
 
     // performance
@@ -357,4 +364,8 @@ class fifu_cli extends WP_CLI_Command {
 }
 
 WP_CLI::add_command('fifu', 'fifu_cli');
+
+add_action('wp_insert_post', function ($post_id, $post, $update) {
+    fifu_update_fake_attach_id($post->ID);
+}, 10, 3);
 

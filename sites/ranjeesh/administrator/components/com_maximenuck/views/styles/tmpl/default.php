@@ -13,6 +13,7 @@ $modal = $this->input->get('layout', '') == 'modal' ? true : false;
 $user = JFactory::getUser();
 $userId = $user->get('id');
 $isModal = $this->input->get('layout', '', 'string') == 'modal';
+$isModal = $this->input->get('from', $isModal, 'string') == 'modal';
 $function = $this->input->get('returnFunc', 'ckSelectStyle', 'string');
 $appendUrl = $isModal ? '&layout=modal&tmpl=component' : '';
 
@@ -27,6 +28,9 @@ CKFof::addStyleSheet(MAXIMENUCK_MEDIA_URI . '/assets/adminlist.css');
 <style>
 	body.contentpane {
 		padding: 125px 10px;
+	}
+	#adminForm joomla-toolbar-button {
+		margin: 5px;
 	}
 <?php
 // load styles for joomla 3 for frontend edition
@@ -171,7 +175,7 @@ if (version_compare(JVERSION, '4', '<')) {
 					</td>
 					<?php } ?>
 					<td>
-						<?php if ($modal) { ?>
+						<?php if ($isModal) { ?>
 						<a href="javascript:void(0)" onclick="window.parent.<?php echo $function ?>('<?php echo $item->id; ?>', '<?php echo $name; ?>')"><?php echo $name; ?></a>
 						<?php /*<a href="<?php echo JUri::root(true) . '/administrator/' . $link ?>" class="ckbutton"><?php echo JText::_('CK_EDIT'); ?></a>*/ ?>
 						<?php } else { ?>
@@ -191,6 +195,7 @@ if (version_compare(JVERSION, '4', '<')) {
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+		<input type="hidden" name="state_request" value="1" />
 		<?php CKFof::renderToken() ?>
 	</div>
 	</div>

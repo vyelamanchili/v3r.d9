@@ -22,17 +22,17 @@ defined('_JEXEC') or die('Restricted access');
 			<i class="fa fas fa-eye cktip" data-placement="bottom" title="<?php echo JText::_('CK_PREVIEW') ?>"></i>
 			<span class="ckheadermenuitemtext"><?php echo JText::_('CK_PREVIEW') ?></span>
 		</a>
-		<?php if ($this->input->get('layout', '', 'string') === 'modal') { ?>
+		<?php /*if ($this->input->get('layout', '', 'string') === 'modal') {*/ ?>
 		<a href="javascript:void(0)" onclick="window.parent.CKBox.close()" class="ckheadermenuitem ckcancel">
 			<span class="fa fa-times cktip" data-placement="bottom" title="<?php echo JText::_('CK_EXIT') ?>"></span>
 			<span class="ckheadermenuitemtext"><?php echo JText::_('CK_EXIT') ?></span>
 		</a>
-		<?php } else { ?>
+		<?php /*} else { ?>
 		<a href="<?php echo JUri::base(true) ?>/index.php?option=com_maximenuck&view=styles" class="ckheadermenuitem ckcancel">
 			<span class="fa fa-times cktip" data-placement="bottom" title="<?php echo JText::_('CK_EXIT') ?>"></span>
 			<span class="ckheadermenuitemtext"><?php echo JText::_('CK_EXIT') ?></span>
 		</a>	
-		<?php } ?>	
+		<?php } */ ?>	
 		<a href="javascript:void(0);" id="ckpopupstyleswizard_save" class="ckheadermenuitem cksave" onclick="ckSaveStyles()">
 			<span class="fa fa-check cktip" data-placement="bottom" title="<?php echo JText::_('CK_SAVE') ?>"></span>
 			<span class="ckheadermenuitemtext"><?php echo JText::_('CK_SAVE') ?></span>

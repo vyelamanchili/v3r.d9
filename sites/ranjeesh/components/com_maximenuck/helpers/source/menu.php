@@ -86,6 +86,14 @@ class MaximenuckHelpersourceMenu {
 					
 					$additems = $className::getItems($itemparams, false, $item->level, $item->parent_id);
 
+					if (! empty($additems) && isset($additems[0]) && isset($additems[0]->params)) {
+						// check the settings of the source item to implement the needed settings (colwidth ...)
+						$temp_params = $item->getParams();
+						$additems[0]->params->set('maximenu_createcolumn', $temp_params->get('maximenu_createcolumn', '0'));
+						$additems[0]->params->set('maximenu_createnewrow', $temp_params->get('maximenu_createnewrow', '0'));
+						$additems[0]->params->set('maximenu_colwidth', $temp_params->get('maximenu_colwidth', '0'));
+					}
+
 					if (is_int($i)) {
 						array_splice($items, $i + $nbadditems, 1, $additems);
 					} else {
@@ -153,7 +161,7 @@ class MaximenuckHelpersourceMenu {
 					$items[$lastitem]->shallower = ($item->level < $items[$lastitem]->level);
 					$items[$lastitem]->level_diff = ($items[$lastitem]->level - $item->level);
 				}
-				if (isset($items[$lastitem]) && $items[$lastitem]->deeper && isset($item->colwidth)) {
+				if (isset($items[$lastitem]) && $items[$lastitem]->deeper && isset($item->colwidth) && $item->colwidth) {
 					$items[$lastitem]->nextcolumnwidth = $item->colwidth;
 				}
 

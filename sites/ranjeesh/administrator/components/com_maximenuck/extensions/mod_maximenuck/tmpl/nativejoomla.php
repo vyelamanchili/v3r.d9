@@ -15,7 +15,7 @@ $start = (int) $params->get('startLevel');
 ?>
 <div class="<?php echo $orientation_class . ' ' . $langdirection ?>" id="<?php echo $params->get('menuid', 'maximenuck'); ?>" >
 <?php require dirname(__FILE__) . '/_mobile.php'; ?>
-<ul<?php echo $microdata_ul ?> class="menu<?php echo $params->get('moduleclass_sfx'); ?> maximenuck"<?php
+<ul<?php echo $microdata_ul ?> class="menu<?php echo $params->get('class_sfx'); ?> maximenuck"<?php
 	$tag = '';
 	if ($params->get('tag_id')!=NULL) {
 		$tag = $params->get('tag_id').'';

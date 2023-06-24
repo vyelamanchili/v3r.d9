@@ -76,6 +76,8 @@ function fifu_api_login(WP_REST_Request $request) {
     $email = $request['email'];
     $site = fifu_get_home_url();
     $tfa = $request['tfa'];
+    $always_connected = filter_var($request['always-connected'], FILTER_VALIDATE_BOOLEAN);
+    update_option('fifu_su_always_connected', $always_connected, 'no');
     $ip = fifu_get_ip();
     $time = time();
     $signature = fifu_create_signature($site . $email . $time . $ip . $tfa);
@@ -93,7 +95,8 @@ function fifu_api_login(WP_REST_Request $request) {
                     'ip' => $ip,
                     'proxy_auth' => get_option('fifu_proxy_auth') ? true : false,
                     'slug' => FIFU_CLIENT,
-                    'version' => fifu_version_number()
+                    'version' => fifu_version_number(),
+                    'always_connected' => $always_connected
                 )
         ),
         'method' => 'POST',
@@ -126,7 +129,7 @@ function fifu_api_logout(WP_REST_Request $request) {
 
     $email = fifu_su_get_email();
     $site = fifu_get_home_url();
-    $tfa = $request['tfa'];
+    $tfa = get_option('fifu_su_always_connected') ? '' : $request['tfa'];
     $ip = fifu_get_ip();
     $time = time();
     $signature = fifu_create_signature($site . $email . $time . $ip . $tfa);
@@ -167,7 +170,7 @@ function fifu_api_cancel(WP_REST_Request $request) {
         return json_decode(FIFU_NO_CREDENTIALS);
 
     $site = fifu_get_home_url();
-    $tfa = $request['tfa'];
+    $tfa = get_option('fifu_su_always_connected') ? '' : $request['tfa'];
     $ip = fifu_get_ip();
     $time = time();
     $signature = fifu_create_signature($site . $time . $ip . $tfa);
@@ -205,7 +208,7 @@ function fifu_api_payment_info(WP_REST_Request $request) {
         return json_decode(FIFU_NO_CREDENTIALS);
 
     $site = fifu_get_home_url();
-    $tfa = $request['tfa'];
+    $tfa = get_option('fifu_su_always_connected') ? '' : $request['tfa'];
     $ip = fifu_get_ip();
     $time = time();
     $signature = fifu_create_signature($site . $time . $ip . $tfa);
@@ -244,7 +247,7 @@ function fifu_api_connected(WP_REST_Request $request) {
 
     $email = fifu_su_get_email();
     $site = fifu_get_home_url();
-    $tfa = $request['tfa'];
+    $tfa = get_option('fifu_su_always_connected') ? '' : $request['tfa'];
     $ip = fifu_get_ip();
     $time = time();
     $signature = fifu_create_signature($site . $email . $time . $ip . $tfa);
@@ -301,7 +304,7 @@ function fifu_api_create_thumbnails_list(WP_REST_Request $request) {
         return json_decode(FIFU_NO_CREDENTIALS);
 
     $images = $request['selected'];
-    $tfa = $request['tfa'];
+    $tfa = get_option('fifu_su_always_connected') ? '' : $request['tfa'];
 
     return fifu_create_thumbnails_list($images, $tfa, false);
 }
@@ -316,6 +319,9 @@ function fifu_create_thumbnails_list($images, $tfa = null, $cron = false) {
             return json_decode(FIFU_NO_CREDENTIALS);
         $tfa = $code[0];
     }
+
+    $sent_urls = array();
+    $saved_urls = array();
 
     $rows = array();
     $total = count($images);
@@ -337,6 +343,10 @@ function fifu_create_thumbnails_list($images, $tfa = null, $cron = false) {
             $meta_id = $image->meta_id;
             $is_category = $image->category == 1;
             $video_url = $image->video_url;
+
+            if (fifu_db_get_attempts_invalid_media_su($url) >= 5)
+                continue;
+            array_push($sent_urls, $url);
         }
 
         if (!$url || !$post_id)
@@ -387,12 +397,25 @@ function fifu_create_thumbnails_list($images, $tfa = null, $cron = false) {
                     array_push($category_images, $thumbnail);
                 else
                     array_push($post_images, $thumbnail);
+
+                array_push($saved_urls, $thumbnail->meta_value);
             }
             if (count($category_images) > 0)
                 fifu_ctgr_add_urls_su($json->bucket_id, $category_images);
 
             if (count($post_images) > 0)
                 fifu_add_urls_su($json->bucket_id, $post_images);
+        }
+
+        // check invalid images
+        if ($cron && count($sent_urls) > count($saved_urls)) {
+            fifu_db_create_table_invalid_media_su();
+            foreach ($sent_urls as $sent_url) {
+                if (!in_array($sent_url, $saved_urls))
+                    fifu_db_insert_invalid_media_su($sent_url);
+                else
+                    fifu_db_delete_invalid_media_su($sent_url);
+            }
         }
     }
 
@@ -405,7 +428,7 @@ function fifu_api_delete(WP_REST_Request $request) {
 
     $rows = array();
     $images = $request['selected'];
-    $tfa = $request['tfa'];
+    $tfa = get_option('fifu_su_always_connected') ? '' : $request['tfa'];
     $total = count($images);
     $url_sign = '';
     foreach ($images as $image) {
@@ -562,7 +585,7 @@ function fifu_api_list_all_su(WP_REST_Request $request) {
 
     $time = time();
     $site = fifu_get_home_url();
-    $tfa = $request['tfa'];
+    $tfa = get_option('fifu_su_always_connected') ? '' : $request['tfa'];
     $page = (int) $request['page'];
     $ip = fifu_get_ip();
     $signature = fifu_create_signature($site . $time . $ip . $tfa);
@@ -624,7 +647,7 @@ function fifu_api_list_daily_count(WP_REST_Request $request) {
 
     $time = time();
     $site = fifu_get_home_url();
-    $tfa = $request['tfa'];
+    $tfa = get_option('fifu_su_always_connected') ? '' : $request['tfa'];
     $ip = fifu_get_ip();
     $signature = fifu_create_signature($site . $time . $ip . $tfa);
 
@@ -665,7 +688,7 @@ function fifu_api_cloud_upload_auto(WP_REST_Request $request) {
 
     $email = fifu_su_get_email();
     $site = fifu_get_home_url();
-    $tfa = $request['tfa'];
+    $tfa = get_option('fifu_su_always_connected') ? '' : $request['tfa'];
     $ip = fifu_get_ip();
     $time = time();
     $signature = fifu_create_signature($site . $email . $time . $ip . $tfa);
@@ -850,7 +873,7 @@ function fifu_save_sizes_api(WP_REST_Request $request) {
     if (!$att_id || !$width || !$height || !$url)
         return $json;
 
-    $guid = get_the_guid($att_id);
+    $guid = fifu_get_full_image_url($att_id);
 
     if ($url != $guid)
         return $json;

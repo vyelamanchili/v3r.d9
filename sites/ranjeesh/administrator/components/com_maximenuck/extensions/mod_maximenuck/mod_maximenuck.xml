@@ -11,7 +11,7 @@
 	<license>GNU/GPL 3 https://www.gnu.org/licenses/gpl.html</license>
 	<authorEmail>ced1870@gmail.com</authorEmail>
 	<authorUrl>https://www.joomlack.fr</authorUrl>
-	<version>9.1.27</version>
+	<version>10.0.4</version>
 	<description>MOD_MAXIMENUCK_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_maximenuck">mod_maximenuck.php</filename>
@@ -62,6 +62,11 @@
 			</fieldset>
 			<fieldset name="editionfieldset" label="MOD_MAXIMENUCK_SOURCE_FIELDSET_LABEL">
 				<field
+					name="sourceproonly"
+					type="ckproonly"
+					label="MAXIMENUCK_SOURCE_PRO_ONLY"
+				/>
+				<field
 					name="source"
 					type="cksource"
 					default="slidesmanager"
@@ -69,12 +74,8 @@
 					description="MOD_MAXIMENUCK_SOURCE_DESC"
 				>
 					<option value="menu">MOD_MAXIMENUCK_SOURCE_MENU</option>
+					<option value="menubuilder">MOD_MAXIMENUCK_SOURCE_MENU_BUILDER</option>
 				</field>
-				<field
-					name="sourceproonly"
-					type="ckproonly"
-					label="MAXIMENUCK_SOURCE_PRO_ONLY"
-				/>
 				<field
 					name="menusourcespacer"
 					type="maximenuckspacer"
@@ -140,7 +141,7 @@
 					label="MOD_MAXIMENUCK_FIELD_ENDLEVEL_LABEL"
 					description="MOD_MAXIMENUCK_FIELD_ENDLEVEL_DESC"
 					icon="chart_organisation_delete.png"
-					showon="source:menu,maximenu"
+					showon="source:menu"
 				>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
@@ -154,6 +155,14 @@
 					<option value="9">J9</option>
 					<option value="10">J10</option>
 				</field>
+				<field
+					name="menubuilderid"
+					type="ckmenubuilder"
+					label="MOD_MAXIMENUCK_FIELD_MENUTYPE_LABEL"
+					description="MOD_MAXIMENUCK_FIELD_MENUTYPE_DESC"
+					icon="text_list_numbers.png" 
+					showon="source:menubuilder"
+				/>
 			</fieldset>
 
 			<fieldset name="effects" label="MOD_MAXIMENUCK_OPTIONS_EFFECTS">
@@ -276,6 +285,19 @@
 					label="MAXIMENUCK_CLICKOUTSIDE_LABEL"
 					description="MAXIMENUCK_CLICKOUTSIDE_DESC"
 					icon="control_eject_blue.png"
+					class="btn-group"
+					showon="usejavascript:1[AND]behavior:click"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="clicktoggler"
+					type="maximenuckradio"
+					default="0"
+					label="MOD_MAXIMENUCK_CLICKTOGGLER_LABEL"
+					description="MOD_MAXIMENUCK_CLICKTOGGLER_DESC"
+					icon="add.png"
 					class="btn-group"
 					showon="usejavascript:1[AND]behavior:click"
 				>
@@ -908,11 +930,16 @@
 					filter="string"
 				/>
 				<field
+					name="class_sfx"
+					type="maximenucktext"
+					label="MOD_MAXIMENUCK_CLASS_SUFFIX_LABEL"
+					icon="text_signature.png"
+				/>
+				<field
 					name="moduleclass_sfx"
 					type="maximenucktext"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					icon="text_signature.png" />
-
 				<field
 					name="cache"
 					type="maximenucklist"

@@ -246,7 +246,7 @@ class B2S_Settings_Item {
         }
 
         foreach (array(1, 2, 3, 12, 19, 17, 24) as $n => $networkId) { //FB,TW,LI,IN
-            $type = ($networkId == 1 || $networkId == 19 || $networkId == 17) ? array(0, 1, 2) : (($networkId == 3) ? array(0, 1) : (($networkId == 12) ? array(1) : array(0)));
+            $type = ($networkId == 1 || $networkId == 17) ? array(0, 1, 2) : (($networkId == 3 || $networkId == 19) ? array(0, 1) : (($networkId == 12) ? array(1) : array(0)));
             foreach ($type as $t => $typeId) { //Profile,Page,Group
                 if ($networkId == 17) {
                     $postFormat = 1;
@@ -304,7 +304,7 @@ class B2S_Settings_Item {
         $content = "<input type='hidden' class='b2sNetworkSettingsPostFormatText' value='" . json_encode(array('post' => array(__('Link Post', 'blog2social'), __('Image Post', 'blog2social')), 'image' => array(__('Image with frame'), __('Image cut out')))) . "'/>";
         foreach (array(1, 2, 3, 12, 19, 15, 17, 24) as $n => $networkId) { //FB,TW,LI,IN
             $postFormatType = ($networkId == 12) ? 'image' : 'post';
-            $type = ($networkId == 1 || $networkId == 19 || $networkId == 17) ? array(0, 1, 2) : (($networkId == 3 || $networkId == 12) ? array(0, 1) : array(0));
+            $type = ($networkId == 1 || $networkId == 17) ? array(0, 1, 2) : (($networkId == 3 || $networkId == 19) ? array(0, 1) : (($networkId == 12) ? array(1) : array(0)));
             foreach ($type as $t => $typeId) { //Profile,Page,Group                
                 if (!isset($optionPostFormat[$networkId][$typeId]['format']) || (int) $optionPostFormat[$networkId][$typeId]['format'] < 0 || (int) $optionPostFormat[$networkId][$typeId]['format'] > 1) { //DEFAULT
                     if (is_array($defaultTemplate) && isset($defaultTemplate[$networkId][$typeId]['format']) && $defaultTemplate[$networkId][$typeId]['format'] >= 0 && $defaultTemplate[$networkId][$typeId]['format'] <= 1) {

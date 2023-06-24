@@ -27,7 +27,6 @@ function fifu_add_js() {
         echo '<link rel="preconnect" href="https://cloud.fifu.app">';
         echo '<link rel="preconnect" href="https://cdn.fifu.app">';
     }
-    echo '<link rel="preconnect" href="https://cdnjs.cloudflare.com">';
 
     if (fifu_is_on('fifu_photon')) {
         for ($i = 0; $i <= 3; $i++) {
@@ -37,6 +36,7 @@ function fifu_add_js() {
     }
 
     if (fifu_is_on('fifu_lazy')) {
+        echo '<link rel="preconnect" href="https://cdnjs.cloudflare.com">';
         wp_enqueue_style('lazyload-spinner', plugins_url('/html/css/lazyload.css', __FILE__), array(), fifu_version_number());
         wp_enqueue_script('lazysizes-config', plugins_url('/html/js/lazySizesConfig.js', __FILE__), array('jquery'), fifu_version_number());
         wp_enqueue_script('unveilhooks', 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/plugins/unveilhooks/ls.unveilhooks.min.js');
@@ -261,7 +261,7 @@ function fifu_optimize_content($content) {
         $del = substr($src[0], - 1);
         $url = fifu_normalize(explode($del, $src[0])[1]);
 
-        if (fifu_jetpack_blocked($url))
+        if (fifu_jetpack_blocked($url) || strpos($url, 'data:image') === 0)
             continue;
 
         $new_url = fifu_jetpack_photon_url($url, null);
@@ -289,6 +289,15 @@ function fifu_should_hide() {
     if (isset($post->ID) && $post->ID != get_queried_object_id())
         return false;
 
+    $formats = get_option('fifu_hide_format');
+    if (isset($post->ID) && $formats) {
+        $post_format = get_post_format($post->ID);
+        if (false === $post_format)
+            $post_format = 'standard';
+        if (!in_array($post_format, explode(',', $formats)))
+            return false;
+    }
+
     return !is_front_page() && ((is_singular('post') && fifu_is_on('fifu_hide_post')) || (is_singular('page') && fifu_is_on('fifu_hide_page')) || (is_singular(get_post_type(get_the_ID())) && fifu_is_cpt() && fifu_is_on('fifu_hide_cpt')));
 }
 
@@ -303,6 +312,9 @@ function fifu_main_image_url($post_id, $front = false) {
         if (fifu_is_valid_default_cpt($post_id))
             $url = get_option('fifu_default_url');
     }
+
+    if (!$url)
+        return null;
 
     $url = htmlspecialchars_decode($url);
 

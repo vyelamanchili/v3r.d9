@@ -20,6 +20,8 @@ class Helper {
 	static $cssreplacements;
 
 	public static function addSidebar($vName = '') {
+		if (MAXIMENUCK_ISJ4) return;
+
 		$input = CKFof::getInput();
 		if (!$vName) $vName = $input->get('view', 'modules', 'cmd');
 
@@ -29,11 +31,11 @@ class Helper {
 		\JHtmlSidebar::addEntry(
 				CKText::_('CK_JOOMLA_MENUS'), MAXIMENUCK_ADMIN_URL . '&view=joomlamenus', $vName == 'joomlamenus'
 		);
-		// \JHtmlSidebar::addEntry(
-				// CKText::_('CK_MAXI_MENUS'), MAXIMENUCK_ADMIN_URL . '&view=maximenus', $vName == 'maximenus'
-		// );
 		\JHtmlSidebar::addEntry(
 				CKText::_('CK_STYLES'), MAXIMENUCK_ADMIN_URL . '&view=styles', $vName == 'styles'
+		);
+		\JHtmlSidebar::addEntry(
+					CKText::_('CK_MENU_BUILDER'), MAXIMENUCK_ADMIN_URL . '&view=menubuilders', $vName == 'menubuilders'
 		);
 		\JHtmlSidebar::addEntry(
 				CKText::_('CK_ABOUT'), MAXIMENUCK_ADMIN_URL . '&view=about', $vName == 'about'
@@ -76,40 +78,58 @@ class Helper {
 	public static function htmlTemplateItem($item) {
 		if (is_array($item)) $item = CKFof::convertArrayToObject ($item);
 
-		if (stristr($item->settings, '|qq|thirdparty|qq|:|qq|1|qq|')) {
+		if (stristr($item->type, 'autoload.')) {
 			$item->titleClass = ' ckbadge ckbadge-success';
+			$item->desc = '';
 		} else {
 			$item->titleClass = '';
 		}
-		echo '<div class="ck-menu-item" data-type="' . $item->type . '" data-level="' . $item->level . '" data-id="' . $item->id . '"  data-settings="' . self::encodeChars($item->settings) . '">';
+//		echo '<div class="ck-menu-item" data-type="' . $item->type . '" data-level="' . $item->level . '" data-id="' . $item->id . '"  data-settings="' . self::encodeChars($item->settings) . '" data-customid="' . $item->customid . '">';
+		echo '<div class="ck-menu-item" data-type="' . $item->type . '" data-level="' . $item->level . '" data-customid="' . $item->customid . '" data-state="' . $item->state . '" data-settings="' . self::encodeChars($item->settings) . '">';
 			echo '<div class="ck-menu-item-row">'
-					. '<span class="ck-menu-item-title' . $item->titleClass . '">' . $item->title . '</span>'
+					. ($item->type === 'image' ? '<span class="ck-menu-item-img"><img src="' . $item->title . '"></span>' :
+						'<span class="ck-menu-item-title' . $item->titleClass . '">' . $item->title . '</span>')
 					. '<span class="ck-menu-item-desc">' . $item->desc . '</span>'
 				. '</div>';
 
-			echo '<div class="ck-submenu" data-type="submenu">';
-				echo '<div class="ck-columns">';
-
-				if (! empty($item->submenu->columns)) {
-					foreach ($item->submenu->columns as $column) {
-						if ($column->break == 1) {
-							echo '<div class="ck-column-break"></div>';
-						} else {
-							echo '<div class="ck-column">';
-							if (! empty($column->children)) {
-								foreach ($column->children as $child) {
-									self::htmlTemplateItem($child);
-								}
-							}
-							echo '</div>';
-						}
-					}
-				} else {
-					echo '<div class="ck-column"></div>';
+			if (strpos($item->type, 'autoload.') === false) {
+				$submenudata = '';
+				if (isset($item->submenu->params)) {
+					$submenudata .= ' data-width="' . (isset($item->submenu->params->width) ? $item->submenu->params->width : '') . '"';
+					$submenudata .= ' data-height="' . (isset($item->submenu->params->height) ? $item->submenu->params->height : '') . '"';
+					$submenudata .= ' data-left="' . (isset($item->submenu->params->left) ? $item->submenu->params->left : '') . '"';
+					$submenudata .= ' data-top="' . (isset($item->submenu->params->top) ? $item->submenu->params->top : '') . '"';
+					$submenudata .= ' data-fullwidth="' . (isset($item->submenu->params->fullwidth) ? $item->submenu->params->fullwidth : '') . '"';
 				}
-				echo '</div>';
-			echo '</div>'; // close submenu
+				echo '<div class="ck-submenu" data-type="submenu" ' . $submenudata . '>';
+					echo '<div class="ck-columns">';
+
+					if (! empty($item->submenu->columns)) {
+						foreach ($item->submenu->columns as $column) {
+							if (isset($column->break) && $column->break == 1) {
+								echo '<div class="ck-column-break"></div>';
+							} else {
+								echo '<div class="ck-column" data-width="' . (isset($column->width) ? $column->width : '') . '">';
+								if (! empty($column->children)) {
+									foreach ($column->children as $child) {
+										self::htmlTemplateItem($child);
+									}
+								}
+								echo '</div>';
+							}
+						}
+					} else {
+						echo '<div class="ck-column"></div>';
+					}
+					echo '</div>';
+				echo '</div>'; // close submenu
+			}
 		echo '</div>'; // close item
+	}
+
+	public static function getCustomId() {
+		$ID = (int) (microtime(true) * 1000000); // pour ID
+		return $ID;
 	}
 
 	public static function decodeChars($a) {
@@ -119,6 +139,7 @@ class Helper {
 			, '|cb|'
 			, '|tt|'
 			, '|rr|'
+			, '|dd|'
 			);
 		$replace = array('"'
 			, '"'
@@ -126,6 +147,7 @@ class Helper {
 			, '}'
 			, "\t"
 			, "\n"
+			, "#"
 			);
 		return str_replace($search, $replace, $a);
 	}
@@ -148,6 +170,26 @@ class Helper {
 		return str_replace($search, $replace, $a);
 	}
 
+	public static function decodeCharsAfterJson($a) {
+		$search = array('|quot|'
+			, '|qq2|'
+			, '|ob2|'
+			, '|cb2|'
+			, '|tt2|'
+			, '|rr2|'
+			, '|dd2|'
+			);
+		$replace = array('"'
+			, '&quot;'
+			, '{'
+			, '}'
+			, "\t"
+			, "\n"
+			, "#"
+			);
+		return str_replace($search, $replace, $a);
+	}
+
 	/*
 	 * Make empty slide object
 	 */
@@ -158,12 +200,30 @@ class Helper {
 		$item->title = null;
 		$item->text = null;
 		$item->desc = null;
+		$item->rel = null;
 		$item->more = array();
 		$item->settings = null;
 		$item->type = 'menuitem';
 		$item->target = 'default';
 		$item->level = null;
+		$item->is_end = null;
 		$item->id = null;
+		$item->colwidth = '';
+		$item->tagcoltitle = 'none';
+		$item->tagclass = '';
+		$item->liclass = '';
+		$item->anchor_title = '';
+		$item->menu_image = '';
+		$item->classe = '';
+		$item->anchor_css = '';
+		$item->colbgcolor = '';
+		$item->leftmargin = '';
+		$item->topmargin = '';
+		$item->submenuwidth = '';
+		$item->deeper = '';
+		$item->shallower = '';
+		$item->level_diff = 0;
+		$item->fparams = new \JRegistry();
 
 		return $item;
 	}
@@ -203,10 +263,12 @@ class Helper {
 //		self::searchColumn('stylecode', 'longtext');
 		self::searchTable('maximenuck_menus');
 		self::searchTable('maximenuck_styles');
+		self::searchTable('maximenuck_menubuilder_item');
+		self::searchColumn('checked_out', 'varchar(10)', 'maximenuck_menus');
 	}
 
 	private static function searchColumn($name, $type = 'text', $table = 'maximenuck_styles') {
-		$db = JFactory::getDbo();
+		$db = CKFof::getDbo();
 		// test if the widget columns not exists
 		$query = "SHOW COLUMNS FROM #__" . $table . " LIKE '" . $name . "'";
 		$db->setQuery($query);
@@ -264,8 +326,18 @@ class Helper {
   `name` text NOT NULL,
   `state` int(10) NOT NULL DEFAULT '1',
   `params` longtext NOT NULL,
-  `layouthtml` text NOT NULL,
+  `layouthtml` longtext NOT NULL,
   `layoutcss` text NOT NULL,
+  `checked_out` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) DEFAULT CHARSET=utf8;";
+				break;
+			case 'maximenuck_menubuilder_item' :
+				$query = "CREATE TABLE IF NOT EXISTS `#__maximenuck_menubuilder_item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `styles` longtext NOT NULL,
+  `params` longtext NOT NULL,
+  `customid` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8;";
 				break;
@@ -402,5 +474,16 @@ class Helper {
 		$html = '<div class="ckinfo"><i class="fas fa-info"></i><a href="https://www.joomlack.fr/en/joomla-extensions/maximenu-ck" target="_blank">' . CKText::_('MAXIMENUCK_ONLY_PRO') . '</a></div>';
 	
 		return $html;
+	}
+
+	/**
+	 * Get the name of the menu
+	 */
+	public static function getMenuBuilderNameById($id) {
+		if (! $id) return '';
+
+		$result = CKFof::dbLoadResult('SELECT name from #__maximenuck_menus WHERE id = "' . $id . '"');
+
+		return $result;
 	}
 }

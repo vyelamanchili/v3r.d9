@@ -16,12 +16,18 @@ class CKController {
 
 	protected $view;
 
+	protected $redirect;
+
 	protected static $instance;
 
 	protected static $views;
 
 	function __construct() {
 		$this->input = CKFof::getInput();
+		$isModal = $this->input->get('layout', '', 'string') == 'modal';
+		$isModal = $this->input->get('from', $isModal, 'string') == 'modal';
+		$appendUrl = $isModal ? '&layout=modal&tmpl=component' : '';
+		$this->redirect = $this->redirect . $appendUrl;
 	}
 
 	static function getInstance($prefix) {
@@ -57,7 +63,7 @@ class CKController {
 		}
 
 		// Get the controller class name.
-		$class = ucfirst($prefix) . 'Controller' . ucfirst($name);
+		$class = ucfirst((string) $prefix) . 'Controller' . ucfirst((string) $name);
 
 		// Include the class if not present.
 		if (!class_exists($class))
@@ -279,11 +285,14 @@ class CKController {
 
 	public function edit($id = null, $appendUrl = '') {
 		$editIds = $this->input->get('cid', $id, 'array');
-		if (! empty($editIds)) {
+		if (is_array($editIds)) {
 			$editId = (int) $editIds[0];
 		} else {
 			$editId = (int) $this->input->get('id', $id, 'int');
 		}
+
+		$model = $this->getModel($this->getName());
+		$model->checkout($editId);
 
 		// Redirect to the edit screen.
 		CKFof::redirect(MAXIMENUCK_URL . '&view=' . $this->getName() . '&layout=edit&id=' . $editId . $appendUrl);
@@ -304,25 +313,107 @@ class CKController {
 			CKFof::enqueueMessage('Error : Item not copied', 'error');
 		}
 
+		if (! $this->redirect) $this->redirect = MAXIMENUCK_URL;
+
 		// Redirect to the edit screen.
-		CKFof::redirect(MAXIMENUCK_URL);
+		CKFof::redirect($this->redirect);
 	}
 
 	public function delete() {
-		$editIds = $this->input->get('cid', null, 'array');
-		if (count($editIds)) {
-			$id = (int) $editIds[0];
+		$ids = $this->input->get('cid', null, 'array');
+		if (count($ids)) {
+			$ids = (array) $ids;
 		} else {
-			$id = (int) $this->input->get('id', null, 'int');
+			$ids = (array) $this->input->get('id', null, 'array');
 		}
 		$model = $this->getModel($this->getName());
-		if ($model->delete($id)) {
+		foreach($ids as $id) {
+			$return = $model->delete($id);
+			if ($return) {
 			CKFof::enqueueMessage('Item deleted with success');
 		} else {
 			CKFof::enqueueMessage('Error : Item not deleted', 'error');
 		}
+		}
+
+		if (! $this->redirect) $this->redirect = MAXIMENUCK_URL . $appendUrl;
 
 		// Redirect to the edit screen.
-		CKFof::redirect(MAXIMENUCK_URL);
+		CKFof::redirect($this->redirect);
+	}
+
+	public function trash() {
+		$ids = $this->input->get('cid', null, 'array');
+		if (count($ids)) {
+			$ids = (array) $ids;
+		} else {
+			$ids = (array) $this->input->get('id', null, 'array');
+}
+		$model = $this->getModel($this->getName());
+		foreach($ids as $id) {
+			$return = $model->trash($id);
+			if ($return) {
+				CKFof::enqueueMessage('CK_ITEM_TRASH_SUCCESS');
+			} else {
+				CKFof::enqueueMessage('CK_ITEM_TRASH_FAILED', 'error');
+			}
+		}
+
+		// Redirect to the edit screen.
+		if (! $this->redirect) $this->redirect = MAXIMENUCK_ADMIN_GENERAL_URL;
+
+		// Redirect to the edit screen.
+		CKFof::redirect($this->redirect);
+	}
+
+	public function publish() {
+		$ids = $this->input->get('cid', null, 'array');
+		if (count($ids)) {
+			$ids = (array) $ids;
+		} else {
+			$ids = (array) $this->input->get('id', null, 'array');
+		}
+		if (! empty($ids)) {
+			$model = $this->getModel($this->getName());
+			foreach($ids as $id) {
+				if ($model->publish($id)) {
+					CKFof::enqueueMessage('Item published with success');
+				} else {
+					CKFof::enqueueMessage('Error : Item not published', 'error');
+				}
+			}
+		}
+
+		// Redirect to the edit screen.
+		if (! $this->redirect) $this->redirect = MAXIMENUCK_ADMIN_GENERAL_URL;
+
+		// Redirect to the edit screen.
+		CKFof::redirect($this->redirect);
+	}
+
+	public function unpublish() {
+		$ids = $this->input->get('cid', null, 'array');var_dump($ids);
+		if (count($ids)) {
+			$ids = (array) $ids;
+		} else {
+			$ids = (array) $this->input->get('id', null, 'array');
+		}
+//		var_dump($ids);die;
+		if (! empty($ids)) {
+			$model = $this->getModel($this->getName());
+			foreach($ids as $id) {
+				if ($model->unpublish($id)) {
+					CKFof::enqueueMessage('Item unpublished with success');
+				} else {
+					CKFof::enqueueMessage('Error : Item not unpublished', 'error');
+				}
+			}
+		}
+
+		// Redirect to the edit screen.
+		if (! $this->redirect) $this->redirect = MAXIMENUCK_ADMIN_GENERAL_URL;
+
+		// Redirect to the edit screen.
+		CKFof::redirect($this->redirect);
 	}
 }

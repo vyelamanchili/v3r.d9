@@ -4,7 +4,7 @@ Theme URI: https://www.gradientthemes.com/product/wordpress-shopping-cart-theme/
 Author: gradientthemes
 Author URI: https://gradientthemes.com/
 Description: Best Shop is a fast, clean, widgetized and modern responsive free WooCommerce WordPress theme. The theme supports popular page builders like Elementor, KingComposer, Beaver Builder, SiteOrigin, Thrive Architect, Divi, Brizy, Visual Composer, etc. The theme has built in WooCommerce product widgets like product category lists/grids, product sliders, post sliders, category showcase etc. Therefore you can create product pages easily without referring to complex shortcodes. Best Shop is compatible with YITH WooCommerce Wishlist, YITH WooCommerce Compare, YITH WooCommerce Quick view, WooCommerce Variation Swatches and most of the popular plugins. The theme is SEO friendly, WPML and RTL ready. See documentation:-https://wordpress.gradientthemes.com
-Version: 1.3.8
+Version: 1.3.10
 Requires at least: 4.7
 Tested up to: 6.0
 Requires PHP: 7.0
@@ -945,6 +945,7 @@ img, svg, iframe {
     flex-wrap: wrap;
     grid-gap: 51px;
 }
+
 @media (max-width: 767px) {
     .additional-post .section-grid {
         grid-gap: 30px;
@@ -953,6 +954,7 @@ img, svg, iframe {
 .additional-post .section-grid .post {
     position: relative;
     width: calc(50% - 26px);
+    border: 1px solid #efefef;
 }
 @media (max-width: 767px) {
     .additional-post .section-grid .post {
@@ -1052,8 +1054,8 @@ img, svg, iframe {
     }
 }
 .page-grid { 
-    margin-top: 35px;
-    margin-bottom: 25px;
+    margin-top: 10px;
+    margin-bottom: 15px;
 }
 .page-grid {
     -webkit-box-direction: normal;
@@ -1087,8 +1089,8 @@ img, svg, iframe {
     max-width: 100%;
 }
 #secondary {
-    flex: 0 0 30%;
-    max-width: 30%;
+    flex: 0 0 25%;
+    max-width: 25%;
 }
 
 .template-home-sidebar #secondary {
@@ -2098,31 +2100,30 @@ textarea {
 }
 .widget.widget_search .search-form input[type="search"] {
     color: #a6a8ab;
-    width: calc(100% - 67px);
-    background: #eeeeee;
+    width: calc(100% - 45px);
+    background: #f9f9f9;
     padding: 16.5px 29px;
     border: 0;
-    height: 60px;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
+    height: 45px;
+    border-radius: 0;
 }
 .widget.widget_search .search-form input[type="submit"] {
     float: right;
     background-color: var(--gbl-primary-color);
-    height: 60px;
-    width: 67px;
+    height: 45px;
+    width: 45px;
     padding: 0;
     cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'%3E%3Cpath id='Path_24900' data-name='Path 24900' d='M11.572,19.163a7.532,7.532,0,0,0,4.676-1.624L20.709,22,22,20.709l-4.461-4.461a7.57,7.57,0,1,0-5.967,2.915Zm0-13.363A5.782,5.782,0,1,1,5.8,11.572,5.782,5.782,0,0,1,11.572,5.8Z' transform='translate(-4 -4)' fill='%23fff'/%3E%3C/svg%3E%0A");
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxOCcgaGVpZ2h0PScxOCcgdmlld0JveD0nMCAwIDE4IDE4Jz48cGF0aCBpZD0nUGF0aF8yNDkwMCcgZGF0YS1uYW1lPSdQYXRoIDI0OTAwJyBkPSdNMTEuNTcyLDE5LjE2M2E3LjUzMiw3LjUzMiwwLDAsMCw0LjY3Ni0xLjYyNEwyMC43MDksMjIsMjIsMjAuNzA5bC00LjQ2MS00LjQ2MWE3LjU3LDcuNTcsMCwxLDAtNS45NjcsMi45MTVabTAtMTMuMzYzQTUuNzgyLDUuNzgyLDAsMSwxLDUuOCwxMS41NzIsNS43ODIsNS43ODIsMCwwLDEsMTEuNTcyLDUuOFonIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC00IC00KScgZmlsbD0nI2ZmZicvPjwvc3ZnPgo=);
     background-repeat: no-repeat;
     background-position: center;
     background-size: 23px;
     font-size: 0;
     border: 0;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
+    border-radius: 0;
+}
+.widget.widget_search .search-form input[type="submit"]:hover {
+    background-color: var(--gbl-secondary-color);
 }
 .widget.widget-trending-posts {
     -webkit-box-align: baseline;
@@ -2340,10 +2341,10 @@ textarea {
 .widget.widget_block.widget_search form input[type="search"] {
     color: #a6a8ab;
     width: calc(100% - 67px);
-    background: #eeeeee;
+    background: #ffffff38;
     padding: 16.5px 29px;
     border: 0;
-    height: 60px;
+    height: 40px;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     border-top-right-radius: 0px;
@@ -2352,11 +2353,11 @@ textarea {
 .widget.widget_block.widget_search form button.wp-block-search__button {
     float: right;
     background-color: var(--gbl-primary-color);
-    height: 60px;
-    width: 67px;
+    height: 40px;
+    width: 47px;
     padding: 0;
     cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'%3E%3Cpath id='Path_24900' data-name='Path 24900' d='M11.572,19.163a7.532,7.532,0,0,0,4.676-1.624L20.709,22,22,20.709l-4.461-4.461a7.57,7.57,0,1,0-5.967,2.915Zm0-13.363A5.782,5.782,0,1,1,5.8,11.572,5.782,5.782,0,0,1,11.572,5.8Z' transform='translate(-4 -4)' fill='%23fff'/%3E%3C/svg%3E%0A");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 18 18'%3E%3Cpath id='Path_24900' data-name='Path 24900' d='M11.572,19.163a7.532,7.532,0,0,0,4.676-1.624L20.709,22,22,20.709l-4.461-4.461a7.57,7.57,0,1,0-5.967,2.915Zm0-13.363A5.782,5.782,0,1,1,5.8,11.572,5.782,5.782,0,0,1,11.572,5.8Z' transform='translate(-4 -4)' fill='%23fff'/%3E%3C/svg%3E%0A");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 23px;
@@ -3768,7 +3769,7 @@ body {
     margin-bottom: 15px;
 }
 .layout-grid.rightsidebar .content-wrap-main article .entry-header .entry-details, .layout-grid.leftsidebar .content-wrap-main article .entry-header .entry-details {
-    padding: 7px 7px 0 0px;
+    padding: 7px 7px 0 10px;
 }
 @media (max-width: 1440px) {
     .layout-grid.rightsidebar .content-wrap-main article .entry-header .entry-details, .layout-grid.leftsidebar .content-wrap-main article .entry-header .entry-details {
@@ -3777,7 +3778,7 @@ body {
 }
 .layout-grid.rightsidebar .content-wrap-main article .entry-content, .layout-grid.leftsidebar .content-wrap-main article .entry-content {
     margin-bottom: 12px;
-    padding: 0px 15px 0 0;
+    padding: 0px 15px 0 10px;
 
 }
 @media (max-width: 1440px) {
@@ -4818,13 +4819,14 @@ li .star-rating > span::before {
     display: flex;
 }
 .woocommerce-product-search button { 
-    float: right; 
+    float: right;
+    color: #fff !important;
 }
 
 .woocommerce-product-search .search-field {
     min-height: 40px;
-    max-width: 210px;
-    margin-right: 5px;
+    max-width: 75%;
+    margin-right: 3px;
 }
 
  .summary .yith-wcwl-add-button a {
@@ -5540,6 +5542,15 @@ li .star-rating > span::before {
     width: calc(50% - 25px);
     margin-bottom: 0;
 }
+.content-wrap-main article {
+    border: 1px solid #efefef;
+}
+.blog .content-wrap-main article .entry-header {
+  padding-left: 15px;
+}
+.archive .content-wrap-main article, .layout-grid .content-wrap-main article {
+  border: 1px solid #efefef;
+}
 @media (max-width: 767px) {
     .archive.rightsidebar .content-wrap-main article {
         width: 100%;
@@ -5823,7 +5834,7 @@ li .star-rating > span::before {
 }
 .search article .entry-meta {
     position: absolute;
-    margin-top: -80px;
+    margin-top: -65px;
 }
 .search article .entry-details {
     font-size: 1em;
@@ -6433,6 +6444,11 @@ li .star-rating > span::before {
     display: none;
 }
 
+.hide-woo-cat-list .woocommerce-bar .produt-category-navigation {
+    display: none;
+}
+
+
 .woocommerce-bar .container {
     display: flex;  
     justify-content: space-around;
@@ -6479,6 +6495,8 @@ li .star-rating > span::before {
     border-radius: 0 0 4px 4px;
     -webkit-box-shadow: 1px 5px 15px 5px #C6BDBD; 
     box-shadow: 1px 5px 15px 5px #C6BDBD;
+    background-color: var(--gbl-background-color) ;
+
 }
 
 .categories-dropdown-menu li a {
@@ -6941,11 +6959,13 @@ ul.site-header-cart {
 }
 
 .woocommerce-page #secondary .widget-title,
-#secondary .widget h2 {
+#secondary .widget h2,
+#secondary .wc-block-product-search .wc-block-product-search__label {
     font-weight: 600;
     font-size: 21px;
     line-height: 1.4;
     margin-bottom: 30px;
+    display: block;
 }
 
 #secondary .widget ul {
@@ -6962,7 +6982,6 @@ ul.site-header-cart {
 .woocommerce-page .woocommerce ul.product_list_widget li a {
     padding: 2px 0 2px;
     font-weight: 500;
-    font-size: 0.9em;
 }
 
 
@@ -7079,7 +7098,6 @@ product-summary-wrap .product_meta span a {
 .widget .price_slider_amount button,
 .woocommerce button.button,
 .woocommerce .widget_price_filter .ui-slider .ui-slider-handle,
-.woocommerce-product-search button,
 .woocommerce a.button,
 .summary .yith-wcwl-add-button a,
 .tabbed_product_widget .product-tab-list .tabmenu  {

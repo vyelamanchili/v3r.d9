@@ -10,7 +10,7 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 <!-- debut maximenu CK -->
-<select name="maximenuckdropselect" id="<?php echo $params->get('menuid', 'maximenuck'); ?>" style="width: auto" onchange="top.location.href=this.options[this.selectedIndex].value" class="<?php echo $params->get('moduleclass_sfx'); ?>">
+<select name="maximenuckdropselect" id="<?php echo $params->get('menuid', 'maximenuck'); ?>" style="width: auto" onchange="top.location.href=this.options[this.selectedIndex].value" class="<?php echo $params->get('class_sfx'); ?>">
 	<?php
 	foreach ($items as $i => &$item) {
 		$selected = ($item->current) ? ' selected="selected"' : '';

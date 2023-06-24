@@ -141,7 +141,7 @@ class Style {
 						){
 			// for parent arrow normal state
 			if ($level1itemnormalstylesparentarrowcolor) {
-				$csstoinject .= "\ndiv#" . $menuCSSID . " li.maximenuck.level1.parent > a:after, div#" . $menuCSSID . " li.maximenuck.level1.parent > span.separator:after { " 
+				$csstoinject .= "\ndiv#" . $menuCSSID . " li.maximenuck.level1.parent > a:after, div#" . $menuCSSID . " li.maximenuck.level1.parent > span.separator:after, div#" . $menuCSSID . " li.maximenuck.level1.parent > .maximenuck-toggler:after { " 
 					. ( $params->get('orientation', 'horizontal') === 'vertical'  ? "border-left-color: " . $level1itemnormalstylesparentarrowcolor . ";" : "border-top-color: " . $level1itemnormalstylesparentarrowcolor . ";" )
 					. "color: " . $level1itemnormalstylesparentarrowcolor . ";"
 						. "display:block;"
@@ -160,7 +160,7 @@ class Style {
 			$level1itemhoverstylesparentarrowcolor = $fields['level1itemhoverstyles']->get('level1itemhoverstylesparentarrowcolor', '') ? $fields['level1itemhoverstyles']->get('level1itemhoverstylesparentarrowcolor', '') : $fields['level1itemhoverstyles']->get('level1itemhoverstylesfontcolor', '');
 			// for parent arrow hover state
 			if ($level1itemhoverstylesparentarrowcolor) {
-				$csstoinject .= "\ndiv#" . $menuCSSID . " li.maximenuck.level1.parent:hover > a:after, div#" . $menuCSSID . " li.maximenuck.level1.parent:hover > span.separator:after { " 
+				$csstoinject .= "\ndiv#" . $menuCSSID . " li.maximenuck.level1.parent:hover > a:after, div#" . $menuCSSID . " li.maximenuck.level1.parent:hover > span.separator:after, div#" . $menuCSSID . " li.maximenuck.level1.parent:hover > .maximenuck-toggler:after { " 
 					. ( $params->get('orientation', 'horizontal') === 'vertical'  ? "border-left-color: " . $level1itemhoverstylesparentarrowcolor . ";" : "border-top-color: " . $level1itemhoverstylesparentarrowcolor . ";" )
 					. "color: " . $level1itemhoverstylesparentarrowcolor . ";"
 					. "} ";
@@ -168,7 +168,7 @@ class Style {
 			$level1itemactivestylesparentarrowcolor = $fields['level1itemactivestyles']->get('level1itemactivestylesparentarrowcolor', '') ? $fields['level1itemactivestyles']->get('level1itemactivestylesparentarrowcolor', '') : '';
 			// for parent active state
 			if ($level1itemactivestylesparentarrowcolor) {
-				$csstoinject .= "\ndiv#" . $menuCSSID . " li.maximenuck.level1.parent.active > a:after, div#" . $menuCSSID . " li.maximenuck.level1.parent.active > span.separator:after { " 
+				$csstoinject .= "\ndiv#" . $menuCSSID . " li.maximenuck.level1.parent.active > a:after, div#" . $menuCSSID . " li.maximenuck.level1.parent.active > span.separator:after, div#" . $menuCSSID . " li.maximenuck.level1.parent.active > .maximenuck-toggler:after { " 
 					. ( $params->get('orientation', 'horizontal') === 'vertical'  ? "border-left-color: " . $level1itemactivestylesparentarrowcolor . ";" : "border-top-color: " . $level1itemactivestylesparentarrowcolor . ";" )
 					. "color: " . $level1itemactivestylesparentarrowcolor . ";"
 					. "} ";
@@ -176,7 +176,7 @@ class Style {
 			$level1itemactivehoverstylesparentarrowcolor = $fields['level1itemactivehoverstyles']->get('level1itemactivehoverstylesparentarrowcolor', '') ? $fields['level1itemactivehoverstyles']->get('level1itemactivehoverstylesparentarrowcolor', '') : '';
 			// for parent arrow active hover state
 			if ($level1itemactivehoverstylesparentarrowcolor) {
-				$csstoinject .= "\ndiv#" . $menuCSSID . " li.maximenuck.level1.parent.active:hover > a:after, div#" . $menuCSSID . " li.maximenuck.level1.parent.active:hover > span.separator:after { " 
+				$csstoinject .= "\ndiv#" . $menuCSSID . " li.maximenuck.level1.parent.active:hover > a:after, div#" . $menuCSSID . " li.maximenuck.level1.parent.active:hover > span.separator:after, div#" . $menuCSSID . " li.maximenuck.level1.parent.active:hover > .maximenuck-toggler:after { " 
 					. ( $params->get('orientation', 'horizontal') === 'vertical'  ? "border-left-color: " . $level1itemactivehoverstylesparentarrowcolor . ";" : "border-top-color: " . $level1itemactivehoverstylesparentarrowcolor . ";" )
 					. "color: " . $level1itemactivehoverstylesparentarrowcolor . ";"
 					. "} ";

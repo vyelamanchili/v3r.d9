@@ -12,6 +12,48 @@
                 <div class="box">
                     <table>
                         <tr>
+                            <td style="border-bottom:none">2023-05-08</td>
+                            <td style="border-bottom:none"><h3> JetGridBuilder</h3></td>
+                            <td style="border-bottom:none">plugin</td>
+                        </tr>
+                    </table>
+                    <div class="greybox" style="position: relative; top: -10px">
+                        Images not displayed:<br>
+                        1) edit "jetgridbuilder/includes/plugin.php" and add<br>
+                        <textarea style="width:100%;height:190px;overflow:hidden" disabled>
+                            if ((is_plugin_active('fifu-premium/fifu-premium.php') || is_plugin_active('featured-image-from-url/featured-image-from-url.php'))) {
+                                $att_post = get_post($thumb_id);
+                                if ($att_post && $att_post->post_author == FIFU_AUTHOR) {
+                                    return array(
+                                        'file'   => wp_get_attachment_image_src($thumb_id, 'full')[0],
+                                        'width'  => $img_meta['width'],
+                                        'height' => $img_meta['height']
+                                    );
+                                }
+                            }
+                        </textarea>
+                        immediately after<br>
+                        <textarea style="width:100%;height:25px;overflow:hidden" disabled>
+                            $img_meta = wp_get_attachment_metadata( $thumb_id );
+                        </textarea>
+                    </div>
+                </div>
+                <div class="box">
+                    <table>
+                        <tr>
+                            <td style="border-bottom:none">2023-04-24</td>
+                            <td style="border-bottom:none"><h3> Memberium</h3></td>
+                            <td style="border-bottom:none">plugin</td>
+                        </tr>
+                    </table>
+                    <div class="greybox" style="position: relative; top: -10px">
+                        Featured Video not working:<br>
+                        1) edit "memberium2/classes/core.php" and delete all the occurrences of "@session_start();" and "session_start();".<br>
+                    </div>
+                </div>
+                <div class="box">
+                    <table>
+                        <tr>
                             <td style="border-bottom:none">2023-03-08</td>
                             <td style="border-bottom:none"><h3> Duplicate Page</h3></td>
                             <td style="border-bottom:none">plugin</td>

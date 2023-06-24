@@ -100,6 +100,12 @@ function fifu_get_strings_settings() {
     $fifu['word']['tags'] = function () {
         _e("Tags", FIFU_SLUG);
     };
+    $fifu['word']['old'] = function () {
+        _e("Old", FIFU_SLUG);
+    };
+    $fifu['word']['new'] = function () {
+        _e("New (coming soon)", FIFU_SLUG);
+    };
 
     // where
     $fifu['where']['page'] = function () {
@@ -252,6 +258,9 @@ function fifu_get_strings_settings() {
     $fifu['title']['hide'] = function () {
         _e("Hide Featured Media", FIFU_SLUG);
     };
+    $fifu['title']['popup'] = function () {
+        _e("Custom Popup", FIFU_SLUG);
+    };
     $fifu['title']['redirection'] = function () {
         _e("Page Redirection", FIFU_SLUG);
     };
@@ -295,7 +304,7 @@ function fifu_get_strings_settings() {
         _e("Social Tags", FIFU_SLUG);
     };
     $fifu['title']['bbpress'] = function () {
-        _e("bbPress", FIFU_SLUG);
+        _e("bbPress / BuddyBoss Platform", FIFU_SLUG);
     };
     $fifu['title']['rss'] = function () {
         _e("Media RSS Tags", FIFU_SLUG);
@@ -483,11 +492,20 @@ function fifu_get_strings_settings() {
     $fifu['dev']['field']['video'] = function () {
         _e("Featured video", FIFU_SLUG);
     };
-    $fifu['dev']['field']['product'] = function () {
+    $fifu['dev']['field']['slider'] = function () {
+        _e("Featured slider", FIFU_SLUG);
+    };
+    $fifu['dev']['field']['product']['image'] = function () {
         _e("Product image", FIFU_SLUG);
     };
-    $fifu['dev']['field']['gallery'] = function () {
+    $fifu['dev']['field']['product']['video'] = function () {
+        _e("Product video", FIFU_SLUG);
+    };
+    $fifu['dev']['field']['gallery']['image'] = function () {
         _e("Image gallery", FIFU_SLUG);
+    };
+    $fifu['dev']['field']['gallery']['video'] = function () {
+        _e("Video gallery", FIFU_SLUG);
     };
     $fifu['dev']['field']['category']['image'] = function () {
         _e("Product category image", FIFU_SLUG);
@@ -501,13 +519,22 @@ function fifu_get_strings_settings() {
         _e("Configure FIFU via command line.", FIFU_SLUG);
     };
     $fifu['cli']['tab']['commands'] = function () {
-        _e("Commands", FIFU_SLUG);
+        _e("FIFU commands", FIFU_SLUG);
+    };
+    $fifu['cli']['tab']['fields'] = function () {
+        _e("FIFU custom fields", FIFU_SLUG);
     };
     $fifu['cli']['tab']['documentation'] = function () {
         _e("Documentation", FIFU_SLUG);
     };
     $fifu['cli']['documentation']['site'] = function () {
         _e("WP-CLI", FIFU_SLUG);
+    };
+    $fifu['cli']['fields']['create'] = function () {
+        _e("Create a post", FIFU_SLUG);
+    };
+    $fifu['cli']['fields']['api'] = function () {
+        _e("Other FIFU custom fields can be found under Settings > REST API > Custom fields.", FIFU_SLUG);
     };
     $fifu['cli']['column']['tab'] = function () {
         _e("Tab", FIFU_SLUG);
@@ -526,6 +553,12 @@ function fifu_get_strings_settings() {
     };
     $fifu['cli']['column']['eg'] = function () {
         _e("e.g. (args)", FIFU_SLUG);
+    };
+    $fifu['cli']['column']['action'] = function () {
+        _e("Action", FIFU_SLUG);
+    };
+    $fifu['cli']['column']['example'] = function () {
+        _e("Command example", FIFU_SLUG);
     };
 
     // reset
@@ -737,7 +770,7 @@ function fifu_get_strings_settings() {
         _e("Amazon", FIFU_SLUG);
     };
     $fifu['finder']['amazon']['gallery'] = function () {
-        _e("set gallery images", FIFU_SLUG);
+        _e("set gallery images and videos", FIFU_SLUG);
     };
     $fifu['finder']['custom']['desc'] = function () {
         _e("If you already have the web page address saved in your database, you could inform its custom field name here. FIFU would access that and import the value. For example, if the web page URL is saved in the Product URL field, you could add \"_product_url\", which is the field where the external URL to the product is stored. For posts created by WordPress Automatic Plugin, add \"original_link\".", FIFU_SLUG);
@@ -751,6 +784,11 @@ function fifu_get_strings_settings() {
     // block
     $fifu['block']['desc'] = function () {
         _e("Disable right-click on all images.", FIFU_SLUG);
+    };
+
+    // popup
+    $fifu['popup']['desc'] = function () {
+        _e("Adds a new meta box to the post editor where you can paste any embed code, which will be displayed in a popup when the visitor clicks on the featured image. Here's an example of a popup containing a TikTok embed code:", FIFU_SLUG);
     };
 
     // redirection
@@ -791,6 +829,15 @@ function fifu_get_strings_settings() {
     };
     $fifu['hide']['exception'] = function () {
         _e("(except WooCommerce products)", FIFU_SLUG);
+    };
+    $fifu['hide']['tab']['hide'] = function () {
+        _e("Hide", FIFU_SLUG);
+    };
+    $fifu['hide']['tab']['format'] = function () {
+        _e("Post format filter", FIFU_SLUG);
+    };
+    $fifu['hide']['format']['found'] = function () {
+        _e("You can choose the post formats in which media hiding should be applied: ", FIFU_SLUG);
     };
 
     // configuration
@@ -887,10 +934,19 @@ function fifu_get_strings_settings() {
 
     // dimensions
     $fifu['dimensions']['desc'] = function () {
-        _e("Some themes and plugins may not work correctly without image dimensions. Then you can run this feature to get the dimensions of ~150 images by minute. Problems with the product gallery can be better solved by FIFU Settings > WooCommerce > FIFU Product Gallery.", FIFU_SLUG);
+        _e("Without image dimensions, certain themes and plugins may not work correctly. Using this feature can help resolve such issues.", FIFU_SLUG);
+    };
+    $fifu['dimensions']['gallery'] = function () {
+        _e("problems with the product gallery can be better solved by FIFU Settings > WooCommerce > FIFU Product Gallery.", FIFU_SLUG);
     };
     $fifu['dimensions']['now'] = function () {
         _e("save the dimensions of all featured images now", FIFU_SLUG);
+    };
+    $fifu['dimensions']['old']['desc'] = function () {
+        _e("Gets the dimensions of ~150 images by minute. This option utilizes local resources to calculate image sizes and does not run on a cron job, meaning it must be activated manually each time. Depending on how your posts are created and the number of images, this approach may become impractical.", FIFU_SLUG);
+    };
+    $fifu['dimensions']['new']['desc'] = function () {
+        _e("Use a cron job to send your URLs to a queue on a FIFU server and retrieve image dimensions asynchronously. Our server distributes the workload equally among sites that have enabled this option to calculate sizes. The advantage is that your site can receive all dimensions within a few minutes. However, the disadvantage is that your site may be used to calculate image sizes for other websites as well, although the equal distribution of workload ensures that each request uses only a few KBs of memory and each site will handle no more than one request at a time.", FIFU_SLUG);
     };
 
     // schedule
@@ -1169,19 +1225,13 @@ function fifu_get_strings_settings() {
 
     // bbpress
     $fifu['bbpress']['desc'] = function () {
-        _e("Allows you to add featured images/videos to bbPress forums and topics.", FIFU_SLUG);
+        _e("Allows you to add featured images to forums, topics and replies.", FIFU_SLUG);
     };
     $fifu['bbpress']['fields'] = function () {
-        _e("add featured image/video fields to bbPress forms", FIFU_SLUG);
+        _e("add image URL field to forms", FIFU_SLUG);
     };
     $fifu['bbpress']['title'] = function () {
-        _e("display featured image before forum/topic title", FIFU_SLUG);
-    };
-    $fifu['bbpress']['avatar'] = function () {
-        _e("replace profile picture by featured image", FIFU_SLUG);
-    };
-    $fifu['bbpress']['copy'] = function () {
-        _e("copy the featured image/video to the forum/topic content", FIFU_SLUG);
+        _e("display featured image in forums, topics and replies", FIFU_SLUG);
     };
 
     // title
@@ -1197,7 +1247,7 @@ function fifu_get_strings_settings() {
 
     // video
     $fifu['video']['desc'] = function () {
-        _e("FIFU supports videos from YouTube, Vimeo, Twitter, Imgur, 9GAG, Cloudinary, Tumblr, Publitio, JW Player, VideoPress, Sprout, Odysee, Rumble, Dailymotion, Cloudflare Stream and Bunny Stream. External and local video files are supported as well.", FIFU_SLUG);
+        _e("FIFU supports videos from YouTube, Vimeo, Twitter, 9GAG, Cloudinary, Tumblr, Publitio, JW Player, VideoPress, Sprout, Odysee, Rumble, Dailymotion, Cloudflare Stream, Bunny Stream, Amazon, BitChute, Brighteon and Google Drive. External and local video files are supported as well.", FIFU_SLUG);
     };
     $fifu['video']['tab']['video'] = function () {
         _e("Featured video", FIFU_SLUG);
@@ -1209,7 +1259,13 @@ function fifu_get_strings_settings() {
         _e("It's possible to use mp4/mov videos from your media library as featured videos. However it's required to create a video thumbnail, that will be stored in your media library. For that, in the \"Feature video\" meta box, forward the video to a frame you like and click on \"set this frame as thumbnail\" button. Save the post and that's it.", FIFU_SLUG);
     };
     $fifu['video']['external']['desc'] = function () {
-        _e("For external videos, webm and ogg formats are supported as well. Requirement: you must also set an external featured image (video thumbnail).", FIFU_SLUG);
+        _e("External mp4/mov/webm/ogg videos are supported as well. Requirement: you must also set an external featured image (video thumbnail).", FIFU_SLUG);
+    };
+    $fifu['video']['tip']['frame'] = function () {
+        _e("Start at", FIFU_SLUG);
+    };
+    $fifu['video']['tip']['time'] = function () {
+        _e("You can add #t=N to the end of the local or external video URL, where N represents the number of seconds you want the video to start at. The format #t=N,M is used to also specify a frame where the video should stop.", FIFU_SLUG);
     };
 
     // thumbnail
@@ -1369,7 +1425,7 @@ function fifu_get_strings_settings() {
         _e("FIFU automatically adds its add-on to WP All Import.", FIFU_SLUG);
     };
     $fifu['addon']['tab']['import'] = function () {
-        _e("Importing products...", FIFU_SLUG);
+        _e("Importing...", FIFU_SLUG);
     };
     $fifu['addon']['tab']['faq'] = function () {
         _e("FAQ", FIFU_SLUG);
@@ -1638,6 +1694,9 @@ function fifu_get_strings_meta_box_php() {
     $fifu['title']['post']['redirection'] = function () {
         return __("Page redirection", FIFU_SLUG);
     };
+    $fifu['title']['post']['popup'] = function () {
+        return __("Custom popup", FIFU_SLUG);
+    };
 
     // variation
     $fifu['variation']['field'] = function () {
@@ -1788,6 +1847,17 @@ function fifu_get_strings_quick_edit() {
     };
     $fifu['image']['keywords'] = function () {
         return __("Keywords", FIFU_SLUG);
+    };
+
+    // button
+    $fifu['button']['save'] = function () {
+        return __("Save", FIFU_SLUG);
+    };
+    $fifu['button']['clean'] = function () {
+        return __("Clean", FIFU_SLUG);
+    };
+    $fifu['button']['upload'] = function () {
+        return __("Upload images to media library", FIFU_SLUG);
     };
 
     return $fifu;
@@ -2055,6 +2125,26 @@ function fifu_get_strings_cloud() {
     };
     $fifu['keys']['ctrl'] = function () {
         _e("click on the first image, press <b>CTRL</b> key and hold it. While holding Ctrl, click each of the other images you want to select.");
+    };
+
+    // label
+    $fifu['label']['email'] = function () {
+        _e("Email");
+    };
+    $fifu['label']['2fa'] = function () {
+        _e("2FA Code");
+    };
+    $fifu['label']['website'] = function () {
+        _e("Website");
+    };
+    $fifu['label']['title']['email'] = function () {
+        _e("type your email, please");
+    };
+    $fifu['label']['title']['2fa'] = function () {
+        _e("type the code provided by Google Authenticator");
+    };
+    $fifu['label']['title']['connected'] = function () {
+        _e("keep me always connected");
     };
 
     return $fifu;

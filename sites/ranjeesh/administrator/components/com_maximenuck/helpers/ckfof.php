@@ -35,7 +35,6 @@ class CKFof {
 		$user = CKFof::getUser();
 		switch ($task) {
 			case 'edit' :
-			default :
 				return $user->authorise('core.edit', $environment);
 			break;
 			case 'create' :
@@ -49,6 +48,9 @@ class CKFof {
 			case 'delete' :
 				return $user->authorise('core.delete', $environment);
 			break;
+			default :
+				// return current_user_can('edit_plugins');
+				return $user->authorise($task, $environment);
 		}
 	}
 
@@ -535,6 +537,46 @@ class CKFof {
 	}
 
 		public static function getModel($modelName, $classPrefix = 'Maximenuck') {
+		require_once MAXIMENUCK_PATH . '/helpers/ckmodel.php';
 			return CKModel::getInstance($modelName, $classPrefix);
 		}
+
+	public static function getUserState($name, $default = '', $type = 'string') {
+		$session = \JFactory::getSession();
+		$state = $session->get(self::$environment . '.' . $name, $default);
+
+		return $state;
+}
+
+	public static function setUserState($name, $value) {
+		$session = \JFactory::getSession();
+		$session->set(self::$environment . '.' . $name, $value);
+	}
+
+	public static function getSession($name, $default = null) {
+		$namespace = self::$environment;
+
+		if (isset($_SESSION[$namespace][$name]))
+		{
+			return $_SESSION[$namespace][$name];
+		}
+		return $default;
+	}
+
+	public static function setSession($name, $value) {
+		$namespace = self::$environment;
+
+		$old = isset($_SESSION[$namespace][$name]) ? $_SESSION[$namespace][$name] : null;
+
+		if ($value === null)
+		{
+			unset($_SESSION[$namespace][$name]);
+		}
+		else
+		{
+			$_SESSION[$namespace][$name] = $value;
+		}
+
+		return $old;
+	}
 }

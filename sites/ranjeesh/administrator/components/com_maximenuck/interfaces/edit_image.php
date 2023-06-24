@@ -2,7 +2,7 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 ?>
-<div class="ckinterface ckinterface-labels-big">
+<div class="ckinterface ckinterface-labels-big" id="ck-item-edition-item-params">
 	<input id="type" name="type" class=""  value="image" disabled type="hidden" />
 	<div class="ck-title"><?php echo JText::_('CK_IMAGE'); ?></div>
 	<div>
@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 		<span class="ckoption-field">
 			<input id="imageurl" name="imageurl" class="inputbox"  value="" type="text" onchange="ckUpdateImagePreview();"/>
 			<a class="ckbutton" href="javascript:void(0)" onclick="CKBox.open({handler: 'iframe', id: 'ckimagemanager', url: MAXIMENUCK.BASE_URL + '&view=browse&type=image&func=ckSelectFile&field=imageurl&tmpl=component'})" ><?php echo JText::_('CK_SELECT'); ?></a>
-			<a class="ckbutton" href="javascript:void(0)" onclick="$ck('#imageurl').attr('value', '');ckUpdateImagePreview();"><?php echo JText::_('CK_CLEAN'); ?></a>
+			<a class="ckbutton" href="javascript:void(0)" onclick="$ck('#imageurl').val('');ckUpdateImagePreview();"><?php echo JText::_('CK_CLEAN'); ?></a>
 		</span>
 		<div class="clr"></div>
 	</div>
@@ -36,10 +36,28 @@ defined('_JEXEC') or die('Restricted access');
 	</div>
 	<div>
 		<span class="ckoption-label">
-			<?php echo JText::_('CK_CSS_CLASS'); ?>
+			<?php echo JText::_('CK_IMAGE_HEIGHT'); ?>
 		</span>
 		<span class="ckoption-field">
-			<input id="linkcssclass" name="linkcssclass" class="inputbox"  value="" type="text" />
+			<input id="imageheight" name="imageheight" class="inputbox"  value="" type="text" />
+		</span>
+		<div class="clr"></div>
+	</div>
+	<div>
+		<span class="ckoption-label">
+			<?php echo JText::_('CK_ALT_TAG'); ?>
+		</span>
+		<span class="ckoption-field">
+			<input id="imagealt" name="imagealt" class="inputbox"  value="" type="text" />
+		</span>
+		<div class="clr"></div>
+	</div>
+	<div>
+		<span class="ckoption-label">
+			<?php echo JText::_('CK_LI_CSS_CLASS'); ?>
+		</span>
+		<span class="ckoption-field">
+			<input id="maximenu_liclass" name="maximenu_liclass" class="inputbox"  value="" type="text" />
 		</span>
 		<div class="clr"></div>
 	</div>
@@ -71,31 +89,7 @@ defined('_JEXEC') or die('Restricted access');
 		</span>
 		<div class="clr"></div>
 	</div>
-	<div class="ck-title"><?php echo JText::_('CK_RESPONSIVE_SETTINGS'); ?></div>
-	<div>
-		<span class="ckoption-label">
-			<?php echo JText::_('CK_MOBILE_ENABLE'); ?>
-		</span>
-		<span class="ckoption-field">
-			<select class="inputbox" type="list" value="1" name="mobile" id="mobile" style="width:auto;">
-				<option value="1"><?php echo JText::_('JYES'); ?></option>
-				<option value="0"><?php echo JText::_('JNO'); ?></option>
-			</select>
-		</span>
-		<div class="clr"></div>
-	</div>
-	<div>
-		<span class="ckoption-label">
-			<?php echo JText::_('CK_DESKTOP_ENABLE'); ?>
-		</span>
-		<span class="ckoption-field">
-			<select class="inputbox" type="list" value="1" name="desktop" id="desktop" style="width:auto;">
-				<option value="1"><?php echo JText::_('JYES'); ?></option>
-				<option value="0"><?php echo JText::_('JNO'); ?></option>
-			</select>
-		</span>
-		<div class="clr"></div>
-	</div>
+	<?php include 'options_responsive.php'; ?>
 </div>
 <script>
 function ckLoadEditionItem() {

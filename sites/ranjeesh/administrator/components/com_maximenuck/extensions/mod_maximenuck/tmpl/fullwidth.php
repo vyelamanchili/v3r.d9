@@ -17,7 +17,7 @@ $direction = $langdirection == 'rtl' ? 'right' : 'left';
 <!-- debut Maximenu CK -->
 	<div class="<?php echo $orientation_class . ' ' . $langdirection ?><?php echo $maximenufixedclass ?>" id="<?php echo $params->get('menuid', 'maximenuck'); ?>" style="z-index:<?php echo $params->get('zindexlevel', '10'); ?>;">
 			<?php require dirname(__FILE__) . '/_mobile.php'; ?>
-            <ul<?php echo $microdata_ul ?> class="<?php echo $params->get('moduleclass_sfx'); ?> maximenuck" style="position:relative;" >
+            <ul<?php echo $microdata_ul ?> class="<?php echo $params->get('class_sfx'); ?> maximenuck" style="position:relative;" >
 				<?php
 				include dirname(__FILE__) . '/_logo.php';
 

@@ -16,7 +16,7 @@ class CKInterface extends \stdClass {
 		$this->imagespath = MAXIMENUCK_MEDIA_URI . '/images';
 	}
 
-	public function createAll($prefix) {
+	public function createAll($prefix, $dimensions = true) {
 		?>
 		<div class="ckheading"><?php echo CKText::_('CK_TEXT_LABEL'); ?></div>
 		<?php
@@ -34,7 +34,7 @@ class CKInterface extends \stdClass {
 		<div class="ckheading"><?php echo CKText::_('CK_DIMENSIONS_LABEL'); ?></div>
 		<?php
 		$this->createMargins($prefix);
-		$this->createDimensions($prefix);
+		if ($dimensions) $this->createDimensions($prefix);
 		/*
 		?>
 		<!--<div class="ckheading"><?php echo CKText::_('CK_ANIMATIONS_LABEL'); ?></div>-->

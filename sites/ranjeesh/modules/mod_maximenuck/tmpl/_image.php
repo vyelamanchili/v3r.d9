@@ -24,6 +24,8 @@ if ($item->fparams->get('maximenu_icon', '') && $params->get('useicons', '1') !=
 }
 $datahover = $params->get('datahover', '1') == '1' ? ' data-hover="' . addslashes($item->ftitle) . '"' : '';
 $texthtml = $itemicon . '<span class="titreck-text"><span class="titreck-title">' . $item->ftitle . '</span>' . $description . '</span>';
+$texthtml = Maximenuck\Helper::decodeCharsAfterJson($texthtml);
+
 // manage image
 if ($item->menu_image && $params->get('useimages', '1') !== '0') {
 	// manage image rollover
@@ -48,41 +50,49 @@ if ($item->menu_image && $params->get('useimages', '1') !== '0') {
 
 	$imagesalign = ($item->fparams->get('maximenu_images_align', 'moduledefault') != 'moduledefault') ? $item->fparams->get('maximenu_images_align', 'top') : $params->get('menu_images_align', 'top');
 	$image_dimensions = ( $item->fparams->get('maximenuparams_imgwidth', '') != '' && ($item->fparams->get('maximenuparams_imgheight', '') != '') ) ? ' width="' . $item->fparams->get('maximenuparams_imgwidth', '') . '" height="' . $item->fparams->get('maximenuparams_imgheight', '') . '"' : '';
+	$imagealt = addslashes($item->fparams->get('maximenuparams_imagealt', '')) ? $item->fparams->get('maximenuparams_imagealt', '') : $item->ftitle;
+	$imagealt = Maximenuck\Helper::decodeCharsAfterJson($imagealt);
 
 	if ($item->fparams->get('menu_text', 1) AND !$params->get('imageonly', '0')) {
 		switch ($imagesalign) :
 			default:
 			case 'default':
-				$linktype = '<img src="' . $item->menu_image . '" alt="' . $item->ftitle . '" align="left"' . $image_dimensions . '/><span class="titreck" ' . $datahover . '>' . $texthtml . '</span> ';
+				$linktype = '<img src="' . $item->menu_image . '" alt="' . $imagealt . '" align="left"' . $image_dimensions . '/><span class="titreck" ' . $datahover . '>' . $texthtml . '</span> ';
 				break;
 			case 'bottom':
-				$linktype = '<span class="titreck" ' . $datahover . '>' . $texthtml . '</span><img src="' . $item->menu_image . '" alt="' . $item->ftitle . '" style="display: block; margin: 0 auto;"' . $image_dimensions . ' /> ';
+				$linktype = '<span class="titreck" ' . $datahover . '>' . $texthtml . '</span><img src="' . $item->menu_image . '" alt="' . $imagealt . '" style="display: block; margin: 0 auto;"' . $image_dimensions . ' /> ';
 				break;
 			case 'top':
-				$linktype = '<img src="' . $item->menu_image . '" alt="' . $item->ftitle . '" style="display: block; margin: 0 auto;"' . $image_dimensions . ' /><span class="titreck" ' . $datahover . '>' . $texthtml . '</span> ';
+				$linktype = '<img src="' . $item->menu_image . '" alt="' . $imagealt . '" style="display: block; margin: 0 auto;"' . $image_dimensions . ' /><span class="titreck" ' . $datahover . '>' . $texthtml . '</span> ';
 				break;
 			case 'rightbottom':
-				$linktype = '<span class="titreck" ' . $datahover . '>' . $texthtml . '</span><img src="' . $item->menu_image . '" alt="' . $item->ftitle . '" align="top"' . $image_dimensions . '/> ';
+				$linktype = '<span class="titreck" ' . $datahover . '>' . $texthtml . '</span><img src="' . $item->menu_image . '" alt="' . $imagealt . '" align="top"' . $image_dimensions . '/> ';
 				break;
 			case 'rightmiddle':
-				$linktype = '<span class="titreck" ' . $datahover . '>' . $texthtml . '</span><img src="' . $item->menu_image . '" alt="' . $item->ftitle . '" align="middle"' . $image_dimensions . '/> ';
+				$linktype = '<span class="titreck" ' . $datahover . '>' . $texthtml . '</span><img src="' . $item->menu_image . '" alt="' . $imagealt . '" align="middle"' . $image_dimensions . '/> ';
 				break;
 			case 'righttop':
-				$linktype = '<span class="titreck" ' . $datahover . '>' . $texthtml . '</span><img src="' . $item->menu_image . '" alt="' . $item->ftitle . '" align="bottom"' . $image_dimensions . '/> ';
+				$linktype = '<span class="titreck" ' . $datahover . '>' . $texthtml . '</span><img src="' . $item->menu_image . '" alt="' . $imagealt . '" align="bottom"' . $image_dimensions . '/> ';
 				break;
 			case 'leftbottom':
-				$linktype = '<img src="' . $item->menu_image . '" alt="' . $item->ftitle . '" align="top"' . $image_dimensions . '/><span class="titreck" ' . $datahover . '>' . $texthtml . '</span> ';
+				$linktype = '<img src="' . $item->menu_image . '" alt="' . $imagealt . '" align="top"' . $image_dimensions . '/><span class="titreck" ' . $datahover . '>' . $texthtml . '</span> ';
 				break;
 			case 'leftmiddle':
-				$linktype = '<img src="' . $item->menu_image . '" alt="' . $item->ftitle . '" align="middle"' . $image_dimensions . '/><span class="titreck" ' . $datahover . '>' . $texthtml . '</span> ';
+				$linktype = '<img src="' . $item->menu_image . '" alt="' . $imagealt . '" align="middle"' . $image_dimensions . '/><span class="titreck" ' . $datahover . '>' . $texthtml . '</span> ';
 				break;
 			case 'lefttop':
-				$linktype = '<img src="' . $item->menu_image . '" alt="' . $item->ftitle . '" align="bottom"' . $image_dimensions . '/><span class="titreck" ' . $datahover . '>' . $texthtml . '</span> ';
+				$linktype = '<img src="' . $item->menu_image . '" alt="' . $imagealt . '" align="bottom"' . $image_dimensions . '/><span class="titreck" ' . $datahover . '>' . $texthtml . '</span> ';
 				break;
 		endswitch;
 	} else {
-		$linktype = '<img src="' . $item->menu_image . '" alt="' . $item->ftitle . '"' . $image_dimensions . '/>';
+		$linktype = '<img src="' . $item->menu_image . '" alt="' . $imagealt . '"' . $image_dimensions . '/>';
 	}
 } else {
 	$linktype = '<span class="titreck" ' . $datahover . '>' . $texthtml . '</span>';
+}
+
+
+// add the togler icon on click
+if ($item->deeper && $params->get('behavior', 'mouseover') === 'click' && $params->get('clicktoggler', '0') === '1') {
+	$item->classe .= ' has-maximenuck-toggler';
 }

@@ -51,6 +51,11 @@ function fifu_get_post_types_str() {
     return $str;
 }
 
+function fifu_get_post_formats_str() {
+    $post_formats = array_keys(get_post_format_strings());
+    return implode(', ', $post_formats);
+}
+
 function fifu_has_local_featured_image($post_id) {
     $att_id = get_post_thumbnail_id($post_id);
     if (!$att_id)
@@ -179,6 +184,17 @@ function fifu_set_author() {
 function fifu_get_author() {
     $post_author = get_option('fifu_author');
     return $post_author ? $post_author : 77777;
+}
+
+function fifu_get_full_image_url($att_id) {
+    $url = $att_id ? get_the_guid($att_id) : null;
+    // for local image with no URL in guid
+    if ($url && strpos($url, "://") === false) {
+        $image_attributes = wp_get_attachment_image_src($att_id, 'full');
+        if ($image_attributes)
+            $url = $image_attributes[0];
+    }
+    return $url;
 }
 
 // developers

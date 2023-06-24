@@ -254,6 +254,8 @@ function fifu_callback($buffer) {
             // add post_id
             if (get_post_type($post_id) == 'product')
                 $newImgItem = str_replace('<img ', '<img product-id="' . $post_id . '" ', $newImgItem);
+            else
+                $newImgItem = str_replace('<img ', '<img post-id="' . $post_id . '" ', $newImgItem);
 
             // add theme sizes
             if ($theme_width && $theme_height) {
@@ -309,6 +311,9 @@ function fifu_callback($buffer) {
                 continue;
 
             $att_id = $data['att_id'];
+
+            $post_id = $data['post_id'];
+            $newImgItem = str_replace('>', ' ' . 'post-id="' . $post_id . '">', $newImgItem);
         }
 
         if (fifu_is_on('fifu_lazy')) {

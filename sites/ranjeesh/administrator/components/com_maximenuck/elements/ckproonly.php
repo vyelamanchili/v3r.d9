@@ -36,7 +36,8 @@ class JFormFieldCkproonly extends JFormField
 	 */
 	protected function getInput()
 	{
-		$html = '<div class="ckinfo"><i class="fas fa-info"></i><a href="https://www.joomlack.fr/en/joomla-extensions/maximenu-ck" target="_blank">' . JText::_('MAXIMENUCK_ONLY_PRO') . '</a></div>';
+		$label = $this->element['label'] ? JText::_($this->element['label']) : JText::_('MAXIMENUCK_ONLY_PRO');
+		$html = '<div class="ckinfo"><i class="fas fa-info"></i><a href="https://www.joomlack.fr/en/joomla-extensions/maximenu-ck" target="_blank">' . $label . '</a></div>';
 
 		return $html;
 	}

@@ -44,6 +44,7 @@ jQuery(function () {
     jQuery("#tabsWooImport").tabs();
     jQuery("#tabsWpAllImport").tabs();
     jQuery("#tabsDefault").tabs();
+    jQuery("#tabsHide").tabs();
     jQuery("#tabsShortcode").tabs();
     jQuery("#tabsFifuShortcode").tabs();
     jQuery("#tabsAutoSet").tabs();
@@ -55,6 +56,7 @@ jQuery(function () {
     jQuery("#tabsContentAll").tabs();
     jQuery("#tabsCli").tabs();
     jQuery("#tabsRSS").tabs();
+    jQuery("#tabsDimensions").tabs();
 
     // show settings
     window.scrollTo(0, 0);

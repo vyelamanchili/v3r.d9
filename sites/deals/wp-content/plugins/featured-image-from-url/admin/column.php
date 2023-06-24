@@ -44,6 +44,9 @@ function fifu_admin_add_css_js() {
         'urlImage' => $fifu['url']['image'](),
         'urlVideo' => $fifu['url']['video'](),
         'keywords' => $fifu['image']['keywords'](),
+        'buttonSave' => $fifu['button']['save'](),
+        'buttonClean' => $fifu['button']['clean'](),
+        'buttonUpload' => $fifu['button']['upload'](),
         'onProductsPage' => fifu_on_products_page(),
         'onCategoriesPage' => fifu_on_categories_page(),
     ]);

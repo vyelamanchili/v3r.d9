@@ -28,6 +28,7 @@ define('MAXIMENUCK_URI', JUri::root(true) . '/administrator/components/com_maxim
 define('MAXIMENUCK_URI_ROOT', JUri::root(true));
 define('MAXIMENUCK_URI_BASE', JUri::base(true));
 define('MAXIMENUCK_PLUGINS_PATH', JPATH_SITE . '/plugins/maximenuck');
+define('MAXIMENUCK_ISJ4', version_compare(JVERSION, "4") >= 0);
 
 // include the classes
 require_once MAXIMENUCK_PATH . '/helpers/ckinput.php';

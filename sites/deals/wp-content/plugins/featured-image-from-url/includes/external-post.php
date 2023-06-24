@@ -37,7 +37,8 @@ function fifu_save_properties_ext($post_id) {
     if (isset($_POST['fifu_input_url']))
         return;
 
-    $url = esc_url_raw(rtrim(fifu_first_url_in_content($post_id)));
+    $first = fifu_first_url_in_content($post_id);
+    $url = $first ? esc_url_raw(rtrim($first)) : null;
 
     if ((!isset($_POST['action']) || $_POST['action'] != 'elementor_ajax') && $url && fifu_is_on('fifu_get_first') && !fifu_has_local_featured_image($post_id) && fifu_is_valid_cpt($post_id)) {
         update_post_meta($post_id, 'fifu_image_url', fifu_convert($url));

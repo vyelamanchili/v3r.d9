@@ -20,6 +20,7 @@ function fifu_open_quick_lightbox() {
         showImageGallery = fifuColumnVars.onProductsPage ? EMPTY : DISPLAY_NONE;
         showSlider = !fifuColumnVars.onCategoriesPage ? EMPTY : DISPLAY_NONE;
         showVideoGallery = fifuColumnVars.onProductsPage ? EMPTY : DISPLAY_NONE;
+        showUploadButton = EMPTY;
 
         url = image_url;
         url = (url == 'about:invalid' ? '' : url);
@@ -111,6 +112,10 @@ function fifu_open_quick_lightbox() {
                         <div style="width:100%">
                             <button id="fifu-clean-button" class="fifu-quick-button" type="button" style="background-color: #e7e7e7; color: black;">Clean</button>
                             <button id="fifu-save-button" post-id="${post_id}" is-ctgr="${is_ctgr}" class="fifu-quick-button" type="button">Save</button>
+                            <br>
+                            <div style="${showUploadButton}">
+                                <button id="fifu-upload-button" post-id="${post_id}" is-ctgr="${is_ctgr}" class="fifu-quick-button" style="background-color: #3c434a; width:97.5%; position:relative; top:2px" type="button">${fifuColumnVars.buttonUpload}</button>
+                            </div>
                         </div>
                     </td>
                 </tr>

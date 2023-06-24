@@ -3,7 +3,7 @@
 define('FIFU_SPEEDUP_SIZES', serialize(array(64, 128, 192, 256, 384, 512, 640, 768, 896, 1024, 1280, 1600, 1920)));
 
 function fifu_is_from_speedup($url) {
-    return strpos($url, "cdn.fifu.app") !== false;
+    return $url && strpos($url, "cdn.fifu.app") !== false;
 }
 
 function fifu_resize_speedup_image_size($size, $url, $width, $height, $is_video) {

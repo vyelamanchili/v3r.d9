@@ -6,12 +6,13 @@ use Maximenuck\Helperfront;
 use Maximenuck\Helper;
 
 require_once JPATH_ADMINISTRATOR . '/components/com_maximenuck/helpers/defines.php';
-// check if we are using the new version 9 settings
-if ($params->get('isv9', '') == '1') {
-
 require_once MAXIMENUCK_PATH . '/helpers/ckfof.php';
 require_once MAXIMENUCK_PATH . '/helpers/helper.php';
 require_once MAXIMENUCK_FRONT_PATH . '/helpers/helperfront.php';
+
+// check if we are using the new version 9 settings
+if ($params->get('isv9', '') == '1') {
+
 // load old helper because we still need it
 require_once dirname(__FILE__) . '/helper.php';
 
@@ -42,7 +43,7 @@ $params->set('doCompile', $doCompile);
 
 // load the items
 $source = $params->get('source', 'menu');
-if ($source != 'menu' && $source != 'maximenu') {
+if ($source != 'menu' && $source != 'menubuilder') {
 	$sourceFile = MAXIMENUCK_PLUGINS_PATH . '/' . strtolower($source) . '/helper/helper_' . strtolower($source) . '.php';
 	if (! file_exists($sourceFile)) {
 		echo '<p syle="color:red;">Error : File plugins/maximenuck/' . strtolower($source) . '/helpers/helper_' . strtolower($source) . '.php not found !</p>';
@@ -437,6 +438,7 @@ if ($usejavascript && $params->get('layout', 'default') != '_:flatlist' && $para
 			. "topfixedoffset : '" . $params->get('topfixedoffset', '') . "',"
 			. "clickclose : '" . ($behavior == 'clickclose' ? $params->get('clickclose', '0') : '0') . "',"
 			. "closeclickoutside : '" . $params->get('closeclickoutside', '0') . "',"
+			. "clicktoggler : '" . $params->get('clicktoggler', '0') . "',"
 			. "fxduration : " . $fxduration . "});"
 			. "});";
 
@@ -715,6 +717,55 @@ div#' . $menuID . ' ul.maximenuck li.maximenuck.level1:nth-of-type(n+' . ($nLogo
 ';
 }
 
+if ($params->get('clicktoggler', '0') == '1') {
+$allCss .= '/* toggler icon */
+#' . $menuID . ' li.level1.parent .maximenuck-toggler:after {
+	content: "";
+	display: block;
+	position: absolute;
+	width: 0; 
+	height: 0; 
+	border-style: solid;
+	border-width: 7px 6px 0 6px;
+	border-color: #000 transparent transparent transparent;
+	top: 50%;
+	right: 3px;
+	margin-top: -3px;
+}
+
+#' . $menuID . ' .maximenuckv li.parent .maximenuck-toggler:after,
+#' . $menuID . ' li.parent li.parent .maximenuck-toggler:after {
+	border-width: 6px 0 6px 7px;
+	border-color: transparent transparent transparent #000;
+	right: 6px;
+	margin-top: -6px;
+}
+
+#' . $menuID . ' li.has-maximenuck-toggler.parent > a:after,
+#' . $menuID . ' li.has-maximenuck-toggler.parent > span:after {
+	display: none !important;
+}
+
+#' . $menuID . ' li.has-maximenuck-toggler.parent > a,
+#' . $menuID . ' li.has-maximenuck-toggler.parent > span {
+	padding-right: 20px;
+	position: relative;
+}
+
+#' . $menuID . ' .maximenuck-toggler {
+	display: inline-block;
+	position: absolute;
+	width: 20px;
+	height: 100%;
+	margin-left: -20px;
+	top: 0;
+	right: 0;
+}
+
+#' . $menuID . ' .maximenuck-toggler:hover {
+	background: rgba(0,0,0, 0.1);
+}';
+}
 // GENERAL USE
 $generalCss = 'div#' . $menuID . ' .titreck-text {
 	flex: 1;
@@ -742,6 +793,7 @@ if ( $doCompile ) {
 
 // use the V8 settings if the module has not yet been saved in the new version 9
 } else {
+	echo '<div class="alert alert-danger">Maximenu CK message : Your module is still working in V8 Legacy mode. Please change it in the Advanced options to remove this message.</div>';
 	// load the old V8 file
 	require dirname(__FILE__) . '/legacy.php';
 }

@@ -16,7 +16,7 @@ $direction = $langdirection == 'rtl' ? 'right' : 'left';
 <!-- debut maximenu CK -->
 <div class="<?php echo $orientation_class . ' ' . $langdirection ?>" id="<?php echo $params->get('menuid', 'maximenuck'); ?>" >
         <div class="maximenuck2"<?php echo $columnstylesbegin; ?>>
-            <ul class="maximenuck2 <?php echo $params->get('moduleclass_sfx'); ?>">
+            <ul class="maximenuck2 <?php echo $params->get('class_sfx'); ?>">
 <?php
 $zindex = 12000;
 $lastitem = '';

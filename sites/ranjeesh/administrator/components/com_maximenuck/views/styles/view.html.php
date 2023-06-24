@@ -36,7 +36,11 @@ class MaximenuckViewStyles extends CKView {
 		$this->toolbar = $this->getToolbar();
 
 		// $this->input->set('tmpl', 'component');
-		// $this->input->set('layout', 'modal');
+//		 $this->input->set('layout', 'default');
+		if ($this->input->get('layout', 'default') === 'modal') {
+			$this->input->set('layout', 'default');
+			$this->input->set('from', 'modal');
+		}
 
 		parent::display();
 	}

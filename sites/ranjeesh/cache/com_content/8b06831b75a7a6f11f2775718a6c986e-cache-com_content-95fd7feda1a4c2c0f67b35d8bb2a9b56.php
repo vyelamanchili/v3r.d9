@@ -1,4 +1,4 @@
-<?php die("Access Denied"); ?>#x#a:5:{s:4:"body";s:4512:"
+<?php die("Access Denied"); ?>#x#a:5:{s:4:"body";s:4573:"
 
 <div class="item-page clearfix">
 
@@ -75,12 +75,12 @@
 <p> </p>
 <p> </p>
 <p> </p>
-<p>With over 11 years of experience in the IT industry, primarily as a Senior Drupal Web Developer, I am a Full Stack Web developer with experience in the Government, Health and Education Sector in the following fields:</p>
+<p>With over 14 years of experience in the IT industry, primarily as a Senior Drupal Web Developer, I am a Full Stack Web developer with experience in the Government, Health and Education Sector in the following fields:</p>
 <p> </p>
 <ul>
 <li>Web Development and Maintenance
 <ul>
-<li>Various <strong>PHP</strong> CMS Developments and Management like <strong>Drupal</strong> 6/7/8 , Wordpress and Joomla</li>
+<li>Various <strong>PHP</strong> CMS Developments and Management like <strong>Drupal</strong> 6/7/8/9 , Wordpress and Joomla</li>
 <li><strong>MVC</strong> Frameworks like MVCnPHP, Zend, CodeIgniter etc</li>
 <li>PHP, HTML, Javascript (JS), CSS, jQuery, NodeJS, AngularJS, React</li>
 </ul>
@@ -96,6 +96,7 @@
 <ul>
 <li>Primarily work with <strong>MySQL</strong></li>
 <li>also experienced in Oracle and SQL Server Development and Management</li>
+<li>and noSQL DBs like MongoDB and Elastic Search DB</li>
 </ul>
 </li>
 <li>Code, Team and Project Management

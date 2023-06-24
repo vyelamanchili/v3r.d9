@@ -69,11 +69,13 @@ var jscolor = {
 	bind : function() {
 		var matchClass = new RegExp('(^|\\s)('+jscolor.bindClass+')(\\s*(\\{[^}]*\\})|\\s|$)', 'i');
 		var e = document.getElementsByTagName('input');
+
 		for(var i=0; i<e.length; i+=1) {
 			if(jscolor.isColorAttrSupported && e[i].type.toLowerCase() == 'color') {
 				// skip inputs of type 'color' if the browser supports this feature
 				continue;
 			}
+			
 			var m;
 			if(!e[i].color && e[i].className && (m = e[i].className.match(matchClass))) {
 				var prop = {};
@@ -361,7 +363,7 @@ var jscolor = {
 		this.pickerBorderColor = 'ThreeDHighlight ThreeDShadow ThreeDShadow ThreeDHighlight'; // CSS color
 		this.pickerInset = 1; // px
 		this.pickerInsetColor = 'ThreeDShadow ThreeDHighlight ThreeDHighlight ThreeDShadow'; // CSS color
-		this.pickerZIndex = 10000;
+		this.pickerZIndex = 100000;
 
 
 		for(var p in prop) {

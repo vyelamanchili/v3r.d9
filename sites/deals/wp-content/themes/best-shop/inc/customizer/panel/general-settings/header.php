@@ -172,6 +172,29 @@ function best_shop_customize_register_header( $wp_customize ) {
     ) );  
     
     
+    /** Enable/ Disable WooCommerce search category ist */
+    $wp_customize->add_setting( 
+        'hide_product_cat_list', 
+        array(
+            'default'           => best_shop_default_settings('hide_product_cat_list'),
+            'sanitize_callback' => 'best_shop_sanitize_checkbox',           
+        ) 
+    );
+    
+    $wp_customize->add_control(
+        new best_shop_Toggle_Control( 
+            $wp_customize,
+            'hide_product_cat_list',
+            array(
+                'section'           => 'social_settings',
+                'label'	            => esc_html__( 'Hide Product Category list', 'best-shop' ),
+                'description'       => esc_html__( 'Hide product category list in WooCommerce options bar.', 'best-shop' ),
+                'active_callback'   => 'best_shop_pro',
+            )
+        )
+    );
+    
+    
     /*----------------
      * MENU STYLE
      -----------------*/ 

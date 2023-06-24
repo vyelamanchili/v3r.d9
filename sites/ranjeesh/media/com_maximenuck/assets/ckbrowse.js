@@ -12,7 +12,8 @@ $ck(document).ready(function(){
 
 if (typeof(ckInitTooltips) != 'function') {
 	function ckInitTooltips() {
-		$ck('.hasTip').tooltip({"html": true,"container": "body"});
+//		$ck('.hasTip').tooltip({"html": true,"container": "body"});
+		CKApi.Tooltip('.hasTip');
 	}
 }
 

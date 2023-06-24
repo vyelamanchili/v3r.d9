@@ -144,7 +144,7 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
 	),
 
 	'enable-disable-removal-cookies-2' => array(
-		'content' => 'Please note that our website may not work properly if all cookies are disabled. If you do delete the cookies in your browser, they will be placed again after your consent when you visit our websites again.',
+		'content' => 'Please note that our website may not work properly if all cookies are disabled. If you do delete the cookies in your browser, they will be placed again after your consent when you visit our website again.',
 	),
 
     array(
@@ -177,7 +177,7 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
     ),
 
     array(
-        'content' => cmplz_sprintf('This Cookie Policy was synchronised with %scookiedatabase.org%s on %s','<a href="https://cookiedatabase.org/" target="_blank">', '</a>', '[sync_date]'),
+        'content' => cmplz_sprintf('This Cookie Policy was synchronised with %scookiedatabase.org%s on %s.','<a href="https://cookiedatabase.org/" target="_blank">', '</a>', '[sync_date]'),
         'callback_condition' => array(
 	        'cmplz_cdb_reference_in_policy',
         )

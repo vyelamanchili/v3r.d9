@@ -3,8 +3,8 @@ Contributors: marceljm
 Donate link: https://donorbox.org/fifu
 Tags: featured, image, url, video, woocommerce
 Requires at least: 5.3
-Tested up to: 6.1.2
-Stable tag: 4.2.7
+Tested up to: 6.2
+Stable tag: 4.3.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -33,6 +33,7 @@ Use an external image as featured image of your post, page or custom post type.
 * **[PRO]** Save in the media library
 * **[PRO]** Same height
 * **[PRO]** Replace not found image
+* **[PRO]** Custom popup
 * **[PRO]** Page redirection
 
 #### AUTOMATIC FEATURED MEDIA
@@ -53,7 +54,7 @@ Use an external image as featured image of your post, page or custom post type.
 
 * Social tags
 * **[PRO]** Media RSS tags
-* **[PRO]** bbPress features
+* **[PRO]** bbPress / BuddyBoss Platform features
 
 #### AUTOMATION
 
@@ -80,7 +81,7 @@ Use an external image as featured image of your post, page or custom post type.
 * **[PRO]** Add image to order email
 
 #### FEATURED VIDEO
-Supports videos from YouTube, Vimeo, Twitter, Imgur, 9GAG, Cloudinary, Tumblr, Publitio, JW Player, VideoPress, Sprout, Odysee, Rumble, Dailymotion and Cloudflare Stream. External and local video files are supported as well. 
+Supports videos from YouTube, Vimeo, Twitter, 9GAG, Cloudinary, Tumblr, Publitio, JW Player, VideoPress, Sprout, Odysee, Rumble, Dailymotion, Cloudflare Stream, Bunny Stream, Amazon, BitChute, Brighteon and Google Drive. External and local video files are supported as well. 
 
 * **[PRO]** Featured video
 * **[PRO]** Watch later
@@ -127,8 +128,10 @@ Supports videos from YouTube, Vimeo, Twitter, Imgur, 9GAG, Cloudinary, Tumblr, P
 #### INTEGRATION FUNCTION FOR DEVELOPERS
 
 * fifu_dev_set_image($post_id, $image_url)
-* **[PRO]** fifu_dev_set_image_list($post_id, $image_url_list)
 * **[PRO]** fifu_dev_set_video($post_id, $video_url)
+* **[PRO]** fifu_dev_set_slider($post_id, $url_list, $alt_list) 
+* **[PRO]** fifu_dev_set_image_list($post_id, $image_url_list)
+* **[PRO]** fifu_dev_set_video_list($post_id, $video_url_list)
 * **[PRO]** fifu_dev_set_category_image($term_id, $image_url)
 * **[PRO]** fifu_dev_set_category_video($term_id, $video_url)
 
@@ -263,14 +266,14 @@ Featured Image, Figurë e Zgjedhur, Image mise en avant, Uitgelichte afbeelding,
 
 == Changelog ==
 
-= 4.2.7 =
-* New feature: Featured video > Watch Later; enhancement: Featured Video (supports Bunny Stream now).
+= 4.3.4 =
+* Enhancement: Featured Image (supports shared OneDrive links now); enhancement: Featured Video (supports Google Drive now); enhancement: Featured Video (supports local webm videos now); fix: CDN + Optimized Thumbnails > apply to content images (fatal error for base64 images); fix: PHP Deprecated/Warning messages; fix: unnecessary preconnection to Cloudflare.
 
-= 4.2.6 =
-* Enhancement: Quick Edit (loads much faster now); enhancement: Save in the Media Library (domain filter); enhancement: Auto set featured media using web page address (automatic image gallery for Amazon products can be disabled now); fix: Auto set featured media from post content (fatal error when used with the plugins WordPress Automatic and Web Stories).
+= 4.3.3 =
+* Fix: PHP Deprecated messages.
 
-= 4.2.5 =
-* Enhancement: JavaScripts are not loaded on public pages anymore (except for WooCommerce and Lazy Load users); enhancement: Featured Video (supports local MOV videos now); fix: Auto Set Image Title > always use the post title as image title (title attribute missing); fix: FIFU was unduly adding an empty alt attribute to the images when FIFU alt field is empty; fix: conflict with Houzez theme (lazy loaded images not displayed).
+= 4.3.2 =
+* New option: FIFU Cloud > Log in > keep me always connected.
 
 = others =
 * [more](https://fifu.app/changelog)
@@ -278,5 +281,5 @@ Featured Image, Figurë e Zgjedhur, Image mise en avant, Uitgelichte afbeelding,
 
 == Upgrade Notice ==
 
-= 4.2.7 =
-* New feature: Featured video > Watch Later; enhancement: Featured Video (supports Bunny Stream now).
+= 4.3.4 =
+* Enhancement: Featured Image (supports shared OneDrive links now); enhancement: Featured Video (supports Google Drive now); enhancement: Featured Video (supports local webm videos now); fix: CDN + Optimized Thumbnails > apply to content images (fatal error for base64 images); fix: PHP Deprecated/Warning messages; fix: unnecessary preconnection to Cloudflare.

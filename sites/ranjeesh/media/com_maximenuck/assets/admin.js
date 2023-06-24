@@ -219,12 +219,20 @@ function ckDecodeChars(text) {
 				.replace(/\|rr\|/g, "\n");
 }
 
+// for alternative encoding not altering the json
+function ckDecodeCharsAfterJson(text) {
+	return text.replace(/\|qq2\|/g, '"')
+				.replace(/\|ob2\|/g, '{')
+				.replace(/\|cb2\|/g, '}')
+				.replace(/\|tt2\|/g, "\t")
+				.replace(/\|rr2\|/g, "\n");
+}
 
 function ckReadJsonFields(jsonfields) {
 	jsonfields = ckDecodeChars(jsonfields);
 	var fields = JSON.parse(jsonfields);
 	for (var key in fields) {
-		fields[key] = ckDecodeChars(fields[key]);
+		fields[key] = ckDecodeCharsAfterJson(fields[key]);
 	}
 
 	return fields;
@@ -688,4 +696,11 @@ function ckRemoveWaitIcon(button, failed) {
 	} else {
 		icon.attr('class', icon.attr('data-class'));
 	}
+}
+
+function ckGetUniqueID() {
+	var now = new Date().getTime();
+	var id = parseInt(now, 10);
+
+	return id;
 }

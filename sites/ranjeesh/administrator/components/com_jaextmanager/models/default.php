@@ -693,7 +693,10 @@ class JaextmanagerModelDefault extends JAEMModel
 
 		if(!$dataLogs){
 			$versions = $jauc->getNewerVersions($obj);
-
+			if (!$versions){
+				return JText::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
+			}
+			
 			$vInfo = reset($versions);
 			$jirakey = str_replace(array('http://pm.joomlart.com/browse/','?report=com.atlassian.jira.plugin.system.project:changelog-panel'),array("",""),$vInfo->changelogUrl);
 			

@@ -17,6 +17,7 @@ function ckSetFieldsValue(fields) {
 
 function ckSetValueToField(id, value) {
 	var field = $ck('#' + id);
+
 	if (!field.length) {
 		if ($ck('#ckpopupstyleswizard input[name=' + id + ']').length) {
 			$ck('#ckpopupstyleswizard input[name=' + id + ']').each(function(i, radio) {
@@ -445,11 +446,26 @@ function ckMakeCharReplacements(data) {
 }
 
 function ckBCFieldsInterface(fields) {
-	fields = fields.replace(/fontcolor/g, 'color');
 	fields = fields.replace(/bgcolor1/g, 'backgroundcolorstart');
 	fields = fields.replace(/bgcolor2/g, 'backgroundcolorend');
+	fields = fields.replace(/bgopacity/g, 'backgroundopacity');
 	fields = fields.replace(/bgimage/g, 'backgroundimageurl');
+	fields = fields.replace(/bgimagerepeat/g, 'backgroundimagerepeat');
+	fields = fields.replace(/bgpositionx/g, 'backgroundimageleft');
+	fields = fields.replace(/bgpositiony/g, 'backgroundimagetop');
 	fields = fields.replace(/bordertopwidth/g, 'bordertopsize');
+	fields = fields.replace(/borderrightwidth/g, 'borderrightsize');
+	fields = fields.replace(/borderbottomwidth/g, 'borderbottomsize');
+	fields = fields.replace(/borderleftwidth/g, 'borderleftsize');
+	fields = fields.replace(/roundedcornerstl/g, 'borderradiustopleft');
+	fields = fields.replace(/roundedcornerstr/g, 'borderradiustopright');
+	fields = fields.replace(/roundedcornersbl/g, 'borderradiusbottomleft');
+	fields = fields.replace(/roundedcornersbr/g, 'borderradiusbottomright');
+	fields = fields.replace(/fontcolor/g, 'color');
+	fields = fields.replace(/stylesfontcolor/g, 'stylescolor');
+	fields = fields.replace(/stylesdescfontcolor/g, 'stylesdesccolor');
+	fields = fields.replace(/shadowoffsetx/g, 'shadowoffseth');
+	fields = fields.replace(/shadowoffsety/g, 'shadowoffsetv');
 
 	return fields;
 }

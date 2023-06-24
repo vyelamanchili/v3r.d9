@@ -2591,6 +2591,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
             }
 
             if ( !$error ) {
+				//clear cache
+				delete_transient('cmplz_blocked_scripts');
                 $scripts = get_option("complianz_options_custom-scripts");
 
                 if (!is_array($scripts)) {
@@ -2677,6 +2679,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
             if ( ! isset($_POST['data']) ) $error = true;
             if ( ! isset($_POST['id']) ) $error = true;
             if ( ! isset($_POST['type']) ) $error = true;
+			//clear transients when updating script
+			delete_transient('cmplz_blocked_scripts');
             if ( $_POST['type'] !== 'add_script' && $_POST['type'] !== 'block_script' && $_POST['type'] !== 'whitelist_script' ) $error = true;
             if ( ! isset($_POST['button_action']) ) $error = true;
             if ( $_POST['button_action'] !== 'save' && $_POST['button_action'] !== 'enable' && $_POST['button_action'] !== 'disable' && $_POST['button_action'] !== 'remove') $error = true;
@@ -2877,10 +2881,10 @@ if ( ! class_exists( "cmplz_field" ) ) {
                             <div class="checkmark">' . cmplz_icon('check', 'success') . '</div>
                         </label>
                         </div>
-                        <div class="condition-check-1 '. ($value['iframe'] ? 'cmplz-hidden' : '') .'" data-condition-answer-1="" data-condition-question-1="block_script['.$i.'][iframe]">
+                        <div class="condition-check-1 '. ($value['iframe'] || !$value['enable_placeholder'] ? 'cmplz-hidden' : '') .'" data-condition-answer-1="" data-condition-question-1="block_script['.$i.'][iframe]" data-condition-answer-2="1" data-condition-question-2="block_script['.$i.'][enable_placeholder]">
                             <label>' . __( 'Enter the div class or ID that should be targeted.' , 'complianz-gdpr' ) .cmplz_read_more('https://complianz.io/script-center#placeholder/'). '</label>
                         </div>
-                        <div class="condition-check-1 '. ($value['iframe'] ? 'cmplz-hidden' : '') .'" data-condition-answer-1="" data-condition-question-1="block_script['.$i.'][iframe]">
+                        <div class="condition-check-1 '. ($value['iframe'] || !$value['enable_placeholder'] ? 'cmplz-hidden' : '') .'" data-condition-answer-1="" data-condition-question-1="block_script['.$i.'][iframe]" data-condition-answer-2="1" data-condition-question-2="block_script['.$i.'][enable_placeholder]">
                             <input type="text"
                             	data-name="placeholder_class"
 								   name="cmplz_block_script['.$i.'][placeholder_class]"

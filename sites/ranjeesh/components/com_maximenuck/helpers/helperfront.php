@@ -43,7 +43,9 @@ class Helperfront {
 	 */
 	static function GenModuleById($moduleid, $params, $modulesList, $style, $level = '1') {
 		$attribs['style'] = $style;
+
 		$module = $modulesList[$moduleid];
+		if (! $module) return '';
 
 		// set the module param to know the calling level
 		$paramstmp = new \JRegistry;
@@ -173,5 +175,41 @@ class Helperfront {
 		$css = preg_replace($pattern, $replacement, $css);
 
 		return $css;
+	}
+
+	public static function initItem() {
+		$item = new \stdClass();
+		$item->params = new \JRegistry();
+		$item->fparams = new \JRegistry();
+		$item->deeper = false;
+		$item->shallower = false;
+		$item->level_diff = 0;
+		$item->isthirdparty = false;
+		$item->is_end = false;
+		$item->classe = '';
+		$item->desc = '';
+		$item->colwidth = '';
+		$item->tagcoltitle = 'none';
+		$item->tagclass = '';
+		$item->leftmargin = '';
+		$item->topmargin = '';
+		$item->submenuwidth = '';
+		$item->liclass = '';
+		$item->anchor_css = '';
+		$item->anchor_title = '';
+		$item->colbgcolor = '';
+		$item->menu_image = '';
+		$item->type = '';
+		$item->content = '';
+		$item->rel = '';
+		$item->link = '';
+		$item->title = '';
+		$item->parent_id = '';
+
+		// special for the thirdparty plugins
+		$item->isthirdparty = true;
+		$item->type = 'thirdparty';
+
+		return $item;
 	}
 }

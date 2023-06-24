@@ -21,6 +21,7 @@ class FifuDb {
         $this->termmeta = $wpdb->prefix . 'termmeta';
         $this->term_taxonomy = $wpdb->prefix . 'term_taxonomy';
         $this->term_relationships = $wpdb->prefix . 'term_relationships';
+        $this->fifu_invalid_media_su = $wpdb->prefix . 'fifu_invalid_media_su';
         $this->author = fifu_get_author();
         $this->MAX_INSERT = 1500;
         $this->MAX_URL_LENGTH = 2048;
@@ -1023,6 +1024,60 @@ class FifuDb {
         return $this->wpdb->get_results($query);
     }
 
+    // speed up (db)
+
+    function create_table_invalid_media_su() {
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        maybe_create_table($this->fifu_invalid_media_su, "
+            CREATE TABLE {$this->fifu_invalid_media_su} (
+                id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+                md5 VARCHAR(32) NOT NULL,
+                attempts INT NOT NULL,
+                UNIQUE KEY (md5)
+            )"
+        );
+    }
+
+    function insert_invalid_media_su($url) {
+        if ($this->get_attempts_invalid_media_su($url)) {
+            $this->update_invalid_media_su($url);
+            return;
+        }
+
+        $md5 = md5($url);
+        $this->wpdb->get_results("
+            INSERT INTO {$this->fifu_invalid_media_su} (md5, attempts) 
+            VALUES ('{$md5}', 1)"
+        );
+    }
+
+    function update_invalid_media_su($url) {
+        $md5 = md5($url);
+        $this->wpdb->get_results("
+            UPDATE {$this->fifu_invalid_media_su} 
+            SET attempts = attempts + 1
+            WHERE md5 = '{$md5}'"
+        );
+    }
+
+    function get_attempts_invalid_media_su($url) {
+        $md5 = md5($url);
+        $result = $this->wpdb->get_row("
+            SELECT attempts
+            FROM " . $this->fifu_invalid_media_su . " 
+            WHERE md5 = '{$md5}'"
+        );
+        return $result ? (int) $result->attempts : 0;
+    }
+
+    function delete_invalid_media_su($url) {
+        $md5 = md5($url);
+        $this->wpdb->get_results("
+            DELETE FROM " . $this->fifu_invalid_media_su . " 
+            WHERE md5 = '{$md5}'"
+        );
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////
 
     function count_available_images() {
@@ -1355,7 +1410,8 @@ class FifuDb {
         $default_att_id = $default_url_enabled ? get_option('fifu_default_attach_id') : null;
         $result = $this->get_featured_and_gallery_ids($post_id);
         if ($result) {
-            $ids = explode(',', $result[0]->ids);
+            $aux = $result[0]->ids;
+            $ids = $aux ? explode(',', $aux) : array();
             $value = null;
             foreach ($ids as $id) {
                 if ($id && $id != $default_att_id)
@@ -1573,6 +1629,28 @@ function fifu_ctgr_remove_urls_su($bucket_id, $thumbnails, $urls, $video_urls) {
 function fifu_db_count_available_images() {
     $db = new FifuDb();
     return $db->count_available_images();
+}
+
+/* invalid media */
+
+function fifu_db_create_table_invalid_media_su() {
+    $db = new FifuDb();
+    return $db->create_table_invalid_media_su();
+}
+
+function fifu_db_insert_invalid_media_su($url) {
+    $db = new FifuDb();
+    return $db->insert_invalid_media_su($url);
+}
+
+function fifu_db_delete_invalid_media_su($url) {
+    $db = new FifuDb();
+    return $db->delete_invalid_media_su($url);
+}
+
+function fifu_db_get_attempts_invalid_media_su($url) {
+    $db = new FifuDb();
+    return $db->get_attempts_invalid_media_su($url);
 }
 
 /* get last urls */

@@ -12,7 +12,7 @@ $approveCount = B2S_Post_Tools::countReadyForApprove(B2S_PLUGIN_BLOG_USER_ID);
     <a class="b2s-bold btn btn-<?php echo ($getPage == 'blog2social-curation' && $getType == 'link') ? 'primary' : 'outline-dark'; ?> b2s-curation-link" href="admin.php?page=blog2social-curation&type=link"><?php esc_html_e('Share New Link Post', 'blog2social') ?></a>
     <a class="b2s-bold btn btn-<?php echo ($getPage == 'blog2social-curation' && $getType == 'text') ? 'primary' : 'outline-dark'; ?> b2s-curation-text" href="admin.php?page=blog2social-curation&type=text"><?php esc_html_e('Share New Text Post', 'blog2social') ?></a>
     <a class="b2s-bold btn btn-<?php echo ($getPage == 'blog2social-curation' && $getType == 'image') ? 'primary' : 'outline-dark'; ?> b2s-curation-image" href="admin.php?page=blog2social-curation&type=image"><?php esc_html_e('Share New Image Post', 'blog2social') ?></a>
-    <a class="b2s-bold btn btn-<?php echo ($getPage == 'blog2social-curation' && $getType == 'video') ? 'primary' : 'outline-dark'; ?> b2s-curation-video" href="admin.php?page=blog2social-curation&type=video"><?php esc_html_e('Share New Video Post', 'blog2social') ?></a>
+    <a class="b2s-bold btn btn-<?php echo ($getPage == 'blog2social-video') ? 'primary' : 'outline-dark'; ?> b2s-curation-video" href="admin.php?page=blog2social-video"><?php esc_html_e('Share New Video Post', 'blog2social') ?></a>
 </div>
 <hr class="pull-left">
 

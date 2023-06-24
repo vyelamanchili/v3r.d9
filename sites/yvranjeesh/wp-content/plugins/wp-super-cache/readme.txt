@@ -1,10 +1,10 @@
 === WP Super Cache ===
-Contributors: donncha, automattic
+Contributors: donncha, automattic, adnan007, mikemayhem3030, ppetrov2c, pyronaur, thingalon
 Tags: performance, caching, wp-cache, wp-super-cache, cache
 Requires at least: 5.9
 Requires PHP: 5.6
-Tested up to: 6.1
-Stable tag: 1.9.2
+Tested up to: 6.2
+Stable tag: 1.9.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,7 +49,7 @@ Even with preload mode enabled cached files will still be deleted when posts are
 * Translation of the plugin into different languages is on the [translation page](https://translate.wordpress.org/projects/wp-plugins/wp-super-cache).
 
 ### Documentation ###
-If you need more information than the following, you can have a look at the [Developer documentation](https://odd.blog/wp-super-cache-developers/).
+If you need more information than the following, you can have a look at [the wiki](https://github.com/Automattic/wp-super-cache/wiki) or the [Developer documentation](https://odd.blog/wp-super-cache-developers/).
 
 #### Preloading ####
 You can generate cached files for the posts, categories and tags of your site by preloading. Preloading will visit each page of your site generating a cached page as it goes along, just like any other visitor to the site. Due to the sequential nature of this function, it can take some time to preload a complete site if there are many posts.
@@ -268,18 +268,17 @@ Your theme is probably responsive which means it resizes the page to suit whatev
 
 
 == Changelog ==
-### 1.9.1-beta - 2022-12-09
+### 1.9.4-beta - 2023-03-02
 #### Added
-- Added a dismissable option to install Jetpack Boost.
-- Improved stability with the start of an end-to-end test suite.
-- Tested with v6.1 of WordPress.
+- Added a check to ensure preload cronjobs exist when updating preload settings.
+- Added new filter which controls cache clearing on post edit.
 
 #### Changed
-- Updated package dependencies.
+- Updated contributors list.
 
 #### Fixed
-- Compatibility: Avoid use of QUERY_STRING value, which is not available in all environments.
-- Updated links to related plugins to remove click-tracking redirects.
+- Fixed deprecation warnings on PHP 8.1+.
+- Fixed undefined PHP variable when trying to delete a protected folder.
 
 --------
 

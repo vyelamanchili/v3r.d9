@@ -9,7 +9,7 @@ class CKModel {
 
 	var $_item = null;
 
-	private static $instance;
+	private static $instance = array();
 
 	protected $input;
 
@@ -21,19 +21,24 @@ class CKModel {
 
 	protected $pagination;
 
+	private static $name;
+
+	private static $prefix;
+
 	function __construct() {
 		$this->input = CKFof::getInput();
 		$this->state = new \JObject;
 	}
 
-	static function getInstance($name, $prefix, $config) {
-
-		if (is_object(self::$instance))
+	static function getInstance($name, $prefix, $config = array()) {
+		self::$name = $name;
+		self::$prefix = $prefix;
+		if (isset(self::$instance[$name . $prefix]) && is_object(self::$instance[$name . $prefix]))
 		{
-			return self::$instance;
+			return self::$instance[$name . $prefix];
 		}
 
-		$basePath = MAXIMENUCK_PATH;
+		$basePath = MAXIMENUCK_BASE_PATH;
 		// Check for a controller.task command.
 		$input = CKFof::getInput();
 
@@ -67,7 +72,7 @@ class CKModel {
 		}
 
 		// Instantiate the class, store it to the static container, and return it
-		return self::$instance = new $class();
+		return self::$instance[$name . $prefix] = new $class();
 	}
 
 	public function save($data) {
@@ -75,7 +80,14 @@ class CKModel {
 	}
 
 	public function delete($id) {
-		return CKFof::dbDelete( $this->table, (int)$id );
+		$return = CKFof::dbDelete( $this->table, (int)$id );
+		return $return;
+	}
+
+	public function trash($id) {
+		$fields = array('state' => '-2');
+		$return = CKFof::dbUpdate($this->table, (int)$id, $fields);
+		return $return;
 	}
 
 	public function setState($property, $value = null)
@@ -99,12 +111,21 @@ class CKModel {
 
 	protected function populateState()
 	{
+		$config = \JFactory::getConfig();
+		$state = CKFof::getUserState(self::$prefix . '.' . self::$name, null);
+
+		// first request, or custom user request
+		if ($state === null || $this->input->get('state_request', 0, 'int') === 1) {
 		$this->state->set('filter_order', $this->input->get('filter_order', 'a.id'));
 		$this->state->set('filter_order_Dir', $this->input->get('filter_order_Dir', 'asc'));
 		$this->state->set('filter_search', $this->input->get('filter_search', ''));
 		$this->state->set('limitstart', $this->input->get('limitstart', 0));
 		$this->state->set('limit_total', $this->input->get('limittotal', 0));
-		$this->state->set('limit', $this->input->get('limit', 20));
+			$this->state->set('limit', $this->input->get('limit', $config->get('list_limit')));
+			$state = CKFof::setUserState(self::$prefix . '.' . self::$name, $this->state);
+		} else {
+			$this->state = $state;
+	}
 	}
 
 	public function getPagination($total = null, $start = null, $limit = null)
@@ -139,5 +160,43 @@ class CKModel {
 		$newid = CKFof::dbStore($this->table, $row);
 
 		return $newid;
+	}
+
+	public function checkout($id) {
+		$user = CKFof::getUser();
+		$query= "SELECT checked_out from " . $this->table . " WHERE id = " . (int)$id;
+		$checkedout = CKFof::dbLoadResult($query);
+
+		if ($checkedout && $checkedout != $user->id) return false;
+
+		return CKFof::dbUpdate($this->table, $id, array('checked_out' => $user->id));
+}
+
+	public function checkin($id) {
+		$user		= CKFof::getUser();
+		$row = CKFof::dbLoad($this->table, (int)$id);
+		$canCheckIn = $row->checked_out == $user->get('id') || CKFof::userCan('core.edit.state');
+		if ($canCheckIn) {
+			return CKFof::dbUpdate($this->table, $id, array('checked_out' => '0'));
+		}
+		return false;
+	}
+
+	public function publish($id) {
+		$row = CKFof::dbLoad($this->table, (int)$id);
+		$row->state = 1;
+
+		$result = CKFof::dbStore($this->table, $row);
+
+		return $result;
+	}
+
+	public function unpublish($id) {
+		$row = CKFof::dbLoad($this->table, (int)$id);
+		$row->state = 0;
+
+		$result = CKFof::dbStore($this->table, $row);
+
+		return $result;
 	}
 }
