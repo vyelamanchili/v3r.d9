@@ -4,7 +4,7 @@ Theme URI: https://www.gradientthemes.com/product/wordpress-shopping-cart-theme/
 Author: gradientthemes
 Author URI: https://gradientthemes.com/
 Description: Best Shop is a fast, clean, widgetized and modern responsive free WooCommerce WordPress theme. The theme supports popular page builders like Elementor, KingComposer, Beaver Builder, SiteOrigin, Thrive Architect, Divi, Brizy, Visual Composer, etc. The theme has built in WooCommerce product widgets like product category lists/grids, product sliders, post sliders, category showcase etc. Therefore you can create product pages easily without referring to complex shortcodes. Best Shop is compatible with YITH WooCommerce Wishlist, YITH WooCommerce Compare, YITH WooCommerce Quick view, WooCommerce Variation Swatches and most of the popular plugins. The theme is SEO friendly, WPML and RTL ready. See documentation:-https://wordpress.gradientthemes.com
-Version: 1.3.10
+Version: 1.4.5
 Requires at least: 4.7
 Tested up to: 6.0
 Requires PHP: 7.0
@@ -32,7 +32,8 @@ html {
      scroll-behavior: smooth;
 }
 
-
+.site-title a, .site-header .header-wrapper .header-left ul li a,
+.site-header .top-bar-menu .right-menu ul li a, .site-header .top-bar-menu .left-menu ul li a,
 button, input, select, optgroup, textarea ,
 h1, h2, h3, h4, h5, h6 ,
 section.newsletter-section .dt-newsletter-wrapper .blossomthemes-email-newsletter-wrapper .text-holder h3 ,
@@ -44,8 +45,9 @@ section.newsletter-section .dt-newsletter-wrapper .blossomthemes-email-newslette
 
 body,
 p {
-    font-family: var(--gbl-primary-font);
+    font-family: var(--gbl-secondary-font);
 }
+
 
 
 /* Sections
@@ -55,7 +57,6 @@ p {
  */
 body {
     margin: 0;
-    font-size: 18px;
     font-weight: 400;
 }
 /**
@@ -651,10 +652,8 @@ img, svg, iframe {
 .site-main .entry-content ul, .site-main .entry-content ol {
     margin: 0;
     padding-left: 16px;
-    font-size: 1em;
     font-weight: 400;
     line-height: 2;
-    color: #58595b;
     margin-bottom: 20px;
 }
 .site-main .entry-content ul li, .site-main .entry-content ol li {
@@ -1225,11 +1224,13 @@ h4 {
     line-height: 1.4em;
 }
 p {
-    font-size: 1em;
+    font-size: var(--gbl-body-font-size) ;
     line-height: 1.77778;
 }
-span {
- 
+.page-header span, a {
+    font-size: var(--gbl-body-font-size) ;
+}
+span { 
 }
 .entry-content h1 {
     font-size: 2.3em;
@@ -1469,7 +1470,6 @@ blockquote cite {
     padding: 18px 21px;
 }
 #primary .post .entry-content table tbody tr td, #primary .page .entry-content table tbody tr td {
-    font-size: 1em;
     font-weight: 400;
     line-height: 1.5556;
     padding: 18px 21px;
@@ -1481,7 +1481,6 @@ blockquote cite {
     background-color: #f9f9f9;
 }
 .breadcrumb-wrapper {
-    font-size: 0.889em;
     color: #58595B;
     font-weight: 500;
     margin-bottom: 15px;
@@ -1742,7 +1741,7 @@ blockquote cite {
     }
 }
 .comments-area .comment-respond .comment-form input[type="text"], .comments-area .comment-respond .comment-form input[type="email"], .comments-area .comment-respond .comment-form textarea {
-    background-color: #f9f9f9;
+    background-color: #f7f7f7;
     border: 0;
 }
 .comments-area .comment-respond .comment-form textarea {
@@ -2339,9 +2338,8 @@ textarea {
     left: 0;
 }
 .widget.widget_block.widget_search form input[type="search"] {
-    color: #a6a8ab;
     width: calc(100% - 67px);
-    background: #ffffff38;
+    background: #f7f7f7;
     padding: 16.5px 29px;
     border: 0;
     height: 40px;
@@ -2449,7 +2447,6 @@ textarea {
 .site-header .header-wrapper .header-left ul li {
     position: relative;
     display: inline-block;
-    font-size: 0.97em;
     font-weight: 500;
     line-height: 1.2;
 }
@@ -2513,7 +2510,6 @@ textarea {
 }
 @media (max-width: 1440px) {
     .site-header .header-wrapper .header-left ul a {
-        font-size: 0.889em;
     }
 }
 
@@ -2546,7 +2542,6 @@ textarea {
 
 .site-header .header-wrapper .header-left ul ul.sub-menu li {
     display: block;
-    font-size: 0.95em;
     font-weight: 400;
     text-align: left;
 }
@@ -2591,6 +2586,14 @@ textarea {
     align-items: center;
     line-height: 0.66;
 }
+@media (min-width: 1024px) {
+  .site-header .header-wrapper .media-image-news {
+    margin-left: auto;
+    order: 2;
+    display: inline-flex;
+  }  
+}
+
 .site-header .header-wrapper .header-right .social-links {
     padding-right: 7px;
     border-right: 1.5px solid #000000;
@@ -2684,6 +2687,9 @@ textarea {
     .site-header .header-wrapper .header-right .header-search-icon svg {
         fill: var(--header-text-color);
     }
+    .site-header .header-wrapper .header-right .header-search-icon svg:hover, .site-header .header-wrapper .header-right .header-search-icon svg:focus {
+        fill: #fff;
+    }    
     .site-header .burger .header-wrapper .header-left ul svg {
         fill: var(--menu-text-color);      
     }
@@ -3296,14 +3302,11 @@ body.admin-bar .skip-link:focus {
     margin-left: 15px;
 }
 .page-header {
-    font-size: 0.889em;
     color: #58595b;
     font-weight: 500;
     margin: 22px 0 39px;
 }
-.page-header span {
-    font-size: 16px;
-}
+
 .page-header .separator {
     margin: 0 8px !important;
 }
@@ -3320,7 +3323,7 @@ body.admin-bar .skip-link:focus {
     opacity: 0.8;
 }
 .site-branding .site-title {
-    font-size: 26px;
+    font-size: 26px!important;
 }
 .site-branding p {
     margin-bottom: 0;
@@ -4017,7 +4020,7 @@ body {
 }
 .site-footer .footer-top .grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(var(--gbl-footer-num-of-colums), 1fr);
     grid-gap: 40px;
 }
 @media (max-width: 1024px) {
@@ -4797,7 +4800,6 @@ li .star-rating > span::before {
     color: #58595b;
 }
 .single-product .summary.entry-summary .woocommerce-product-details__short-description p {
-    font-size: 1em;
     line-height: 1.77778;
     opacity: 0.8;
 }
@@ -4906,7 +4908,6 @@ li .star-rating > span::before {
     left: 0;
 }
 .single-product div.product .woocommerce-tabs.wc-tabs-wrapper .woocommerce-Tabs-panel p {
-    font-size: 1em;
     line-height: 1.77778;
 }
 .single-product .related.products > h2 {
@@ -4998,9 +4999,9 @@ li .star-rating > span::before {
 .single-product #review_form #respond .comment-form .form-submit .submit {
     background-color: var(--gbl-primary-color);
     color: #ffffff;
-    padding: 20px 45px;
+    padding: 15px 35px;
     transition: 0.3s ease all;
-    border-radius: 17px;
+    border-radius: 4px;
     font-weight: 500;
 }
 .single-product #review_form #respond .comment-form .form-submit .submit:hover {
@@ -5353,7 +5354,6 @@ li .star-rating > span::before {
     background-color: var(--gbl-primary-color);
     color: #ffffff;
     border-radius: 15px;
-    font-size: 1em;
     padding: 20px 37px;
     transition: 0.3s ease all;
 }
@@ -5811,7 +5811,8 @@ li .star-rating > span::before {
     line-height: 1.2;
 }
 .search article .post-thumbnail img, .search article .post-thumbnail svg {
-    border-radius: 3px;
+    width: 100%;
+    object-fit: cover;
 }
 .search article .content-wrap {
     padding: 15px 15px;
@@ -6868,6 +6869,7 @@ ul.site-header-cart {
     color: #fff;
     border-radius: 3px;
     font-size: 13px;
+    display: inline-block;
 }
 
 #secondary .widget.widget_product_tag_cloud .tagcloud a {
@@ -7103,7 +7105,6 @@ product-summary-wrap .product_meta span a {
 .tabbed_product_widget .product-tab-list .tabmenu  {
     font-weight: 600;
     background-color: var(--gbl-primary-color);
-    font-size: 1em;
     border-radius: 3px;
     color: #fff !important;
 }
@@ -8067,5 +8068,59 @@ body.aft-default-mode .aft-popular-taxonomies-lists{background: rgba(0,0,0,0.05)
 .woocommerce-Price-currencySymbol,
 .amount-cart {
   font-family: "Source Sans Pro","HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+}
+
+
+/* 
+ * Timer styles 
+ */
+.countdown-item {
+    text-align: center;
+    max-width: 25%;
+    width: 25%;
+    float: left;
+    line-height: 16px;
+    font-size: 10px;
+    margin-right: 6px;
+    color: #000;
+    letter-spacing: -.5px
+}
+.countdown-item:last-child {
+    margin-right: 0
+}
+.countdown-item span {
+    display: block;
+    padding: 3px;
+    border: 1px solid;
+    font-size: 14px;
+    line-height: 16px;
+    border: none;
+    border-radius: 3px;
+    position: relative
+}
+.countdown-item span:after {
+    content: ":";
+    position: absolute;
+    right: -5px;
+    font-weight: 700
+}
+.countdown-item:last-child span:after {
+    display: none
+}
+.the-countdown {
+    display: flex;
+    float: none;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 10px;
+    padding: 0 15px
+}
+.the-countdown-notice {
+    display: block;
+    clear: both;
+    font-size: 13px;
+    line-height: 18px;
+    padding: 5px 15px 8px
 }
 

@@ -40,11 +40,11 @@ const LetsEncrypt = (props) => {
             setActionIndex(0);
             runTest(0, 0);
         }
+        return () => {
+            // Perform any cleanup logic here if needed
+            // For example, you can cancel any ongoing asynchronous tasks or subscriptions
+        };
     }, [actionsList])
-
-    useEffect(() => {
-        // startInterval();
-    }, [])
 
     const startInterval = () => {
         intervalId.current = setInterval(() => {
@@ -100,8 +100,6 @@ const LetsEncrypt = (props) => {
     };
 
     const reset = () => {
-        // clearInterval(intervalId.current);
-        // startInterval();
         handleNextButtonDisabled(true);
         setActionsList(getActions());
         setProgress(0);
@@ -273,7 +271,7 @@ const LetsEncrypt = (props) => {
                 <div className="rsssl_letsencrypt_container rsssl-progress-container field-group">
                     <ul>
                        {actionsOutput.map((action, i) =>
-                              <li key={i}>
+                              <li key={"action-"+i}>
                                   <Icon name = {getStatusIcon(action)} color = {getStatusColor(action)} />
                                         {action.do==='retry' && attemptCount >=1 && <>{__("Attempt %s.", "really-simple-ssl").replace('%s', attemptCount)} </>}
                                         &nbsp;

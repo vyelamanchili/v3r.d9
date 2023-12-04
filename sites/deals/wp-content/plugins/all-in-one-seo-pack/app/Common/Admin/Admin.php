@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use AIOSEO\Plugin\Common\Models;
 use AIOSEO\Plugin\Common\Migration;
-use AIOSEO\Plugin\Common\Traits;
 
 /**
  * Abstract class that Pro and Lite both extend.
@@ -16,8 +15,6 @@ use AIOSEO\Plugin\Common\Traits;
  * @since 4.0.0
  */
 class Admin {
-	use Traits\Admin;
-
 	/**
 	 * The page slug for the sidebar.
 	 *
@@ -74,6 +71,15 @@ class Admin {
 		'plugins' => 'src/app/plugins/main.js',
 		'pages'   => 'src/vue/pages/{page}/main.js'
 	];
+
+	/**
+	 * Connect class instance.
+	 *
+	 * @since 4.4.3
+	 *
+	 * @var \AIOSEO\Plugin\Lite\Admin\Connect|null
+	 */
+	public $connect = null;
 
 	/**
 	 * Construct method.
@@ -142,7 +148,7 @@ class Admin {
 			add_action( 'admin_init', [ $this, 'addPluginScripts' ] );
 
 			// Add redirects messages to trashed posts.
-			add_filter( 'bulk_post_updated_messages', [ $this, 'appendTrashedMessage' ], 10, 2 );
+			add_filter( 'bulk_post_updated_messages', [ $this, 'appendTrashedMessage' ] );
 
 			$this->registerLinkFormatHooks();
 
@@ -221,13 +227,19 @@ class Admin {
 				'parent'     => $this->pageSlug
 			],
 			'aioseo-monsterinsights'   => [
-				'menu_title' => esc_html__( 'Analytics', 'all-in-one-seo-pack' ),
-				'parent'     => 'aioseo-monsterinsights'
+				'menu_title'          => esc_html__( 'Analytics', 'all-in-one-seo-pack' ),
+				'parent'              => 'aioseo-monsterinsights',
+				'hide_admin_bar_menu' => true
 			],
 			'aioseo-about'             => [
 				'menu_title' => esc_html__( 'About Us', 'all-in-one-seo-pack' ),
 				'parent'     => $this->pageSlug
-			]
+			],
+			'aioseo-seo-revisions'     => [
+				'menu_title'          => esc_html__( 'SEO Revisions', 'all-in-one-seo-pack' ),
+				'parent'              => 'aioseo-seo-revisions',
+				'hide_admin_bar_menu' => true
+			],
 		];
 	}
 
@@ -282,12 +294,13 @@ class Admin {
 	public function addPluginScripts() {
 		global $pagenow;
 
-		if ( 'plugins.php' !== $pagenow ) {
+		if ( 'plugins.php' !== $pagenow && 'plugin-install.php' !== $pagenow ) {
 			return;
 		}
 
 		aioseo()->core->assets->load( $this->assetSlugs['plugins'], [], [
-			'basename' => AIOSEO_PLUGIN_BASENAME
+			'basename'           => AIOSEO_PLUGIN_BASENAME,
+			'conflictingPlugins' => aioseo()->conflictingPlugins->getConflictingPluginSlugs()
 		], 'aioseoPlugins' );
 	}
 
@@ -316,7 +329,7 @@ class Admin {
 				'title'          => esc_html__( 'Insert/edit link', 'all-in-one-seo-pack' ),
 				'update'         => esc_html__( 'Update', 'all-in-one-seo-pack' ),
 				'save'           => esc_html__( 'Add Link', 'all-in-one-seo-pack' ),
-				'noTitle'        => esc_html__( '(no title)', 'all-in-one-seo-pack' ),
+				'noTitle'        => esc_html__( '(no title)' ), // phpcs:ignore AIOSEO.Wp.I18n.MissingArgDomain
 				'labelTitle'     => esc_html__( 'Title', 'all-in-one-seo-pack' ),
 				'noMatchesFound' => esc_html__( 'No results found.', 'all-in-one-seo-pack' ),
 				'linkSelected'   => esc_html__( 'Link selected.', 'all-in-one-seo-pack' ),
@@ -347,7 +360,7 @@ class Admin {
 
 		$linkFormat = 'block';
 		if ( is_plugin_active( 'gutenberg/gutenberg.php' ) ) {
-			$data = get_plugin_data( ABSPATH . 'wp-content/plugins/gutenberg/gutenberg.php', false, false );
+			$data = get_plugin_data( WP_CONTENT_DIR . '/plugins/gutenberg/gutenberg.php', false, false );
 			if ( version_compare( $data['Version'], '7.4.0', '<' ) ) {
 				$linkFormat = 'block-old';
 			}
@@ -584,8 +597,8 @@ class Admin {
 
 		$parent = is_admin() ? 'aioseo-main' : 'aioseo-settings-main';
 		foreach ( $this->pages as $id => $page ) {
-			// Remove the analytics menu.
-			if ( 'aioseo-monsterinsights' === $id ) {
+			// Remove page from admin bar menu.
+			if ( ! empty( $page['hide_admin_bar_menu'] ) ) {
 				continue;
 			}
 
@@ -765,7 +778,8 @@ class Admin {
 			'tools',
 			'feature-manager',
 			'monsterinsights',
-			'about'
+			'about',
+			'seo-revisions'
 		];
 
 		foreach ( $pages as $page ) {
@@ -942,7 +956,7 @@ class Admin {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  WP_Post $post The post object.
+	 * @param  \WP_Post $post The post object.
 	 * @return void
 	 */
 	public function addPublishScore( $post ) {
@@ -958,8 +972,7 @@ class Admin {
 		$showTruSeo     = aioseo()->options->advanced->truSeo;
 		$isSpecialPage  = aioseo()->helpers->isSpecialPage( $post->ID );
 		$dynamicOptions = aioseo()->dynamicOptions->noConflict();
-		$showMetabox    = $dynamicOptions->searchAppearance->postTypes->has( $post->post_type, false )
-			&& $dynamicOptions->{$post->post_type}->advanced->showMetaBox;
+		$showMetabox    = $dynamicOptions->searchAppearance->postTypes->has( $post->post_type, false ) && $dynamicOptions->{$post->post_type}->advanced->showMetaBox;
 
 		$postTypesMB = [];
 		foreach ( $postTypes as $pt ) {
@@ -973,7 +986,10 @@ class Admin {
 					$postTypesMB[] = $pt['name'];
 				}
 			} else {
-				if ( 'attachment' !== $pt['name'] ) {
+				if (
+					'attachment' !== $pt['name'] &&
+					'aioseo-location' !== $pt['name']
+				) {
 					$postTypesMB[] = $pt['name'];
 				}
 			}
@@ -989,8 +1005,11 @@ class Admin {
 				</svg>
 				<span>
 					<?php
-						// Translators: 1 - The short plugin name ("AIOSEO").
-						echo sprintf( esc_html__( '%1$s Score', 'all-in-one-seo-pack' ), esc_html( AIOSEO_PLUGIN_SHORT_NAME ) );
+						echo sprintf(
+							// Translators: 1 - The short plugin name ("AIOSEO").
+							esc_html__( '%1$s Score', 'all-in-one-seo-pack' ),
+							esc_html( AIOSEO_PLUGIN_SHORT_NAME )
+						);
 					?>
 				</span>
 				<div id="aioseo-post-settings-sidebar-button" class="aioseo-score-button classic-editor <?php echo esc_attr( $this->getScoreClass( $score ) ); ?>">
@@ -1126,7 +1145,7 @@ class Admin {
 	 * @param  array $messages The original messages.
 	 * @return array           The modified messages.
 	 */
-	public function appendTrashedMessage( $messages, $counts ) {
+	public function appendTrashedMessage( $messages ) {
 		// Let advanced users override this.
 		if ( apply_filters( 'aioseo_redirects_disable_trashed_posts_suggestions', false ) ) {
 			return $messages;
@@ -1136,12 +1155,13 @@ class Admin {
 			return $messages;
 		}
 
-		if ( empty( $_GET['ids'] ) ) {
+		if ( empty( $_GET['ids'] ) ) { // phpcs:ignore HM.Security.NonceVerification.Recommended
 			return $messages;
 		}
 
+		$ids = array_map( 'intval', explode( ',', wp_unslash( $_GET['ids'] ) ) ); // phpcs:ignore HM.Security.NonceVerification.Recommended, HM.Security.ValidatedSanitizedInput.InputNotSanitized
+
 		$posts = [];
-		$ids     = array_map( 'intval', explode( ',', wp_unslash( $_GET['ids'] ) ) ); // phpcs:ignore HM.Security.ValidatedSanitizedInput.InputNotSanitized
 		foreach ( $ids as $id ) {
 			// We need to clone the post here so we can get a real permalink for the post even if it is not published already.
 			$post = aioseo()->helpers->getPost( $id );
@@ -1218,5 +1238,20 @@ class Admin {
 	 */
 	public function addAioseoModalPortal() {
 		echo '<div id="aioseo-modal-portal"></div>';
+	}
+
+	/**
+	 * Outputs the element we can mount our footer promotion standalone Vue app on.
+	 * Also enqueues the assets.
+	 *
+	 * @since   4.3.6
+	 * @version 4.4.3
+	 *
+	 * @return void
+	 */
+	public function addFooterPromotion() {
+		echo wp_kses_post( '<div id="aioseo-footer-links"></div>' );
+
+		aioseo()->core->assets->load( 'src/vue/standalone/footer-links/main.js' );
 	}
 }

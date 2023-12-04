@@ -125,7 +125,7 @@ trait Wp {
 	}
 
 	/**
-	 * Get all registered Post Statuses.
+	 * Returns all registered Post Statuses.
 	 *
 	 * @since 4.1.6
 	 *
@@ -160,19 +160,23 @@ trait Wp {
 	}
 
 	/**
-	 * Retrieve a list of public post types with slugs/icons.
+	 * Returns a list of public post types objects or names.
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  boolean $namesOnly       Whether only the names should be returned.
-	 * @param  boolean $hasArchivesOnly Whether or not to only include post types which have archives.
-	 * @param  boolean $rewriteType     Whether or not to rewrite the type slugs.
-	 * @return array                    An array of public post types.
+	 * @param  bool  $namesOnly       Whether only the names should be returned.
+	 * @param  bool  $hasArchivesOnly Whether to only include post types which have archives.
+	 * @param  bool  $rewriteType     Whether to rewrite the type slugs.
+	 * @return array                  List of public post types.
 	 */
 	public function getPublicPostTypes( $namesOnly = false, $hasArchivesOnly = false, $rewriteType = false ) {
 		$postTypes   = [];
-		$postTypeObjects = get_post_types( [ 'public' => true ], 'objects' );
+		$postTypeObjects = get_post_types( [], 'objects' );
 		foreach ( $postTypeObjects as $postTypeObject ) {
+			if ( ! is_post_type_viewable( $postTypeObject ) ) {
+				continue;
+			}
+
 			$postTypeArray = $this->getPostType( $postTypeObject, $namesOnly, $hasArchivesOnly, $rewriteType );
 			if ( ! empty( $postTypeArray ) ) {
 				$postTypes[] = $postTypeArray;
@@ -183,14 +187,14 @@ trait Wp {
 	}
 
 	/**
-	 * Get the data for the post type.
+	 * Returns the data for the given post type.
 	 *
 	 * @since 4.2.2
 	 *
 	 * @param  \WP_Post_Type $postTypeObject  The post type object.
-	 * @param  boolean       $namesOnly       Whether only the names should be returned.
-	 * @param  boolean       $hasArchivesOnly Whether or not to only include post types which have archives.
-	 * @param  boolean       $rewriteType     Whether or not to rewrite the type slugs.
+	 * @param  bool          $namesOnly       Whether only the names should be returned.
+	 * @param  bool          $hasArchivesOnly Whether to only include post types which have archives.
+	 * @param  bool          $rewriteType     Whether to rewrite the type slugs.
 	 * @return mixed                          Data for the post type.
 	 */
 	public function getPostType( $postTypeObject, $namesOnly = false, $hasArchivesOnly = false, $rewriteType = false ) {
@@ -240,13 +244,13 @@ trait Wp {
 	}
 
 	/**
-	 * Retrieve a list of public taxonomies with slugs/icons.
+	 * Returns a list of public taxonomies objects or names.
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  boolean $namesOnly   Whether only the names should be returned.
-	 * @param  boolean $rewriteType Whether or not to rewrite the type slugs.
-	 * @return array                An array of public taxonomies.
+	 * @param  bool  $namesOnly   Whether only the names should be returned.
+	 * @param  bool  $rewriteType Whether to rewrite the type slugs.
+	 * @return array              List of public taxonomies.
 	 */
 	public function getPublicTaxonomies( $namesOnly = false, $rewriteType = false ) {
 		$taxonomies = [];
@@ -254,9 +258,9 @@ trait Wp {
 			return $taxonomies;
 		}
 
-		$taxObjects = get_taxonomies( [ 'public' => true ], 'objects' );
+		$taxObjects = get_taxonomies( [], 'objects' );
 		foreach ( $taxObjects as $taxObject ) {
-			if ( empty( $taxObject->label ) ) {
+			if ( empty( $taxObject->label ) || ! $this->isTaxonomyViewable( $taxObject ) ) {
 				continue;
 			}
 
@@ -292,13 +296,15 @@ trait Wp {
 				: [];
 
 			$taxonomies[] = [
-				'name'         => $name,
-				'label'        => ucwords( $taxObject->label ),
-				'singular'     => ucwords( $taxObject->labels->singular_name ),
-				'icon'         => strpos( $taxObject->label, 'categor' ) !== false ? 'dashicons-category' : 'dashicons-tag',
-				'hierarchical' => $taxObject->hierarchical,
-				'slug'         => isset( $taxObject->rewrite['slug'] ) ? $taxObject->rewrite['slug'] : '',
-				'postTypes'    => $taxonomyPostTypes
+				'name'               => $name,
+				'label'              => ucwords( $taxObject->label ),
+				'singular'           => ucwords( $taxObject->labels->singular_name ),
+				'icon'               => strpos( $taxObject->label, 'categor' ) !== false ? 'dashicons-category' : 'dashicons-tag',
+				'hierarchical'       => $taxObject->hierarchical,
+				'slug'               => isset( $taxObject->rewrite['slug'] ) ? $taxObject->rewrite['slug'] : '',
+				'primaryTermSupport' => (bool) $taxObject->hierarchical,
+				'restBase'           => ( $taxObject->rest_base ) ? $taxObject->rest_base : $taxObject->name,
+				'postTypes'          => $taxonomyPostTypes
 			];
 		}
 
@@ -486,14 +492,14 @@ trait Wp {
 	 * @since 4.1.4
 	 *
 	 * @param  int   $postId The post ID.
-	 * @return array $names  The category names.
+	 * @return array         The category names.
 	 */
 	public function getAllCategories( $postId = 0 ) {
 		$names      = [];
 		$categories = get_the_category( $postId );
 		if ( $categories && count( $categories ) ) {
 			foreach ( $categories as $category ) {
-				$names[] = aioseo()->helpers->internationalize( $category->cat_name );
+				$names[] = aioseo()->helpers->internationalize( $category->name );
 			}
 		}
 
@@ -657,7 +663,7 @@ trait Wp {
 	 *
 	 * @since 4.1.9
 	 *
-	 * @param  string $postType The name of the taxonomy.
+	 * @param  string $taxonomy The name of the taxonomy.
 	 * @return array            The capabilities.
 	 */
 	public function getTaxonomyCapabilities( $taxonomy ) {
@@ -742,12 +748,112 @@ trait Wp {
 			return $titles[ $postId ];
 		}
 
-		$post  = aioseo()->helpers->getPost( $postId );
+		$post = aioseo()->helpers->getPost( $postId );
+		if ( ! is_a( $post, 'WP_Post' ) ) {
+			$titles[ $postId ] = __( '(no title)' ); // phpcs:ignore AIOSEO.Wp.I18n.MissingArgDomain
+
+			return $titles[ $postId ];
+		}
+
 		$title = $post->post_title;
-		$title = $title ? $title : __( '(no title)' ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain
+		$title = $title ? $title : __( '(no title)' ); // phpcs:ignore AIOSEO.Wp.I18n.MissingArgDomain
 
 		$titles[ $postId ] = aioseo()->helpers->decodeHtmlEntities( $title );
 
 		return $titles[ $postId ];
+	}
+
+	/**
+	 * Checks whether the taxonomy should be considered viewable.
+	 * This function is a copy of the WordPress core function is_taxonomy_viewable() which was introduced in WP 5.1.
+	 *
+	 * @since 4.3.5.1
+	 *
+	 * @param  string|\WP_Taxonomy $taxonomy The taxonomy name or object.
+	 * @return bool                          Whether the taxonomy is viewable.
+	 */
+	public function isTaxonomyViewable( $taxonomy ) {
+		if ( is_scalar( $taxonomy ) ) {
+			$taxonomy = get_taxonomy( $taxonomy );
+			if ( ! is_a( $taxonomy, 'WP_Taxonomy' ) ) {
+				return false;
+			}
+		}
+
+		return $taxonomy->publicly_queryable;
+	}
+
+	/**
+	 * Checks whether the post status should be considered viewable.
+	 * This function is a copy of the WordPress core function is_post_status_viewable() which was introduced in WP 5.7.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param  string|\stdClass $postStatus The post status name or object.
+	 * @return bool                         Whether the post status is viewable.
+	 */
+	public function isPostStatusViewable( $postStatus ) {
+		if ( is_scalar( $postStatus ) ) {
+			$postStatus = get_post_status_object( $postStatus );
+
+			if ( ! $postStatus ) {
+				return false;
+			}
+		}
+
+		if (
+			! is_object( $postStatus ) ||
+			$postStatus->internal ||
+			$postStatus->protected
+		) {
+			return false;
+		}
+
+		return $postStatus->publicly_queryable || ( $postStatus->_builtin && $postStatus->public );
+	}
+
+	/**
+	 * Checks whether the given post is publicly viewable.
+	 * This function is a copy of the WordPress core function is_post_publicly_viewable() which was introduced in WP 5.7.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param  int|\WP_Post  $post Optional. Post ID or post object. Defaults to global $post.
+	 * @return boolean                      Whether the post is publicly viewable or not.
+	 */
+	public function isPostPubliclyViewable( $post = null ) {
+		$post = get_post( $post );
+		if ( empty( $post ) ) {
+			return false;
+		}
+
+		$postType   = get_post_type( $post );
+		$postStatus = get_post_status( $post );
+
+		return is_post_type_viewable( $postType ) && $this->isPostStatusViewable( $postStatus );
+	}
+
+	/**
+	 * Only register a legacy widget if the WP version is lower than 5.8 or the widget is being used.
+	 * The "Block-based Widgets Editor" was released in WP 5.8, so for WP versions below 5.8 it's okay to register them.
+	 * The main purpose here is to avoid blocks and widgets with the same name to be displayed on the Customizer,
+	 * like e.g. the "Breadcrumbs" Block and Widget.
+	 *
+	 * @since 4.3.9
+	 *
+	 * @param string $idBase The base ID of a widget created by extending WP_Widget.
+	 * @return bool          Whether the legacy widget can be registered.
+	 */
+	public function canRegisterLegacyWidget( $idBase ) {
+		global $wp_version;
+		if (
+			version_compare( $wp_version, '5.8', '<' ) ||
+			is_active_widget( false, false, $idBase ) ||
+			aioseo()->standalone->pageBuilderIntegrations['elementor']->isPluginActive()
+		) {
+			return true;
+		}
+
+		return false;
 	}
 }

@@ -1,4 +1,4 @@
-<?php die("Access Denied"); ?>#x#a:5:{s:4:"body";s:8592:"
+<?php die("Access Denied"); ?>#x#a:5:{s:4:"body";s:8842:"
 
 <div class="item-page clearfix">
 
@@ -6,12 +6,12 @@
 <!-- Article -->
 <article>
 	<meta itemprop="inLanguage" content="en-GB" />
-	<meta itemprop="url" content="/projects/website" />
+	<meta itemprop="url" content="/sites/ranjeesh/projects/website" />
 
       
 <header class="article-header clearfix">
 	<h1 class="article-title" itemprop="headline">
-					Websites			<meta itemprop="url" content="https://ranjeesh.v3r.us/projects/website" />
+					Websites			<meta itemprop="url" content="https://www.v3r.us/sites/ranjeesh/projects/website" />
 			</h1>
 
 			</header>
@@ -23,63 +23,63 @@
   
           	<div class="tags">
 																	<span class="tag-14 tag-list0" itemprop="keywords">
-					<a href="/component/tags/tag/joomla" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/joomla" class="label label-info">
 						joomla					</a>
 				</span>
 																				<span class="tag-20 tag-list1" itemprop="keywords">
-					<a href="/component/tags/tag/html" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/html" class="label label-info">
 						html					</a>
 				</span>
 																				<span class="tag-21 tag-list2" itemprop="keywords">
-					<a href="/component/tags/tag/javascript" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/javascript" class="label label-info">
 						javascript					</a>
 				</span>
 																				<span class="tag-22 tag-list3" itemprop="keywords">
-					<a href="/component/tags/tag/css" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/css" class="label label-info">
 						css					</a>
 				</span>
 																				<span class="tag-44 tag-list4" itemprop="keywords">
-					<a href="/component/tags/tag/hosting" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/hosting" class="label label-info">
 						hosting					</a>
 				</span>
 																				<span class="tag-50 tag-list5" itemprop="keywords">
-					<a href="/component/tags/tag/website" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/website" class="label label-info">
 						website					</a>
 				</span>
 																				<span class="tag-51 tag-list6" itemprop="keywords">
-					<a href="/component/tags/tag/drupal" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/drupal" class="label label-info">
 						drupal					</a>
 				</span>
 																				<span class="tag-59 tag-list7" itemprop="keywords">
-					<a href="/component/tags/tag/design" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/design" class="label label-info">
 						design					</a>
 				</span>
 																				<span class="tag-61 tag-list8" itemprop="keywords">
-					<a href="/component/tags/tag/aws" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/aws" class="label label-info">
 						aws					</a>
 				</span>
 																				<span class="tag-62 tag-list9" itemprop="keywords">
-					<a href="/component/tags/tag/ec2" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/ec2" class="label label-info">
 						ec2					</a>
 				</span>
 																				<span class="tag-63 tag-list10" itemprop="keywords">
-					<a href="/component/tags/tag/flash" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/flash" class="label label-info">
 						flash					</a>
 				</span>
 																				<span class="tag-64 tag-list11" itemprop="keywords">
-					<a href="/component/tags/tag/ui-ux" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/ui-ux" class="label label-info">
 						ui/ux					</a>
 				</span>
 																				<span class="tag-65 tag-list12" itemprop="keywords">
-					<a href="/component/tags/tag/user-experience" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/user-experience" class="label label-info">
 						user experience					</a>
 				</span>
 																				<span class="tag-66 tag-list13" itemprop="keywords">
-					<a href="/component/tags/tag/user-interface-design" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/user-interface-design" class="label label-info">
 						user interface design					</a>
 				</span>
 																				<span class="tag-67 tag-list14" itemprop="keywords">
-					<a href="/component/tags/tag/mobile-web-development" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/mobile-web-development" class="label label-info">
 						mobile web development					</a>
 				</span>
 						</div>
@@ -154,6 +154,6 @@
 
 </div>
 
-";s:4:"head";a:12:{s:5:"title";s:7:"Website";s:11:"description";s:38:"Ranjeesh Yelamanchili's Portfolio Site";s:4:"link";s:0:"";s:8:"metaTags";a:2:{s:10:"http-equiv";a:1:{s:12:"content-type";s:24:"text/html; charset=utf-8";}s:4:"name";a:3:{s:8:"keywords";s:89:"Ranjeesh, Yelamanchili, Portfolio, Drupal, Developer, LAMP, PHP, Joomla, Wordpress, MySQL";s:6:"rights";N;s:6:"author";s:13:"Administrator";}}s:5:"links";a:0:{}s:11:"styleSheets";a:0:{}s:5:"style";a:0:{}s:7:"scripts";a:5:{s:27:"/media/jui/js/jquery.min.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:11:"detectDebug";b:0;s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;}}s:34:"/media/jui/js/jquery-noconflict.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;s:11:"detectDebug";b:1;}}s:35:"/media/jui/js/jquery-migrate.min.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:11:"detectDebug";b:0;s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;}}s:27:"/media/system/js/caption.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;s:11:"detectDebug";b:1;}}s:30:"/media/jui/js/bootstrap.min.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:11:"detectDebug";s:1:"0";s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;}}}s:6:"script";a:1:{s:15:"text/javascript";s:322:"jQuery(window).on('load',  function() {
+";s:4:"head";a:12:{s:5:"title";s:7:"Website";s:11:"description";s:38:"Ranjeesh Yelamanchili's Portfolio Site";s:4:"link";s:0:"";s:8:"metaTags";a:2:{s:10:"http-equiv";a:1:{s:12:"content-type";s:24:"text/html; charset=utf-8";}s:4:"name";a:3:{s:8:"keywords";s:89:"Ranjeesh, Yelamanchili, Portfolio, Drupal, Developer, LAMP, PHP, Joomla, Wordpress, MySQL";s:6:"rights";N;s:6:"author";s:13:"Administrator";}}s:5:"links";a:0:{}s:11:"styleSheets";a:0:{}s:5:"style";a:0:{}s:7:"scripts";a:5:{s:42:"/sites/ranjeesh/media/jui/js/jquery.min.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:11:"detectDebug";b:0;s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;}}s:49:"/sites/ranjeesh/media/jui/js/jquery-noconflict.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;s:11:"detectDebug";b:1;}}s:50:"/sites/ranjeesh/media/jui/js/jquery-migrate.min.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:11:"detectDebug";b:0;s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;}}s:42:"/sites/ranjeesh/media/system/js/caption.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;s:11:"detectDebug";b:1;}}s:45:"/sites/ranjeesh/media/jui/js/bootstrap.min.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:11:"detectDebug";s:1:"0";s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;}}}s:6:"script";a:1:{s:15:"text/javascript";s:322:"jQuery(window).on('load',  function() {
 				new JCaption('img.caption');
 			});jQuery(function($){ initTooltips(); $("body").on("subform-row-add", initTooltips); function initTooltips (event, container) { container = container || document;$(container).find(".hasTooltip").tooltip({"html": true,"container": "body"});} });";}s:6:"custom";a:0:{}s:10:"scriptText";a:0:{}s:13:"scriptOptions";a:0:{}}s:13:"mime_encoding";s:9:"text/html";s:7:"pathway";a:2:{i:0;O:8:"stdClass":2:{s:4:"name";s:8:"Projects";s:4:"link";s:56:"index.php?option=com_content&view=article&id=7&Itemid=18";}i:1;O:8:"stdClass":2:{s:4:"name";s:7:"Website";s:4:"link";s:55:"index.php?option=com_content&view=article&id=9&Itemid=9";}}s:6:"module";a:0:{}}

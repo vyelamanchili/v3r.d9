@@ -51,10 +51,13 @@ External resources linked to the theme.
     License: (MIT)
     @author Aamir Afridi - aamirafridi(at)gmail(dot)com / http://aamirafridi.com/jquery/jquery-marquee-plugin
     
+    # Countdown v0.1.0
+    https://github.com/fengyuanchen/countdown
+    Copyright 2014 Fengyuan Chen
+    Released under the MIT license    
         
     # Images
-    All images are under Creative Commons Public Domain deed CC0.
-    
+    All images are under Creative Commons Public Domain deed CC0.    
     
     License 	: CC0 1.0 Universal (CC0 1.0)
     License URI : https://pxhere.com/license, CC0

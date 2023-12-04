@@ -14,11 +14,14 @@
             <li><a href="#tabs-c" onclick="listAllFifu(0)"><i class="fas fa-folder-plus"></i> <?php $fifucloud['tabs']['send']() ?></a></li>
             <li><a href="#tabs-d" onclick="listAllSu(0)"><i class="fas fa-folder-minus"></i> <?php $fifucloud['tabs']['delete']() ?></a></li>
             <li><a href="#tabs-e" onclick="listAllMediaLibrary(0)"><i class="fab fa-wordpress"></i> <?php $fifucloud['tabs']['media']() ?></a></li>
-            <li><a href="#tabs-f" onclick="listDailyCount()"><i class="fas fa-money-bill-alt"></i> <?php $fifucloud['tabs']['bill']() ?></a></li>
+            <li><a href="#tabs-f" onclick="listDailyCount()"><i class="fas fa-user-gear"></i> <?php $fifucloud['tabs']['account']() ?></a></li>
         </ul>
         <div id="tabs-a" class="cloud-tab">
             <div class="first-cloud-box">
-                <h2><i class="fas fa-cloud"></i> FIFU Cloud</h2>
+                <h2 style="color:#aa001a"><i class="fas fa-cloud"></i> <?php $fifucloud['message']['new']() ?></h2>
+                <div class="greybox" style="color:#aa001a;background: repeating-linear-gradient(-55deg,#efefef,#efefef 2px,#efefefb3 2px,#d9b8b8b2 5px);">
+                    <?php $fifucloud['message']['waitlist']() ?>
+                </div>
                 <div class="greybox">
                     <?php $fifucloud['support']['whats']() ?>
                     <br>
@@ -366,8 +369,8 @@
                                             <td>
                                             </td>
                                             <td>
-                                                <button id="su_login_button" onclick="login()" style="height:28px; width:38%"><i class="fa fa-sign-in-alt"></i> log in</button>
-                                                <button id="su_login_reset" onclick="confirmResetCredentials()" style="height:28px; width:60%"><i class="fa fa-qrcode"></i> reset credrentials</button>
+                                                <button id="su_login_button" onclick="login()" style="height:28px; width:38%"><i class="fa fa-sign-in-alt"></i> <?php $fifucloud['login']['button']() ?></button>
+                                                <button id="su_login_reset" onclick="confirmResetCredentials()" style="height:28px; width:60%"><i class="fa fa-qrcode"></i> <?php $fifucloud['reset']['button']() ?></button>
                                             </td>
                                         </tr>
                                         <tr id="tr_su_login_always_connected">
@@ -388,20 +391,20 @@
                                             </td>
                                             <td style="max-width:250px;">
                                                 <div id="qrcode-info-reset" style="display:none">
-                                                    <div>Resetting your credentials:</div>
-                                                    <div>1) get your smartphone;</div>
-                                                    <div>2) open Google Authenticator app;</div>
-                                                    <div>3) scan this new QR Code;</div>
-                                                    <div>4) access your email and confirm the reset.</div>
+                                                    <div><?php $fifucloud['reset']['resetting']() ?>:</div>
+                                                    <div><?php $fifucloud['reset']['smartphone']() ?></div>
+                                                    <div><?php $fifucloud['reset']['authenticator']() ?></div>
+                                                    <div><?php $fifucloud['reset']['scan']() ?></div>
+                                                    <div><?php $fifucloud['reset']['email']() ?></div>
                                                 </div>
                                                 <div id="qrcode-info-signup" style="display:none">
-                                                    <div>First log in:</div>
-                                                    <div>1) access your email and confirm your subscription;</div>
-                                                    <div>2) get your smartphone;</div>
-                                                    <div>3) open Google Authenticator app;</div>
-                                                    <div>4) scan this QR Code;</div>
-                                                    <div>5) type the 6 digits in 2FA Code field;</div>
-                                                    <div>6) click on log in button.</div>
+                                                    <div><?php $fifucloud['login']['first']() ?>:</div>
+                                                    <div><?php $fifucloud['login']['email']() ?></div>
+                                                    <div><?php $fifucloud['login']['smartphone']() ?></div>
+                                                    <div><?php $fifucloud['login']['authenticator']() ?></div>
+                                                    <div><?php $fifucloud['login']['scan']() ?></div>
+                                                    <div><?php $fifucloud['login']['2fa']() ?></div>
+                                                    <div><?php $fifucloud['login']['click']() ?></div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -429,7 +432,7 @@
                                     <table style="min-width:362px;">
                                         <tr id="tr_su_logout_site">
                                             <td>
-                                                <label for="su_logout_site">Website: </label>
+                                                <label for="su_logout_site"><?php $fifucloud['label']['website']() ?>: </label>
                                             </td>
                                             <td>
                                                 <input id="su_logout_site"
@@ -440,7 +443,7 @@
                                             <td>
                                             </td>
                                             <td>
-                                                <button id="su_logout_button" onclick="logout()" style="height:28px; width:100%;"><i class="fa fa-sign-out-alt"></i> log out</button>
+                                                <button id="su_logout_button" onclick="logout()" style="height:28px; width:100%;"><i class="fa fa-sign-out-alt"></i> <?php $fifucloud['logout']['button']() ?></button>
                                             </td>
                                         </tr>
                                     </table>
@@ -467,34 +470,34 @@
                                     <table style="min-width:362px;">
                                         <tr>
                                             <td>
-                                                <label for="su_first_name" >First name: </label>
+                                                <label for="su_first_name" ><?php $fifucloud['signup']['first']['field']() ?>: </label>
                                             </td>
                                             <td>
                                                 <input id="su_first_name" type="text"
-                                                       title="Type your first name, please" required maxlength="32" style="width:100%">
+                                                       title="<?php $fifucloud['signup']['first']['message']() ?>" required maxlength="32" style="width:100%">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <label for="su_last_name">Last name: </label>
+                                                <label for="su_last_name"><?php $fifucloud['signup']['last']['field']() ?>: </label>
                                             </td>
                                             <td>
                                                 <input id="su_last_name" type="text"
-                                                       title="Type your last name, please" required maxlength="32" style="width:100%">
+                                                       title="<?php $fifucloud['signup']['last']['message']() ?>" required maxlength="32" style="width:100%">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <label for="su_email">Email: </label>
+                                                <label for="su_email"><?php $fifucloud['signup']['email']['field']() ?>: </label>
                                             </td>
                                             <td>
                                                 <input id="su_email" type="email"
-                                                       title="Type your email, please" required maxlength="64" style="width:100%">
+                                                       title="<?php $fifucloud['signup']['email']['message']() ?>" required maxlength="64" style="width:100%">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <label for="su_site">Website: </label>
+                                                <label for="su_site"><?php $fifucloud['label']['website']() ?>: </label>
                                             </td>
                                             <td>
                                                 <input id="su_site"
@@ -504,7 +507,7 @@
                                         <tr>
                                             <td></td>
                                             <td>
-                                                <button id="su_sign_up_button" onclick="signUp()" style="width:100%; height:28px;"><i class="fas fa-user-edit"></i> sign up</button>
+                                                <button id="su_sign_up_button" onclick="signUp()" style="width:100%; height:28px;"><i class="fas fa-user-edit"></i> <?php $fifucloud['signup']['button']() ?></button>
                                             </td>
                                         </tr>
                                     </table>
@@ -530,11 +533,11 @@
                         <table id="addTable" class="display cell-border">
                             <thead>
                                 <tr>
-                                    <th>image</th>
-                                    <th>post title</th>
-                                    <th>post date</th>
-                                    <th>post id</th>
-                                    <th>image location</th>
+                                    <th><?php $fifucloud['column']['image']() ?></th>
+                                    <th><?php $fifucloud['column']['title']() ?></th>
+                                    <th><?php $fifucloud['column']['published']() ?></th>
+                                    <th><?php $fifucloud['column']['id']() ?></th>
+                                    <th><?php $fifucloud['column']['location']() ?></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -624,11 +627,11 @@
                         <table id="removeTable" class="display cell-border">
                             <thead>
                                 <tr>
-                                    <th>image</th>
-                                    <th>post title</th>
-                                    <th>upload date</th>
-                                    <th>post id</th>
-                                    <th>image location</th>
+                                    <th><?php $fifucloud['column']['image']() ?></th>
+                                    <th><?php $fifucloud['column']['title']() ?></th>
+                                    <th><?php $fifucloud['column']['upload']() ?></th>
+                                    <th><?php $fifucloud['column']['id']() ?></th>
+                                    <th><?php $fifucloud['column']['location']() ?></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -641,7 +644,7 @@
 
         <div id="tabs-e" class="cloud-tab">
             <div id="media-box" class="first-cloud-box">
-                <div class="fifu-pro"><a class="fifu-pro-link" href="https://fifu.app/" target="_blank" title="Unlock all PRO features"><span class="dashicons dashicons-lock fifu-pro-icon"></span></a></div>
+                <div class="fifu-pro"><a class="fifu-pro-link" href="https://fifu.app/" target="_blank" title="<?php $fifucloud['unlock']() ?>"><span class="dashicons dashicons-lock fifu-pro-icon"></span></a></div>
                 <h2>
                     <i class="fab fa-wordpress"></i> <?php $fifucloud['title']['media']() ?>
                     <output id="media_response_message" class="response_message"></output>
@@ -655,11 +658,11 @@
                         <table id="mediaTable" class="display cell-border">
                             <thead>
                                 <tr>
-                                    <th>featured image</th>
-                                    <th>post title</th>
-                                    <th>post date</th>
-                                    <th>post id</th>
-                                    <th>gallery images</th>
+                                    <th><?php $fifucloud['column']['featured']() ?></th>
+                                    <th><?php $fifucloud['column']['title']() ?></th>
+                                    <th><?php $fifucloud['column']['published']() ?></th>
+                                    <th><?php $fifucloud['column']['id']() ?></th>
+                                    <th><?php $fifucloud['column']['gallery']() ?></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -671,7 +674,38 @@
         </div>
 
         <div id="tabs-f" class="cloud-tab">
-            <div id="billing-box" class="first-cloud-box">
+
+            <div id="hotlink-box" class="first-cloud-box">
+                <h2>
+                    <i class="fa-solid fa-shield-halved"></i> <?php $fifucloud['title']['hotlink']() ?>
+                    <output id="hotlink_response_message" class="response_message"></output>
+                </h2>
+                <div class="greybox">
+                    <form
+                        id="fifu_form_cloud_hotlink"
+                        action="javascript:void(0)"
+                        method="post">
+                            <?php wp_nonce_field(FIFU_ACTION_CLOUD, 'nonce_fifu_form_cloud_hotlink'); ?>
+                        <input
+                            type="submit"
+                            href="javascript:void(0)"
+                            id="fifu_toggle_cloud_hotlink"
+                            onclick="invert('cloud_hotlink');set_hotlink()"
+                            name="fifu_toggle_cloud_hotlink"
+                            class="<?php echo $enable_cloud_hotlink; ?>"
+                            value=""
+                            style="display:block;border:none">
+
+                        <input
+                            type="hidden"
+                            id="fifu_input_cloud_hotlink"
+                            name="fifu_input_cloud_hotlink"
+                            value="" >
+                    </form>
+                </div>
+            </div>
+
+            <div id="billing-box" class="box">
                 <h2>
                     <i class="fas fa-money-bill-alt"></i> <?php $fifucloud['title']['billing']() ?>
                     <output id="billing_response_message" class="response_message"></output>
@@ -716,8 +750,8 @@
                         <table id="billingTable" class="display cell-border">
                             <thead>
                                 <tr>
-                                    <th>date</th>
-                                    <th>number of images</th>
+                                    <th><?php $fifucloud['column']['date']() ?></th>
+                                    <th><?php $fifucloud['column']['number']() ?></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -764,7 +798,7 @@
                                     <table style="min-width:287px;">
                                         <tr>
                                             <td>
-                                                <button id="su_payment_info_button" onclick="payment_info()" style="height:28px; width:100%"><i class="fa-solid fa-pen"></i> update</button>
+                                                <button id="su_payment_info_button" onclick="payment_info()" style="height:28px; width:100%"><i class="fa-solid fa-pen"></i> <?php $fifucloud['update']['button']() ?></button>
                                             </td>
                                             <td>
                                                 <span class="dashicons dashicons-info" style="font-size: 22px;" title="<?php $fifucloud['icon']['payment']() ?>"></span>
@@ -794,7 +828,7 @@
                                     <table style="min-width:260px;">
                                         <tr>
                                             <td>
-                                                <button id="su_cancel_button" onclick="cancel()" style="height:28px; width:100%"><i class="fa-solid fa-ban" style="color:rgb(221, 76, 64)"></i> close account</button>                                                
+                                                <button id="su_cancel_button" onclick="cancel()" style="height:28px; width:100%"><i class="fa-solid fa-ban" style="color:rgb(221, 76, 64)"></i> <?php $fifucloud['close']['button']() ?></button>                                                
                                             </td>
                                             <td>
                                                 <span class="dashicons dashicons-info" style="font-size: 22px;" title="<?php $fifucloud['icon']['cancel']() ?>"></span>
@@ -810,24 +844,24 @@
         </div>
     </div>
 
-    <div id="su-dialog-remove" title="Remove selected image(s)" style="display: none;">
+    <div id="su-dialog-remove" title="<?php $fifucloud['delete']['dialog']['title']() ?>" style="display: none;">
         <p>
-            The selected images will be permanently removed from FIFU Cloud and cannot be recovered. Are you sure?
+            <?php $fifucloud['delete']['dialog']['sure']() ?>
         </p>
     </div>
 
-    <div id="su-dialog-cancel" title="Close account" style="display: none;">
+    <div id="su-dialog-cancel" title="<?php $fifucloud['close']['title']() ?>" style="display: none;">
         <p>
-            All the images you have uploaded to FIFU Cloud are going to be deleted. Are you sure?
+            <?php $fifucloud['close']['delete']() ?>
         </p>
     </div>
 
     <div id="su-dialog-reset-credentials">
-        <div>After that you will need:</div>
-        <div>1) get your smartphone;</div>
-        <div>2) open Google Authenticator app;</div>
-        <div>3) scan a new QR Code;</div>
-        <div>4) access your email and confirm the reset.</div>
+        <div><?php $fifucloud['reset']['dialog']['intro']() ?></div>
+        <div><?php $fifucloud['reset']['dialog']['smartphone']() ?></div>
+        <div><?php $fifucloud['reset']['dialog']['authenticator']() ?></div>
+        <div><?php $fifucloud['reset']['dialog']['scan']() ?></div>
+        <div><?php $fifucloud['reset']['dialog']['email']() ?></div>
     </div>
 
 </div>
@@ -846,5 +880,6 @@
         jQuery('div.header-box > div').remove();
         jQuery('.notice').remove();
         jQuery('[id^=wp-admin-bar-_]').remove();
+        jQuery('.pms-cross-promo').remove();
     }
 </script>

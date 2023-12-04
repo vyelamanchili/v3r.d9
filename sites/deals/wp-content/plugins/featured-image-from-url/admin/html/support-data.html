@@ -1,8 +1,8 @@
 <div class="wrap">
 
     <div class="header-box">
-        <h1 style="color:white;padding-left:20px"><span class="dashicons dashicons-info" style="font-size:30px"></span><span style="padding-left:20px"><?php _e('Status') ?></span></h1>
-        <button id="fifu-clipboard" style="width:150px;float:right;position:absolute;left:870px;top:40px;">Copy to clipboard</button>
+        <h1 style="color:white;padding-left:20px"><span class="dashicons dashicons-info" style="font-size:30px"></span><span style="padding-left:20px"><?php $fifu['word']['status']() ?></span></h1>
+        <button id="fifu-clipboard" style="width:150px;float:right;position:absolute;left:870px;top:40px;"><?php $fifu['button']['clipboard']() ?></button>
     </div>
 
     <div id="tabs-top" style="float:left">
@@ -29,6 +29,8 @@ fifu_cdn_content:<?php echo $enable_cdn_content ?>;
 fifu_cdn_crop:<?php echo $enable_cdn_crop ?>;
 fifu_cdn_social:<?php echo $enable_cdn_social ?>;
 fifu_check:<?php echo $enable_check ?>;
+fifu_cloud_hotlink:<?php echo $enable_cloud_hotlink ?>;
+fifu_cloud_upload_auto:<?php echo $enable_cloud_upload_auto ?>;
 fifu_content:<?php echo $enable_content ?>;
 fifu_content_cpt:<?php echo $enable_content_cpt ?>;
 fifu_content_page:<?php echo $enable_content_page ?>;
@@ -84,6 +86,7 @@ REST routes:
         jQuery('div.header-box > div').remove();
         jQuery('.notice').remove();
         jQuery('[id^=wp-admin-bar-_]').remove();
+        jQuery('.pms-cross-promo').remove();
     }
 
     jQuery('#fifu-clipboard').on('click', function() {

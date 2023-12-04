@@ -1,7 +1,7 @@
 <?php
 namespace AIOSEO\Plugin\Common\Main;
 
-use \AIOSEO\Plugin\Common\Models;
+use AIOSEO\Plugin\Common\Models;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -187,6 +187,22 @@ class Updates {
 
 		if ( version_compare( $lastActiveVersion, '4.2.8', '<' ) ) {
 			$this->migrateDashboardWidgetsOptions();
+		}
+
+		if ( version_compare( $lastActiveVersion, '4.3.6', '<' ) ) {
+			$this->addPrimaryTermColumn();
+		}
+
+		if ( version_compare( $lastActiveVersion, '4.3.9', '<' ) ) {
+			$this->migratePriorityColumn();
+		}
+
+		if ( version_compare( $lastActiveVersion, '4.4.2', '<' ) ) {
+			$this->updateRobotsTxtRules();
+		}
+
+		if ( version_compare( $lastActiveVersion, '4.5.1', '<' ) ) {
+			$this->checkForGaAnalyticsV3();
 		}
 
 		do_action( 'aioseo_run_updates', $lastActiveVersion );
@@ -1001,8 +1017,8 @@ class Updates {
 	private function schedulePostSchemaMigration() {
 		aioseo()->actionScheduler->scheduleSingle( 'aioseo_v4_migrate_post_schema', 10 );
 
-		if ( ! aioseo()->cache->get( 'v4_migrate_post_schema_default_date' ) ) {
-			aioseo()->cache->update( 'v4_migrate_post_schema_default_date', gmdate( 'Y-m-d H:i:s' ), 3 * MONTH_IN_SECONDS );
+		if ( ! aioseo()->core->cache->get( 'v4_migrate_post_schema_default_date' ) ) {
+			aioseo()->core->cache->update( 'v4_migrate_post_schema_default_date', gmdate( 'Y-m-d H:i:s' ), 3 * MONTH_IN_SECONDS );
 		}
 	}
 
@@ -1053,7 +1069,7 @@ class Updates {
 	 * @return void
 	 */
 	public function migratePostSchemaDefault() {
-		$migrationStartDate = aioseo()->cache->get( 'v4_migrate_post_schema_default_date' );
+		$migrationStartDate = aioseo()->core->cache->get( 'v4_migrate_post_schema_default_date' );
 		if ( ! $migrationStartDate ) {
 			return;
 		}
@@ -1067,7 +1083,7 @@ class Updates {
 			->models( 'AIOSEO\\Plugin\\Common\\Models\\Post' );
 
 		if ( empty( $posts ) ) {
-			aioseo()->cache->delete( 'v4_migrate_post_schema_default_date' );
+			aioseo()->core->cache->delete( 'v4_migrate_post_schema_default_date' );
 
 			return;
 		}
@@ -1085,8 +1101,8 @@ class Updates {
 	 *
 	 * @since  4.2.5
 	 *
-	 * @param  Post $aioseoPost The AIOSEO post object.
-	 * @return Post             The modified AIOSEO post object.
+	 * @param  Models\Post $aioseoPost The AIOSEO post object.
+	 * @return Models\Post             The modified AIOSEO post object.
 	 */
 	public function migratePostSchemaHelper( $aioseoPost ) {
 		$post              = aioseo()->helpers->getPost( $aioseoPost->post_id );
@@ -1187,12 +1203,13 @@ class Updates {
 				];
 
 				$identifierType = ! empty( $schemaTypeOptions->product->identifierType ) ? $schemaTypeOptions->product->identifierType : '';
+				$identifier     = ! empty( $schemaTypeOptions->product->identifier ) ? $schemaTypeOptions->product->identifier : '';
 				if ( preg_match( '/gtin/i', $identifierType ) ) {
-					$graph['properties']['identifiers']['gtin'] = $identifierType;
+					$graph['properties']['identifiers']['gtin'] = $identifier;
 				}
 
 				if ( preg_match( '/mpn/i', $identifierType ) ) {
-					$graph['properties']['identifiers']['mpn'] = $identifierType;
+					$graph['properties']['identifiers']['mpn'] = $identifier;
 				}
 
 				$reviews = ! empty( $schemaTypeOptions->product->reviews ) ? $schemaTypeOptions->product->reviews : [];
@@ -1383,12 +1400,29 @@ class Updates {
 		$widgets = [ 'seoNews' ];
 
 		// If the dashboardWidgets was activated, let's turn on the other widgets.
-		if ( $rawOptions['advanced']['dashboardWidgets'] ) {
+		if ( ! empty( $rawOptions['advanced']['dashboardWidgets'] ) ) {
 			$widgets[] = 'seoOverview';
 			$widgets[] = 'seoSetup';
 		}
 
 		aioseo()->options->advanced->dashboardWidgets = $widgets;
+	}
+
+	/**
+	 * Adds the primary_term column to the aioseo_posts table.
+	 *
+	 * @since 4.3.6
+	 *
+	 * @return void
+	 */
+	private function addPrimaryTermColumn() {
+		if ( ! aioseo()->core->db->columnExists( 'aioseo_posts', 'primary_term' ) ) {
+			$tableName = aioseo()->core->db->db->prefix . 'aioseo_posts';
+			aioseo()->core->db->execute(
+				"ALTER TABLE {$tableName}
+				ADD `primary_term` longtext DEFAULT NULL AFTER `page_analysis`"
+			);
+		}
 	}
 
 	/**
@@ -1400,5 +1434,130 @@ class Updates {
 	 */
 	private function scheduleRemoveRevisionsRecords() {
 		aioseo()->actionScheduler->scheduleSingle( 'aioseo_v419_remove_revision_records', 10, [], true );
+	}
+
+	/**
+	 * Casts the priority column to a float.
+	 *
+	 * @since 4.3.9
+	 *
+	 * @return void
+	 */
+	private function migratePriorityColumn() {
+		if ( ! aioseo()->core->db->columnExists( 'aioseo_posts', 'priority' ) ) {
+			return;
+		}
+
+		$prefix               = aioseo()->core->db->prefix;
+		$aioseoPostsTableName = $prefix . 'aioseo_posts';
+
+		// First, cast the default value to NULL since it's a string.
+		aioseo()->core->db->execute( "UPDATE {$aioseoPostsTableName} SET priority = NULL WHERE priority = 'default'" );
+
+		// Then, alter the column to a float.
+		aioseo()->core->db->execute( "ALTER TABLE {$aioseoPostsTableName} MODIFY priority float" );
+	}
+
+	/**
+	 * Update the custom robots.txt rules to the new format,
+	 * by replacing `rule` and `directoryPath` with `directive` and `fieldValue`, respectively.
+	 *
+	 * @since 4.4.2
+	 *
+	 * @return void
+	 */
+	private function updateRobotsTxtRules() {
+		$rawOptions   = $this->getRawOptions();
+		$currentRules = $rawOptions && ! empty( $rawOptions['tools']['robots']['rules'] )
+			? $rawOptions['tools']['robots']['rules']
+			: [];
+		if ( empty( $currentRules ) || ! is_array( $currentRules ) ) {
+			return;
+		}
+
+		$newRules = [];
+		foreach ( $currentRules as $oldRule ) {
+			$parsedRule = json_decode( $oldRule, true );
+			if ( empty( $parsedRule['rule'] ) && empty( $parsedRule['directoryPath'] ) ) {
+				continue;
+			}
+
+			$newRule = [
+				'userAgent'  => array_key_exists( 'userAgent', $parsedRule ) ? $parsedRule['userAgent'] : '',
+				'directive'  => array_key_exists( 'rule', $parsedRule ) ? $parsedRule['rule'] : '',
+				'fieldValue' => array_key_exists( 'directoryPath', $parsedRule ) ? $parsedRule['directoryPath'] : '',
+			];
+
+			$newRules[] = wp_json_encode( $newRule );
+		}
+
+		if ( $newRules ) {
+			aioseo()->options->tools->robots->rules = $newRules;
+		}
+	}
+
+	/**
+	 * Checks if the user is currently using the old GA Analytics v3 integration and create a notification.
+	 *
+	 * @since 4.5.1
+	 *
+	 * @return void
+	 */
+	private function checkForGaAnalyticsV3() {
+		// If either MonsterInsights or ExactMetrics is active, let's return early.
+		$pluginData = aioseo()->helpers->getPluginData();
+		if (
+			$pluginData['miPro']['activated'] ||
+			$pluginData['miLite']['activated'] ||
+			$pluginData['emPro']['activated'] ||
+			$pluginData['emLite']['activated']
+		) {
+			return;
+		}
+
+		$rawOptions = $this->getRawOptions();
+		if ( empty( $rawOptions['deprecated']['webmasterTools']['googleAnalytics']['id'] ) ) {
+			return;
+		}
+
+		// Let's clear the notification if the search is working again.
+		$notification = Models\Notification::getNotificationByName( 'google-analytics-v3-deprecation' );
+		if ( $notification->exists() ) {
+			$notification->dismissed = false;
+			$notification->save();
+
+			return;
+		}
+
+		// Determine which plugin name to use.
+		$pluginName = 'MonsterInsights';
+		if (
+			(
+				$pluginData['emPro']['installed'] ||
+				$pluginData['emLite']['installed']
+			) &&
+			! $pluginData['miPro']['installed'] &&
+			! $pluginData['miLite']['installed']
+		) {
+			$pluginName = 'ExactMetrics';
+		}
+
+		Models\Notification::addNotification( [
+			'slug'              => uniqid(),
+			'notification_name' => 'google-analytics-v3-deprecation',
+			'title'             => __( 'Universal Analytics V3 Deprecation Notice', 'all-in-one-seo-pack' ),
+			'content'           => sprintf(
+				// Translators: 1 - Line break HTML tags, 2 - Plugin short name ("AIOSEO"), Analytics plugin name (e.g. "MonsterInsights").
+				__( 'You have been using the %2$s Google Analytics V3 (Universal Analytics) integration which has been deprecated by Google and is no longer supported. This may affect your website\'s data accuracy and performance.%1$sTo ensure a seamless analytics experience, we recommend migrating to %3$s, a powerful analytics solution.%1$s%3$s offers advanced features such as real-time tracking, enhanced e-commerce analytics, and easy-to-understand reports, helping you make informed decisions to grow your online presence effectively.%1$sClick the button below to be redirected to the %3$s setup process, where you can start benefiting from its robust analytics capabilities immediately.', 'all-in-one-seo-pack' ), // phpcs:ignore Generic.Files.LineLength.MaxExceeded
+				'<br><br>',
+				AIOSEO_PLUGIN_SHORT_NAME,
+				$pluginName
+			),
+			'type'              => 'error',
+			'level'             => [ 'all' ],
+			'button1_label'     => __( 'Fix Now', 'all-in-one-seo-pack' ),
+			'button1_action'    => admin_url( 'admin.php?page=aioseo-monsterinsights' ),
+			'start'             => gmdate( 'Y-m-d H:i:s' )
+		] );
 	}
 }

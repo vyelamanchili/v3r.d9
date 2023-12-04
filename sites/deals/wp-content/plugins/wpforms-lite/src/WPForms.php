@@ -90,6 +90,12 @@ namespace WPForms {
 			}
 
 			if ( $name === 'pro' ) {
+				_deprecated_argument(
+					'wpforms()->pro',
+					'1.8.2.2 of the WPForms plugin',
+					'Please use `wpforms()->is_pro()` instead.'
+				);
+
 				return wpforms()->is_pro();
 			}
 
@@ -159,9 +165,12 @@ namespace WPForms {
 		 */
 		private function includes() {
 
+			$this->error_handler();
+
 			require_once WPFORMS_PLUGIN_DIR . 'includes/class-db.php';
 			require_once WPFORMS_PLUGIN_DIR . 'includes/functions.php';
 			require_once WPFORMS_PLUGIN_DIR . 'includes/compat.php';
+			require_once WPFORMS_PLUGIN_DIR . 'includes/fields/class-base.php';
 
 			$this->includes_magic();
 
@@ -194,6 +203,18 @@ namespace WPForms {
 				require_once WPFORMS_PLUGIN_DIR . 'includes/admin/class-about.php';
 				require_once WPFORMS_PLUGIN_DIR . 'includes/admin/ajax-actions.php';
 			}
+		}
+
+		/**
+		 * Include the error handler to suppress deprecated messages from vendor folders.
+		 *
+		 * @since 1.8.5
+		 */
+		private function error_handler() {
+
+			require_once WPFORMS_PLUGIN_DIR . 'src/ErrorHandler.php';
+
+			( new ErrorHandler() )->init();
 		}
 
 		/**
@@ -361,7 +382,7 @@ namespace WPForms {
 
 			global $wpdb;
 
-			$tables = $wpdb->get_results( "SHOW TABLES LIKE '" . $wpdb->prefix . "wpforms_%'", 'ARRAY_N' ); // phpcs:ignore
+			$tables = $wpdb->get_results( "SHOW TABLES LIKE '{$wpdb->prefix}wpforms_%'", 'ARRAY_N' ); // phpcs:ignore
 
 			return ! empty( $tables ) ? wp_list_pluck( $tables, 0 ) : [];
 		}

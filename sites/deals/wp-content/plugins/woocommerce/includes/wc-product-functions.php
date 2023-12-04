@@ -448,7 +448,6 @@ function wc_scheduled_sales() {
 
 				if ( $sale_price ) {
 					$product->set_price( $sale_price );
-					$product->set_date_on_sale_from( '' );
 				} else {
 					$product->set_date_on_sale_to( '' );
 					$product->set_date_on_sale_from( '' );
@@ -698,7 +697,7 @@ function wc_get_product_variation_attributes( $variation_id ) {
 			$attribute                 = 'attribute_' . sanitize_title( $attribute_name );
 			$found_parent_attributes[] = $attribute;
 			if ( ! array_key_exists( $attribute, $variation_attributes ) ) {
-				$variation_attributes[ $attribute ] = ''; // Add it - 'any' will be asumed.
+				$variation_attributes[ $attribute ] = ''; // Add it - 'any' will be assumed.
 			}
 		}
 	}

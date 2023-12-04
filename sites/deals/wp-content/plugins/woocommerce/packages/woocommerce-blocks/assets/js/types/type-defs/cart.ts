@@ -123,6 +123,7 @@ export type CatalogVisibility = 'catalog' | 'hidden' | 'search' | 'visible';
 export interface CartItem {
 	key: string;
 	id: number;
+	type: string;
 	quantity: number;
 	catalog_visibility: CatalogVisibility;
 	quantity_limits: {
@@ -210,8 +211,6 @@ export interface CartMeta {
 	isCartDataStale: boolean;
 	applyingCoupon: string;
 	removingCoupon: string;
-	/* Whether the full address has been previously pushed to the server */
-	fullShippingAddressPushed: boolean;
 }
 export interface ExtensionCartUpdateArgs {
 	data: Record< string, unknown >;

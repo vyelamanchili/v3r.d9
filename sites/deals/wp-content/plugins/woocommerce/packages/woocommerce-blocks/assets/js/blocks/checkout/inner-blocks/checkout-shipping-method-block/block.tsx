@@ -10,13 +10,14 @@ import {
 import classnames from 'classnames';
 import { Icon, store, shipping } from '@wordpress/icons';
 import { useEffect } from '@wordpress/element';
-import { VALIDATION_STORE_KEY } from '@woocommerce/block-data';
-import { useDispatch } from '@wordpress/data';
+import { CART_STORE_KEY, VALIDATION_STORE_KEY } from '@woocommerce/block-data';
+import { useDispatch, useSelect } from '@wordpress/data';
+import { isPackageRateCollectable } from '@woocommerce/base-utils';
+import { getSetting } from '@woocommerce/settings';
 
 /**
  * Internal dependencies
  */
-import './style.scss';
 import { RatePrice, getLocalPickupPrices, getShippingPrices } from './shared';
 import type { minMaxPrices } from './shared';
 import { defaultLocalPickupText, defaultShippingText } from './constants';
@@ -92,8 +93,17 @@ const ShippingSelector = ( {
 	shippingCostRequiresAddress: boolean;
 	toggleText: string;
 } ) => {
+	const hasShippableRates = useSelect( ( select ) => {
+		const rates = select( CART_STORE_KEY ).getShippingRates();
+		return rates.some(
+			( { shipping_rates: shippingRate } ) =>
+				! shippingRate.every( isPackageRateCollectable )
+		);
+	} );
 	const rateShouldBeHidden =
-		shippingCostRequiresAddress && shippingAddressHasValidationErrors();
+		shippingCostRequiresAddress &&
+		shippingAddressHasValidationErrors() &&
+		! hasShippableRates;
 	const hasShippingPrices = rate.min !== undefined && rate.max !== undefined;
 	const { setValidationErrors, clearValidationError } =
 		useDispatch( VALIDATION_STORE_KEY );
@@ -155,17 +165,19 @@ const Block = ( {
 	showIcon,
 	localPickupText,
 	shippingText,
-	shippingCostRequiresAddress = false,
 }: {
 	checked: string;
 	onChange: ( value: string ) => void;
 	showPrice: boolean;
 	showIcon: boolean;
-	shippingCostRequiresAddress: boolean;
 	localPickupText: string;
 	shippingText: string;
 } ): JSX.Element | null => {
 	const { shippingRates } = useShippingData();
+	const shippingCostRequiresAddress = getSetting< boolean >(
+		'shippingCostRequiresAddress',
+		false
+	);
 
 	return (
 		<RadioGroup

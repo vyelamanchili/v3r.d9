@@ -430,6 +430,77 @@ ul.b2s-network-item-auth-list li:last-child{
     border-bottom: 1px solid lightgray;
 }
 
+.b2s-edit-template-preview-box-37 {
+    background-color: #000;
+    color: #cccccc;
+}
+
+.b2s-edit-template-preview-title-37{
+    font-size:14pt;
+    font-weight:bold;
+
+}
+
+.b2s-edit-template-preview-tags-37 {
+    color:#ef0000;
+    margin-top:40px;
+}
+
+.b2s-edit-template-preview-38 {
+    background-color: #282c37;
+    color: #fff;
+}
+
+.b2s-edit-template-preview-profile-handle-38 {
+
+    color: #606984;
+}
+
+.b2s-edit-template-preview-content-38 {
+    margin-top:10px;
+}
+
+.b2s-edit-template-preview-like-icons-38 {
+    width:100%;
+}
+
+.b2s-edit-template-preview-link-title-38 {
+    font-weight:bold;
+}
+
+.b2s-edit-template-preview-link-meta-box-38 {
+    border-style:solid;
+    border-width:1px;
+    border-color: #313543;
+    color: #606984;
+    width:100%;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    margin-top: 10px;
+
+
+}
+
+.b2s-edit-template-preview-image-image-39 {
+    background-color: #313338;
+    color: #e0e1e5;
+}
+
+.b2s-edit-template-preview-profile-img-39 {
+    border: 1px solid lightgray;
+    border-radius: 25px;
+    padding: 1px;
+    height: 36px;
+    width: 36px;
+}
+
+.b2s-edit-template-preview-image-image-title-39 {
+    background-color: #2b2d31;
+    color: #e0e1e5;
+    border-left: #1e1f22;
+    border-left-width: 3px;
+}
+
 .b2s-edit-template-preview-link-image-2 {
     width: auto !important;
     height: 85px;
@@ -731,6 +802,67 @@ ul.b2s-network-item-auth-list li:last-child{
     margin: 15px 0px;
 }
 
+.b2s-edit-template-preview-content-39 {
+    margin: 0px !important;
+    background-color: #313338;
+    color: #e0e1e5;
+}
+
+.b2s-edit-template-preview-box-39 {
+    margin: 0px !important;
+    background-color: #313338;
+    color: #e0e1e5;
+
+}
+
+.b2s-edit-template-preview-box-inner-39 {
+    margin: 0px !important;
+    background-color: #2b2d31;
+    color: #e0e1e5;
+    border-left-color: #1e1f22;
+    border-width: 0px 0px 0px 5px;
+    border-style:solid;
+    padding-left:13px;
+}
+
+.b2s-edit-template-preview-margin-39 {
+    margin-right:15px;
+}
+
+
+.b2s-edit-template-preview-content-title-39 {
+    margin: 0px !important;
+    background-color: #2b2d31;
+    color: #e0e1e5;
+    
+}
+
+.b2s-edit-template-preview-title-39 {
+    margin: 0px !important;
+    padding:0px !important;
+    font-weight:bold;
+    background-color: #2b2d31;
+    color: #00aafc;
+}
+
+.b2s-edit-template-preview-title-account-39 {
+    margin: 0px !important;
+    padding:0px !important;
+    font-weight:bold;
+}
+
+.b2s-edit-template-bot-39 {
+    background-color: #5865f2;
+    border-radius: 3px;
+    text-align:left;
+    margin: 0px !important;
+    padding:0px 0px 0px 2px !important;
+}
+
+.b2s-edit-template-timestamp-39 {
+    font-weight:normal;
+}
+
 .b2s-login-form-label {
     padding-top: 7px;
     margin-top: 0;
@@ -909,4 +1041,68 @@ ul.b2s-network-item-auth-list li:last-child{
   opacity: 0.3;
   pointer-events: none;
   cursor: default;
+}
+
+.b2s-user-app-link {
+    margin-bottom:5px;
+}
+
+#b2s-onboarding-toastee {
+    position: fixed; 
+    top: 30px; 
+    right: 20px;
+}
+
+#b2s-onboarding-toastee-inner {
+    display: block; 
+    position: relative; 
+    z-index: 2000; 
+    border-radius: 10px; 
+    min-width: 250px; 
+    max-width: 250px; 
+    height: auto; 
+    background: rgb(121, 179, 51);
+}
+
+.closeToastee{
+    color: #fff; 
+    text-align: center; 
+    line-height: .8; 
+    padding: 5px;
+    border-radius: 100%; 
+    border: 2px solid #fff; 
+    font-family: sans-serif; 
+    display: block; 
+    cursor: pointer; 
+    position: absolute; 
+    top: 10px; 
+    right: 10px; 
+    color: #fff;
+}
+
+.b2s-onboarding-toastee-title {
+    text-align: center; 
+    padding-left:10px;
+    padding-right:10px;
+    padding-top:5px;
+    padding-bottom:10px;
+    color: #fff;
+}
+
+.b2s-onboarding-hr {
+    color: transparent; 
+    width: 80%; 
+    margin: 0 auto; 
+    border-bottom: 1px solid #fff; 
+    opacity: 0.3
+}
+
+.b2s-onboarding-p {
+    padding: 20px; 
+    color: #fff
+}
+
+.toggle {
+    float:right;
+    width:50px !important;
 }

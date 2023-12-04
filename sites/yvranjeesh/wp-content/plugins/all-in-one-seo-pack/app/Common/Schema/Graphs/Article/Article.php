@@ -68,7 +68,7 @@ class Article extends Graphs\Graph {
 			$keywords = array_map( function ( $keywordObject ) {
 				return $keywordObject['value'];
 			}, $keywords );
-			$data['keywords'] = implode( ',', $keywords );
+			$data['keywords'] = implode( ', ', $keywords );
 		}
 
 		if ( isset( $graphData->properties->dates->include ) && ! $graphData->properties->dates->include ) {
@@ -102,8 +102,8 @@ class Article extends Graphs\Graph {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  WP_Post $post The post object.
-	 * @return array         The image graph data.
+	 * @param  \WP_Post $post The post object.
+	 * @return array          The image graph data.
 	 */
 	private function postImage( $post ) {
 		$featuredImage = $this->getFeaturedImage();

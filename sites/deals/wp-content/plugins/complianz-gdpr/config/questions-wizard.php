@@ -66,7 +66,19 @@ $this->fields += array(
 			'type'      => 'radio',
 			'options'   => $this->yes_no,
 			'condition' => array( 'regions' => 'eu' ),
-			'label'     => __( "Do you target visitors from Germany, Austria, Belgium and/or Spain?", 'complianz-gdpr' ),
+			'label'     => __( "Do you target visitors from Germany, Austria, Belgium or Spain?", 'complianz-gdpr' ),
+			'required'  => true,
+		),
+
+		'uk_consent_regions' => array(
+			'step'      => STEP_COMPANY,
+			'section'   => 1,
+			'source'    => 'wizard',
+			'default'   => 'no',
+			'type'      => 'radio',
+			'options'   => $this->yes_no,
+			'condition' => array( 'regions' => 'uk' ),
+			'label'     => __( "Do you target visitors from Jersey or Guernsey?", 'complianz-gdpr' ),
 			'required'  => true,
 		),
 
@@ -82,7 +94,19 @@ $this->fields += array(
 			'tooltip'   => __( "There are some laws that only apply to one, or more states and are described seperately if needed.", 'complianz-gdpr' ),
 			'required'  => false,
 		),
-
+		'ca_targets_quebec' => array(
+			'step'      => STEP_COMPANY,
+			'section'   => 1,
+			'source'    => 'wizard',
+			'type'      => 'radio',
+			'default'   => '',
+			'options'   => $this->yes_no,
+			'condition' => array( 'regions' => 'ca' ),
+			'help'      => __( "Quebec is taking deliberate steps toward modernized privacy legislation.", 'complianz-gdpr' ).cmplz_read_more( "https://complianz.io/quebec-bill-64/" ),
+			'label'     => __( "Do you specifically target visitors from Quebec?", 'complianz-gdpr' ),
+			'tooltip'   => __( "This will apply an opt-in mechanism for all visitors from Canada, as required by Quebec bill 64.", 'complianz-gdpr' ),
+			'required'  => false,
+		),
 		'wp_admin_access_users' => array(
 			'step'     => STEP_COMPANY,
 			'section'  => 1,
@@ -682,7 +706,7 @@ $this->fields += array(
 			'help'      => cmplz_sprintf( __( "Your site uses Google Fonts. For best privacy compliance, we recommend to self host Google Fonts. To self host, follow the instructions in %sthis article%s", 'complianz-gdpr' ), '<a target="_blank" href="https://complianz.io/self-hosting-google-fonts-for-wordpress/">', '</a>' ),
 			'comment'   => __("If you choose 'No', Complianz will block all known Google Fonts sources.", "complianz-gdpr").' '.cmplz_sprintf(__("Please read this %sarticle%s why self-hosting Google Fonts is recommended.", "complianz-gdpr"),'<a target="_blank" href="https://complianz.io/self-hosting-google-fonts-for-wordpress/">', '</a>'),
 			'condition' => array( 'thirdparty_services_on_site' => 'google-fonts' ),
-			'callback_condition' => array( 'regions' => ['eu'] ),
+			'callback_condition' => 'cmplz_uses_optin',
 			'label'     => __( "Will you self-host Google Fonts?", 'complianz-gdpr' ),
 			'comment_status'     => 'warning',
 		),
@@ -786,11 +810,10 @@ $this->fields += array(
 			'options'                 => array(
 				'yes' => __("Yes", "complianz-gdpr"),
 				'no' => __("No", "complianz-gdpr"),
-				'tcf' => __("Enable TCF", "complianz-gdpr").cmplz_upgrade_to_premium('https://complianz.io/pricing/'),
+				'tcf' => __("Enable TCF and Google CMP", "complianz-gdpr").cmplz_upgrade_to_premium('https://complianz.io/pricing/'),
 			),
 			'default'                 => 'no',
 			'label'                   => __( "Are any of your advertising cookies used to show personalized ads?", 'complianz-gdpr' ),
-			'comment'                 => __( "Google recommends an integration with TCF V2.0 to avoid loss of revenue.", 'complianz-gdpr' ).cmplz_read_more("https://complianz.io/tcf-for-wordpress"),
 			'help'                    => __( "If you only use Google for advertising, and have activated the option to use only non personalized ads, you can select no here.", 'complianz-gdpr' ),
 			'condition'               => array(
 				'uses_ad_cookies' => 'yes'

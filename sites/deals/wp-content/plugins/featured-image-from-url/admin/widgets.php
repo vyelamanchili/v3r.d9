@@ -18,7 +18,6 @@ class Fifu_Widget_Image extends WP_Widget {
 
     public function form($instance) {
         wp_enqueue_style('fifu-pro-css', plugins_url('/html/css/pro.css', __FILE__), array(), fifu_version_number());
-        echo '<div class="fifu-pro" style="float:right;position:relative;right:-30px;top:-5px"><a class="fifu-pro-link" href="https://fifu.app/" target="_blank" title="Unlock all PRO features"><span class="dashicons dashicons-lock fifu-pro-icon"></span></a></div>';
         include 'html/widget-image.html';
     }
 
@@ -47,9 +46,9 @@ class Fifu_Widget_Grid extends WP_Widget {
     }
 
     public function form($instance) {
+        $fifu = fifu_get_strings_widget();
         $rows = isset($instance['rows']) ? $instance['rows'] : 1;
         $columns = isset($instance['columns']) ? $instance['columns'] : 1;
-        echo '<div class="fifu-pro" style="float:right;position:relative;right:-30px;top:-5px"><a class="fifu-pro-link" href="https://fifu.app/" target="_blank" title="Unlock all PRO features"><span class="dashicons dashicons-lock fifu-pro-icon"></span></a></div>';
         include 'html/widget-grid.html';
     }
 
@@ -77,8 +76,8 @@ class Fifu_Widget_Gallery extends WP_Widget {
     }
 
     public function form($instance) {
+        $fifu = fifu_get_strings_widget();
         wp_enqueue_style('fifu-pro-css', plugins_url('/html/css/pro.css', __FILE__), array(), fifu_version_number());
-        echo '<div class="fifu-pro" style="float:right;position:relative;right:-30px;top:-5px"><a class="fifu-pro-link" href="https://fifu.app/" target="_blank" title="Unlock all PRO features"><span class="dashicons dashicons-lock fifu-pro-icon"></span></a></div>';
         include 'html/widget-gallery.html';
     }
 

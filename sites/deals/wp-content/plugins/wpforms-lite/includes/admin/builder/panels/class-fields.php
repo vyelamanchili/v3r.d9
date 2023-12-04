@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Fields management panel.
  *
@@ -22,6 +26,7 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 		$this->sidebar = true;
 
 		if ( $this->form ) {
+			add_action( 'wpforms_builder_fields', [ $this, 'search' ], 5 );
 			add_action( 'wpforms_builder_fields', [ $this, 'fields' ] );
 			add_action( 'wpforms_builder_fields_options', [ $this, 'fields_options' ] );
 			add_action( 'wpforms_builder_preview', [ $this, 'preview' ] );
@@ -29,6 +34,7 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 			// Template for form builder previews.
 			add_action( 'wpforms_builder_print_footer_scripts', [ $this, 'field_preview_templates' ] );
 			add_action( 'wpforms_builder_print_footer_scripts', [ $this, 'choices_limit_message_template' ] );
+			add_action( 'wpforms_builder_print_footer_scripts', [ $this, 'choices_empty_message_template' ] );
 		}
 	}
 
@@ -45,6 +51,14 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 		wp_enqueue_script(
 			'wpforms-builder-drag-fields',
 			WPFORMS_PLUGIN_URL . "assets/js/components/admin/builder/drag-fields{$min}.js",
+			[ 'wpforms-builder' ],
+			WPFORMS_VERSION,
+			true
+		);
+
+		wp_enqueue_script(
+			'wpforms-builder-search-fields',
+			WPFORMS_PLUGIN_URL . "assets/js/components/admin/builder/search-fields{$min}.js",
 			[ 'wpforms-builder' ],
 			WPFORMS_VERSION,
 			true
@@ -193,45 +207,7 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 	 */
 	public function fields() {
 
-		$fields = [
-			'standard' => [
-				'group_name' => esc_html__( 'Standard Fields', 'wpforms-lite' ),
-				'fields'     => [],
-			],
-			'fancy'    => [
-				'group_name' => esc_html__( 'Fancy Fields', 'wpforms-lite' ),
-				'fields'     => [],
-			],
-			'payment'  => [
-				'group_name' => esc_html__( 'Payment Fields', 'wpforms-lite' ),
-				'fields'     => [],
-			],
-		];
-
-		/**
-		 * Allows developers to modify content of the the Add Field tab.
-		 *
-		 * With this filter developers can add their own fields or even fields groups.
-		 *
-		 * @since 1.4.0
-		 *
-		 * @param array $fields {
-		 *     Fields data multidimensional array.
-		 *
-		 *     @param array $standard Standard fields group.
-		 *         @param string $group_name Group name.
-		 *         @param array  $fields     Fields array.
-		 *
-		 *     @param array $fancy    Fancy fields group.
-		 *         @param string $group_name Group name.
-		 *         @param array  $fields     Fields array.
-		 *
-		 *     @param array $payment  Payment fields group.
-		 *         @param string $group_name Group name.
-		 *         @param array  $fields     Fields array.
-		 * }
-		 */
-		$fields = apply_filters( 'wpforms_builder_fields_buttons', $fields );
+		$fields = wpforms_get_builder_fields();
 
 		// Output the buttons.
 		foreach ( $fields as $id => $group ) {
@@ -273,6 +249,10 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 					$field,
 					$this->form_data
 				);
+
+				if ( ! empty( $field['keywords'] ) ) {
+					$atts['data']['field-keywords'] = $field['keywords'];
+				}
 
 				if ( ! empty( $field['class'] ) ) {
 					$atts['class'][] = $field['class'];
@@ -618,7 +598,7 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 							<input class="wpforms-screen-reader-element" type="{{ data.type }}" readonly<# if ( 1 === data.settings.choices[choiceID].default ) { print( ' checked' ); } #>>
 						<# } #>
 						<span class="wpforms-image-choices-label">
-							{{ WPFormsBuilder.fieldChoiceLabel( data, choiceID ) }}
+							{{{ WPFormsBuilder.fieldChoiceLabel( data, choiceID ) }}}
 						</span>
 					</label>
 				</li>
@@ -639,7 +619,7 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 							<input class='wpforms-screen-reader-element' type='{{ data.type }}' readonly<# if ( 1 === data.settings.choices[choiceID].default ) { print( ' checked' ); } #>>
 						<# } #>
 						<span class='wpforms-icon-choices-label'>
-							{{ WPFormsBuilder.fieldChoiceLabel( data, choiceID ) }}
+							{{{ WPFormsBuilder.fieldChoiceLabel( data, choiceID ) }}}
 						</span>
 					</label>
 				</li>
@@ -650,7 +630,7 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 				<# _.each( data.order, function( choiceID, key ) {  #>
 				<li>
 					<input type="{{ data.type }}" readonly<# if ( 1 === data.settings.choices[choiceID].default ) { print( ' checked' ); } #>>
-					{{ WPFormsBuilder.fieldChoiceLabel( data, choiceID ) }}
+					{{{ WPFormsBuilder.fieldChoiceLabel( data, choiceID ) }}}
 				</li>
 				<# }) #>
 			</ul>
@@ -682,6 +662,53 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 				?>
 			</div>
 		</script>
+		<?php
+	}
+
+	/**
+	 * Template for empty choices message.
+	 *
+	 * @since 1.8.2
+	 *
+	 * @return void
+	 */
+	public function choices_empty_message_template() {
+
+		?>
+		<script type="text/html" id="tmpl-wpforms-empty-choice-message">
+			<div class="wpforms-notice-dynamic-empty wpforms-alert wpforms-alert-warning">
+				{{ data.message }}
+			</div>
+		</script>
+		<?php
+	}
+
+	/**
+	 * Builder fields search.
+	 *
+	 * @since 1.8.3
+	 */
+	public function search() {
+		?>
+		<div class="wpforms-search-fields-wrapper">
+			<div class="wpforms-search-fields-input-wrapper">
+				<label for="wpforms-search-fields-input" class="wpforms-screen-reader-element"><?php esc_html_e( 'Search fields:', 'wpforms-lite' ); ?></label>
+				<input type="search" id="wpforms-search-fields-input" placeholder="<?php echo esc_attr__( 'Search fields...', 'wpforms-lite' ); ?>" autocomplete="off">
+				<i class="fa fa-times wpforms-search-fields-input-close" aria-hidden="true"></i>
+			</div>
+
+			<div class="wpforms-search-fields-list">
+				<div class="wpforms-add-fields-group">
+					<div class="wpforms-add-fields-buttons"></div>
+				</div>
+			</div>
+
+			<div class="wpforms-search-fields-no-results">
+				<p>
+					<?php esc_html_e( 'Sorry, we didn\'t find any fields that match your criteria.', 'wpforms-lite' ); ?>
+				</p>
+			</div>
+		</div>
 		<?php
 	}
 }

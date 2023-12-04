@@ -43,11 +43,10 @@ if ( ! class_exists( "burst_notices" ) ) {
 		 *
 		 */
 
-		public function dismiss_notice($id)
+		public function dismiss_notice($data)
 		{
-			if ( !empty($id) ) {
-
-				$id = sanitize_title( $id );
+			if ( isset($data['id']) ) {
+				$id = sanitize_title( $data['id'] );
 				update_option( "burst_".$id."_dismissed", true, false );
 				delete_transient( 'burst_plusone_count' );
 			}
@@ -71,12 +70,12 @@ if ( ! class_exists( "burst_notices" ) ) {
 				'warning' => __( "Warning", "burst-statistics" ),
 				'error' => __( "Error", "burst-statistics" ),
 				'open'    => __( "Open", "burst-statistics" ),
-				'premium' => __( "Premium", "burst-statistics" ),
+				'pro' => __( "Pro", "burst-statistics" ),
 			];
 
 			$defaults = array(
 				'admin_notices'      => false,
-				'premium_only'       => false,
+				'pro_only'       => false,
 				'dismiss_on_upgrade' => false,
 				'status'             => 'open', //status can be "all" (all tasks, regardless of dismissed or open), "open" (not success/completed) or "completed"
 			);
@@ -101,9 +100,24 @@ if ( ! class_exists( "burst_notices" ) ) {
 			);
 
 			$notices = [
+				'ajax_fallback' => array(
+					'condition'  => array(
+						'wp_option_burst_ajax_fallback_active',
+					),
+					'callback' => '_true_',
+					'output' => array(
+						'true' => array(
+							'msg' => __( "Please check if your REST API is loading correctly. Your site currently is using the slower Ajax fallback method to load the settings.", 'really-simple-ssl' ),
+							'icon' => 'warning',
+							'admin_notice' => false,
+							'url' => 'https://burst-statistics.com/instructions/rest-api-error/',
+							'dismissible' => true,
+							'plusone' => true,
+						),
+					),
+				),
 				'tracking-error' => [
 					'callback' => 'burst_tracking_status_error',
-					'score' => 0,
 					'output' => array(
 						'true' => array(
 							'msg' => __( "Due to your server or website configuration it is not possible to track statistics.", 'burst-statistics' ),
@@ -113,7 +127,7 @@ if ( ! class_exists( "burst_notices" ) ) {
 						),
 					),
 				],
-				'bf_notice2022' => [
+				'bf_notice2023' => [
 					'condition'  => [
 						'BURST()->admin->is_bf'
 					],
@@ -121,16 +135,42 @@ if ( ! class_exists( "burst_notices" ) ) {
 					'output' => [
 						'true' => [
 							'msg' => __( "Black Friday sale! Get 40% Off Burst Pro.", 'burst-statistics' ),
-							'icon' => 'premium',
-							'url' => burst_premium_url,
+							'icon' => 'pro',
+							'url' => burst_pro_url,
 							'dismissible' => true,
 							'plusone' => true,
 						],
 					],
 				],
+				'new_delete_old_data' => [
+					'callback'  => '_true_',
+					'output'    => [
+						'true' => [
+							'msg'         => __( "New! Automatically remove outdated data to optimize your database size.", 'burst-statistics' ),
+							'icon'        => 'new',
+							'url'         => '#settings/data',
+							'dismissible' => true,
+							'plusone'     => burst_is_pro() ? false : true,
+						],
+					],
+				],
+				'new_country_information' => [
+					'condition' => [
+						'burst_is_pro'
+					],
+					'callback'  => '_true_',
+					'output'    => [
+						'true' => [
+							'msg'         => __( "New! Keep track of what country your visitors come from.", 'burst-statistics' ),
+							'icon'        => 'new',
+							'url'         => '#statistics',
+							'dismissible' => true,
+							'plusone'     => false,
+						],
+					],
+				],
 				'leave-feedback' => [
 					'callback' => '_true_',
-					'score' => 0,
 					'status' => 'all',
 					'output' => array(
 						'true' => array(
@@ -145,10 +185,6 @@ if ( ! class_exists( "burst_notices" ) ) {
 				],
 			];
 
-			//on multisite, don't show the notice on subsites.
-			if ( is_multisite() && !is_network_admin() ) {
-				unset($notices['secure_cookies_set']);
-			}
 
 			$notices = apply_filters('burst_notices', $notices);
 			foreach ($notices as $id => $notice) {
@@ -244,10 +280,10 @@ if ( ! class_exists( "burst_notices" ) ) {
 			}
 			$notices = $warnings + $open + $other;
 
-			//if we only want a list of premium notices
-			if ( $args['premium_only'] ) {
+			//if we only want a list of pro notices
+			if ( $args['pro_only'] ) {
 				foreach ($notices as $key => $notice){
-					if ( !isset($notice['output']['icon']) || $notice['output']['icon'] !== 'premium' ) {
+					if ( !isset($notice['output']['icon']) || $notice['output']['icon'] !== 'pro' ) {
 						unset($notices[$key]);
 					}
 				}
@@ -256,12 +292,12 @@ if ( ! class_exists( "burst_notices" ) ) {
 		}
 
 		/**
-		 * Count number of premium notices we have in the list.
+		 * Count number of pro notices we have in the list.
 		 * @return int
 		 */
 		public function get_lowest_possible_task_count() {
-			$premium_notices = $this->get_notices_list(array('premium_only'=>true));
-			return count($premium_notices) ;
+			$pro_notices = $this->get_notices_list(array('pro_only'=>true));
+			return count($pro_notices) ;
 		}
 
 		/**
@@ -335,7 +371,9 @@ if ( ! class_exists( "burst_notices" ) ) {
 				$invert = true;
 			}
 
-			if ( $func === '_true_') {
+			if ( strpos($func, 'wp_option_')!==false ) {
+				$output = get_option(str_replace('wp_option_', '', $func) )!==false;
+			} else if ( $func === '_true_') {
 				$output = true;
 			} else if ( $func === '_false_' ) {
 				$output = false;

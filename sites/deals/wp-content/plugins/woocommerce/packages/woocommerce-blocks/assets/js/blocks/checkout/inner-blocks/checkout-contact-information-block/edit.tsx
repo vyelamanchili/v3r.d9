@@ -42,11 +42,14 @@ export const Edit = ( {
 		>
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Account', 'woo-gutenberg-products-block' ) }
+					title={ __(
+						'Account creation and guest checkout',
+						'woo-gutenberg-products-block'
+					) }
 				>
 					<p className="wc-block-checkout__controls-text">
 						{ __(
-							'Account creation and guest checkout settings can be managed in the WooCommerce settings.',
+							'Account creation and guest checkout settings can be managed in your store settings.',
 							'woo-gutenberg-products-block'
 						) }
 					</p>

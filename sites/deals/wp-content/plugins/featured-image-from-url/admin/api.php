@@ -1,11 +1,15 @@
 <?php
 
-define('FIFU_TRY_AGAIN_LATER', json_encode(array('code' => 0, 'message' => 'try again later', 'color' => 'orange')));
 define('FIFU_NO_CREDENTIALS', json_encode(array('code' => 'no_credentials')));
 define('FIFU_SU_ADDRESS', FIFU_CLOUD_DEBUG && fifu_is_local() ? 'http://0.0.0.0:8080' : 'https://ws.fifu.app');
 define('FIFU_QUERY_ADDRESS', 'https://query.featuredimagefromurl.com');
 define('FIFU_SURVEY_ADDRESS', 'https://survey.featuredimagefromurl.com');
 define('FIFU_CLIENT', 'featured-image-from-url');
+
+function fifu_try_again_later() {
+    $strings = fifu_get_strings_api();
+    return json_encode(array('code' => 0, 'message' => $strings['info']['try'](), 'color' => 'orange'));
+}
 
 function fifu_is_local() {
     $query = 'http://localhost';
@@ -45,7 +49,7 @@ function fifu_api_sign_up(WP_REST_Request $request) {
     $response = fifu_remote_post(FIFU_SU_ADDRESS . '/sign-up/', $array);
     if (is_wp_error($response) || $response['response']['code'] == 404) {
         fifu_delete_credentials();
-        return json_decode(FIFU_TRY_AGAIN_LATER);
+        return json_decode(fifu_try_again_later());
     }
 
     $json = json_decode($response['http_response']->get_response_object()->body);
@@ -106,7 +110,7 @@ function fifu_api_login(WP_REST_Request $request) {
     );
     $response = fifu_remote_post(FIFU_SU_ADDRESS . '/login/', $array);
     if (is_wp_error($response))
-        return json_decode(FIFU_TRY_AGAIN_LATER);
+        return json_decode(fifu_try_again_later());
 
     $json = json_decode($response['http_response']->get_response_object()->body);
     $json->fifu_tfa_hash = hash('sha512', $tfa);
@@ -156,7 +160,7 @@ function fifu_api_logout(WP_REST_Request $request) {
     );
     $response = fifu_remote_post(FIFU_SU_ADDRESS . '/logout/', $array);
     if (is_wp_error($response))
-        return json_decode(FIFU_TRY_AGAIN_LATER);
+        return json_decode(fifu_try_again_later());
 
     $json = json_decode($response['http_response']->get_response_object()->body);
     if ($json->code == 8)
@@ -196,7 +200,7 @@ function fifu_api_cancel(WP_REST_Request $request) {
     );
     $response = fifu_remote_post(FIFU_SU_ADDRESS . '/cancel/', $array);
     if (is_wp_error($response))
-        return json_decode(FIFU_TRY_AGAIN_LATER);
+        return json_decode(fifu_try_again_later());
 
     $json = json_decode($response['http_response']->get_response_object()->body);
 
@@ -234,7 +238,7 @@ function fifu_api_payment_info(WP_REST_Request $request) {
     );
     $response = fifu_remote_post(FIFU_SU_ADDRESS . '/payment-info/', $array);
     if (is_wp_error($response))
-        return json_decode(FIFU_TRY_AGAIN_LATER);
+        return json_decode(fifu_try_again_later());
 
     $json = json_decode($response['http_response']->get_response_object()->body);
 
@@ -274,11 +278,11 @@ function fifu_api_connected(WP_REST_Request $request) {
     );
     $response = fifu_remote_post(FIFU_SU_ADDRESS . '/connected/', $array);
     if (is_wp_error($response))
-        return json_decode(FIFU_TRY_AGAIN_LATER);
+        return json_decode(fifu_try_again_later());
 
     // offline
     if ($response['http_response']->get_response_object()->status_code == 404)
-        return json_decode(FIFU_TRY_AGAIN_LATER);
+        return json_decode(fifu_try_again_later());
 
     // enable lazy load
     update_option('fifu_lazy', 'toggleon');
@@ -380,7 +384,7 @@ function fifu_create_thumbnails_list($images, $tfa = null, $cron = false) {
         'method' => 'POST',
         'data_format' => 'body',
         'blocking' => true,
-        'timeout' => 60,
+        'timeout' => 300,
     );
     $response = fifu_remote_post(FIFU_SU_ADDRESS . '/create-thumbnails/', $array);
     if (is_wp_error($response))
@@ -466,7 +470,7 @@ function fifu_api_delete(WP_REST_Request $request) {
     );
     $response = fifu_remote_post(FIFU_SU_ADDRESS . '/delete/', $array);
     if (is_wp_error($response))
-        return json_decode(FIFU_TRY_AGAIN_LATER);
+        return json_decode(fifu_try_again_later());
 
     $json = json_decode($response['http_response']->get_response_object()->body);
     if (!$json)
@@ -531,7 +535,7 @@ function fifu_api_confirm_delete($rows, $site, $ip, $tfa, $url_sign) {
     );
     $response = fifu_remote_post(FIFU_SU_ADDRESS . '/confirm-delete/', $array);
     if (is_wp_error($response))
-        return json_decode(FIFU_TRY_AGAIN_LATER);
+        return json_decode(fifu_try_again_later());
 
     $json = json_decode($response['http_response']->get_response_object()->body);
     return $json;
@@ -562,7 +566,7 @@ function fifu_api_reset_credentials(WP_REST_Request $request) {
     );
     $response = fifu_remote_post(FIFU_SU_ADDRESS . '/reset-credentials/', $array);
     if (is_wp_error($response))
-        return json_decode(FIFU_TRY_AGAIN_LATER);
+        return json_decode(fifu_try_again_later());
     else {
         $json = json_decode($response['http_response']->get_response_object()->body);
         $privKey = openssl_decrypt(base64_decode(get_option('fifu_su_privkey')[0]), "AES-128-ECB", $email . $site);
@@ -612,11 +616,11 @@ function fifu_api_list_all_su(WP_REST_Request $request) {
     );
     $response = fifu_remote_post(FIFU_SU_ADDRESS . '/list-all/', $array);
     if (is_wp_error($response))
-        return json_decode(FIFU_TRY_AGAIN_LATER);
+        return json_decode(fifu_try_again_later());
 
     // offline
     if ($response['http_response']->get_response_object()->status_code == 404)
-        return json_decode(FIFU_TRY_AGAIN_LATER);
+        return json_decode(fifu_try_again_later());
 
     $map = array();
     $posts = fifu_get_posts_su(null);
@@ -672,11 +676,11 @@ function fifu_api_list_daily_count(WP_REST_Request $request) {
     );
     $response = fifu_remote_post(FIFU_SU_ADDRESS . '/list-daily-count/', $array);
     if (is_wp_error($response))
-        return json_decode(FIFU_TRY_AGAIN_LATER);
+        return json_decode(fifu_try_again_later());
 
     // offline
     if ($response['http_response']->get_response_object()->status_code == 404)
-        return json_decode(FIFU_TRY_AGAIN_LATER);
+        return json_decode(fifu_try_again_later());
 
     $json = json_decode($response['http_response']->get_response_object()->body);
     return $json;
@@ -719,7 +723,7 @@ function fifu_api_cloud_upload_auto(WP_REST_Request $request) {
 
     $response = fifu_remote_post(FIFU_SU_ADDRESS . '/upload-auto/', $array);
     if (is_wp_error($response))
-        return json_decode(FIFU_TRY_AGAIN_LATER);
+        return json_decode(fifu_try_again_later());
 
     $json = json_decode($response['http_response']->get_response_object()->body);
     $upload_auto_code = $json->upload_auto_code;
@@ -728,6 +732,50 @@ function fifu_api_cloud_upload_auto(WP_REST_Request $request) {
         update_option('fifu_cloud_upload_auto_code', array($upload_auto_code));
     else
         delete_option('fifu_cloud_upload_auto_code');
+
+    return $json;
+}
+
+function fifu_api_cloud_hotlink(WP_REST_Request $request) {
+    if (!fifu_su_sign_up_complete())
+        return json_decode(FIFU_NO_CREDENTIALS);
+
+    $email = fifu_su_get_email();
+    $site = fifu_get_home_url();
+    $tfa = get_option('fifu_su_always_connected') ? '' : $request['tfa'];
+    $ip = fifu_get_ip();
+    $time = time();
+    $signature = fifu_create_signature($site . $email . $time . $ip . $tfa);
+
+    $enabled = $request['toggle'] == 'toggleon';
+
+    fifu_cloud_log(['cloud_hotlink' => ['site' => $site]]);
+
+    $array = array(
+        'headers' => array('Content-Type' => 'application/json; charset=utf-8'),
+        'body' => json_encode(
+                array(
+                    'site' => $site,
+                    'email' => $email,
+                    'signature' => $signature,
+                    'time' => $time,
+                    'ip' => $ip,
+                    'enabled' => $enabled,
+                    'slug' => FIFU_CLIENT,
+                    'version' => fifu_version_number()
+                )
+        ),
+        'method' => 'POST',
+        'data_format' => 'body',
+        'blocking' => true,
+        'timeout' => 30,
+    );
+
+    $response = fifu_remote_post(FIFU_SU_ADDRESS . '/hotlink/', $array);
+    if (is_wp_error($response))
+        return json_decode(fifu_try_again_later());
+
+    $json = json_decode($response['http_response']->get_response_object()->body);
 
     return $json;
 }
@@ -1187,6 +1235,11 @@ add_action('rest_api_init', function () {
     register_rest_route('featured-image-from-url/v2', '/cloud_upload_auto/', array(
         'methods' => 'POST',
         'callback' => 'fifu_api_cloud_upload_auto',
+        'permission_callback' => 'fifu_get_private_data_permissions_check',
+    ));
+    register_rest_route('featured-image-from-url/v2', '/cloud_hotlink/', array(
+        'methods' => 'POST',
+        'callback' => 'fifu_api_cloud_hotlink',
         'permission_callback' => 'fifu_get_private_data_permissions_check',
     ));
 });

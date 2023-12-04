@@ -2,7 +2,7 @@
 /*
 Plugin Name: Yet Another Related Posts Plugin (YARPP)
 Description: Adds related posts to your site and in RSS feeds, based on a powerful, customizable algorithm.
-Version: 5.30.3
+Version: 5.30.9
 Author: YARPP
 Author URI: https://yarpp.com/
 Plugin URI: https://yarpp.com/
@@ -25,9 +25,9 @@ if ( ! defined( 'WP_CONTENT_DIR' ) ) {
 	define( 'WP_CONTENT_DIR', substr( $tr, 0, strrpos( $tr, '/' ) ) );
 }
 
-define( 'YARPP_VERSION', '5.30.3' );
+define( 'YARPP_VERSION', '5.30.9' );
 
-define( 'YARPP_DIR', dirname( __FILE__ ) );
+define( 'YARPP_DIR', __DIR__ );
 /**
  * @deprecated Instead use plugins_url(...,YARPP_MAIN_FILE);. See https://wordpress.org/support/topic/support-for-multilingual-2/
  * This may be removed after October 2020.
@@ -46,7 +46,7 @@ Use postmeta instead to avoid custom tables by un-commenting postmeta line and c
 */
 
 /*
- Enable postmeta cache: */
+Enable postmeta cache: */
 // if(!defined('YARPP_CACHE_TYPE')) define('YARPP_CACHE_TYPE', 'postmeta');
 
 /* Enable Yarpp cache engine - Default: */

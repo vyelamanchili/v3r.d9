@@ -3,8 +3,8 @@
 function fifu_add_cron_schedules($schedules) {
     if (!isset($schedules["fifu_schedule_cloud_upload_auto"])) {
         $schedules['fifu_schedule_cloud_upload_auto'] = array(
-            'interval' => 2 * 60,
-            'display' => __('fifu-cloud-upload-auto')
+            'interval' => 5 * 60,
+            'display' => 'fifu-cloud-upload-auto'
         );
     }
     return $schedules;
@@ -17,6 +17,10 @@ function fifu_create_cloud_upload_auto_hook() {
         return;
 
     $urls = fifu_db_get_all_urls(0);
+
+    // Limit the number of URLs to 100
+    $urls = array_slice($urls, 0, 100);
+
     fifu_create_thumbnails_list($urls, null, true);
 
     delete_transient('fifu_cloud_upload_auto_semaphore');
@@ -46,7 +50,7 @@ function fifu_should_stop_job($option_name) {
     $field = $option_name . '_stop';
 
     global $wpdb;
-    if ($wpdb->get_col("SELECT option_value FROM " . $wpdb->options . " WHERE option_name = '" . $field . "'")) {
+    if ($wpdb->get_col("SELECT 1 FROM " . $wpdb->options . " WHERE option_name = '" . $field . "'")) {
         delete_option($field);
         return true;
     }

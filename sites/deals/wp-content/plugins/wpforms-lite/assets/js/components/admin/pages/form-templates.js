@@ -48,7 +48,8 @@ var WPFormsAdminFormTemplates = window.WPFormsAdminFormTemplates || ( function( 
 
 			$( '.wpforms-form-setup-content' )
 				.on( 'keyup', '#wpforms-setup-template-search', WPFormsFormTemplates.searchTemplate )
-				.on( 'click', '.wpforms-setup-templates-categories li', WPFormsFormTemplates.selectCategory )
+				.on( 'click', '.wpforms-setup-templates-categories li div', WPFormsFormTemplates.selectCategory )
+				.on( 'click', '.wpforms-setup-templates-subcategories li', WPFormsFormTemplates.selectSubCategory )
 				.on( 'click', '.wpforms-template-select', app.selectTemplate )
 				.on( 'click', '.wpforms-trigger-blank', app.selectBlankTemplate );
 		},
@@ -81,7 +82,7 @@ var WPFormsAdminFormTemplates = window.WPFormsAdminFormTemplates || ( function( 
 			// Display loading indicator.
 			$button.html( spinner + wpforms_admin.loading );
 
-			app.selectTemplateProcessAjax( $button.data( 'template-name-raw' ), $button.data( 'template' ) );
+			WPFormsFormTemplates.selectTemplateProcess( $button.data( 'template-name-raw' ), $button.data( 'template' ), $button, app.selectTemplateProcessAjax );
 		},
 
 		/**

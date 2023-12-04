@@ -97,7 +97,7 @@
          <div class="copyright-wrapper">
         	<div class="container">
            		 <div class="copyright-txt">&nbsp;</div>
-            	 <div class="design-by"><?php echo esc_html('SKT Recipe Lite');?></div>
+            	 <div class="design-by"><?php bloginfo('name'); ?> <?php esc_html_e('Theme By ','recipe-lite');?><a href="<?php echo esc_url('https://www.sktthemes.org/');?>" rel="nofollow" target="_blank"><?php esc_html_e('SKT Themes','recipe-lite'); ?></a></div>
                  <div class="clear"></div>
             </div>           
         </div>

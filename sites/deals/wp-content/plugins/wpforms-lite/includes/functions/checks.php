@@ -5,7 +5,7 @@
  * @since 1.8.0
  */
 
-use TrueBV\Punycode;
+use WPForms\Vendor\TrueBV\Punycode;
 
 /**
  * Check if a string is a valid URL.
@@ -378,4 +378,25 @@ function wpforms_is_gutenberg_active() {
 function wpforms_doing_wp_cli() {
 
 	return defined( 'WP_CLI' ) && WP_CLI;
+}
+
+/**
+ * Determines whether search functionality is enabled for Choices.js elements in the admin area.
+ *
+ * @since 1.8.3
+ *
+ * @param array $data Data to be displayed in the dropdown.
+ *
+ * @return string
+ */
+function wpforms_choices_js_is_search_enabled( $data ) {
+
+	/**
+	 * Filter max amount of items at which no search box is displayed.
+	 *
+	 * @since 1.8.3
+	 *
+	 * @param int $count Max items count.
+	 */
+	return count( $data ) >= apply_filters( 'wpforms_choices_js_is_search_enabled_max_limit', 20 ) ? 'true' : 'false';
 }

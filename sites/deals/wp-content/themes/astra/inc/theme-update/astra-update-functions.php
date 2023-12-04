@@ -1198,7 +1198,7 @@ function astra_theme_background_updater_4_1_4() {
 
 		foreach ( $ast_resp_bg_control_options as $key => $resp_bg_option ) {
 			// Desktop version.
-			/** @psalm-suppress PossiblyUndefinedStringArrayOffset */
+			/** @psalm-suppress PossiblyUndefinedStringArrayOffset */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
 			if ( isset( $theme_options[ $resp_bg_option ]['desktop'] ) && is_array( $theme_options[ $resp_bg_option ]['desktop'] ) && ! isset( $theme_options[ $resp_bg_option ]['desktop']['overlay-type'] ) ) {
 				// @codingStandardsIgnoreStart
 				$desk_bg_type = isset( $theme_options[ $resp_bg_option ]['desktop']['background-type'] ) ? $theme_options[ $resp_bg_option ]['desktop']['background-type'] : '';
@@ -1221,7 +1221,7 @@ function astra_theme_background_updater_4_1_4() {
 			}
 
 			// Tablet version.
-			/** @psalm-suppress PossiblyUndefinedStringArrayOffset */
+			/** @psalm-suppress PossiblyUndefinedStringArrayOffset */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
 			if ( isset( $theme_options[ $resp_bg_option ]['tablet'] ) && is_array( $theme_options[ $resp_bg_option ]['tablet'] ) && ! isset( $theme_options[ $resp_bg_option ]['tablet']['overlay-type'] ) ) {
 				// @codingStandardsIgnoreStart
 				$tablet_bg_type = isset( $theme_options[ $resp_bg_option ]['tablet']['background-type'] ) ? $theme_options[ $resp_bg_option ]['tablet']['background-type'] : '';
@@ -1242,7 +1242,7 @@ function astra_theme_background_updater_4_1_4() {
 
 
 			// Mobile version.
-			/** @psalm-suppress PossiblyUndefinedStringArrayOffset */
+			/** @psalm-suppress PossiblyUndefinedStringArrayOffset */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
 			if ( isset( $theme_options[ $resp_bg_option ]['mobile'] ) && is_array( $theme_options[ $resp_bg_option ]['mobile'] ) && ! isset( $theme_options[ $resp_bg_option ]['mobile']['overlay-type'] ) ) {
 				// @codingStandardsIgnoreStart
 				$mobile_bg_type = isset( $theme_options[ $resp_bg_option ]['mobile']['background-type'] ) ? $theme_options[ $resp_bg_option ]['mobile']['background-type'] : '';
@@ -1265,6 +1265,236 @@ function astra_theme_background_updater_4_1_4() {
 		}
 
 		$theme_options['v4-1-4-update-migration'] = true;
+		update_option( 'astra-settings', $theme_options );
+	}
+}
+
+/**
+ * Handle backward compatibility on version 4.1.6
+ *
+ * @since 4.1.6
+ * @return void
+ */
+function astra_theme_background_updater_4_1_6() {
+	$theme_options = get_option( 'astra-settings', array() );
+	if ( ! isset( $theme_options['list-block-vertical-spacing'] ) ) {
+		$theme_options['list-block-vertical-spacing'] = false;
+		update_option( 'astra-settings', $theme_options );
+	}
+}
+
+/**
+ * Set flag to avoid direct reflections on live site & to maintain backward compatibility for existing users.
+ *
+ * @since 4.1.7
+ * @return void
+ */
+function astra_theme_background_updater_4_1_7() {
+	$theme_options = get_option( 'astra-settings', array() );
+
+	if ( ! isset( $theme_options['add-hr-styling-css'] ) ) {
+		$theme_options['add-hr-styling-css'] = false;
+		update_option( 'astra-settings', $theme_options );
+	}
+
+	if ( ! isset( $theme_options['astra-site-svg-logo-equal-height'] ) ) {
+		$theme_options['astra-site-svg-logo-equal-height'] = false;
+		update_option( 'astra-settings', $theme_options );
+	}
+}
+
+/**
+ * Migrating users to new container layout options
+ *
+ * @since 4.2.0
+ * @return void
+ */
+function astra_theme_background_updater_4_2_0() {
+	$theme_options = get_option( 'astra-settings', array() );
+	if ( ! isset( $theme_options['v4-2-0-update-migration'] ) ) {
+
+		$post_types          = Astra_Posts_Structure_Loader::get_supported_post_types();
+		$theme_options       = get_option( 'astra-settings' );
+		$blog_types          = array( 'single', 'archive' );
+		$third_party_layouts = array( 'woocommerce', 'edd', 'lifterlms', 'lifterlms-course-lesson', 'learndash' );
+
+		// Global.
+		if ( isset( $theme_options['site-content-layout'] ) ) {
+			$theme_options = astra_apply_layout_migration( 'site-content-layout', 'ast-site-content-layout', 'site-content-style', 'site-sidebar-style', $theme_options );
+		}
+
+		// Single, archive.
+		foreach ( $blog_types as $index => $blog_type ) {
+			foreach ( $post_types as $index => $post_type ) {
+				$old_layout    = $blog_type . '-' . esc_attr( $post_type ) . '-content-layout';
+				$new_layout    = $blog_type . '-' . esc_attr( $post_type ) . '-ast-content-layout';
+				$content_style = $blog_type . '-' . esc_attr( $post_type ) . '-content-style';
+				$sidebar_style = $blog_type . '-' . esc_attr( $post_type ) . '-sidebar-style';
+
+				if ( isset( $theme_options[ $old_layout ] ) ) {
+					$theme_options = astra_apply_layout_migration( $old_layout, $new_layout, $content_style, $sidebar_style, $theme_options );
+				}
+			}
+		}
+
+		// Third party existing layout migrations to new layout options.
+		foreach ( $third_party_layouts as $index => $layout ) {
+			$old_layout    = $layout . '-content-layout';
+			$new_layout    = $layout . '-ast-content-layout';
+			$content_style = $layout . '-content-style';
+			$sidebar_style = $layout . '-sidebar-style';
+			if ( isset( $theme_options[ $old_layout ] ) ) {
+				if ( 'lifterlms' === $layout ) {
+
+					// Lifterlms course/lesson sidebar style migration case.
+					$theme_options = astra_apply_layout_migration( $old_layout, $new_layout, $content_style, 'lifterlms-course-lesson-sidebar-style', $theme_options );
+				}
+				$theme_options = astra_apply_layout_migration( $old_layout, $new_layout, $content_style, $sidebar_style, $theme_options );
+			}
+		}
+
+		if ( ! isset( $theme_options['fullwidth_sidebar_support'] ) ) {
+			$theme_options['fullwidth_sidebar_support'] = false;
+		}
+
+		$theme_options['v4-2-0-update-migration'] = true;
+		update_option( 'astra-settings', $theme_options );
+	}
+}
+
+/**
+ * Handle migration from old to new layouts.
+ *
+ * Migration cases for old users, old layouts -> new layouts.
+ *
+ * @since 4.2.0
+ * @param mixed $old_layout
+ * @param mixed $new_layout
+ * @param mixed $content_style
+ * @param mixed $sidebar_style
+ * @param array $theme_options
+ * @return array $theme_options The updated theme options.
+ */
+function astra_apply_layout_migration( $old_layout, $new_layout, $content_style, $sidebar_style, $theme_options ) {
+	switch ( astra_get_option( $old_layout ) ) {
+		case 'boxed-container':
+			$theme_options[ $new_layout ]    = 'normal-width-container';
+			$theme_options[ $content_style ] = 'boxed';
+			$theme_options[ $sidebar_style ] = 'boxed';
+			break;
+		case 'content-boxed-container':
+			$theme_options[ $new_layout ]    = 'normal-width-container';
+			$theme_options[ $content_style ] = 'boxed';
+			$theme_options[ $sidebar_style ] = 'unboxed';
+			break;
+		case 'plain-container':
+			$theme_options[ $new_layout ]    = 'normal-width-container';
+			$theme_options[ $content_style ] = 'unboxed';
+			$theme_options[ $sidebar_style ] = 'unboxed';
+			break;
+		case 'page-builder':
+			$theme_options[ $new_layout ]    = 'full-width-container';
+			$theme_options[ $content_style ] = 'unboxed';
+			$theme_options[ $sidebar_style ] = 'unboxed';
+			break;
+		case 'narrow-container':
+			$theme_options[ $new_layout ]    = 'narrow-width-container';
+			$theme_options[ $content_style ] = 'unboxed';
+			$theme_options[ $sidebar_style ] = 'unboxed';
+			break;
+		default:
+			$theme_options[ $new_layout ]    = 'default';
+			$theme_options[ $content_style ] = 'default';
+			$theme_options[ $sidebar_style ] = 'default';
+			break;
+	}
+	return $theme_options;
+}
+
+/**
+ * Handle backward compatibility on version 4.2.2
+ *
+ * @since 4.2.2
+ * @return void
+ */
+function astra_theme_background_updater_4_2_2() {
+	$theme_options = get_option( 'astra-settings', array() );
+	if ( ! isset( $theme_options['v4-2-2-core-form-btns-styling'] ) ) {
+		$theme_options['v4-2-2-core-form-btns-styling'] = false;
+		update_option( 'astra-settings', $theme_options );
+	}
+}
+
+/**
+ * Handle backward compatibility on version 4.4.0
+ *
+ * @since 4.4.0
+ * @return void
+ */
+function astra_theme_background_updater_4_4_0() {
+	$theme_options = get_option( 'astra-settings', array() );
+	if ( ! isset( $theme_options['v4-4-0-backward-option'] ) ) {
+		$theme_options['v4-4-0-backward-option'] = false;
+
+		// Migrate primary button outline styles to secondary buttons.
+		if ( isset( $theme_options['font-family-button'] ) ) {
+			$theme_options['secondary-font-family-button'] = $theme_options['font-family-button'];
+		}
+		if ( isset( $theme_options['font-size-button'] ) ) {
+			$theme_options['secondary-font-size-button'] = $theme_options['font-size-button'];
+		}
+		if ( isset( $theme_options['font-weight-button'] ) ) {
+			$theme_options['secondary-font-weight-button'] = $theme_options['font-weight-button'];
+		}
+		if ( isset( $theme_options['font-extras-button'] ) ) {
+			$theme_options['secondary-font-extras-button'] = $theme_options['font-extras-button'];
+		}
+		if ( isset( $theme_options['button-bg-color'] ) ) {
+			$theme_options['secondary-button-bg-color'] = $theme_options['button-bg-color'];
+		}
+		if ( isset( $theme_options['button-bg-h-color'] ) ) {
+			$theme_options['secondary-button-bg-h-color'] = $theme_options['button-bg-h-color'];
+		}
+		if ( isset( $theme_options['theme-button-border-group-border-color'] ) ) {
+			$theme_options['secondary-theme-button-border-group-border-color'] = $theme_options['theme-button-border-group-border-color'];
+		}
+		if ( isset( $theme_options['theme-button-border-group-border-h-color'] ) ) {
+			$theme_options['secondary-theme-button-border-group-border-h-color'] = $theme_options['theme-button-border-group-border-h-color'];
+		}
+		if ( isset( $theme_options['button-radius-fields'] ) ) {
+			$theme_options['secondary-button-radius-fields'] = $theme_options['button-radius-fields'];
+		}
+
+		// Single - Article Featured Image visibility migration.
+		$post_types = Astra_Posts_Structure_Loader::get_supported_post_types();
+		foreach ( $post_types as $index => $post_type ) {
+			$theme_options[ 'ast-dynamic-single-' . esc_attr( $post_type ) . '-article-featured-image-position-layout-1' ] = 'none';
+			$theme_options[ 'ast-dynamic-single-' . esc_attr( $post_type ) . '-article-featured-image-position-layout-2' ] = 'none';
+			$theme_options[ 'ast-dynamic-single-' . esc_attr( $post_type ) . '-article-featured-image-ratio-type' ]        = 'default';
+		}
+
+		update_option( 'astra-settings', $theme_options );
+	}
+}
+
+/**
+ * Handle backward compatibility on version 4.5.0.
+ *
+ * @since 4.5.0
+ * @return void
+ */
+function astra_theme_background_updater_4_5_0() {
+	$theme_options = get_option( 'astra-settings', array() );
+
+	if ( ! isset( $theme_options['v4-5-0-backward-option'] ) ) {
+		$theme_options['v4-5-0-backward-option'] = false;
+
+		$palette_options = get_option( 'astra-color-palettes', Astra_Global_Palette::get_default_color_palette() );
+		if ( ! isset( $palette_options['presets'] ) ) {
+			$palette_options['presets'] = astra_get_palette_presets();
+			update_option( 'astra-color-palettes', $palette_options );
+		}
+
 		update_option( 'astra-settings', $theme_options );
 	}
 }

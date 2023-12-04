@@ -15,6 +15,15 @@ use AIOSEO\Plugin\Common\Models;
  */
 class PostSettings {
 	/**
+	 * The integrations instance.
+	 *
+	 * @since 4.4.3
+	 *
+	 * @var array[object]
+	 */
+	public $integrations;
+
+	/**
 	 * Initialize the admin.
 	 *
 	 * @since 4.0.0
@@ -78,7 +87,6 @@ class PostSettings {
 
 			aioseo()->core->assets->load( 'src/vue/standalone/post-settings/main.js', [], aioseo()->helpers->getVueData( $page ) );
 			aioseo()->core->assets->load( 'src/vue/standalone/link-format/main.js', [], aioseo()->helpers->getVueData( $page ) );
-			aioseo()->admin->enqueueAioseoModalPortal();
 		}
 
 		$screen = get_current_screen();
@@ -105,6 +113,7 @@ class PostSettings {
 		$linkAssistantCapability        = aioseo()->access->hasCapability( 'aioseo_page_link_assistant_settings' );
 		$redirectsCapability            = aioseo()->access->hasCapability( 'aioseo_page_redirects_manage' );
 		$advancedSettingsCapability     = aioseo()->access->hasCapability( 'aioseo_page_advanced_settings' );
+		$seoRevisionsSettingsCapability = aioseo()->access->hasCapability( 'aioseo_page_seo_revisions_settings' );
 
 		if (
 			$dynamicOptions->searchAppearance->postTypes->has( $postType ) &&
@@ -116,7 +125,8 @@ class PostSettings {
 				empty( $schemaSettingsCapability ) &&
 				empty( $linkAssistantCapability ) &&
 				empty( $redirectsCapability ) &&
-				empty( $advancedSettingsCapability )
+				empty( $advancedSettingsCapability ) &&
+				empty( $seoRevisionsSettingsCapability )
 			)
 		) {
 			return true;
@@ -156,7 +166,6 @@ class PostSettings {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  WP_Post $post The current post.
 	 * @return void
 	 */
 	public function postSettingsMetabox() {
@@ -306,7 +315,7 @@ class PostSettings {
 		];
 
 		foreach ( $posts as $post ) {
-			if ( empty( $post->keyphrases ) || strpos( $post->keyphrases, '{"focus":[]' ) === 0 ) {
+			if ( empty( $post->keyphrases ) || strpos( $post->keyphrases, '{"focus":{"keyphrase":""' ) === 0 ) {
 				$overview['withoutFocusKeyphrase']++;
 
 				// We skip to the next since we will just consider posts with focus keyphrase in the counts.
@@ -338,11 +347,11 @@ class PostSettings {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param  array    $clauses Associative array of the clauses for the query.
-	 * @param  WP_Query $query   The WP_Query instance (passed by reference).
-	 * @return array             The clauses array updated.
+	 * @param  array     $clauses Associative array of the clauses for the query.
+	 * @param  \WP_Query $query   The WP_Query instance (passed by reference).
+	 * @return array              The clauses array updated.
 	 */
-	public function changeClausesToFilterPosts( $clauses, $query ) {
+	public function changeClausesToFilterPosts( $clauses, $query = null ) {
 		if ( ! is_admin() || ! $query->is_main_query() ) {
 			return $clauses;
 		}
@@ -353,7 +362,7 @@ class PostSettings {
 		}
 
 		$whereClause        = '';
-		$noKeyphrasesClause = " (aioseo_p.keyphrases = '' OR aioseo_p.keyphrases IS NULL OR aioseo_p.keyphrases LIKE '{\"focus\":[]%') ";
+		$noKeyphrasesClause = "(aioseo_p.keyphrases = '' OR aioseo_p.keyphrases IS NULL OR aioseo_p.keyphrases LIKE '{\"focus\":{\"keyphrase\":\"\"%')";
 		switch ( $filter ) {
 			case 'withoutFocusKeyphrase':
 				$whereClause = " AND $noKeyphrasesClause ";

@@ -20,8 +20,7 @@ class Settings {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  \WP_REST_Request  $request The REST Request
-	 * @return \WP_REST_Response          The response.
+	 * @return \WP_REST_Response The response.
 	 */
 	public static function getOptions() {
 		return new \WP_REST_Response( [
@@ -76,6 +75,28 @@ class Settings {
 	}
 
 	/**
+	 * Dismisses an alert.
+	 *
+	 * @since 4.3.6
+	 *
+	 * @param  \WP_REST_Request  $request The REST Request
+	 * @return \WP_REST_Response          The response.
+	 */
+	public static function dismissAlert( $request ) {
+		$body   = $request->get_json_params();
+		$alert  = ! empty( $body['alert'] ) ? sanitize_text_field( $body['alert'] ) : null;
+		$alerts = aioseo()->settings->dismissedAlerts;
+		if ( array_key_exists( $alert, $alerts ) ) {
+			$alerts[ $alert ] = true;
+			aioseo()->settings->dismissedAlerts = $alerts;
+		}
+
+		return new \WP_REST_Response( [
+			'success' => true
+		], 200 );
+	}
+
+	/**
 	 * Toggles a table's items per page setting.
 	 *
 	 * @since 4.2.5
@@ -103,8 +124,7 @@ class Settings {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  \WP_REST_Request  $request The REST Request
-	 * @return \WP_REST_Response          The response.
+	 * @return \WP_REST_Response The response.
 	 */
 	public static function hideUpgradeBar() {
 		aioseo()->settings->showUpgradeBar = false;
@@ -119,8 +139,7 @@ class Settings {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  \WP_REST_Request  $request The REST Request
-	 * @return \WP_REST_Response          The response.
+	 * @return \WP_REST_Response The response.
 	 */
 	public static function hideSetupWizard() {
 		aioseo()->settings->showSetupWizard = false;
@@ -424,105 +443,79 @@ class Settings {
 		$data          = ! empty( $body['data'] ) ? $body['data'] : [];
 		$network       = ! empty( $body['network'] ) ? boolval( $body['network'] ) : false;
 		$siteId        = ! empty( $body['siteId'] ) ? intval( $body['siteId'] ) : false;
-		$siteOrNetwork = empty( $siteId ) ? aioseo()->helpers->getNetworkId() : $siteId;
+		$siteOrNetwork = empty( $siteId ) ? aioseo()->helpers->getNetworkId() : $siteId; // If we don't have a siteId, we will use the networkId.
+
+		// When on network admin page and no siteId, it is supposed to perform on network level.
+		if ( $network && 'clear-cache' === $action && empty( $siteId ) ) {
+			aioseo()->core->networkCache->clear();
+
+			return new \WP_REST_Response( [
+				'success' => true
+			], 200 );
+		}
+
+		// Switch to the right blog before processing any task.
+		aioseo()->helpers->switchToBlog( $siteOrNetwork );
 
 		switch ( $action ) {
 			// General
 			case 'clear-cache':
-				if ( ! $network ) {
-					aioseo()->core->cache->clear();
-					break;
-				}
-
-				if ( empty( $siteId ) ) {
-					aioseo()->helpers->switchToBlog( aioseo()->helpers->getNetworkId() );
-					aioseo()->core->networkCache->clear();
-					aioseo()->helpers->restoreCurrentBlog();
-					break;
-				}
-
-				aioseo()->helpers->switchToBlog( $siteId );
 				aioseo()->core->cache->clear();
-				aioseo()->helpers->restoreCurrentBlog();
 				break;
 			case 'clear-plugin-updates-transient':
-				aioseo()->helpers->switchToBlog( $siteOrNetwork );
 				delete_site_transient( 'update_plugins' );
-				aioseo()->helpers->restoreCurrentBlog();
 				break;
 			case 'readd-capabilities':
-				aioseo()->helpers->switchToBlog( $siteOrNetwork );
 				aioseo()->access->addCapabilities();
-				aioseo()->helpers->restoreCurrentBlog();
 				break;
 			case 'reset-data':
-				aioseo()->helpers->switchToBlog( $siteOrNetwork );
 				aioseo()->core->uninstallDb( true );
 				aioseo()->internalOptions->database->installedTables = '';
 				aioseo()->internalOptions->internal->lastActiveVersion = '4.0.0';
+				aioseo()->internalOptions->save( true );
 				aioseo()->updates->addInitialCustomTablesForV4();
-				aioseo()->helpers->restoreCurrentBlog();
 				break;
 			// Sitemap
 			case 'clear-image-data':
-				aioseo()->helpers->switchToBlog( $siteOrNetwork );
 				aioseo()->sitemap->query->resetImages();
-				aioseo()->helpers->restoreCurrentBlog();
 				break;
 			// Migrations
 			case 'rerun-migrations':
-				aioseo()->helpers->switchToBlog( $siteOrNetwork );
 				aioseo()->internalOptions->database->installedTables   = '';
 				aioseo()->internalOptions->internal->lastActiveVersion = '4.0.0';
-				aioseo()->helpers->restoreCurrentBlog();
+				aioseo()->internalOptions->save( true );
 				break;
 			case 'restart-v3-migration':
-				aioseo()->helpers->switchToBlog( $siteOrNetwork );
 				Migration\Helpers::redoMigration();
-				aioseo()->helpers->restoreCurrentBlog();
 				break;
 			// Old Issues
 			case 'remove-duplicates':
-				aioseo()->helpers->switchToBlog( $siteOrNetwork );
 				aioseo()->updates->removeDuplicateRecords();
-				aioseo()->helpers->restoreCurrentBlog();
 				break;
 			case 'unescape-data':
-				aioseo()->helpers->switchToBlog( $siteOrNetwork );
 				aioseo()->admin->scheduleUnescapeData();
-				aioseo()->helpers->restoreCurrentBlog();
 				break;
 			// Deprecated Options
 			case 'deprecated-options':
-				aioseo()->helpers->switchToBlog( $siteOrNetwork );
-
 				// Check if the user is forcefully wanting to add a deprecated option.
-				$allDeprecatedOptions = aioseo()->internalOptions->getAllDeprecatedOptions();
-				$deprecatedOptions    = aioseo()->internalOptions->internal->deprecatedOptions;
+				$allDeprecatedOptions = aioseo()->internalOptions->getAllDeprecatedOptions() ?: [];
 				$enableOptions        = array_keys( array_filter( $data ) );
+				$enabledDeprecated    = array_intersect( $allDeprecatedOptions, $enableOptions );
 
-				foreach ( $enableOptions as $key => $option ) {
-					if ( ! in_array( $option, $allDeprecatedOptions, true ) ) {
-						unset( $enableOptions[ $key ] );
-					}
-				}
-
-				sort( $enableOptions );
-				sort( $deprecatedOptions );
-
-				$hasChanged = $deprecatedOptions !== $enableOptions;
-				if ( $hasChanged ) {
-					aioseo()->internalOptions->internal->deprecatedOptions = $enableOptions;
-				}
-
-				aioseo()->helpers->restoreCurrentBlog();
+				aioseo()->internalOptions->internal->deprecatedOptions = array_values( $enabledDeprecated );
+				aioseo()->internalOptions->save( true );
 				break;
 			default:
+				aioseo()->helpers->restoreCurrentBlog();
+
 				return new \WP_REST_Response( [
 					'success' => true,
 					'error'   => 'The given action isn\'t defined.'
 				], 400 );
 		}
+
+		// Revert back to the current blog after processing to avoid conflict with other actions.
+		aioseo()->helpers->restoreCurrentBlog();
 
 		return new \WP_REST_Response( [
 			'success' => true

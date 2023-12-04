@@ -60,7 +60,7 @@ function fifu_query_attachments($where) {
 
 add_filter('posts_where', function ($where, \WP_Query $q) {
     global $wpdb;
-    if (fifu_is_web_story() || (is_admin() && $q->is_main_query() && true))
+    if (fifu_is_web_story() || (is_admin() && $q->is_main_query() && strpos($where, 'attachment') !== false))
         $where .= ' AND ' . $wpdb->prefix . 'posts.post_author <> ' . FIFU_AUTHOR . ' ';
     return $where;
 }, 10, 2);
@@ -204,6 +204,8 @@ function fifu_action() {
 }
 
 function fifu_callback($buffer) {
+    global $FIFU_SESSION;
+
     if (empty($buffer))
         return;
 
@@ -228,8 +230,8 @@ function fifu_callback($buffer) {
         $post_id = null;
 
         // get parameters
-        if (isset($_SESSION[$url]))
-            $data = $_SESSION[$url];
+        if (isset($FIFU_SESSION[$url]))
+            $data = $FIFU_SESSION[$url];
         else
             continue;
 
@@ -272,7 +274,7 @@ function fifu_callback($buffer) {
                     // remove srcset
                     $newImgItem = preg_replace('/ srcset=.[^\'\"]+[\'\"]/', '', $newImgItem);
 
-                    $srcset = $_SESSION['fifu-cloud'][$url];
+                    $srcset = $FIFU_SESSION['fifu-cloud'][$url];
                     $srcset = $srcset ? $srcset : fifu_speedup_get_set($url);
 
                     $newImgItem = str_replace('<img ', '<img data-srcset="' . $srcset . '" ', $newImgItem);
@@ -292,8 +294,8 @@ function fifu_callback($buffer) {
         if (strpos($imgItem, 'style=') === false || strpos($imgItem, 'url(') === false)
             continue;
 
-        $mainDelimiter = substr(explode('style=', $imgItem)[1], 0, 1);
-        $subDelimiter = substr(explode('url(', $imgItem)[1], 0, 1);
+        $mainDelimiter = substr(explode('style=', str_replace('\\', '', $imgItem))[1], 0, 1);
+        $subDelimiter = substr(explode('url(', str_replace('\\', '', $imgItem))[1], 0, 1);
         if (in_array($subDelimiter, array('"', "'", ' ')))
             $url = preg_split('/[\'\" ]{1}\)/', preg_split('/url\([\'\" ]{1}/', $imgItem, -1)[1], -1)[0];
         else {
@@ -304,8 +306,8 @@ function fifu_callback($buffer) {
         $newImgItem = $imgItem;
 
         $url = fifu_normalize($url);
-        if (isset($_SESSION[$url])) {
-            $data = $_SESSION[$url];
+        if (isset($FIFU_SESSION[$url])) {
+            $data = $FIFU_SESSION[$url];
 
             if (strpos($imgItem, 'fifu-replaced') !== false)
                 continue;
@@ -351,8 +353,10 @@ function fifu_filter_wp_get_attachment_metadata($data, $att_id) {
 }
 
 function fifu_add_url_parameters($url, $att_id, $size) {
+    global $FIFU_SESSION;
+
     // avoid duplicated call
-    if (isset($_SESSION[$url]))
+    if (isset($FIFU_SESSION[$url]))
         return $url;
 
     $post_id = get_post($att_id)->post_parent;
@@ -379,7 +383,7 @@ function fifu_add_url_parameters($url, $att_id, $size) {
         return $url;
 
     // avoid duplicated call
-    if (isset($_SESSION[$url]))
+    if (isset($FIFU_SESSION[$url]))
         return $url;
 
     $parameters = array();
@@ -402,13 +406,13 @@ function fifu_add_url_parameters($url, $att_id, $size) {
         }
     }
 
-    $_SESSION[$url] = $parameters;
+    $FIFU_SESSION[$url] = $parameters;
 
     if (fifu_is_from_speedup($url)) {
-        $_SESSION['fifu-cloud'][$url] = fifu_speedup_get_set($url);
+        $FIFU_SESSION['fifu-cloud'][$url] = fifu_speedup_get_set($url);
         wp_enqueue_script('fifu-cloud', plugins_url('/html/js/cloud.js', __FILE__), array('jquery'), fifu_version_number());
         wp_localize_script('fifu-cloud', 'fifuCloudVars', [
-            'srcsets' => $_SESSION['fifu-cloud'],
+            'srcsets' => $FIFU_SESSION['fifu-cloud'],
         ]);
     }
 

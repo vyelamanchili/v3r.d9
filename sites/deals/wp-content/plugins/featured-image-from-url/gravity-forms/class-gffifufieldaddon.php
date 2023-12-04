@@ -100,8 +100,10 @@ class GFFifuFieldAddOn extends GFAddOn {
      * @return array
      */
     public function tooltips($tooltips) {
+        $strings = fifu_get_strings_gravity_forms();
+
         $simple_tooltips = array(
-            'input_class_setting' => sprintf('<h6>%s</h6>%s', esc_html__('Input CSS Classes', 'fifufieldaddon'), esc_html__('The CSS Class names to be added to the field input.', 'fifufieldaddon')),
+            'input_class_setting' => sprintf('<h6>%s</h6>%s', $strings['css']['title'](), $strings['css']['desc']()),
         );
 
         return array_merge($tooltips, $simple_tooltips);
@@ -114,13 +116,15 @@ class GFFifuFieldAddOn extends GFAddOn {
      * @param int $form_id The ID of the form currently being edited.
      */
     public function field_appearance_settings($position, $form_id) {
+        $strings = fifu_get_strings_gravity_forms();
+
         // Add our custom setting just before the 'Custom CSS Class' setting.
         if ($position == 250) {
             ?>
             <li class="input_class_setting field_setting">
                 <label for="input_class_setting">
-            <?php esc_html_e('Input CSS Classes', 'fifufieldaddon'); ?>
-            <?php gform_tooltip('input_class_setting') ?>
+                    <?php $strings['css']['settings']() ?>
+                    <?php gform_tooltip('input_class_setting') ?>
                 </label>
                 <input id="input_class_setting" type="text" class="fieldwidth-1" onkeyup="SetInputClassSetting(jQuery(this).val());" onchange="SetInputClassSetting(jQuery(this).val());"/>
             </li>

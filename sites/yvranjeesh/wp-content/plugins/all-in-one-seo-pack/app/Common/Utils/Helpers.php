@@ -224,4 +224,34 @@ class Helpers {
 
 		return $string;
 	}
+
+	/**
+	 * Returns a deep clone of the given object.
+	 * The built-in PHP clone KW provides a shallow clone. This method returns a deep clone that also clones nested object properties.
+	 * You can use this method to sever the reference to nested objects.
+	 *
+	 * @since 4.4.7
+	 *
+	 * @return object The cloned object.
+	 */
+	public function deepClone( $object ) {
+		return unserialize( serialize( $object ) );
+	}
+
+	/**
+	 * Return the version number with a filter to enable users to hide the version.
+	 *
+	 * @since 4.3.7
+	 *
+	 * @return string The current version or empty if the filter is active. Using ?aioseo-dev will override the filter.
+	 */
+	public function getAioseoVersion() {
+		$version = aioseo()->version;
+
+		if ( ! $this->isDev() && apply_filters( 'aioseo_hide_version_number', false ) ) {
+			$version = '';
+		}
+
+		return $version;
+	}
 }

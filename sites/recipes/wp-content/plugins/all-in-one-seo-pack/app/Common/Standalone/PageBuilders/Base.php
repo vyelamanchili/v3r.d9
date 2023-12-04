@@ -87,11 +87,22 @@ abstract class Base {
 	public function init() {}
 
 	/**
+	 * Check if the integration is active.
+	 *
+	 * @since 4.4.8
+	 *
+	 * @return bool Whether or not the integration is active.
+	 */
+	public function isActive() {
+		return $this->isPluginActive() || $this->isThemeActive();
+	}
+
+	/**
 	 * Check whether or not the plugin is active.
 	 *
 	 * @since 4.1.7
 	 *
-	 * @return boolean Whether or not the plugin is active.
+	 * @return bool Whether or not the plugin is active.
 	 */
 	public function isPluginActive() {
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -110,7 +121,7 @@ abstract class Base {
 	 *
 	 * @since 4.1.7
 	 *
-	 * @return boolean Whether or not the theme is active.
+	 * @return bool Whether or not the theme is active.
 	 */
 	public function isThemeActive() {
 		$theme = wp_get_theme();
@@ -134,7 +145,7 @@ abstract class Base {
 		$integrationSlug = $this->integrationSlug;
 		aioseo()->core->assets->load( "src/vue/standalone/$integrationSlug/main.js", [], aioseo()->helpers->getVueData( 'post', $this->getPostId(), $this->integrationSlug ) );
 
-		aioseo()->core->assets->enqueueCss( 'src/vue/assets/scss/integrations/main.scss', [], 'src/vue/assets/scss/integrations/main.scss' );
+		aioseo()->core->assets->enqueueCss( 'src/vue/assets/scss/integrations/main.scss' );
 
 		aioseo()->admin->addAioseoModalPortal();
 		aioseo()->main->enqueueTranslations();
@@ -148,6 +159,7 @@ abstract class Base {
 	 * @return int|null The post ID or null.
 	 */
 	public function getPostId() {
+		// phpcs:disable HM.Security.NonceVerification.Recommended
 		if ( ! empty( $_GET['id'] ) ) {
 			return (int) $_GET['id'];
 		}
@@ -161,6 +173,7 @@ abstract class Base {
 		}
 
 		return null;
+		// phpcs:enable HM.Security.NonceVerification.Recommended
 	}
 
 	/**

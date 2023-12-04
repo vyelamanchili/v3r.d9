@@ -18,6 +18,7 @@ if ($optionMetricsStarted !== false) {
 if (isset($_GET['metrics_banner']) && (int) $_GET['metrics_banner'] == 1) {
     $options->_setOption('metrics_banner', true);
 }
+$optionMetricsFeedback = $options->_getOption('metrics_feedback');
 
 $options = new B2S_Options((int) B2S_PLUGIN_BLOG_USER_ID);
 $optionPostFilters = $options->_getOption('post_filters');
@@ -44,7 +45,7 @@ $postsPerPage = (isset($optionPostFilters['postsPerPage']) && (int) $optionPostF
                         </div>
                         <div class="b2s-metrics-area" style="display:none">
                             <!--Filter Start-->
-                            <div class="b2s-post">
+                            <div class="">
                                 <div class="grid-body">
                                     <!-- Filter Post Start-->
                                     <form class="b2sSortForm form-inline pull-left" action="#">
@@ -232,7 +233,7 @@ $postsPerPage = (isset($optionPostFilters['postsPerPage']) && (int) $optionPostF
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="b2s-modal-close close" data-modal-name=".b2s-metrics-info-modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><?php echo esc_html__('Social Media Metrics', 'blog2social') . ' <span class="label label-success label-sm">' . esc_html__("BETA", "blog2social") . '</span>'; ?></h4>
+                <h4 class="modal-title"><?php esc_html_e('Social Media Metrics', 'blog2social') . ' <span class="label label-success label-sm">' . esc_html__("BETA", "blog2social") . '</span>'; ?></h4>
             </div>
             <div class="modal-body">
                 <?php esc_html_e('You can now track the performance of your posts for Facebook and Twitter directly in Blog2Social. With these Social Media Metrics, you can analyze the performance of your social media posts you shared with the Blog2Social. Use it to optimize your social media strategy to reach your audience and to get better results for your social media posts.', 'blog2social') ?>
@@ -284,6 +285,10 @@ $postsPerPage = (isset($optionPostFilters['postsPerPage']) && (int) $optionPostF
             <div class="modal-header">
                 <button type="button" class="b2s-modal-close close" data-modal-name=".b2s-metrics-feedback-modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"><?php esc_html_e('Feedback', 'blog2social'); ?></h4>
+                <div id="b2s-metrics-feedback-checkbox">
+                    <input type="checkbox" id="b2s-metrics-dont-show-again" name="b2s-metrics-dont-show-again" value="0">
+                    <label for="b2s-metrics-dont-show-again"><?php esc_html_e("Don’t show this again.", "blog2social")?></label><br>
+                </div>
             </div>
             <div class="modal-body">
                 <iframe src="<?php echo esc_url(B2S_Tools::getSupportLink('metrics_feedback')); ?>" width="100%" height="500px"></iframe>
@@ -293,6 +298,7 @@ $postsPerPage = (isset($optionPostFilters['postsPerPage']) && (int) $optionPostF
 </div>
 
 <input type="hidden" id="b2sOptionMetricsStarted" value="<?php echo (($optionMetricsStarted == true) ? '1' : '0') ?>">
+<input type="hidden" id="b2sOptionMetricsFeedback" value="<?php echo (($optionMetricsFeedback == true) ? '1' : '0') ?>">
 
 <input type="hidden" id="b2sLang" value="<?php echo esc_attr(substr(B2S_LANGUAGE, 0, 2)); ?>">
 <input type="hidden" id="b2sUserLang" value="<?php echo esc_attr(strtolower(substr(get_locale(), 0, 2))); ?>">

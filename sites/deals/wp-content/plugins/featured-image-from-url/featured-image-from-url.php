@@ -4,11 +4,11 @@
  * Plugin Name: Featured Image from URL (FIFU)
  * Plugin URI: https://fifu.app/
  * Description: Use an external image/video/audio as featured image of a post or WooCommerce product.
- * Version: 4.3.4
+ * Version: 4.5.3
  * Author: fifu.app
  * Author URI: https://fifu.app/
  * WC requires at least: 4.0
- * WC tested up to: 7.6.1
+ * WC tested up to: 8.3.1
  * Text Domain: featured-image-from-url
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -19,8 +19,11 @@ define('FIFU_INCLUDES_DIR', FIFU_PLUGIN_DIR . 'includes');
 define('FIFU_ADMIN_DIR', FIFU_PLUGIN_DIR . 'admin');
 define('FIFU_ELEMENTOR_DIR', FIFU_PLUGIN_DIR . 'elementor');
 define('FIFU_GRAVITY_DIR', FIFU_PLUGIN_DIR . 'gravity-forms');
+define('FIFU_LANGUAGES_DIR', WP_CONTENT_DIR . '/uploads/fifu/languages/');
 define('FIFU_DELETE_ALL_URLS', false);
 define('FIFU_CLOUD_DEBUG', false);
+
+$FIFU_SESSION = array();
 
 require_once (FIFU_INCLUDES_DIR . '/attachment.php');
 require_once (FIFU_INCLUDES_DIR . '/convert-url.php');
@@ -103,8 +106,8 @@ add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'fifu_action_link
 add_filter('network_admin_plugin_action_links_' . plugin_basename(__FILE__), 'fifu_action_links');
 
 function fifu_action_links($links) {
-    $links[] = '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=featured-image-from-url')) . '">' . __('Settings') . '</a>';
-    // $links[] = '<a style="color:black">' . __('Support') . ':</a>';
+    $strings = fifu_get_strings_plugins();
+    $links[] = '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=featured-image-from-url')) . '">' . $strings['settings']() . '</a>';
     return $links;
 }
 
@@ -112,15 +115,13 @@ add_filter('plugin_row_meta', 'fifu_row_meta', 10, 4);
 
 function fifu_row_meta($plugin_meta, $plugin_file, $plugin_data, $status) {
     if (strpos($plugin_file, 'featured-image-from-url.php') !== false) {
-        $tag_review = '<a title="If you are enjoying FIFU, please give it a 5-star rating =]" href="https://wordpress.org/support/plugin/featured-image-from-url/reviews/?filter=5" target="_blank"><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span></a>';
-        $tag_pro = '<a href="https://fifu.app/" target="_blank"><span style="padding:5px;color:white;background-color:#1da867">Upgrade to <b>PRO</b></span></a>';
-        $email = '<a style="width:184px;padding:5px;color:white;background-color:#02a0d2"><b>Support</b>: marcel@fifu.app</a>';
-        $ref = '<a href="https://referral.fifu.app" target="_blank">Affiliate program</a>';
+        $strings = fifu_get_strings_plugins();
+
+        $ref = '<a href="https://referral.fifu.app" target="_blank">' . $strings['affiliate']() . '</a>';
+        $email = '<a style="color:#2271b1">marcel@fifu.app</a>';
         $new_links = array(
-            'email' => $email,
-            'pro' => $tag_pro,
-            'review' => $tag_review,
             'affiliate' => $ref,
+            'email' => $email,
         );
         $plugin_meta = array_merge($plugin_meta, $new_links);
     }
@@ -167,3 +168,22 @@ add_action('before_woocommerce_init', function () {
     }
 });
 
+// languages
+
+/*
+
+add_action('plugins_loaded', 'fifu_languages');
+
+function fifu_languages() {
+    load_plugin_textdomain(FIFU_SLUG, false, FIFU_LANGUAGES_DIR);
+}
+
+add_filter('load_textdomain_mofile', 'fifu_override_mo_files', 10, 2 );
+
+function fifu_override_mo_files( $mofile, $domain ) {
+    if (FIFU_SLUG === $domain )
+        $mofile = FIFU_LANGUAGES_DIR . '/' . basename( $mofile );
+    return $mofile;
+}
+
+*/

@@ -40,8 +40,8 @@ class Ping {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  integer $postId The ID of the post.
-	 * @param  WP_Post $post   The post object.
+	 * @param  integer  $postId The ID of the post.
+	 * @param  \WP_Post $post   The post object.
 	 * @return void
 	 */
 	public function schedule( $postId, $post = null ) {
@@ -100,9 +100,10 @@ class Ping {
 			$sitemapUrls[] = aioseo()->sitemap->helpers->getUrl( 'rss' );
 		}
 
-		foreach ( aioseo()->addons->getLoadedAddons() as $loadedAddon ) {
-			if ( ! empty( $loadedAddon->ping ) && method_exists( $loadedAddon->ping, 'getPingUrls' ) ) {
-				$sitemapUrls = $sitemapUrls + $loadedAddon->ping->getPingUrls();
+		$addonsSitemapUrls = aioseo()->addons->doAddonFunction( 'ping', 'getPingUrls' );
+		foreach ( $addonsSitemapUrls as $addonSitemapUrls ) {
+			if ( is_array( $addonSitemapUrls ) ) {
+				$sitemapUrls = array_merge( $sitemapUrls, $addonSitemapUrls );
 			}
 		}
 

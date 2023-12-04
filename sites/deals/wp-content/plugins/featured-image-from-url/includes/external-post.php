@@ -50,6 +50,13 @@ function fifu_save_properties_ext($post_id) {
         if (fifu_is_valid_default_cpt($post_id))
             fifu_db_update_fake_attach_id($post_id);
     }
+
+    /* image url from slotslauch */
+    if (fifu_is_slotslaunch_active()) {
+        $url = esc_url_raw(rtrim(get_post_meta($post_id, 'slimg', true)));
+        if ($url)
+            fifu_dev_set_image($post_id, $url);
+    }
 }
 
 function fifu_first_img_in_content($content) {

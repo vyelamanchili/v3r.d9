@@ -17,7 +17,8 @@ class FIFU_GF_Image_Field extends GF_Field {
      * @return string
      */
     public function get_form_editor_field_title() {
-        return esc_attr__('Featured Image (FIFU)', 'fifufieldaddon');
+        $strings = fifu_get_strings_gravity_forms();
+        return $strings['field']['image']() . ' (FIFU)';
     }
 
     /**
@@ -95,6 +96,8 @@ class FIFU_GF_Image_Field extends GF_Field {
      * @return string
      */
     public function get_field_input($form, $value = '', $entry = null) {
+        $strings = fifu_get_strings_gravity_forms();
+
         $id = absint($this->id);
         $form_id = absint($form['id']);
         $is_entry_detail = $this->is_entry_detail();
@@ -116,7 +119,7 @@ class FIFU_GF_Image_Field extends GF_Field {
         // Prepare the other input attributes.
         $tabindex = $this->get_tabindex();
         $logic_event = !$is_form_editor && !$is_entry_detail ? $this->get_conditional_logic_event('keyup') : '';
-        $placeholder_attribute = 'placeholder="Image URL"';
+        $placeholder_attribute = 'placeholder="' . $strings['placeholder']['image']() . '"';
         $required_attribute = $this->isRequired ? 'aria-required="true"' : '';
         $invalid_attribute = $this->failed_validation ? 'aria-invalid="true"' : 'aria-invalid="false"';
         $disabled_text = $is_form_editor ? 'disabled="disabled"' : '';

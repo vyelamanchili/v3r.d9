@@ -42,7 +42,7 @@ class Options {
 			'separator'             => [ 'type' => 'string', 'default' => '&raquo;' ],
 			'homepageLink'          => [ 'type' => 'boolean', 'default' => true ],
 			'homepageLabel'         => [ 'type' => 'string', 'default' => 'Home' ],
-			'breadcrumbPrefix'      => [ 'type' => 'string', 'localized' => true ],
+			'breadcrumbPrefix'      => [ 'type' => 'string', 'localized' => true, 'default' => '' ],
 			'archiveFormat'         => [ 'type' => 'string', 'default' => 'Archives for #breadcrumb_archive_post_type_name', 'localized' => true ],
 			'searchResultFormat'    => [ 'type' => 'string', 'default' => 'Search Results for \'#breadcrumb_search_string\'', 'localized' => true ],
 			'errorFormat404'        => [ 'type' => 'string', 'default' => '404 - Page Not Found', 'localized' => true ],
@@ -166,12 +166,13 @@ TEMPLATE
 				'sameUsername'   => [
 					'enable'   => [ 'type' => 'boolean', 'default' => false ],
 					'username' => [ 'type' => 'string' ],
-					'included' => [ 'type' => 'array', 'default' => [ 'facebookPageUrl', 'twitterUrl', 'pinterestUrl', 'instagramUrl', 'youtubeUrl', 'linkedinUrl' ] ]
+					'included' => [ 'type' => 'array', 'default' => [ 'facebookPageUrl', 'twitterUrl', 'tiktokUrl', 'pinterestUrl', 'instagramUrl', 'youtubeUrl', 'linkedinUrl' ] ]
 				],
 				'urls'           => [
 					'facebookPageUrl' => [ 'type' => 'string' ],
 					'twitterUrl'      => [ 'type' => 'string' ],
 					'instagramUrl'    => [ 'type' => 'string' ],
+					'tiktokUrl'       => [ 'type' => 'string' ],
 					'pinterestUrl'    => [ 'type' => 'string' ],
 					'youtubeUrl'      => [ 'type' => 'string' ],
 					'linkedinUrl'     => [ 'type' => 'string' ],
@@ -407,21 +408,6 @@ TEMPLATE
 			]
 		],
 		'deprecated'       => [
-			'webmasterTools'   => [
-				'googleAnalytics' => [
-					'id'                        => [ 'type' => 'string' ],
-					'advanced'                  => [ 'type' => 'boolean', 'default' => false ],
-					'trackingDomain'            => [ 'type' => 'string' ],
-					'multipleDomains'           => [ 'type' => 'boolean', 'default' => false ],
-					'additionalDomains'         => [ 'type' => 'html' ],
-					'anonymizeIp'               => [ 'type' => 'boolean', 'default' => false ],
-					'displayAdvertiserTracking' => [ 'type' => 'boolean', 'default' => false ],
-					'excludeUsers'              => [ 'type' => 'array', 'default' => [] ],
-					'trackOutboundLinks'        => [ 'type' => 'boolean', 'default' => false ],
-					'enhancedLinkAttribution'   => [ 'type' => 'boolean', 'default' => false ],
-					'enhancedEcommerce'         => [ 'type' => 'boolean', 'default' => false ]
-				]
-			],
 			'searchAppearance' => [
 				'global'   => [
 					'descriptionFormat' => [ 'type' => 'string' ],
@@ -606,8 +592,7 @@ TEMPLATE
 		$cachedOptions = aioseo()->core->optionsCache->getOptions( $this->optionsName );
 		$dbOptions     = aioseo()->helpers->arrayReplaceRecursive(
 			$cachedOptions,
-			$this->addValueToValuesArray( $cachedOptions, $options, [], true ),
-			true
+			$this->addValueToValuesArray( $cachedOptions, $options, [], true )
 		);
 
 		// Now, we must also intersect both arrays to delete any individual keys that were unset.

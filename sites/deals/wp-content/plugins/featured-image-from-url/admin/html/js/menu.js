@@ -1,4 +1,9 @@
 jQuery(document).ready(function () {
+    // reload after 10 minutes
+    setTimeout(function () {
+        location.reload();
+    }, 10 * 60 * 1000);
+
     jQuery('link[href*="jquery-ui.css"]').attr("disabled", "true");
     jQuery('div.wrap div.header-box div.notice').hide();
     jQuery('div.wrap div.header-box div#message').hide();
@@ -34,8 +39,6 @@ jQuery(function () {
     jQuery("#fifu_input_slider_pause").spinner({min: 0});
     jQuery("#fifu_input_auto_set_width").spinner({min: 0});
     jQuery("#fifu_input_auto_set_height").spinner({min: 0});
-    jQuery("#fifu_input_screenshot_height").spinner({min: 0});
-    jQuery("#fifu_input_screenshot_scale").spinner({min: 0});
     jQuery("#fifu_input_crop_delay").spinner({min: 0, step: 50});
     jQuery("#tabsApi").tabs();
     jQuery("#tabsCrop").tabs();
@@ -48,8 +51,9 @@ jQuery(function () {
     jQuery("#tabsShortcode").tabs();
     jQuery("#tabsFifuShortcode").tabs();
     jQuery("#tabsAutoSet").tabs();
+    jQuery("#tabsTags").tabs();
     jQuery("#tabsIsbn").tabs();
-    jQuery("#tabsScreenshot").tabs();
+    jQuery("#tabsCustomfield").tabs();
     jQuery("#tabsFinder").tabs();
     jQuery("#tabsVideo").tabs();
     jQuery("#tabsContent").tabs();
@@ -225,14 +229,14 @@ function fifu_run_delete_all_js() {
 }
 
 function fifu_save_dimensions_all_js() {
-    tooMany = '(it will take too much time. Please contact the support for a better solution)';
+    tooMany = '(' + fifuScriptVars.dimensionsSupport + ')';
     if (parseInt(jQuery("#countdown").text()) == -1 || jQuery("#countdown").text() == tooMany) {
         jQuery("#countdown").text(tooMany);
         invert('save_dimensions_all');
         return;
     }
 
-    jQuery('#tabs-top').block({message: 'Please wait. It can take several minutes...', css: {backgroundColor: 'none', border: 'none', color: 'white'}});
+    jQuery('#tabs-top').block({message: fifuScriptVars.dimensionsWait, css: {backgroundColor: 'none', border: 'none', color: 'white'}});
 
     interval = setInterval(function () {
         jQuery("#countdown").load(location.href + " #countdown");

@@ -1,4 +1,4 @@
-<?php die("Access Denied"); ?>#x#a:5:{s:4:"body";s:27795:"
+<?php die("Access Denied"); ?>#x#a:5:{s:4:"body";s:28255:"
 
 <div class="item-page clearfix">
 
@@ -6,12 +6,12 @@
 <!-- Article -->
 <article>
 	<meta itemprop="inLanguage" content="en-GB" />
-	<meta itemprop="url" content="/projects/work/evolent-health" />
+	<meta itemprop="url" content="/sites/ranjeesh/projects/work/evolent-health" />
 
       
 <header class="article-header clearfix">
 	<h1 class="article-title" itemprop="headline">
-					Evolent Health			<meta itemprop="url" content="https://ranjeesh.v3r.us/projects/work/evolent-health" />
+					Evolent Health			<meta itemprop="url" content="https://www.v3r.us/sites/ranjeesh/projects/work/evolent-health" />
 			</h1>
 
 			</header>
@@ -23,119 +23,119 @@
   
           	<div class="tags">
 																	<span class="tag-9 tag-list0" itemprop="keywords">
-					<a href="/component/tags/tag/lamp" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/lamp" class="label label-info">
 						lamp					</a>
 				</span>
 																				<span class="tag-15 tag-list1" itemprop="keywords">
-					<a href="/component/tags/tag/wordpress" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/wordpress" class="label label-info">
 						wordpress					</a>
 				</span>
 																				<span class="tag-17 tag-list2" itemprop="keywords">
-					<a href="/component/tags/tag/net" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/net" class="label label-info">
 						.net					</a>
 				</span>
 																				<span class="tag-21 tag-list3" itemprop="keywords">
-					<a href="/component/tags/tag/javascript" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/javascript" class="label label-info">
 						javascript					</a>
 				</span>
 																				<span class="tag-22 tag-list4" itemprop="keywords">
-					<a href="/component/tags/tag/css" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/css" class="label label-info">
 						css					</a>
 				</span>
 																				<span class="tag-26 tag-list5" itemprop="keywords">
-					<a href="/component/tags/tag/angular" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/angular" class="label label-info">
 						angular					</a>
 				</span>
 																				<span class="tag-51 tag-list6" itemprop="keywords">
-					<a href="/component/tags/tag/drupal" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/drupal" class="label label-info">
 						drupal					</a>
 				</span>
 																				<span class="tag-68 tag-list7" itemprop="keywords">
-					<a href="/component/tags/tag/react" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/react" class="label label-info">
 						react					</a>
 				</span>
 																				<span class="tag-70 tag-list8" itemprop="keywords">
-					<a href="/component/tags/tag/azure" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/azure" class="label label-info">
 						azure					</a>
 				</span>
 																				<span class="tag-71 tag-list9" itemprop="keywords">
-					<a href="/component/tags/tag/devops" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/devops" class="label label-info">
 						devops					</a>
 				</span>
 																				<span class="tag-72 tag-list10" itemprop="keywords">
-					<a href="/component/tags/tag/cicd" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/cicd" class="label label-info">
 						cicd					</a>
 				</span>
 																				<span class="tag-73 tag-list11" itemprop="keywords">
-					<a href="/component/tags/tag/hostgator" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/hostgator" class="label label-info">
 						hostgator					</a>
 				</span>
 																				<span class="tag-74 tag-list12" itemprop="keywords">
-					<a href="/component/tags/tag/organic-groups" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/organic-groups" class="label label-info">
 						organic groups					</a>
 				</span>
 																				<span class="tag-75 tag-list13" itemprop="keywords">
-					<a href="/component/tags/tag/vsts" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/vsts" class="label label-info">
 						vsts					</a>
 				</span>
 																				<span class="tag-76 tag-list14" itemprop="keywords">
-					<a href="/component/tags/tag/api" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/api" class="label label-info">
 						api					</a>
 				</span>
 																				<span class="tag-77 tag-list15" itemprop="keywords">
-					<a href="/component/tags/tag/dotnet" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/dotnet" class="label label-info">
 						dotnet					</a>
 				</span>
 																				<span class="tag-78 tag-list16" itemprop="keywords">
-					<a href="/component/tags/tag/sql-server" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/sql-server" class="label label-info">
 						sql server					</a>
 				</span>
 																				<span class="tag-79 tag-list17" itemprop="keywords">
-					<a href="/component/tags/tag/elastic" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/elastic" class="label label-info">
 						elastic					</a>
 				</span>
 																				<span class="tag-80 tag-list18" itemprop="keywords">
-					<a href="/component/tags/tag/apache" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/apache" class="label label-info">
 						apache					</a>
 				</span>
 																				<span class="tag-81 tag-list19" itemprop="keywords">
-					<a href="/component/tags/tag/yarn" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/yarn" class="label label-info">
 						yarn					</a>
 				</span>
 																				<span class="tag-82 tag-list20" itemprop="keywords">
-					<a href="/component/tags/tag/webpack" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/webpack" class="label label-info">
 						webpack					</a>
 				</span>
 																				<span class="tag-83 tag-list21" itemprop="keywords">
-					<a href="/component/tags/tag/scss" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/scss" class="label label-info">
 						scss					</a>
 				</span>
 																				<span class="tag-99 tag-list22" itemprop="keywords">
-					<a href="/component/tags/tag/gitb" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/gitb" class="label label-info">
 						gitb					</a>
 				</span>
 																				<span class="tag-100 tag-list23" itemprop="keywords">
-					<a href="/component/tags/tag/a-ache" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/a-ache" class="label label-info">
 						a[ache					</a>
 				</span>
 																				<span class="tag-101 tag-list24" itemprop="keywords">
-					<a href="/component/tags/tag/team-city" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/team-city" class="label label-info">
 						team city					</a>
 				</span>
 																				<span class="tag-102 tag-list25" itemprop="keywords">
-					<a href="/component/tags/tag/jekyll" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/jekyll" class="label label-info">
 						jekyll					</a>
 				</span>
 																				<span class="tag-153 tag-list26" itemprop="keywords">
-					<a href="/component/tags/tag/putty" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/putty" class="label label-info">
 						putty					</a>
 				</span>
 																				<span class="tag-176 tag-list27" itemprop="keywords">
-					<a href="/component/tags/tag/zabbix" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/zabbix" class="label label-info">
 						zabbix					</a>
 				</span>
 																				<span class="tag-177 tag-list28" itemprop="keywords">
-					<a href="/component/tags/tag/monit" class="label label-info">
+					<a href="/sites/ranjeesh/component/tags/tag/monit" class="label label-info">
 						monit					</a>
 				</span>
 						</div>
@@ -305,6 +305,6 @@
 
 </div>
 
-";s:4:"head";a:12:{s:5:"title";s:14:"Evolent Health";s:11:"description";s:38:"Ranjeesh Yelamanchili's Portfolio Site";s:4:"link";s:0:"";s:8:"metaTags";a:2:{s:10:"http-equiv";a:1:{s:12:"content-type";s:24:"text/html; charset=utf-8";}s:4:"name";a:3:{s:8:"keywords";s:89:"Ranjeesh, Yelamanchili, Portfolio, Drupal, Developer, LAMP, PHP, Joomla, Wordpress, MySQL";s:6:"rights";N;s:6:"author";s:10:"Super User";}}s:5:"links";a:0:{}s:11:"styleSheets";a:0:{}s:5:"style";a:0:{}s:7:"scripts";a:5:{s:27:"/media/jui/js/jquery.min.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:11:"detectDebug";b:0;s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;}}s:34:"/media/jui/js/jquery-noconflict.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;s:11:"detectDebug";b:1;}}s:35:"/media/jui/js/jquery-migrate.min.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:11:"detectDebug";b:0;s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;}}s:27:"/media/system/js/caption.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;s:11:"detectDebug";b:1;}}s:30:"/media/jui/js/bootstrap.min.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:11:"detectDebug";s:1:"0";s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;}}}s:6:"script";a:1:{s:15:"text/javascript";s:322:"jQuery(window).on('load',  function() {
+";s:4:"head";a:12:{s:5:"title";s:14:"Evolent Health";s:11:"description";s:38:"Ranjeesh Yelamanchili's Portfolio Site";s:4:"link";s:0:"";s:8:"metaTags";a:2:{s:10:"http-equiv";a:1:{s:12:"content-type";s:24:"text/html; charset=utf-8";}s:4:"name";a:3:{s:8:"keywords";s:89:"Ranjeesh, Yelamanchili, Portfolio, Drupal, Developer, LAMP, PHP, Joomla, Wordpress, MySQL";s:6:"rights";N;s:6:"author";s:10:"Super User";}}s:5:"links";a:0:{}s:11:"styleSheets";a:0:{}s:5:"style";a:0:{}s:7:"scripts";a:5:{s:42:"/sites/ranjeesh/media/jui/js/jquery.min.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:11:"detectDebug";b:0;s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;}}s:49:"/sites/ranjeesh/media/jui/js/jquery-noconflict.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;s:11:"detectDebug";b:1;}}s:50:"/sites/ranjeesh/media/jui/js/jquery-migrate.min.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:11:"detectDebug";b:0;s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;}}s:42:"/sites/ranjeesh/media/system/js/caption.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;s:11:"detectDebug";b:1;}}s:45:"/sites/ranjeesh/media/jui/js/bootstrap.min.js";a:2:{s:4:"type";s:15:"text/javascript";s:7:"options";a:6:{s:7:"version";s:4:"auto";s:8:"relative";b:1;s:11:"detectDebug";s:1:"0";s:9:"framework";b:0;s:8:"pathOnly";b:0;s:13:"detectBrowser";b:1;}}}s:6:"script";a:1:{s:15:"text/javascript";s:322:"jQuery(window).on('load',  function() {
 				new JCaption('img.caption');
 			});jQuery(function($){ initTooltips(); $("body").on("subform-row-add", initTooltips); function initTooltips (event, container) { container = container || document;$(container).find(".hasTooltip").tooltip({"html": true,"container": "body"});} });";}s:6:"custom";a:0:{}s:10:"scriptText";a:0:{}s:13:"scriptOptions";a:0:{}}s:13:"mime_encoding";s:9:"text/html";s:7:"pathway";a:3:{i:0;O:8:"stdClass":2:{s:4:"name";s:8:"Projects";s:4:"link";s:56:"index.php?option=com_content&view=article&id=7&Itemid=18";}i:1;O:8:"stdClass":2:{s:4:"name";s:4:"Work";s:4:"link";s:55:"index.php?option=com_content&view=article&id=8&Itemid=7";}i:2;O:8:"stdClass":2:{s:4:"name";s:14:"Evolent Health";s:4:"link";s:58:"index.php?option=com_content&view=article&id=28&Itemid=163";}}s:6:"module";a:0:{}}

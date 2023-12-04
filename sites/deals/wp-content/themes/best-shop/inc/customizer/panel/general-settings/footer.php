@@ -153,8 +153,36 @@ function best_shop_customize_register_footer( $wp_customize ) {
     )));
     
     
+  /** Footer colums */
+  $wp_customize->add_setting(
+      'footer_num_of_colums',
+      array(
+          'default'           => best_shop_default_settings('footer_num_of_colums'),
+          'sanitize_callback' => 'absint',
+          'transport'         => 'postMessage'
+      )
+  );
+
+  $wp_customize->add_control(
+      'footer_num_of_colums',
+      array(
+          'label'       => esc_html__( 'Number of Colums in Footer', 'best-shop' ),
+          'description' => __( 'Delete widgets from right to left/bottom to top in order to hide extra colums.' , 'best-shop' ),
+          'section'     => 'footer_settings',
+          'type'        => 'number',
+          'input_attrs' => array(
+            'min' => 1,
+            'max' => 4
+          )
+      )
+  );
+
+    
 
         
 }
 endif;
 add_action( 'customize_register', 'best_shop_customize_register_footer' );
+
+
+

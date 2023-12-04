@@ -71,6 +71,10 @@
         @media(max-width: $rsp-break-s) {
           padding: 10px 15px;
         }
+        &:focus {
+          outline: none;
+          box-shadow: none;
+        }
         &.active {
           border-bottom: 4px solid var(--rsp-brand-primary);
         }
@@ -157,7 +161,7 @@
 
     &.burst-column-2 {
       grid-column: span 2;
-      @media(max-width: $rsp-break-s) {
+      @media(max-width: $rsp-break-m) {
         grid-column: span 4;
       }
     }
@@ -173,7 +177,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      min-height: calc(30px + var(--rsp-spacing-s) * 2);
+      min-height: calc(40px + var(--rsp-spacing-s) * 2);
       @include burst-inline-block-padding;
 
       &:empty {
@@ -188,7 +192,9 @@
     &-controls {
       font-size: var(--rsp-fs-200);
       display: flex;
+      align-items: center;
       gap: var(--rsp-spacing-s);
+
     }
 
     &-content {

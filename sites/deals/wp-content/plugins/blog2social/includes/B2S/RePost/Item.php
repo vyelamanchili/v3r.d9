@@ -6,12 +6,14 @@ class B2S_RePost_Item {
     private $postTypesData;
     private $postCategoriesData;
     private $postAuthorData;
+    private $postTagsData;
 
     public function __construct() {
         $this->options = new B2S_Options(B2S_PLUGIN_BLOG_USER_ID);
         $this->postTypesData = get_post_types(array('public' => true));
         $this->postCategoriesData = get_categories();
         $this->postAuthorData = get_users();
+        $this->postTagsData = get_tags(array('hide_empty' => false));
     }
 
     public function getRePostOptionsHtml() {
@@ -47,6 +49,8 @@ class B2S_RePost_Item {
         $content .= '<br>';
         $content .= $this->getDateData();
         $content .= $this->getChosenPostCategoriesData();
+        $content .= '<br>';
+        $content .= $this->getChosenPostTagsData();
         $content .= '<br>';
         $content .= $this->getChosenPostAuthorData();
         $content .= '<br>';
@@ -161,7 +165,10 @@ class B2S_RePost_Item {
                 foreach ($auth as $u => $item) {
                     if (in_array($item->networkId, $isVideoNetwork)) {
                         if (!in_array($item->networkId, array(1, 2, 6, 12, 38, 39))) {
-                            unset($result->data->auth->$u);                        }
+                            if (isset($a[$u])) {
+                                unset($result->data->auth->{$a[$u]});
+                            }
+                        }
                     }
                 }
             }
@@ -245,6 +252,25 @@ class B2S_RePost_Item {
             $html .= '<select name="b2s-re-post-categories-data[]" data-placeholder="Select Post Categories" class="b2s-re-post-categories" multiple>';
 
             foreach ($this->postCategoriesData as $cat) {
+                $html .= '<option value="' . esc_attr($cat->term_taxonomy_id) . '">' . esc_html($cat->name) . '</option>';
+            }
+
+            $html .= '</select>';
+        }
+        return $html;
+    }
+
+    private function getChosenPostTagsData() {
+
+        $html = '';
+        if (is_array($this->postTagsData) && !empty($this->postTagsData)) {
+            $html .= '<input type="checkbox" name="b2s-re-post-tags-active" class="b2s-re-post-tags-active" id="b2s-re-post-tags-active" value="1">';
+            $html .= '<label for="b2s-re-post-tags-active"> ' . esc_html__('Tags', 'blog2social') . ' </label>';
+            $html .= '<input id="b2s-re-post-tags-state-include" name="b2s-re-post-tags-state" value="0" checked type="radio" class="b2s-re-post-state"><label class="padding-bottom-3" for="b2s-re-post-tags-state-include">' . esc_html__('Include (Post only...)', 'blog2social') . '</label> ';
+            $html .= '<input id="b2s-re-post-tags-state-exclude" name="b2s-re-post-tags-state" value="1" type="radio" class="b2s-re-post-state"><label class="padding-bottom-3" for="b2s-re-post-tags-state-exclude">' . esc_html__('Exclude (Do no post ...)', 'blog2social') . '</label>';
+            $html .= '<select name="b2s-re-post-tags-data[]" data-placeholder="Select Post Tags" class="b2s-re-post-tags" multiple>';
+
+            foreach ($this->postTagsData as $cat) {
                 $html .= '<option value="' . esc_attr($cat->term_taxonomy_id) . '">' . esc_html($cat->name) . '</option>';
             }
 

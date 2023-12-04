@@ -1066,6 +1066,28 @@ let burst_initial_track_hit = false;
 let burst_cookieless_option = burst.options.enable_cookieless_tracking; // User cookieless option
 // add option to window so a consent plugin can change this value
 window.burst_enable_cookieless_tracking = burst.options.enable_cookieless_tracking; // Consent plugin cookieless option
+let burst_page_url = window.location.href;
+let burst_completed_goals = [];
+let burst_goals_script_url = burst.goals_script_url ? burst.goals_script_url : './burst-goals.js';
+
+/**
+ * Setup Goals if they exist for current page
+ * @returns {Promise<void>}
+ */
+const burst_import_goals = async () => {
+	const goals = await import(burst_goals_script_url);
+	goals.default();
+}
+
+// If has goals and a goal has this page_url, import
+if ( burst.goals.length > 0 ) {
+	for ( let i = 0; i < burst.goals.length; i++ ) {
+		if ( burst.goals[i].page_url !== '' || burst.goals[i].page_url === burst_page_url ) {
+			burst_import_goals();
+			break;
+		}
+	}
+}
 
 /**
  * Get a cookie by name
@@ -1249,7 +1271,7 @@ let burst_api_request = obj => {
 	// generate a new token every request
 	return new Promise((resolve, reject) => {
 		// if browser supports sendBeacon use it
-		if (window.navigator.sendBeacon && burst.options.beacon_enabled) {
+		if (burst.options.beacon_enabled) {
 			// send the request using sendBeacon
 			window.navigator.sendBeacon(burst.beacon_url, JSON.stringify( obj.data) );
 			resolve('ok');
@@ -1293,7 +1315,8 @@ async function burst_update_hit ( update_uid = false ){
 		'fingerprint': false,
 		'uid': false,
 		'url': location.href,
-		'time_on_page': await burst_get_time_on_page()
+		'time_on_page': await burst_get_time_on_page(),
+		'completed_goals': burst_completed_goals,
 	};
 
 	if ( update_uid ){
@@ -1335,9 +1358,10 @@ async function burst_track_hit () {
 		'url': location.href,
 		'page_id': burst.page_id,
 		'referrer_url': document.referrer,
-		'user_agent': navigator.userAgent,
+		'user_agent': navigator.userAgent || 'unknown',
 		'device_resolution': window.screen.width * window.devicePixelRatio + "x" + window.screen.height * window.devicePixelRatio,
-		'time_on_page': await burst_get_time_on_page()
+		'time_on_page': await burst_get_time_on_page(),
+		'completed_goals': burst_completed_goals,
 	};
 
 	if ( burst_use_cookies() ) {

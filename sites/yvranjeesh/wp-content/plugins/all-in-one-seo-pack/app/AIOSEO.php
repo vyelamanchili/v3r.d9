@@ -18,7 +18,7 @@ namespace AIOSEO\Plugin {
 		 *
 		 * @since 4.0.0
 		 *
-		 * @var AIOSEO\Plugin\AIOSEO
+		 * @var AIOSEO
 		 */
 		private static $instance;
 
@@ -93,7 +93,9 @@ namespace AIOSEO\Plugin {
 			$this->constants();
 			$this->includes();
 			$this->preLoad();
-			$this->load();
+			if ( ! $this->core->isUninstalling() ) {
+				$this->load();
+			}
 		}
 
 		/**
@@ -154,7 +156,7 @@ namespace AIOSEO\Plugin {
 				}
 
 				if ( $shouldRequire ) {
-					require AIOSEO_DIR . $path;
+					require_once AIOSEO_DIR . $path;
 				}
 			}
 
@@ -184,7 +186,9 @@ namespace AIOSEO\Plugin {
 			$dotenv = \Dotenv\Dotenv::createUnsafeImmutable( AIOSEO_DIR, '/build/.env' );
 			$dotenv->load();
 
-			$version = strtolower( getenv( 'VITE_VERSION' ) );
+			$version = defined( 'AIOSEO_DEV_VERSION' )
+				? strtolower( AIOSEO_DEV_VERSION )
+				: strtolower( getenv( 'VITE_VERSION' ) );
 			if ( ! empty( $version ) ) {
 				$this->isDev = true;
 
@@ -314,13 +318,14 @@ namespace AIOSEO\Plugin {
 			$this->slugMonitor        = new Common\Admin\SlugMonitor();
 			$this->schema             = $this->pro ? new Pro\Schema\Schema() : new Common\Schema\Schema();
 			$this->actionScheduler    = new Common\Utils\ActionScheduler();
+			$this->seoRevisions       = $this->pro ? new Pro\SeoRevisions\SeoRevisions() : new Common\SeoRevisions\SeoRevisions();
 			$this->ai                 = $this->pro ? new Pro\Ai\Ai() : null;
+			$this->filters            = $this->pro ? new Pro\Main\Filters() : new Lite\Main\Filters();
 
 			if ( ! wp_doing_ajax() && ! wp_doing_cron() ) {
 				$this->rss       = new Common\Rss();
 				$this->main      = $this->pro ? new Pro\Main\Main() : new Common\Main\Main();
 				$this->head      = $this->pro ? new Pro\Main\Head() : new Common\Main\Head();
-				$this->filters   = $this->pro ? new Pro\Main\Filters() : new Lite\Main\Filters();
 				$this->dashboard = $this->pro ? new Pro\Admin\Dashboard() : new Common\Admin\Dashboard();
 				$this->api       = $this->pro ? new Pro\Api\Api() : new Lite\Api\Api();
 				$this->help      = new Common\Help\Help();

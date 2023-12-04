@@ -81,6 +81,15 @@ $rsssl_integrations_list = apply_filters( 'rsssl_integrations', array(
 	    'option_id'            => 'disable_xmlrpc',
 	    'always_include'       => false,
     ),
+
+    'vulnerabilities' => array(
+        'label'                => 'Vulnerabilities',
+        'folder'               => 'wordpress',
+        'impact'               => 'medium',
+        'risk'                 => 'medium',
+        'option_id'            => 'enable_vulnerability_scanner',
+	    'admin_only'           => true,
+    ),
 ) );
 
 /**
@@ -105,7 +114,7 @@ function rsssl_is_integration_enabled( $plugin, $details ) {
 		return true;
 	}
 
-	$field_id = isset($details['option_id']) ? $details['option_id'] : false;
+	$field_id = $details['option_id'] ?? false;
 	if ($field_id && rsssl_get_option($field_id) ) {
 		return true;
 	}
@@ -119,37 +128,31 @@ function rsssl_is_integration_enabled( $plugin, $details ) {
 function rsssl_integrations() {
 	global $rsssl_integrations_list;
 	foreach ( $rsssl_integrations_list as $plugin => $details ) {
-
 		$details = wp_parse_args($details,
 			[
 				'option_id' => false,
 				'always_include'=>false,
 				'folder' => false,
+				'admin_only' => false,
 			]
 		);
+
+		if ( $details['admin_only'] && !rsssl_admin_logged_in() ) {
+			continue;
+		}
 
 		if ( rsssl_is_integration_enabled( $plugin, $details ) ) {
 			$path = apply_filters('rsssl_integrations_path', rsssl_path, $plugin);
 			$file = $path . 'security/' . $details['folder'] . "/" . $plugin . '.php';
-
 			if ( ! file_exists( $file ) ) {
 				continue;
 			}
 			require_once( $file );
-			$risk = $details['risk'];
-			$impact = $details['impact'];
-
-			// Apply fix automatically on high risk, low impact
-			//check if already executed
-			if ( $risk === 'high' && $impact === 'low' && rsssl_user_can_manage() ) {
-				$fix = isset($details['actions']['fix']) ? $details['actions']['fix']: false;
-//				rsssl_do_fix($fix);
-			}
 		}
 	}
 }
+
 add_action( 'plugins_loaded', 'rsssl_integrations', 10 );
-//also run when fields are saved.
 add_action( 'rsssl_after_saved_fields', 'rsssl_integrations', 20 );
 
 /**

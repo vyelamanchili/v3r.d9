@@ -81,8 +81,9 @@ class Schema {
 	 * @var array
 	 */
 	public $nullableFields = [
-		'price', // Needs to be 0 if free for Software Application.
-		'value' // Needs to be 0 if free for product shipping details.
+		'price',       // Needs to be 0 if free for Software Application.
+		'ratingValue', // Needs to be 0 for 0 star ratings.
+		'value'        // Needs to be 0 if free for product shipping details.
 	];
 
 	/**
@@ -92,7 +93,7 @@ class Schema {
 	 *
 	 * @var array
 	 */
-	private $htmlAllowedFields = [
+	public $htmlAllowedFields = [
 		// FAQPage
 		'acceptedAnswer' => [
 			'text'
@@ -116,8 +117,7 @@ class Schema {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  array  $graphs The graphs to output (optional - used for REST API).
-	 * @return string         The JSON schema output.
+	 * @return string The JSON schema output.
 	 */
 	public function get() {
 		// First, check if the schema is disabled.
@@ -307,7 +307,7 @@ class Schema {
 	 *
 	 * @return string The default graph.
 	 */
-	protected function getDefaultPostGraph() {
+	public function getDefaultPostGraph() {
 		return $this->getDefaultPostTypeGraph();
 	}
 
@@ -316,8 +316,8 @@ class Schema {
 	 *
 	 * @since 4.2.5
 	 *
-	 * @param  null|WP_Post $post The post object.
-	 * @return string             The default graph.
+	 * @param  \WP_Post $post The post object.
+	 * @return string         The default graph.
 	 */
 	public function getDefaultPostTypeGraph( $post = null ) {
 		$post = $post ? $post : aioseo()->helpers->getPost();

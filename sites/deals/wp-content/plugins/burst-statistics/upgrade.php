@@ -14,6 +14,9 @@ function burst_check_upgrade() {
 	$prev_version = get_option( 'burst-current-version', false );
 	if ( $prev_version === burst_version ) return; // no upgrade
 
+	// update burst_update_endpoint option, so that the endpoint file will be updated every time the version is changed
+	update_option( 'burst_update_endpoint', true );
+
 	// add burst capabilities
 	if ( $prev_version
 	     && version_compare( $prev_version, '1.1.1', '<' )
@@ -44,6 +47,21 @@ function burst_check_upgrade() {
 			burst_add_manage_capability();
 		}
 	}
+
+	// Version 1.3.5
+	// - Upgrade to new bounce table
+	// - Upgrade to remove `event` and `action` columns from `burst_statistics` table
+
+	if ( $prev_version
+	     && version_compare( $prev_version, '1.4.2.1', '<' ) ) {
+		update_option( "burst_db_upgrade_bounces", true );
+		update_option( 'burst_db_upgrade_goals_remove_columns', true);
+	}
+	if ( $prev_version
+	     && version_compare( $prev_version, '1.5.2', '<' ) ) {
+		update_option( 'burst_db_upgrade_goals_set_conversion_metric', true);
+	}
+
 
 	do_action( 'burst_upgrade', $prev_version );
 	update_option( 'burst-current-version', burst_version, false );

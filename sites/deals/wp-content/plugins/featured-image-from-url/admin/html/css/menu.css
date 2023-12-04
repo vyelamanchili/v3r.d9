@@ -114,6 +114,8 @@ tr.color:nth-child(even) {
     border-radius: 1em;
     width: 80%;
     line-height: 13px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    opacity: 0.628 !important;
 }
 
 .speech-bubble:after {
@@ -137,6 +139,8 @@ tr.color:nth-child(even) {
     width: 100%;
     line-height: 13px;
     top:20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    opacity: 0.628 !important;
 }
 
 .speech-bubble2:after {
@@ -159,6 +163,7 @@ tr.color:nth-child(even) {
     border-radius: 1em;
     width: 100%;
     line-height: 13px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .speech-bubble3:after {

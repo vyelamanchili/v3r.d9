@@ -57,8 +57,8 @@ class Api {
 			'termscreen'                                            => [ 'callback' => [ 'PostsTerms', 'updateTermFromScreen' ], 'access' => 'aioseo_page_general_settings' ],
 			'keyphrases'                                            => [ 'callback' => [ 'PostsTerms', 'updatePostKeyphrases' ], 'access' => 'aioseo_page_analysis' ],
 			'analyze'                                               => [ 'callback' => [ 'Analyze', 'analyzeSite' ], 'access' => 'aioseo_seo_analysis_settings' ],
-			'analyze_headline'                                      => [ 'callback' => [ 'Analyze', 'analyzeHeadline' ], 'access' => 'everyone' ],
-			'analyze_headline/delete'                               => [ 'callback' => [ 'Analyze', 'deleteHeadline' ], 'access' => 'aioseo_seo_analysis_settings' ],
+			'analyze-headline'                                      => [ 'callback' => [ 'Analyze', 'analyzeHeadline' ], 'access' => 'everyone' ],
+			'analyze-headline/delete'                               => [ 'callback' => [ 'Analyze', 'deleteHeadline' ], 'access' => 'aioseo_seo_analysis_settings' ],
 			'analyze/delete-site'                                   => [ 'callback' => [ 'Analyze', 'deleteSite' ], 'access' => 'aioseo_seo_analysis_settings' ],
 			'clear-log'                                             => [ 'callback' => [ 'Tools', 'clearLog' ], 'access' => 'aioseo_tools_settings' ],
 			'connect'                                               => [ 'callback' => [ 'Connect', 'saveConnectToken' ], 'access' => [ 'aioseo_general_settings', 'aioseo_setup_wizard' ] ],
@@ -104,9 +104,22 @@ class Api {
 			'tools/delete-robots-txt'                               => [ 'callback' => [ 'Tools', 'deleteRobotsTxt' ], 'access' => 'aioseo_tools_settings' ],
 			'tools/import-robots-txt'                               => [ 'callback' => [ 'Tools', 'importRobotsTxt' ], 'access' => 'aioseo_tools_settings' ],
 			'wizard'                                                => [ 'callback' => [ 'Wizard', 'saveWizard' ], 'access' => 'aioseo_setup_wizard' ],
-			'integration/semrush/authenticate'                      => [ 'callback' => [ 'Integrations', 'semrushAuthenticate' ], 'access' => 'aioseo_page_analysis' ],
-			'integration/semrush/refresh'                           => [ 'callback' => [ 'Integrations', 'semrushRefresh' ], 'access' => 'aioseo_page_analysis' ],
-			'integration/semrush/keyphrases'                        => [ 'callback' => [ 'Integrations', 'semrushGetKeyphrases' ], 'access' => 'aioseo_page_analysis' ]
+			'integration/semrush/authenticate'                      => [
+				'callback' => [ 'Semrush', 'semrushAuthenticate', 'AIOSEO\\Plugin\\Common\\Api\\Integrations' ],
+				'access'   => 'aioseo_page_analysis'
+			],
+			'integration/semrush/refresh'                           => [
+				'callback' => [ 'Semrush', 'semrushRefresh', 'AIOSEO\\Plugin\\Common\\Api\\Integrations' ],
+				'access'   => 'aioseo_page_analysis'
+			],
+			'integration/semrush/keyphrases'                        => [
+				'callback' => [ 'Semrush', 'semrushGetKeyphrases', 'AIOSEO\\Plugin\\Common\\Api\\Integrations' ],
+				'access'   => 'aioseo_page_analysis'
+			],
+			'integration/wpcode/snippets'                           => [
+				'callback' => [ 'WpCode', 'getSnippets', 'AIOSEO\\Plugin\\Common\\Api\\Integrations' ],
+				'access'   => 'aioseo_tools_settings'
+			]
 		],
 		'DELETE' => [
 			'backup' => [ 'callback' => [ 'Tools', 'deleteBackup' ], 'access' => 'aioseo_tools_settings' ]

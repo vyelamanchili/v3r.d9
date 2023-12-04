@@ -33,6 +33,78 @@ class Addons {
 	protected $addonsUrl = 'https://licensing-cdn.aioseo.com/keys/lite/all-in-one-seo-pack-pro.json';
 
 	/**
+	 * The main Image SEO addon class.
+	 *
+	 * @since 4.4.2
+	 *
+	 * @var \AIOSEO\Plugin\Addon\ImageSeo\ImageSeo
+	 */
+	private $imageSeo = null;
+
+	/**
+	 * The main Index Now addon class.
+	 *
+	 * @since 4.4.2
+	 *
+	 * @var \AIOSEO\Plugin\Addon\IndexNow\IndexNow
+	 */
+	private $indexNow = null;
+
+	/**
+	 * The main Local Business addon class.
+	 *
+	 * @since 4.4.2
+	 *
+	 * @var \AIOSEO\Plugin\Addon\LocalBusiness\LocalBusiness
+	 */
+	private $localBusiness = null;
+
+	/**
+	 * The main News Sitemap addon class.
+	 *
+	 * @since 4.4.2
+	 *
+	 * @var \AIOSEO\Plugin\Addon\NewsSitemap\NewsSitemap
+	 */
+	private $newsSitemap = null;
+
+	/**
+	 * The main Redirects addon class.
+	 *
+	 * @since 4.4.2
+	 *
+	 * @var \AIOSEO\Plugin\Addon\Redirects\Redirects
+	 */
+	private $redirects = null;
+
+	/**
+	 * The main REST API addon class.
+	 *
+	 * @since 4.4.2
+	 *
+	 * @var \AIOSEO\Plugin\Addon\RestApi\RestApi
+	 */
+	private $restApi = null;
+
+	/**
+	 * The main Video Sitemap addon class.
+	 *
+	 * @since 4.4.2
+	 *
+	 * @var \AIOSEO\Plugin\Addon\VideoSitemap\VideoSitemap
+	 */
+	private $videoSitemap = null;
+
+	/**
+	 * The main LinkAssistant addon class.
+	 *
+	 * @since 4.4.2
+	 *
+	 * @var \AIOSEO\Plugin\Addon\LinkAssistant\LinkAssistant
+	 */
+	private $linkAssistant = null;
+
+	/**
 	 * Returns our addons.
 	 *
 	 * @since 4.0.0
@@ -383,13 +455,12 @@ class Addons {
 	}
 
 	/**
-	 * Load an addon into aioseo
+	 * Load an addon into aioseo.
 	 *
 	 * @since 4.1.0
 	 *
-	 * @param string $slug
-	 * @param object $addon Addon class instance
-	 *
+	 * @param  string $slug
+	 * @param  object $addon Addon class instance.
 	 * @return void
 	 */
 	public function loadAddon( $slug, $addon ) {
@@ -398,12 +469,11 @@ class Addons {
 	}
 
 	/**
-	 * Return a loaded addon
+	 * Return a loaded addon.
 	 *
 	 * @since 4.1.0
 	 *
-	 * @param string $slug
-	 *
+	 * @param  string $slug
 	 * @return object|null
 	 */
 	public function getLoadedAddon( $slug ) {
@@ -438,7 +508,7 @@ class Addons {
 	 * @param  array  $args     The args for the function.
 	 * @return array            The response from each addon.
 	 */
-	public function doFunction( $class, $function, $args = [] ) {
+	public function doAddonFunction( $class, $function, $args = [] ) {
 		$addonResponses = [];
 
 		foreach ( $this->getLoadedAddons() as $addonSlug => $addon ) {
@@ -448,6 +518,25 @@ class Addons {
 		}
 
 		return $addonResponses;
+	}
+
+	/**
+	 * Merges the data for Vue.
+	 *
+	 * @since 4.4.1
+	 *
+	 * @param  array  $data The data to merge.
+	 * @param  string $page The current page.
+	 * @return array        The data.
+	 */
+	public function getVueData( $data = [], $page = null ) {
+		foreach ( $this->getLoadedAddons() as $addon ) {
+			if ( isset( $addon->helpers ) && method_exists( $addon->helpers, 'getVueData' ) ) {
+				$data = array_merge( $data, $addon->helpers->getVueData( $data, $page ) );
+			}
+		}
+
+		return $data;
 	}
 
 	/**
@@ -757,4 +846,29 @@ class Addons {
 	 * @return void
 	 */
 	public function registerUpdateCheck() {}
+
+	/**
+	 * Updates a given addon or plugin.
+	 *
+	 * @since 4.4.3
+	 *
+	 * @param  string $name    The addon name/sku.
+	 * @param  bool   $network Whether we are in a network environment.
+	 * @return bool            Whether the installation was succesful.
+	 */
+	public function upgradeAddon( $name, $network ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+		return false;
+	}
+
+	/**
+	 * Get the download URL for the given addon.
+	 *
+	 * @since 4.4.3
+	 *
+	 * @param  string $sku The addon sku.
+	 * @return string      The download url for the addon.
+	 */
+	public function getDownloadUrl( $sku ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+		return '';
+	}
 }

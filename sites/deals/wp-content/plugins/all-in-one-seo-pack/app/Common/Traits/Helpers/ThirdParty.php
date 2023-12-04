@@ -108,7 +108,7 @@ trait ThirdParty {
 			return is_shop();
 		}
 
-		$id = ! $id && ! empty( $_GET['post'] ) ? (int) wp_unslash( $_GET['post'] ) : (int) $id; // phpcs:ignore HM.Security.ValidatedSanitizedInput
+		$id = ! $id && ! empty( $_GET['post'] ) ? (int) wp_unslash( $_GET['post'] ) : (int) $id; // phpcs:ignore HM.Security.ValidatedSanitizedInput, HM.Security.NonceVerification.Recommended
 
 		return $id && wc_get_page_id( 'shop' ) === $id;
 	}
@@ -130,7 +130,7 @@ trait ThirdParty {
 			return is_cart();
 		}
 
-		$id = ! $id && ! empty( $_GET['post'] ) ? (int) wp_unslash( $_GET['post'] ) : (int) $id; // phpcs:ignore HM.Security.ValidatedSanitizedInput
+		$id = ! $id && ! empty( $_GET['post'] ) ? (int) wp_unslash( $_GET['post'] ) : (int) $id; // phpcs:ignore HM.Security.ValidatedSanitizedInput, HM.Security.NonceVerification.Recommended
 
 		return $id && wc_get_page_id( 'cart' ) === $id;
 	}
@@ -152,7 +152,7 @@ trait ThirdParty {
 			return is_checkout();
 		}
 
-		$id = ! $id && ! empty( $_GET['post'] ) ? (int) wp_unslash( $_GET['post'] ) : (int) $id; // phpcs:ignore HM.Security.ValidatedSanitizedInput
+		$id = ! $id && ! empty( $_GET['post'] ) ? (int) wp_unslash( $_GET['post'] ) : (int) $id; // phpcs:ignore HM.Security.ValidatedSanitizedInput, HM.Security.NonceVerification.Recommended
 
 		return $id && wc_get_page_id( 'checkout' ) === $id;
 	}
@@ -174,7 +174,7 @@ trait ThirdParty {
 			return is_account_page();
 		}
 
-		$id = ! $id && ! empty( $_GET['post'] ) ? (int) wp_unslash( $_GET['post'] ) : (int) $id; // phpcs:ignore HM.Security.ValidatedSanitizedInput
+		$id = ! $id && ! empty( $_GET['post'] ) ? (int) wp_unslash( $_GET['post'] ) : (int) $id; // phpcs:ignore HM.Security.ValidatedSanitizedInput, HM.Security.NonceVerification.Recommended
 
 		return $id && wc_get_page_id( 'myaccount' ) === $id;
 	}
@@ -274,10 +274,10 @@ trait ThirdParty {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  int     $postId The post ID.
-	 * @return boolean         If the page is a BuddyPress page or not.
+	 * @param  int  $postId The post ID.
+	 * @return bool         If the page is a BuddyPress page or not.
 	 */
-	public function isBuddyPressPage( $postId = false ) {
+	public function isBuddyPressPage( $postId = 0 ) {
 		$bpPages = get_option( 'bp-pages' );
 
 		if ( empty( $bpPages ) ) {
@@ -316,9 +316,9 @@ trait ThirdParty {
 	 *
 	 * @since 4.0.6
 	 *
-	 * @param  WP_Post|int $post         The post.
-	 * @param  array       $allowedTypes A whitelist of ACF field types.
-	 * @return array                     An array of meta keys and values.
+	 * @param  \WP_Post|int $post  The post.
+	 * @param  array        $types A whitelist of ACF field types.
+	 * @return array               An array of meta keys and values.
 	 */
 	public function getAcfContent( $post = null, $types = [] ) {
 		$post = ( $post && is_object( $post ) ) ? $post : $this->getPost( $post );
@@ -340,7 +340,7 @@ trait ThirdParty {
 			'wysiwyg',
 			'image',
 			'gallery',
-			// 'link',
+			'link',
 			// 'taxonomy',
 		];
 
@@ -359,25 +359,26 @@ trait ThirdParty {
 		// Create an array with the field names and values with added HTML markup.
 		$acfFields = [];
 		foreach ( $fields as $field ) {
-			if ( 'url' === $field['type'] ) {
+			switch ( $field['type'] ) {
+				case 'url':
+					$value = make_clickable( $field['value'] ?? '' );
+					break;
+				case 'image':
+					// Image format options are array, URL (string), id (int).
+					$imageUrl = is_array( $field['value'] ) ? $field['value']['url'] : $field['value'];
+					$imageUrl = is_numeric( $imageUrl ) ? wp_get_attachment_image_url( $imageUrl ) : $imageUrl;
 
-				// Url field
-				$value = "<a href='{$field['value']}'>{$field['value']}</a>";
-			} elseif ( 'image' === $field['type'] ) {
-
-				// Image format options are array, URL (string), id (int).
-				$imageUrl = is_array( $field['value'] ) ? $field['value']['url'] : $field['value'];
-				$imageUrl = is_numeric( $imageUrl ) ? wp_get_attachment_image_url( $imageUrl ) : $imageUrl;
-
-				$value = "<img src='{$imageUrl}'>";
-			} elseif ( 'gallery' === $field['type'] ) {
-
-				// Image field
-				$value = "<img src='{$field['value'][0]['url']}'>";
-			} else {
-
-				// Other fields
-				$value = $field['value'];
+					$value = "<img src='$imageUrl' />";
+					break;
+				case 'gallery':
+					$value = "<img src='{$field['value'][0]['url']}' />";
+					break;
+				case 'link':
+					$value = make_clickable( $field['value']['url'] ?? $field['value'] ?? '' );
+					break;
+				default:
+					$value = $field['value'];
+					break;
 			}
 
 			if ( $value ) {
@@ -595,7 +596,7 @@ trait ThirdParty {
 		global $wp;
 
 		// This URL param is set when using plain permalinks.
-		return isset( $_GET['amp'] ) || preg_match( '/amp$/', untrailingslashit( $wp->request ) );
+		return isset( $_GET['amp'] ) || preg_match( '/amp$/', untrailingslashit( $wp->request ) ); // phpcs:ignore HM.Security.NonceVerification.Recommended
 	}
 
 	/**
@@ -612,5 +613,41 @@ trait ThirdParty {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Set a flag to indicate Divi whether it is processing internal content or not.
+	 *
+	 * @since 4.4.3
+	 *
+	 * @param  null|bool $flag The flag value.
+	 * @return null|bool       The previous flag value to reset it later.
+	 */
+	public function setDiviInternalRendering( $flag ) {
+		if ( ! defined( 'ET_BUILDER_VERSION' ) ) {
+			return null;
+		}
+
+		global $et_pb_rendering_column_content;
+
+		$originalValue                  = $et_pb_rendering_column_content;
+		$et_pb_rendering_column_content = $flag;
+
+		return $originalValue;
+	}
+
+	/**
+	 * Checks whether the current request is being done by a crawler from Yandex.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @return bool Whether the current request is being done by a crawler from Yandex.
+	 */
+	public function isYandexUserAgent() {
+		if ( ! isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
+			return false;
+		}
+
+		return preg_match( '#.*Yandex.*#', $_SERVER['HTTP_USER_AGENT'] );
 	}
 }

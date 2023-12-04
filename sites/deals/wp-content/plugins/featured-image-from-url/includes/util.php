@@ -165,7 +165,7 @@ function fifu_is_valid_cpt($post_id) {
 }
 
 function fifu_on_cpt_page() {
-    return strpos($_SERVER['REQUEST_URI'], 'wp-admin/edit.php?post_type=') !== false;
+    return strpos($_SERVER['REQUEST_URI'], 'wp-admin/edit.php') !== false && strpos($_SERVER['REQUEST_URI'], 'post_type=') !== false;
 }
 
 function fifu_set_author() {
@@ -195,6 +195,29 @@ function fifu_get_full_image_url($att_id) {
             $url = $image_attributes[0];
     }
     return $url;
+}
+
+function fifu_check_screen_base() {
+    if (function_exists('get_current_screen')) {
+        $screen = get_current_screen();
+        if (is_null($screen))
+            return false;
+        switch ($screen->base) {
+            case 'edit':
+                return 'list';
+            case 'edit-tags':
+                return 'list';
+            case 'post':
+                return 'edit';
+            case 'term':
+                return 'edit';
+            case 'post-new':
+                return 'new';
+            default:
+                return false;
+        }
+    } else
+        return false;
 }
 
 // developers

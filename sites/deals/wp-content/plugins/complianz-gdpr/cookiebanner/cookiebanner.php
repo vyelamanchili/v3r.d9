@@ -192,6 +192,12 @@ function cmplz_cookiebanner_admin_menu() {
 
 add_action( 'wp_ajax_cmplz_delete_cookiebanner', 'cmplz_delete_cookiebanner' );
 function cmplz_delete_cookiebanner() {
+	if (!isset($_POST['nonce'])) {
+		return;
+	}
+	if (!wp_verify_nonce($_POST['nonce'], 'complianz_save')) {
+		return;
+	}
 	if ( ! cmplz_user_can_manage() ) {
 		return;
 	}
@@ -210,6 +216,12 @@ function cmplz_delete_cookiebanner() {
 
 add_action( 'wp_ajax_cmplz_duplicate_cookiebanner', 'cmplz_duplicate_cookiebanner' );
 function cmplz_duplicate_cookiebanner() {
+	if (!isset($_POST['nonce'])) {
+		return;
+	}
+	if (!wp_verify_nonce($_POST['nonce'], 'complianz_save')) {
+		return;
+	}
 	if ( ! cmplz_user_can_manage() ) {
 		return;
 	}
@@ -237,7 +249,7 @@ function cmplz_duplicate_cookiebanner() {
 /**
  * This function is hooked to the plugins_loaded, prio 10 hook, as otherwise there is some escaping we don't want.
  *
- * @todo fix the escaping
+ *
  */
 add_action( 'plugins_loaded', 'cmplz_cookiebanner_form_submit', 10 );
 function cmplz_cookiebanner_form_submit() {
@@ -259,6 +271,7 @@ function cmplz_cookiebanner_form_submit() {
 		$id     = intval( $_GET['id'] );
 		$banner = new CMPLZ_COOKIEBANNER( $id );
 	}
+
 	$banner->process_form( $_POST );
 
 	if ( isset( $_POST['cmplz_add_new'] ) ) {
@@ -311,7 +324,8 @@ function cmplz_cookiebanner_overview() {
 						dataType: 'json',
 						data: ({
 							action: 'cmplz_delete_cookiebanner',
-							cookiebanner_id: delete_banner_id
+							cookiebanner_id: delete_banner_id,
+							nonce: '<?php echo wp_create_nonce( 'complianz_save' )?>'
 						}),
 						success: function (response) {
 							if (response.success) {
@@ -330,7 +344,8 @@ function cmplz_cookiebanner_overview() {
 						dataType: 'json',
 						data: ({
 							action: 'cmplz_duplicate_cookiebanner',
-							cookiebanner_id: duplicate_banner_id
+							cookiebanner_id: duplicate_banner_id,
+							nonce: '<?php echo wp_create_nonce( 'complianz_save' )?>'
 						}),
 						success: function (response) {
 							var tr = btn.closest('tr');

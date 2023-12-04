@@ -20,7 +20,7 @@ class B2S_Ship_Navbar {
         $this->networkTypeNameOverride = unserialize(B2S_PLUGIN_NETWORK_TYPE_INDIVIDUAL);
         $this->networkKindName = unserialize(B2S_PLUGIN_NETWORK_KIND);
         $hostUrl = (function_exists('rest_url')) ? rest_url() : get_site_url();
-        $this->authUrl = B2S_PLUGIN_API_ENDPOINT_AUTH . '?b2s_token=' . B2S_PLUGIN_TOKEN . '&sprache=' . substr(B2S_LANGUAGE, 0, 2) . '&unset=true&hostUrl=' . $hostUrl;
+        $this->authUrl = B2S_PLUGIN_API_ENDPOINT_AUTH . '?b2s_token=' . B2S_PLUGIN_TOKEN . '&plugin_version='.B2S_PLUGIN_VERSION. '&sprache=' . substr(B2S_LANGUAGE, 0, 2) . '&unset=true&hostUrl=' . $hostUrl;
         $this->allowProfil = unserialize(B2S_PLUGIN_NETWORK_ALLOW_PROFILE);
         $this->allowPage = unserialize(B2S_PLUGIN_NETWORK_ALLOW_PAGE);
         $this->allowGroup = unserialize(B2S_PLUGIN_NETWORK_ALLOW_GROUP);
@@ -32,7 +32,7 @@ class B2S_Ship_Navbar {
     public function getData() {
         $result = json_decode(B2S_Api_Post::post(B2S_PLUGIN_API_ENDPOINT, array('action' => 'getUserAuth', 'token' => B2S_PLUGIN_TOKEN, 'version' => B2S_PLUGIN_VERSION)));
         return array('mandanten' => isset($result->mandanten) ? $result->mandanten : '',
-            'auth' => isset($result->auth) ? $result->auth : '',
+            'auth' => isset($result->auth) ? $result->auth : array(),
             'portale' => isset($result->portale) ? $result->portale : '');
     }
 
@@ -55,7 +55,7 @@ class B2S_Ship_Navbar {
                 return;
             }
         } else if (in_array($data->networkId, $this->isVideoNetwork)) {
-            if (!in_array($data->networkId, array(1, 2, 6, 12))) {
+            if (!in_array($data->networkId, array(1, 2, 3, 6, 12, 38, 39))) {
                 return;
             }
         }
@@ -92,9 +92,15 @@ class B2S_Ship_Navbar {
         if (function_exists('mb_strlen') && function_exists('mb_substr')) {
             $username = (mb_strlen($username, 'UTF-8') >= 29 ? (mb_substr($username, 0, 26, 'UTF-8') . '...') : $username);
         }
-
+        
         $content = '<li class="b2s-sidbar-wrapper-nav-li i" data-mandant-id=\'' . json_encode($mandantIds) . '\' data-mandant-default-id="' . esc_attr($data->mandantId) . '">';
-        $content .= '<div class="b2s-network-select-btn ' . (($data->expiredDate != '0000-00-00' && $data->expiredDate <= date('Y-m-d')) ? 'b2s-network-select-btn-deactivate" ' . $onclick : '"') . ' data-instant-sharing="' . esc_attr((isset($data->instant_sharing) ? (int) $data->instant_sharing : 0)) . '" data-network-auth-id="' . esc_attr($data->networkAuthId) . '" data-network-type="' . esc_attr($data->networkType) . '" data-network-kind="' . esc_attr($data->networkKind) . '" data-network-id = "' . esc_attr($data->networkId) . '"  data-network-tos-group-id="' . esc_attr($data->networkTosGroupId) . '" data-network-display-name="' . esc_attr(strtolower(B2S_Util::remove4byte($data->networkUserName))) . '" ' . (in_array($data->networkId, array(1, 3, 15, 19, 17)) ? 'data-meta-type="og"' : (in_array($data->networkId, array(2, 24)) ? 'data-meta-type="card"' : '')) . '>';
+        
+        if($isVideoView){
+            $schedule_end_date = B2S_PLUGIN_ADDON_VIDEO["sched_in_days"];
+        } else {
+            $schedule_end_date = -1;
+        }
+        $content .= '<div class="b2s-network-select-btn ' . (($data->expiredDate != '0000-00-00' && $data->expiredDate <= date('Y-m-d')) ? 'b2s-network-select-btn-deactivate" ' . $onclick : '"') . ' data-instant-sharing="' . esc_attr((isset($data->instant_sharing) ? (int) $data->instant_sharing : 0)) . '" scheduler-days="'.esc_attr($schedule_end_date).'" data-network-auth-id="' . esc_attr($data->networkAuthId) . '" data-network-type="' . esc_attr($data->networkType) . '" data-network-kind="' . esc_attr($data->networkKind) . '" data-network-id = "' . esc_attr($data->networkId) . '"  data-network-tos-group-id="' . esc_attr($data->networkTosGroupId) . '" data-network-display-name="' . esc_attr(strtolower(B2S_Util::remove4byte($data->networkUserName))) . '" ' . (in_array($data->networkId, array(1, 3, 15, 19, 17)) ? 'data-meta-type="og"' : (in_array($data->networkId, array(2, 24)) ? 'data-meta-type="card"' : '')) . '>';
         $content .= '<div class="b2s-network-list">';
         $content .= '<div class="b2s-network-thumb">';
         $content .= '<img alt="" src="' . esc_url(plugins_url('/assets/images/portale/' . $data->networkId . '_flat.png', B2S_PLUGIN_FILE)) . '">';

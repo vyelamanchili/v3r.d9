@@ -63,6 +63,9 @@ class Divi implements IntegrationInterface {
 
 			add_filter( 'wpforms_global_assets', '__return_true' );
 			add_filter( 'wpforms_frontend_missing_assets_error_js_disable', '__return_true', PHP_INT_MAX );
+
+			// Hide CAPTCHA badge in Divi Builder.
+			add_filter( 'wpforms_frontend_recaptcha_disable', '__return_true' );
 		}
 	}
 
@@ -111,11 +114,23 @@ class Divi implements IntegrationInterface {
 	 */
 	protected function is_divi_plugin_loaded() {
 
+		return self::is_divi_loaded();
+	}
+
+	/**
+	 * Helper method to check if Divi plugin is loaded.
+	 *
+	 * @since 1.8.5
+	 *
+	 * @return bool
+	 */
+	public static function is_divi_loaded(): bool {
+
 		if ( ! is_singular() ) {
 			return false;
 		}
 
-		return function_exists( 'et_is_builder_plugin_active' ) && et_is_builder_plugin_active();
+		return defined( 'ET_BUILDER_PLUGIN_ACTIVE' ) || defined( 'ET_BUILDER_THEME' );
 	}
 
 	/**

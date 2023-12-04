@@ -12,6 +12,10 @@ if ( ! class_exists( "burst_endpoint" ) ) {
 			self::$_this = $this;
 			// actions and filters
 			add_action( 'plugins_loaded', array( $this, 'install' ) );
+			add_action( 'init', array( $this, 'update_endpoint' ) );
+			add_action( 'burst_on_premium_upgrade', array( $this, 'update' ) );
+			// on deactivation, delete the endpoint file
+			register_deactivation_hook( burst_plugin_file, array( $this, 'delete_endpoint_file' ) );
 		}
 
 		/**
@@ -29,6 +33,44 @@ if ( ! class_exists( "burst_endpoint" ) ) {
 		}
 
 		/**
+		 * If option 'burst_update_endpoint' is set to true, update the endpoint
+		 * @hooked init
+		 * @return void
+		 */
+		public function update_endpoint() {
+			if ( get_option('burst_update_endpoint' ) == true ) {
+				$this->update();
+				delete_option( 'burst_update_endpoint' );
+			}
+		}
+
+		/**
+		 * Delete the endpoint file
+		 *
+		 * @return void
+		 */
+		public function delete_endpoint_file(): void {
+			if ( file_exists( ABSPATH . '/burst-statistics-endpoint.php' ) ) {
+				unlink( ABSPATH . '/burst-statistics-endpoint.php' );
+			}
+		}
+
+		/**
+		 * Update the endpoint
+		 *
+		 * @return void
+		 */
+		public function update(): void {
+			set_transient( 'burst_install_endpoint', 'true', HOUR_IN_SECONDS );
+			if ( file_exists( ABSPATH . '/burst-statistics-endpoint.php' ) ) {
+				unlink( ABSPATH . '/burst-statistics-endpoint.php' );
+			}
+
+			$endpoint_status = $this->install_endpoint_file();
+			update_option( 'burst_endpoint_status', $endpoint_status, false );
+		}
+
+		/**
 		 * @return burst_endpoint
 		 */
 		public static function this(): burst_endpoint {
@@ -40,9 +82,9 @@ if ( ! class_exists( "burst_endpoint" ) ) {
 		 *
 		 * @return bool
 		 */
-		public function install_endpoint_file(): bool {
+		public function install_endpoint_file($force = false): bool {
 			$file = ABSPATH . '/burst-statistics-endpoint.php';
-			if ( ! file_exists( $file ) ) {
+			if ( ! file_exists( $file ) || $force ) {
 				$success = @file_put_contents( $file, $this->get_endpoint_file_contents() );
 				if ( $success === false ) {
 					return false;
@@ -58,11 +100,28 @@ if ( ! class_exists( "burst_endpoint" ) ) {
 		 * @return string
 		 */
 		public function get_endpoint_file_contents(): string {
-			$tracking_filename  =  'plugins/' . trailingslashit(burst_plugin_folder) . 'tracking/tracking.php';
 			$ua_parser_filename =  'plugins/' . trailingslashit(burst_plugin_folder) . 'helpers/php-user-agent/UserAgentParser.php';
+			$tracking_pro_filename  =  'plugins/' . trailingslashit(burst_plugin_folder) . 'pro/tracking/tracking.php';
+			$tracking_filename  =  'plugins/' . trailingslashit(burst_plugin_folder) . 'tracking/tracking.php';
+
 
 			// Indentation is important here for PHP 7.2 compatibility: https://wiki.php.net/rfc/flexible_heredoc_nowdoc_syntaxes
-			return <<<EOT
+			if ( burst_is_pro() ) {
+				return <<<EOT
+<?php
+/**
+ * Burst Statistics endpoint for collecting hits
+ */
+define( 'SHORTINIT', true );
+require_once __DIR__ . '/wp-load.php';
+require_once trailingslashit(WP_CONTENT_DIR) . '$ua_parser_filename';
+require_once trailingslashit(WP_CONTENT_DIR) . '$tracking_pro_filename';
+require_once trailingslashit(WP_CONTENT_DIR) . '$tracking_filename';
+
+burst_beacon_track_hit();
+EOT;
+			} else {
+				return <<<EOT
 <?php
 /**
  * Burst Statistics endpoint for collecting hits
@@ -74,7 +133,10 @@ require_once trailingslashit(WP_CONTENT_DIR) . '$tracking_filename';
 
 burst_beacon_track_hit();
 EOT;
+			}
 		}
+
+
 
 
 		/**
@@ -134,6 +196,21 @@ EOT;
 			$url  = burst_get_beacon_url();
 			$data = array( 'request' => 'test' );
 
+			$response = wp_remote_post( $url, array(
+				'method'      => 'POST',
+				'headers'     => array( "Content-type" => "application/x-www-form-urlencoded" ),
+				'body'        => $data,
+				'sslverify'   => false
+			));
+			$status = false;
+			if ( !is_wp_error( $response ) && !empty( $response['response']['code'] ) ) {
+				$status = $response['response']['code'];
+			}
+			if ( $status === 200 ) {
+				return true;
+			}
+			// otherwise try with file_get_contents
+
 			// use key 'http' even if you send the request to https://...
 			$options = array(
 				'http' => array(
@@ -155,13 +232,7 @@ EOT;
 				$status = $matches[1];
 			}
 
-			if ( $status !== "200") {
-				if ( WP_DEBUG ) {
-					error_log( 'Burst Statistics: Endpoint error, does not respond with 200. Response given: ' . $status );
-				}
-				return false;
-			}
-			return true;
+			return $status === 200;
 		}
 
 		/**

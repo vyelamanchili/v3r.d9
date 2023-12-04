@@ -17,7 +17,7 @@ if ( ! class_exists( "burst_review" ) ) {
 //			update_option( 'burst_activation_time', strtotime( "-2 month" ) );
 			
 			//show review notice, only to free users
-			if ( ! defined( "burst_premium" ) && ! is_multisite() ) {
+			if ( ! defined( "burst_pro" ) && ! is_multisite() ) {
 				if ( ! get_option( 'burst_review_notice_shown' )
 				     && get_option( 'burst_activation_time' )
 				     && get_option( 'burst_activation_time' )
@@ -112,7 +112,7 @@ if ( ! class_exists( "burst_review" ) ) {
 									'burst-statistics' ); ?></a>
 
 							<div class="dashicons dashicons-no-alt"></div>
-							<a href="<?php echo add_query_arg(array('page'=>'burst', 'burst_dismiss_review'=>1), admin_url('admin.php') )?>"><?php _e( 'Don\'t show again',
+							<a href="<?php echo add_query_arg(array('page'=>'burst', 'burst_dismiss_review'=>1), admin_url('index.php') )?>"><?php _e( 'Don\'t show again',
 									'burst-statistics' ); ?></a>
 						</div>
 					</div>

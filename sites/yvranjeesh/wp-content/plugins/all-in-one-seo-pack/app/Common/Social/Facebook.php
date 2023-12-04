@@ -6,12 +6,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use AIOSEO\Plugin\Common\Traits;
+
 /**
  * Handles the Open Graph meta.
  *
  * @since 4.0.0
  */
 class Facebook {
+	use Traits\SocialProfiles;
+
 	/**
 	 * Returns the Open Graph image URL.
 	 *
@@ -209,8 +213,8 @@ class Facebook {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  WP_Post|integer $post The post object or ID (optional).
-	 * @return string                The Open Graph title.
+	 * @param  \WP_Post|integer $post The post object or ID (optional).
+	 * @return string                 The Open Graph title.
 	 */
 	public function getTitle( $post = null ) {
 		if ( is_home() && 'posts' === get_option( 'show_on_front' ) ) {
@@ -251,8 +255,8 @@ class Facebook {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  WP_Post|integer $post The post object or ID (optional).
-	 * @return string                The Open Graph description.
+	 * @param  \WP_Post|integer $post The post object or ID (optional).
+	 * @return string                 The Open Graph description.
 	 */
 	public function getDescription( $post = null ) {
 		if ( is_home() && 'posts' === get_option( 'show_on_front' ) ) {
@@ -356,13 +360,21 @@ class Facebook {
 	 */
 	public function getAuthor() {
 		$post = aioseo()->helpers->getPost();
-		if ( ! $post || ! aioseo()->options->social->facebook->general->showAuthor ) {
+		if ( ! is_a( $post, 'WP_Post' ) || ! aioseo()->options->social->facebook->general->showAuthor ) {
 			return '';
 		}
 
-		$postAuthor = get_the_author_meta( 'aioseo_facebook', $post->post_author );
+		$author       = '';
+		$userProfiles = $this->getUserProfiles( $post->post_author );
+		if ( ! empty( $userProfiles['facebookPageUrl'] ) ) {
+			$author = $userProfiles['facebookPageUrl'];
+		}
 
-		return ! empty( $postAuthor ) ? $postAuthor : aioseo()->options->social->facebook->advanced->authorUrl;
+		if ( empty( $author ) ) {
+			$author = aioseo()->options->social->facebook->advanced->authorUrl;
+		}
+
+		return $author;
 	}
 
 	/**
@@ -370,7 +382,7 @@ class Facebook {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @return void
+	 * @return array An array of unique keywords.
 	 */
 	public function getArticleTags() {
 		$post     = aioseo()->helpers->getPost();

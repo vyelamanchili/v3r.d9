@@ -6,12 +6,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use AIOSEO\Plugin\Common\Traits;
+
 /**
  * Handles the Twitter meta.
  *
  * @since 4.0.0
  */
 class Twitter {
+	use Traits\SocialProfiles;
+
 	/**
 	 * Returns the Twitter URL for the site.
 	 *
@@ -56,13 +60,22 @@ class Twitter {
 	 * @return string The creator.
 	 */
 	public function getCreator() {
-		$author = '';
-		$post   = aioseo()->helpers->getPost();
-		if ( $post && aioseo()->options->social->twitter->general->showAuthor ) {
-			$twitterUser = get_the_author_meta( 'aioseo_twitter', $post->post_author );
-			$author      = $twitterUser ? $twitterUser : aioseo()->social->twitter->getTwitterUrl();
-			$author      = aioseo()->social->twitter->prepareUsername( $author );
+		$post = aioseo()->helpers->getPost();
+		if ( ! is_a( $post, 'WP_Post' ) || ! aioseo()->options->social->twitter->general->showAuthor ) {
+			return '';
 		}
+
+		$author       = '';
+		$userProfiles = $this->getUserProfiles( $post->post_author );
+		if ( ! empty( $userProfiles['twitterUrl'] ) ) {
+			$author = $userProfiles['twitterUrl'];
+		}
+
+		if ( empty( $author ) ) {
+			$author = aioseo()->social->twitter->getTwitterUrl();
+		}
+
+		$author = aioseo()->social->twitter->prepareUsername( $author );
 
 		return $author;
 	}
@@ -112,8 +125,8 @@ class Twitter {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  WP_Post|integer $post The post object or ID (optional).
-	 * @return string                The Twitter title.
+	 * @param  \WP_Post|integer $post The post object or ID (optional).
+	 * @return string                 The Twitter title.
 	 */
 	public function getTitle( $post = null ) {
 		if ( is_home() && 'posts' === get_option( 'show_on_front' ) ) {
@@ -142,8 +155,8 @@ class Twitter {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  WP_Post|integer $post The post object or ID (optional).
-	 * @return string                The Twitter description.
+	 * @param  \WP_Post|integer $post The post object or ID (optional).
+	 * @return string                 The Twitter description.
 	 */
 	public function getDescription( $post = null ) {
 		if ( is_home() && 'posts' === get_option( 'show_on_front' ) ) {

@@ -124,7 +124,7 @@ class Image {
 			->select( '`p`.`ID`, `p`.`post_type`, `p`.`post_content`, `p`.`post_excerpt`, `p`.`post_modified_gmt`' )
 			->leftJoin( 'aioseo_posts as ap', '`ap`.`post_id` = `p`.`ID`' )
 			->whereRaw( '( `ap`.`id` IS NULL OR `p`.`post_modified_gmt` > `ap`.`image_scan_date` OR `ap`.`image_scan_date` IS NULL )' )
-			->where( 'p.post_status', 'publish' )
+			->whereRaw( "`p`.`post_status` IN ( 'publish', 'inherit' )" )
 			->whereRaw( "`p`.`post_type` IN ( '$postTypes' )" )
 			->limit( $postsPerScan )
 			->run()
@@ -148,7 +148,7 @@ class Image {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  WP_Post|int $post The post object or ID.
+	 * @param  \WP_Post|int $post The post object or ID.
 	 * @return void
 	 */
 	public function scanPost( $post ) {
@@ -165,7 +165,7 @@ class Image {
 		}
 
 		if ( 'attachment' === $post->post_type ) {
-			if ( ! wp_attachment_is( 'image', $post ) ) {
+			if ( ! wp_attachment_is( 'image', $post->ID ) ) {
 				$this->updatePost( $post->ID );
 
 				return;
@@ -192,8 +192,8 @@ class Image {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  WP_Term $term The term object.
-	 * @return array         The image entries.
+	 * @param  \WP_Term $term The term object.
+	 * @return array          The image entries.
 	 */
 	public function term( $term ) {
 		if ( aioseo()->sitemap->helpers->excludeImages() ) {
@@ -226,10 +226,10 @@ class Image {
 				continue;
 			}
 
-			$entries[] = [ 'image:loc' => $imageUrl ];
+			$entries[ $idOrUrl ] = [ 'image:loc' => $imageUrl ];
 		}
 
-		return $entries;
+		return array_values( $entries );
 	}
 
 	/**

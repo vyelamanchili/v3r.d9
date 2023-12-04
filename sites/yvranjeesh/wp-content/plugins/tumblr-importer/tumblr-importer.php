@@ -5,7 +5,7 @@ Plugin URI: http://wordpress.org/extend/plugins/tumblr-importer/
 Description: Import posts from a Tumblr blog.
 Author: wordpressdotorg
 Author URI: http://wordpress.org/
-Version: 1.0
+Version: 1.1
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Text Domain: tumblr-importer
 Domain Path: /languages
@@ -281,7 +281,7 @@ class Tumblr_Import extends WP_Importer_Cron {
 			// Check to see if this url is a custom domain. The API doesn't play nicely with these
 			// (intermittently returns 408 status), so make the user disable the custom domain
 			// before importing.
-			if ( !preg_match( '|tumblr.com/$|', $url ) ) {
+			if ( !preg_match( '|tumblr.com/|', $url ) ) {
 				$submit = '<nobr><img src="' . admin_url( 'images/no.png' ) . '" style="vertical-align:top; padding: 0 4px;" alt="' . __( 'Tumblr Blogs with Custom Domains activated cannot be imported, please disable the custom domain first.', 'tumblr-importer' ) . '" title="' . __( 'Tumblr Blogs with Custom Domains activated cannot be imported, please disable the custom domain first.', 'tumblr-importer' ) . '" /><span style="cursor: pointer;" title="' . __( 'Tumblr Blogs with Custom Domains activated cannot be imported, please disable the custom domain first.' ) . '">' . __( 'Custom Domain', 'tumblr-importer' ) . '</nobr></span>';
 				$custom_domains = true;
 			}
@@ -749,13 +749,40 @@ class Tumblr_Import extends WP_Importer_Cron {
 			$blog['drafts'] = (int) $tblog->drafts;
 			$blog['queued'] = (int) $tblog->queue;
 			$blog['avatar'] = '';
-			$blog['url'] = (string) $tblog->url;
+			$blog['url'] = (string) $this->sanitize_blog_url( $tblog->url );
 			$blog['name'] = (string) $tblog->name;
 
 			$blogs[] = $blog;
 		}
 		$this->blogs = $blogs;
 		return $this->blogs;
+	}
+
+	/**
+	 * Make sure the URL of the tumblr blog is in the correct format.
+	 *
+	 * If the URL is in the format https://tumblr.com/blogname, then we need to convert it to https://blogname.tumblr.com.
+	 * If the URL is in the format https://blogname.tumblr.com, we don't need to do anything.
+	 * Finally, we skip sanitizing custom Tumblr domains.
+	 *
+	 * @param string $url URL of Tumblr blog returned by the API.
+	 *
+	 * @return string
+	 */
+	private function sanitize_blog_url( $url ) {
+
+		// If the URL is already in a valid format, just return it.
+		if ( preg_match( '#^https://.*?\.tumblr.com/?$#', $url ) ) {
+			return $url;
+		}
+
+		// If the URL is not in a correct format, we compose the new one with the short name of the blog.
+		if ( preg_match( '#^https://(?:www\.)?tumblr.com/(?:blog/view/)?(?P<id>.+?)/?$#', $url, $matches ) ) {
+			return sprintf( 'https://%s.tumblr.com/', $matches['id'] );
+		}
+
+		// Or, just return the original URL.
+		return $url;
 	}
 
 	function get_consumer_key() {

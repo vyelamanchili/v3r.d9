@@ -3,8 +3,8 @@ Contributors: marceljm
 Donate link: https://donorbox.org/fifu
 Tags: featured, image, url, video, woocommerce
 Requires at least: 5.3
-Tested up to: 6.2
-Stable tag: 4.3.4
+Tested up to: 6.4.1
+Stable tag: 4.5.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,21 +14,22 @@ Use an external image/video/audio as featured image of a post or WooCommerce pro
 
 ### WordPress plugin for external featured images, videos, audios and more
 
-Since 2015 FIFU has helped thousands of websites worldwide to save money on storage, processing and copyright.
+FIFU plugin has helped thousands of websites worldwide save money on storage, processing, and copyright since 2015.
 
-If you are tired of wasting time and resources with thumbnail regeneration, image optimization and never-ending imports, this plugin is for you.
+If you are tired of wasting time and resources with thumbnail regeneration, image optimization, and never-ending imports, this plugin is for you.
 
-#### FEATURED IMAGE
+#### Featured image
 Use an external image as featured image of your post, page or custom post type.
 
 * External featured image
-* Unsplash image search
+* Image search (Unsplash)
 * Default featured image
 * Hide featured media
 * Featured image in content
 * Auto set image title
 * Save image dimensions
-* Featured image column
+* Column for featured image
+* **[PRO]** Image search (search engine)
 * **[PRO]** Disable right-click
 * **[PRO]** Save in the media library
 * **[PRO]** Same height
@@ -36,52 +37,53 @@ Use an external image as featured image of your post, page or custom post type.
 * **[PRO]** Custom popup
 * **[PRO]** Page redirection
 
-#### AUTOMATIC FEATURED MEDIA
+#### Automatic featured media
 
 * Auto set featured media from post content
-* **[PRO]** Auto set featured image using post title and search engine
+* **[PRO]** Auto set featured image using post title and a search engine
+* **[PRO]** Auto set featured media using web page address
+* **[PRO]** Auto set featured image from custom field
 * **[PRO]** Auto set featured image using ISBN and books API
 * **[PRO]** Auto set screenshot as featured image
-* **[PRO]** Auto set featured media using web page address
 * **[PRO]** Auto set featured image from Unsplash using tags
 
-#### PERFORMANCE
+#### Performance
 
 * CDN + optimized thumbnails
 * Lazy load
 
-#### SOCIAL
+#### Social
 
-* Social tags
+* Meta tags
 * **[PRO]** Media RSS tags
-* **[PRO]** bbPress / BuddyBoss Platform features
+* **[PRO]** BuddyBoss Platform and bbPress
 
-#### AUTOMATION
+#### Automation
 
 * WP-CLI integration
-* **[PRO]** WP All Import add-on
+* **[PRO]** Add-on for WP All Import
 * **[PRO]** WooCommerce import
 * **[PRO]** WP REST API
 * **[PRO]** WooCommerce REST API
 * **[PRO]** Schedule metadata generation
 
-#### WOOCOMMERCE
+#### WooCommerce
 
 * External product image
 * Lightbox and zoom
-* **[PRO]** External image gallery
-* **[PRO]** External video gallery
-* **[PRO]** Auto set category images
+* **[PRO]** Gallery for external images
+* **[PRO]** Gallery for external videos
+* **[PRO]** Category images auto set
 * **[PRO]** Variable product
 * **[PRO]** Variation image
-* **[PRO]** Variation image gallery
-* **[PRO]** Save images in the media library
+* **[PRO]** Gallery for variation image
+* **[PRO]** Save in the media library
 * **[PRO]** FIFU product gallery
 * **[PRO]** Quick Buy
 * **[PRO]** Add image to order email
 
-#### FEATURED VIDEO
-Supports videos from YouTube, Vimeo, Twitter, 9GAG, Cloudinary, Tumblr, Publitio, JW Player, VideoPress, Sprout, Odysee, Rumble, Dailymotion, Cloudflare Stream, Bunny Stream, Amazon, BitChute, Brighteon and Google Drive. External and local video files are supported as well. 
+#### Featured video
+Supports URLs from YouTube, Vimeo, Twitter, 9GAG, Cloudinary, Tumblr, Publitio, JW Player, VideoPress, Sprout, Odysee, Rumble, Dailymotion, Cloudflare Stream, Bunny Stream, Amazon, BitChute, Brighteon, Google Drive, Spotify and SoundCloud. External and local video files are supported as well. 
 
 * **[PRO]** Featured video
 * **[PRO]** Watch later
@@ -89,43 +91,43 @@ Supports videos from YouTube, Vimeo, Twitter, 9GAG, Cloudinary, Tumblr, Publitio
 * **[PRO]** Play button
 * **[PRO]** Minimum width
 * **[PRO]** Video controls
-* **[PRO]** Mouseover autoplay
+* **[PRO]** Autoplay on mouseover
 * **[PRO]** Autoplay
-* **[PRO]** Loop
+* **[PRO]** Playback loop
 * **[PRO]** Mute
 * **[PRO]** Privacy enhanced mode
 * **[PRO]** Background video
 
-#### ELEMENTOR WIDGETS
+#### Widgets for Elementor
 
 * Featured image 
 * **[PRO]** Featured video
 
-#### WORDPRESS WIDGETS
+#### Widgets for WordPress
 
 * **[PRO]** Featured media 
 * **[PRO]** Featured grid
 * **[PRO]** Product gallery
 
-#### GRAVITY FORMS FIELDS
+#### Fields for Gravity-Forms
 
 * Featured image 
 * **[PRO]** Featured video
 * **[PRO]** Featured slider
 
-#### DOKAN FIELDS
+#### Fields for Dokan
 
 * Featured image 
 * **[PRO]** Product gallery
 
-#### OTHERS
+#### Others
 
 * **[PRO]** Quick edit
 * **[PRO]** Featured audio
 * **[PRO]** Featured slider
-* **[PRO]** FIFU shortcodes
+* **[PRO]** Shortcode
 
-#### INTEGRATION FUNCTION FOR DEVELOPERS
+#### Functions for developers
 
 * fifu_dev_set_image($post_id, $image_url)
 * **[PRO]** fifu_dev_set_video($post_id, $video_url)
@@ -135,36 +137,33 @@ Supports videos from YouTube, Vimeo, Twitter, 9GAG, Cloudinary, Tumblr, Publitio
 * **[PRO]** fifu_dev_set_category_image($term_id, $image_url)
 * **[PRO]** fifu_dev_set_category_video($term_id, $video_url)
 
-#### FIFU CLOUD
+#### FIFU Cloud
 
 * Cloud storage (never lose an image again)
 * Global CDN (images loaded much faster)
 * Optimized thumbnails (processed in the cloud)
-* Pay-as-you-go (per stored image)
-* Smart crop (detects people and objects before cropping)
+* Usage-based billing (per stored image)
+* Smart cropping (detects people and objects before cropping)
 * Hotlink protection (sites can't embed your images)
 
-#### LINKS
+#### Links
 
-* **<a href="https://fifu.app/">FIFU PRO</a>**
+* **<a href="https://fifu.app/">FIFU PRO ($29.90)</a>**
 * **<a href="https://tastewp.com/new?pre-installed-plugin-slug=featured-image-from-url&redirect=admin.php%3Fpage%3Dfeatured-image-from-url&ni=true">Dummy site for testing</a>**
 * **<a href="https://referral.fifu.app/">Affiliate Program</a>**
-* **<a href="https://chrome.google.com/webstore/detail/fifu-scraper/pccimcccbkdeeadhejdmnffmllpicola">Google Chrome extension</a>**
+* **<a href="https://chrome.google.com/webstore/detail/fifu-scraper/pccimcccbkdeeadhejdmnffmllpicola">Extension for Google Chrome</a>**
 * **<a href="https://plugintests.com/plugins/wporg/featured-image-from-url/latest">Smoke Test</a>**
-
-#### FIFU, the best WordPress plugin for...
-Featured Image, Figurë e Zgjedhur, Image mise en avant, Uitgelichte afbeelding, وێنەی تایبەت, Obrazek wyróżniający, Tugna tameẓlit, Beitragsbild, გამორჩეული სურათი, Utvald bild, 特色图片, تصویر ویژه, Framhevet bilde, Artikkelikuva, Ilustračný obrázok, Imaxe destacada, Ảnh đại diện, Prikazna slika, Imagine reprezentativă, Imagen destacada, 특성 이미지, Delwedd Nodwedd, รูปประจำเรื่อง, Immagine in evidenza, 特選圖片, Imagem destacada, Imagem de destaque, Избранное изображение, アイキャッチ画像, Pśinoskowy wobraz, Öne çıkan görsel, Přinoškowy wobraz, Uitgelichte Afbeelding
 
 
 == Installation ==
 
-### INSTALL FIFU FROM WITHIN WORDPRESS
+### Install FIFU from within WordPress
 
 1. Visit the plugins page within your dashboard and select 'Add New';
-1. Search for 'Featured Image from URL';
+1. Search for 'FIFU';
 1. Activate FIFU from your Plugins page;
 
-### INSTALL FIFU MANUALLY
+### Install FIFU manually
 
 1. Upload the 'featured-image-from-url' folder to the /wp-content/plugins/ directory;
 1. Activate the FIFU plugin through the 'Plugins' menu in WordPress;
@@ -174,7 +173,7 @@ Featured Image, Figurë e Zgjedhur, Image mise en avant, Uitgelichte afbeelding,
 
 = Why isn't preview button working? =
 
-* Your image URL is invalid. Take a look at FIFU Settings > Getting started.
+* Your image URL is invalid. Take a look at Settings → Getting started.
 
 = Does FIFU save the images in the media library? =
 
@@ -188,23 +187,23 @@ Featured Image, Figurë e Zgjedhur, Image mise en avant, Uitgelichte afbeelding,
 
 * Please check if "Hide Featured Media" option is unduly enabled.
 
-= Why are there no changes after changing the settings? =
+= Why are there no changes after updating the settings? =
 
-* Try to clean your cache.
+* Try to clear your cache.
 
 = Is any action necessary before removing FIFU?
 
-* Access settings and clean the metadata.
+* Access settings and clear the metadata.
 
 = What's the metadata created by FIFU?
 
-* Database registers that help WordPress components to work with the external images. FIFU can generate the metadata of ~50,000 image URLs per minute.
+* Database registers that help WordPress components to work with external images. This plugin can generate the metadata of ~50,000 image URLs per minute.
 
-= What are the disadvantages of the external images?
+= What are the disadvantages of external images?
 
 * No image optimization or thumbnails by default. You can fix that with CDN + Optimized Thumbnails feature (performance settings).
 
-= What are the advantages of the external images?
+= What are the advantages of external images?
 
 * You save money on storage, processing and copyright. And you can have extremely fast import processes.
 
@@ -214,14 +213,14 @@ Featured Image, Figurë e Zgjedhur, Image mise en avant, Uitgelichte afbeelding,
 
 = Do external images affect SEO?
 
-* No, they don't. Click [here](https://www.searchenginejournal.com/does-using-a-cdn-improve-ranking/) to know more.
+* No, external images don't affect SEO. Click [here](https://www.searchenginejournal.com/does-using-a-cdn-improve-ranking/) to know more.
 
 
 == Screenshots ==
 
 1. Featured image
 
-2. Unsplash image search
+2. Image search
 
 3. Featured video
 
@@ -231,49 +230,49 @@ Featured Image, Figurë e Zgjedhur, Image mise en avant, Uitgelichte afbeelding,
 
 6. Quick edit
 
-7. Elementor widgets
+7. Widgets for Elementor
 
-8. Settings: featured image
+8. Settings → Featured image
 
-9. Settings: featured video
+9. Settings → Featured video
 
-10. Settings: featured slider
+10. Settings → Featured slider
 
-11. Settings: featured audio
+11. Settings → Featured audio
 
-12. Settings: shortcode
+12. Settings → Shortcode
 
-13. Settings: automatic
+13. Settings → Automatic
 
-14. Settings: social
+14. Settings → Social
 
-15. Settings: performance
+15. Settings → Performance
 
-16. Settings: WooCommerce
+16. Settings → WooCommerce
 
-17. Settings: WP All Import
+17. Settings → WP All Import
 
-18. Settings: REST API
+18. Settings → REST API
 
-19. Settings: Admin
+19. Settings → Admin
 
-20. Settings: Metadata
+20. Settings → Metadata
 
-21. integration functions for developers
+21. Developers
 
 22. FIFU Cloud
 
 
 == Changelog ==
 
-= 4.3.4 =
-* Enhancement: Featured Image (supports shared OneDrive links now); enhancement: Featured Video (supports Google Drive now); enhancement: Featured Video (supports local webm videos now); fix: CDN + Optimized Thumbnails > apply to content images (fatal error for base64 images); fix: PHP Deprecated/Warning messages; fix: unnecessary preconnection to Cloudflare.
+= 4.5.3 =
+* Note: about FIFU Cloud 2; fix: conflict between Lazy Load and Bricks theme (and possibly others).
 
-= 4.3.3 =
-* Fix: PHP Deprecated messages.
+= 4.5.2 =
+* Compatibility with the latest WordPress and WooCommerce versions.
 
-= 4.3.2 =
-* New option: FIFU Cloud > Log in > keep me always connected.
+= 4.5.1 =
+* Fix: quick editor (not displaying gallery fields after filtering the product); fix: Remove external image link (moving the scroll on mobile).
 
 = others =
 * [more](https://fifu.app/changelog)
@@ -281,5 +280,5 @@ Featured Image, Figurë e Zgjedhur, Image mise en avant, Uitgelichte afbeelding,
 
 == Upgrade Notice ==
 
-= 4.3.4 =
-* Enhancement: Featured Image (supports shared OneDrive links now); enhancement: Featured Video (supports Google Drive now); enhancement: Featured Video (supports local webm videos now); fix: CDN + Optimized Thumbnails > apply to content images (fatal error for base64 images); fix: PHP Deprecated/Warning messages; fix: unnecessary preconnection to Cloudflare.
+= 4.5.3 =
+* Note: about FIFU Cloud 2; fix: conflict between Lazy Load and Bricks theme (and possibly others).

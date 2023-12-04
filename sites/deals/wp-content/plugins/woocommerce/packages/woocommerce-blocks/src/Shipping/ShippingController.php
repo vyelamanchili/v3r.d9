@@ -28,6 +28,13 @@ class ShippingController {
 	protected $asset_data_registry;
 
 	/**
+	 * Whether local pickup is enabled.
+	 *
+	 * @var bool
+	 */
+	private $local_pickup_enabled;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param AssetApi          $asset_api Instance of the asset API.
@@ -36,6 +43,8 @@ class ShippingController {
 	public function __construct( AssetApi $asset_api, AssetDataRegistry $asset_data_registry ) {
 		$this->asset_api           = $asset_api;
 		$this->asset_data_registry = $asset_data_registry;
+
+		$this->local_pickup_enabled = LocalPickupUtils::is_local_pickup_enabled();
 	}
 
 	/**
@@ -67,10 +76,34 @@ class ShippingController {
 		add_filter( 'woocommerce_shipping_settings', array( $this, 'remove_shipping_settings' ) );
 		add_filter( 'wc_shipping_enabled', array( $this, 'force_shipping_enabled' ), 100, 1 );
 		add_filter( 'woocommerce_order_shipping_to_display', array( $this, 'show_local_pickup_details' ), 10, 2 );
+		add_filter( 'woocommerce_shipping_chosen_method', array( $this, 'prevent_shipping_method_selection_changes' ), 20, 3 );
 
 		// This is required to short circuit `show_shipping` from class-wc-cart.php - without it, that function
 		// returns based on the option's value in the DB and we can't override it any other way.
 		add_filter( 'option_woocommerce_shipping_cost_requires_address', array( $this, 'override_cost_requires_address_option' ) );
+	}
+
+	/**
+	 * Prevent changes in the selected shipping method when new rates are added or removed.
+	 *
+	 * If the chosen method exists within package rates, it is returned to maintain the selection.
+	 * Otherwise, the default rate is returned.
+	 *
+	 * @param string $default        Default shipping method.
+	 * @param array  $package_rates  Associative array of available package rates.
+	 * @param string $chosen_method  Previously chosen shipping method.
+	 *
+	 * @return string                Chosen shipping method or default.
+	 */
+	public function prevent_shipping_method_selection_changes( $default, $package_rates, $chosen_method ) {
+
+		// If the chosen method exists in the package rates, return it.
+		if ( $chosen_method && isset( $package_rates[ $chosen_method ] ) ) {
+			return $chosen_method;
+		}
+
+		// Otherwise, return the default method.
+		return $default;
 	}
 
 	/**
@@ -81,7 +114,7 @@ class ShippingController {
 	 * @return boolean Whether shipping cost calculation should require an address to be entered before calculating.
 	 */
 	public function override_cost_requires_address_option( $value ) {
-		if ( CartCheckoutUtils::is_checkout_block_default() ) {
+		if ( CartCheckoutUtils::is_checkout_block_default() && $this->local_pickup_enabled ) {
 			return 'no';
 		}
 		return $value;
@@ -94,7 +127,7 @@ class ShippingController {
 	 * @return boolean Whether shipping should continue to be enabled/disabled.
 	 */
 	public function force_shipping_enabled( $enabled ) {
-		if ( CartCheckoutUtils::is_checkout_block_default() ) {
+		if ( CartCheckoutUtils::is_checkout_block_default() && $this->local_pickup_enabled ) {
 			return true;
 		}
 		return $enabled;
@@ -126,76 +159,35 @@ class ShippingController {
 		$location        = $shipping_method->get_meta( 'pickup_location' );
 		$address         = $shipping_method->get_meta( 'pickup_address' );
 
+		if ( ! $address ) {
+			return $return;
+		}
+
 		return sprintf(
 			// Translators: %s location name.
-			__( 'Pickup from <strong>%s</strong>:', 'woocommerce' ),
+			__( 'Collection from <strong>%s</strong>:', 'woocommerce' ),
 			$location
 		) . '<br/><address>' . str_replace( ',', ',<br/>', $address ) . '</address><br/>' . $details;
 	}
 
 	/**
-	 * If the Checkout block Remove shipping settings from WC Core's admin panels that are now block settings.
+	 * When using the cart and checkout blocks this method is used to adjust core shipping settings via a filter hook.
 	 *
 	 * @param array $settings The default WC shipping settings.
-	 * @return array|mixed The filtered settings with relevant items removed.
+	 * @return array|mixed The filtered settings.
 	 */
 	public function remove_shipping_settings( $settings ) {
-
-		// Do not add the "Hide shipping costs until an address is entered" setting if the Checkout block is not used on the WC checkout page.
-		if ( CartCheckoutUtils::is_checkout_block_default() ) {
-			$settings = array_filter(
-				$settings,
-				function( $setting ) {
-					return ! in_array(
-						$setting['id'],
-						array(
-							'woocommerce_shipping_cost_requires_address',
-						),
-						true
-					);
-				}
-			);
-		}
-
-		// Do not add the shipping calculator setting if the Cart block is not used on the WC cart page.
-		if ( CartCheckoutUtils::is_cart_block_default() ) {
-
-			// If the Cart is default, but not the checkout, we should ensure the 'Calculations' title is added to the
-			// `woocommerce_shipping_cost_requires_address` options group, since it is attached to the
-			// `woocommerce_enable_shipping_calc` option that we're going to remove later.
-			if ( ! CartCheckoutUtils::is_checkout_block_default() ) {
-				$calculations_title = '';
-
-				// Get Calculations title so we can add it to 'Hide shipping costs until an address is entered' option.
-				foreach ( $settings as $setting ) {
-					if ( 'woocommerce_enable_shipping_calc' === $setting['id'] ) {
-						$calculations_title = $setting['title'];
-						break;
-					}
-				}
-
-				// Add Calculations title to 'Hide shipping costs until an address is entered' option.
-				foreach ( $settings as $index => $setting ) {
-					if ( 'woocommerce_shipping_cost_requires_address' === $setting['id'] ) {
-						$settings[ $index ]['title']         = $calculations_title;
-						$settings[ $index ]['checkboxgroup'] = 'start';
-						break;
-					}
+		if ( CartCheckoutUtils::is_checkout_block_default() && $this->local_pickup_enabled ) {
+			foreach ( $settings as $index => $setting ) {
+				if ( 'woocommerce_shipping_cost_requires_address' === $setting['id'] ) {
+					$settings[ $index ]['desc']    .= ' (' . __( 'Not available when using WooCommerce Blocks Local Pickup', 'woocommerce' ) . ')';
+					$settings[ $index ]['disabled'] = true;
+					$settings[ $index ]['value']    = 'no';
+					break;
 				}
 			}
-			$settings = array_filter(
-				$settings,
-				function( $setting ) {
-					return ! in_array(
-						$setting['id'],
-						array(
-							'woocommerce_enable_shipping_calc',
-						),
-						true
-					);
-				}
-			);
 		}
+
 		return $settings;
 	}
 
@@ -456,6 +448,10 @@ class ShippingController {
 		if ( count( $valid_packages ) !== count( $packages ) ) {
 			$packages = array_map(
 				function( $package ) {
+					if ( ! is_array( $package['rates'] ) ) {
+						$package['rates'] = [];
+						return $package;
+					}
 					$package['rates'] = array_filter(
 						$package['rates'],
 						function( $rate ) {

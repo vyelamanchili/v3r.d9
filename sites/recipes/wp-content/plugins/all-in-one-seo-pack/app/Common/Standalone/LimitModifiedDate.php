@@ -77,11 +77,11 @@ class LimitModifiedDate {
 	 *
 	 * @since 4.1.8
 	 *
-	 * @param  Object          $preparedPost The post data.
-	 * @param  WP_REST_Request $restRequest  The request.
-	 * @return Object                        The modified post data.
+	 * @param  object           $preparedPost The post data.
+	 * @param  \WP_REST_Request $restRequest  The request.
+	 * @return object                         The modified post data.
 	 */
-	public function addLimitModifiedDateValue( $preparedPost, $restRequest ) {
+	public function addLimitModifiedDateValue( $preparedPost, $restRequest = null ) {
 		if ( 'PUT' !== $restRequest->get_method() ) {
 			return $preparedPost;
 		}
@@ -105,7 +105,7 @@ class LimitModifiedDate {
 	 * @param  array $unsanitizedData The unsanitized post data.
 	 * @return array                  The modified sanitized post data.
 	 */
-	public function resetModifiedDate( $sanitizedData, $unsanitizedData ) {
+	public function resetModifiedDate( $sanitizedData, $unsanitizedData = [] ) {
 		// If the ID isn't set, a new post is being inserted.
 		if ( ! isset( $unsanitizedData['ID'] ) ) {
 			return $sanitizedData;
@@ -157,7 +157,7 @@ class LimitModifiedDate {
 	 *
 	 * @since 4.1.8
 	 *
-	 * @param  WP_Post $post The post object.
+	 * @param  \WP_Post $post The post object.
 	 * @return void
 	 */
 	public function classicEditorField( $post ) {
@@ -180,7 +180,7 @@ class LimitModifiedDate {
 	 * @param  string $postType The current post type.
 	 * @return bool             Whether the functionality is allowed.
 	 */
-	private function isAllowed( $postType = false ) {
+	private function isAllowed( $postType = '' ) {
 		if ( empty( $postType ) ) {
 			$postType = get_post_type();
 		}

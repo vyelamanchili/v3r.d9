@@ -10,6 +10,18 @@ if ( ! function_exists( 'burst_is_logged_in_rest' ) ) {
 	}
 }
 
+if ( ! function_exists( 'burst_admin_logged_in' ) ) {
+    function burst_admin_logged_in() {
+	    return ( is_user_logged_in() && burst_user_can_view()) || burst_is_logged_in_rest() || wp_doing_cron() || ( defined( 'WP_CLI' ) && WP_CLI );
+    }
+}
+
+if ( ! function_exists( 'burst_is_pro' ) ) {
+	function burst_is_pro() {
+		return defined( 'burst_pro' );
+	}
+}
+
 if ( ! function_exists('burst_add_view_capability')){
 	/**
 	 * Add a user capability to WordPress and add to admin and editor role
@@ -37,6 +49,31 @@ if ( ! function_exists('burst_add_view_capability')){
 				}
 			}
 		}
+	}
+}
+if (!function_exists('burst_is_networkwide_active')) {
+	function burst_is_networkwide_active() {
+		if ( ! is_multisite() ) {
+			return false;
+		}
+		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		}
+
+		if ( is_plugin_active_for_network( burst_plugin ) ) {
+			return true;
+		}
+
+		return false;
+	}
+}
+
+/**
+ * Check if using multisite plugin on non-multisite environment
+ */
+if (!function_exists('burst_is_multisite_plugin_on_non_multisite_installation')){
+	function burst_is_multisite_plugin_on_non_multisite_installation(){
+		return !is_multisite() && defined('burst_pro_multisite');
 	}
 }
 
@@ -284,19 +321,6 @@ if ( ! function_exists( 'burst_format_milliseconds_to_readable_time' ) ) {
 		$time = sprintf( $format, $hours, $minutes, $seconds );
 
 		return rtrim( $time, '0' );
-	}
-}
-
-/*
- * @return string
- * @since 1.0.0
- */
-if ( ! function_exists( 'burst_offset_utc_time_to_gtm_offset' ) ) {
-	function burst_offset_utc_time_to_gtm_offset( $utc_time ): int {
-		$utc_time           = (int) $utc_time;
-		$gmt_offset_seconds = (int) ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
-
-		return $utc_time - $gmt_offset_seconds;
 	}
 }
 
@@ -637,20 +661,49 @@ if ( ! function_exists( 'burst_get_date_ranges' ) ) {
 			'last-30-days',
 			'last-90-days',
 			'last-month',
+            'last-year',
+			'week-to-date',
+			'month-to-date',
             'year-to-date',
 		) );
 	}
 }
 
-if ( ! function_exists( 'burst_sanitize_date_range' ) ) {
-	function burst_sanitize_date_range( $date_range ) {
-		$date_range  = sanitize_title( $date_range );
-		$date_ranges = burst_get_date_ranges();
-		if ( in_array( $date_range, $date_ranges ) ) {
-			return $date_range;
-		}
+if ( ! function_exists('burst_sanitize_filters') ) {
+    function burst_sanitize_filters( $filters ) {
+        // sanitize key value pairs, but value can also be an array. Just one layer deep though. Also remove keys where value is empty. Also add comments to explain the code
+        $filters = array_filter( $filters, static function( $item ) {
+            return $item !== false && $item !== '';
+        } );
 
-		return 'custom';
+        foreach ( $filters as $key => $value ) {
+            if ( is_array( $value ) ) {
+                $filters[ $key ] = array_map( 'sanitize_text_field', $value );
+            } else {
+                $filters[ $key ] = sanitize_text_field( $value );
+            }
+        }
+
+        return $filters;
+    }
+}
+
+if ( ! function_exists( 'burst_sanitize_relative_url' ) ) {
+	/**
+	 * Sanitize relative_url
+	 *
+	 * @param string $relative_url
+	 *
+	 * @return string
+	 */
+	function burst_sanitize_relative_url( $relative_url ): string {
+        if ( empty( $relative_url ) ) {
+            return '*';
+        }
+		if ( $relative_url[0] !== '/' ) {
+			$relative_url = '/' . $relative_url;
+		}
+		return trailingslashit( filter_var( $relative_url, FILTER_SANITIZE_URL ) );
 	}
 }
 
@@ -704,4 +757,87 @@ if ( ! function_exists( 'burst_get_beacon_url' ) ) {
         return trailingslashit( $wp_dir ) . 'burst-statistics-endpoint.php';
 
     }
+}
+
+if ( ! function_exists( 'burst_remote_file_exists' ) ) {
+	function burst_remote_file_exists( $url ) {
+		$ch = curl_init();
+		curl_setopt( $ch, CURLOPT_URL, $url );
+		// don't download content
+		curl_setopt( $ch, CURLOPT_NOBODY, 1 );
+		curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+
+		$result = curl_exec( $ch );
+		curl_close( $ch );
+		if ( $result !== false ) {
+			return true;
+		}
+
+		return false;
+	}
+}
+
+if ( ! function_exists('burst_upload_dir')) {
+	/**
+	 * Get the upload dir
+	 *
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	function burst_upload_dir( string $path=''): string {
+		$uploads    = wp_upload_dir();
+		$upload_dir = trailingslashit( apply_filters( 'burst_upload_dir', $uploads['basedir'] ) ).'burst/'.$path;
+		if ( !is_dir( $upload_dir)  ) {
+			burst_create_missing_directories_recursively($upload_dir);
+		}
+
+		return trailingslashit( $upload_dir );
+	}
+}
+
+
+/**
+ * Create directories recursively
+ *
+ * @param string $path
+ */
+
+if ( !function_exists('burst_create_missing_directories_recursively') ) {
+	function burst_create_missing_directories_recursively( string $path ) {
+		if ( ! burst_user_can_manage() ) {
+			return;
+		}
+
+		$parts = explode( '/', $path );
+		$dir   = '';
+		foreach ( $parts as $part ) {
+			$dir .= $part . '/';
+			if (burst_has_open_basedir_restriction($dir)) {
+				continue;
+			}
+			if ( ! is_dir( $dir ) && strlen( $dir ) > 0 && is_writable( dirname( $dir, 1 ) ) ) {
+				if ( ! mkdir( $dir ) && ! is_dir( $dir ) ) {
+					throw new \RuntimeException( sprintf( 'Directory "%s" was not created', $dir ) );
+				}
+			}
+		}
+	}
+}
+
+
+if (!function_exists('burst_has_open_basedir_restriction')) {
+	function burst_has_open_basedir_restriction($path) {
+		// Default error handler is required
+		set_error_handler(null);
+		// Clean last error info.
+		error_clear_last();
+		// Testing...
+		@file_exists($path);
+		// Restore previous error handler
+		restore_error_handler();
+		// Return `true` if error has occurred
+		return ($error = error_get_last()) && $error['message'] !== '__clean_error_info';
+	}
 }

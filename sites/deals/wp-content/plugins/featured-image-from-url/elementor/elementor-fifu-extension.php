@@ -21,8 +21,7 @@ final class Elementor_FIFU_Extension {
     }
 
     public function i18n() {
-        load_plugin_textdomain('elementor-fifu-extension');
-        load_plugin_textdomain('elementor-fifu-video-extension');
+        load_plugin_textdomain(FIFU_SLUG);
     }
 
     public function init() {

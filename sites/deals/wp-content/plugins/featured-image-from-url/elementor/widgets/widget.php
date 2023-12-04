@@ -7,7 +7,8 @@ class Elementor_FIFU_Widget extends \Elementor\Widget_Base {
     }
 
     public function get_title() {
-        return __('(FIFU) Featured Image', 'elementor-fifu-extension');
+        $strings = fifu_get_strings_elementor();
+        return '(FIFU) ' . $strings['title']['image']();
     }
 
     public function get_icon() {
@@ -19,23 +20,24 @@ class Elementor_FIFU_Widget extends \Elementor\Widget_Base {
     }
 
     protected function _register_controls() {
+        $strings = fifu_get_strings_elementor();
 
         $this->start_controls_section(
                 'content_section_image',
                 [
-                    'label' => __('Featured image', 'elementor-fifu-extension'),
+                    'label' => $strings['section']['image'](),
                     'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
                 ]
         );
         $this->add_control(
                 'fifu_input_url',
                 [
-                    'label' => __('Image URL', 'elementor-fifu-extension'),
+                    'label' => $strings['control']['image'](),
                     'show_label' => true,
                     'label_block' => true,
                     'type' => \Elementor\Controls_Manager::TEXT,
                     'input_type' => 'url',
-                    'placeholder' => __('https://example.com/image.jpg', 'elementor-fifu-extension'),
+                    'placeholder' => 'https://example.com/image.jpg',
                 ]
         );
         $this->end_controls_section();

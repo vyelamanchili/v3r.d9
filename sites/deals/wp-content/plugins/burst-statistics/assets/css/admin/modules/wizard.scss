@@ -20,7 +20,7 @@
 
     .burst-locked {
       position: absolute;
-      z-index: 10;
+      z-index: 4;
       top: 0;
       left: 0;
       bottom: 0;
@@ -35,9 +35,10 @@
         display: flex;
         align-items: center;
         gap: var(--rsp-spacing-s);
-        background-color: var(--rsp-white);
+        background-color: var(--rsp-grey-100);
+        border: 1px solid var(--rsp-grey-300);
         @include burst-block-padding;
-        border-radius: var(--rsp-border-radius-input);
+        border-radius: var(--rsp-border-radius-xs);
         margin: var(--rsp-spacing-s);
         box-shadow: var(--rsp-box-shadow);
 
@@ -64,6 +65,22 @@
       min-height: 20px;
       box-sizing: border-box;
       align-self: flex-end;
+      //position: sticky;
+      //bottom: 0;
+      //@include burst-block-padding;
+      //
+      //&:sticky{
+      //  background: #fff;
+      //}
+
+      //position: fixed;
+      //z-index: 1;
+      //bottom: 0;
+      //right: 0;
+      //background: #fff;
+      //padding: 10px 458px 10px 0px;
+      //box-shadow: var(--rsp-box-shadow);
+      //border-top: 1px solid var(--rsp-grey-300);
 
       .burst-legend {
         display: flex;
@@ -76,5 +93,8 @@
         display: none;
       }
     }
+  }
+  .button-add-ip{
+    margin-top: var(--rsp-spacing-xs);
   }
 }

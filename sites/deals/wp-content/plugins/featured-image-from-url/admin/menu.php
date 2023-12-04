@@ -1,6 +1,6 @@
 <?php
 
-define('FIFU_SETTINGS', serialize(array('fifu_social', 'fifu_social_image_only', 'fifu_skip', 'fifu_html_cpt', 'fifu_lazy', 'fifu_photon', 'fifu_cdn_social', 'fifu_cdn_crop', 'fifu_cdn_content', 'fifu_reset', 'fifu_content', 'fifu_content_page', 'fifu_content_cpt', 'fifu_enable_default_url', 'fifu_spinner_nth', 'fifu_fake', 'fifu_default_url', 'fifu_default_cpt', 'fifu_hide_format', 'fifu_wc_lbox', 'fifu_wc_zoom', 'fifu_hide_page', 'fifu_hide_post', 'fifu_hide_cpt', 'fifu_get_first', 'fifu_pop_first', 'fifu_ovw_first', 'fifu_query_strings', 'fifu_run_delete_all', 'fifu_decode', 'fifu_check', 'fifu_auto_alt', 'fifu_dynamic_alt', 'fifu_data_clean', 'fifu_cloud_upload_auto')));
+define('FIFU_SETTINGS', serialize(array('fifu_social', 'fifu_social_image_only', 'fifu_skip', 'fifu_html_cpt', 'fifu_lazy', 'fifu_photon', 'fifu_cdn_social', 'fifu_cdn_crop', 'fifu_cdn_content', 'fifu_reset', 'fifu_content', 'fifu_content_page', 'fifu_content_cpt', 'fifu_enable_default_url', 'fifu_spinner_nth', 'fifu_fake', 'fifu_default_url', 'fifu_default_cpt', 'fifu_hide_format', 'fifu_wc_lbox', 'fifu_wc_zoom', 'fifu_hide_page', 'fifu_hide_post', 'fifu_hide_cpt', 'fifu_get_first', 'fifu_pop_first', 'fifu_ovw_first', 'fifu_query_strings', 'fifu_run_delete_all', 'fifu_decode', 'fifu_check', 'fifu_auto_alt', 'fifu_dynamic_alt', 'fifu_data_clean', 'fifu_cloud_upload_auto', 'fifu_cloud_hotlink')));
 define('FIFU_ACTION_SETTINGS', '/wp-admin/admin.php?page=featured-image-from-url');
 define('FIFU_ACTION_CLOUD', '/wp-admin/admin.php?page=fifu-cloud');
 
@@ -39,12 +39,14 @@ function fifu_insert_menu() {
         ]);
     }
 
+    $fifu = fifu_get_strings_settings();
+
     add_menu_page('Featured Image from URL', 'FIFU', 'manage_options', 'featured-image-from-url', 'fifu_get_menu_html', 'dashicons-camera', 57);
-    add_submenu_page('featured-image-from-url', 'FIFU Settings', __('Settings'), 'manage_options', 'featured-image-from-url');
-    add_submenu_page('featured-image-from-url', 'FIFU Cloud', __('Cloud'), 'manage_options', 'fifu-cloud', 'fifu_cloud');
-    add_submenu_page('featured-image-from-url', 'FIFU Troubleshooting', __('Troubleshooting'), 'manage_options', 'fifu-troubleshooting', 'fifu_troubleshooting');
-    add_submenu_page('featured-image-from-url', 'FIFU Status', __('Status'), 'manage_options', 'fifu-support-data', 'fifu_support_data');
-    add_submenu_page('featured-image-from-url', 'FIFU Pro', __('<a href="https://fifu.app/" target="_blank"><div style="padding:5px;color:white;background-color:#1da867">Upgrade to <b>PRO</b></div></a>'), 'manage_options', '#', null);
+    add_submenu_page('featured-image-from-url', 'FIFU Settings', $fifu['options']['settings'](), 'manage_options', 'featured-image-from-url');
+    add_submenu_page('featured-image-from-url', 'FIFU Cloud', $fifu['options']['cloud'](), 'manage_options', 'fifu-cloud', 'fifu_cloud');
+    add_submenu_page('featured-image-from-url', 'FIFU Troubleshooting', $fifu['options']['troubleshooting'](), 'manage_options', 'fifu-troubleshooting', 'fifu_troubleshooting');
+    add_submenu_page('featured-image-from-url', 'FIFU Status', $fifu['options']['status'](), 'manage_options', 'fifu-support-data', 'fifu_support_data');
+    add_submenu_page('featured-image-from-url', 'FIFU Pro', '<a href="https://fifu.app/" target="_blank"><div style="padding:5px;color:white;background-color:#1da867">' . $fifu['options']['upgrade']() . '</div></a>', 'manage_options', '#', null);
 
     add_action('admin_init', 'fifu_get_menu_settings');
 }
@@ -69,14 +71,41 @@ function fifu_cloud() {
         'signUpComplete' => fifu_su_sign_up_complete(),
         'woocommerce' => class_exists('WooCommerce'),
         'availableImages' => fifu_db_count_available_images(),
+        'down' => $fifucloud['ws']['down'](),
+        'connected' => $fifucloud['ws']['connection']['ok'](),
+        'notConnected' => $fifucloud['ws']['connection']['fail'](),
+        'noImages' => $fifucloud['table']['no']['images'](),
+        'noPosts' => $fifucloud['table']['no']['posts'](),
+        'noData' => $fifucloud['table']['no']['data'](),
+        'selectAll' => $fifucloud['table']['select']['all'](),
+        'selectNone' => $fifucloud['table']['select']['none'](),
+        'load' => $fifucloud['table']['load'](),
+        'limit' => $fifucloud['table']['limit'](),
+        'delete' => $fifucloud['table']['delete'](),
+        'upload' => $fifucloud['table']['upload'](),
+        'link' => $fifucloud['table']['link'](),
+        'dialogDelete' => $fifucloud['table']['dialog']['delete'](),
+        'dialogCancel' => $fifucloud['table']['dialog']['cancel'](),
+        'dialogOk' => $fifucloud['table']['dialog']['ok'](),
+        'dialogSure' => $fifucloud['table']['dialog']['sure'](),
+        'dialogYes' => $fifucloud['table']['dialog']['yes'](),
+        'dialogNo' => $fifucloud['table']['dialog']['no'](),
+        'category' => $fifucloud['table']['category'](),
+        'slider' => $fifucloud['table']['slider'](),
+        'gallery' => $fifucloud['table']['gallery'](),
+        'featured' => $fifucloud['table']['featured'](),
     ]);
 
     $enable_cloud_upload_auto = get_option('fifu_cloud_upload_auto');
+    $enable_cloud_hotlink = get_option('fifu_cloud_hotlink');
 
     include 'html/cloud.html';
 
     if (fifu_is_valid_nonce('nonce_fifu_form_cloud_upload_auto', FIFU_ACTION_CLOUD))
         fifu_update_option('fifu_input_cloud_upload_auto', 'fifu_cloud_upload_auto');
+
+    if (fifu_is_valid_nonce('nonce_fifu_form_cloud_hotlink', FIFU_ACTION_CLOUD))
+        fifu_update_option('fifu_input_cloud_hotlink', 'fifu_cloud_hotlink');
 
     // schedule upload
     if (fifu_is_on('fifu_cloud_upload_auto')) {
@@ -105,6 +134,8 @@ function fifu_troubleshooting() {
 }
 
 function fifu_support_data() {
+    $fifu = fifu_get_strings_settings();
+
     // css
     wp_enqueue_style('fifu-base-ui-css', plugins_url('/html/css/base-ui.css', __FILE__), array(), fifu_version_number());
     wp_enqueue_style('fifu-menu-css', plugins_url('/html/css/menu.css', __FILE__), array(), fifu_version_number());
@@ -153,6 +184,7 @@ function fifu_support_data() {
     $enable_dynamic_alt = get_option('fifu_dynamic_alt');
     $enable_data_clean = 'toggleoff';
     $enable_cloud_upload_auto = get_option('fifu_cloud_upload_auto');
+    $enable_cloud_hotlink = get_option('fifu_cloud_hotlink');
 
     include 'html/support-data.html';
 }
@@ -174,6 +206,8 @@ function fifu_get_menu_html() {
         'homeUrl' => esc_url_raw(home_url()),
         'nonce' => wp_create_nonce('wp_rest'),
         'wait' => $fifu['php']['message']['wait'](),
+        'dimensionsSupport' => $fifu['dimensions']['support'](),
+        'dimensionsWait' => $fifu['dimensions']['wait'](),
     ]);
 
     $enable_social = get_option('fifu_social');
@@ -414,7 +448,7 @@ function fifu_update_option($input, $field) {
 
     $value = $_POST[$input];
 
-    $arr_boolean = array('fifu_auto_alt', 'fifu_cdn_content', 'fifu_cdn_crop', 'fifu_cdn_social', 'fifu_check', 'fifu_content', 'fifu_content_cpt', 'fifu_content_page', 'fifu_data_clean', 'fifu_decode', 'fifu_dynamic_alt', 'fifu_enable_default_url', 'fifu_fake', 'fifu_get_first', 'fifu_hide_cpt', 'fifu_hide_page', 'fifu_hide_post', 'fifu_lazy', 'fifu_ovw_first', 'fifu_photon', 'fifu_pop_first', 'fifu_query_strings', 'fifu_reset', 'fifu_run_delete_all', 'fifu_social', 'fifu_social_image_only', 'fifu_wc_lbox', 'fifu_wc_zoom', 'fifu_cloud_upload_auto');
+    $arr_boolean = array('fifu_auto_alt', 'fifu_cdn_content', 'fifu_cdn_crop', 'fifu_cdn_social', 'fifu_check', 'fifu_content', 'fifu_content_cpt', 'fifu_content_page', 'fifu_data_clean', 'fifu_decode', 'fifu_dynamic_alt', 'fifu_enable_default_url', 'fifu_fake', 'fifu_get_first', 'fifu_hide_cpt', 'fifu_hide_page', 'fifu_hide_post', 'fifu_lazy', 'fifu_ovw_first', 'fifu_photon', 'fifu_pop_first', 'fifu_query_strings', 'fifu_reset', 'fifu_run_delete_all', 'fifu_social', 'fifu_social_image_only', 'fifu_wc_lbox', 'fifu_wc_zoom', 'fifu_cloud_upload_auto', 'fifu_cloud_hotlink');
     if (in_array($field, $arr_boolean)) {
         if (in_array($value, array('on', 'off')))
             update_option($field, 'toggle' . $value);

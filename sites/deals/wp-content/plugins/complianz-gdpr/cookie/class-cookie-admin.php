@@ -211,14 +211,17 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		public function maybe_filter_consenttype( $consenttype, $region ) {
 			if ( $region === 'ca'
 				 && cmplz_site_shares_data()
-			     && cmplz_get_value( 'sensitive_information_processed' ) === 'yes'
+				 && cmplz_get_value( 'sensitive_information_processed' ) === 'yes'
 			) {
+				$consenttype = 'optin';
+			} elseif ( $region === 'ca'
+					   && cmplz_get_value('ca_targets_quebec') === 'yes' ) {
 				$consenttype = 'optin';
 			}
 			if ( $region === 'au'
 				 && cmplz_site_shares_data()
-			     && cmplz_get_value( 'sensitive_information_processed' )==='yes'
-			     && cmplz_uses_marketing_cookies()
+				 && cmplz_get_value( 'sensitive_information_processed' ) === 'yes'
+				 && cmplz_uses_marketing_cookies()
 			) {
 				$consenttype = 'optin';
 			}
@@ -704,6 +707,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function ajax_edit_item() {
+
+			if (!isset($_POST['nonce'])) {
+				return;
+			}
+			if (!wp_verify_nonce($_POST['nonce'], 'complianz_save')) {
+				return;
+			}
 
 			if ( ! cmplz_user_can_manage() ) {
 				return;
@@ -1991,7 +2001,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$async = $script['async']== 1 ? 'async' : '';
                 ?>
                 <script <?php echo $async?> type="text/plain" data-category="<?php echo esc_attr($script['category'])?>">
-                    <?php echo $script['editor'] ?>
+                    <?php echo ($script['editor']) ?>
                 </script>
                 <?php
             }
@@ -2010,7 +2020,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			$statistics = cmplz_get_value( 'compile_statistics' );
 			$gtag_code  = esc_attr( cmplz_get_value( "UA_code" ) );
-			if ( $statistics === 'google-analytics' ) {
+			if ( $statistics === 'google-analytics' && !empty($gtag_code) ) {
 				$category = $this->get_statistics_category();
 				?>
 				<script async data-category="<?php echo $category ?>" src="https://www.googletagmanager.com/gtag/js?id=<?php echo $gtag_code ?>"></script><?php
@@ -3137,6 +3147,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( function_exists( 'icl_register_string' ) ) {
 				$wpml = apply_filters( 'wpml_active_languages', null,
 					array( 'skip_missing' => 0 ) );
+				if ( !is_array($wpml) ){
+					$wpml = [];
+				}
 				/**
 				 * WPML has changed the index from 'language_code' to 'code' so
 				 * we check for both.
@@ -3435,6 +3448,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( !cmplz_user_can_manage() ) {
 				return;
 			}
+			if (!isset($_GET['nonce'])) {
+				return;
+			}
+			if (!wp_verify_nonce($_GET['nonce'], 'complianz_save')) {
+				return;
+			}
+
 			if ( isset( $_GET['restart'] ) && $_GET['restart'] == 'true' ) {
 				$this->resync();
 			}

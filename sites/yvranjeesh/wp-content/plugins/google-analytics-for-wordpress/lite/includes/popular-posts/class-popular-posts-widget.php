@@ -115,7 +115,9 @@ class MonsterInsights_Popular_Posts_Widget extends MonsterInsights_Popular_Posts
 				break;
 			}
 			$this->set_post_shown( $post['id'] );
-			$html .= '<li ' . esc_attr($this->get_element_style( $theme, 'background', $atts )) . '>';
+			$html .= '<li ';
+			$html .= ! empty( $this->get_element_style( $theme, 'background', $atts ) ) ? 'style="' . esc_attr( $this->get_element_style( $theme, 'background', $atts ) ) . '"' : '';
+			$html .= '>';
 			$html .= '<a href="' . esc_url($post['link']) . '">';
 			if ( ! empty( $theme_styles['image'] ) && ! empty( $post['image'] ) ) {
 				$html .= '<div class="monsterinsights-widget-popular-posts-image">';
@@ -124,9 +126,13 @@ class MonsterInsights_Popular_Posts_Widget extends MonsterInsights_Popular_Posts
 			}
 			$html .= '<div class="monsterinsights-widget-popular-posts-text">';
 			if ( isset( $theme_styles['styles']['label'] ) ) {
-				$html .= '<span class="monsterinsights-widget-popular-posts-label" ' . esc_attr($this->get_element_style( $theme, 'label', $atts )) . '>' . esc_html($label_text) . '</span>';
+				$html .= '<span class="monsterinsights-widget-popular-posts-label" ';
+				$html .= ! empty( $this->get_element_style( $theme, 'label', $atts ) ) ? 'style="' . esc_attr( $this->get_element_style( $theme, 'label', $atts ) ) . '"' : '';
+				$html .= '>' . esc_html( $label_text ) . '</span>';
 			}
-			$html .= '<span class="monsterinsights-widget-popular-posts-title" ' . esc_attr($this->get_element_style( $theme, 'title', $atts )) . '>' . esc_html($post['title']) . '</span>';
+			$html .= '<span class="monsterinsights-widget-popular-posts-title" ';
+			$html .= ! empty( $this->get_element_style( $theme, 'title', $atts ) ) ? 'style="' . esc_attr( $this->get_element_style( $theme, 'title', $atts ) ) . '"' : '';
+			$html .= '>' . esc_html( $post['title'] ) . '</span>';
 			$html .= '</div>'; // monsterinsights-widget-popular-posts-text.
 			$html .= '</a>';
 			$html .= '</li>';
@@ -260,7 +266,7 @@ class MonsterInsights_Popular_Posts_Widget extends MonsterInsights_Popular_Posts
 	 * @return mixed
 	 */
 	public function remove_widget_from_legacy_widgets( $widgets ) {
-		$widgets[] = 'monsterinsights-popular-posts-widget';
+		// $widgets[] = 'monsterinsights-popular-posts-widget';
 
 		return $widgets;
 	}

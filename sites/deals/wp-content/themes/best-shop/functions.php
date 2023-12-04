@@ -25,8 +25,17 @@ function best_shop_default_settings($setting_name){
         'woo_category_title' => esc_html__('Top Categories', 'best-shop'),
         'hide_product_cat_list' => false,
         
+        'header_shortcode' => '',
+        
+        'woo_search_dropdown_title' => esc_html__('All Categories', 'best-shop'),
+        'woo_search_text' => esc_html__('Search products...', 'best-shop'),
+        
+        'footer_num_of_colums' => 4,
+        
         'heading_font' => 'Poppins',
         'body_font' => 'Open Sans',
+        'body_font_size' => 1,               
+        
         'footer_copyright' => '',
         
         'primary_color' => '#ffd800',
@@ -100,6 +109,7 @@ function best_shop_default_settings($setting_name){
         'footer_text_color' => '#eee',
         'footer_color' => '#000',
         'footer_link' => 'https://gradientthemes.com/',
+        'footer_copyright' => esc_html__( 'A theme by GradientThemes', 'best-shop' ),
         'footer_img' => '',
         
         'subscription_shortcode' => '',
@@ -139,6 +149,8 @@ function best_shop_custom_css() {
             --topbar-text-color: <?php echo esc_html(best_shop_get_setting('topbar_text_color')); ?> ;
             --e-global-color-primary: <?php echo esc_html(best_shop_get_setting('primary_color')); ?> ;
             --gbl-background-color:<?php echo esc_html('#'.get_background_color()); ?> ;
+            --gbl-body-font-size:<?php echo esc_html(best_shop_get_setting('body_font_size').'em'); ?> ;
+            --gbl-footer-num-of-colums:<?php echo absint(best_shop_get_setting('footer_num_of_colums')); ?> ;
             
         }
 
@@ -157,6 +169,7 @@ function best_shop_custom_css() {
         .mobile-navigation {
             background-color: <?php echo esc_html('#'.get_background_color()); ?>;
         }
+
         .site-footer {
             background:url("<?php echo esc_url(best_shop_get_setting('footer_img')); ?>") ;
             background-repeat: no-repeat;
@@ -341,6 +354,11 @@ function best_shop_scripts() {
     if (best_shop_get_setting('enable_sticky_menu')){
 	   wp_enqueue_script( 'best-shop-scroll', get_template_directory_uri() . '/js/sticky.js',array( 'jquery' ), '', true );
     }
+    
+    if (best_shop_get_setting('enable_back_to_top')){
+	   wp_enqueue_script( 'best-shop-scroll-top', get_template_directory_uri() . '/js/backtotop.js',array( 'jquery' ), '', true );
+    }    
+    
     
 }
 endif;
@@ -689,6 +707,10 @@ require get_template_directory() . '/inc/widgets/tabbed-product-by-attribute.php
  */
 require get_template_directory() . '/inc/widgets/social.php';
 
+/**
+ * 
+ */
+require get_template_directory() . '/inc/widgets/countdown-timer.php';
 
 /**
  * News / Post
@@ -868,33 +890,34 @@ add_action( 'best_shop_loop_add_to_cart', 'woocommerce_template_loop_add_to_cart
 global $pagenow;
   
 
+
 if($pagenow == 'index.php' || $pagenow == 'themes.php'){
     
-      if ( isset( $_GET['hide_admin_notice'] ) ) {
-            update_option('best_shop_hide_admin_notice', 'aprl-dismiss-notice');
-      } else {
-          $best_shop_notice = get_option('best_shop_hide_admin_notice', '');
-          if ($best_shop_notice != 'aprl-dismiss-notice' || $best_shop_notice == '') {	
-             add_action( 'admin_notices', 'best_shop_admin_notice_info' );
-          }
-      }
-    
+    if ( isset( $_GET['hide_admin_notice'] ) ) {
+          update_option('best_shop_hide_admin_notice', 'sept-dismiss-notice');
+    } else {
+
+        $best_shop_notice = get_option('best_shop_hide_admin_notice', '');
+        if ($best_shop_notice != 'sept-dismiss-notice' || $best_shop_notice == '') {	
+           add_action( 'admin_notices', 'best_shop_admin_notice_info' );
+        }
+    }
 }
 
 function best_shop_admin_notice_info() {
     
-    $class = 'notice notice-info is-dismissible';
-    $message = __( 'Customize page Header: Edit page >Header style, More Options goto customizer >Theme Options. Theme custom widgets are starting + sign.', 'best-shop' );
-    $dismiss = __( 'Dismiss', 'best-shop');
-    $tutorial = __( 'How to build my site ? / Upgrade to PRO', 'best-shop');
-    if (function_exists('best_shop_pro_textdomain')){
-        $tutorial = __( 'Theme Tutorial', 'best-shop');
-    }
-    printf( '<div class="%1$s"> <p> 
-	
-	<a class="best-shop-btn-get-started button button-primary best-shop-button-padding" href="#" data-name="" data-slug="" >'.esc_html__("Install Demos","best-shop").'</a>	
-	<a class="button button-primary best-shop-button-padding" target="_blank" href="'.esc_url( "https://www.gradientthemes.com/product/wordpress-shopping-cart-theme/" ).'" ><b>'.$tutorial.'</b></a>
-	<span>%2$s</span>&nbsp;&nbsp; <em><a href="?hide_admin_notice" target="_self"  class="dismiss-notice">%3$s</a></em> </p></div>', esc_attr( $class ), esc_html( $message ), esc_html( $dismiss ) ); 
+  $class = 'notice notice-info is-dismissible';
+  $message = __( 'Customize page Header: Edit page >Header style, More Options goto customizer >Theme Options. Theme custom widgets are starting + sign.', 'best-shop' );
+  $dismiss = __( 'Dismiss', 'best-shop');
+  $tutorial = __( 'How to build my site ? / Upgrade to PRO', 'best-shop');
+  if (function_exists('best_shop_pro_textdomain')){
+      $tutorial = __( 'Theme Tutorials', 'best-shop');
+  }
+  printf( '<div class="%1$s"> <p> 
+
+  <a class="best-shop-btn-get-started button button-primary best-shop-button-padding" href="#" data-name="" data-slug="" >'.esc_html__("Install Demos","best-shop").'</a>	
+  <a class="button button-primary best-shop-button-padding" target="_blank" href="'.esc_url( "https://www.gradientthemes.com/product/wordpress-shopping-cart-theme/" ).'" ><b>'.$tutorial.'</b></a>
+  <span>%2$s</span>&nbsp;&nbsp; <em><a href="?hide_admin_notice" target="_self"  class="dismiss-notice">%3$s</a></em> </p></div>', esc_attr( $class ), esc_html( $message ), esc_html( $dismiss ) ); 
 
 }
 
@@ -967,3 +990,5 @@ function best_shop_scroll_options(){
 <?php }
     
 }
+
+

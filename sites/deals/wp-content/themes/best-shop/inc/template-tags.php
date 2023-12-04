@@ -1869,7 +1869,7 @@ if ( ! function_exists( 'best_shop_trim_content' ) ) :
 		$source_content = preg_replace( '`\[[^\]]*\]`', '', $source_content );
 		$trimmed_content = wp_trim_words( $source_content, $length, '...' );
 
-	   return apply_filters( 'ecommerce_wp_trim_content', $trimmed_content );
+	   return apply_filters( 'best_shop_trim_content', $trimmed_content );
 	}
 endif;
 

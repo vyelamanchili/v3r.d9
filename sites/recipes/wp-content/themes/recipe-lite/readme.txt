@@ -3,8 +3,8 @@
 **Contributors:** sonalsinha21
 **Requires at least:** 5.0
 **Requires PHP:**  5.6
-**Tested up to:** 6.1
-**Version:** 1.4
+**Tested up to:** 6.4
+**Version:** 1.5
 **License:** GPL-2.0-or-later
 **License URI:** https://www.gnu.org/licenses/license-list.html#GPLv2
 **Tags:** two-columns,right-sidebar,custom-background,custom-colors,custom-menu,sticky-post,theme-options,threaded-comments
@@ -96,6 +96,10 @@ License URL: http://www.gnu.org/licenses/gpl-2.0.html
 For any help you can mail us at support[at]sktthemes.com
 
 ## Changelog
+Version 1.5
+i)  Compatibility with WordPress 6.4
+ii) Added company footer credits
+
 Version 1.4
 i)     Compatibility with WordPress 6.1
 

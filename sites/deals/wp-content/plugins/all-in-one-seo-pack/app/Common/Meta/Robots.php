@@ -95,13 +95,20 @@ class Robots {
 	 * @return mixed The robots meta tag value or false.
 	 */
 	public function meta() {
+		// We need this check to happen first as spammers can attempt to make the page appear like a post or term by using URL params e.g. "cat=".
+		if ( is_search() ) {
+			$this->globalValues( [ 'archives', 'search' ] );
+
+			return $this->metaHelper();
+		}
+
 		if ( is_category() || is_tag() || is_tax() ) {
 			$this->term();
 
 			return $this->metaHelper();
 		}
 
-		if ( is_home() && 'posts' === get_option( 'show_on_front' ) ) {
+		if ( is_home() && 'page' !== get_option( 'show_on_front' ) ) {
 			$this->globalValues();
 
 			return $this->metaHelper();
@@ -122,12 +129,6 @@ class Robots {
 
 		if ( is_date() ) {
 			$this->globalValues( [ 'archives', 'date' ] );
-
-			return $this->metaHelper();
-		}
-
-		if ( is_search() ) {
-			$this->globalValues( [ 'archives', 'search' ] );
 
 			return $this->metaHelper();
 		}
@@ -182,7 +183,7 @@ class Robots {
 			$this->attributes['nofollow'] = 'nofollow';
 		}
 
-		$this->attributes = array_filter( apply_filters( 'aioseo_robots_meta', $this->attributes ) );
+		$this->attributes = array_filter( (array) apply_filters( 'aioseo_robots_meta', $this->attributes ) );
 
 		return $array ? $this->attributes : implode( ', ', $this->attributes );
 	}
@@ -334,7 +335,7 @@ class Robots {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  array $metaData The post/term meta data.
+	 * @param  \AIOSEO\Plugin\Common\Models\Post|\AIOSEO\Plugin\Pro\Models\Term $metaData The post/term meta data.
 	 * @return void
 	 */
 	protected function metaValues( $metaData ) {

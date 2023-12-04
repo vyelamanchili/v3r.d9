@@ -49,6 +49,15 @@ class rsssl_firewall_manager {
 	}
 
 	/**
+	 * Check if any rules were added
+	 * @return bool
+	 */
+	public function has_rules(){
+		$rules    = apply_filters('rsssl_firewall_rules', '');
+		return !empty(trim($rules));
+	}
+
+	/**
 	 * Generate security rules, and advanced-headers.php file
 	 *
 	 */
@@ -61,8 +70,9 @@ class rsssl_firewall_manager {
 			return;
 		}
 
-		$wpcontent_dir  = ABSPATH . 'wp-content';
-		$advanced_headers_file = $wpcontent_dir . '/advanced-headers.php';
+		$use_dynamic_path = WP_CONTENT_DIR === ABSPATH . 'wp-content';
+        $advanced_headers_file = WP_CONTENT_DIR . '/advanced-headers.php';
+
 		$rules    = apply_filters('rsssl_firewall_rules', '');
 		//no rules? remove the file
 		if ( empty(trim($rules) ) ) {
@@ -79,19 +89,28 @@ class rsssl_firewall_manager {
 		$contents .= "defined('ABSPATH') or die();" . "\n\n";
 		//allow disabling of headers for detection purposes
 		$contents .= 'if ( isset($_GET["rsssl_header_test"]) && (int) $_GET["rsssl_header_test"] ===  ' . $this->get_headers_nonce() . ' ) return;' . "\n\n";
+		$contents .= 'if (!defined("RSSSL_HEADERS_ACTIVE")) define("RSSSL_HEADERS_ACTIVE", true);'."\n";
 		$contents .= "//RULES START\n".$rules;
 
 		// write to advanced-header.php file
-		if ( is_writable( ABSPATH . 'wp-content' ) ) {
-			file_put_contents( ABSPATH . "wp-content/advanced-headers.php", $contents );
+		if ( is_writable( WP_CONTENT_DIR ) ) {
+			file_put_contents( $advanced_headers_file, $contents );
 		}
 
 		$wpconfig_path = $this->find_wp_config_path();
 		$wpconfig      = file_get_contents( $wpconfig_path );
 		if ( is_writable( $wpconfig_path ) && strpos( $wpconfig, 'advanced-headers.php' ) === false ) {
-			$rule = 'if ( file_exists(ABSPATH . "wp-content/advanced-headers.php") ) { ' . "\n";
-			$rule .= "\t" . 'require_once ABSPATH . "wp-content/advanced-headers.php";' . "\n" . "}";
-			//if RSSSL comment is found, insert after
+			// As WP_CONTENT_DIR is not defined at this point in the wp-config, we can't use that.
+			// for those setups where the WP_CONTENT_DIR is not in the default location, we hardcode the path.
+            if ( $use_dynamic_path ) {
+                $rule = 'if (file_exists( ABSPATH . "wp-content/advanced-headers.php")) {' . "\n";
+                $rule .= "\t" . 'require_once ABSPATH . "wp-content/advanced-headers.php";' . "\n" . '}';
+            } else {
+                $rule = 'if (file_exists(\'' . WP_CONTENT_DIR . '/advanced-headers.php\')) {' . "\n";
+                $rule .= "\t" . 'require_once \'' . WP_CONTENT_DIR . '/advanced-headers.php\';' . "\n" . '}';
+            }
+
+            //if RSSSL comment is found, insert after
 			$rsssl_comment = '//END Really Simple SSL Server variable fix';
 			if ( strpos($wpconfig, $rsssl_comment)!==false ) {
 				$pos = strrpos($wpconfig, $rsssl_comment);
@@ -103,12 +122,12 @@ class rsssl_firewall_manager {
 		}
 
 		//save errors
-		if ( is_writable( $wpcontent_dir ) && (is_writable( $wpconfig_path ) || strpos( $wpconfig, 'advanced-headers.php' ) !== false ) ) {
+		if ( is_writable( WP_CONTENT_DIR ) && (is_writable( $wpconfig_path ) || strpos( $wpconfig, 'advanced-headers.php' ) !== false ) ) {
 			update_option('rsssl_firewall_error', false, false );
 		} else {
 			if ( !is_writable( $wpconfig_path ) ) {
 				update_option('rsssl_firewall_error', 'wpconfig-notwritable', false );
-			} else if ( !is_writable( $wpcontent_dir )) {
+			} else if ( !is_writable( WP_CONTENT_DIR )) {
 				update_option('rsssl_firewall_error', 'advanced-headers-notwritable', false );
 			}
 		}
@@ -121,6 +140,18 @@ class rsssl_firewall_manager {
 	 */
 	public function firewall_write_error(){
 		return get_site_option('rsssl_firewall_error');
+	}
+
+	/**
+	 * Get the status for the firewall
+	 *
+	 * @return bool
+	 */
+	public function firewall_active_error(){
+		if (!$this->has_rules()) {
+			return false;
+		}
+		return !defined('RSSSL_HEADERS_ACTIVE');
 	}
 
 	/**
@@ -143,6 +174,22 @@ class rsssl_firewall_manager {
 				'advanced-headers-notwritable' => array(
 						'title' => __("Firewall", "really-simple-ssl"),
 						'msg' => __("A firewall rule was enabled, but /the wp-content/ folder is not writable.", "really-simple-ssl").' '.__("Please set the wp-content folder to writable:", "really-simple-ssl"),
+					'icon' => 'open',
+					'dismissible' => true,
+				),
+			),
+			'show_with_options' => [
+				'disable_http_methods',
+			]
+		);
+		$notices['firewall-active'] = array(
+			'condition' => ['RSSSL_SECURITY()->firewall_manager->firewall_active_error'],
+			'callback' => '_true_',
+			'score' => 5,
+			'output' => array(
+				'true' => array(
+					'title' => __("Firewall", "really-simple-ssl"),
+					'msg' => __("A firewall rule was enabled, but the firewall does not seem to get loaded correctly.", "really-simple-ssl").' '.__("Please check if the advanced-headers.php file is included in the wp-config.php, and exists in the wp-content folder.", "really-simple-ssl"),
 					'icon' => 'open',
 					'dismissible' => true,
 				),

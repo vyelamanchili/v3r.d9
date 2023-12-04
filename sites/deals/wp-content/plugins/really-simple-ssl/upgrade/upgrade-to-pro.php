@@ -44,20 +44,20 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 						$rsssl_admin_url = is_multisite() ? network_admin_url('settings.php') : admin_url("options-general.php");
 						$this->slug = is_multisite() ? "really-simple-ssl-pro-multisite/really-simple-ssl-pro-multisite.php" :  "really-simple-ssl-pro/really-simple-ssl-pro.php";
 						$this->plugin_name = "Really Simple SSL Pro";
-						$this->plugin_constant = "rsssl_pro";
+						$this->plugin_constant = "rsssl_pro_version";
 						$this->prefix = "rsssl_";
 						$this->api_url = "https://really-simple-ssl.com";
 						$this->dashboard_url = add_query_arg(["page" => "really-simple-security"], $rsssl_admin_url );
 						$this->account_url = 'https://really-simple-ssl.com/account';
 						$this->instructions = 'https://really-simple-ssl.com/knowledge-base/install-really-simple-ssl-pro';
 						break;
-					case "brst_pro":
-						$this->slug = "burst";
+					case "burst_pro":
+						$this->slug = "burst-pro/burst-pro.php";
 						$this->plugin_name = "Burst";
-						$this->plugin_constant = "burst_premium";
+						$this->plugin_constant = "burst_pro";
 						$this->prefix = "burst_";
 						$this->api_url = "https://burst-statistics.com";
-						$this->dashboard_url = add_query_arg(["page" => "burst"], admin_url( "admin.php" ));
+						$this->dashboard_url = add_query_arg(["page" => "burst"], admin_url( "index.php" ));
 						$this->account_url = 'https://burst-statistics.com/account';
 						$this->instructions = 'https://burst-statistics.com/how-to-install-burst-premium';
 						break;
@@ -149,7 +149,7 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 				'install_url' => 'burst%20statistics%20hesseldejong%20%20burst-statistics.com&tab=search&type=term',
 			];
 
-			if ( $plugin_to_be_installed === 'really-simple-ssl' ){
+			if ( $plugin_to_be_installed === 'really-simple-ssl' || $plugin_to_be_installed === 'burst' ){
 				$suggestion = [
 					'icon_url' => $dir_url.'complianz-gdpr.png',
 					'constant' => 'cmplz_version',
@@ -158,7 +158,7 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 					'disabled' => '',
 					'button_text' => __("Install", "really-simple-ssl"),
 					'slug' => 'complianz-gdpr',
-					'description' => __('Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA and PIPEDA.', "really-simple-ssl"),
+					'description' => __('Configure your Cookie Notice, Consent Management and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA and PIPEDA.', "really-simple-ssl"),
 					'install_url' => 'complianz+gdpr+POPIA&tab=search&type=term',
 				];
 				if ($current_plugin==='complianz-gdpr') {
@@ -423,21 +423,27 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 				$error = true;
 			}
 
-			if ( defined($this->plugin_constant) ) {
-				deactivate_plugins( $this->slug );
+            if ( !isset($_GET['token']) || !wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce')) {
+                $error = true;
             }
 
-            $file = trailingslashit(WP_CONTENT_DIR).'plugins/'.$this->slug;
-			if ( file_exists($file ) ) {
-                $dir = dirname($file);
-                $new_dir = $dir.'_'.time();
-                set_transient('rsssl_upgrade_dir', $new_dir, WEEK_IN_SECONDS);
-                rename($dir, $new_dir);
-                //prevent uninstalling code by previous plugin
-                unlink(trailingslashit($new_dir).'uninstall.php');
-			}
+            if (!$error) {
+	            if ( defined( $this->plugin_constant ) ) {
+		            deactivate_plugins( $this->slug );
+	            }
 
-			if ( file_exists($file ) ) {
+	            $file = trailingslashit( WP_CONTENT_DIR ) . 'plugins/' . $this->slug;
+	            if ( file_exists( $file ) ) {
+		            $dir     = dirname( $file );
+		            $new_dir = $dir . '_' . time();
+		            set_transient( 'rsssl_upgrade_dir', $new_dir, WEEK_IN_SECONDS );
+		            rename( $dir, $new_dir );
+		            //prevent uninstalling code by previous plugin
+		            unlink( trailingslashit( $new_dir ) . 'uninstall.php' );
+	            }
+            }
+
+			if ( !$error && file_exists($file ) ) {
 				$error = true;
 				$response = [
 					'success' => false,
@@ -445,7 +451,7 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 				];
 			}
 
-			if ( !$error && isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['plugin']) ) {
+			if ( !$error && isset($_GET['plugin']) ) {
 				if ( !file_exists(WP_PLUGIN_DIR . '/' . $this->slug) ) {
 					$response = [
 						'success' => true,

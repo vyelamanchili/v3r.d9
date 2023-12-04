@@ -19,7 +19,7 @@ trait Api {
 	 *
 	 * @param  array       $body    The content to retrieve from the remote URL.
 	 * @param  array       $headers The headers to send to the remote URL.
-	 * @return string|null          JSON decoded response on success, false on failure.
+	 * @return object|null          JSON decoded response on success, false on failure.
 	 */
 	public function sendRequest( $url, $body = [], $headers = [] ) {
 		$body = wp_json_encode( $body );
@@ -72,9 +72,9 @@ trait Api {
 	 *
 	 * @since 4.2.4
 	 *
-	 * @param  string         $url  The URL to send the request to.
-	 * @param  array          $args The args to use in the request.
-	 * @return array|WP_Error       The response as an array or WP_Error on failure.
+	 * @param  string          $url  The URL to send the request to.
+	 * @param  array           $args The args to use in the request.
+	 * @return array|\WP_Error      The response as an array or WP_Error on failure.
 	 */
 	public function wpRemotePost( $url, $args = [] ) {
 		return wp_remote_post( $url, array_replace_recursive( $this->getWpApiRequestDefaults(), $args ) );
@@ -85,9 +85,9 @@ trait Api {
 	 *
 	 * @since 4.2.4
 	 *
-	 * @param  string         $url  The URL to send the request to.
-	 * @param  array          $args The args to use in the request.
-	 * @return array|WP_Error       The response as an array or WP_Error on failure.
+	 * @param  string          $url  The URL to send the request to.
+	 * @param  array           $args The args to use in the request.
+	 * @return array|\WP_Error      The response as an array or WP_Error on failure.
 	 */
 	public function wpRemoteGet( $url, $args = [] ) {
 		return wp_remote_get( $url, array_replace_recursive( $this->getWpApiRequestDefaults(), $args ) );

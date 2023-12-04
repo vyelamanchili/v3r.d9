@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Register menu elements and do other global tasks.
  *
@@ -79,6 +83,16 @@ class WPForms_Admin_Menu {
 			[ $this, 'admin_page' ]
 		);
 
+		// Payments sub menu item.
+		add_submenu_page(
+			'wpforms-overview',
+			esc_html__( 'Payments', 'wpforms-lite' ),
+			esc_html__( 'Payments', 'wpforms-lite' ) . $this->get_new_badge_html(),
+			$manage_cap,
+			WPForms\Admin\Payments\Payments::SLUG,
+			[ $this, 'admin_page' ]
+		);
+
 		do_action_deprecated(
 			'wpform_admin_menu',
 			[ $this ],
@@ -91,7 +105,7 @@ class WPForms_Admin_Menu {
 		add_submenu_page(
 			'wpforms-overview',
 			esc_html__( 'WPForms Templates', 'wpforms-lite' ),
-			esc_html__( 'Form Templates', 'wpforms-lite' ) . $this->get_new_badge_html(),
+			esc_html__( 'Form Templates', 'wpforms-lite' ),
 			$access->get_menu_cap( 'create_forms' ),
 			'wpforms-templates',
 			[ $this, 'admin_page' ]
@@ -341,21 +355,15 @@ class WPForms_Admin_Menu {
 	public function settings_link( $links, $plugin_file, $plugin_data, $context ) {
 
 		$custom['pro'] = sprintf(
-			'<a href="%1$s" aria-label="%2$s" target="_blank" rel="noopener noreferrer" 
-				style="color: #00a32a; font-weight: 700;" 
-				onmouseover="this.style.color=\'#008a20\';" 
+			'<a href="%1$s" aria-label="%2$s" target="_blank" rel="noopener noreferrer"
+				style="color: #00a32a; font-weight: 700;"
+				onmouseover="this.style.color=\'#008a20\';"
 				onmouseout="this.style.color=\'#00a32a\';"
 				>%3$s</a>',
 			esc_url(
-				add_query_arg(
-					[
-						'utm_content'  => 'Get+WPForms+Pro',
-						'utm_campaign' => 'liteplugin',
-						'utm_medium'   => 'all-plugins',
-						'utm_source'   => 'WordPress',
-						'utm_locale'   => wpforms_sanitize_key( get_locale() ),
-					],
-					'https://wpforms.com/lite-upgrade/'
+				wpforms_admin_upgrade_link(
+					'all-plugins',
+					'Get WPForms Pro'
 				)
 			),
 			esc_attr__( 'Upgrade to WPForms Pro', 'wpforms-lite' ),

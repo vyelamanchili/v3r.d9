@@ -15,7 +15,6 @@ import {
 	useForcedLayout,
 	getAllowedBlocks,
 } from '../../../cart-checkout-shared';
-import './style.scss';
 
 const browseStoreTemplate = SHOP_URL
 	? [
@@ -66,7 +65,7 @@ const defaultTemplate = [
 	[
 		'woocommerce/product-new',
 		{
-			columns: 3,
+			columns: 4,
 			rows: 1,
 		},
 	],

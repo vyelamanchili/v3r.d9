@@ -1,5 +1,7 @@
 <?php
 
+use WPForms\Vendor\TrueBV\Punycode;
+
 /**
  * Email text field.
  *
@@ -36,10 +38,11 @@ class WPForms_Field_Email extends WPForms_Field {
 	public function init() {
 
 		// Define field type information.
-		$this->name  = esc_html__( 'Email', 'wpforms-lite' );
-		$this->type  = 'email';
-		$this->icon  = 'fa-envelope-o';
-		$this->order = 170;
+		$this->name     = esc_html__( 'Email', 'wpforms-lite' );
+		$this->keywords = esc_html__( 'user', 'wpforms-lite' );
+		$this->type     = 'email';
+		$this->icon     = 'fa-envelope-o';
+		$this->order    = 170;
 
 		$this->hooks();
 	}
@@ -1056,14 +1059,14 @@ class WPForms_Field_Email extends WPForms_Field {
 	 *
 	 * @since 1.6.9
 	 *
-	 * @return \TrueBV\Punycode
+	 * @return WPForms\Vendor\TrueBV\Punycode
 	 */
 	private function get_punycode() {
 
 		static $punycode;
 
 		if ( ! $punycode ) {
-			$punycode = new \TrueBV\Punycode();
+			$punycode = new Punycode();
 		}
 
 		return $punycode;

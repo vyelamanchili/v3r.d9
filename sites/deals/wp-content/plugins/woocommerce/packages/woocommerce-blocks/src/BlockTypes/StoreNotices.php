@@ -26,6 +26,17 @@ class StoreNotices extends AbstractBlock {
 	 * @return string | void Rendered block output.
 	 */
 	protected function render( $attributes, $content, $block ) {
+		/**
+		 * This block should be rendered only on the frontend. Woo loads notice
+		 * functions on the front end requests only. So it's safe and handy to
+		 * check for the print notice function existence to short circuit the
+		 * render process on the admin side.
+		 * See WooCommerce::is_request() for the frontend request definition.
+		 */
+		if ( ! function_exists( 'wc_print_notices' ) ) {
+			return $content;
+		}
+
 		ob_start();
 		woocommerce_output_all_notices();
 		$notices = ob_get_clean();
@@ -55,6 +66,15 @@ class StoreNotices extends AbstractBlock {
 	 * @param string $key Data to get, or default to everything.
 	 */
 	protected function get_block_type_script( $key = null ) {
+		return null;
+	}
+
+	/**
+	 * Get the frontend style handle for this block type.
+	 *
+	 * @return null
+	 */
+	protected function get_block_type_style() {
 		return null;
 	}
 }

@@ -5,8 +5,8 @@ Donate link: https://yarpp.com
 Requires at least: 3.7
 Requires PHP: 5.3
 License: GPLv2 or later
-Tested up to: 6.2
-Stable tag: 5.30.3
+Tested up to: 6.4
+Stable tag: 5.30.9
 
 The best WordPress plugin for displaying related posts. Simple and flexible, with a powerful proven algorithm and inbuilt caching.
 
@@ -164,6 +164,13 @@ To adjust the weights and taxonomy requirements, provide the value as JSON (usin
 [yarpp require_tax='{"category": 2, "post_tag": 0}'] - require at least one category in common
 `
 
+To order results:
+
+`
+[yarpp order="score DESC"] - high relevance score to low
+[yarpp order="rand"] - random
+`
+
 To add YARPP shortcode to your theme files (eg. single.php), use:
 
 `<?php echo do_shortcode('[yarpp]'); ?>`
@@ -299,6 +306,36 @@ if(! $related_posts){
     echo $post->post_title;
   }
 }
+</code>
+
+Show results ordered by score (high relevance to low):
+
+<code>
+yarpp_related(
+  array(
+    'order' => 'score DESC',
+  )
+);
+</code>
+
+Show results ordered by post publish date (new to old):
+
+<code>
+yarpp_related(
+  array(
+    'order' => 'post_date DESC',
+  )
+);
+</code>
+
+Show results ordered randomly:
+
+<code>
+yarpp_related(
+  array(
+    'order' => 'rand',
+  )
+);
 </code>
 
 = YARPP Filters =
@@ -562,11 +599,36 @@ Beginning with version 4.0.7, YARPP includes clean uninstall functionality. If y
 
 
 == Changelog ==
+
+= 5.30.9 (22-November-2023) =
+* Enhancement: Better input sanitization for a more predictable output
+* Enhancement: Misc performance improvements
+
+= 5.30.8 (21-November-2023) =
+* [Enhancement](https://wordpress.org/support/topic/yarpp-shows-me-the-same-related-posts/): Adds ability to set sort order to Random from the YARPP Admin UI
+
+= 5.30.7 (20-November-2023) =
+* Tested on WordPress 6.4
+* [Bugfix] Fixes PHP 8.2 warnings that were filling up server logs
+
+= 5.30.6 (09-August-2023) =
+* Tested on WordPress 6.3
+
+= 5.30.5 (18-July-2023) =
+* [Bugfix](https://wordpress.org/support/topic/bug-report-title-anchor-tag-includes-extra-space-at-tail-end-of-title/): Fixes extra space at tail end of title anchor tag that was appearing for admins in the default template
+* [Bugfix] Template preview will now work even if server configuration does not have `allow_url_fopen` on (Thank you Ken @ krdev)
+* [Bugfix](https://wpscan.com/vulnerability/b34976b3-54c3-45b7-86a0-387ee0a4b680): Improves how YARPP function attributes are sanitized to avoid possible security issues
+
+= 5.30.4 (17-July-2023) =
+* [Bugfix](https://wpscan.com/vulnerability/2858b67e-17ac-4a2a-8a46-24367d248454): Improves how YARPP function attributes are sanitized to avoid possible security issues
+* [Bugfix](https://wordpress.org/support/topic/wordpress-bug-related-to-yarpp/): Fixes translation bug in fr_FR locale
+* [Bugfix](https://wordpress.org/support/topic/settings-page-does-not-work-3/): Fixes YARPP settings page compatibility with WordPress versions 4.8 and below
+
 = 5.30.3 (28-APRIL-2023) =
-* [Bugfix](https://wpscan.com/vulnerability/b34976b3-54c3-45b7-86a0-387ee0a4b680): Improved how function attributes are sanitized to avoid possible security issues
+* [Bugfix](https://wpscan.com/vulnerability/574f7607-96d8-4ef8-b96c-0425ad7e7690): Improves how function attributes are sanitized to avoid possible security issues
 
 = 5.30.2 (29-January-2023) =
-* [Bugfix](https://wpscan.com/vulnerability/c6cf792b-054c-4d77-bcae-3b700f42130b): Improved how function attributes are sanitized to avoid possible security issues
+* [Bugfix](https://wpscan.com/vulnerability/c6cf792b-054c-4d77-bcae-3b700f42130b): Improves how function attributes are sanitized to avoid possible security issues
 
 = 5.30.1 (08-November-2022) =
 * [Bugfix](https://wordpress.org/support/topic/something-wrong-with-yaarp-plugin-this-morning/): Fixes issue caused by stricter type checks for arithmetic operators in PHP8
@@ -1480,5 +1542,5 @@ After a break of many years, the plugin is 100% supported now that the baton has
 * Initial upload
 
 == Upgrade Notice ==
-= 5.30.3 =
+= 5.30.9 =
 We update YARPP regularly so we can keep making it better for you. Update to the latest version for the latest features and improvements. Thank you for using YARPP!

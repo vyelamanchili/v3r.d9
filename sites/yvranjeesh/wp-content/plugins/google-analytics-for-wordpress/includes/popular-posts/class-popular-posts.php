@@ -370,12 +370,13 @@ class MonsterInsights_Popular_Posts {
 	private function get_query_args() {
 
 		$args = array(
-			'numberposts'         => $this->posts_count,
+			'numberposts'         => 25,
 			'ignore_sticky_posts' => true,
 			'fields'              => 'ids',
+			'orderby'              => 'rand',
 		);
 		$args = wp_parse_args( $this->query_args(), $args );
-
+		
 		return apply_filters( 'monsterinsights_popular_posts_query_args', $args );
 	}
 
@@ -496,10 +497,10 @@ class MonsterInsights_Popular_Posts {
 	/**
 	 * Generic helper function to build style attributes for elements based on shortcode/block parameters.
 	 *
-	 * @param string $theme The theme for which  we're building the style.
+	 * @param string $theme  The theme for which  we're building the style.
 	 * @param string $object Object we're styling like title, label, background, etc.
-	 * @param array $atts Attributes passed from shortcode/block.
-	 * @param string $key The key of the style we're going to output.
+	 * @param array  $atts   Attributes passed from shortcode/block.
+	 * @param string $key    The key of the style we're going to output.
 	 *
 	 * @return string
 	 */
@@ -516,7 +517,6 @@ class MonsterInsights_Popular_Posts {
 
 		// Find theme-specific available options and check if our attributes have those set.
 		$theme_styles = $this->get_theme_props( $theme )->get_theme();
-		$style_output = '';
 		$style_css    = '';
 
 		if ( ! empty( $theme_styles['styles'] ) ) {
@@ -552,12 +552,7 @@ class MonsterInsights_Popular_Posts {
 			}
 		}
 
-		if ( ! empty( $style_css ) ) {
-			$style_output = 'style="' . $style_css . '"';
-		}
-
-		return $style_output;
-
+		return $style_css;
 	}
 
 	/**

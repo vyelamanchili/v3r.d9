@@ -60,11 +60,8 @@ function fifu_add_js() {
         wp_localize_script('fifu-image-js', 'fifuImageVars', [
             'fifu_lazy' => fifu_is_on("fifu_lazy"),
             'fifu_woo_lbox_enabled' => fifu_woo_lbox(),
-            'fifu_woo_zoom' => fifu_woo_zoom(),
             'fifu_is_product' => class_exists('WooCommerce') && is_product(),
             'fifu_is_flatsome_active' => fifu_is_flatsome_active(),
-            'fifu_rest_url' => esc_url_raw(rest_url()),
-            'fifu_nonce' => wp_create_nonce('wp_rest'),
         ]);
     }
 }
@@ -117,6 +114,8 @@ function fifu_apply_css() {
 add_filter('wp_get_attachment_image_attributes', 'fifu_wp_get_attachment_image_attributes', 10, 3);
 
 function fifu_wp_get_attachment_image_attributes($attr, $attachment, $size) {
+    global $FIFU_SESSION;
+
     // ignore themes
     if (in_array(strtolower(get_option('template')), array('jnews')))
         return $attr;
@@ -143,8 +142,8 @@ function fifu_wp_get_attachment_image_attributes($attr, $attachment, $size) {
     $attr['data-sizes'] = 'auto';
 
     // preload placeholder
-    if (!isset($_SESSION['fifu-placeholder'][$placeholder])) {
-        $_SESSION['fifu-placeholder'][$placeholder] = true;
+    if (!isset($FIFU_SESSION['fifu-placeholder'][$placeholder])) {
+        $FIFU_SESSION['fifu-placeholder'][$placeholder] = true;
         echo "<link rel='preload' as='image' href='{$placeholder}'>";
     }
 
@@ -164,6 +163,8 @@ function fifu_woo_replace($html, $product, $woosize) {
 add_filter('post_thumbnail_html', 'fifu_replace', 10, 5);
 
 function fifu_replace($html, $post_id, $post_thumbnail_id, $size, $attr = null) {
+    global $FIFU_SESSION;
+
     if (!$html)
         return $html;
 
@@ -179,8 +180,8 @@ function fifu_replace($html, $post_id, $post_thumbnail_id, $size, $attr = null) 
 
     $datasrc = fifu_get_attribute('data-src', $html);
     $src = $datasrc ? $datasrc : fifu_get_attribute('src', $html);
-    if (isset($_SESSION[$src])) {
-        $data = $_SESSION[$src];
+    if (isset($FIFU_SESSION[$src])) {
+        $data = $FIFU_SESSION[$src];
         if (strpos($html, 'fifu-replaced') !== false)
             return $html;
     }
@@ -190,7 +191,9 @@ function fifu_replace($html, $post_id, $post_thumbnail_id, $size, $attr = null) 
     $delimiter = fifu_get_delimiter('src', $html);
     if (fifu_is_on('fifu_dynamic_alt')) {
         $alt = get_the_title($post_id);
-        $html = preg_replace('/alt=[\'\"][^[\'\"]*[\'\"]/', 'alt=' . $delimiter . $alt . $delimiter . ' title=' . $delimiter . $alt . $delimiter, $html);
+        $custom_alt = 'alt=' . $delimiter . $alt . $delimiter . ' title=' . $delimiter . $alt . $delimiter;
+        $html = preg_replace('/alt=[\'\"][^[\'\"]*[\'\"]/', $custom_alt, $html);
+        $html = fifu_check_alt_attribute($html, $custom_alt);
     } else {
         $alt = null;
         if ($url) {
@@ -208,6 +211,23 @@ function fifu_replace($html, $post_id, $post_thumbnail_id, $size, $attr = null) 
         return '';
 
     return !$url ? $html : fifu_get_html($url, $alt, $width, $height);
+}
+
+function fifu_check_alt_attribute($html, $custom_alt) {
+    // Get the `<img>` tag in the string.
+    $imgTag = preg_match('/<img (.+?)\/?>/', $html, $matches);
+
+    if (!isset($matches[1]))
+        return $html;
+
+    // Check if the `<img>` tag has an alt attribute.
+    $attributes = $matches[1];
+
+    // If the alt attribute is empty, add it
+    if (!preg_match('/alt=[\'\"][^[\'\"]*[\'\"]/', $attributes))
+        $html = str_replace("<img ", "<img {$custom_alt} ", $html);
+
+    return $html;
 }
 
 function fifu_get_html($url, $alt, $width, $height) {

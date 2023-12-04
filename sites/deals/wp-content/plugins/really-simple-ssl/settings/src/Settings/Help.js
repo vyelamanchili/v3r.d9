@@ -4,7 +4,7 @@ import { __ } from '@wordpress/i18n';
  * Render a help notice in the sidebar
  */
 const Help = (props) => {
-    let notice = props.help;
+    let notice = {...props.help};
     if ( !notice.title ){
         notice.title = notice.text;
         notice.text = false;
@@ -14,7 +14,7 @@ const Help = (props) => {
 
     let target = notice.url && notice.url.indexOf("really-simple-ssl.com") !==-1 ? "_blank" : '_self';
     return (
-        <>
+        <div>
             { notice.title && notice.text &&
                 <details className={"rsssl-wizard-help-notice rsssl-" + notice.label.toLowerCase()} open={openStatus}>
                     <summary>{notice.title} <Icon name='chevron-down' /></summary>
@@ -26,7 +26,7 @@ const Help = (props) => {
             { notice.title && !notice.text &&
                 <div className={"rsssl-wizard-help-notice rsssl-" + notice.label.toLowerCase()}><p>{notice.title}</p></div>
             }
-        </>
+        </div>
     );
 }
 

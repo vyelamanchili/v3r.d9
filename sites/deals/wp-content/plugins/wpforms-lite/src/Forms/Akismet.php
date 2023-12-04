@@ -85,7 +85,7 @@ class Akismet {
 	 * @since 1.7.6
 	 *
 	 * @param array $fields Field data for the current form.
-	 * @param array $entry  Entry data for the current entry.
+	 * @param array $entry  Entry data.
 	 *
 	 * @return array $entry_data Entry data to be sent to Akismet.
 	 */
@@ -95,14 +95,14 @@ class Akismet {
 		$entry_data           = [];
 		$entry_content        = [];
 
-		foreach ( $fields as $key => $field ) {
+		foreach ( $fields as $field_id => $field ) {
 			$field_type = $field['type'];
 
 			if ( ! in_array( $field_type, $field_type_allowlist, true ) ) {
 				continue;
 			}
 
-			$field_content = is_array( $entry['fields'][ $key ] ) ? implode( ' ', $entry['fields'][ $key ] ) : $entry['fields'][ $key ];
+			$field_content = $this->get_field_content( $field, $entry, $field_id );
 
 			if ( ! isset( $entry_data[ $field_type ] ) && in_array( $field_type, [ 'name', 'email', 'url' ], true ) ) {
 				$entry_data[ $field_type ] = $field_content;
@@ -119,6 +119,34 @@ class Akismet {
 	}
 
 	/**
+	 * Get field content.
+	 *
+	 * @since 1.8.5
+	 *
+	 * @param array $field    Field data.
+	 * @param array $entry    Entry data.
+	 * @param int   $field_id Field ID.
+	 *
+	 * @return string
+	 */
+	private function get_field_content( $field, $entry, $field_id ) {
+
+		if ( ! isset( $entry['fields'][ $field_id ] ) ) {
+			return '';
+		}
+
+		if ( ! is_array( $entry['fields'][ $field_id ] ) ) {
+			return (string) $entry['fields'][ $field_id ];
+		}
+
+		if ( ! empty( $field['type'] ) && $field['type'] === 'email' && ! empty( $entry['fields'][ $field_id ]['primary'] ) ) {
+			return (string) $entry['fields'][ $field_id ]['primary'];
+		}
+
+		return implode( ' ', $entry['fields'][ $field_id ] );
+	}
+
+	/**
 	 * Is the entry marked as spam by Akismet?
 	 *
 	 * @since 1.7.6
@@ -128,7 +156,7 @@ class Akismet {
 	 *
 	 * @return bool
 	 */
-	private function entry_is_spam( $form_data, $entry ) {
+	private function entry_is_spam( $form_data, $entry ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 		$entry_data = $this->get_entry_data( $form_data['fields'], $entry );
 		$request    = [
@@ -150,12 +178,10 @@ class Akismet {
 			'honypot_field_name'   => 'wpforms["hp"]',
 		];
 
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		// If we are on a form preview page, tell Akismet that this is a test submission.
-		if ( isset( $_GET['wpforms_form_preview'] ) ) {
+		if ( wpforms()->get( 'preview' )->is_preview_page() ) {
 			$request['is_test'] = true;
 		}
-		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		$response = AkismetPlugin::http_post( build_query( $request ), 'comment-check' );
 

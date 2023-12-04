@@ -119,6 +119,23 @@ class PostMeta {
 				$name  = $record->meta_key;
 				$value = $record->meta_value;
 
+				// Handles primary taxonomy terms.
+				// We need to handle it separately because it's stored in a different format.
+				if ( false !== stripos( $name, '_yoast_wpseo_primary_' ) ) {
+					sscanf( $name, '_yoast_wpseo_primary_%s', $taxonomy );
+					if ( null === $taxonomy ) {
+						continue;
+					}
+
+					$options = new \stdClass();
+					if ( isset( $meta['primary_term'] ) ) {
+						$options = json_decode( $meta['primary_term'] );
+					}
+
+					$options->$taxonomy   = (int) $value;
+					$meta['primary_term'] = wp_json_encode( $options );
+				}
+
 				if ( ! in_array( $name, array_keys( $mappedMeta ), true ) ) {
 					continue;
 				}
@@ -223,15 +240,19 @@ class PostMeta {
 							$keyphrases = (array) json_decode( $meta[ $mappedMeta[ $name ] ] );
 						}
 
-						$yoastKeyphrases = json_decode( $value );
-						for ( $i = 0; $i < count( $yoastKeyphrases ); $i++ ) {
-							$keyphrase = [ 'keyphrase' => aioseo()->helpers->sanitizeOption( $yoastKeyphrases[ $i ]->keyword ) ];
+						$yoastKeyphrases = json_decode( $value, true );
+						if ( is_array( $yoastKeyphrases ) ) {
+							foreach ( $yoastKeyphrases as $yoastKeyphrase ) {
+								if ( ! empty( $yoastKeyphrase['keyword'] ) ) {
+									$keyphrase = [ 'keyphrase' => aioseo()->helpers->sanitizeOption( $yoastKeyphrase['keyword'] ) ];
 
-							if ( ! isset( $keyphrases['additional'] ) ) {
-								$keyphrases['additional'] = [];
+									if ( ! isset( $keyphrases['additional'] ) ) {
+										$keyphrases['additional'] = [];
+									}
+
+									$keyphrases['additional'][] = $keyphrase;
+								}
 							}
-
-							$keyphrases['additional'][ $i ] = $keyphrase;
 						}
 
 						if ( ! empty( $keyphrases ) ) {
@@ -284,6 +305,9 @@ class PostMeta {
 			$aioseoPost->save();
 
 			aioseo()->migration->meta->migrateAdditionalPostMeta( $post->ID );
+
+			// Clear the Overview cache.
+			aioseo()->postSettings->clearPostTypeOverviewCache( $post->ID );
 		}
 
 		if ( count( $posts ) === $postsPerAction ) {

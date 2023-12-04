@@ -26,8 +26,6 @@ if ( ! class_exists( "burst_admin" ) ) {
 				'body' => '',
 			);
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
-            add_action( 'admin_init', array($this, 'empty_dashboard_cache') );
-            add_action( 'wp_dashboard_setup', array($this, 'add_burst_dashboard_widget') );
 
 			$plugin = burst_plugin;
 			add_filter( "plugin_action_links_$plugin", array( $this, 'plugin_settings_link' ) );
@@ -38,6 +36,8 @@ if ( ! class_exists( "burst_admin" ) ) {
             // column
             add_action( 'admin_init', array($this, 'add_burst_admin_columns' ), 1);
             add_action( 'pre_get_posts', array($this, 'posts_orderby_total_pageviews'), 1);
+
+            add_action( 'admin_init', array($this, 'setup_defaults'));
 
 			// deactivating
 			add_action( 'admin_footer', array($this, 'deactivate_popup'), 40);
@@ -81,7 +81,7 @@ if ( ! class_exists( "burst_admin" ) ) {
 
 		public function enqueue_assets( $hook ) {
             if ( $hook === 'index.php' || $hook === 'dashboard_page_burst') {
-	            $min  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+	            $min  = !is_rtl() && ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 	            $rtl  = is_rtl() ? 'rtl/' : '';
 	            $url  = trailingslashit( burst_url ) . "assets/css/{$rtl}admin{$min}.css";
 	            $path = trailingslashit( burst_path ) . "assets/css/{$rtl}admin{$min}.css";
@@ -95,48 +95,36 @@ if ( ! class_exists( "burst_admin" ) ) {
 		 */
 
 		public function setup_defaults(): void {
-			update_option( 'burst_activation_time', time(), false );
-			burst_add_view_capability();
-			burst_add_manage_capability();
+            if ( get_option('burst_set_defaults') ){
+                update_option( 'burst_activation_time', time(), false );
 
-			$setup_defaults = get_option( 'burst_setup_defaults');
-			if ($setup_defaults) return;
-			$exclude_roles = burst_get_option('user_role_blocklist');
-			if ( ! $exclude_roles ) {
-				$defaults = [ 'administrator' ];
-				burst_update_option( 'user_role_blocklist', $defaults );
-			}
-
-			update_option( 'burst_setup_defaults', true, false );
-		}
-
-		/**
-         * Empty dashboard cache for Burst
-         * @param $hook
-         */
-
-        public function empty_dashboard_cache( $hook ) {
-            if ( !burst_user_can_view() ) return;
-            $skip_transients = array('burst_warnings');
-            if (isset($_GET['burst_clear_cache'])){
-                global $wpdb;
-                // get all burst transients
-                $results = $wpdb->get_results(
-                        "SELECT `option_name` AS `name`, `option_value` AS `value`
-                                FROM  $wpdb->options
-                                WHERE `option_name` LIKE '%transient_burst%'
-                                ORDER BY `option_name`", 'ARRAY_A'
-                );
-                // loop through all burst transients
-                foreach ($results as $key => $value){
-                    $transient_name = substr($value['name'], 11);
-                    if ( in_array($transient_name, $skip_transients) ) continue;
-                    delete_transient($transient_name);
+                $exclude_roles = burst_get_option( 'user_role_blocklist' );
+                if ( ! $exclude_roles ) {
+                    $defaults = [ 'administrator' ];
+                    burst_update_option( 'user_role_blocklist', $defaults );
                 }
-                // delete custom transient
-                delete_option('burst_transients');
-            }
-        }
+
+                if ( get_option( 'burst_goals_db_version' ) === false ) {
+                    // if there is no goals db version, then we can assume there are no goals database.
+                    // rerun so this code is not executed
+                    return;
+                }
+                // set default goal
+                // if there is no default goal, then insert one
+                $goals = BURST()->goals->get_goals();
+                $count = count( $goals );
+                if ( $count === 0 ) {
+                    BURST()->goals->set( array(
+                        'title'        => __( 'Default goal', 'burst-statistics' ),
+                        'type'         => 'clicks',
+                        'status'       => 'inactive',
+                        'server_side'  => 0,
+                        'date_created' => time(),
+                    ) );
+                }
+	            delete_option('burst_set_defaults');
+		    }
+		}
 
 		/**
 		 * Add custom link to plugins overview page
@@ -150,7 +138,7 @@ if ( ! class_exists( "burst_admin" ) ) {
 
 		public function plugin_settings_link( $links ) {
 			$settings_link = '<a href="'
-			                 . admin_url( "admin.php?page=burst" )
+			                 . admin_url( "index.php?page=burst" )
 			                 . '" class="burst-settings-link">'
 			                 . __( "Settings", 'burst-statistics' ) . '</a>';
 			array_unshift( $links, $settings_link );
@@ -162,46 +150,15 @@ if ( ! class_exists( "burst_admin" ) ) {
 			                . __( 'Support', 'burst-statistics' ) . '</a>';
 			array_unshift( $links, $faq_link );
 
-			// if ( ! defined( 'burst_premium' ) ) {
+			// if ( ! defined( 'burst_pro' ) ) {
 			// 	$upgrade_link
 			// 		= '<a style="color:#2DAAE1;font-weight:bold" target="_blank" href="https://burst-statistics.com/l/pricing">'
-			// 		  . __( 'Upgrade to premium', 'burst-statistics' ) . '</a>';
+			// 		  . __( 'Upgrade to pro', 'burst-statistics' ) . '</a>';
 			// 	array_unshift( $links, $upgrade_link );
 			// }
 
 			return $links;
 		}
-
-        /**
-         *
-         * Add a dashboard widget
-         *
-         * @since 1.1
-         *
-         */
-
-        public function add_burst_dashboard_widget()
-        {
-            if ( ! burst_user_can_view() ) {
-                return;
-            }
-            wp_add_dashboard_widget('dashboard_widget_burst', 'Burst Statistics', array(
-                $this,
-                'generate_dashboard_widget'
-            ));
-        }
-
-        /**
-         *
-         * Generate the dashboard widget
-         * Also generated the Top Searches grid item
-         *
-         * @return false|string
-         */
-        public function generate_dashboard_widget()
-        {
-	        echo burst_get_html_template('wordpress/dashboard-widget.php');
-        }
 
         /**
          * Function to easily add a column in a WordPress post table
@@ -276,13 +233,14 @@ if ( ! class_exists( "burst_admin" ) ) {
 			if ( defined("burst_pro_version" ) ) {
 				return false;
 			}
-			$start_day = 21;
-			$end_day = 28;
+			$start_day = 20;
+			$end_day = 27;
 			$current_year = date("Y");//e.g. 2021
 			$current_month = date("n");//e.g. 3
 			$current_day = date("j");//e.g. 4
 
-			if ( $current_year == 2022 && $current_month == 11 &&
+			if ( $current_year == 2023 &&
+                 $current_month == 11 &&
 			     $current_day >=$start_day &&
 			     $current_day <= $end_day
 			) {
@@ -434,7 +392,7 @@ if ( ! class_exists( "burst_admin" ) ) {
 
 	                <?php
 	                $token = wp_create_nonce('burst_deactivate_plugin');
-	                $deactivate_and_remove_all_data_url = admin_url("options-general.php?page=burst&action=uninstall_delete_all_data&token=" . $token);
+	                $deactivate_and_remove_all_data_url = add_query_arg( array( 'action' => 'uninstall_delete_all_data', 'token' => $token ), admin_url("plugins.php" ) );
 	                ?>
 	                <div class="burst-deactivate-notice-footer">
 	                    <a class="button button-default" href="#" id="burst_close_tb_window"><?php _e("Cancel", "burst-statistics" ) ?></a>
@@ -444,22 +402,24 @@ if ( ! class_exists( "burst_admin" ) ) {
 	        </div>
 	        <?php
 	    }
+        
 	    /**
-	     * Deactivate the plugin while keeping SSL
-	     * Activated when the 'uninstall_keep_data' button is clicked in the settings tab
-	     *
+	     * Deactivate the plugin, based on made choice regarding data
 	     */
 
-	    public function listen_for_deactivation()
-	    {
+	    public function listen_for_deactivation(): void {
 	        //check user role
-	        if (!current_user_can('activate_plugins')) return;
+	        if ( !current_user_can('activate_plugins') ) {
+                return;
+	        }
 
 	        //check nonce
-	        if (!isset($_GET['token']) || (!wp_verify_nonce($_GET['token'], 'burst_deactivate_plugin'))) return;
+	        if ( !isset($_GET['token']) || (!wp_verify_nonce($_GET['token'], 'burst_deactivate_plugin')) ) {
+                return;
+	        }
 
 	        //check for action
-	        if (isset($_GET["action"]) && $_GET["action"] == 'uninstall_delete_all_data') {
+	        if ( isset($_GET["action"]) && $_GET["action"] === 'uninstall_delete_all_data' ) {
 	            $this->delete_all_burst_data();
 	            $plugin = burst_plugin;
 	            $plugin = plugin_basename(trim($plugin));

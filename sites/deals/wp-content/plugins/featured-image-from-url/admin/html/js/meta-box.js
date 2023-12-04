@@ -25,33 +25,11 @@ function previewImage() {
 
     if (!$url.startsWith("http") && !$url.startsWith("//")) {
         jQuery("#fifu_keywords").val($url);
-        if (fifuMetaBoxVars.is_taxonomy)
-            jQuery('#fifu_button').parent().parent().block({message: $message, css: {backgroundColor: 'none', border: 'none', color: 'white'}});
-        else
-            jQuery('#fifu_button').parent().parent().parent().block({message: $message, css: {backgroundColor: 'none', border: 'none', color: 'white'}});
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function (e) {
-            if (xhr.status == 200 && xhr.readyState == 4) {
-                if ($url != xhr.responseURL) {
-                    $url = xhr.responseURL;
-                    jQuery("#fifu_input_url").val($url);
-                    runPreview($url);
-                }
-                setTimeout(function () {
-                    if (fifuMetaBoxVars.is_taxonomy)
-                        jQuery('#fifu_button').parent().parent().unblock();
-                    else
-                        jQuery('#fifu_button').parent().parent().parent().unblock();
-                }, 500);
-            }
+        if (!$url || $url == ' ') {
+            //
+        } else {
+            fifu_start_lightbox($url, true, null, null);
         }
-        if (!$url || $url == ' ')
-            xhr.open("GET", 'https://source.unsplash.com/random', true);
-        else {
-            xhr.open("GET", 'https://source.unsplash.com/featured/?' + $url, true);
-            fifu_start_unsplash_lightbox($url);
-        }
-        xhr.send();
         if (!$url)
             jQuery("#fifu_keywords").val(' ');
     } else {
@@ -146,21 +124,19 @@ function fifu_type_url() {
 function fifu_register_help() {
     jQuery('#fifu_help').on('click', function () {
         jQuery.fancybox.open(`
-            <div style="color:#1e1e1e">
+            <div style="color:#1e1e1e;width:50%">
                 <h1 style="background-color:whitesmoke;padding:20px;padding-left:0">${fifuMetaBoxVars.txt_title_examples}</h1>
-                <p></p>
                 <h3>${fifuMetaBoxVars.txt_title_url}</h3>
                 <p style="background-color:#1e1e1e;color:white;padding:10px;border-radius:5px">https://ps.w.org/featured-image-from-url/assets/banner-1544x500.png</p>
-                <br>
+                <p>${fifuMetaBoxVars.txt_desc_url}</p>
                 <h3>${fifuMetaBoxVars.txt_title_keywords}</h3>
-                <p style="background-color:#1e1e1e;color:white;padding:10px;border-radius:5px">sea,sun</p>                
-                <div style="padding:10px">
-                    <li>${fifuMetaBoxVars.txt_desc_empty}</li>
-                    <li>${fifuMetaBoxVars.txt_desc_size}</li>
-                </div>
-                <br>
+                <p style="background-color:#1e1e1e;color:white;padding:10px;border-radius:5px">sea,sun</p>
+                <p>${fifuMetaBoxVars.txt_desc_keywords}</p>
+                <h3>${fifuMetaBoxVars.txt_title_empty}</h3>
+                <div class="fifu-pro" style="position:relative;top:-45px;right:-15px;float:right;" title="${fifuMetaBoxVars.txt_unlock}"><span class="dashicons dashicons-lock fifu-pro-icon"></span></a></div>
+                <p style="background-color:#1e1e1e;color:white;padding:10px;border-radius:5px;height:40px"></p>
+                <p>${fifuMetaBoxVars.txt_desc_empty}</p>
                 <h1 style="background-color:whitesmoke;padding:20px;padding-left:0">${fifuMetaBoxVars.txt_title_more}</h1>
-                <p></p>
                 <p>${fifuMetaBoxVars.txt_desc_more}</p>
             </div>`
                 );

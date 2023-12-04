@@ -492,14 +492,14 @@ trait Wp {
 	 * @since 4.1.4
 	 *
 	 * @param  int   $postId The post ID.
-	 * @return array $names  The category names.
+	 * @return array         The category names.
 	 */
 	public function getAllCategories( $postId = 0 ) {
 		$names      = [];
 		$categories = get_the_category( $postId );
 		if ( $categories && count( $categories ) ) {
 			foreach ( $categories as $category ) {
-				$names[] = aioseo()->helpers->internationalize( $category->cat_name );
+				$names[] = aioseo()->helpers->internationalize( $category->name );
 			}
 		}
 
@@ -663,7 +663,7 @@ trait Wp {
 	 *
 	 * @since 4.1.9
 	 *
-	 * @param  string $postType The name of the taxonomy.
+	 * @param  string $taxonomy The name of the taxonomy.
 	 * @return array            The capabilities.
 	 */
 	public function getTaxonomyCapabilities( $taxonomy ) {
@@ -750,13 +750,13 @@ trait Wp {
 
 		$post = aioseo()->helpers->getPost( $postId );
 		if ( ! is_a( $post, 'WP_Post' ) ) {
-			$titles[ $postId ] = __( '(no title)' ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain
+			$titles[ $postId ] = __( '(no title)' ); // phpcs:ignore AIOSEO.Wp.I18n.MissingArgDomain
 
 			return $titles[ $postId ];
 		}
 
 		$title = $post->post_title;
-		$title = $title ? $title : __( '(no title)' ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain
+		$title = $title ? $title : __( '(no title)' ); // phpcs:ignore AIOSEO.Wp.I18n.MissingArgDomain
 
 		$titles[ $postId ] = aioseo()->helpers->decodeHtmlEntities( $title );
 
@@ -769,8 +769,8 @@ trait Wp {
 	 *
 	 * @since 4.3.5.1
 	 *
-	 * @param  string|WP_Taxonomy $taxonomy The taxonomy name or object.
-	 * @return bool                         Whether the taxonomy is viewable.
+	 * @param  string|\WP_Taxonomy $taxonomy The taxonomy name or object.
+	 * @return bool                          Whether the taxonomy is viewable.
 	 */
 	public function isTaxonomyViewable( $taxonomy ) {
 		if ( is_scalar( $taxonomy ) ) {
@@ -781,5 +781,79 @@ trait Wp {
 		}
 
 		return $taxonomy->publicly_queryable;
+	}
+
+	/**
+	 * Checks whether the post status should be considered viewable.
+	 * This function is a copy of the WordPress core function is_post_status_viewable() which was introduced in WP 5.7.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param  string|\stdClass $postStatus The post status name or object.
+	 * @return bool                         Whether the post status is viewable.
+	 */
+	public function isPostStatusViewable( $postStatus ) {
+		if ( is_scalar( $postStatus ) ) {
+			$postStatus = get_post_status_object( $postStatus );
+
+			if ( ! $postStatus ) {
+				return false;
+			}
+		}
+
+		if (
+			! is_object( $postStatus ) ||
+			$postStatus->internal ||
+			$postStatus->protected
+		) {
+			return false;
+		}
+
+		return $postStatus->publicly_queryable || ( $postStatus->_builtin && $postStatus->public );
+	}
+
+	/**
+	 * Checks whether the given post is publicly viewable.
+	 * This function is a copy of the WordPress core function is_post_publicly_viewable() which was introduced in WP 5.7.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param  int|\WP_Post  $post Optional. Post ID or post object. Defaults to global $post.
+	 * @return boolean                      Whether the post is publicly viewable or not.
+	 */
+	public function isPostPubliclyViewable( $post = null ) {
+		$post = get_post( $post );
+		if ( empty( $post ) ) {
+			return false;
+		}
+
+		$postType   = get_post_type( $post );
+		$postStatus = get_post_status( $post );
+
+		return is_post_type_viewable( $postType ) && $this->isPostStatusViewable( $postStatus );
+	}
+
+	/**
+	 * Only register a legacy widget if the WP version is lower than 5.8 or the widget is being used.
+	 * The "Block-based Widgets Editor" was released in WP 5.8, so for WP versions below 5.8 it's okay to register them.
+	 * The main purpose here is to avoid blocks and widgets with the same name to be displayed on the Customizer,
+	 * like e.g. the "Breadcrumbs" Block and Widget.
+	 *
+	 * @since 4.3.9
+	 *
+	 * @param string $idBase The base ID of a widget created by extending WP_Widget.
+	 * @return bool          Whether the legacy widget can be registered.
+	 */
+	public function canRegisterLegacyWidget( $idBase ) {
+		global $wp_version;
+		if (
+			version_compare( $wp_version, '5.8', '<' ) ||
+			is_active_widget( false, false, $idBase ) ||
+			aioseo()->standalone->pageBuilderIntegrations['elementor']->isPluginActive()
+		) {
+			return true;
+		}
+
+		return false;
 	}
 }

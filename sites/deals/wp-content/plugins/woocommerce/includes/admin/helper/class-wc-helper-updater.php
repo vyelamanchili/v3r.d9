@@ -68,17 +68,21 @@ class WC_Helper_Updater {
 				$item['package'] = 'woocommerce-com-expired-' . $plugin['_product_id'];
 			}
 
-			if ( version_compare( $plugin['Version'], $data['version'], '<' ) ) {
-				$transient->response[ $filename ] = (object) $item;
-				unset( $transient->no_update[ $filename ] );
-			} else {
-				$transient->no_update[ $filename ] = (object) $item;
-				unset( $transient->response[ $filename ] );
+			if ( $transient instanceof stdClass ) {
+				if ( version_compare( $plugin['Version'], $data['version'], '<' ) ) {
+					$transient->response[ $filename ] = (object) $item;
+					unset( $transient->no_update[ $filename ] );
+				} else {
+					$transient->no_update[ $filename ] = (object) $item;
+					unset( $transient->response[ $filename ] );
+				}
 			}
 		}
 
-		$translations = self::get_translations_update_data();
-		$transient->translations = array_merge( isset( $transient->translations ) ? $transient->translations : array(), $translations );
+		if ( $transient instanceof stdClass ) {
+			$translations            = self::get_translations_update_data();
+			$transient->translations = array_merge( isset( $transient->translations ) ? $transient->translations : array(), $translations );
+		}
 
 		return $transient;
 	}
@@ -201,7 +205,7 @@ class WC_Helper_Updater {
 	}
 
 	/**
-	 * Get translations updates informations.
+	 * Get translations updates information.
 	 *
 	 * Scans through all subscriptions for the connected user, as well
 	 * as all Woo extensions without a subscription, and obtains update
@@ -226,7 +230,7 @@ class WC_Helper_Updater {
 		$locales = apply_filters( 'plugins_update_check_locales', $locales );
 		$locales = array_unique( $locales );
 
-		// No locales, the respone will be empty, we can return now.
+		// No locales, the response will be empty, we can return now.
 		if ( empty( $locales ) ) {
 			return array();
 		}

@@ -1,7 +1,7 @@
 <?php
 namespace AIOSEO\Plugin\Common\Main;
 
-use AIOSEO\Plugin\Common\Models as Models;
+use AIOSEO\Plugin\Common\Models;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -38,6 +38,12 @@ abstract class Filters {
 	 * @since 4.0.0
 	 */
 	public function __construct() {
+		add_filter( 'wp_optimize_get_tables', [ $this, 'wpOptimizeAioseoTables' ] );
+
+		if ( wp_doing_ajax() || wp_doing_cron() ) {
+			return;
+		}
+
 		add_filter( 'plugin_row_meta', [ $this, 'pluginRowMeta' ], 10, 2 );
 		add_filter( 'plugin_action_links_' . AIOSEO_PLUGIN_BASENAME, [ $this, 'pluginActionLinks' ], 10, 2 );
 
@@ -45,7 +51,7 @@ abstract class Filters {
 		add_filter( 'genesis_detect_seo_plugins', [ $this, 'genesisTheme' ] );
 
 		// WeGlot compatibility.
-		if ( preg_match( '#(/default\.xsl)$#i', $_SERVER['REQUEST_URI'] ) ) {
+		if ( preg_match( '#(/default-sitemap\.xsl)$#i', $_SERVER['REQUEST_URI'] ) ) {
 			add_filter( 'weglot_active_translation_before_treat_page', '__return_false' );
 		}
 
@@ -82,6 +88,8 @@ abstract class Filters {
 		if ( aioseo()->options->sitemap->general->enable ) {
 			add_filter( 'jetpack_get_available_modules', [ $this, 'disableJetpackSitemaps' ] );
 		}
+
+		add_action( 'after_setup_theme', [ $this, 'removeHelloElementorDescriptionTag' ] );
 	}
 
 	/**
@@ -141,11 +149,11 @@ abstract class Filters {
 	 *
 	 * @since 4.1.1
 	 *
-	 * @param  integer $newPostId    The new post ID.
-	 * @param  WP_Post $originalPost The original post object.
+	 * @param  integer  $newPostId     The new post ID.
+	 * @param  \WP_Post $originalPost The original post object.
 	 * @return void
 	 */
-	public function duplicatePost( $newPostId, $originalPost ) {
+	public function duplicatePost( $newPostId, $originalPost = null ) {
 		$originalPostId     = is_object( $originalPost ) ? $originalPost->ID : $originalPost;
 		$originalAioseoPost = Models\Post::getPost( $originalPostId );
 		if ( ! $originalAioseoPost->exists() ) {
@@ -180,7 +188,7 @@ abstract class Filters {
 	 * @param  mixed   $metaValue The meta value.
 	 * @return void
 	 */
-	public function rewriteAndRepublish( $postId, $metaKey, $metaValue ) {
+	public function rewriteAndRepublish( $postId, $metaKey = '', $metaValue = '' ) {
 		if ( '_dp_has_rewrite_republish_copy' !== $metaKey ) {
 			return;
 		}
@@ -198,11 +206,11 @@ abstract class Filters {
 	 *
 	 * @since 4.1.4
 	 *
-	 * @param  \WP_Product $newProduct      The new, duplicated product.
-	 * @param  \WP_Product $originalProduct The original product.
+	 * @param  \WC_Product $newProduct      The new, duplicated product.
+	 * @param  \WC_Product $originalProduct The original product.
 	 * @return void
 	 */
-	public function scheduleDuplicateProduct( $newProduct, $originalProduct ) {
+	public function scheduleDuplicateProduct( $newProduct, $originalProduct = null ) {
 		self::$originalProductId = $originalProduct->get_id();
 		add_action( 'wp_insert_post', [ $this, 'duplicateProduct' ], 10, 2 );
 	}
@@ -216,7 +224,7 @@ abstract class Filters {
 	 * @param  \WP_Post $post   The new post object.
 	 * @return void
 	 */
-	public function duplicateProduct( $postId, $post ) {
+	public function duplicateProduct( $postId, $post = null ) {
 		if ( ! self::$originalProductId || 'product' !== $post->post_type ) {
 			return;
 		}
@@ -266,7 +274,7 @@ abstract class Filters {
 	 * @param  string $pluginFile The plugin file.
 	 * @return array              List of action links.
 	 */
-	abstract public function pluginRowMeta( $actions, $pluginFile );
+	abstract public function pluginRowMeta( $actions, $pluginFile = '' );
 
 	/**
 	 * Registers our action links for the plugins page.
@@ -277,7 +285,7 @@ abstract class Filters {
 	 * @param  string $pluginFile The plugin file.
 	 * @return array              List of action links.
 	 */
-	abstract public function pluginActionLinks( $actions, $pluginFile );
+	abstract public function pluginActionLinks( $actions, $pluginFile = '' );
 
 	/**
 	 * Parses the action links.
@@ -338,19 +346,15 @@ abstract class Filters {
 	 *
 	 * @since 4.1.9
 	 *
-	 * @param  array[Object]|array[string] $postTypes The post types.
-	 * @return array[Object]|array[string]            The filtered post types.
+	 * @param  array[object]|array[string] $postTypes The post types.
+	 * @return array[object]|array[string]            The filtered post types.
 	 */
 	public function removeInvalidPublicPostTypes( $postTypes ) {
-		$elementorEnabled = isset( aioseo()->standalone->pageBuilderIntegrations['elementor'] ) &&
-			aioseo()->standalone->pageBuilderIntegrations['elementor']->isPluginActive();
-
-		if ( ! $elementorEnabled ) {
-			return $postTypes;
-		}
-
 		$postTypesToRemove = [
-			'elementor_library'
+			'fusion_element', // Avada
+			'elementor_library',
+			'redirect_rule', // Safe Redirect Manager
+			'seedprod'
 		];
 
 		foreach ( $postTypes as $index => $postType ) {
@@ -372,8 +376,8 @@ abstract class Filters {
 	 *
 	 * @since 4.2.4
 	 *
-	 * @param  array[Object]|array[string] $taxonomies The taxonomies.
-	 * @return array[Object]|array[string]             The filtered taxonomies.
+	 * @param  array[object]|array[string] $taxonomies The taxonomies.
+	 * @return array[object]|array[string]             The filtered taxonomies.
 	 */
 	public function removeInvalidPublicTaxonomies( $taxonomies ) {
 		// Check if the Avada Builder plugin is enabled.
@@ -461,5 +465,41 @@ abstract class Filters {
 		if ( function_exists( 'learn_press_admin_assets' ) ) {
 			remove_action( 'admin_enqueue_scripts', [ learn_press_admin_assets(), 'load_scripts' ] );
 		}
+	}
+
+	/**
+	 * Removes the duplicate meta description tag from the Hello Elementor theme.
+	 *
+	 * @since 4.4.3
+	 *
+	 * @link https://developers.elementor.com/docs/hello-elementor-theme/hello_elementor_add_description_meta_tag/
+	 *
+	 * @return void
+	 */
+	public function removeHelloElementorDescriptionTag() {
+		remove_action( 'wp_head', 'hello_elementor_add_description_meta_tag' );
+	}
+
+	/**
+	 * Prevent WP-Optimize from deleting our tables.
+	 *
+	 * @since 4.4.5
+	 *
+	 * @param  array $tables List of tables.
+	 * @return array         Filtered tables.
+	 */
+	public function wpOptimizeAioseoTables( $tables ) {
+		foreach ( $tables as &$table ) {
+			if (
+				is_object( $table ) &&
+				property_exists( $table, 'Name' ) &&
+				false !== stripos( $table->Name, 'aioseo_' )
+			) {
+				$table->is_using       = true;
+				$table->can_be_removed = false;
+			}
+		}
+
+		return $tables;
 	}
 }

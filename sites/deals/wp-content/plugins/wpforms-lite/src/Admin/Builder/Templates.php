@@ -30,6 +30,15 @@ class Templates {
 	private $categories;
 
 	/**
+	 * Template subcategories data.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @var array
+	 */
+	private $subcategories;
+
+	/**
 	 * License data.
 	 *
 	 * @since 1.6.8
@@ -135,14 +144,66 @@ class Templates {
 			true
 		);
 
+		$strings = [
+			'ajaxurl'               => admin_url( 'admin-ajax.php' ),
+			'admin_nonce'           => wp_create_nonce( 'wpforms-admin' ),
+			'nonce'                 => wp_create_nonce( 'wpforms-form-templates' ),
+			'can_install_addons'    => wpforms_can_install( 'addon' ),
+			'activating'            => esc_html__( 'Activating', 'wpforms-lite' ),
+			'cancel'                => esc_html__( 'Cancel', 'wpforms-lite' ),
+			'heads_up'              => esc_html__( 'Heads Up!', 'wpforms-lite' ),
+			'install_confirm'       => esc_html__( 'Yes, install and activate', 'wpforms-lite' ),
+			'ok'                    => esc_html__( 'Ok', 'wpforms-lite' ),
+			'template_addons_error' => esc_html__( 'Could not install OR activate all the required addons. Please download from wpforms.com and install them manually. Would you like to use the template anyway?', 'wpforms-lite' ),
+			'use_template'          => esc_html__( 'Yes, use template', 'wpforms-lite' ),
+		];
+
+		if ( $strings['can_install_addons'] ) {
+			/* translators: %1$s - template name, %2$s - addon name(s). */
+			$strings['template_addon_prompt'] = esc_html( sprintf( __( 'The %1$s template requires the %2$s. Would you like to install and activate it?', 'wpforms-lite' ), '%template%', '%addons%' ) );
+			/* translators: %1$s - template name, %2$s - addon name(s). */
+			$strings['template_addons_prompt'] = esc_html( sprintf( __( 'The %1$s template requires the %2$s. Would you like to install and activate all the required addons?', 'wpforms-lite' ), '%template%', '%addons%' ) );
+		} else {
+			/* translators: %s - addon name(s). */
+			$strings['template_addon_prompt'] = esc_html( sprintf( __( "To use all of the features in this template, you'll need the %s. Contact your site administrator to install it, then try opening this template again.", 'wpforms-lite' ), '%addons%' ) );
+			/* translators: %s - addon name(s). */
+			$strings['template_addons_prompt'] = esc_html( sprintf( __( "To use all of the features in this template, you'll need the %s. Contact your site administrator to install them, then try opening this template again.", 'wpforms-lite' ), '%addons%' ) );
+		}
+
 		wp_localize_script(
 			'wpforms-form-templates',
 			'wpforms_form_templates',
-			[
-				'ajaxurl' => admin_url( 'admin-ajax.php' ),
-				'nonce'   => wp_create_nonce( 'wpforms-form-templates' ),
-			]
+			$strings
 		);
+
+		wp_localize_script(
+			'wpforms-form-templates',
+			'wpforms_addons',
+			$this->get_localized_addons()
+		);
+	}
+
+	/**
+	 * Get localized addons.
+	 *
+	 * @since 1.8.2
+	 *
+	 * @return array
+	 */
+	private function get_localized_addons() {
+
+		return wpforms_chain( wpforms()->get( 'addons' )->get_available() )
+			->map(
+				static function( $addon ) {
+
+					return [
+						'title'  => $addon['title'],
+						'action' => $addon['action'],
+						'url'    => $addon['url'],
+					];
+				}
+			)
+			->value();
 	}
 
 	/**
@@ -170,9 +231,10 @@ class Templates {
 	private function init_templates_data() {
 
 		// Get cached templates data.
-		$cache_data       = wpforms()->get( 'builder_templates_cache' )->get_cached();
-		$templates_all    = ! empty( $cache_data['templates'] ) ? $cache_data['templates'] : [];
-		$this->categories = ! empty( $cache_data['categories'] ) ? $cache_data['categories'] : [];
+		$cache_data          = wpforms()->get( 'builder_templates_cache' )->get();
+		$templates_all       = ! empty( $cache_data['templates'] ) ? $this->sort_templates_by_created_at( $cache_data['templates'] ) : [];
+		$this->categories    = ! empty( $cache_data['categories'] ) ? $cache_data['categories'] : [];
+		$this->subcategories = ! empty( $cache_data['subcategories'] ) ? $cache_data['subcategories'] : [];
 
 		// Higher priority templates slugs.
 		// These remote templates are the replication of the default templates,
@@ -229,6 +291,32 @@ class Templates {
 
 		// Finally, merge templates from API.
 		$this->api_templates = array_merge( $templates_higher, $templates_access, $templates_denied );
+	}
+
+	/**
+	 * Sort templates by their created_at value in ascending order.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $templates Templates to be sorted.
+	 *
+	 * @return array Sorted templates.
+	 */
+	private function sort_templates_by_created_at( array $templates ): array {
+
+		uasort(
+			$templates,
+			static function ( $template_a, $template_b ) {
+
+				if ( $template_a['created_at'] === $template_b['created_at'] ) {
+					return 0;
+				}
+
+				return $template_a['created_at'] < $template_b['created_at'] ? -1 : 1;
+			}
+		);
+
+		return $templates;
 	}
 
 	/**
@@ -356,7 +444,7 @@ class Templates {
 			return ! empty( $this->get_template_by_slug( $slug ) );
 		}
 
-		$has_cache = wpforms()->get( 'builder_template_single' )->instance( $template['id'], $this->license )->get_cached();
+		$has_cache = wpforms()->get( 'builder_template_single' )->instance( $template['id'], $this->license )->get();
 
 		return $this->has_access( $template ) && $has_cache;
 	}
@@ -401,6 +489,18 @@ class Templates {
 	public function get_categories() {
 
 		return $this->categories;
+	}
+
+	/**
+	 * Get subcategories data.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @return array
+	 */
+	public function get_subcategories() {
+
+		return $this->subcategories;
 	}
 
 	/**
@@ -455,7 +555,7 @@ class Templates {
 	 *
 	 * @return array
 	 */
-	private function get_template( $slug ) {
+	public function get_template( $slug ) {
 
 		$template = $this->get_template_by_slug( $slug );
 
@@ -475,7 +575,7 @@ class Templates {
 		$full_template = wpforms()
 			->get( 'builder_template_single' )
 			->instance( $template['id'], $this->license )
-			->get_cached();
+			->get();
 
 		if ( ! empty( $full_template['data'] ) ) {
 			return $full_template;

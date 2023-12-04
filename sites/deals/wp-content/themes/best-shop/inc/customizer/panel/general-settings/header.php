@@ -147,6 +147,58 @@ function best_shop_customize_register_header( $wp_customize ) {
     );
     
     
+    //Category search text
+	$wp_customize->add_setting(
+		'woo_search_text',
+		array(
+			'default'           => best_shop_default_settings('woo_search_text'),
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport'			=> 'postMessage'
+		)
+	);
+	
+	$wp_customize->add_control(
+		'woo_search_text',
+		array(
+			'section'           => 'social_settings',
+			'label'             => __( 'WooCommerce Bar Search Text', 'best-shop' ),
+			'type'              => 'text',
+            'active_callback'   => 'best_shop_pro',
+		)
+	);
+    
+    $wp_customize->selective_refresh->add_partial( 'woo_search_text', array(
+	'selector' => '.woocommerce-bar .product-search-form',
+    ) );  
+
+    
+    
+    //Category dropdown text
+	$wp_customize->add_setting(
+		'woo_search_dropdown_title',
+		array(
+			'default'           => best_shop_default_settings('woo_search_dropdown_title'),
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport'			=> 'postMessage'
+		)
+	);
+	
+	$wp_customize->add_control(
+		'woo_search_dropdown_title',
+		array(
+			'section'           => 'social_settings',
+			'label'             => __( 'WooCommerce Bar Search Category Title', 'best-shop' ),
+			'type'              => 'text',
+            'active_callback'   => 'best_shop_pro',
+		)
+	);
+    
+    $wp_customize->selective_refresh->add_partial( 'woo_search_dropdown_title', array(
+	'selector' => '.woocommerce-bar .header-search-input',
+    ) );  
+    
+    
+    
     //Category title
 	$wp_customize->add_setting(
 		'woo_category_title',
@@ -161,7 +213,7 @@ function best_shop_customize_register_header( $wp_customize ) {
 		'woo_category_title',
 		array(
 			'section'           => 'social_settings',
-			'label'             => __( 'WooCommerce Bar Category Title', 'best-shop' ),
+			'label'             => __( 'WooCommerce Bar Category Menu Title', 'best-shop' ),
 			'type'              => 'text',
             'active_callback'   => 'best_shop_pro',
 		)
@@ -187,8 +239,8 @@ function best_shop_customize_register_header( $wp_customize ) {
             'hide_product_cat_list',
             array(
                 'section'           => 'social_settings',
-                'label'	            => esc_html__( 'Hide Product Category list', 'best-shop' ),
-                'description'       => esc_html__( 'Hide product category list in WooCommerce options bar.', 'best-shop' ),
+                'label'	            => esc_html__( 'Hide Product Category Menu', 'best-shop' ),
+                'description'       => esc_html__( 'Hide top product category Menu in WooCommerce options bar.', 'best-shop' ),
                 'active_callback'   => 'best_shop_pro',
             )
         )
@@ -277,9 +329,29 @@ function best_shop_customize_register_header( $wp_customize ) {
                     'change' => __( 'Change Banner' , 'best-shop'),
                     ),
         'active_callback' => 'best_shop_is_fullwidth_menu_enabled',
-    )));    
+    )));  
     
+    
+    //header shortcode instead of banner
+  $wp_customize->add_setting(
+    'header_shortcode',
+    array(
+      'default' => best_shop_default_settings( 'header_shortcode' ),
+      'sanitize_callback' => 'sanitize_text_field',
+      'transport' => 'postMessage'
+    )
+  );
 
+  $wp_customize->add_control(
+    'header_shortcode',
+    array(
+      'label' => esc_html__( 'Add Shortcode', 'best-shop' ),
+      'section' => 'social_settings',
+      'type' => 'text',
+      'active_callback' => 'best_shop_is_fullwidth_menu_enabled',
+    )
+  );
+    
     /** Enable Search */
     $wp_customize->add_setting( 
         'enable_search', 

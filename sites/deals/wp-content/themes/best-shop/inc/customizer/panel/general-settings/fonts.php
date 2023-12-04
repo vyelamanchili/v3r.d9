@@ -16,7 +16,7 @@ function best_shop_customize_register_font( $wp_customize ) {
             'priority'    => 47,
             'capability'  => 'edit_theme_options',
             'title'       => __( 'Fonts', 'best-shop' ),
-            'description' => __( 'Customize contact section details. Header fonts selection is available in Pro version.', 'best-shop' ),
+            'description' => __( 'Customize contact section details.', 'best-shop' ),
             'panel'    => 'theme_options',
         ) 
     );
@@ -57,6 +57,26 @@ function best_shop_customize_register_font( $wp_customize ) {
 			'section'           => 'google_font_settings',
 			'label'             => __( 'Body Font Family:', 'best-shop' ),
 			'type'              => 'text',
+		)
+	);
+    
+    
+    //3
+	$wp_customize->add_setting(
+		'body_font_size',
+		array(
+			'default'           => best_shop_default_settings('body_font_size'),
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport'			=> 'postMessage'
+		)
+	);
+	
+	$wp_customize->add_control(
+		'body_font_size',
+		array(
+			'section'           => 'google_font_settings',
+			'label'             => __( 'Body Font Size:', 'best-shop' ),
+			'type'              => 'number',
 		)
 	);
     

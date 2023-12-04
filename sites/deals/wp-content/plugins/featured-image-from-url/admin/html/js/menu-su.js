@@ -205,7 +205,7 @@ function check_connection() {
         success: function (data) {
             if (data == null || data['code'] == 0) {
                 data = new Object();
-                data['message'] = 'web service is down';
+                data['message'] = fifuScriptCloudVars.down;
                 data['color'] = '#dd4c40';
                 message(data, 'login');
 
@@ -232,12 +232,12 @@ function check_connection() {
             if (code == 7) {
                 fifu_hide_log_in();
                 fifu_enable_edition_buttons();
-                data['message'] = 'connected';
+                data['message'] = fifuScriptCloudVars.connected;
                 message(data, 'logout');
             } else {
                 fifu_show_login();
                 fifu_disable_edition_buttons();
-                data['message'] = 'not connected';
+                data['message'] = fifuScriptCloudVars.notConnected;
                 message(data, 'login');
             }
         },
@@ -309,7 +309,7 @@ function listAllSu(page) {
     update = false;
 
     var table = jQuery('#removeTable').DataTable({
-        "language": {"emptyTable": "No images available"},
+        "language": {"emptyTable": fifuScriptCloudVars.noImages},
         destroy: true,
         "columns": [{"width": "64px"}, {"width": "85%"}, {"width": "15%"}, {"width": "64px"}, {"width": "64px"}],
         "autoWidth": false,
@@ -318,8 +318,8 @@ function listAllSu(page) {
         select: true,
         buttons: [
             {
-                text: 'select all',
-                titleAttr: '1,000 rows limit',
+                text: fifuScriptCloudVars.selectAll,
+                titleAttr: fifuScriptCloudVars.limit,
                 action: function () {
                     total_rows = table.rows().count();
                     amount = total_rows < MAX_ROWS ? total_rows : MAX_ROWS;
@@ -329,13 +329,13 @@ function listAllSu(page) {
                 }
             },
             {
-                text: 'select none',
+                text: fifuScriptCloudVars.selectNone,
                 action: function () {
                     table.rows().deselect();
                 }
             },
             {
-                text: '<i class="fas fa-folder-minus"></i> delete',
+                text: '<i class="fas fa-folder-minus"></i> ' + fifuScriptCloudVars.delete,
                 attr: {
                     id: 'cloud-del'
                 },
@@ -345,7 +345,7 @@ function listAllSu(page) {
                 }
             },
             {
-                text: 'load more',
+                text: fifuScriptCloudVars.load,
                 action: function () {
                     if (table.rows().count() == MAX_ROWS || update)
                         listAllSu(page + 1);
@@ -383,13 +383,13 @@ function listAllSu(page) {
                     imgTag = '<img id="' + photo_data[i]['storage_id'] + '" data-src="' + photo_data[i]['proxy_url'] + '" style="border-radius:5%; height:56px; width:56px; object-fit:cover; text-align:center">';
 
                     if (photo_data[i]['is_category'])
-                        local = 'category';
+                        local = fifuScriptCloudVars.category;
                     else if (photo_data[i]['meta_key'].includes('slider'))
-                        local = 'slider';
+                        local = fifuScriptCloudVars.slider;
                     else if (photo_data[i]['meta_key'].includes('url_'))
-                        local = 'gallery';
+                        local = fifuScriptCloudVars.gallery;
                     else
-                        local = 'featured';
+                        local = fifuScriptCloudVars.featured;
 
                     table.row.add([
                         imgTag,
@@ -427,7 +427,7 @@ function listAllSu(page) {
         modal: true,
         width: "400px",
         buttons: {
-            "Delete": function () {
+            [fifuScriptCloudVars.dialogDelete]: function () {
                 selected = table.rows({selected: true});
                 count = selected.count();
 
@@ -481,7 +481,7 @@ function listAllSu(page) {
                     }
                 });
             },
-            Cancel: function () {
+            [fifuScriptCloudVars.dialogCancel]: function () {
                 jQuery(this).dialog("close");
             }
         }
@@ -529,7 +529,7 @@ function listAllFifu(page) {
     update = false;
 
     var table = jQuery('#addTable').DataTable({
-        "language": {"emptyTable": "No images available"},
+        "language": {"emptyTable": fifuScriptCloudVars.noImages},
         destroy: true,
         "columns": [{"width": "64px"}, {"width": "85%"}, {"width": "15%"}, {"width": "64px"}, {"width": "64px"}],
         "autoWidth": false,
@@ -538,8 +538,8 @@ function listAllFifu(page) {
         select: true,
         buttons: [
             {
-                text: 'select all',
-                titleAttr: '1,000 rows limit',
+                text: fifuScriptCloudVars.selectAll,
+                titleAttr: fifuScriptCloudVars.limit,
                 action: function () {
                     total_rows = table.rows().count();
                     amount = total_rows < MAX_ROWS ? total_rows : MAX_ROWS;
@@ -549,13 +549,13 @@ function listAllFifu(page) {
                 }
             },
             {
-                text: 'select none',
+                text: fifuScriptCloudVars.selectNone,
                 action: function () {
                     table.rows().deselect();
                 }
             },
             {
-                text: '<i class="fas fa-folder-plus"></i> upload',
+                text: '<i class="fas fa-folder-plus"></i> ' + fifuScriptCloudVars.upload,
                 attr: {
                     id: 'cloud-add'
                 },
@@ -565,7 +565,7 @@ function listAllFifu(page) {
                 }
             },
             {
-                text: 'load more',
+                text: fifuScriptCloudVars.load,
                 action: function () {
                     if (table.rows().count() == MAX_ROWS || update)
                         listAllFifu(page + 1);
@@ -596,13 +596,13 @@ function listAllFifu(page) {
                 imgTag = '<img id="' + data[i]['meta_id'] + '" data-src="' + data[i]['url'] + '" style="border-radius:5%; height:56px; width:56px; object-fit:cover; text-align:center">';
 
                 if (data[i]['category'] == 1)
-                    local = 'category';
+                    local = fifuScriptCloudVars.category;
                 else if (data[i]['meta_key'].includes('slider'))
-                    local = 'slider';
+                    local = fifuScriptCloudVars.slider;
                 else if (data[i]['meta_key'].includes('url_'))
-                    local = 'gallery';
+                    local = fifuScriptCloudVars.gallery;
                 else
-                    local = 'featured';
+                    local = fifuScriptCloudVars.featured;
 
                 table.row.add([
                     imgTag,
@@ -744,17 +744,17 @@ jQuery(function () {
         modal: true,
         width: "300px",
         buttons: {
-            OK: function () {
+            [fifuScriptCloudVars.dialogOk]: function () {
                 resetCredentials();
                 jQuery(this).dialog("close");
             },
-            Cancel: function () {
+            [fifuScriptCloudVars.dialogCancel]: function () {
                 jQuery(this).dialog("close");
             }
         },
         open: function (event, ui) {
             jQuery(this).parent().find('.ui-dialog-titlebar').empty();
-            jQuery(this).parent().find('.ui-dialog-titlebar').append('<i class="fa fa-exclamation-triangle"></i> Are you sure?');
+            jQuery(this).parent().find('.ui-dialog-titlebar').append('<i class="fa fa-exclamation-triangle"></i> ' + fifuScriptCloudVars.dialogSure);
             jQuery(this).parent().children().children('.ui-dialog-titlebar-close').hide();
         },
     });
@@ -764,7 +764,7 @@ jQuery(function () {
         modal: true,
         width: "400px",
         buttons: {
-            "Yes": function () {
+            [fifuScriptCloudVars.dialogYes]: function () {
                 fifu_block();
                 jQuery(this).dialog("close");
                 jQuery.ajax({
@@ -795,7 +795,7 @@ jQuery(function () {
                     }
                 });
             },
-            "No": function () {
+            [fifuScriptCloudVars.dialogNo]: function () {
                 jQuery(this).dialog("close");
             }
         }
@@ -838,7 +838,7 @@ function fifu_disable_edition_buttons() {
     jQuery("button#cloud-add").attr('disabled', 'true');
     jQuery("button#cloud-del").attr('disabled', 'true');
     data = new Array();
-    data['message'] = 'not connected';
+    data['message'] = fifuScriptCloudVars.notConnected;
     data['color'] = '#ea4335';
     message(data, 'add');
     message(data, 'delete');
@@ -858,7 +858,7 @@ function listAllMediaLibrary(page) {
     update = false;
 
     var table = jQuery('#mediaTable').DataTable({
-        "language": {"emptyTable": "No posts available"},
+        "language": {"emptyTable": fifuScriptCloudVars.noPosts},
         destroy: true,
         "columns": [{"width": "64px"}, {"width": "85%"}, {"width": "15%"}, {"width": "64px"}, {"width": "64px"}],
         "autoWidth": false,
@@ -867,8 +867,8 @@ function listAllMediaLibrary(page) {
         select: true,
         buttons: [
             {
-                text: 'select all',
-                titleAttr: '1,000 rows limit',
+                text: fifuScriptCloudVars.selectAll,
+                titleAttr: fifuScriptCloudVars.limit,
                 action: function () {
                     total_rows = table.rows().count();
                     amount = total_rows < MAX_ROWS ? total_rows : MAX_ROWS;
@@ -878,13 +878,13 @@ function listAllMediaLibrary(page) {
                 }
             },
             {
-                text: 'select none',
+                text: fifuScriptCloudVars.selectNone,
                 action: function () {
                     table.rows().deselect();
                 }
             },
             {
-                text: '<i class="fas fa-link"></i> link',
+                text: '<i class="fas fa-link"></i> ' + fifuScriptCloudVars.link,
                 attr: {
                     id: 'cloud-link'
                 },
@@ -893,7 +893,7 @@ function listAllMediaLibrary(page) {
                 }
             },
             {
-                text: 'load more',
+                text: fifuScriptCloudVars.load,
                 action: function () {
                     if (table.rows().count() == MAX_ROWS || update)
                         listAllMediaLibrary(page + 1);
@@ -956,7 +956,7 @@ function listAllMediaLibrary(page) {
 
 function listDailyCount() {
     var table = jQuery('#billingTable').DataTable({
-        "language": {"emptyTable": "No data available"},
+        "language": {"emptyTable": fifuScriptCloudVars.noData},
         destroy: true,
         "columns": [{"width": "15%"}, {"width": "85%"}],
         "autoWidth": false,
@@ -1039,6 +1039,39 @@ function set_upload_auto() {
     jQuery.ajax({
         method: "POST",
         url: restUrl + 'featured-image-from-url/v2/cloud_upload_auto/',
+        data: {
+            "tfa": Cookies.get('fifu-tfa'),
+            "toggle": toggle,
+        },
+        async: true,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-WP-Nonce', fifuScriptVars.nonce);
+        },
+        success: function (data) {
+            code = data['code'];
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        },
+        complete: function (data) {
+            fifu_unblock();
+        }
+    });
+    return code;
+}
+
+function set_hotlink() {
+    toggle = jQuery("#fifu_toggle_cloud_hotlink").attr('class');
+
+    var code = null;
+
+    fifu_block();
+
+    jQuery.ajax({
+        method: "POST",
+        url: restUrl + 'featured-image-from-url/v2/cloud_hotlink/',
         data: {
             "tfa": Cookies.get('fifu-tfa'),
             "toggle": toggle,

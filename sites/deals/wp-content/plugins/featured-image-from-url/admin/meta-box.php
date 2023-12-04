@@ -70,9 +70,14 @@ function fifu_register_meta_box_script() {
         'txt_title_keywords' => $fifu_help['title']['keywords'](),
         'txt_title_more' => $fifu_help['title']['more'](),
         'txt_title_url' => $fifu_help['title']['url'](),
-        'txt_desc_empty' => $fifu_help['desc']['empty'](),
-        'txt_desc_size' => $fifu_help['desc']['size'](),
+        'txt_title_empty' => $fifu_help['title']['empty'](),
         'txt_desc_more' => $fifu_help['desc']['more'](),
+        'txt_desc_url' => $fifu_help['desc']['url'](),
+        'txt_desc_keywords' => $fifu_help['desc']['keywords'](),
+        'txt_desc_empty' => $fifu_help['desc']['empty'](),
+        'txt_unlock' => $fifu_help['unsplash']['unlock'](),
+        'txt_more' => $fifu_help['unsplash']['more'](),
+        'txt_loading' => $fifu_help['unsplash']['loading'](),
     ]);
 }
 
@@ -281,6 +286,12 @@ function fifu_is_toolset_active() {
 
 function fifu_is_aliplugin_active() {
     return is_plugin_active('aliplugin/aliplugin.php');
+}
+
+/* plugin: slotslaunch */
+
+function fifu_is_slotslaunch_active() {
+    return is_plugin_active('slotslaunch-wp/slotslaunch.php');
 }
 
 /* plugin: sirv */

@@ -246,7 +246,7 @@ trait WpUri {
 	* @param  string       $path     The path.
 	* @param  string       $output   The output type. OBJECT, ARRAY_A, or ARRAY_N.
 	* @param  string|array $postType The post type(s) to check against.
-	* @return Object|false           The post or false on failure.
+	* @return object|false           The post or false on failure.
 	*/
 	public function getPostByPath( $path, $output = OBJECT, $postType = 'page' ) {
 		$lastChanged = wp_cache_get_last_changed( 'aioseo_posts_by_path' );
@@ -421,5 +421,36 @@ trait WpUri {
 		return ! empty( $parsedHomeUrl['host'] ) && ! empty( $parsedUrlToCheck['host'] )
 			? $parsedHomeUrl['host'] === $parsedUrlToCheck['host']
 			: false;
+	}
+
+	/**
+	 * Helper for the rest url.
+	 *
+	 * @since 4.4.9
+	 *
+	 * @return string
+	 */
+	public function getRestUrl() {
+		$restUrl = get_rest_url();
+
+		if ( aioseo()->helpers->isWpmlActive() ) {
+			global $sitepress;
+
+			// Replace the rest url 'all' language prefix so our rest calls don't fail.
+			if (
+				is_object( $sitepress ) &&
+				method_exists( $sitepress, 'get_current_language' ) &&
+				method_exists( $sitepress, 'get_default_language' ) &&
+				'all' === $sitepress->get_current_language()
+			) {
+				$restUrl = str_replace(
+					get_home_url( null, '/all/' ),
+					get_home_url( null, '/' . $sitepress->get_default_language() . '/' ),
+					$restUrl
+				);
+			}
+		}
+
+		return $restUrl;
 	}
 }

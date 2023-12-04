@@ -302,6 +302,11 @@
 	}
 }
 
+b,
+strong {
+	font-weight: 700;
+}
+
 blockquote {
 	padding: 0;
 	position: relative;
@@ -931,19 +936,6 @@ a:hover {
 	color: var(--global--color-white);
 }
 
-.wp-block-group {
-	display: block;
-	clear: both;
-	display: flow-root;
-}
-
-.wp-block-group:before,
-.wp-block-group:after {
-	content: "";
-	display: block;
-	clear: both;
-}
-
 .wp-block-group.has-background {
 	padding: var(--global--spacing-vertical);
 }
@@ -1376,13 +1368,13 @@ dt {
 	border: calc(3 * var(--separator--height)) solid var(--global--color-border);
 }
 
-.wp-block-navigation .wp-block-navigation__container {
-	background: var(--global--color-background);
-	padding: 0;
+.wp-block-navigation [data-block] {
+	margin-top: revert;
+	margin-bottom: revert;
 }
 
-.wp-block-navigation .wp-block-navigation-link .wp-block-navigation-link__content {
-	padding: var(--primary-nav--padding);
+.wp-block-navigation .wp-block-navigation__container {
+	background: var(--global--color-background);
 }
 
 .wp-block-navigation .wp-block-navigation-link .wp-block-navigation-link__label {
@@ -1530,6 +1522,7 @@ pre.wp-block-preformatted {
 	position: relative;
 	border-left: none;
 	margin: var(--global--spacing-vertical) auto var(--global--spacing-vertical) var(--global--spacing-horizontal);
+	padding-left: 1em;
 }
 
 .wp-block-quote p {
@@ -1548,7 +1541,7 @@ pre.wp-block-preformatted {
 	content: "“";
 	font-size: var(--quote--font-size);
 	line-height: var(--quote--line-height);
-	left: calc(-0.5 * var(--global--spacing-horizontal));
+	left: 8px;
 }
 
 .wp-block-quote .wp-block-quote__citation {
