@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\HTML\Helpers\Behavior;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -14,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  1.5
  */
-abstract class T3HtmlBehavior extends JHtmlBehavior
+abstract class T3HtmlBehavior extends Behavior
 {
 
 	/**
@@ -190,8 +192,12 @@ abstract class T3HtmlBehavior extends JHtmlBehavior
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
-
-		JHtml::_('script', 'system/caption.js', array('version' => 'auto', 'relative' => true));
+		
+		if (!is_file(JPATH_ROOT . 'media/system/js/caption.js')){
+			return;
+		}
+		
+		JHtml::_('script', 'system/js/caption.js', array('version' => 'auto', 'relative' => true));
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(

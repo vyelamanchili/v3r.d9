@@ -12,6 +12,12 @@
 // No direct access
 defined('JPATH_BASE') or die();
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\Filesystem\Folder;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Application\ApplicationHelper;
+
 jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -19,9 +25,11 @@ jimport('joomla.filesystem.folder');
  * Module uploader
  *
  */
-class jaExtUploaderModule extends JObject
+class jaExtUploaderModule extends CMSObject
 {
 
+	public $parent;
+	public $manifest;
 
 	/**
 	 * Constructor
@@ -63,13 +71,13 @@ class jaExtUploaderModule extends JObject
 		
 		// Set the extensions name
 		$name = (string) $this->manifest->name;
-		$name = JFilterInput::getInstance()->clean($name, 'string');
+		$name = InputFilter::getInstance()->clean($name, 'string');
 		$this->set('name', $name);
 		
 		// Get the component description
 		$description = (string) $this->manifest->description;
 		/*if ($description) {
-			$this->parent->set('message', JText::_($description));
+			$this->parent->set('message', Text::_($description));
 		}
 		else {
 			$this->parent->set('message', '');
@@ -85,10 +93,10 @@ class jaExtUploaderModule extends JObject
 		{
 			// Attempt to map the client to a base path
 			jimport('joomla.application.helper');
-			$client = JApplicationHelper::getClientInfo($cname, true);
+			$client = ApplicationHelper::getClientInfo($cname, true);
 			if ($client === false)
 			{
-				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_UNKNOWN_CLIENT', JText::_('JLIB_INSTALLER_'.$this->route), $client->name));
+				$this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT_MOD_UNKNOWN_CLIENT', Text::_('JLIB_INSTALLER_'.$this->route), $client->name));
 				return false;
 			}
 			$basePath = $client->path;
@@ -116,7 +124,7 @@ class jaExtUploaderModule extends JObject
 		if (!empty($element)) {
 			//$this->parent->setPath('extension_root', $basePath.'/modules/'.$element);
 		} else {
-			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_INSTALL_NOFILE', JText::_('JLIB_INSTALLER_' . $this->route)));
+			$this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT_MOD_INSTALL_NOFILE', Text::_('JLIB_INSTALLER_' . $this->route)));
 			return false;
 		}
 		
@@ -128,7 +136,7 @@ class jaExtUploaderModule extends JObject
 			$storePath = $jauc->getLocalVersionPath($jaProduct, false);
 			$this->parent->setPath('extension_root', $storePath);
 		} else {
-			$this->parent->setResult($jaProduct, true, JText::_('NO_MODULE_FILE_SPECIFIED'));
+			$this->parent->setResult($jaProduct, true, Text::_('NO_MODULE_FILE_SPECIFIED'));
 			return false;
 		}
 		
@@ -144,7 +152,7 @@ class jaExtUploaderModule extends JObject
 		 * directory.
 		 */
 		if (file_exists($this->parent->getPath('extension_root')) && !$this->parent->getOverwrite()) {
-			$this->parent->setResult($jaProduct, true, JText::sprintf('THE_VERSION_S_OF_S_IS_ALREADY_EXISTS_ON_LOCAL_REPOSITORY', $jaProduct->version, $name) . ': <br />"' . $this->parent->getPath('extension_root') . '"');
+			$this->parent->setResult($jaProduct, true, Text::sprintf('THE_VERSION_S_OF_S_IS_ALREADY_EXISTS_ON_LOCAL_REPOSITORY', $jaProduct->version, $name) . ': <br />"' . $this->parent->getPath('extension_root') . '"');
 			return false;
 		}
 		
@@ -157,8 +165,8 @@ class jaExtUploaderModule extends JObject
 		// If the module directory does not exist, lets create it
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_root'))) {
-			if (!$created = JFolder::create($this->parent->getPath('extension_root'))) {
-				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_INSTALL_CREATE_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route), $this->parent->getPath('extension_root')));
+			if (!$created = Folder::create($this->parent->getPath('extension_root'))) {
+				$this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT_MOD_INSTALL_CREATE_DIRECTORY', Text::_('JLIB_INSTALLER_' . $this->route), $this->parent->getPath('extension_root')));
 				return false;
 			}
 		}
@@ -195,7 +203,7 @@ class jaExtUploaderModule extends JObject
 		// Lastly, we will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest(-1)) {
 			// Install failed, rollback changes
-			$this->parent->setResult($jaProduct, true, JText::_('COULD_NOT_COPY_SETUP_FILE'));
+			$this->parent->setResult($jaProduct, true, Text::_('COULD_NOT_COPY_SETUP_FILE'));
 			return false;
 		}
 		

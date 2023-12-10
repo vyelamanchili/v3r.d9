@@ -1334,3 +1334,37 @@ div.kstats-module ul.kstats-items li {
     overflow: auto;
   }
 }
+
+
+// Update to compatible with Kunena 6.x
+// ------------------------------------
+.com_kunena {
+  #t3-mainnav {
+    padding: 0;
+
+    .t3-navbar {
+      display: inline-block;
+      flex: 1;
+    }
+  }
+
+  .t3-megamenu {
+    .navbar-nav {
+      flex-direction: row;
+
+      .dropdown-menu {
+        position: absolute;
+      }
+
+      .dropdown-toggle::after {
+        display: none;
+      }
+    }
+  }
+
+  .tab-pane {
+    &.show {
+      opacity: 1;
+    }
+  }
+}

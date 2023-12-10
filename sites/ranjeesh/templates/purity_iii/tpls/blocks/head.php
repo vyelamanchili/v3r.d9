@@ -35,8 +35,10 @@ defined('_JEXEC') or die;
 <!-- //META FOR IOS & HANDHELD -->
 
 <?php
+if (version_compare(JVERSION, '4.0', 'lt')) {
 // SYSTEM CSS
 $this->addStyleSheet(JURI::base(true) . '/templates/system/css/system.css');
+}
 ?>
 
 <?php

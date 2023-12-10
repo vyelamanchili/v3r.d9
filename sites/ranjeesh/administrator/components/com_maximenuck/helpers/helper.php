@@ -84,11 +84,13 @@ class Helper {
 		} else {
 			$item->titleClass = '';
 		}
+
+		$itemImage = isset($item->image) && $item->image !== '' ? '<span class="ck-menu-item-img"><img src="' . $item->image . '"></span>' : '';
 //		echo '<div class="ck-menu-item" data-type="' . $item->type . '" data-level="' . $item->level . '" data-id="' . $item->id . '"  data-settings="' . self::encodeChars($item->settings) . '" data-customid="' . $item->customid . '">';
 		echo '<div class="ck-menu-item" data-type="' . $item->type . '" data-level="' . $item->level . '" data-customid="' . $item->customid . '" data-state="' . $item->state . '" data-settings="' . self::encodeChars($item->settings) . '">';
 			echo '<div class="ck-menu-item-row">'
 					. ($item->type === 'image' ? '<span class="ck-menu-item-img"><img src="' . $item->title . '"></span>' :
-						'<span class="ck-menu-item-title' . $item->titleClass . '">' . $item->title . '</span>')
+						$itemImage . '<span class="ck-menu-item-title' . $item->titleClass . '">' . $item->title . '</span>')
 					. '<span class="ck-menu-item-desc">' . $item->desc . '</span>'
 				. '</div>';
 
@@ -100,6 +102,8 @@ class Helper {
 					$submenudata .= ' data-left="' . (isset($item->submenu->params->left) ? $item->submenu->params->left : '') . '"';
 					$submenudata .= ' data-top="' . (isset($item->submenu->params->top) ? $item->submenu->params->top : '') . '"';
 					$submenudata .= ' data-fullwidth="' . (isset($item->submenu->params->fullwidth) ? $item->submenu->params->fullwidth : '') . '"';
+					$submenudata .= ' data-tab="' . (isset($item->submenu->params->tab) ? $item->submenu->params->tab : '') . '"';
+					$submenudata .= ' data-tabwidth="' . (isset($item->submenu->params->tabwidth) ? $item->submenu->params->tabwidth : '') . '"';
 				}
 				echo '<div class="ck-submenu" data-type="submenu" ' . $submenudata . '>';
 					echo '<div class="ck-columns">';

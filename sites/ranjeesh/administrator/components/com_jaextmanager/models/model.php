@@ -8,12 +8,13 @@
  */
 
 defined('_JEXEC') or die ;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 jimport('joomla.application.component.model');
 
 if (version_compare(JVERSION, '3.0', 'ge'))
 {
-    class JAEMModel extends JModelLegacy
+    class JAEMModel extends BaseDatabaseModel
     {
         public static function addIncludePath($path = '', $prefix = '')
         {

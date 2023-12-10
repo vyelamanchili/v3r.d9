@@ -9,6 +9,29 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+
+$com_path = JPATH_ROOT . 'components/com_contact';
+if(!class_exists('ContactHelperRoute')){
+	if(version_compare(JVERSION, '4', 'ge')){
+		require_once(JPATH_ROOT . '/components/com_contact/src/Helper/RouteHelper.php');
+		class ContactHelperRoute extends \Joomla\Component\Contact\Site\Helper\RouteHelper{};
+	}else{
+		JLoader::register('ContactHelperRoute', $com_path . '/helpers/route.php');
+	}
+}
+
+if(version_compare(JVERSION, '4', 'ge')){
+	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	$wa = $this->document->getWebAssetManager();
+	$wa->useScript('com_contact.contacts-list');
+
+}
+
 JHtml::_('behavior.core');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -87,7 +110,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php if ($this->params->get('show_country_headings') && !empty($item->country)) : ?>
 							<?php $location[] = $item->country; ?>
 						<?php endif; ?>
-						<?php echo implode($location, ', '); ?>
+						<?php echo implode(', ', $location); ?>
 					</div>
 
 					<div class="span3 col-md-3">

@@ -13,6 +13,9 @@
 //no direct access
 defined( '_JEXEC' ) or die( 'Retricted Access' );
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 $extID = $this->obj->extId;
 
 $compareVersion = JRequest::getVar('version');
@@ -33,42 +36,42 @@ jQuery(document).ready(function($){
 	$('#diffview-status-new').popover({
 		html: true,
 		trigger: 'hover',
-		content: '<?php echo JText::_("THESE_FILES_ARE_NEWLY_ADDED_TO_NEW_VERSIONBR__THESE_WILL_BE_ADDED_TO_USER_SITE_ON_UPGRADE"); ?>'
+		content: '<?php echo Text::_("THESE_FILES_ARE_NEWLY_ADDED_TO_NEW_VERSIONBR__THESE_WILL_BE_ADDED_TO_USER_SITE_ON_UPGRADE"); ?>'
 	});
 	$('#diffview-status-bmodified').popover( {
 		html: true,
 		trigger: 'hover',
-		content: '<?php echo JText::sprintf("CONFICT_FILES_DESCRIPTION", $compareVersion, $compareVersion); ?>'
+		content: '<?php echo Text::sprintf("CONFICT_FILES_DESCRIPTION", $compareVersion, $compareVersion); ?>'
 	});
 	$('#diffview-status-updated').popover({
 		html: true,
 		trigger: 'hover',
-		content: '<?php echo JText::sprintf("THESE_FILES_ARE_CHANGED_IN_S_AND_ARE_NOT_MODIFIED_BY_YOU_IN_YOUR_LIVE_SITEBR__THESE_WILL_BE_UPDATED_TO_USER_SITE_ON_UPGRADE", $compareVersion, $compareVersion); ?>'
+		content: '<?php echo Text::sprintf("THESE_FILES_ARE_CHANGED_IN_S_AND_ARE_NOT_MODIFIED_BY_YOU_IN_YOUR_LIVE_SITEBR__THESE_WILL_BE_UPDATED_TO_USER_SITE_ON_UPGRADE", $compareVersion, $compareVersion); ?>'
 	});
 	$('#diffview-status-removed').popover({
 		html: true,
 		trigger: 'hover',
-		content: '<?php echo JText::sprintf("THESE_FILES_ARE_DELETED_IN_S_VERSIONBR__THESE_WILL_BE_REMOVED_FROM_USER_SITE_ON_UPGRADE", $compareVersion, $compareVersion); ?>'
+		content: '<?php echo Text::sprintf("THESE_FILES_ARE_DELETED_IN_S_VERSIONBR__THESE_WILL_BE_REMOVED_FROM_USER_SITE_ON_UPGRADE", $compareVersion, $compareVersion); ?>'
 	});
 	$('#diffview-status-umodified').popover({
 		html: true,
 		trigger: 'hover',
-		content: '<?php echo JText::sprintf("MODIFIED_BY_YOU_ONLY_THERE_IS_NO_CODE_CHANGE_FROM_VERSION_S_TO_SBR__THIS_FILE_WILL_NOT_BE_OVERWRITTEN_YOUR_CUSTOMIZATION_WILL_BE_RETAINED_AFTER_THE_UPGRADE_HOWEVER_IF_YOUR_CUSTOMIZATION_CAUSE_THE_ERRORBR__YOU_WILL_NEED_TO_OVERWRITE_WITH_THE_CLEAN_FILE_OF_VERSION_S_AND_THEN_REAPPLY_YOUR_CUSTOMIZATION", $this->obj->version, $compareVersion, $compareVersion); ?>'
+		content: '<?php echo Text::sprintf("MODIFIED_BY_YOU_ONLY_THERE_IS_NO_CODE_CHANGE_FROM_VERSION_S_TO_SBR__THIS_FILE_WILL_NOT_BE_OVERWRITTEN_YOUR_CUSTOMIZATION_WILL_BE_RETAINED_AFTER_THE_UPGRADE_HOWEVER_IF_YOUR_CUSTOMIZATION_CAUSE_THE_ERRORBR__YOU_WILL_NEED_TO_OVERWRITE_WITH_THE_CLEAN_FILE_OF_VERSION_S_AND_THEN_REAPPLY_YOUR_CUSTOMIZATION", $this->obj->version, $compareVersion, $compareVersion); ?>'
 	});
 	$('#diffview-status-ucreated').popover({
 		html: true,
 		trigger: 'hover',
-		content: '<?php echo JText::_("THESE_FILES_ARE_CUSTOM_CREATED_BY_USER__OR_WERE_MOVED_TO_NEW_DIRECTORY_DURING_THE_INSTALLATION_PROCESSBR__NONEXTENSION_FILES_WILL_NOT_BE_AFFECTED_EXTENSION_FILES_WHICH_NEEDS_TO_MOVE_TO_OTHER_FOLDERS_DURING_INSTALLATION_WILL_BE_OVERWRITTEN", true); ?>'
+		content: '<?php echo Text::_("THESE_FILES_ARE_CUSTOM_CREATED_BY_USER__OR_WERE_MOVED_TO_NEW_DIRECTORY_DURING_THE_INSTALLATION_PROCESSBR__NONEXTENSION_FILES_WILL_NOT_BE_AFFECTED_EXTENSION_FILES_WHICH_NEEDS_TO_MOVE_TO_OTHER_FOLDERS_DURING_INSTALLATION_WILL_BE_OVERWRITTEN", true); ?>'
 	});
 	$('#diffview-status-nochange').popover({
 		html: true,
 		trigger: 'hover',
-		content: '<?php echo JText::_("THESE_FILES_ARE_NOT_CHANGED_BETWEEN_THE_OLD_AND_NEW_VERSIONBR__THEY_WILL_NOT_BE_AFFECTED_BY_UPGRADE", true); ?>'
+		content: '<?php echo Text::_("THESE_FILES_ARE_NOT_CHANGED_BETWEEN_THE_OLD_AND_NEW_VERSIONBR__THEY_WILL_NOT_BE_AFFECTED_BY_UPGRADE", true); ?>'
 	});
 });
 </script>
 <form name="adminForm" id="adminForm" action="index.php" method="post">
-  <?php echo JHtml::_( 'form.token'); ?>
+  <?php echo HTMLHelper::_( 'form.token'); ?>
   <input type="hidden" name="option" value="com_jaextmanager" />
   <input type="hidden" name="view" value="<?php echo JRequest::getVar("view", "default")?>" />
   <input type="hidden" name="task" value="" />
@@ -84,60 +87,60 @@ jQuery(document).ready(function($){
   <link rel="stylesheet" type="text/css" src="components/com_jaextmanager/assets/css/default.css"  />
   
 <fieldset>
-<legend><?php echo JText::sprintf('FILE_COMPARISON_BETWEEN_S_VERSION_S_AND_S', $this->obj->name, $this->obj->version, $compareVersion); ?></legend>
+<legend><?php echo Text::sprintf('FILE_COMPARISON_BETWEEN_S_VERSION_S_AND_S', $this->obj->name, $this->obj->version, $compareVersion); ?></legend>
   <div class="ja-compare-result">
 	<div id="UpgradeStatus" style="color:#0066CC; font-weight:bold"></div><br/>
     <fieldset class="Legends">
               <div class="Item">
-                <div class="Desc"><?php echo JText::_('SHOW')?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo JText::_('FILE_TYPE')?></div>
+                <div class="Desc"><?php echo Text::_('SHOW')?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo Text::_('FILE_TYPE')?></div>
               </div>
               <div class="Item">
                 <div class="Desc">
                     <input name="file_type" type="checkbox" value="new" checked="checked" />&nbsp;
                     <img src="components/com_jaextmanager/assets/dtree/img/icon_new.gif" />&nbsp;
-                    <a href="#" id="diffview-status-new" title="" class="ja-tips-title"><?php echo JText::_('NEW_FILE_IN_NEW_VERSION')?></a>
+                    <a href="#" id="diffview-status-new" title="" class="ja-tips-title"><?php echo Text::_('NEW_FILE_IN_NEW_VERSION')?></a>
                     </div>
               </div>
               <div class="Item">
                 <div class="Desc">
                 <input name="file_type" type="checkbox" value="bmodified" checked="checked" />&nbsp;
                 <img src="components/com_jaextmanager/assets/dtree/img/icon_bmodified.gif" />&nbsp; 
-                <a href="#" id="diffview-status-bmodified" title="" class="ja-tips-title"><?php echo JText::_('CONFLICTED_FILES')?></a>
+                <a href="#" id="diffview-status-bmodified" title="" class="ja-tips-title"><?php echo Text::_('CONFLICTED_FILES')?></a>
                 </div>
               </div>
               <div class="Item">
                 <div class="Desc">
                 <input name="file_type" type="checkbox" value="updated" checked="checked" />&nbsp;
                 <img src="components/com_jaextmanager/assets/dtree/img/icon_updated.gif" />&nbsp; 
-                <a href="#" id="diffview-status-updated" title="" class="ja-tips-title"><?php echo JText::_('UPDATED_FILE_IN_NEW_VERSION')?></a>
+                <a href="#" id="diffview-status-updated" title="" class="ja-tips-title"><?php echo Text::_('UPDATED_FILE_IN_NEW_VERSION')?></a>
                 </div>
               </div>
              <div class="Item">
                 <div class="Desc">
                 <input name="file_type" type="checkbox" value="removed" checked="checked" />&nbsp;
                 <img src="components/com_jaextmanager/assets/dtree/img/icon_removed.gif" />&nbsp;
-                <a href="#" id="diffview-status-removed" title="" class="ja-tips-title"><?php echo JText::_('REMOVED_FILE_IN_NEW_VERSION')?></a>
+                <a href="#" id="diffview-status-removed" title="" class="ja-tips-title"><?php echo Text::_('REMOVED_FILE_IN_NEW_VERSION')?></a>
                 </div>
               </div>
                <div class="Item">
                 <div class="Desc">
                 <input name="file_type" type="checkbox" value="umodified" checked="checked" />&nbsp;
                 <img src="components/com_jaextmanager/assets/dtree/img/icon_umodified.gif" />&nbsp; 
-                <a href="#" id="diffview-status-umodified" title="" class="ja-tips-title"><?php echo JText::_('MODIFIED_BY_USER')?></a>
+                <a href="#" id="diffview-status-umodified" title="" class="ja-tips-title"><?php echo Text::_('MODIFIED_BY_USER')?></a>
                 </div>
               </div>
               <div class="Item">
                 <div class="Desc">
                 <input name="file_type" type="checkbox" value="ucreated" checked="checked" />&nbsp;
                 <img src="components/com_jaextmanager/assets/dtree/img/icon_ucreated.gif" />&nbsp; 
-                <a href="#" id="diffview-status-ucreated" title="" class="ja-tips-title"><?php echo JText::_('CREATED_BY_USER')?></a>
+                <a href="#" id="diffview-status-ucreated" title="" class="ja-tips-title"><?php echo Text::_('CREATED_BY_USER')?></a>
                 </div>
               </div>
               <div class="Item">
                 <div class="Desc">
                 <input name="file_type" type="checkbox" value="nochange" />&nbsp;
                 <img src="components/com_jaextmanager/assets/dtree/img/icon_nochange.gif" />&nbsp;
-                <a href="#" id="diffview-status-nochange" title="" class="ja-tips-title"><?php echo JText::_('NO_CHANGE')?></a>
+                <a href="#" id="diffview-status-nochange" title="" class="ja-tips-title"><?php echo Text::_('NO_CHANGE')?></a>
                 </div>
               </div>
 
@@ -145,7 +148,7 @@ jQuery(document).ready(function($){
     <table class="adminlist table table-striped" cellpadding="1" cellspacing="1">
       <thead>
         <tr>
-          <th><?php echo JText::_("FILE_CHANGES") ?></th>
+          <th><?php echo Text::_("FILE_CHANGES") ?></th>
         </tr>
       </thead>
       <tbody>

@@ -13,6 +13,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Pagination\Pagination;
+
 jimport('joomla.application.component.view');
 
 class JaextmanagerViewServices extends JAEMView
@@ -77,7 +81,7 @@ class JaextmanagerViewServices extends JAEMView
 		
 		jimport('joomla.html.pagination');
 		
-		$pageNav = new JPagination($total, $lists['limitstart'], $lists['limit']);
+		$pageNav = new Pagination($total, $lists['limitstart'], $lists['limit']);
 		
 		//$services = $model->getList ('', 't.ws_name ASC', $lists ['limitstart'], $lists ['limit'] );
 		$services = $model->getList('', 't.id asc', $lists['limitstart'], $limit);
@@ -109,11 +113,12 @@ class JaextmanagerViewServices extends JAEMView
 		}
 		
 		$number = JRequest::getVar('number', 0);
+		/* echo '<pre>';print_r($item->get('ws_mode'));echo '</pre>';
+		echo '<pre>';print_r(array_keys((array) $item));echo '</pre>';die('pr debug!'); */
+		$listMode = HTMLHelper::_('select.radiolist', $model->getListServiceMode(), 'ws_mode', 'class="inputbox"', 'value', 'text', $item->get('ws_mode'));
 		
-		$listMode = JHtml::_('select.radiolist', $model->getListServiceMode(), 'ws_mode', 'class="inputbox"', 'value', 'text', $item->ws_mode);
-		
-		$isDefault = ($item->ws_default == 1) ? 1 : 0;
-		$ws_default = JHtml::_('select.booleanlist', 'ws_default', 'class="inputbox"', $isDefault);
+		$isDefault = ($item->get('ws_default') == 1) ? 1 : 0;
+		$ws_default = HTMLHelper::_('select.booleanlist', 'ws_default', 'class="inputbox"', $isDefault);
 		
 		$this->assignRef('listMode', $listMode);
 		$this->assignRef('ws_default', $ws_default);
@@ -142,10 +147,10 @@ class JaextmanagerViewServices extends JAEMView
 		
 		$number = JRequest::getVar('number', 0);
 		
-		$listMode = JHtml::_('select.radiolist', $model->getListServiceMode(), 'ws_mode', 'class="inputbox"', 'value', 'text', $item->ws_mode);
+		$listMode = HTMLHelper::_('select.radiolist', $model->getListServiceMode(), 'ws_mode', 'class="inputbox"', 'value', 'text', $item->ws_mode);
 		
 		$isDefault = ($item->ws_default == 1) ? 1 : 0;
-		$ws_default = JHtml::_('select.booleanlist', 'ws_default', 'class="inputbox"', $isDefault);
+		$ws_default = HTMLHelper::_('select.booleanlist', 'ws_default', 'class="inputbox"', $isDefault);
 		
 		$this->assignRef('listMode', $listMode);
 		$this->assignRef('ws_default', $ws_default);
@@ -165,7 +170,7 @@ class JaextmanagerViewServices extends JAEMView
 		$cid[0] = $item->item_id;
 		$row = $model->getItem($cid);
 		$item->item_title = $row ? $row->title : '';
-		$response = JFactory::getUser($item->user_id);
+		$response = Factory::getUser($item->user_id);
 		$item->responsename = $response ? $response->username : '';
 		$this->assign('item', $item);
 		$this->assign('type', $type);

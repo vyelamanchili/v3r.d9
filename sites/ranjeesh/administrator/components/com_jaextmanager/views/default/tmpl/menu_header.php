@@ -12,12 +12,13 @@
 
 //no direct access
 defined( '_JEXEC' ) or die( 'Retricted Access' );
+use Joomla\CMS\Language\Text;
 
 ?>
 <div id="jacom-mainwrap">
 <div id="jacom-mainnav">
   <div class="inner">
-    <div class="ja-showhide"> <a class="openall opened" title="Open all" onclick="JATreeMenu.openall();" href="javascript:;" id="menu_open"><?php echo JText::_("OPEN_ALL");?></a> <a class="closeall" title="Close all" onclick="JATreeMenu.closeall();" href="javascript:;" id="menu_close"><?php echo JText::_("CLOSE_ALL");?></a> </div>
+    <div class="ja-showhide"> <a class="openall opened" title="Open all" onclick="JATreeMenu.openall();" href="javascript:;" id="menu_open"><?php echo Text::_("OPEN_ALL");?></a> <a class="closeall" title="Close all" onclick="JATreeMenu.closeall();" href="javascript:;" id="menu_close"><?php echo Text::_("CLOSE_ALL");?></a> </div>
     <?php 
     $JAMenu = new JAMenu();
     $JAMenu->_menu();?>

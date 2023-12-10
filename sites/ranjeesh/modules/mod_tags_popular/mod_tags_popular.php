@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
@@ -7,26 +8,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-// Include the tags_popular functions only once
-JLoader::register('ModTagsPopularHelper', __DIR__ . '/helper.php');
+use Joomla\CMS\Helper\ModuleHelper;
 
-$cacheparams = new stdClass;
-$cacheparams->cachemode = 'safeuri';
-$cacheparams->class = 'ModTagsPopularHelper';
-$cacheparams->method = 'getList';
+$cacheparams               = new \stdClass();
+$cacheparams->cachemode    = 'safeuri';
+$cacheparams->class        = 'Joomla\Module\TagsPopular\Site\Helper\TagsPopularHelper';
+$cacheparams->method       = 'getList';
 $cacheparams->methodparams = $params;
-$cacheparams->modeparams = array('id' => 'array', 'Itemid' => 'int');
+$cacheparams->modeparams   = ['id' => 'array', 'Itemid' => 'int'];
 
-$list = JModuleHelper::moduleCache($module, $params, $cacheparams);
+$list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
-if (!count($list) && !$params->get('no_results_text'))
-{
-	return;
+if (!\count($list) && !$params->get('no_results_text')) {
+    return;
 }
 
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_COMPAT, 'UTF-8');
-$display_count   = $params->get('display_count', 0);
+$display_count = $params->get('display_count', 0);
 
-require JModuleHelper::getLayoutPath('mod_tags_popular', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_tags_popular', $params->get('layout', 'default'));

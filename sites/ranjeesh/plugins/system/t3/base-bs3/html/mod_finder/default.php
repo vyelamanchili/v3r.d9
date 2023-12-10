@@ -8,23 +8,24 @@
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
+HTMLHelper::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
-JHtml::_('jquery.framework');
-JHtml::_('formbehavior.chosen');
+HTMLHelper::_('jquery.framework');
+HTMLHelper::_('formbehavior.chosen');
 if(version_compare(JVERSION, '4', 'ge') && !class_exists("modFinderHelper")){
 	class modFinderHelper extends \Joomla\Module\Finder\Site\Helper\FinderHelper{};
 }
 if(version_compare(JVERSION, '3.0', 'ge')){
-	JHtml::_('bootstrap.tooltip');
+	HTMLHelper::_('bootstrap.tooltip');
 }
 
 // Load the smart search component language file.
-$lang = JFactory::getLanguage();
+$lang = Factory::getLanguage();
 $lang->load('com_finder', JPATH_SITE);
 if(version_compare(JVERSION, "4", 'ge')){
 	$input = '<input type="text" name="q" id="mod-finder-searchword' . $module->id . '" class="js-finder-search-query form-control" value="' . htmlspecialchars($app->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
@@ -62,20 +63,20 @@ if(version_compare(JVERSION, "4", 'ge')){
 	if ($params->get('show_autosuggest', 1))
 	{
 		$wa->usePreset('awesomplete');
-		$app->getDocument()->addScriptOptions('finder-search', array('url' => JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
+		$app->getDocument()->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 	}
 
 	$wa->useScript('com_finder.finder');
 
 	?>
 	<div class="search">
-		<form class="mod-finder js-finder-searchform form-search" action="<?php echo JRoute::_($route); ?>" method="get" role="search">
+		<form class="mod-finder js-finder-searchform form-search" action="<?php echo Route::_($route); ?>" method="get" role="search">
 			<?php echo $output; ?>
 
 			<?php $show_advanced = $params->get('show_advanced', 0); ?>
 			<?php if ($show_advanced == 2) : ?>
 				<br>
-				<a href="<?php echo JRoute::_($route); ?>" class="mod-finder__advanced-link"><?php echo Text::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
+				<a href="<?php echo Route::_($route); ?>" class="mod-finder__advanced-link"><?php echo Text::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
 			<?php elseif ($show_advanced == 1) : ?>
 				<div class="mod-finder__advanced js-finder-advanced">
 					<?php echo HTMLHelper::_('filter.select', $query, $params); ?>
@@ -89,7 +90,7 @@ if(version_compare(JVERSION, "4", 'ge')){
 
 $suffix = $params->get('moduleclass_sfx');
 $output = '<input type="text" name="q" id="mod-finder-searchword' . $module->id . '" class="search-query input-medium" size="'
-	. $params->get('field_size', 20) . '" value="' . htmlspecialchars(JFactory::getApplication()->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
+	. $params->get('field_size', 20) . '" value="' . htmlspecialchars(Factory::getApplication()->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
 	. ' placeholder="' . Text::_('MOD_FINDER_SEARCH_VALUE') . '"/>';
 
 $showLabel  = $params->get('show_label', 1);
@@ -141,7 +142,7 @@ if ($params->get('show_button'))
 	}
 }
 
-JHtml::_('stylesheet', 'com_finder/finder.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'com_finder/finder.css', array('version' => 'auto', 'relative' => true));
 
 $script = "
 jQuery(document).ready(function() {
@@ -196,11 +197,11 @@ jQuery(document).ready(function() {
  */
 if ($params->get('show_autosuggest', 1))
 {
-	JHtml::_('script', 'jui/jquery.autocomplete.min.js', array('version' => 'auto', 'relative' => true));
+	HTMLHelper::_('script', 'jui/jquery.autocomplete.min.js', array('version' => 'auto', 'relative' => true));
 
 	$script .= "
 	var suggest = jQuery('#mod-finder-searchword" . $module->id . "').autocomplete({
-		serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component') . "',
+		serviceUrl: '" . Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component') . "',
 		paramName: 'q',
 		minChars: 1,
 		maxHeight: 400,
@@ -212,10 +213,10 @@ if ($params->get('show_autosuggest', 1))
 
 $script .= '});';
 
-JFactory::getDocument()->addScriptDeclaration($script);
+Factory::getDocument()->addScriptDeclaration($script);
 ?>
 <div class="search">
-	<form id="mod-finder-searchform<?php echo $module->id; ?>" action="<?php echo JRoute::_($route); ?>" method="get" class="form-search form-inline">
+	<form id="mod-finder-searchform<?php echo $module->id; ?>" action="<?php echo Route::_($route); ?>" method="get" class="form-search form-inline">
 		<div class="finder<?php echo $suffix; ?>">
 			<?php
 			// Show the form fields.
@@ -225,10 +226,10 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<?php $show_advanced = $params->get('show_advanced'); ?>
 			<?php if ($show_advanced == 2) : ?>
 				<br />
-				<a href="<?php echo JRoute::_($route); ?>"><?php echo Text::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
+				<a href="<?php echo Route::_($route); ?>"><?php echo Text::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
 			<?php elseif ($show_advanced == 1) : ?>
 				<div id="mod-finder-advanced<?php echo $module->id; ?>">
-					<?php echo JHtml::_('filter.select', $query, $params); ?>
+					<?php echo HTMLHelper::_('filter.select', $query, $params); ?>
 				</div>
 			<?php endif; ?>
 			<?php echo modFinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>

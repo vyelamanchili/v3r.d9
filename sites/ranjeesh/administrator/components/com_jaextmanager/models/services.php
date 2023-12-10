@@ -13,6 +13,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 jimport('joomla.application.component.model');
 
 class JaextmanagerModelServices extends JAEMModel
@@ -52,7 +56,7 @@ class JaextmanagerModelServices extends JAEMModel
 
 	function getList($cond = '', $order = '', $limitstart = 0, $limit = 20)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$services = array();
 		
 		if ($order != '') {
@@ -73,7 +77,7 @@ class JaextmanagerModelServices extends JAEMModel
 
 	function getTotal($cond)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = "
 				SELECT COUNT(*)  
 				FROM #__jaem_services AS t
@@ -88,8 +92,8 @@ class JaextmanagerModelServices extends JAEMModel
 	function getListServiceMode()
 	{
 		$aData = array();
-		$aData[] = JHtml::_('select.option', 'local', JText::_('LOCAL'));
-		$aData[] = JHtml::_('select.option', 'remote', JText::_('REMOTE'));
+		$aData[] = HTMLHelper::_('select.option', 'local', Text::_('LOCAL'));
+		$aData[] = HTMLHelper::_('select.option', 'remote', Text::_('REMOTE'));
 		return $aData;
 	}
 
@@ -100,7 +104,7 @@ class JaextmanagerModelServices extends JAEMModel
 		$post = $this->getState('request');
 		
 		if (!$row->id) {
-		
+			throw new Exception('ID not found', 403);
 		}
 		
 		if (!$row->bind($post)) {
@@ -114,16 +118,12 @@ class JaextmanagerModelServices extends JAEMModel
 			//encrypt password
 			$row->ws_pass = base64_encode($row->ws_pass);
 		}
-		//
-		
-
+	
 		if (($erros = $row->check())) {
-			//print_r($erros);
 			return implode("<br/>", $erros);
 		}
 		
 		if (!$row->store()) {
-			//echo 'error';
 			return $row->getError(true);
 		} else {
 			//reset default
@@ -155,7 +155,7 @@ class JaextmanagerModelServices extends JAEMModel
 
 	function _getVars_admin()
 	{
-		$mainframe = JFactory::getApplication('administrator');
+		$mainframe = Factory::getApplication('administrator');
 		$option = 'services';
 		$lists = array();
 		$lists['filter_order'] = $mainframe->getUserStateFromRequest($option . '.filter_order', 'filter_order', 't.id', 'string');
@@ -168,7 +168,7 @@ class JaextmanagerModelServices extends JAEMModel
 
 	function setDefault()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		
 		$ids = JRequest::getVar('cid', array());
 		$ids = implode(',', $ids);
@@ -187,7 +187,7 @@ class JaextmanagerModelServices extends JAEMModel
 
 	function resetDefault($defaultId)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = "UPDATE #__jaem_services SET ws_default = 0 WHERE id <> {$defaultId}";
 		$db->setQuery($query);
 		$db->execute();

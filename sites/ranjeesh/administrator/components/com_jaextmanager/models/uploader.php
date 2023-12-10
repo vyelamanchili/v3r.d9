@@ -10,6 +10,13 @@
 // No direct access.
 defined('_JEXEC') or die();
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\Path;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+use Joomla\CMS\Installer\InstallerHelper;
+
 // Import library dependencies
 
 
@@ -21,6 +28,8 @@ jimport('joomla.filesystem.folder');
 /**
  * @desc modify from "Extension Manager Install Model" of "Installer Component"
  */
+
+#[AllowDynamicProperties]
 class JaextmanagerModelUploader extends JAEMModel
 {
 	/** @var object JTable object */
@@ -44,7 +53,7 @@ class JaextmanagerModelUploader extends JAEMModel
 	function upload()
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication('administrator');
+		$app = Factory::getApplication('administrator');
 		
 		$this->setState('action', 'upload');
 		
@@ -62,14 +71,14 @@ class JaextmanagerModelUploader extends JAEMModel
 				break;
 			
 			default:
-				JError::raiseWarning(100, JText::_('NO_UPLOAD_TYPE_FOUND'));
+				$app->enqueueMessage(Text::_('NO_UPLOAD_TYPE_FOUND'), 'warning');
 				return false;
 				break;
 		}
 		
 		// Was the package unpacked?
 		if (!$package) {
-			JError::raiseWarning(100, JText::_('UNABLE_TO_FIND_INSTALL_PACKAGE'));
+			$app->enqueueMessage(Text::_('UNABLE_TO_FIND_INSTALL_PACKAGE'), 'warning');
 			return false;
 		}
 		
@@ -78,22 +87,20 @@ class JaextmanagerModelUploader extends JAEMModel
 		$result = $uploader->upload($package['dir']);
 		if (!$result) {
 			// There was an error uploading the package
-			$msg = JText::sprintf('THERE_WAS_AN_ERROR_UPLOADING_THE_PACKAGE_S', $package['type']);
-			JError::raiseWarning(100, $msg);
-			//$result = false;
+			$msg = Text::sprintf('THERE_WAS_AN_ERROR_UPLOADING_THE_PACKAGE_S', $package['type']);
+			$app->enqueueMessage($msg, 'notice');
 		} else {
 			// Package uploaded sucessfully
-			$msg = JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', $package['type']);
-			//$result = true;
+			$msg = Text::sprintf('COM_INSTALLER_INSTALL_SUCCESS', $package['type']);
 		}
 		
 		// Cleanup the install files
-		if (!JFile::exists($package['packagefile'])) {
-			$config = JFactory::getConfig();
+		if (!is_file($package['packagefile'])) {
+			$config = Factory::getConfig();
 			$package['packagefile'] = $config->get('tmp_path').'/'.$package['packagefile'];
 		}
 		
-		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+		InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 		
 		return $result;
 	}
@@ -108,42 +115,43 @@ class JaextmanagerModelUploader extends JAEMModel
 	{
 		// Get the uploaded file information
 		$userfile = JRequest::getVar('install_package', null, 'files', 'array');
+		$app = Factory::getApplication();
+		echo '<pre>';print_r($userfile);echo '</pre>';die('pr debug!');
 		
 		// Make sure that file uploads are enabled in php
 		if (!(bool) ini_get('file_uploads')) {
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'));
+			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'warning');
 			return false;
 		}
 		
 		// Make sure that zlib is loaded so that the package can be unpacked
 		if (!extension_loaded('zlib')) {
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'));
+			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 'warning');
 			return false;
 		}
 		
 		// If there is no uploaded file, we have a problem...
 		if (!is_array($userfile)) {
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'));
+			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 'notice');
 			return false;
 		}
 		
 		// Check if there was a problem uploading the file.
-		if ($userfile['error'] || $userfile['size'] < 1) {
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'));
-			return false;
-		}
+		/* if ($userfile['error'] || $userfile['size'] < 1) {
+			throw new Exception(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
+		} */
 		
 		// Build the appropriate paths
-		$config = JFactory::getConfig();
+		$config = Factory::getConfig();
 		$tmp_dest = $config->get('tmp_path').'/'.$userfile['name'];
 		$tmp_src = $userfile['tmp_name'];
 		
 		// Move uploaded file
 		jimport('joomla.filesystem.file');
-		$uploaded = JFile::upload($tmp_src, $tmp_dest,false,true);
+		$uploaded = File::upload($tmp_src, $tmp_dest,false,true);
 		
 		// Unpack the downloaded package file
-		$package = JInstallerHelper::unpack($tmp_dest);
+		$package = InstallerHelper::unpack($tmp_dest);
 		
 		return $package;
 	}
@@ -159,20 +167,21 @@ class JaextmanagerModelUploader extends JAEMModel
 	{
 		// Get the path to the package to install
 		$p_dir = JRequest::getString('install_directory');
-		$p_dir = JPath::clean($p_dir);
+		$p_dir = Path::clean($p_dir);
+		$app = Factory::getApplication();
 		
 		// Did you give us a valid directory?
-		if (!JFolder::exists($p_dir)) {
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_ENTER_A_PACKAGE_DIRECTORY'));
+		if (!is_dir($p_dir)) {
+			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_PLEASE_ENTER_A_PACKAGE_DIRECTORY'), 'warning');
 			return false;
 		}
 		
 		// Detect the package type
-		$type = JInstallerHelper::detectType($p_dir);
+		$type = InstallerHelper::detectType($p_dir);
 		
 		// Did you give us a valid package?
 		if (!$type) {
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'));
+			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'), 'warning');
 			return false;
 		}
 		
@@ -194,31 +203,32 @@ class JaextmanagerModelUploader extends JAEMModel
 	protected function _getPackageFromUrl()
 	{
 		// Get a database connector
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		
 		// Get the URL of the package to install
 		$url = JRequest::getString('install_url');
+		$app = Factory::getApplication();
 		
 		// Did you give us a URL?
 		if (!$url) {
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'));
+			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'), 'warning');
 			return false;
 		}
 		
 		// Download the package at the URL given
-		$p_file = JInstallerHelper::downloadPackage($url);
+		$p_file = InstallerHelper::downloadPackage($url);
 		
 		// Was the package downloaded?
 		if (!$p_file) {
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'));
+			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'warning');
 			return false;
 		}
 		
-		$config = JFactory::getConfig();
+		$config = Factory::getConfig();
 		$tmp_dest = $config->get('tmp_path');
 		
 		// Unpack the downloaded package file
-		$package = JInstallerHelper::unpack($tmp_dest.'/'.$p_file);
+		$package = InstallerHelper::unpack($tmp_dest.'/'.$p_file);
 		
 		return $package;
 	}

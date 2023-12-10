@@ -497,10 +497,12 @@ $styleId = $params->get('styles', 0, 'int');
 if ($styleId) {
 	require_once MAXIMENUCK_PATH . '/helpers/style.php';
 	$style = Maximenuck\Style::getCss($styleId, true);
-	$styleCss = $style->css;
-	$styleCss = str_replace('|ID|', $menuID, $styleCss);
-	if ($orientation == 'horizontal') $styleCss = str_replace('.maximenuckv', '.maximenuckh', $styleCss);
-	if ($orientation == 'vertical') $styleCss = str_replace('.maximenuckh', '.maximenuckv', $styleCss);
+	if (! empty($style)) {
+		$styleCss = $style->css;
+		$styleCss = str_replace('|ID|', $menuID, $styleCss);
+		if ($orientation == 'horizontal') $styleCss = str_replace('.maximenuckv', '.maximenuckh', $styleCss);
+		if ($orientation == 'vertical') $styleCss = str_replace('.maximenuckh', '.maximenuckv', $styleCss);
+	}
 }
 
 require JModuleHelper::getLayoutPath('mod_maximenuck', $params->get('layout', 'default'));
@@ -520,7 +522,7 @@ if ($params->get('loadfontawesomescript', '1') == '1') {
 }
 
 // manage googlefonts
-$loadgooglefonts = $params->get('loadgooglefonts', 'auto');
+$loadgooglefonts = $params->get('loadgooglefonts', '0');
 if ($loadgooglefonts == 'auto') {
 	
 	
@@ -775,8 +777,50 @@ div#' . $menuID . ' .maximenuck.rolloveritem  img {
 	display: none !important;
 }';
 
+// for images position
+$imagesCSS = '/* for images position */
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 > a,
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 > span.separator {
+	display: flex;
+	align-items: center;
+}
+
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 li.maximenuck > a,
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 li.maximenuck > span.separator {
+	display: flex;
+}
+
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 > a[data-align="bottom"],
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 > span.separator[data-align="bottom"],
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 li.maximenuck > a[data-align="bottom"],
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 li.maximenuck > span.separator[data-align="bottom"],
+	div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 > a[data-align="top"],
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 > span.separator[data-align="top"],
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 li.maximenuck > a[data-align="top"],
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 li.maximenuck > span.separator[data-align="top"]{
+	flex-direction: column;
+	align-items: inherit;
+}
+
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 > a[data-align=*"bottom"] img,
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 > span.separator[data-align=*"bottom"] img,
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 li.maximenuck > a[data-align=*"bottom"] img,
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 li.maximenuck > span.separator[data-align=*"bottom"] img {
+	align-self: end;
+}
+
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 > a[data-align=*"top"] img,
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 > span.separator[data-align=*"top"] img,
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 li.maximenuck > a[data-align=*"top"] img,
+div#' . $menuID . ' ul.maximenuck li.maximenuck.level1 li.maximenuck > span.separator[data-align=*"top"] img {
+	align-self: start;
+}
+
+
+';
+
 // combine all styles
-$allCss = $generalCss . $themeCss . $allCss . $styleCss . $iconCss;
+$allCss = $generalCss . $themeCss . $allCss . $styleCss . $iconCss . $imagesCSS;
 if ( $doCompile ) {
 	$cssfile = dirname(__FILE__) . '/themes/custom/css/maximenuck_' . $menuID . '.css';
 	if (! file_exists(dirname(__FILE__) . '/themes/custom/css/')) {
@@ -793,7 +837,7 @@ if ( $doCompile ) {
 
 // use the V8 settings if the module has not yet been saved in the new version 9
 } else {
-	echo '<div class="alert alert-danger">Maximenu CK message : Your module is still working in V8 Legacy mode. Please change it in the Advanced options to remove this message.</div>';
+	echo '<div class="alert alert-danger">Maximenu CK message : Your module ID ' . $module->id . ' is still working in V8 Legacy mode. Please change it in the Advanced options to remove this message.</div>';
 	// load the old V8 file
 	require dirname(__FILE__) . '/legacy.php';
 }

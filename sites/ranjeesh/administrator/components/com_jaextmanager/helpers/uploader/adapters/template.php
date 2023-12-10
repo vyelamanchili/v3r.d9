@@ -12,6 +12,13 @@
 // No direct access
 defined('JPATH_BASE') or die();
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\Filesystem\Folder;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Application\ApplicationHelper;
+
 jimport('joomla.installer.extension');
 jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.file');
@@ -19,9 +26,11 @@ jimport('joomla.filesystem.folder');
 /**
  * Template uploader
  */
-class jaExtUploaderTemplate extends JObject
+class jaExtUploaderTemplate extends CMSObject
 {
 
+	public $parent;
+	public $manifest;
 
 	/**
 	 * Constructor
@@ -54,9 +63,9 @@ class jaExtUploaderTemplate extends JObject
 		{
 			// Attempt to map the client to a base path
 			jimport('joomla.application.helper');
-			$client = JApplicationHelper::getClientInfo($cname, true);
+			$client = ApplicationHelper::getClientInfo($cname, true);
 			if ($client === false) {
-				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_UNKNOWN_CLIENT', $cname));
+				$this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_UNKNOWN_CLIENT', $cname));
 				return false;
 			}
 			$basePath = $client->path;
@@ -71,7 +80,7 @@ class jaExtUploaderTemplate extends JObject
 		}*/
 		
 		// Set the extensions name
-		$name = JFilterInput::getInstance()->clean((string) $xml->name, 'cmd');
+		$name = InputFilter::getInstance()->clean((string) $xml->name, 'cmd');
 		
 		$element = strtolower(str_replace(" ", "_", $name));
 		$this->set('name', $name);
@@ -85,7 +94,7 @@ class jaExtUploaderTemplate extends JObject
 			$storePath = $jauc->getLocalVersionPath($jaProduct, false);
 			$this->parent->setPath('extension_root', $storePath);
 		} else {
-			$this->parent->setResult($jaProduct, true, JText::_('NO_TEMPLATE_FILE_SPECIFIED'));
+			$this->parent->setResult($jaProduct, true, Text::_('NO_TEMPLATE_FILE_SPECIFIED'));
 			return false;
 		}
 		
@@ -94,15 +103,16 @@ class jaExtUploaderTemplate extends JObject
 		 * installed or another template is using that directory.
 		 */
 		if (file_exists($this->parent->getPath('extension_root')) && !$this->parent->getOverwrite()) {
-			JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ANOTHER_TEMPLATE_USING_DIRECTORY', $this->parent->getPath('extension_root')));
+			$app = Factory::getApplication();
+			$app->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ANOTHER_TEMPLATE_USING_DIRECTORY', $this->parent->getPath('extension_root')), 'warning');
 			return false;
 		}
 		
 		// If the template directory does not exist, lets create it
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_root'))) {
-			if (!$created = JFolder::create($this->parent->getPath('extension_root'))) {
-				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_FAILED_CREATE_DIRECTORY', $this->parent->getPath('extension_root')));
+			if (!$created = Folder::create($this->parent->getPath('extension_root'))) {
+				$this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_FAILED_CREATE_DIRECTORY', $this->parent->getPath('extension_root')));
 				return false;
 			}
 		}
@@ -135,13 +145,13 @@ class jaExtUploaderTemplate extends JObject
 		$this->parent->parseLanguages($xml->languages, $clientId);*/
 		
 		// Get the template description
-		//$this->parent->set('message', JText::_((string)$xml->description));
+		//$this->parent->set('message', Text::_((string)$xml->description));
 		
 
 		// Lastly, we will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest(-1)) {
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_SETUP'));
+			$this->parent->abort(Text::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_SETUP'));
 			return false;
 		}
 		

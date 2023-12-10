@@ -335,7 +335,8 @@ joomla-field-custom.field-custom-wrapper {
 
 // Modal
 // -------------------
-.j40 {
+.j40,
+.j42 {
   .joomla-modal.show {
     background-color: rgba(0,0,0,0.5);
     opacity: 1;
@@ -452,6 +453,26 @@ joomla-field-custom.field-custom-wrapper {
       }
     }
   }
+
+  #contact-form {
+    label.required {
+      position: relative;
+
+      .form-control-feedback {
+        background: #fff;
+        border-radius: .5rem;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        border: 1px solid #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 .5rem;
+        right: auto;
+        left: calc(100% + 32px);
+        bottom: calc(100% + 32px);
+      }
+    }
+  }
 }
 
 
@@ -460,8 +481,18 @@ joomla-field-custom.field-custom-wrapper {
     border-bottom: 1px solid #ddd;
     padding-bottom: 12px;
 
+    .btn-toolbar {
+      display: flex;
+      gap: @t3-global-margin / 2;
+      margin: 0;
+
+      &::before,
+      &::after {
+        display: none;
+      }
+    }
+
     joomla-toolbar-button {
-      margin-left: @t3-global-margin / 2;
     }
   }
 

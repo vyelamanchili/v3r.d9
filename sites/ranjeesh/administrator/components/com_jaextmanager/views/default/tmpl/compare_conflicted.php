@@ -13,11 +13,14 @@
 //no direct access
 defined( '_JEXEC' ) or die( 'Retricted Access' );
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 $extID = $this->obj->extId;
 
 ?>
 <form name="adminForm" id="adminForm" action="index.php" method="post">
-  <?php echo JHtml::_( 'form.token'); ?>
+  <?php echo HTMLHelper::_( 'form.token'); ?>
   <input type="hidden" name="option" value="com_jaextmanager" />
   <input type="hidden" name="view" value="<?php echo JRequest::getVar("view", "default")?>" />
   <input type="hidden" name="task" value="" />
@@ -33,31 +36,31 @@ $extID = $this->obj->extId;
   <link rel="stylesheet" type="text/css" src="components/com_jaextmanager/assets/css/default.css"  />
   
   <fieldset>
-  <legend><?php echo JText::_("CONFLICTED_COMPARE_AND_SOLVE"); ?></legend>
+  <legend><?php echo Text::_("CONFLICTED_COMPARE_AND_SOLVE"); ?></legend>
   <div class="ja-compare-result">
       <fieldset class="Legends">
               <div class="Item">
-                <div class="Desc"><?php echo JText::_('SHOW')?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo JText::_('FILE_TYPE')?></div>
+                <div class="Desc"><?php echo Text::_('SHOW')?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo Text::_('FILE_TYPE')?></div>
               </div>
               <div class="Item">
                 <div class="Desc">
                     <input name="file_type" type="checkbox" value="solved" checked="checked" />&nbsp;
                     <img src="components/com_jaextmanager/assets/dtree/img/icon_solved.gif" />&nbsp; 
-                    <a href="#" id="diffview-status-solved" title="" class="ja-tips-title"><?php echo JText::_('SOLVED_FILES')?></a>
+                    <a href="#" id="diffview-status-solved" title="" class="ja-tips-title"><?php echo Text::_('SOLVED_FILES')?></a>
                 </div>
               </div>
               <div class="Item">
                 <div class="Desc">
                     <input name="file_type" type="checkbox" value="bmodified" checked="checked" />&nbsp;
                     <img src="components/com_jaextmanager/assets/dtree/img/icon_bmodified.gif" />&nbsp; 
-                    <a href="#" id="diffview-status-bmodified" title="" class="ja-tips-title"><?php echo JText::_('CONFLICTED_FILES')?></a>
+                    <a href="#" id="diffview-status-bmodified" title="" class="ja-tips-title"><?php echo Text::_('CONFLICTED_FILES')?></a>
                 </div>
               </div>
               <div class="Item">
                 <div class="Desc">
                     <input name="file_type" type="checkbox" value="empty" />&nbsp;
                     <img src="components/com_jaextmanager/assets/dtree/img/icon_empty.gif" />&nbsp; 
-                    <a href="#" id="diffview-status-empty" title="" class="ja-tips-title"><?php echo JText::_('EMPTY_FOLDER')?></a>
+                    <a href="#" id="diffview-status-empty" title="" class="ja-tips-title"><?php echo Text::_('EMPTY_FOLDER')?></a>
                 </div>
               </div>
     
@@ -65,7 +68,7 @@ $extID = $this->obj->extId;
     <table class="adminlist table table-striped" cellpadding="1" cellspacing="1">
       <thead>
         <tr>
-          <th><?php echo JText::_("CONFLICTED_BACKUP_FILES") ?></th>
+          <th><?php echo Text::_("CONFLICTED_BACKUP_FILES") ?></th>
         </tr>
       </thead>
       <tbody>

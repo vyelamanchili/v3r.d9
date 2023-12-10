@@ -24,7 +24,24 @@ $addclosingdiv = false;
 				include dirname(__FILE__) . '/_logo.php';
 
 				$zindex = 12000;
+				$tabwidth = false;
+				$tablevel = false;
+				$tabactive = false;
 				foreach ($items as $i => &$item) {
+					// for tabs
+					if (strpos($item->liclass, 'maximenucktab') !== false) {
+						$tabwidth = $item->fparams->get('maximenu_tabwidth', '180');
+						$submenuwidth = $item->fparams->get('maximenu_submenucontainerwidth', '360');
+						$tablevel = $item->level;
+						$item->nextcolumnwidth = $tabwidth;
+						$tabactive = true;
+					} else if ($tabactive === true && $item->level - $tablevel <= 0) {
+						$tabactive = false;
+					} else if ($tabactive === true && $item->level - $tablevel === 1) {
+						if ($item->level - $items[$i-1]->level == 1) $item->liclass .= ' openck active'; // automatically open the first item submenu
+						$item->submenuswidth = '100%';
+					}
+
 					$item->mobile_data = isset($item->mobile_data) ? $item->mobile_data : '';
 					// test if need to be dropdown
 					//    $stopdropdown = ($item->level > 120) ? '-nodrop' : '';
@@ -54,7 +71,6 @@ $addclosingdiv = false;
 						$item->ftitle = '';
 					}
 
-
 					if ($item->ftitle != "") {
 						$title = $item->anchor_title ? ' title="' . $item->anchor_title . '"' : '';
 						$description = $item->desc ? '<span class="descck">' . $item->desc . '</span>' : '';
@@ -73,6 +89,13 @@ $addclosingdiv = false;
 
 					if ($item->deeper) {
 						// set the styles for the submenus container
+						if ($tablevel !== false && (int)$item->level - (int)$tablevel === 1) {
+							$tabstyles = 'width:calc(100% - ' . modMaximenuckHelper::testUnit($tabwidth) . ');float:left;left:' . modMaximenuckHelper::testUnit($tabwidth);
+//							$item->styles .= $item->styles ? $tabstyles : ' style="' . $tabstyles . '"';
+//							var_dump($item->styles);
+						} else {
+							$tabstyles = '';
+						}
 						if (isset($item->submenuswidth) || $item->leftmargin || $item->topmargin || $item->colbgcolor || isset($item->submenucontainerheight)) {
 							$item->styles = "style=\"";
 							$item->innerstyles = "style=\"";
@@ -86,12 +109,13 @@ $addclosingdiv = false;
 								$item->styles .= "background:" . $item->colbgcolor . ";";
 							if (isset($item->submenucontainerheight) && $item->submenucontainerheight)
 								$item->innerstyles .= "height:" . modMaximenuckHelper::testUnit($item->submenucontainerheight) . ";";
-							$item->styles .= "\"";
+							$item->styles .= $tabstyles . "\"";
 							$item->innerstyles .= "\"";
 						} else {
-							$item->styles = "";
+							$item->styles = $tabstyles . "";
 							$item->innerstyles = "";
 						}
+						
 						echo "\n\t<div class=\"floatck\" " . $item->styles . ">" . $closeHtml . "<div class=\"maxidrop-main\" " . $item->innerstyles . "><div class=\"maximenuck2 first \" " . $nextcolumnstyles . ">\n\t<ul class=\"maximenuck2\">";
 						// if (isset($item->coltitle))
 						// echo $item->coltitle;
@@ -100,16 +124,23 @@ $addclosingdiv = false;
 					elseif ($item->shallower) {
 						echo "\n\t</li>";
 						echo str_repeat("\n\t</ul>\n\t</div></div></div>\n\t</li>", $item->level_diff);
+						// init tab values
+//						$tablevel = false; @ TODO : vérif si tablevel est >= alors on initialise. Ne pas initialiser pour les enfants
+//						$tabwidth = false;
 					}
 					// the item is the last.
 					elseif ($item->is_end) {
 						echo str_repeat("</li>\n\t</ul>\n\t</div></div></div>", $item->level_diff);
 						echo "</li>";
+						$tablevel = false;
+						$tabwidth = false;
 					}
 					// The next item is on the same level.
 					else {
 						//if (!isset($item->colonne))
 						echo "\n\t\t</li>";
+//						$tablevel = false; @ TODO : vérif si tablevel est >= alors on initialise. Ne pas initialiser pour les enfants
+//						$tabwidth = false;
 					}
 
 					$zindex--;

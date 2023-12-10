@@ -12,11 +12,11 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-JHtml::_('behavior.keepalive');
+HTMLHelper::_('behavior.keepalive');
 if(version_compare(JVERSION, '3.0', 'lt')){
-	JHtml::_('behavior.tooltip');
+	HTMLHelper::_('behavior.tooltip');
 }
-JHtml::_('behavior.formvalidation');
+HTMLHelper::_('behavior.formvalidation');
 ?>
 <div class="registration<?php echo $this->pageclass_sfx?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
@@ -44,10 +44,10 @@ JHtml::_('behavior.formvalidation');
 		<div class="form-group form-actions">
 			<div class="col-sm-offset-3 col-sm-9">
 				<button type="submit" class="btn btn-primary validate"><?php echo Text::_('JREGISTER');?></button>
-				<a class="btn cancel" href="<?php echo JRoute::_('');?>" title="<?php echo Text::_('JCANCEL');?>"><?php echo Text::_('JCANCEL');?></a>
+				<a class="btn cancel" href="<?php echo Route::_('');?>" title="<?php echo Text::_('JCANCEL');?>"><?php echo Text::_('JCANCEL');?></a>
 				<input type="hidden" name="option" value="com_users" />
 				<input type="hidden" name="task" value="registration.register" />
-				<?php echo JHtml::_('form.token');?>
+				<?php echo HTMLHelper::_('form.token');?>
 			</div>
 		</div>
 	</form>

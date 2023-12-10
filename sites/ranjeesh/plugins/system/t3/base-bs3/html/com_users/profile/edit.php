@@ -8,9 +8,10 @@
  */
 
 defined('_JEXEC') or die;
-
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 if (version_compare(JVERSION, '4', 'ge')) {
 	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -27,7 +28,7 @@ else {
 	HTMLHelper::_('formbehavior.chosen', 'select');
 }
 // Load user_profile plugin language
-$lang = JFactory::getLanguage();
+$lang = Factory::getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 ?>
@@ -56,7 +57,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 		}
 	</script>
 
-	<form id="member-profile" action="<?php echo JRoute::_('index.php?option=com_users&task=profile.save'); ?>" method="post" class="form-validate form-horizontal" enctype="multipart/form-data">
+	<form id="member-profile" action="<?php echo Route::_('index.php?option=com_users&task=profile.save'); ?>" method="post" class="form-validate form-horizontal" enctype="multipart/form-data">
 	<?php // Iterate through the form fieldsets and display each one. ?>
 	<?php foreach ($this->form->getFieldsets() as $group => $fieldset) : ?>
 		<?php $fields = $this->form->getFieldset($group); ?>
@@ -118,7 +119,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 						</label>
 					</div>
 					<div class="col-sm-9 controls">
-						<?php echo JHtml::_('select.genericlist', $this->twofactormethods, 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
+						<?php echo HTMLHelper::_('select.genericlist', $this->twofactormethods, 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
 					</div>
 				</div>
 				<div id="com_users_twofactor_forms_container">
@@ -157,11 +158,11 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 		<div class="form-group form-actions">
 			<div class="col-sm-offset-3 col-sm-9">
 				<button type="submit" class="btn btn-primary validate"><span><?php echo Text::_('JSUBMIT'); ?></span></button>
-				<a class="btn" href="<?php echo JRoute::_('index.php?option=com_users&view=profile'); ?>" title="<?php echo Text::_('JCANCEL'); ?>"><?php echo Text::_('JCANCEL'); ?></a>
+				<a class="btn" href="<?php echo Route::_('index.php?option=com_users&view=profile'); ?>" title="<?php echo Text::_('JCANCEL'); ?>"><?php echo Text::_('JCANCEL'); ?></a>
 				<input type="hidden" name="option" value="com_users" />
 				<input type="hidden" name="task" value="profile.save" />
 			</div>
 		</div>
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 </div>

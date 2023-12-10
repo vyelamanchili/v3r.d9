@@ -9,9 +9,13 @@
 
 defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Component\ComponentHelper;
 
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.formvalidator');
 ?>
 
 <div class="login-wrap">
@@ -41,7 +45,7 @@ JHtml::_('behavior.formvalidator');
 		</div>
 		<?php endif; ?>
 
-		<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="form-validate form-horizontal">
+		<form action="<?php echo Route::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="form-validate form-horizontal">
 
 			<fieldset>
 				<?php foreach ($this->form->getFieldset('credentials') as $field) : ?>
@@ -68,7 +72,7 @@ JHtml::_('behavior.formvalidator');
 					</div>
 				<?php endif; ?>
 
-				<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
+				<?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
 				<div  class="form-group">
 					<div class="col-sm-offset-3 col-sm-9">
 						<div class="checkbox">
@@ -91,7 +95,7 @@ JHtml::_('behavior.formvalidator');
 
 				<?php $return = $this->form->getValue('return', '', $this->params->get('login_redirect_url', $this->params->get('login_redirect_menuitem'))); ?>
 				<input type="hidden" name="return" value="<?php echo base64_encode($return); ?>" />
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</fieldset>
 		</form>
 	</div>
@@ -100,18 +104,18 @@ JHtml::_('behavior.formvalidator');
 		<div class="col-sm-offset-3 col-sm-9">
 			<ul>
 				<li>
-					<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
+					<a href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
 					<?php echo Text::_('COM_USERS_LOGIN_RESET'); ?></a>
 				</li>
 				<li>
-					<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
+					<a href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
 					<?php echo Text::_('COM_USERS_LOGIN_REMIND'); ?></a>
 				</li>
 				<?php
-				$usersConfig = JComponentHelper::getParams('com_users');
+				$usersConfig = ComponentHelper::getParams('com_users');
 				if ($usersConfig->get('allowUserRegistration')) : ?>
 				<li>
-					<a href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
+					<a href="<?php echo Route::_('index.php?option=com_users&view=registration'); ?>">
 						<?php echo Text::_('COM_USERS_LOGIN_REGISTER'); ?></a>
 				</li>
 				<?php endif; ?>

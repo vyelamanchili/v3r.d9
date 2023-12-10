@@ -8,9 +8,10 @@
  */
 
 defined('JPATH_BASE') or die;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $class = ' class="first"';
-JHtml::_('bootstrap.tooltip');
+HTMLHelper::_('bootstrap.tooltip');
 
 $item = $displayData->item;
 $items = $displayData->get('items');

@@ -11,12 +11,21 @@
  */
 // No direct access
 defined('JPATH_BASE') or die();
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\Filesystem\Folder;
+use Joomla\CMS\Filter\InputFilter;
+
 jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-class jaExtUploaderComponent extends JObject
+class jaExtUploaderComponent extends CMSObject
 {
 
+	public $parent;
+	public $manifest;
 
 	/**
 	 * Constructor
@@ -57,7 +66,7 @@ class jaExtUploaderComponent extends JObject
 		 */
 		
 		// Set the extensions name
-		$name = strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
+		$name = strtolower(InputFilter::getInstance()->clean((string) $this->manifest->name, 'cmd'));
 		if (substr($name, 0, 4) == "com_") {
 			$element = $name;
 		} else {
@@ -68,22 +77,19 @@ class jaExtUploaderComponent extends JObject
 		$this->set('element', $element);
 		
 		// Get the component description
-		$this->parent->set('description', JText::_((string) $this->manifest->description));
+		$this->parent->set('description', Text::_((string) $this->manifest->description));
 		
 		$jaProduct = $this->parent->buildProduct($element);
 		
 		if ($jaProduct !== false) {
 			//path for install, we dont need it on upload to local reposiotry :)
 			// Set the installation target paths
-			//$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.'/components/'.$this->get('element')));
-			//$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$this->get('element')));
-			
 
 			$storePath = $jauc->getLocalVersionPath($jaProduct, false);
 			$this->parent->setPath('extension_site', $storePath . "site");
 			$this->parent->setPath('extension_administrator', $storePath . "admin");
 		} else {
-			$this->parent->setResult($jaProduct, true, JText::_('NO_COMPONENT_FILE_SPECIFIED'));
+			$this->parent->setResult($jaProduct, true, Text::_('NO_COMPONENT_FILE_SPECIFIED'));
 			return false;
 		}
 		/**
@@ -94,7 +100,8 @@ class jaExtUploaderComponent extends JObject
 		
 		// Make sure that we have an admin element
 		if (!$this->manifest->administration) {
-			JError::raiseWarning(1, JText::_('COMPONENT') . ' ' . JText::_('UPLOAD') . ': ' . JText::_('THE_XML_FILE_DID_NOT_CONTAIN_AN_ADMINISTRATION_ELEMENT'));
+			$app = Factory::getApplication();
+			$app->enqueueMessage(Text::_('COMPONENT') . ' ' . Text::_('UPLOAD') . ': ' . Text::_('THE_XML_FILE_DID_NOT_CONTAIN_AN_ADMINISTRATION_ELEMENT'), 'warning');
 			return false;
 		}
 		
@@ -109,15 +116,15 @@ class jaExtUploaderComponent extends JObject
 		 * installed or another component is using that directory.
 		 */
 		if (file_exists($storePath) && !$this->parent->getOverwrite()) {
-			$this->parent->setResult($jaProduct, true, JText::sprintf('THE_VERSION_S_OF_S_IS_ALREADY_EXISTS_ON_LOCAL_REPOSITORY', $jaProduct->version, $name) . ': <br />"' . $this->parent->getPath('extension_root') . '"');
+			$this->parent->setResult($jaProduct, true, Text::sprintf('THE_VERSION_S_OF_S_IS_ALREADY_EXISTS_ON_LOCAL_REPOSITORY', $jaProduct->version, $name) . ': <br />"' . $this->parent->getPath('extension_root') . '"');
 			return false;
 		}
 		
 		// If the component site directory does not exist, lets create it
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_site'))) {
-			if (!$created = JFolder::create($this->parent->getPath('extension_site'))) {
-				$this->parent->setResult($jaProduct, true, JText::_('FAILED_TO_CREATE_DIRECTORY') . ': <br />"' . $this->parent->getPath('extension_site') . '"');
+			if (!$created = Folder::create($this->parent->getPath('extension_site'))) {
+				$this->parent->setResult($jaProduct, true, Text::_('FAILED_TO_CREATE_DIRECTORY') . ': <br />"' . $this->parent->getPath('extension_site') . '"');
 				return false;
 			}
 		}
@@ -133,8 +140,8 @@ class jaExtUploaderComponent extends JObject
 		// If the component admin directory does not exist, lets create it
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_administrator'))) {
-			if (!$created = JFolder::create($this->parent->getPath('extension_administrator'))) {
-				$this->parent->setResult($jaProduct, true, JText::_('FAILED_TO_CREATE_DIRECTORY') . ': <br />"' . $this->parent->getPath('extension_administrator') . '"');
+			if (!$created = Folder::create($this->parent->getPath('extension_administrator'))) {
+				$this->parent->setResult($jaProduct, true, Text::_('FAILED_TO_CREATE_DIRECTORY') . ': <br />"' . $this->parent->getPath('extension_administrator') . '"');
 				return false;
 			}
 		}
@@ -183,7 +190,7 @@ class jaExtUploaderComponent extends JObject
 				
 				if (!$this->parent->copyFiles(array($path))) {
 					// Install failed, rollback changes
-					$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_PHP_INSTALL'));
+					$this->parent->abort(Text::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_PHP_INSTALL'));
 					
 					return false;
 				}
@@ -204,7 +211,7 @@ class jaExtUploaderComponent extends JObject
 				
 				if (!$this->parent->copyFiles(array($path))) {
 					// Install failed, rollback changes
-					$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_PHP_UNINSTALL'));
+					$this->parent->abort(Text::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_PHP_UNINSTALL'));
 					return false;
 				}
 			}
@@ -218,7 +225,7 @@ class jaExtUploaderComponent extends JObject
 			if (!file_exists($path['dest']) || $this->parent->getOverwrite()) {
 				if (!$this->parent->copyFiles(array($path))) {
 					// Install failed, rollback changes
-					$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_MANIFEST'));
+					$this->parent->abort(Text::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_MANIFEST'));
 					
 					return false;
 				}
@@ -234,7 +241,7 @@ class jaExtUploaderComponent extends JObject
 		// Lastly, we will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest()) {
 			// Install failed, rollback changes
-			$this->parent->setResult($jaProduct, true, JText::_('COULD_NOT_COPY_SETUP_FILE'));
+			$this->parent->setResult($jaProduct, true, Text::_('COULD_NOT_COPY_SETUP_FILE'));
 			return false;
 		}
 		

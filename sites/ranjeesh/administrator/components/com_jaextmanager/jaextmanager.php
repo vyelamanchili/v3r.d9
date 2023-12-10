@@ -14,6 +14,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\File;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
 //error_reporting(E_ALL & ~E_STRICT & ~E_NOTICE);
 
 
@@ -46,35 +52,35 @@ if(jaIsJoomla3x()){
 }
 
 //Check xml file only for version 2.5.3
-if(JFile::exists(JPATH_COMPONENT."/installer/update/update.php")){
+if(is_file(JPATH_COMPONENT."/installer/update/update.php")){
 	require_once JPATH_COMPONENT."/installer/update/update.php";
 }
 
 if(version_compare(JVERSION, '4', 'ge')){
-	JHtml::_('jquery.framework');
+	HTMLHelper::_('jquery.framework');
 }
 // Load global stylesheets and javascript
 if (!defined('JA_GLOBAL_SKIN')) {
 	define('JA_GLOBAL_SKIN', 1);
-	$assets = JURI::root() . 'administrator/components/com_jaextmanager/assets/';
+	$assets = URI::root() . 'administrator/components/com_jaextmanager/assets/';
 	
-	JHtml::_('stylesheet', $assets . 'css/' . 'default.css');
-	JHtml::_('stylesheet', $assets . 'css/' . 'style.css');
-	JHtml::_('stylesheet', $assets . 'japopup/' . 'ja.popup.css');
-	JHtml::_('stylesheet', $assets . 'jadiffviewer/' . 'diffviewer.css');
-	JHtml::_('stylesheet', $assets . 'jatooltips/themes/default/' . 'style.css');
-	JHtml::_('stylesheet', $assets . 'jquery.alerts/' . 'jquery.alerts.css');
+	HTMLHelper::_('stylesheet', $assets . 'css/' . 'default.css');
+	HTMLHelper::_('stylesheet', $assets . 'css/' . 'style.css');
+	HTMLHelper::_('stylesheet', $assets . 'japopup/' . 'ja.popup.css');
+	HTMLHelper::_('stylesheet', $assets . 'jadiffviewer/' . 'diffviewer.css');
+	HTMLHelper::_('stylesheet', $assets . 'jatooltips/themes/default/' . 'style.css');
+	HTMLHelper::_('stylesheet', $assets . 'jquery.alerts/' . 'jquery.alerts.css');
 	
-	JHtml::_('bootstrap.popover');
-	JHtml::_('bootstrap.modal');
-	JHtml::_('script', $assets . 'js/' . 'js.cookie.js');
-	JHtml::_('script', $assets . 'js/' . 'jquery.event.drag-1.4.min.js');
-	JHtml::_('script', $assets . 'js/' . 'jauc.js');
-	JHtml::_('script', $assets . 'js/' . 'jatree.js');
-	JHtml::_('script', $assets . 'js/' . 'menu.js');
-	JHtml::_('script', $assets . 'japopup/' . 'ja.popup.js');
-	JHtml::_('script', $assets . 'jadiffviewer/' . 'diffviewer.js');
-	JHtml::_('script', $assets . 'jquery.alerts/' . 'jquery.alerts.js');
+	HTMLHelper::_('bootstrap.popover');
+	HTMLHelper::_('bootstrap.modal');
+	HTMLHelper::_('script', $assets . 'js/' . 'js.cookie.js');
+	HTMLHelper::_('script', $assets . 'js/' . 'jquery.event.drag-1.4.min.js');
+	HTMLHelper::_('script', $assets . 'js/' . 'jauc.js');
+	HTMLHelper::_('script', $assets . 'js/' . 'jatree.js');
+	HTMLHelper::_('script', $assets . 'js/' . 'menu.js');
+	HTMLHelper::_('script', $assets . 'japopup/' . 'ja.popup.js');
+	HTMLHelper::_('script', $assets . 'jadiffviewer/' . 'diffviewer.js');
+	HTMLHelper::_('script', $assets . 'jquery.alerts/' . 'jquery.alerts.js');
 
 }
 
@@ -85,7 +91,7 @@ global $compUri, $settings, $jauc;
 $compUri = "index.php?option=" . JRequest::getVar('option');
 $jauc = new UpdaterClient();
 
-JToolbarHelper::title(JText::_("JOOMART_EXTENSIONS_MANAGER"));
+ToolbarHelper::title(Text::_("JOOMART_EXTENSIONS_MANAGER"));
 
 // -----
 // Require specific controller if requested

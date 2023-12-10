@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 // Create a shortcut for params.
 $params  = & $this->item->params;
@@ -24,11 +26,15 @@ $aInfo2 = ($params->get('show_create_date') || $params->get('show_modify_date') 
 $topInfo = ($aInfo1 && $info != 1) || ($aInfo2 && $info == 0);
 $botInfo = ($aInfo1 && $info == 1) || ($aInfo2 && $info != 0);
 $icons = $params->get('access-edit') || $params->get('show_print_icon') || $params->get('show_email_icon');
+
+$currentDate   = Factory::getDate()->format('Y-m-d H:i:s');
+$isUnpublished = ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED || $this->item->publish_up > $currentDate)
+    || ($this->item->publish_down < $currentDate && $this->item->publish_down !== null);
 ?>
 
-<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate()) || ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != '0000-00-00 00:00:00' )) : ?>
-<div class="system-unpublished">
-<?php endif; ?>
+	<?php if ($isUnpublished) : ?>
+		<div class="system-unpublished">
+	<?php endif; ?>
 
 	<!-- Article -->
 	<article>
@@ -112,7 +118,8 @@ $icons = $params->get('access-edit') || $params->get('show_print_icon') || $para
 	</article>
 	<!-- //Article -->
 
- <?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate()) || ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != '0000-00-00 00:00:00' )) : ?>
-</div>
-<?php endif; ?>
+	<?php if ($isUnpublished) : ?>
+		</div>
+	<?php endif; ?>
+
 <?php echo $this->item->event->afterDisplayContent; ?>

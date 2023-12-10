@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 
 $fieldSets = $this->form->getFieldsets('params');
 
-echo JHtml::_('bootstrap.startAccordion', 'collapseTypes');
+echo HTMLHelper::_('bootstrap.startAccordion', 'collapseTypes');
 
 $i = 0;
 
@@ -29,7 +29,7 @@ if (isset($fieldSet->description) && trim($fieldSet->description)) :
 echo '<p class="tip">' . $this->escape(Text::_($fieldSet->description)) . '</p>';
 endif;
 ?>
-<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', Text::_($label), 'collapse' . ($i++)); ?>
+<?php echo HTMLHelper::_('bootstrap.addSlide', 'collapseTypes', Text::_($label), 'collapse' . ($i++)); ?>
 
 <ul class="nav nav-tabs nav-stacked flex-column">
 <?php foreach ($this->form->getFieldset($name) as $field) : ?>
@@ -45,6 +45,6 @@ endif;
 <?php endforeach; ?>
 </ul>
 
-<?php echo JHtml::_('bootstrap.endSlide'); ?>
+<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
 <?php endforeach; ?>
-<?php echo JHtml::_('bootstrap.endAccordion'); ?>
+<?php echo HTMLHelper::_('bootstrap.endAccordion'); ?>

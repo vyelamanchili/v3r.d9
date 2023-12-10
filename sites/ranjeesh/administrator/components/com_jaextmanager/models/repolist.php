@@ -7,6 +7,13 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\Filesystem\Folder;
+
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -27,7 +34,6 @@ class JaextmanagerModelRepolist extends JAEMModel
 		static $set;
 		if (!$set) {
 			$folder = JRequest::getVar('folder', '', '', 'none');
-			//$folder = JPath::clean($folder);
 			$this->setState('folder', $folder);
 			
 			$parent = str_replace("\\", "/", dirname($folder));
@@ -89,30 +95,30 @@ class JaextmanagerModelRepolist extends JAEMModel
 		} else {
 			$basePath = JA_WORKING_DATA_FOLDER;
 		}
-		$basePath = JPath::clean($basePath.'/');
+		$basePath = Path::clean($basePath.'/');
 		$mediaBase = str_replace(DS, '/', JA_WORKING_DATA_FOLDER);
 		
 		$images = array();
 		$folders = array();
 		$docs = array();
 		
-		if (JFolder::exists($basePath)) {
+		if (is_dir($basePath)) {
 			// Get the list of files and folders from the given folder
-			$fileList = JFolder::files($basePath);
-			$folderList = JFolder::folders($basePath);
+			$fileList = Folder::files($basePath);
+			$folderList = Folder::folders($basePath);
 			
 			$iconPath = JPATH_ADMINISTRATOR."/components/com_jaextmanager/assets/images/icons/";
 			// Iterate over the files if they exist
 			if ($fileList !== false) {
 				foreach ($fileList as $file) {
-					if (JFile::exists($basePath.'/'.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
-						$tmp = new JObject();
+					if (is_file($basePath.'/'.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
+						$tmp = new CMSObject();
 						$tmp->name = $file;
-						$tmp->path = str_replace(DS, '/', JPath::clean($basePath.'/'.$file));
+						$tmp->path = str_replace(DS, '/', Path::clean($basePath.'/'.$file));
 						$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 						$tmp->size = filesize($tmp->path);
 						
-						$ext = strtolower(JFile::getExt($file));
+						$ext = strtolower(File::getExt($file));
 						$tmp->ext = $ext;
 						switch ($ext) {
 							// Image
@@ -186,9 +192,9 @@ class JaextmanagerModelRepolist extends JAEMModel
 			// Iterate over the folders if they exist
 			if ($folderList !== false) {
 				foreach ($folderList as $folder) {
-					$tmp = new JObject();
+					$tmp = new CMSObject();
 					$tmp->name = basename($folder);
-					$tmp->path = str_replace(DS, '/', JPath::clean($basePath.'/'.$folder));
+					$tmp->path = str_replace(DS, '/', Path::clean($basePath.'/'.$folder));
 					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 					$count = $RepoHelper->countFiles($tmp->path);
 					$tmp->files = $count[0];
@@ -198,8 +204,8 @@ class JaextmanagerModelRepolist extends JAEMModel
 				}
 			}
 		} else {
-			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_("PATH_IS_NOT_A_FOLDER_OR_THIS_FOLDER_WAS_DELETED"), 'error');
+			$app = Factory::getApplication();
+			$app->enqueueMessage(Text::_("PATH_IS_NOT_A_FOLDER_OR_THIS_FOLDER_WAS_DELETED"), 'error');
 		}
 		
 		$list = array('folders' => $folders, 'docs' => $docs, 'images' => $images);

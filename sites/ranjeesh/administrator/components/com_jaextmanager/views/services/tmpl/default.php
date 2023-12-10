@@ -13,12 +13,17 @@
 // no direct access
 defined ( '_JEXEC' ) or die ( 'Restricted access' ); 
 
-JText::script('ONLINE');
-JText::script('LOGIN_FAILED');
-JText::script('CHECKING');
-JText::script('YOUR_SETTING_IS_SUCCESSFULLY_SAVED');
-JText::script('WRONG_USERNAME_AND_PASSWORD_LOGIN_FAILED_PLEASE_TRY_AGAIN');
-JText::script('NEW_SERVICE_SUCCESSFULLY_ADDED');
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Filter\OutputFilter;
+
+Text::script('ONLINE');
+Text::script('LOGIN_FAILED');
+Text::script('CHECKING');
+Text::script('YOUR_SETTING_IS_SUCCESSFULLY_SAVED');
+Text::script('WRONG_USERNAME_AND_PASSWORD_LOGIN_FAILED_PLEASE_TRY_AGAIN');
+Text::script('NEW_SERVICE_SUCCESSFULLY_ADDED');
 
 $services = $this->services; 
 $lists = $this->lists; 
@@ -35,11 +40,11 @@ $linkNew = sprintf($viewLink, 'edit', 0, 0);
 Joomla.submitbutton = function(pressbutton) {
 	var form = document.adminForm;
 	if (pressbutton == 'add' || pressbutton == 'edit') {
-		jaCreatePopup('<?php echo $linkNew; ?>', 680, 420, '<?php echo JText::_("NEW_REMOTE_SERVICE", true)?>');
+		jaCreatePopup('<?php echo $linkNew; ?>', 680, 420, '<?php echo Text::_("NEW_REMOTE_SERVICE", true)?>');
 	} else if (pressbutton == 'remove') {
 		var selected = jQuery('input[name^=cid]:checked').val();
 		if(jQuery('#chkDel' + selected).val() == 0) {
-			alert('<?php echo JText::_('CAN_NOT_DELETE_CORE_OR_DEFAULT_SERVICE', true); ?>');
+			alert('<?php echo Text::_('CAN_NOT_DELETE_CORE_OR_DEFAULT_SERVICE', true); ?>');
 			return false;
 		} else {
 			form.task.value = pressbutton;
@@ -54,25 +59,25 @@ Joomla.submitbutton = function(pressbutton) {
 </script>
 
 <form method="post" name="adminForm" id="adminForm">
-  <?php echo JHtml::_( 'form.token' ); ?>
+  <?php echo HTMLHelper::_( 'form.token' ); ?>
   <input type="hidden" name="option" value="com_jaextmanager" />
   <input type="hidden" name="task" value="" />
   <input type="hidden" name="boxchecked" value="0" />
   <input type="hidden" name="view" value="<?php echo $view; ?>" />
   <input type="hidden" name="filter_order_Dir" value="<?php echo $lists['filter_order_Dir']; ?>" />
   <fieldset>
-  <legend><?php echo JText::_('SERVICES_MANAGER'); ?></legend>
+  <legend><?php echo Text::_('SERVICES_MANAGER'); ?></legend>
   <table class="adminlist table table-striped ja-uc">
     <thead>
       <tr>
-        <th width="2%" align="left"> <?php echo JText::_('NUM' ); ?> </th>
+        <th width="2%" align="left"> <?php echo Text::_('NUM' ); ?> </th>
         <th width="2%">&nbsp;    </th>
-        <th> <?php echo JText::_("SERVICE_NAME"); ?> </th>
-        <th width="12%"> <?php echo JText::_("SERVICE_STATUS"); ?> </th>
-        <th> <?php echo JText::_("MODE"); ?> </th>
-        <th> <?php echo JText::_("SERVICE_URL"); ?> </th>
-        <th> <?php echo JText::_("USERNAME"); ?> </th>
-        <th width="5%"> <?php echo JText::_("DEFAULT"); ?> </th>
+        <th> <?php echo Text::_("SERVICE_NAME"); ?> </th>
+        <th width="12%"> <?php echo Text::_("SERVICE_STATUS"); ?> </th>
+        <th> <?php echo Text::_("MODE"); ?> </th>
+        <th> <?php echo Text::_("SERVICE_URL"); ?> </th>
+        <th> <?php echo Text::_("USERNAME"); ?> </th>
+        <th width="5%"> <?php echo Text::_("DEFAULT"); ?> </th>
         <th width="5%">&nbsp;</th>
       </tr>
     </thead>
@@ -90,12 +95,12 @@ Joomla.submitbutton = function(pressbutton) {
 		if ($item->ws_mode == 'remote') {
 			$ids[] = $item->id;
 		}
-		JFilterOutput::objectHtmlSafe($item);
-		$title=JText::_('EDIT_SERVICES_')." ID: ".$item->id;	
+		OutputFilter::objectHtmlSafe($item);
+		$title=Text::_('EDIT_SERVICES_')." ID: ".$item->id;	
 		$linkEdit = sprintf($viewLink, 'edit', $item->id, $i);
 		
 		$deleted = ($item->ws_core || $item->ws_default) ? 0 : 1;
-		$core = ($item->ws_core) ? '<sup style="color:red;">['.JText::_('CORE').']</sub>' : '';
+		$core = ($item->ws_core) ? '<sup style="color:red;">['.Text::_('CORE').']</sub>' : '';
 		?>
     <tr>
       <td><?php echo $page->getRowOffset( $i ); ?> </td>
@@ -108,8 +113,8 @@ Joomla.submitbutton = function(pressbutton) {
 				<span id="ws_status<?php echo $item->id?>">
 					<small>
 						<?php if($item->ws_mode == 'remote'): ?>
-							<img style="height:12px" src="<?php echo JUri::base().'components/com_jaextmanager/assets/images/checking.gif' ?>" />
-							<?php echo JText::_('CHECKING') ?>
+							<img style="height:12px" src="<?php echo Uri::base().'components/com_jaextmanager/assets/images/checking.gif' ?>" />
+							<?php echo Text::_('CHECKING') ?>
 						<?php endif ?>
 					</small>
 				</span>
@@ -124,12 +129,12 @@ Joomla.submitbutton = function(pressbutton) {
         <?php endif; ?>
         </span>        
       </td>
-      <td align="center"><a href="#" title="<?php echo JText::_('EDIT'); ?>" onclick="jaCreatePopup('<?php echo $linkEdit; ?>', 680, 450, '<?php echo JText::_($item->ws_name . " [Edit]", true)?>'); return false;"><?php echo JText::_('EDIT'); ?></a></td>
+      <td align="center"><a href="#" title="<?php echo Text::_('EDIT'); ?>" onclick="jaCreatePopup('<?php echo $linkEdit; ?>', 680, 450, '<?php echo Text::_($item->ws_name . " [Edit]", true)?>'); return false;"><?php echo Text::_('EDIT'); ?></a></td>
     </tr>
     <?php }?>
     <?php }else{ ?>
     <tr>
-      <td colspan="5"><?php echo JText::_("HAVE_NO_RESULT")?> </td>
+      <td colspan="5"><?php echo Text::_("HAVE_NO_RESULT")?> </td>
     </tr>
     <?php } ?>
   </table>
@@ -165,7 +170,7 @@ jQuery(document).on('afterCreatePopup', function(){
 		cbtn = jQuery('#japopup_ac'),
 		noti = jQuery('<small>',{
 			id: 'savenoti',
-			html: '<img style="float:left" src="<?php echo JUri::base().'components/com_jaextmanager/assets/images/checking.gif' ?>" />&nbsp;'+Joomla.JText._('CHECKING'),
+			html: '<img style="float:left" src="<?php echo Uri::base().'components/com_jaextmanager/assets/images/checking.gif' ?>" />&nbsp;'+Joomla.JText._('CHECKING'),
 			css: ({
 				'position':'absolute',
 				'top':'9px',

@@ -9,6 +9,11 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Filter\InputFilter;
+
 /**
  * Create the request global object
  */
@@ -21,7 +26,7 @@ const JREQUEST_NOTRIM    = 1;
 const JREQUEST_ALLOWRAW  = 2;
 const JREQUEST_ALLOWHTML = 4;
 
-JLog::add('JRequest is deprecated.', JLog::WARNING, 'deprecated');
+Log::add('JRequest is deprecated.', Log::WARNING, 'deprecated');
 
 /**
  * JRequest Class
@@ -45,7 +50,7 @@ class JRequest
 	 */
 	public static function getUri()
 	{
-		$uri = JUri::getInstance();
+		$uri = Uri::getInstance();
 
 		return $uri->toString(array('path', 'query'));
 	}
@@ -85,7 +90,7 @@ class JRequest
 	 * @param   string   $name     Variable name.
 	 * @param   mixed    $default  Default value if the variable does not exist.
 	 * @param   string   $hash     Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
-	 * @param   string   $type     Return type for the variable, for valid values see {@link JFilterInput::clean()}.
+	 * @param   string   $type     Return type for the variable, for valid values see {@link InputFilter::clean()}.
 	 * @param   integer  $mask     Filter mask for the variable.
 	 *
 	 * @return  mixed  Requested variable.
@@ -476,7 +481,7 @@ class JRequest
 	/**
 	 * Checks for a form token in the request.
 	 *
-	 * Use in conjunction with JHtml::_('form.token').
+	 * Use in conjunction with HTMLHelper::_('form.token').
 	 *
 	 * @param   string  $method  The request method in which to look for the token key.
 	 *
@@ -492,7 +497,7 @@ class JRequest
 			$method = 'request';
 		}
 
-		return JSession::checkToken($method);
+		return Session::checkToken($method);
 	}
 
 	/**
@@ -505,14 +510,14 @@ class JRequest
 	 *                           2 = allow_raw: If set, no more filtering is performed, higher bits are ignored.
 	 *                           4 = allow_html: HTML is allowed, but passed through a safe HTML filter first. If set, no more filtering
 	 *                               is performed. If no bits other than the 1 bit is set, a strict filter is applied.
-	 * @param   string   $type  The variable type {@see JFilterInput::clean()}.
+	 * @param   string   $type  The variable type {@see InputFilter::clean()}.
 	 *
 	 * @return  mixed  Same as $var
 	 *
 	 * @since   1.5
 	 * @deprecated  1.7
 	 */
-	protected static function _cleanVar($var, $mask = 0, $type = null)
+	protected static function _cleanVar($var, $mask = 0, $type = '')
 	{
 		// If the no trim flag is not set, trim the variable
 		if (!($mask & 1) && is_string($var))
@@ -528,14 +533,14 @@ class JRequest
 		elseif ($mask & 4)
 		{
 			// If the allow HTML flag is set, apply a safe HTML filter to the variable
-			$safeHtmlFilter = JFilterInput::getInstance(array(), array(), 1, 1);
+			$safeHtmlFilter = InputFilter::getInstance(array(), array(), 1, 1);
 			$var = $safeHtmlFilter->clean($var, $type);
 		}
 		else
 		{
 			// Since no allow flags were set, we will apply the most strict filter to the variable
 			// $tags, $attr, $tag_method, $attr_method, $xss_auto use defaults.
-			$noHtmlFilter = JFilterInput::getInstance();
+			$noHtmlFilter = InputFilter::getInstance();
 			$var = $noHtmlFilter->clean($var, $type);
 		}
 

@@ -8,6 +8,9 @@
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Router\Route;
+
 $params = $displayData->params;
 ?>
 <?php $images = json_decode($displayData->images); ?>
@@ -15,7 +18,7 @@ $params = $displayData->params;
   <?php $imgfloat = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro; ?>
   <div class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
   <?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
-    <a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>"><img
+    <a href="<?php echo Route::_(ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>"><img
     <?php if ($images->image_intro_caption) : ?>
       <?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"'; ?>
     <?php endif; ?>

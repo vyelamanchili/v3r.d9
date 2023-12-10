@@ -9,17 +9,21 @@
 
 // No direct access.
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 ?>
 <form action="index.php?option=com_jaextmanager&amp;view=folder&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 	<div class="manager">
 	<table class="adminlist table table-striped" width="100%" cellspacing="0">
 	<thead>
 		<tr>
-			<th><?php echo JText::_('PREVIEW' ); ?></th>
-			<th><?php echo JText::_('NAME' ); ?></th>
-			<th><?php echo JText::_('DIMENSIONS' ); ?></th>
-			<th><?php echo JText::_('SIZE' ); ?></th>
-			<th><?php echo JText::_('DELETE' ); ?></th>
+			<th><?php echo Text::_('PREVIEW' ); ?></th>
+			<th><?php echo Text::_('NAME' ); ?></th>
+			<th><?php echo Text::_('DIMENSIONS' ); ?></th>
+			<th><?php echo Text::_('SIZE' ); ?></th>
+			<th><?php echo Text::_('DELETE' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -45,6 +49,6 @@ defined('_JEXEC') or die;
 	<input type="hidden" name="task" value="list" />
 	<input type="hidden" name="username" value="" />
 	<input type="hidden" name="password" value="" />
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 </form>

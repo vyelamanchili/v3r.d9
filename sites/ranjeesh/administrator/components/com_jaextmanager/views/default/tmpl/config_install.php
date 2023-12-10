@@ -12,7 +12,10 @@
 
 //no direct access
 defined( '_JEXEC' ) or die( 'Retricted Access' );
+
+use Joomla\CMS\Language\Text;
+
 ?>
 <fieldset>
-  <legend><?php echo JText::_("INSTALL_MANAGEMENT");?></legend>
+  <legend><?php echo Text::_("INSTALL_MANAGEMENT");?></legend>
 </fieldset>

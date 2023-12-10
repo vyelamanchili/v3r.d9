@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
 
 $class = ' class="first"';
 if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
@@ -25,7 +27,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
 	<li<?php echo $class; ?>>
 		<?php $class = ''; ?>
 			<h4 class="item-title">
-				<a href="<?php echo JRoute::_(ContactHelperRoute::getCategoryRoute($child->id)); ?>">
+				<a href="<?php echo Route::_(ContactHelperRoute::getCategoryRoute($child->id)); ?>">
 				<?php echo $this->escape($child->title); ?>
 				</a>
 
@@ -37,7 +39,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
 			<?php if ($this->params->get('show_subcat_desc') == 1) : ?>
 				<?php if ($child->description) : ?>
 					<div class="category-desc">
-						<?php echo JHtml::_('content.prepare', $child->description, '', 'com_contact.category'); ?>
+						<?php echo HTMLHelper::_('content.prepare', $child->description, '', 'com_contact.category'); ?>
 					</div>
 				<?php endif; ?>
 			<?php endif; ?>

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 if(!class_exists('ContentHelperRoute')){
 	if(version_compare(JVERSION, '4', 'ge')){
@@ -18,11 +19,11 @@ if(!class_exists('ContentHelperRoute')){
 	}
 }
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
-JHtml::addIncludePath(T3_PATH.'/html/com_content');
-JHtml::addIncludePath(dirname(dirname(__FILE__)));
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
+HTMLHelper::addIncludePath(T3_PATH.'/html/com_content');
+HTMLHelper::addIncludePath(dirname(dirname(__FILE__)));
 if (version_compare(JVERSION, '4', 'lt')) {
-	JHtml::_('behavior.caption');
+	HTMLHelper::_('behavior.caption');
 }
 $this->columns = !empty($this->columns) ? $this->columns : $this->params->get('num_columns',1);
 if(!$this->columns) $this->columns = 1;

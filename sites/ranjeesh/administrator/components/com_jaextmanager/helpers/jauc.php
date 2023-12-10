@@ -12,12 +12,18 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
+use Joomla\Filesystem\Folder;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Installer\Installer;
 
 jimport('joomla.application.component.helper');
 jimport('joomla.filesystem.file');
 
 jimport('joomla.filesystem.folder');
-class JaextmanagerHelper extends JComponentHelper
+class JaextmanagerHelper extends ComponentHelper
 {
 	var $params;
 	var $services;
@@ -88,7 +94,7 @@ class JaextmanagerHelper extends JComponentHelper
 
 	function _parseExtensionInfo($obj, $xmlfile)
 	{
-		if (JFile::exists($xmlfile)) {
+		if (is_file($xmlfile)) {
 			//$data = JApplicationHelper::parseXMLInstallFile($xmlfile)
 			
 
@@ -116,8 +122,8 @@ class JaextmanagerHelper extends JComponentHelper
 	{
 		$installDir = ($obj->client_id) ? JPATH_ADMINISTRATOR : JPATH_ROOT;
 		$installDir .= '/modules/' . $obj->extKey . '/';
-		$installDir = JPath::clean($installDir);
-		if (JFolder::exists($installDir) === false) {
+		$installDir = Path::clean($installDir);
+		if (is_dir($installDir) === false) {
 			return false;
 		}
 		
@@ -131,7 +137,7 @@ class JaextmanagerHelper extends JComponentHelper
 		//new stuture for plugins folder from 1.6
 		//each plugin will be stored at individual folder
 		$installDir = JPATH_ROOT . '/plugins/' . $obj->folder . '/' . $obj->extKey . '/';
-		if (JFile::exists($installDir . $obj->extKey . ".php") === false) {
+		if (is_file($installDir . $obj->extKey . ".php") === false) {
 			return false;
 		}
 		
@@ -144,8 +150,8 @@ class JaextmanagerHelper extends JComponentHelper
 	{
 		$installDir = ($obj->client_id) ? JPATH_ADMINISTRATOR : JPATH_ROOT;
 		$installDir .= '/templates/' . $obj->extKey . '/';
-		$installDir = JPath::clean($installDir);
-		if (JFolder::exists($installDir) === false) {
+		$installDir = Path::clean($installDir);
+		if (is_dir($installDir) === false) {
 			return false;
 		}
 		
@@ -160,21 +166,21 @@ class JaextmanagerHelper extends JComponentHelper
 		$adminDir = JPATH_ADMINISTRATOR . '/components/' . $obj->extKey . '/';
 		$siteDir = JPATH_SITE . '/components/' . $obj->extKey . '/';
 		
-		$xmlfiles = JFolder::files($adminDir, '.xml$', 1, true);
+		$xmlfiles = Folder::files($adminDir, '.xml$', 1, true);
 		$found = false;
 		if (!empty($xmlfiles)) {
 			foreach ($xmlfiles as $xmlfile) {
-				if ($data = \JInstaller::parseXMLInstallFile($xmlfile)) {
+				if ($data = Installer::parseXMLInstallFile($xmlfile)) {
 					$found = true;
 					break;
 				}
 			}
 		}
 		if (!$found) {
-			$xmlfiles = JFolder::files($siteDir, '.xml$', 1, true);
+			$xmlfiles = Folder::files($siteDir, '.xml$', 1, true);
 			if (!empty($xmlfiles)) {
 				foreach ($xmlfiles as $xmlfile) {
-					if ($data = \JInstaller::parseXMLInstallFile($xmlfile)) {
+					if ($data = Installer::parseXMLInstallFile($xmlfile)) {
 						$found = true;
 						break;
 					}
@@ -182,7 +188,7 @@ class JaextmanagerHelper extends JComponentHelper
 			}
 		}
 		
-		if (isset($xmlfile) && JFile::exists($xmlfile)) {
+		if (isset($xmlfile) && is_file($xmlfile)) {
 			return $this->_parseExtensionInfo($obj, $xmlfile);
 		} else {
 			return false;
@@ -227,8 +233,8 @@ class JaextmanagerHelper extends JComponentHelper
 		// check if we're a language if so use that
 		$data['type'] = $xml->getName() == 'metafile' ? 'language' : (string) $xml->attributes()->type;
 		
-		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('UNKNOWN');
-		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('UNKNOWN');
+		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : Text::_('UNKNOWN');
+		$data['author'] = ((string) $xml->author) ? (string) $xml->author : Text::_('UNKNOWN');
 		
 		$data['copyright'] = (string) $xml->copyright;
 		$data['authorEmail'] = (string) $xml->authorEmail;

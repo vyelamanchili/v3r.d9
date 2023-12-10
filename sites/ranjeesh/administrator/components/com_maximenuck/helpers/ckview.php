@@ -11,6 +11,16 @@ class CKView {
 
 	protected $input;
 
+	protected $item;
+
+	protected $items;
+
+	protected $state;
+
+	protected $pagination;
+
+	protected $toolbar;
+
 	public function __construct() {
 		// check if the user has the rights to access this page
 		if (!CKFof::userCan('edit')) {

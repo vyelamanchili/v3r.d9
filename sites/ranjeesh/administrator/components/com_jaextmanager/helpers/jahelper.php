@@ -13,6 +13,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+
 jimport('joomla.application.component.helper');
 
 class JAFormHelpers
@@ -66,7 +68,7 @@ class JAFormHelpers
 	{
 		if (!$objects)
 			return;
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		
 		$html = '';
 		$item_tem = array();

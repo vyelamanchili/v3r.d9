@@ -7,6 +7,12 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\Path;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Filesystem\Folder;
+
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -27,7 +33,6 @@ class JaextmanagerModelRepo extends JAEMModel
 		
 		if (!$set) {
 			$folder = JRequest::getVar('folder', '', '', 'none');
-			//$folder = JPath::clean($folder);
 			$this->setState('folder', $folder);
 			
 			$parent = str_replace("\\", "/", dirname($folder));
@@ -54,22 +59,22 @@ class JaextmanagerModelRepo extends JAEMModel
 		
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
-		$folders = JFolder::folders($base, '.', 5, true);
+		$folders = Folder::folders($base, '.', 5, true);
 		
 		// Load appropriate language files
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load(JRequest::getCmd('option'), JPATH_ADMINISTRATOR);
 		
-		$document = JFactory::getDocument();
-		$document->setTitle(JText::_('INSERT_IMAGE'));
+		$document = Factory::getDocument();
+		$document->setTitle(Text::_('INSERT_IMAGE'));
 		
 		// Build the array of select options for the folder list
-		$options[] = JHtml::_('select.option', "", "/");
+		$options[] = HTMLHelper::_('select.option', "", "/");
 		foreach ($folders as $folder) {
 			$folder = str_replace(JA_WORKING_DATA_FOLDER, "", $folder);
 			$value = substr($folder, 1);
 			$text = str_replace(DS, "/", $folder);
-			$options[] = JHtml::_('select.option', $value, $text);
+			$options[] = HTMLHelper::_('select.option', $value, $text);
 		}
 		
 		// Sort the folder list array
@@ -78,7 +83,7 @@ class JaextmanagerModelRepo extends JAEMModel
 		}
 		
 		// Create the drop-down folder select list
-		$list = JHtml::_('select.genericlist', $options, 'folderlist', "class=\"inputbox\" size=\"1\" onchange=\"ImageManager.setFolder(this.options[this.selectedIndex].value)\" ", 'value', 'text', $base);
+		$list = HTMLHelper::_('select.genericlist', $options, 'folderlist', "class=\"inputbox\" size=\"1\" onchange=\"ImageManager.setFolder(this.options[this.selectedIndex].value)\" ", 'value', 'text', $base);
 		return $list;
 	}
 
@@ -89,16 +94,16 @@ class JaextmanagerModelRepo extends JAEMModel
 		if (empty($base)) {
 			$base = JA_WORKING_DATA_FOLDER;
 		}
-		$base = JPath::clean($base.'/');
+		$base = Path::clean($base.'/');
 		$mediaBase = str_replace(DS, '/', $base);
 		
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
-		$folders = JFolder::folders($base, '.', 5, true);
+		$folders = Folder::folders($base, '.', 5, true);
 		
 		$tree = array();
 		foreach ($folders as $folder) {
-			$folder = JPath::clean($folder);
+			$folder = Path::clean($folder);
 			$folder = str_replace(DS, '/', $folder);
 			$name = substr($folder, strrpos($folder, '/') + 1);
 			$relative = str_replace($mediaBase, '', $folder);
@@ -121,7 +126,7 @@ class JaextmanagerModelRepo extends JAEMModel
 				}
 			}
 		}
-		$tree['data'] = (object) array('name' => JText::_('REPOSITORY'), 'relative' => '', 'absolute' => $base);
+		$tree['data'] = (object) array('name' => Text::_('REPOSITORY'), 'relative' => '', 'absolute' => $base);
 		return $tree;
 	}
 }

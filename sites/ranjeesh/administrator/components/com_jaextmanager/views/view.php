@@ -8,12 +8,13 @@
  * @license     GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 defined('_JEXEC') or die;
+use Joomla\CMS\MVC\View\HtmlView;
 
 jimport('joomla.application.component.view');
 
 if (version_compare(JVERSION, '3.0', 'ge')) {
 
-	class JAEMView extends JViewLegacy {
+	class JAEMView extends HtmlView {
 
 		public function assignRef($key, &$val) {
 			if (is_string($key) && substr($key, 0, 1) != '_') {

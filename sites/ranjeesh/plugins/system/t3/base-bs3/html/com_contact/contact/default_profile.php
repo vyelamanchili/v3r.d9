@@ -9,9 +9,12 @@
 
 defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\String\PunycodeHelper;
 
 ?>
-<?php if (JPluginHelper::isEnabled('user', 'profile')) :
+<?php if (PluginHelper::isEnabled('user', 'profile')) :
 	$fields = $this->item->profile->getFieldset('profile'); ?>
 	<div class="contact-profile" id="users-profile-custom">
 		<dl class="dl-horizontal">
@@ -25,14 +28,14 @@ use Joomla\CMS\Language\Text;
 							$v_http = substr($profile->value, 0, 4);
 
 							if ($v_http === 'http') :
-								echo '<dd><a href="' . $profile->text . '">' . JStringPunycode::urlToUTF8($profile->text) . '</a></dd>';
+								echo '<dd><a href="' . $profile->text . '">' . PunycodeHelper::urlToUTF8($profile->text) . '</a></dd>';
 							else :
-								echo '<dd><a href="http://' . $profile->text . '">' . JStringPunycode::urlToUTF8($profile->text) . '</a></dd>';
+								echo '<dd><a href="http://' . $profile->text . '">' . PunycodeHelper::urlToUTF8($profile->text) . '</a></dd>';
 							endif;
 							break;
 
 						case 'profile_dob':
-							echo '<dd>' . JHtml::_('date', $profile->text, Text::_('DATE_FORMAT_LC4'), false) . '</dd>';
+							echo '<dd>' . HTMLHelper::_('date', $profile->text, Text::_('DATE_FORMAT_LC4'), false) . '</dd>';
 						break;
 
 						default:

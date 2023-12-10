@@ -11,13 +11,19 @@
  */
 // no direct access
 defined ( '_JEXEC' ) or die ( 'Restricted access' ); 
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\Filesystem\Folder;
+use Joomla\CMS\Filter\InputFilter;
+
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
-class jaExtUploaderPlugin extends JObject
+class jaExtUploaderPlugin extends CMSObject
 {
-	var $parent;
-	var $manifest;
+	public $parent;
+	public $manifest;
 
 
 	/**
@@ -61,13 +67,13 @@ class jaExtUploaderPlugin extends JObject
 		
 		// Set the extensions name
 		$name = (string) $xml->name;
-		$name = JFilterInput::getInstance()->clean($name, 'string');
+		$name = InputFilter::getInstance()->clean($name, 'string');
 		$this->set('name', $name);
 		
 		// Get the component description
 		$description = (string) $xml->description;
 		/*if ($description) {
-			$this->parent->set('message', JText::_($description));
+			$this->parent->set('message', Text::_($description));
 		}
 		else {
 			$this->parent->set('message', '');
@@ -96,7 +102,7 @@ class jaExtUploaderPlugin extends JObject
 			$storePath = $jauc->getLocalVersionPath($jaProduct, false);
 			$this->parent->setPath('extension_root', $storePath);
 		} else {
-			$this->parent->setResult($jaProduct, true, JText::_('NO_PLUGIN_FILE_SPECIFIED'));
+			$this->parent->setResult($jaProduct, true, Text::_('NO_PLUGIN_FILE_SPECIFIED'));
 			return false;
 		}
 		
@@ -107,15 +113,15 @@ class jaExtUploaderPlugin extends JObject
 		 */
 		
 		if (file_exists($this->parent->getPath('extension_root')) && !$this->parent->getOverwrite()) {
-			$this->parent->setResult($jaProduct, true, JText::sprintf('THE_VERSION_S_OF_S_IS_ALREADY_EXISTS_ON_LOCAL_REPOSITORY', $jaProduct->version, $name) . ': <br />"' . $this->parent->getPath('extension_root') . '"');
+			$this->parent->setResult($jaProduct, true, Text::sprintf('THE_VERSION_S_OF_S_IS_ALREADY_EXISTS_ON_LOCAL_REPOSITORY', $jaProduct->version, $name) . ': <br />"' . $this->parent->getPath('extension_root') . '"');
 			return false;
 		}
 		
 		// If the module directory does not exist, lets create it
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_root'))) {
-			if (!$created = JFolder::create($this->parent->getPath('extension_root'))) {
-				$this->parent->setResult($jaProduct, true, JText::_('FAILED_TO_CREATE_DIRECTORY') . ': <br />"' . $this->parent->getPath('extension_root') . '"');
+			if (!$created = Folder::create($this->parent->getPath('extension_root'))) {
+				$this->parent->setResult($jaProduct, true, Text::_('FAILED_TO_CREATE_DIRECTORY') . ': <br />"' . $this->parent->getPath('extension_root') . '"');
 				return false;
 			}
 		}
@@ -148,7 +154,7 @@ class jaExtUploaderPlugin extends JObject
 		// Lastly, we will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest(-1)) {
 			// Install failed, rollback changes
-			$this->parent->setResult($jaProduct, true, JText::_('COULD_NOT_COPY_SETUP_FILE'));
+			$this->parent->setResult($jaProduct, true, Text::_('COULD_NOT_COPY_SETUP_FILE'));
 			return false;
 		}
 		

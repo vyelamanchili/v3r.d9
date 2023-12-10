@@ -8,17 +8,21 @@
  */
 
 defined('_JEXEC') or die;
-use Joomla\CMS\Language\Text;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
-JHtml::addIncludePath(T3_PATH.'/html/com_content');
-JHtml::addIncludePath(dirname(dirname(__FILE__)));
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
+
+HTMLHelper::addIncludePath(JPATH_COMPONENT.'/helpers');
+HTMLHelper::addIncludePath(T3_PATH.'/html/com_content');
+HTMLHelper::addIncludePath(dirname(dirname(__FILE__)));
 if(version_compare(JVERSION, '4','lt')){
-	JHtml::_('behavior.caption');	
+	HTMLHelper::_('behavior.caption');	
 }
 $this->columns = !empty($this->columns) ? $this->columns : $this->params->get('num_columns','1');
 if(!$this->columns) $this->columns = 1;
-$app = JFactory::getApplication();
+$app = Factory::getApplication();
 
 $this->category->text = $this->category->description;
 $app->triggerEvent('onContentPrepare', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
@@ -56,7 +60,7 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 	<?php echo $afterDisplayTitle; ?>
 	
 	<?php if ($this->params->get('show_cat_tags', 1) && !empty($this->category->tags->itemTags)) : ?>
-		<?php echo JLayoutHelper::render('joomla.content.tags', $this->category->tags->itemTags); ?>
+		<?php echo LayoutHelper::render('joomla.content.tags', $this->category->tags->itemTags); ?>
 	<?php endif; ?>
 	
 	<?php if ($beforeDisplayContent || $afterDisplayContent || $this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
@@ -66,7 +70,7 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 		<?php endif; ?>
 		<?php echo $beforeDisplayContent; ?>
 		<?php if ($this->params->get('show_description') && $this->category->description) : ?>
-			<?php echo JHtml::_('content.prepare', $this->category->description, '', 'com_content.category'); ?>
+			<?php echo HTMLHelper::_('content.prepare', $this->category->description, '', 'com_content.category'); ?>
 		<?php endif; ?>
 		<?php echo $afterDisplayContent; ?>
 	</div>

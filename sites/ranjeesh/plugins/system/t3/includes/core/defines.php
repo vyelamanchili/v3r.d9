@@ -12,6 +12,8 @@
  *------------------------------------------------------------------------------
  */
 
+use Joomla\CMS\Uri\Uri;
+
 // No direct access
 defined('_JEXEC') or die;
 
@@ -20,12 +22,12 @@ define ('T3_PLUGIN', 'plg_system_t3');
 //T3 base folder
 define ('T3_ADMIN', 't3');
 define ('T3_ADMIN_PATH', JPATH_ROOT . '/plugins/system/' . T3_ADMIN);
-define ('T3_ADMIN_URL', JURI::root(true) . '/plugins/system/' . T3_ADMIN);
+define ('T3_ADMIN_URL', Uri::root(true) . '/plugins/system/' . T3_ADMIN);
 define ('T3_ADMIN_REL', 'plugins/system/' . T3_ADMIN);
 
 //T3 secondary base theme folder
 define ('T3_EX_BASE_PATH', JPATH_ROOT . '/media/t3/themes');
-define ('T3_EX_BASE_URL', JURI::root(true) . '/media/t3/themes');
+define ('T3_EX_BASE_URL', Uri::root(true) . '/media/t3/themes');
 define ('T3_EX_BASE_REL', 'media/t3/themes');
 
 //T3 core base theme

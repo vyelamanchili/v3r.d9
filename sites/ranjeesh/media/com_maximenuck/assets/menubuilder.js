@@ -109,6 +109,7 @@ function ckInitParentItem($item) {
 				+ '<div class="ck-submenu-toolbar-field cktip" title="' + Joomla.JText._('COM_MAXIMENUCK_SUBMENULEFTMARGIN') + '"><input type="text" name="submenu-left" onblur="ckSetSubmenuData(this)" value="' + (sub.attr('data-left') ? sub.attr('data-left') : '') + '" /><i class="fas fa-caret-right cktip" title="Left"></i></div>'
 				+ '<div class="ck-submenu-toolbar-field cktip" title="' + Joomla.JText._('COM_MAXIMENUCK_SUBMENUTOPMARGIN') + '"><input type="text" name="submenu-top" onblur="ckSetSubmenuData(this)" value="' + (sub.attr('data-top') ? sub.attr('data-top') : '') + '" /><i class="fas fa-caret-down cktip" title="Top"></i></div>'
 				+ '<div class="ck-submenu-toolbar-field ck-submenu-toolbar-fullwidth cktip" onclick="ckSetSubmenuData(this)" title="' + Joomla.JText._('COM_MAXIMENUCK_FULLWIDTH') + '"><label><input type="checkbox" name="submenu-fullwidth" ' + (sub.attr('data-fullwidth') == '1' ? 'checked' : '') + ' /><i class="fas fa-expand"></i></label></div>'
+				+ '<div class="ck-submenu-toolbar-field ck-submenu-toolbar-tab cktip" onclick="ckProOny()" title="' + Joomla.JText._('COM_MAXIMENUCK_TAB') + '"><label><i class="fas fa-border-all"></i><input type="hidden" name="submenu-tabwidth" onblur="ckSetSubmenuData(this)" value="' + (sub.attr('data-tabwidth') ? sub.attr('data-tabwidth') : '') + '" /></label></div>'
 //				+ '<div class="ck-submenu-toolbar-field ck-submenu-toolbar-field-right ck-submenu-toolbar-edit cktip" onclick="ckEditStylesItem(this)" title="' + Joomla.JText._('CK_STYLES') + '"><i class="fas fa-paint-brush"></i></div>'
 				+ '<div class="ck-submenu-toolbar-field ck-submenu-toolbar-field-right ck-submenu-toolbar-columns cktip" onclick="ckManageColumns(this)" title="' + Joomla.JText._('COM_MAXIMENUCK_CREATE_COLUMN') + '"><i class="fas fa-columns"></i></div>'
 				+ '<div class="ck-submenu-toolbar-field ck-submenu-toolbar-field-right ck-submenu-toolbar-rows cktip" onclick="ckManageRows(this)" title="' + Joomla.JText._('COM_MAXIMENUCK_CREATE_ROW') + '"><i class="fas fa-grip-lines"></i></div>'
@@ -121,11 +122,14 @@ function ckInitParentItem($item) {
 function ckSetSubmenuData(field) {
 	var $item = $ck($ck(field).parents('.ck-submenu')[0]);
 	var fullwidth = $item.find('[name="submenu-fullwidth"]').prop('checked') ? '1' : '0';
+	var tab = $item.find('[name="submenu-tab"]').prop('checked') ? '1' : '0';
 	$item.attr('data-width', $item.find('[name="submenu-width"]').val());
 	$item.attr('data-height', $item.find('[name="submenu-height"]').val());
 	$item.attr('data-left', $item.find('[name="submenu-left"]').val());
 	$item.attr('data-top', $item.find('[name="submenu-top"]').val());
 	$item.attr('data-fullwidth', fullwidth);
+	$item.attr('data-tab', tab);
+	$item.attr('data-tabwidth', $item.find('[name="submenu-tabwidth"]').val());
 	if (fullwidth === '1') {
 		$item.find('> .ck-submenu-toolbar input[name="submenu-width"]').attr('disabled', 'disabled');
 	} else {
@@ -343,6 +347,7 @@ function ckGetLayoutItem($item) {
 	var data = new Object();
 	data['type'] = $item.attr('data-type');
 	data['title'] = data['type'] === 'image' ? $item.find('> .ck-menu-item-row .ck-menu-item-img img').attr('src') : $item.find('> .ck-menu-item-row .ck-menu-item-title').text();
+	data['image'] = $item.find('> .ck-menu-item-row .ck-menu-item-img img').length ? $item.find('> .ck-menu-item-row .ck-menu-item-img img').attr('src') : '';
 	data['desc'] = $item.find('> .ck-menu-item-row .ck-menu-item-desc').text();
 	data['id'] = $item.attr('data-id');
 	data['customid'] = $item.attr('data-customid');
@@ -388,6 +393,8 @@ function ckGetParamsSubmenu($submenu) {
 	data['left'] = $submenu.attr('data-left');
 	data['top'] = $submenu.attr('data-top');
 	data['fullwidth'] = $submenu.attr('data-fullwidth');
+	data['tab'] = $submenu.attr('data-tab');
+	data['tabwidth'] = $submenu.attr('data-tabwidth');
 
 	return data;
 }
@@ -505,6 +512,7 @@ function ckEditStylesItem(btn) {
 function ckSaveStylesItem(customid) {
 	var jsonfields = ckMakeJsonFields('ck-item-edition-item-styles');
 	// jsonfields = jsonfields.replace(/#/g, '|dd|');
+	var params = $ck('.ck-menu-item[data-customid="' + customid + '"]').attr('data-settings');
 
 	if (! $ck('#id').val()) {
 		alert('Please save the menu before editing the items');
@@ -517,7 +525,8 @@ function ckSaveStylesItem(customid) {
 		url: myurl,
 		data: {
 			customid : customid,
-			fields: jsonfields
+			fields: jsonfields,
+			params: params
 		}
 	}).done(function(code) {
 		try {
@@ -678,7 +687,14 @@ function ckSaveItem(type) {
 	} else {
 		var title = itemedition.find('[name="title"]').val().replace(/"/g, '&quot;');
 		var desc = itemedition.find('[name="desc"]').length ? itemedition.find('[name="desc"]').val().replace(/"/g, '&quot;') : '';
+		
+		if ($ck('#menu_image').val()) {
+			var imageurl = MAXIMENUCK.URIROOT +  '/' + $ck('#menu_image').val();
+			var img = '<img src="' + imageurl + '" />';
+		} else {
+			var imageurl = '';
 		var img = '';
+		}
 		// var id = itemedition.find('[name="id"]').val();
 	}
 	var jsonfields = ckMakeJsonFieldsWithParams('ck-item-edition-item-params');
@@ -694,6 +710,8 @@ function ckSaveItem(type) {
 				$item.find('> .ck-menu-item-row').prepend('<span class="ck-menu-item-img"></span>');
 			}
 			$item.find('> .ck-menu-item-row .ck-menu-item-img').html(img);
+		} else {
+			$item.find('> .ck-menu-item-row .ck-menu-item-img').remove();
 		}
 
 		// $item.attr('data-settings', jsonfields); // @removed

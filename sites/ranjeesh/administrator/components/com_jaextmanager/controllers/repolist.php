@@ -15,6 +15,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Client\ClientHelper;
+
 jimport('joomla.application.component.controller');
 
 /**
@@ -33,7 +36,7 @@ class JaextmanagerControllerRepolist extends JAEMController
 	 */
 	function display($cachable = false, $urlparams = false)
 	{
-		$mainframe = JFactory::getApplication('administrator');
+		$mainframe = Factory::getApplication('administrator');
 		
 		$vName = JRequest::getCmd('view', 'media');
 		switch ($vName) {
@@ -64,7 +67,7 @@ class JaextmanagerControllerRepolist extends JAEMController
 				break;
 		}
 		
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 		$vType = $document->getType();
 		
 		// Get/Create the view
@@ -88,6 +91,6 @@ class JaextmanagerControllerRepolist extends JAEMController
 	{
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
-		JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 	}
 }

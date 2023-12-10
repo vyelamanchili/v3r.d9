@@ -14,6 +14,7 @@
 
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Language\Text;
 ?>
 
 <link rel="stylesheet" href="<?php echo T3_ADMIN_URL ?>/admin/tour/css/tour.css" type="text/css" />
@@ -25,28 +26,28 @@ defined('_JEXEC') or die;
 	<div class="t3-admin-tour-overlay"></div>
 	<div class="t3-admin-tour-intro">
 		<div class="t3-admin-tour-intro-msg">
-		    <h1><?php echo JTexT::_('T3_TOUR_INTRO_1') ?></h1>
-		    <p><?php echo JTexT::_('T3_TOUR_INTRO_2') ?></p>
+		    <h1><?php echo Text::_('T3_TOUR_INTRO_1') ?></h1>
+		    <p><?php echo Text::_('T3_TOUR_INTRO_2') ?></p>
 		</div>
 		<div class="t3-admin-tour-intro-action clearfix">
-			<button class="t3-admin-tour-starttour btn btn-large btn-primary pull-left"><i class="icon-signin"></i>  <?php echo JTexT::_('T3_TOUR_CTRL_START') ?></button>	
-			<button class="t3-admin-tour-endtour btn btn-large pull-right"><i class="icon-ok"></i>  <?php echo JTexT::_('T3_TOUR_CTRL_END') ?></button>	
+			<button class="t3-admin-tour-starttour btn btn-large btn-primary pull-left"><i class="icon-signin"></i>  <?php echo Text::_('T3_TOUR_CTRL_START') ?></button>	
+			<button class="t3-admin-tour-endtour btn btn-large pull-right"><i class="icon-ok"></i>  <?php echo Text::_('T3_TOUR_CTRL_END') ?></button>	
 		</div>
 	</div>	
 
 	<div id="t3-admin-tour-controls" class="t3-admin-tour-controls clearfix">
 		<div class="btn-group  pull-left">
-			<button class="t3-admin-tour-prevtourstep btn btn-primary"><i class="icon-caret-left"></i>  <?php echo JTexT::_('T3_TOUR_CTRL_PREV') ?></button>	
-			<button class="t3-admin-tour-nexttourstep btn btn-primary"><?php echo JTexT::_('T3_TOUR_CTRL_NEXT') ?>  <i class="icon-caret-right"></i></button>
+			<button class="t3-admin-tour-prevtourstep btn btn-primary"><i class="icon-caret-left"></i>  <?php echo Text::_('T3_TOUR_CTRL_PREV') ?></button>	
+			<button class="t3-admin-tour-nexttourstep btn btn-primary"><?php echo Text::_('T3_TOUR_CTRL_NEXT') ?>  <i class="icon-caret-right"></i></button>
 		</div>
-		<button class="t3-admin-tour-endtour btn pull-right"><i class="icon-ok"></i>  <?php echo JTexT::_('T3_TOUR_CTRL_END') ?></button>	
+		<button class="t3-admin-tour-endtour btn pull-right"><i class="icon-ok"></i>  <?php echo Text::_('T3_TOUR_CTRL_END') ?></button>	
 		<div class="t3-admin-tour-count"><span class="t3-admin-tour-idx"></span>/<span class="t3-admin-tour-total"></span></div>
 	</div>
 </div>
 
 <div id="t3-admin-tour-quickhelp" class="t3-admin-tour-quickhelp hide">
 	<button type="button" class="close" aria-hidden="true">&times;</button>
-	<div><?php echo JTexT::_('T3_TOUR_QUICK_HELP') ?></div>
+	<div><?php echo Text::_('T3_TOUR_QUICK_HELP') ?></div>
 </div>
 
 <script type="text/javascript">
@@ -64,9 +65,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_1_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_1_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_1_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_1_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>
 		},
 		{
 			id		: '2',
@@ -74,9 +75,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_2_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_2_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_2')) ?>
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_2_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_2_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_2')) ?>
 		},
 		{
 			id		: '3',
@@ -84,9 +85,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_3_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_3_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_3')) ?>
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_3_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_3_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_3')) ?>
 		},
 		{
 			id		: '4',
@@ -94,9 +95,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_4_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_4_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_4')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_4_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_4_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_4')) ?>,
 		},
 		{
 			id		: '5',
@@ -104,9 +105,9 @@ defined('_JEXEC') or die;
 			position: "left",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_5_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_5_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_4')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_5_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_5_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_4')) ?>,
 			beforeShow	: function() {(T3Admin.jversion == 4) ? jQuery('.t3-admin-nav ul li:eq(0) a').get(0).click() : jQuery('.t3-admin-nav ul li:eq(1) a').tab ('show')}
 		},
 				{
@@ -115,9 +116,9 @@ defined('_JEXEC') or die;
 			position: "left",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_6_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_6_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_4')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_6_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_6_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_4')) ?>,
 			beforeShow	: function() {(T3Admin.jversion == 4) ? jQuery('.t3-admin-nav ul li:eq(0) a').get(0).click() : jQuery('.t3-admin-nav ul li:eq(1) a').tab ('show')}
 		},
 		{
@@ -126,9 +127,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_7_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_7_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_7_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_7_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 			beforeShow	: function() {(T3Admin.jversion == 4) ? jQuery('.t3-admin-nav ul li:eq(1) a').get(0).click() : jQuery('.t3-admin-nav ul li:eq(1) a').tab ('show')}
 		},
 		{
@@ -137,9 +138,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_8_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_8_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_8_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_8_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 		},
 		{
 			id		: '9',
@@ -147,9 +148,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_9_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_9_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_9_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_9_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 		},
 		{
 			id		: '10',
@@ -157,9 +158,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_10_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_10_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_10_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_10_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 		},
 		{
 			id		: '11',
@@ -167,9 +168,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_11_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_11_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_11_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_11_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 			beforeShow	: function() {(T3Admin.jversion == 4) ? jQuery('.t3-admin-nav ul li:eq(2) a').get(0).click() : jQuery('.t3-admin-nav ul li:eq(1) a').tab ('show')}
 		},
 		{
@@ -178,9 +179,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_12_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_12_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_12_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_12_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 		},
 		{
 			id		: '13',
@@ -188,9 +189,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_13_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_13_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_13_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_13_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 		},
 		{
 			id		: '14',
@@ -198,9 +199,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_14_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_14_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_14_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_14_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 			beforeShow	: function() {(T3Admin.jversion == 4) ? jQuery('.t3-admin-nav ul li:eq(3) a').get(0).click() : jQuery('.t3-admin-nav ul li:eq(1) a').tab ('show')}
 		},
 		{
@@ -209,9 +210,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_15_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_15_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_15_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_15_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 		},
 		{
 			id		: '16',
@@ -219,9 +220,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_21_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_21_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_21_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_21_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 			beforeShow	: function() {jQuery('.t3-admin-layout-mode-structure').trigger ('click')}
 		},
 				{
@@ -230,9 +231,9 @@ defined('_JEXEC') or die;
 			position: "right",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_20_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_20_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_20_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_20_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 			beforeShow	: function() {jQuery('.t3-admin-layout-mode-m').trigger ('click')}
 		},
 				{
@@ -241,9 +242,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_22_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_22_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_22_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_22_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 			beforeShow	: function() {jQuery('.t3-admin-layout-mode-layout').trigger ('click')}
 		},
 		{
@@ -252,9 +253,9 @@ defined('_JEXEC') or die;
 			position: "right",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_23_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_23_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_23_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_23_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 		},
 		{
 			id		: '20',
@@ -262,9 +263,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_16_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_16_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_16_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_16_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 		},
 		{
 			id		: '21',
@@ -272,9 +273,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_17_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_17_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_17_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_17_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 			beforeShow	: function() {(T3Admin.jversion == 4) ? jQuery('.t3-admin-nav ul li:eq(4) a').get(0).click() : jQuery('.t3-admin-nav ul li:eq(1) a').tab ('show')}
 		},
 		{
@@ -283,9 +284,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_18_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_18_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_18_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_18_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 		},
 		{
 			id		: '23',
@@ -293,9 +294,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_19_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_19_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_19_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_19_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 			beforeShow	: function() {(T3Admin.jversion == 4) ? jQuery('.t3-admin-nav ul li:eq(6) a').get(0).click() : jQuery('.t3-admin-nav ul li:eq(1) a').tab ('show')}
 		},
 		{
@@ -304,9 +305,9 @@ defined('_JEXEC') or die;
 			position: "right",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_24_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_24_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_24_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_24_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 		},
 		{
 			id		: '25',
@@ -314,9 +315,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_25_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_25_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_25_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_25_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 			beforeShow	: function() {(T3Admin.jversion == 4) ? jQuery('.t3-admin-nav ul li:eq(4) a').get(0).click() : jQuery('.t3-admin-nav ul li:eq(1) a').tab ('show')}
 		},
 		{
@@ -325,9 +326,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_26_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_26_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_26_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_26_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 			beforeShow	: function() {(T3Admin.jversion == 4) ? jQuery('.t3-admin-nav ul li:eq(4) a').get(0).click() : jQuery('.t3-admin-nav ul li:eq(1) a').tab ('show')}
 		},
 		{
@@ -336,9 +337,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_27_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_27_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_27_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_27_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 			beforeShow : function() {jQuery('#jform_params_mm_enable1').prop('checked', true).trigger('update').trigger('change')}
 		},
 		{
@@ -347,9 +348,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_28_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_28_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_28_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_28_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 			beforeShow : function() {jQuery('#jform_params_mm_enable1').prop('checked', true).trigger('update').trigger('change')}
 		},
 		{
@@ -358,9 +359,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_29_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_29_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_29_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_29_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 			beforeShow : function() {jQuery('#jform_params_mm_enable1').prop('checked', true).trigger('update').trigger('change')}
 		},
 		{
@@ -369,9 +370,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_30_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_30_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_30_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_30_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_1')) ?>,
 			beforeShow	: function() {(T3Admin.jversion == 4) ? jQuery('.t3-admin-nav ul li:eq(5) a').trigger('click') : jQuery('.t3-admin-nav ul li:eq(1) a').tab ('show')}
 		},
 		{
@@ -380,9 +381,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_31_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_31_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_2')) ?>
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_31_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_31_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_2')) ?>
 		},
 		
 		{
@@ -391,9 +392,9 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_32_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_32_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_2')) ?>
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_32_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_32_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_2')) ?>
 		},
 		
 		{
@@ -402,38 +403,38 @@ defined('_JEXEC') or die;
 			position: "bottom",
 			highlighter: "", 
 			monitor	: "mouseover",
-			title	: <?php echo json_encode(JText::_('T3_TOUR_GUIDE_33_TITLE')) ?>,
-			text    : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_33_CONTENT')) ?>,
-			dismiss : <?php echo json_encode(JText::_('T3_TOUR_GUIDE_DISMISS_2')) ?>
+			title	: <?php echo json_encode(Text::_('T3_TOUR_GUIDE_33_TITLE')) ?>,
+			text    : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_33_CONTENT')) ?>,
+			dismiss : <?php echo json_encode(Text::_('T3_TOUR_GUIDE_DISMISS_2')) ?>
 		}
 	];
 
 
 	T3Tours.first = {
 		tour: ["1", "2", "31", "3", "4", "5", "6", "7", "11", "14", "25", "32", "30", "23"],
-		intro: <?php echo json_encode(JText::_('T3_TOUR_INTRO_FIRST')) ?>
+		intro: <?php echo json_encode(Text::_('T3_TOUR_INTRO_FIRST')) ?>
 	}
 
 	T3Tours.plays = [
 		{
 			when: function() {return jQuery('.t3-admin-nav ul li:eq(1)').hasClass('active');},
 			tour: ["8", "9", "10", "33"],
-			/*intro	: <?php echo json_encode(JText::_('T3_TOUR_INTRO_TOUR1')) ?>*/
+			/*intro	: <?php echo json_encode(Text::_('T3_TOUR_INTRO_TOUR1')) ?>*/
 		},
 		{
 			when: function() {return jQuery('.t3-admin-nav ul li:eq(2)').hasClass('active');},
 			tour: ["12", "13"],
-			/*intro	: <?php echo json_encode(JText::_('T3_TOUR_INTRO_TOUR2')) ?>*/
+			/*intro	: <?php echo json_encode(Text::_('T3_TOUR_INTRO_TOUR2')) ?>*/
 		},
 		{
 			when: function() {return jQuery('.t3-admin-nav ul li:eq(3)').hasClass('active');},
 			tour: ["15", "16", "17", "18", "19"],
-			/*intro	: <?php echo json_encode(JText::_('T3_TOUR_INTRO_TOUR3')) ?>*/
+			/*intro	: <?php echo json_encode(Text::_('T3_TOUR_INTRO_TOUR3')) ?>*/
 		},
 		{
 			when: function() {return jQuery('.t3-admin-nav ul li:eq(4)').hasClass('active');},
 			tour: ["27", "26", "28", "29"],
-			/*intro	: <?php echo json_encode(JText::_('T3_TOUR_INTRO_TOUR4')) ?>*/
+			/*intro	: <?php echo json_encode(Text::_('T3_TOUR_INTRO_TOUR4')) ?>*/
 		},
 	];
 

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Application\ApplicationHelper;
 
 $params             = $this->item->params;
 $presentation_style = $params->get('presentation_style');
@@ -32,7 +34,7 @@ $userFieldGroups    = array();
 <?php endforeach; ?>
 
 <?php foreach ($userFieldGroups as $groupTitle => $fields) : ?>
-	<?php $id = JApplicationHelper::stringURLSafe($groupTitle); ?>
+	<?php $id = ApplicationHelper::stringURLSafe($groupTitle); ?>
 	
 	<!-- Slider -->
 	<?php if ($presentation_style == 'sliders') : ?>
@@ -70,7 +72,7 @@ $userFieldGroups    = array();
 
 	<!-- Tabs -->
 	<?php if ($presentation_style == 'tabs') : ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-profile', $groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')); ?>
+		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-profile', $groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')); ?>
 			<div class="contact-profile" id="user-custom-fields-<?php echo $id; ?>">
 				<dl class="dl-horizontal">
 				<?php foreach ($fields as $field) : ?>
@@ -87,7 +89,7 @@ $userFieldGroups    = array();
 				</dl>
 			</div>
 
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 	<?php endif; ?>
 	<!-- // Tabs -->
 

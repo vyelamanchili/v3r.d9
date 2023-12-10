@@ -56,6 +56,7 @@ require dirname(__FILE__) . '/default_mainmenu.php';
 				$subheight = $item->params->get('maximenu_submenucontainerheight', '');
 				$subleft = $item->params->get('maximenu_leftmargin', '');
 				$subtop = $item->params->get('maximenu_topmargin', '');
+				$tabwidth = $item->params->get('maximenu_tabwidth', '');
 
 				// Parse the link arguments.
 				$link = htmlspecialchars_decode($item->link);
@@ -91,7 +92,7 @@ require dirname(__FILE__) . '/default_mainmenu.php';
 							</span>
 								<?php if ($canEdit) : ?>
 									<span class="cktip cktitle" ondblclick="ckEditTitle(this)" href="javascript:void(0)" title="<?php echo JText::_('COM_MAXIMENUCK_DBLCLICK_TO_EDIT'); ?>" data-id="<?php echo (int) $item->id; ?>">
-										<?php echo addslashes($item->title); ?>
+										<?php echo htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8', false); ?>
 									</span>
 									<span class="ckbutton-group">
 										<span class="cktip ckbutton exittitle" title="<?php echo JText::_('COM_MAXIMENUCK_SAVE'); ?>" onclick="ckUpdateTitle($ck('.cktitle', $ck(this).parent().parent()))" style="display:none;"><i class="fas fa-check"></i></span>
@@ -119,6 +120,7 @@ require dirname(__FILE__) . '/default_mainmenu.php';
 									<a class="cktip ckbutton submenuleftmargin btnvalue <?php echo ($subleft ? 'ckhastext' : ''); ?>" title="<?php echo JText::_('COM_MAXIMENUCK_SUBMENULEFTMARGIN'); ?>" onclick="ckProOny()"><i class="fas fa-angle-double-right"></i><span class="valuetxt"><?php echo $subleft; ?></span></a>
 									<a class="cktip ckbutton submenutopmargin btnvalue <?php echo ($subtop ? 'ckhastext' : ''); ?>" title="<?php echo JText::_('COM_MAXIMENUCK_SUBMENUTOPMARGIN'); ?>" onclick="ckProOny()"><i class="fas fa-angle-double-down"></i><span class="valuetxt"><?php echo $subtop; ?></span></a>
 									<a class="cktip ckbutton fullwidth<?php if (stristr($item->params->get('maximenu_liclass', ''), 'fullwidth')) echo ' active ckbutton-primary'; ?>" title="<?php echo JText::_('COM_MAXIMENUCK_FULLWIDTH'); ?>" onclick="ckProOny()"><i class="fas fa-expand"></i></a>
+									<a class="cktip ckbutton maximenucktab<?php if (stristr($item->params->get('maximenu_liclass', ''), 'maximenucktab')) echo ' active ckbutton-primary'; ?> btn-value <?php echo ($tabwidth ? 'ckhastext' : ''); ?>" title="<?php echo JText::_('COM_MAXIMENUCK_TAB'); ?>" onclick="ckProOny()"><i class="fas fa-border-all"></i><span class="valuetxt"><?php echo $tabwidth; ?></a>
 								</span>
 								<span class="ckbutton-group togglemobileoptions">
 									<span class="togglescreen ckbutton cktip <?php echo ($item->params->get('maximenu_disabledesktop', '0') == '1' ? 'disable' : '') ?>" title="<?php echo JText::_('COM_MAXIMENUCK_ENABLE_DESKTOP'); ?>" onclick="ckProOny()"><span class="fas fa-times"></span><i class="fas fa-desktop"></i></span>

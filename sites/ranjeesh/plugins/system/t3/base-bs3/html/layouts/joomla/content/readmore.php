@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+
 $params = $displayData['params'];
 $item = $displayData['item'];
 $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
@@ -36,7 +37,7 @@ $readmoreShowTitle = version_compare(JVERSION, '4', 'ge') ? Text::sprintf('JGLOB
 				<?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?> 
 				<?php echo $readmore; ?>
 				<?php if ($params->get('show_readmore_title', 0) != 0) : ?>
-					<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
+					<?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
 				<?php endif; ?>
 			</span>
 		</a>

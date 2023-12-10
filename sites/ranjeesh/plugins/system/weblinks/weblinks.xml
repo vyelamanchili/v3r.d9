@@ -2,16 +2,18 @@
 <extension version="3.7" type="plugin" group="system" method="upgrade">
 	<name>plg_system_weblinks</name>
 	<author>Joomla! Project</author>
-	<creationDate>2021-09-19</creationDate>
-	<copyright>(C) 2005 - 2021 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>2023-10-24</creationDate>
+	<copyright>(C) 2005 - 2023 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.9.0</version>
+	<version>4.3.1</version>
 	<description>PLG_SYSTEM_WEBLINKS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Weblinks</namespace>
 	<files>
 		<folder>language</folder>
-<file plugin="weblinks">weblinks.php</file>
+<folder plugin="weblinks">services</folder>
+<folder>src</folder>
 <file>weblinks.xml</file>
 	</files>
 	<languages folder="language">

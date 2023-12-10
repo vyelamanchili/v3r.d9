@@ -205,10 +205,10 @@ abstract class ModuleHelper extends _ModuleHelper
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
+			Profiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Record the scope.
 		$scope = $app->scope;
@@ -236,7 +236,7 @@ abstract class ModuleHelper extends _ModuleHelper
 			// Load the module
 			if (file_exists($path))
 			{
-				$lang = \JFactory::getLanguage();
+				$lang = Factory::getLanguage();
 
 				$coreLanguageDirectory      = JPATH_BASE;
 				$extensionLanguageDirectory = dirname($path);
@@ -283,7 +283,7 @@ abstract class ModuleHelper extends _ModuleHelper
 	 */
 	public static function getLayoutPath($module, $layout = 'default')
 	{
-		$template = \JFactory::getApplication()->getTemplate();
+		$template = Factory::getApplication()->getTemplate();
 		$defaultLayout = $layout;
 
 		if (strpos($layout, ':') !== false)
@@ -300,7 +300,7 @@ abstract class ModuleHelper extends _ModuleHelper
 		// onGetLayoutPath should return the path to the $layout of $module or false
 		// $results holds an array of results returned from plugins, 1 from each plugin.
 		// if a path to the $layout is found and it is a file, return that path
-		$app	= \JFactory::getApplication();
+		$app	= Factory::getApplication();
 		$result = $app->triggerEvent( 'onGetLayoutPath', array( $module, $layout ) );
 		if (is_array($result))
 		{

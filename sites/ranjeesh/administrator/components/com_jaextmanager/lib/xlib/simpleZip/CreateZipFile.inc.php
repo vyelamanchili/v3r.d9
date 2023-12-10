@@ -8,6 +8,9 @@
  * 
  * @version 1.0
  */
+
+use Joomla\Filesystem\Folder;
+
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 class CreateZipFile {
@@ -187,7 +190,7 @@ class CreateZipFile {
 		$handle = opendir($rootPath);
 		while( ($file = @readdir($handle))!==false) {
 			if($file !='.' && $file !='..'){
-				if (JFolder::exists($rootPath.$seperator.$file)){
+				if (is_dir($rootPath.$seperator.$file)){
 					$array=$this->parseDirectory($rootPath.$seperator.$file);
 					$fileArray=array_merge($array,$fileArray);
 				}
@@ -207,7 +210,7 @@ class CreateZipFile {
 	 * @return void
 	 */
 	function zipDirectory($dirName, $outputDir) {
-		if (!JFolder::exists($dirName)){
+		if (!is_dir($dirName)){
 			trigger_error("CreateZipFile FATAL ERROR: Could not locate the specified directory $dirName", E_USER_ERROR);
 		}
 		$tmp=$this->parseDirectory($dirName);

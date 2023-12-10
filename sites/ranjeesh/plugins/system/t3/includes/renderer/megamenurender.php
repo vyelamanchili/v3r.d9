@@ -7,12 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Document\DocumentRenderer;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
  * JDocument Megamenu renderer
  */
-class JDocumentRendererMegamenuRender extends JDocumentRenderer
+class JDocumentRendererMegamenuRender extends DocumentRenderer
 {
 	/**
 	 * Render megamenu block, then push the output into megamenu renderer to display

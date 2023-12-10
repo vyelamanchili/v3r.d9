@@ -14,6 +14,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * This is a file to add template specific chrome to pagination rendering.
  *
@@ -103,7 +105,7 @@ function pagination_list_render($list)
 }
 function pagination_item_active(&$item)
 {
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		if (T3::isAdmin())
 		{
 			if ($item->base > 0)

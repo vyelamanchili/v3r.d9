@@ -35,6 +35,7 @@ JText::script('CK_AUTOLOADER_NO_SUBMENU');
 JText::script('CK_CONFIRM_UPDATE_TITLE');
 JText::script('CK_SAVE_BEFORE_EDIT');
 JText::script('CK_STATE');
+JText::script('COM_MAXIMENUCK_TAB');
 
 $imagespath = MAXIMENUCK_MEDIA_URI .'/images/';
 $popupclass = ($this->input->get('layout', '', 'string') === 'modal') ? 'ckpopupwizard' : '';
@@ -86,10 +87,11 @@ $templateItem->state = '1';
 <div id="ck-items-selection" style="display: none;">
 	<div class="ck-title"><?php echo JText::_('CK_SELECT_ITEM') ?></div>
 	<div id="ck-items-selection-list">
-		<div class="ck-item-selection" data-type="menuitem"><i class="fas fa-link"></i>Menu item</div>
-		<div class="ck-item-selection" data-type="module"><i class="fas fa-cube"></i>Module</div>
-		<div class="ck-item-selection" data-type="image"><i class="fas fa-image"></i>Image</div>
-		<div class="ck-item-selection" data-type="heading"><i class="fas fa-heading"></i>Heading</div>
+		<div class="ck-item-selection" data-type="menuitem"><i class="fas fa-link"></i><?php echo JText::_('CK_MENU_ITEM') ?></div>
+		<div class="ck-item-selection" data-type="custom"><i class="fas fa-link"></i><?php echo JText::_('CK_CUSTOM_ITEM') ?></div>
+		<div class="ck-item-selection" data-type="module"><i class="fas fa-cube"></i><?php echo JText::_('CK_MODULE') ?></div>
+		<div class="ck-item-selection" data-type="image"><i class="fas fa-image"></i><?php echo JText::_('CK_IMAGE') ?></div>
+		<div class="ck-item-selection" data-type="heading"><i class="fas fa-heading"></i><?php echo JText::_('CK_HEADING') ?></div>
 		<?php /*<div class="ck-item-selection" data-type="text"><i class="fas fa-font"></i>Text</div> */ ?>
 		<?php /*<div class="ck-item-selection" data-type="hikashop">Hikashop ?</div>*/ ?>
 		<?php
@@ -133,7 +135,9 @@ jQuery(document).ready(function($){
 	CKApi.Tooltip('.cktip');
 });
 
-
+function ckProOny() {
+	alert('<?php echo JText::_('MAXIMENUCK_ONLY_PRO_NO_LINK') ?>');
+}
 </script>
 <style>
 * {
@@ -324,7 +328,8 @@ body.contentpane {
 }
 
 .ck-submenu-toolbar-field-right,
-.ck-submenu-toolbar-fullwidth label {
+.ck-submenu-toolbar-fullwidth label,
+.ck-submenu-toolbar-tab label {
 	height: 30px;
 	width: 30px;
 	text-align: center;
@@ -336,7 +341,31 @@ body.contentpane {
 	margin-bottom: 0;
 }
 
-input[name="submenu-fullwidth"]:checked + i[class*="fa"] {
+.ck-submenu-toolbar-tab label {
+	width: auto;
+}
+
+.ck-submenu-toolbar-tab label i {
+	margin: 0 8px;
+}
+
+.ck-submenu-toolbar-tab input[name="submenu-tab"] ~ input,
+.ck-submenu-toolbar-tab input[name="submenu-tab"] ~ i.fa-arrows-alt-h {
+	display: none;
+}
+
+.ck-submenu-toolbar-tab input[name="submenu-tab"]:checked ~ input,
+.ck-submenu-toolbar-tab input[name="submenu-tab"]:checked ~ i.fa-arrows-alt-h {
+	display: initial;
+}
+
+.ck-submenu-toolbar-tab label i.fa-arrows-alt-h {
+	color: #000;
+	pointer-events: none;
+}
+
+input[name="submenu-fullwidth"]:checked + i[class*="fa"],
+input[name="submenu-tab"]:checked + i[class*="fa"] {
 	color: orange;
 }
 
@@ -588,6 +617,10 @@ input[name="submenu-fullwidth"]:checked + i[class*="fa"] {
 	margin: 5px;
 	font-style: italic;
 	color: #777;
+}
+
+.ck-menu-item-img,.ck-menu-item-icon {
+	margin-right: 5px;
 }
 
 .ck-menu-item-img img {

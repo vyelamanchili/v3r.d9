@@ -87,7 +87,7 @@ div#<?php echo $id; ?> ul.maximenuck li.maximenuck.level1 > span.separator {
     position:relative;
 	text-decoration:none;
     outline : none;
-    border : none;
+    /*border : none;*/
     white-space: nowrap;
 	filter: none;
 }
@@ -193,7 +193,7 @@ div#<?php echo $id; ?> ul.maximenuck li.level1.parent.menu_right li.parent > spa
 /* margin for right elements that rolls to the left */
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck div.floatck div.floatck.fixRight,
 div#<?php echo $id; ?> ul.maximenuck li.level1.parent.menu_right div.floatck div.floatck  {
-    margin-right : 93%;
+    margin-right : 180px;
 }
 
 div#<?php echo $id; ?> ul.maximenuck li div.floatck.fixRight{
@@ -241,6 +241,7 @@ div#<?php echo $id; ?> ul.maximenuck2 li.maximenuck:hover {
 /* all links styles */
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck a,
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck span.separator,
+div#<?php echo $id; ?> ul.maximenuck li.maximenuck span.nav-header,
 div#<?php echo $id; ?> ul.maximenuck2 a,
 div#<?php echo $id; ?> ul.maximenuck2 li.maximenuck span.separator {
 	display: block;
@@ -662,4 +663,17 @@ div#<?php echo $id; ?> li.fullwidth > div.floatck > div.maxidrop-main {
 div#<?php echo $id; ?>.maximenuckv li.fullwidth > div.floatck > .maxidrop-main {
 	height: 100%;
 	overflow-y: auto;
+}
+
+/*---------------------------------------------
+---	 Tabs					                ---
+----------------------------------------------*/
+
+div#<?php echo $id; ?> ul.maximenuck li.maximenucktab > div.floatck div.floatck {
+	top: 0;
+	bottom: 0;
+	right: 180px;
+	width: calc(100% - 180px);
+	margin: 0;
+	overflow: auto;
 }

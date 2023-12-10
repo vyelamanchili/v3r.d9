@@ -11,8 +11,19 @@
  */
 // no direct access
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\Path;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+use Joomla\CMS\Application\ApplicationHelper;
+
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
+
+
+#[AllowDynamicProperties]
 class jaProducts
 {
 	var $isSupported = 1;
@@ -77,11 +88,11 @@ class jaProducts
 
 	function setInfo($refresh = false, $fileInfo = '')
 	{
-		if (!JFile::exists($fileInfo)) {
+		if (!is_file($fileInfo)) {
 			$fileInfo = $this->getInfoFile();
 		}
 		
-		if (!JFile::exists($fileInfo) || $refresh) {
+		if (!is_file($fileInfo) || $refresh) {
 			if ($this->updateInfo() === false) {
 				return false;
 			}
@@ -176,13 +187,13 @@ class jaProducts
 		foreach ($location as $name => $path) {
 			if ($this->isIgnore($name))
 				continue;
-			if (JFolder::exists($path)) {
+			if (is_dir($path)) {
 				if ($name != 'location') {
 					$crc->$name = $md5CheckSums->dumpCRCObject($path);
 				} else {
 					$crc = $md5CheckSums->dumpCRCObject($path);
 				}
-			} elseif (JFile::exists($path)) {
+			} elseif (is_file($path)) {
 				$crc->$name = $md5CheckSums->getCheckSum($path);
 			}
 		}
@@ -217,7 +228,7 @@ class jaProducts
 				return false;
 				break;
 		}
-		if (isset($path) && JFolder::exists($path)) {
+		if (isset($path) && is_dir($path)) {
 			return $path . "jaupdater.{$this->extKey}.xml";
 		} else {
 			return false;
@@ -264,7 +275,7 @@ class jaProducts
   </crc>
 </japroduct>
 XML;
-		$result = JFile::write($fileInfo, $xmlContent);
+		$result = File::write($fileInfo, $xmlContent);
 		
 		return $result;
 	}
@@ -289,7 +300,7 @@ XML;
 		
 		$config = $this->config;
 		
-		if (!JFile::exists($upgradePackage)) {
+		if (!is_file($upgradePackage)) {
 			return false;
 		}
 		//auto backup when upgrade
@@ -298,14 +309,14 @@ XML;
 		//upgrade process
 		$workingDir = $FileSystemHelper->tmpDir(null, 'ja', 0755);
 		$zipFile = $workingDir . $this->extKey . ".zip";
-		JFile::copy($upgradePackage, $zipFile);
+		File::copy($upgradePackage, $zipFile);
 		
 		ArchiveHelper::unZip($zipFile, $workingDir);
 		//upgrade
 		$workingDir = $workingDir . $this->extKey.'/';
 		
 		$jsonFile = $workingDir . "jaupdater.info.json";
-		if (!JFile::exists($jsonFile)) {
+		if (!is_file($jsonFile)) {
 			return false;
 		}
 		$upgradeInfo = file_get_contents($jsonFile);
@@ -375,13 +386,13 @@ XML;
 				$this->_applyFileRemoved($objectFilter, $locations['location']);
 				break;
 			case 'component':
-				if (isset($locations['admin']) && JFolder::exists($src . 'admin')) {
+				if (isset($locations['admin']) && is_dir($src . 'admin')) {
 					$FileSystemHelper->cp($src . 'admin', $locations['admin'], true);
 					if (isset($objectFilter->admin)) {
 						$this->_applyFileRemoved($objectFilter->admin, $locations['admin']);
 					}
 				}
-				if (isset($locations['site']) && JFolder::exists($src . 'site')) {
+				if (isset($locations['site']) && is_dir($src . 'site')) {
 					$FileSystemHelper->cp($src . 'site', $locations['site'], true);
 					if (isset($objectFilter->site)) {
 						$this->_applyFileRemoved($objectFilter->site, $locations['site']);
@@ -393,7 +404,7 @@ XML;
 				$xmlfilenew = str_replace('com_','',$xmlfileold);
 				if (isset($objectFilter->$xmlfileold) && isset($objectFilter->$xmlfilenew)) {
 					if($objectFilter->$xmlfileold == 'removed' && $objectFilter->$xmlfilenew=='new'){
-						if(JFile::exists($locations['admin'].$xmlfileold)){
+						if(is_file($locations['admin'].$xmlfileold)){
 							@rename($this->configFile, $locations['admin'].$xmlfilenew);
 							$this->configFile = str_replace($xmlfileold,$xmlfilenew,$this->configFile);
 						}
@@ -403,20 +414,20 @@ XML;
 				$xmlfile = basename($this->configFile);
 				
 				$xmlinstall = '';
-				if (JFile::exists($src . $xmlfile)) {
+				if (is_file($src . $xmlfile)) {
 					$xmlinstall = $src . $xmlfile;
-				} elseif (JFile::exists($src . 'admin/'.$xmlfile)) {
+				} elseif (is_file($src . 'admin/'.$xmlfile)) {
 					$xmlinstall = $src . 'admin/'.$xmlfile;
-				} elseif (JFile::exists($src . 'site/'.$xmlfile)) {
+				} elseif (is_file($src . 'site/'.$xmlfile)) {
 					$xmlinstall = $src . 'site/'.$xmlfile;
 				}
-				if (JFile::exists($xmlinstall)) {
+				if (is_file($xmlinstall)) {
 					$FileSystemHelper->cp($xmlinstall, $this->configFile, true);
 				}
 				break;
 			case 'plugin':
 				$xmlinstall = $src . $this->extKey . ".xml";
-				if (isset($locations['location']) && JFolder::exists($src)) {
+				if (isset($locations['location']) && is_dir($src)) {
 					$FileSystemHelper->cp($src, $locations['location'], true);
 					if (isset($objectFilter)) {
 						$this->_applyFileRemoved($objectFilter, $locations['location']);
@@ -432,21 +443,21 @@ XML;
 			$languageBak = 'en-GB';
 			//admin
 			$srcLangPath = $src . 'lang/admin';
-			if (JFolder::exists($srcLangPath)) {
-				$client = JApplicationHelper::getClientInfo(1);
+			if (is_dir($srcLangPath)) {
+				$client = ApplicationHelper::getClientInfo(1);
 				$dstLangPath = $client->path.'/language/'.$languageBak;
-				JFolder::copy($srcLangPath, $dstLangPath, '', true);
+				Folder::copy($srcLangPath, $dstLangPath, '', true);
 			}
 			//site
 			$srcLangPath = $src . 'lang/site';
-			if (JFolder::exists($srcLangPath)) {
-				$client = JApplicationHelper::getClientInfo(0);
+			if (is_dir($srcLangPath)) {
+				$client = ApplicationHelper::getClientInfo(0);
 				$dstLangPath = $client->path.'/language/'.$languageBak;
-				JFolder::copy($srcLangPath, $dstLangPath, '', true);
+				Folder::copy($srcLangPath, $dstLangPath, '', true);
 			}
 		} else {
 			//context = upgrade
-			if (isset($xmlinstall) && JFile::exists($xmlinstall)) {
+			if (isset($xmlinstall) && is_file($xmlinstall)) {
 				$oXml = simplexml_load_file($xmlinstall);
 				if ($oXml) {
 					$xmlManifest = $oXml;
@@ -455,7 +466,7 @@ XML;
 						case 'template':
 							if ($cname = (string) $xmlManifest->attributes()->client) {
 								// Attempt to map the client to a base path
-								$client = JApplicationHelper::getClientInfo($cname, true);
+								$client = ApplicationHelper::getClientInfo($cname, true);
 								
 								if ($client === false) {
 									$clientId = 0;
@@ -481,7 +492,7 @@ XML;
 		}
 		
 		//apply database
-		if ($this->type == 'component' && JFile::exists($xmlinstall)) {
+		if ($this->type == 'component' && is_file($xmlinstall)) {
 			$beforeVersion = $this->version;
 			$this->setInfo(true);
 			$afterVersion = $this->version;
@@ -585,10 +596,10 @@ XML;
 		
 		//rollback db
 		$backupFile = $src . "db/backup.sql";
-		if (!JFile::exists($backupFile)) {
+		if (!is_file($backupFile)) {
 			$backupFile = $src . "backup.sql";
 		}
-		if (JFile::exists($backupFile)) {
+		if (is_file($backupFile)) {
 			$this->_importDbScript($backupFile);
 		}
 	}
@@ -599,7 +610,7 @@ XML;
 		$config = $this->config;
 		$FileSystemHelper = new FileSystemHelper();
 		$file = $FileSystemHelper->clean($file);
-		if (!JFile::exists($file)) {
+		if (!is_file($file)) {
 			return false;
 		}
 		$ext = strtolower(substr($file, strrpos($file, '.') + 1));
@@ -636,7 +647,7 @@ XML;
 		
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client = JApplicationHelper::getClientInfo($cid);
+		$client = ApplicationHelper::getClientInfo($cid);
 		
 		/*
 		 * Here we set the folder we are going to copy the files to.
@@ -655,7 +666,7 @@ XML;
 		 * copying files.
 		 */
 		$folder = (string) $element->attributes()->folder;
-		if ($folder && JFolder::exists($pathSrc.'/'.$folder)) {
+		if ($folder && is_dir($pathSrc.'/'.$folder)) {
 			$source = $pathSrc.'/'.$folder;
 		} else {
 			$source = $pathSrc;
@@ -677,7 +688,7 @@ XML;
 				$path['src'] = $source.'/'.$file;
 				if ((string) $file->attributes()->client != '') {
 					// override the client
-					$langclient = JApplicationHelper::getClientInfo((string) $file->attributes()->client, true);
+					$langclient = ApplicationHelper::getClientInfo((string) $file->attributes()->client, true);
 					$path['dest'] = $langclient->path.'/language/'.$file->attributes()->tag.'/'.basename((string) $file);
 				} else {
 					// use the default client
@@ -685,7 +696,7 @@ XML;
 				}
 				
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
-				if (!JFolder::exists(dirname($path['dest']))) {
+				if (!is_dir(dirname($path['dest']))) {
 					continue;
 				}
 			} else {
@@ -701,8 +712,9 @@ XML;
 			if (basename($path['dest']) != $path['dest']) {
 				$newdir = dirname($path['dest']);
 				
-				if (!JFolder::create($newdir)) {
-					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir));
+				if (!Folder::create($newdir)) {
+					$app = Factory::getApplication();
+					$app->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), 'warning');
 					return false;
 				}
 			}
@@ -740,11 +752,12 @@ XML;
 		 * $files must be an array of filenames.  Verify that it is an array with
 		 * at least one file to copy.
 		 */
+		$app = Factory::getApplication();
 		if (is_array($files) && count($files) > 0) {
 			foreach ($files as $file) {
 				// Get the source and destination paths
-				$filesource = JPath::clean($file['src']);
-				$filedest = JPath::clean($file['dest']);
+				$filesource = Path::clean($file['src']);
+				$filedest = Path::clean($file['dest']);
 				$filetype = array_key_exists('type', $file) ? $file['type'] : 'file';
 				
 				if (!file_exists($filesource)) {
@@ -760,16 +773,16 @@ XML;
 					// Copy the folder or file to the new location.
 					if ($filetype == 'folder') {
 						
-						if (!(JFolder::copy($filesource, $filedest, null, $overwrite))) {
-							JError::raiseWarning(1, 'JInstaller::install: ' . JText::sprintf('Failed to copy folder to', $filesource, $filedest));
+						if (!(Folder::copy($filesource, $filedest, null, $overwrite))) {
+							$app->enqueueMessage('JInstaller::install: ' . Text::sprintf('Failed to copy folder to', $filesource, $filedest), 'warning');
 							return false;
 						}
 						
 						$step = array('type' => 'folder', 'path' => $filedest);
 					} else {
 						
-						if (!(JFile::copy($filesource, $filedest))) {
-							JError::raiseWarning(1, 'JInstaller::install: ' . JText::sprintf('Failed to copy file to', $filesource, $filedest));
+						if (!(File::copy($filesource, $filedest))) {
+							$app->enqueueMessage('JInstaller::install: ' . Text::sprintf('Failed to copy file to', $filesource, $filedest), 'warning');
 							return false;
 						}
 						
@@ -850,7 +863,7 @@ XML;
 		$FileSystemHelper = new FileSystemHelper();
 		$workingDir = $FileSystemHelper->tmpDir(null, 'ja', 0755);
 		$workingDir .= $this->extKey.'/';
-		if (JFolder::create($workingDir, 0755) === false) {
+		if (Folder::create($workingDir, 0755) === false) {
 			return false;
 		}
 		$backupDir = $this->getBackupPath();
@@ -884,7 +897,7 @@ XML;
 		$info .= "comment={$comment}" . "\r\n";
 		
 		$fileInfo = $backupDir . $fileName . ".txt";
-		JFile::write($fileInfo, $info);
+		File::write($fileInfo, $info);
 		
 		return $fileNameBak;
 	}
@@ -894,8 +907,8 @@ XML;
 	{
 		jimport('joomla.application.helper');
 		$languageBak = 'en-GB';
-		$clientSite = JApplicationHelper::getClientInfo(0);
-		$clientAdmin = JApplicationHelper::getClientInfo(1);
+		$clientSite = ApplicationHelper::getClientInfo(0);
+		$clientAdmin = ApplicationHelper::getClientInfo(1);
 		
 		//get language files filter pattern
 		$prefix = '';
@@ -928,20 +941,20 @@ XML;
 
 		//backup front-end language files
 		$srcFile = $clientSite->path.'/language/'.$languageBak.'/'.$languageFile;
-		if (JFile::exists($srcFile)) {
+		if (is_file($srcFile)) {
 			$dstFolder = $workingDir . "lang/site/";
 			$dstFile = $dstFolder . $languageFile;
-			if (JFolder::create($dstFolder, 0755) !== false) {
-				JFile::copy($srcFile, $dstFile);
+			if (Folder::create($dstFolder, 0755) !== false) {
+				File::copy($srcFile, $dstFile);
 			}
 		}
 		//backup back-end language files
 		$srcFile = $clientAdmin->path.'/language/'.$languageBak.'/'.$languageFile;
-		if (JFile::exists($srcFile)) {
+		if (is_file($srcFile)) {
 			$dstFolder = $workingDir . "lang/admin/";
 			$dstFile = $dstFolder . $languageFile;
-			if (JFolder::create($dstFolder, 0755) !== false) {
-				JFile::copy($srcFile, $dstFile);
+			if (Folder::create($dstFolder, 0755) !== false) {
+				File::copy($srcFile, $dstFile);
 			}
 		}
 		return true;
@@ -953,7 +966,7 @@ XML;
 		$config = $this->config;
 		
 		if ($this->type == 'component') {
-			if (JFolder::create($workingDir . "db", 0755) !== false) {
+			if (Folder::create($workingDir . "db", 0755) !== false) {
 				$workingDir .= "db/";
 			}
 			
@@ -1103,11 +1116,11 @@ XML;
 		switch ($this->type) {
 			case 'component':
 				$pathAdmin = $path . "administrator/components/".$this->element.'/';
-				if (JFolder::exists($pathAdmin)) {
+				if (is_dir($pathAdmin)) {
 					$location['admin'] = $pathAdmin;
 				}
 				$pathSite = $path . "components/".$this->element.'/';
-				if (JFolder::exists($pathSite)) {
+				if (is_dir($pathSite)) {
 					$location['site'] = $pathSite;
 				}
 				$fileConfig = basename($this->configFile);
@@ -1173,21 +1186,21 @@ XML;
 			}
 		} else {
 			foreach ($location as $path) {
-				if (JFile::exists($path)) {
+				if (is_file($path)) {
 					if (basename($path) == basename($file)) {
 						$file = $path;
 						break;
 					}
 				} else {
 					$fileTmp = $FileSystemHelper->clean($path . $file);
-					if (JFile::exists($fileTmp)) {
+					if (is_file($fileTmp)) {
 						$file = $fileTmp;
 						break;
 					} else {
 						//exception case (with plugin)
 						$path2 = dirname($path).'/';
 						$fileTmp2 = $FileSystemHelper->clean($path2 . $file);
-						if (JFile::exists($fileTmp2)) {
+						if (is_file($fileTmp2)) {
 							$file = $fileTmp2;
 							break;
 						}

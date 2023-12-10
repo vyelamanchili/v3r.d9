@@ -9,7 +9,10 @@
 
 defined('JPATH_BASE') or die;
 use Joomla\CMS\Language\Text;
-JHtml::_('bootstrap.tooltip');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
+
+HTMLHelper::_('bootstrap.tooltip');
 
 $blockPosition = $displayData['params']->get('info_block_position', 2);
 ?>
@@ -27,19 +30,19 @@ $blockPosition = $displayData['params']->get('info_block_position', 2);
 			</dt>
 
 			<?php if ($displayData['params']->get('show_author') && !empty($displayData['item']->author )) : ?>
-				<?php echo JLayoutHelper::render('joomla.content.info_block.author', $displayData); ?>
+				<?php echo LayoutHelper::render('joomla.content.info_block.author', $displayData); ?>
 			<?php endif; ?>
 
 			<?php if ($displayData['params']->get('show_parent_category') && !empty($displayData['item']->parent_slug)) : ?>
-				<?php echo JLayoutHelper::render('joomla.content.info_block.parent_category', $displayData); ?>
+				<?php echo LayoutHelper::render('joomla.content.info_block.parent_category', $displayData); ?>
 			<?php endif; ?>
 
 			<?php if ($displayData['params']->get('show_category')) : ?>
-				<?php echo JLayoutHelper::render('joomla.content.info_block.category', $displayData); ?>
+				<?php echo LayoutHelper::render('joomla.content.info_block.category', $displayData); ?>
 			<?php endif; ?>
 
 			<?php if ($displayData['params']->get('show_publish_date')) : ?>
-				<?php echo JLayoutHelper::render('joomla.content.info_block.publish_date', $displayData); ?>
+				<?php echo LayoutHelper::render('joomla.content.info_block.publish_date', $displayData); ?>
 			<?php endif; ?>
 		<?php endif; ?>
 
@@ -47,15 +50,15 @@ $blockPosition = $displayData['params']->get('info_block_position', 2);
 				|| $displayData['position'] == 'below' && ($blockPosition == 1 || $blockPosition == 2)
 				) : ?>
 			<?php if ($displayData['params']->get('show_create_date')) : ?>
-				<?php echo JLayoutHelper::render('joomla.content.info_block.create_date', $displayData); ?>
+				<?php echo LayoutHelper::render('joomla.content.info_block.create_date', $displayData); ?>
 			<?php endif; ?>
 
 			<?php if ($displayData['params']->get('show_modify_date')) : ?>
-				<?php echo JLayoutHelper::render('joomla.content.info_block.modify_date', $displayData); ?>
+				<?php echo LayoutHelper::render('joomla.content.info_block.modify_date', $displayData); ?>
 			<?php endif; ?>
 
 			<?php if ($displayData['params']->get('show_hits')) : ?>
-				<?php echo JLayoutHelper::render('joomla.content.info_block.hits', $displayData); ?>
+				<?php echo LayoutHelper::render('joomla.content.info_block.hits', $displayData); ?>
 			<?php endif; ?>
 		<?php endif; ?>
 	</dl>

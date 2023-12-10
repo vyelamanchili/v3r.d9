@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
-JHtml::addIncludePath(T3_PATH . '/html/com_content');
-JHtml::addIncludePath(dirname(dirname(__FILE__)));
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
+HTMLHelper::addIncludePath(T3_PATH . '/html/com_content');
+HTMLHelper::addIncludePath(dirname(dirname(__FILE__)));
 if(version_compare(JVERSION, '4','lt')){
-  JHtml::_('behavior.caption'); 
+  HTMLHelper::_('behavior.caption'); 
 }
 ?>
 <div class="archive<?php echo $this->pageclass_sfx; ?>">
@@ -24,12 +26,11 @@ if(version_compare(JVERSION, '4','lt')){
 		</div>
 	<?php endif; ?>
 
-	<form id="adminForm" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-inline">
+	<form id="adminForm" action="<?php echo Route::_('index.php'); ?>" method="post" class="form-inline">
 		<fieldset class="filters">
 			<div class="filter-search form-group">
 				<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 					<div class="form-group">
-						<label class="filter-search-lbl" for="filter-search"><?php echo Text::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL') . '&#160;'; ?></label>
 						<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->filter); ?>" class="form-control col-sm-2" onchange="document.getElementById('adminForm').submit();"  placeholder="<?php echo Text::_('COM_CONTENT_TITLE_FILTER_LABEL'); ?>"/>
 					</div>
 				<?php endif; ?>

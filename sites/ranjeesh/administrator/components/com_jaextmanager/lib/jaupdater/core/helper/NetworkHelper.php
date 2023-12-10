@@ -11,6 +11,9 @@
  */
 // no direct access
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
+
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
  
 /**
  * This class is network utilities
@@ -42,7 +45,7 @@ class NetworkHelper
 	 */
 	public static function downloadFile($savePath, $url, $data, $options = null)
 	{
-		if (substr($savePath, -1) == '/' || JFolder::exists($savePath)) {
+		if (substr($savePath, -1) == '/' || is_dir($savePath)) {
 			$targetDir = $savePath;
 			$savePath = jaTempnam(ja_sys_get_temp_dir(), 'c_');
 		}
@@ -57,7 +60,7 @@ class NetworkHelper
 			return false;
 		}
 		
-		$test = JFile::write($savePath, $result["content"]);
+		$test = File::write($savePath, $result["content"]);
 		if (!$test) {
 			return false;
 		}

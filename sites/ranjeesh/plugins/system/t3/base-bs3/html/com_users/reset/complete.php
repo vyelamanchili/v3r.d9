@@ -12,13 +12,13 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-JHtml::_('behavior.keepalive');
+HTMLHelper::_('behavior.keepalive');
 if(version_compare(JVERSION, '3.0', 'lt')){
-	JHtml::_('behavior.tooltip');
-	JHtml::_('behavior.formvalidation');
+	HTMLHelper::_('behavior.tooltip');
+	HTMLHelper::_('behavior.formvalidation');
 }
 
-JHtml::_('behavior.formvalidator');
+HTMLHelper::_('behavior.formvalidator');
 ?>
 <div class="reset-complete<?php echo $this->pageclass_sfx?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -45,7 +45,7 @@ JHtml::_('behavior.formvalidator');
 
 		<div class="action-wrap">
 			<button type="submit" class="validate"><?php echo Text::_('JSUBMIT'); ?></button>
-			<?php echo JHtml::_('form.token'); ?>
+			<?php echo HTMLHelper::_('form.token'); ?>
 		</div>
 	</form>
 </div>

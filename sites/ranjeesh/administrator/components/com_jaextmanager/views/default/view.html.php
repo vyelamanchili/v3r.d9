@@ -13,6 +13,12 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+
 jimport('joomla.application.component.view');
 
 /**
@@ -122,8 +128,8 @@ class JaextmanagerViewDefault extends JAEMView
 
 	function displayConfigGeneral($tpl = null)
 	{
-		JToolBarHelper::save("config_general_save");
-		JToolBarHelper::apply("config_general_apply");
+		ToolBarHelper::save("config_general_save");
+		ToolBarHelper::apply("config_general_apply");
 		
 		// Initialize variables
 		$model = &$this->getModel('default');
@@ -139,15 +145,15 @@ class JaextmanagerViewDefault extends JAEMView
 
 	function displayConfigInstall($tpl = null)
 	{
-		JToolBarHelper::save("save");
-		JToolBarHelper::apply("apply");
+		ToolBarHelper::save("save");
+		ToolBarHelper::apply("apply");
 		parent::display($tpl);
 	}
 
 
 	function displayConfigService($tpl = null)
 	{
-		JToolBarHelper::save("config_service","SAVE");
+		ToolBarHelper::save("config_service","SAVE");
 		// Initialize variables
 		$model = $this->getModel('default');
 		$getConfigService = $model->getConfigService();
@@ -158,7 +164,7 @@ class JaextmanagerViewDefault extends JAEMView
 
 	function displayConfigLicense($tpl = null)
 	{
-		JToolBarHelper::save("config_license");
+		ToolBarHelper::save("config_license");
 		// Initialize variables
 		$model = &$this->getModel('default');
 		$this->assignRef('params', $model->getComponentParams());
@@ -168,7 +174,7 @@ class JaextmanagerViewDefault extends JAEMView
 
 	function displayConfigExtensions($tpl = null)
 	{
-		JToolBarHelper::save("config_extensions");
+		ToolBarHelper::save("config_extensions");
 		// Initialize variables
 		$model = $this->getModel('default');
 		$extension = $model->_getProduct();
@@ -197,18 +203,18 @@ class JaextmanagerViewDefault extends JAEMView
 	{
 		$services = jaGetListServices();
 		foreach ($services as $service) {
-			JToolBarHelper::custom('config_extensions_' . $service->id, 'default', 'default', $service->ws_name, true);
+			ToolBarHelper::custom('config_extensions_' . $service->id, 'default', 'default', $service->ws_name, true);
 		}
 		//checking if installed joomla version is less  3.0   
 		if ( version_compare( JVERSION, '3.0', '<' ) == 1) {             
-			JToolBarHelper::custom('checkupdate', 'refresh', 'refresh', JText::_('CHECK_UPDATE'), true);
-			JToolBarHelper::custom('recovery', 'restore', 'restore', JText::_('ROLLBACK'), true);
+			ToolBarHelper::custom('checkupdate', 'refresh', 'refresh', Text::_('CHECK_UPDATE'), true);
+			ToolBarHelper::custom('recovery', 'restore', 'restore', Text::_('ROLLBACK'), true);
 		}
 		else{
-			JToolBarHelper::custom('checkupdate', 'loop', 'loop', JText::_('CHECK_UPDATE'), true);
-			JToolBarHelper::custom('recovery', 'undo', 'undo', JText::_('ROLLBACK'), true);
+			ToolBarHelper::custom('checkupdate', 'loop', 'loop', Text::_('CHECK_UPDATE'), true);
+			ToolBarHelper::custom('recovery', 'undo', 'undo', Text::_('ROLLBACK'), true);
 		}		
-		// JToolBarHelper::preferences(JACOMPONENT);
+		// ToolBarHelper::preferences(JACOMPONENT);
 		
 
 		$model = $this->getModel('default');
@@ -219,7 +225,7 @@ class JaextmanagerViewDefault extends JAEMView
 		$state = $this->get('State');
 		$pagination = $model->getPagination();
 		
-		$boxType = JHtml::_('select.genericlist', $model->getListExtensionType(), 'extionsion_type', 'class="inputbox"', 'value', 'text', JRequest::getVar('extionsion_type'));
+		$boxType = HTMLHelper::_('select.genericlist', $model->getListExtensionType(), 'extionsion_type', 'class="inputbox"', 'value', 'text', JRequest::getVar('extionsion_type'));
 		$comUri = $this->get("comUri");
 		//$this->assignRef('components',   $components);
 		$this->assignRef('services', $services);
@@ -239,7 +245,7 @@ class JaextmanagerViewDefault extends JAEMView
 	function displayCheckUpdate($tpl = null)
 	{
 		// Toolbar
-		JToolBarHelper::cancel();
+		ToolBarHelper::cancel();
 		
 		$model = $this->getModel('default');
 		die($model->getNewVersions());
@@ -252,7 +258,7 @@ class JaextmanagerViewDefault extends JAEMView
 	function displayUpgrade($tpl = null)
 	{
 		// Toolbar
-		JToolBarHelper::back();
+		ToolBarHelper::back();
 		
 		$model = $this->getModel();
 		$components = $model->upgradeComponent();
@@ -279,7 +285,7 @@ class JaextmanagerViewDefault extends JAEMView
 			
 			parent::display($tpl);
 		} else {
-			echo JText::_("BACKUP_FILES_NOT_FOUND");
+			echo Text::_("BACKUP_FILES_NOT_FOUND");
 		}
 		exit();
 	}
@@ -294,9 +300,9 @@ class JaextmanagerViewDefault extends JAEMView
 		$model = $this->getModel();
 		$versionRollback = $model->doRecoveryFile();
 		if ($versionRollback !== false) {
-			echo JText::sprintf("SUCCESSFULLY_ROLLBACKED_TO_VERSION_S_PLEASE_REFRESH_THIS_PAGE_TO_SEE_THE_VERSION_UPDATE", $versionRollback);
+			echo Text::sprintf("SUCCESSFULLY_ROLLBACKED_TO_VERSION_S_PLEASE_REFRESH_THIS_PAGE_TO_SEE_THE_VERSION_UPDATE", $versionRollback);
 		} else {
-			echo JText::_("BACKUP_FILE_NOT_FOUND");
+			echo Text::_("BACKUP_FILE_NOT_FOUND");
 		}
 		exit();
 	}
@@ -308,7 +314,7 @@ class JaextmanagerViewDefault extends JAEMView
 		$model = $this->getModel('default');
 		$product = $model->_getProduct();
 		if ($product === false) {
-			echo JText::_("EXTENSION_NOT_FOUND");
+			echo Text::_("EXTENSION_NOT_FOUND");
 			exit();
 		}
 		$listConflicted = $this->get("ListBackupConflicted");
@@ -319,14 +325,14 @@ class JaextmanagerViewDefault extends JAEMView
 				$link = sprintf("?option=%s&view=default&task=compare_conflicted&cId[]=%s&folder=%s", JACOMPONENT, $product->extId, $folder['name']);
 				
 				echo $folder['title'] . ' -
-					 <a href="' . $link . '" title="' . JText::_("COMPARE_WITH_FILES_AT_THIS_POINT") . '">
-					' . JText::_("VIEW_YOUR_CONFLICTED_FILES") . '
+					 <a href="' . $link . '" title="' . Text::_("COMPARE_WITH_FILES_AT_THIS_POINT") . '">
+					' . Text::_("VIEW_YOUR_CONFLICTED_FILES") . '
 					</a>
 					' . (isset($folder['comment']) ? '[' . $folder['comment'] . ']' : '') . '
 					<br />';
 			}
 		} else {
-			echo JText::_("DO_NOT_HAVE_ANY_CONFLICTED_BACKUP_FOLDER");
+			echo Text::_("DO_NOT_HAVE_ANY_CONFLICTED_BACKUP_FOLDER");
 		}
 		exit();
 	}
@@ -336,7 +342,7 @@ class JaextmanagerViewDefault extends JAEMView
 	{
 		
 		// Toolbar
-		JToolBarHelper::back();
+		ToolBarHelper::back();
 		
 		$model = $this->getModel('default');
 		$obj = $model->getBackupConflicted();
@@ -379,8 +385,8 @@ class JaextmanagerViewDefault extends JAEMView
 	function displayDiffView($tpl = null)
 	{
 		// Toolbar
-		JToolBarHelper::apply("upgrade", "Upgrade");
-		JToolBarHelper::cancel();
+		ToolBarHelper::apply("upgrade", "Upgrade");
+		ToolBarHelper::cancel();
 		
 		$model = $this->getModel('default');
 		$obj = $model->getDiffView();
@@ -390,11 +396,8 @@ class JaextmanagerViewDefault extends JAEMView
 			
 			parent::display($tpl);
 		} else {
-			//JError::raiseWarning(0, JText::_("FAILURED_TO_BUILD_DIFFERENCE_VIEW"));
-			
-
 			$product = $model->_getProduct();
-			$message = JText::sprintf("YOUR_ACCOUNT_SEEM_DOES_NOT_HAVE_ENOUGH_PERMISSION_TO_TAKE_THIS_ACTION_PLEASE_CONTACT_FOR_MORE_INFORMATION_OR_USE_ANOTHER_ACCOUNT", $product->ws_name);
+			$message = Text::sprintf("YOUR_ACCOUNT_SEEM_DOES_NOT_HAVE_ENOUGH_PERMISSION_TO_TAKE_THIS_ACTION_PLEASE_CONTACT_FOR_MORE_INFORMATION_OR_USE_ANOTHER_ACCOUNT", $product->ws_name);
 			$this->displayLoginBox($product, $message);
 		}
 	}
@@ -411,11 +414,8 @@ class JaextmanagerViewDefault extends JAEMView
 			
 			parent::display($tpl);
 		} else {
-			//JError::raiseWarning(0, JText::_("FAILURED_TO_BUILD_DIFFERENCE_VIEW"));
-			
-
 			$product = $model->_getProduct();
-			$message = JText::sprintf("YOUR_ACCOUNT_SEEM_DOES_NOT_HAVE_ENOUGH_PERMISSION_TO_TAKE_THIS_ACTION_PLEASE_CONTACT_FOR_MORE_INFORMATION_OR_USE_ANOTHER_ACCOUNT", $product->ws_name);
+			$message = Text::sprintf("YOUR_ACCOUNT_SEEM_DOES_NOT_HAVE_ENOUGH_PERMISSION_TO_TAKE_THIS_ACTION_PLEASE_CONTACT_FOR_MORE_INFORMATION_OR_USE_ANOTHER_ACCOUNT", $product->ws_name);
 			$this->displayLoginBox($product, $message);
 		}
 	}
@@ -424,8 +424,8 @@ class JaextmanagerViewDefault extends JAEMView
 	function displayLoginBox($obj, $message, $messageType = "message")
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication('administrator');
-		$backUrl = JURI::current() . "?" . $_SERVER['QUERY_STRING'];
+		$app = Factory::getApplication('administrator');
+		$backUrl = URI::current() . "?" . $_SERVER['QUERY_STRING'];
 		$backUrl = urlencode($backUrl);
 		$url = "index.php?tmpl=component&option=com_jaextmanager&view=services&viewmenu=0&task=config&cid[]=" . $obj->ws_id . "&number=1&backUrl=" . $backUrl;
 		$app->redirect($url, $message, $messageType);
@@ -447,7 +447,8 @@ class JaextmanagerViewDefault extends JAEMView
 			$this->assignRef('source', $source);
 			parent::display($tpl);
 		} else {
-			JError::raiseWarning(100, JText::_("CAN_NOT_OPEN_THIS_FILE"));
+			$app = Factory::getApplication();
+			$app->enqueueMessage(Text::_("CAN_NOT_OPEN_THIS_FILE"), 'warning');
 		}
 	}
 
@@ -461,9 +462,8 @@ class JaextmanagerViewDefault extends JAEMView
 			$this->assignRef('source', $source);
 			parent::display($tpl);
 		} else {
-			//JError::raiseWarning(100, JText::_("CAN_NOT_OPEN_THIS_FILE"));
 			$product = $model->_getProduct();
-			$message = JText::sprintf("YOUR_ACCOUNT_SEEM_DOES_NOT_HAVE_ENOUGH_PERMISSION_TO_TAKE_THIS_ACTION_PLEASE_CONTACT_FOR_MORE_INFORMATION_OR_USE_ANOTHER_ACCOUNT", $product->ws_name);
+			$message = Text::sprintf("YOUR_ACCOUNT_SEEM_DOES_NOT_HAVE_ENOUGH_PERMISSION_TO_TAKE_THIS_ACTION_PLEASE_CONTACT_FOR_MORE_INFORMATION_OR_USE_ANOTHER_ACCOUNT", $product->ws_name);
 			$this->displayLoginBox($product, $message);
 		}
 	}

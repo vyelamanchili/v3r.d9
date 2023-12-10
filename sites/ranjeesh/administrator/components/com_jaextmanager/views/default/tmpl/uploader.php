@@ -13,6 +13,9 @@
 //no direct access
 defined( '_JEXEC' ) or die( 'Retricted Access' );
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 ?>
 <script language="javascript" type="text/javascript">
 /*<![CDATA[*/
@@ -26,13 +29,13 @@ defined( '_JEXEC' ) or die( 'Retricted Access' );
 			var type = jQuery('input[name=installtype][checked]').val();
 			if(type == 'folder') {
 				if (form.install_directory.value == ""){
-					alert( "<?php echo JText::_('PLEASE_SELECT_A_DIRECTORY', true ); ?>" );
+					alert( "<?php echo Text::_('PLEASE_SELECT_A_DIRECTORY', true ); ?>" );
 					return false;
 				}
 			} else if(type == 'url') {
 				// do field validation
 				if (form.install_url.value == "" || form.install_url.value == "http://"){
-					alert( "<?php echo JText::_('PLEASE_ENTER_A_URL', true ); ?>" );
+					alert( "<?php echo Text::_('PLEASE_ENTER_A_URL', true ); ?>" );
 					return false;
 				}
 			}
@@ -54,7 +57,7 @@ defined( '_JEXEC' ) or die( 'Retricted Access' );
 /*]]>*/
 </script>
 <fieldset>
-<legend><?php echo JText::_('JOOMLART_EXTENSIONS_UPLOADER' ); ?></legend>
+<legend><?php echo Text::_('JOOMLART_EXTENSIONS_UPLOADER' ); ?></legend>
 <form enctype="multipart/form-data" method="post" action="index.php" id="adminForm" name="adminForm">
   <input type="hidden" name="type" value="" />
   <input type="hidden" name="task" value="doUpload" />
@@ -62,12 +65,12 @@ defined( '_JEXEC' ) or die( 'Retricted Access' );
   <input type="hidden" name="view" value="default" />
   <input type="hidden" name="option" value="com_jaextmanager" />
   <input type="hidden" value="1" id="hasFileUpload" name="hasFileUpload" />
-  <?php echo JHtml::_( 'form.token' ); ?>
+  <?php echo HTMLHelper::_( 'form.token' ); ?>
   <table align="center">
     <tr>
       <td>
       <input type="radio" name="installtype" id="installtype_upload" value="upload" checked="checked" />
-      <label for="installtype_upload"><?php echo JText::_('UPLOAD_PACKAGE_FILE' ); ?></label>      </td>
+      <label for="installtype_upload"><?php echo Text::_('UPLOAD_PACKAGE_FILE' ); ?></label>      </td>
     </tr>
     <tr>
       <td><input class="input_box" id="install_package" name="install_package" type="file" size="57" />      </td>
@@ -75,7 +78,7 @@ defined( '_JEXEC' ) or die( 'Retricted Access' );
     <tr>
       <td>
       <input type="radio" name="installtype" id="installtype_folder" value="folder" />
-      <label for="installtype_folder"><?php echo JText::_('UPLOAD_FROM_DIRECTORY' ); ?></label>      </td>
+      <label for="installtype_folder"><?php echo Text::_('UPLOAD_FROM_DIRECTORY' ); ?></label>      </td>
     </tr>
     <tr>
       <td>
@@ -84,15 +87,15 @@ defined( '_JEXEC' ) or die( 'Retricted Access' );
     <tr>
       <td>
       <input type="radio" name="installtype" id="installtype_url" value="url" />
-      <label for="installtype_url"><?php echo JText::_('UPLOAD_FROM_URL' ); ?></label>      </td>
+      <label for="installtype_url"><?php echo Text::_('UPLOAD_FROM_URL' ); ?></label>      </td>
     </tr>
     <tr>
       <td><input type="text" id="install_url" name="install_url" class="input_box" size="70" value="http://" />      </td>
     </tr>
     <tr>
       <td>
-      <button id="japopup_upload" name="japopup_upload" class="button"><?php echo JText::_("UPLOAD_NOW"); ?></button>      
-      <button id="japopup_cancel" name="japopup_cancel" class="button"><?php echo JText::_("CLOSE"); ?></button>      
+      <button id="japopup_upload" name="japopup_upload" class="button"><?php echo Text::_("UPLOAD_NOW"); ?></button>      
+      <button id="japopup_cancel" name="japopup_cancel" class="button"><?php echo Text::_("CLOSE"); ?></button>      
       </td>
     </tr>
   </table>
@@ -100,7 +103,7 @@ defined( '_JEXEC' ) or die( 'Retricted Access' );
 </fieldset>
 <?php if(!empty($this->uploadResult)): ?>
 <fieldset>
-<legend><?php echo JText::_('UPLOAD_RESULT' ); ?></legend>
+<legend><?php echo Text::_('UPLOAD_RESULT' ); ?></legend>
 <?php echo $this->uploadResult; ?>
 </fieldset>
 <?php endif; ?>

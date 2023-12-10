@@ -9,6 +9,9 @@
 
 defined('JPATH_BASE') or die;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+
 $item = $displayData['item'];
 $title = $this->escape($item->category_title);
 if (!isset($item->catslug)) {
@@ -18,7 +21,7 @@ if (!isset($item->catslug)) {
 			<dd class="category-name hasTooltip" title="<?php echo Text::sprintf('COM_CONTENT_CATEGORY', ''); ?>">
 				<i class="fa fa-folder-open"></i>
 				<?php if ($displayData['params']->get('link_category') && $item->catslug) : ?>
-					<?php echo JHtml::_('link', JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug)), '<span itemprop="genre">'.$title.'</span>'); ?>
+					<?php echo HTMLHelper::_('link', Route::_(ContentHelperRoute::getCategoryRoute($item->catslug)), '<span itemprop="genre">'.$title.'</span>'); ?>
 				<?php else : ?>
 					<span itemprop="genre"><?php echo $title ?></span>
 				<?php endif; ?>

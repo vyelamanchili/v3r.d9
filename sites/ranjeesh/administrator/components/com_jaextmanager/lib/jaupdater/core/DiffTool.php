@@ -12,6 +12,8 @@
 // no direct access
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
+use Joomla\Filesystem\File;
+
 class jaDiffTool
 {
 	var $objLeft;
@@ -74,13 +76,13 @@ class jaDiffTool
 		$this->objLeft = $objLeft;
 		$this->objRight = $objRight;
 		if ($mode == 'file') {
-			if (JFile::exists($objLeft->file)) {
+			if (is_file($objLeft->file)) {
 				$objLeft->content = file_get_contents($objLeft->file);
 			} else {
 				$objLeft->content = '';
 			}
 			
-			if (JFile::exists($objRight->file)) {
+			if (is_file($objRight->file)) {
 				$objRight->content = file_get_contents($objRight->file);
 			} else {
 				$objRight->content = '';
@@ -101,7 +103,7 @@ class jaDiffTool
 
 	function diffFiles($fileLeft, $fileRight)
 	{
-		if (JFile::exists($fileLeft) && JFile::exists($fileRight)) {
+		if (is_file($fileLeft) && is_file($fileRight)) {
 			$strLeft = file_get_contents($fileLeft);
 			$strRight = file_get_contents($fileRight);
 			$result = $this->diffString($strLeft, $strRight);

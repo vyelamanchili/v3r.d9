@@ -274,7 +274,7 @@ article,
     .img-intro-right,
     .img-fulltext-none,
     .img-fulltext-left,
-    .img-fulltext-right, {
+    .img-fulltext-right {
       float: none !important;
       margin-left: 0;
       margin-right: 0;
@@ -389,6 +389,18 @@ article aside .btn-group {
       margin-top: 0;
     }
 
+  }
+
+  .com-tags-filter-field-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+
+    .btn-group {
+      display: flex;
+      margin-right: 0;
+    }
   }
 }
 
@@ -940,21 +952,86 @@ div.finder {
     }
   }
 
-}
-
-.filter-branch {
-  &:after {
-    content: "";
-    clear: both;
-    display: table;
+  .com-finder__tips {
+    margin-top: @t3-global-margin;
   }
 
-  .finder-selects {
-    margin-right: @t3-global-margin;
-    margin-bottom: @t3-global-margin;
+}
+
+#finder-filter-window {
+  margin-top: @t3-global-margin;
+  // Filter By Date
+  #finder-filter-select-dates {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: @t3-global-margin/2;
+    margin-bottom: @t3-global-margin*2;
+
+    @media screen and (min-width: 1200px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .filter-date {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0;
+      gap: @t3-global-margin/2;
+      width: 100%;
+
+      label {
+        flex-basis: 100%;
+      }
+
+      select.inputbox {
+        margin: 0;
+        width: 100% !important;
+        max-width: unset;
+      }
+
+      .field-calendar {
+        width: 100%;
+        .form-control {
+          flex: 1;
+          max-width: unset;
+          width: 100%;
+        }
+      }
+
+      .chzn-container {
+        margin-bottom: 6px;
+      }
+
+      br {
+        display: none;
+      }
+    }
+
+  }
+
+  // Filter By Type 
+  .filter-branch {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: @t3-global-margin/2;
+    width: 100%;
+
+    @media (min-width: @screen-lg) {
+      flex-direction: row;
+    }
 
     .control-label {
-      margin-bottom: @t3-global-margin / 2;
+      padding: 0;
+      margin-bottom: @t3-global-margin/2;
+    }
+
+    .controls {
+      margin-left: 0;
+
+      select {
+        color: #9e9e9e;
+        width: 100%;
+      }
     }
   }
 }
@@ -979,6 +1056,14 @@ div.finder {
 
   dd::after {
     display: none;
+  }
+
+  .icon-address::before {
+    content: '\f02d';
+  }
+
+  .icon-fax::before {
+    content: '\f109';
   }
 }
 
@@ -1610,6 +1695,48 @@ dl.tabs {
       .picker__select--month {
         margin-left: @t3-global-padding;
       }
+    }
+  }
+}
+
+// fixbug
+#glossary-detail {
+
+  .modal-dialog {
+    height: 100vh;
+    position: relative;
+  }
+  
+  .modal-content {
+    padding: 24px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    .modal-header {
+      flex-direction: row-reverse;
+      justify-content: space-between;
+      padding: 0 0 24px;
+
+      &::after,
+      &::before {
+        display: none;
+      }
+
+      .close {
+        padding: 6px 10px;
+        background-color: #005788;
+        color: #fff;
+        opacity: 1;
+        transition: all .3s ease-in-out;
+        &:hover {
+          opacity: .7;
+        }
+      }
+    }
+
+    .modal-body {
+      margin-top: 24px;
     }
   }
 }

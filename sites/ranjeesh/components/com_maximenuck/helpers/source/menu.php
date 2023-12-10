@@ -168,7 +168,7 @@ class MaximenuckHelpersourceMenu {
 				// Test if this is the last item
 				$item->is_end = !isset($items[$i + 1]);
 
-				// if (! $item->isthirdparty) $item->parent = (boolean) $menu->getItems('parent_id', (int) $item->id, true);
+//				 if (! $item->isthirdparty) $item->parent = (boolean) $menu->getItems('parent_id', (int) $item->id, true);
 				$item->active = false;
 				$item->current = false;
 				$item->flink = $item->link;

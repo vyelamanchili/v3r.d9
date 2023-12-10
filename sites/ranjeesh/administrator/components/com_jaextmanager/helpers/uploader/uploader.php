@@ -12,13 +12,22 @@
 // No direct access
 defined('JPATH_BASE') or die();
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Adapter\Adapter;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
+use Joomla\Filesystem\Folder;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Application\ApplicationHelper;
+
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.archive');
 jimport('joomla.filesystem.path');
 jimport('joomla.base.adapter');
 
-class jaExtUploader extends JAdapter
+class jaExtUploader extends Adapter
 {
 	/**
 	 * Array of paths needed by the installer
@@ -253,7 +262,7 @@ class jaExtUploader extends JAdapter
 		if (!isset($this->_adapters[$name]) || !is_object($this->_adapters[$name])) {
 			//Try to get adapter
 			$file = dirname(__FILE__) . '/adapters/' . strtolower($name) . '.php';
-			if (!JFile::exists($file)) {
+			if (!is_file($file)) {
 				return false;
 			}
 			// Try to load the adapter object
@@ -289,7 +298,7 @@ class jaExtUploader extends JAdapter
 		$this->errMessage = "";
 		$this->resetResult();
 		
-		$xmlfiles = JFolder::files($packagePath, '.xml$', true, true);
+		$xmlfiles = Folder::files($packagePath, '.xml$', true, true);
 		if (!empty($xmlfiles)) {
 			$result = true;
 			foreach ($xmlfiles as $file) {
@@ -328,7 +337,7 @@ class jaExtUploader extends JAdapter
 		$type = (string) $manifest->attributes()->type;
 		$version = (string) $manifest->attributes()->version;
 		$rootName = (string) $manifest->name;
-		$config = JFactory::getConfig();
+		$config = Factory::getConfig();
 		
 		// Needed for legacy reasons ... to be deprecated in next minor release
 		if ($type == 'mambot') {
@@ -339,14 +348,14 @@ class jaExtUploader extends JAdapter
 		 * LEGACY CHECK
 		 */
 		/*if ((version_compare($version, '1.5', '<') || $rootName == 'mosinstall') && !$config->getValue('config.legacy')) {
-			$this->abort(JText::_('MUSTENABLELEGACY'));
+			$this->abort(Text::_('MUSTENABLELEGACY'));
 			return false;
 		}*/
 		
 		// Lazy load the adapter
 		$adapter = $this->getAdapter($type);
 		if ($adapter === false) {
-			//$this->abort(JText::_('INVALID_JOOMLA_EXTENSIONS'));
+			//$this->abort(Text::_('INVALID_JOOMLA_EXTENSIONS'));
 			return false;
 		} else {
 			return $adapter->upload();
@@ -370,7 +379,7 @@ class jaExtUploader extends JAdapter
 		$name = (string) $manifest->name;
 		$coreVersion = jaGetCoreVersion($coreVersion, $pname);
 		$version = (string) $manifest->version;
-		$filter = JFilterInput::getInstance();
+		$filter = InputFilter::getInstance();
 		$version = $filter->clean($version, 'cmd');
 		
 		if (!empty($pname) && !empty($type)) {
@@ -414,7 +423,7 @@ class jaExtUploader extends JAdapter
 		
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client = JApplicationHelper::getClientInfo($cid);
+		$client = ApplicationHelper::getClientInfo($cid);
 		
 		/*
 		 * Here we set the folder we are going to remove the files from.
@@ -443,6 +452,7 @@ class jaExtUploader extends JAdapter
 			$source = $this->getPath('source');
 		}
 		
+		$app = Factory::getApplication();
 		// Process each file in the $files array (children of $tagName).
 		foreach ($element->children() as $file) {
 			$path['src'] = $source.'/'.$file;
@@ -459,8 +469,8 @@ class jaExtUploader extends JAdapter
 			if (basename($path['dest']) != $path['dest']) {
 				$newdir = dirname($path['dest']);
 				
-				if (!JFolder::create($newdir)) {
-					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir));
+				if (!Folder::create($newdir)) {
+					$app->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), 'warning');
 					return false;
 				}
 			}
@@ -545,11 +555,12 @@ class jaExtUploader extends JAdapter
 		 * $files must be an array of filenames.  Verify that it is an array with
 		 * at least one file to copy.
 		 */
+		$app = Factory::getApplication();
 		if (is_array($files) && count($files) > 0) {
 			foreach ($files as $file) {
 				// Get the source and destination paths
-				$filesource = JPath::clean($file['src']);
-				$filedest = JPath::clean($file['dest']);
+				$filesource = Path::clean($file['src']);
+				$filedest = Path::clean($file['dest']);
 				$filetype = array_key_exists('type', $file) ? $file['type'] : 'file';
 				
 				if (!file_exists($filesource)) {
@@ -557,7 +568,7 @@ class jaExtUploader extends JAdapter
 					 * The source file does not exist.  Nothing to copy so set an error
 					 * and return false.
 					 */
-					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_NO_FILE', $filesource));
+					$app->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_NO_FILE', $filesource), 'warning');
 					return false;
 				} elseif (file_exists($filedest) && !$overwrite) {
 					/*
@@ -571,20 +582,20 @@ class jaExtUploader extends JAdapter
 					 * The destination file already exists and the overwrite flag is false.
 					 * Set an error and return false.
 					 */
-					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_FILE_EXISTS', $filedest));
+					$app->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_EXISTS', $filedest), 'warning');
 					return false;
 				} else {
 					// Copy the folder or file to the new location.
 					if ($filetype == 'folder') {
-						if (!(JFolder::copy($filesource, $filedest, null, $overwrite))) {
-							JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest));
+						if (!(Folder::copy($filesource, $filedest, null, $overwrite))) {
+							$app->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), 'warning');
 							return false;
 						}
 						
 						$step = array('type' => 'folder', 'path' => $filedest);
 					} else {
-						if (!(JFile::copy($filesource, $filedest, null))) {
-							JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest));
+						if (!(File::copy($filesource, $filedest, null))) {
+							$app->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), 'warning');
 							return false;
 						}
 						
@@ -636,7 +647,7 @@ class jaExtUploader extends JAdapter
 		// Get the client info if we're using a specific client
 		jimport('joomla.application.helper');
 		if ($cid > -1) {
-			$client = JApplicationHelper::getClientInfo($cid);
+			$client = ApplicationHelper::getClientInfo($cid);
 		} else {
 			$client = null;
 		}
@@ -667,7 +678,7 @@ class jaExtUploader extends JAdapter
 			case 'languages':
 				$lang_client = (string) $element->attributes()->client;
 				if ($lang_client) {
-					$client = JApplicationHelper::getClientInfo($lang_client, true);
+					$client = ApplicationHelper::getClientInfo($lang_client, true);
 					$source = $client->path.'/language';
 				} else {
 					if ($client) {
@@ -703,12 +714,12 @@ class jaExtUploader extends JAdapter
 				if ($source) {
 					$path = $source.'/'.$file->attributes()->tag.'/'.basename((string) $file);
 				} else {
-					$target_client = JApplicationHelper::getClientInfo((string) $file->attributes()->client, true);
+					$target_client = ApplicationHelper::getClientInfo((string) $file->attributes()->client, true);
 					$path = $target_client->path.'/language/'.$file->attributes()->tag.'/'.basename((string) $file);
 				}
 				
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
-				if (!JFolder::exists(dirname($path))) {
+				if (!is_dir(dirname($path))) {
 					continue;
 				}
 			} else {
@@ -718,20 +729,21 @@ class jaExtUploader extends JAdapter
 			/*
 			 * Actually delete the files/folders
 			 */
-			if (JFolder::exists($path)) {
-				$val = JFolder::delete($path);
+			if (is_dir($path)) {
+				$val = Folder::delete($path);
 			} else {
-				$val = JFile::delete($path);
+				$val = File::delete($path);
 			}
-			
+
 			if ($val === false) {
-				JError::raiseWarning(43, 'Failed to delete ' . $path);
+				$app = Factory::getApplication();
+				$app->enqueueMessage('Failed to delete ' . $path, 'warning');
 				$retval = false;
 			}
 		}
 		
 		if (!empty($folder)) {
-			$val = JFolder::delete($source);
+			$val = Folder::delete($source);
 		}
 		
 		return $retval;
@@ -750,7 +762,7 @@ class jaExtUploader extends JAdapter
 	{
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client = JApplicationHelper::getClientInfo($cid);
+		$client = ApplicationHelper::getClientInfo($cid);
 		
 		$path['src'] = $this->getPath('manifest');
 		
@@ -775,7 +787,8 @@ class jaExtUploader extends JAdapter
 	public function findManifest()
 	{
 		// Get an array of all the xml files from the installation directory
-		$xmlfiles = JFolder::files($this->getPath('source'), '.xml$', 1, true);
+		$xmlfiles = Folder::files($this->getPath('source'), '.xml$', 1, true);
+		$app = Factory::getApplication();
 		// If at least one xml file exists
 		if (!empty($xmlfiles)) {
 			foreach ($xmlfiles as $file) {
@@ -808,11 +821,11 @@ class jaExtUploader extends JAdapter
 			}
 			
 			// None of the xml files found were valid install files
-			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'));
+			$app->enqueueMessage(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), 'warning');
 			return false;
 		} else {
 			// No xml files were found in the install folder
-			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'));
+			$app->enqueueMessage(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), 'warning');
 			return false;
 		}
 	}
@@ -859,7 +872,7 @@ class jaExtUploader extends JAdapter
 	 */
 	public function generateManifestCache()
 	{
-		return serialize(JApplicationHelper::parseXMLInstallFile($this->getPath('manifest')));
+		return serialize(ApplicationHelper::parseXMLInstallFile($this->getPath('manifest')));
 	}
 
 
@@ -886,17 +899,17 @@ class jaExtUploader extends JAdapter
 
 	function getResults()
 	{
-		$filter = JFilterInput::getInstance();
+		$filter = InputFilter::getInstance();
 		$result = "";
 		if (count($this->results) > 0) {
 			$result .= "
 			<table class=\"ja-uc-child\">
 		      <tr>
 		        <th width=\"30\"> </th>
-		        <th width=\"150\">" . JText::_("EXTENSION_NAME") . "</th>
-		        <th>" . JText::_("TYPE") . "</th>
-		        <th>" . JText::_("VERSION") . "</th>
-		        <th>" . JText::_("RESULT") . "</th>
+		        <th width=\"150\">" . Text::_("EXTENSION_NAME") . "</th>
+		        <th>" . Text::_("TYPE") . "</th>
+		        <th>" . Text::_("VERSION") . "</th>
+		        <th>" . Text::_("RESULT") . "</th>
 		      </tr>";
 			foreach ($this->results as $item) {
 				$error = intval($item['error']);
@@ -908,10 +921,10 @@ class jaExtUploader extends JAdapter
 					$relLocation = substr($item['location'], strlen(JA_WORKING_DATA_FOLDER));
 					$relLocation = $filter->clean($relLocation, "/");
 					$url = "index.php?option=com_jaextmanager&view=repo&folder={$relLocation}";
-					$linkRepo = " <a href=\"{$url}\" onclick=\"opener.location='{$url}'; return false;\" target=\"_parent\" title=\"" . addslashes($item['location']) . "\">" . JText::_("REPOSITORY") . "</a>";
+					$linkRepo = " <a href=\"{$url}\" onclick=\"opener.location='{$url}'; return false;\" target=\"_parent\" title=\"" . addslashes($item['location']) . "\">" . Text::_("REPOSITORY") . "</a>";
 					
-					$message = JText::sprintf('THE_S_S__VESION_S_IS_SUCCESSFULLY_UPLOADED_TO_LOCAL_REPOSITORY', $ext->type, $ext->name, $ext->version);
-					$message .= JText::sprintf('GO_TO_S_TO_SEE_THE_UPLOADED_FILES_OF_THIS_EXTENSIONSSMALL', $linkRepo);
+					$message = Text::sprintf('THE_S_S__VESION_S_IS_SUCCESSFULLY_UPLOADED_TO_LOCAL_REPOSITORY', $ext->type, $ext->name, $ext->version);
+					$message .= Text::sprintf('GO_TO_S_TO_SEE_THE_UPLOADED_FILES_OF_THIS_EXTENSIONSSMALL', $linkRepo);
 				
 				} else {
 					$css = "upload-error";

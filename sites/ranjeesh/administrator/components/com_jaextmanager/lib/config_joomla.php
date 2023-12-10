@@ -11,13 +11,19 @@
  */
 // no direct access
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
+
+use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+use Joomla\CMS\Component\ComponentHelper;
+
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 // This file will hold configuration for UpdaterClient
 global $config;
 
 $jConfig = new JConfig();
-$params = JComponentHelper::getParams(JACOMPONENT);
+$params = ComponentHelper::getParams(JACOMPONENT);
 $defaultService = jaGetDefaultService();
 
 $data_folder = jaucGetDataFolder($params->get("DATA_FOLDER", "jaextmanager_data"));
@@ -50,37 +56,35 @@ function jaucGetDataFolder($path)
 function jaucValidServiceSettings($params)
 {
 	$errMsg = "";
-	if (!JFolder::exists(JA_WORKING_DATA_FOLDER)) {
-		if (!JFolder::create(JA_WORKING_DATA_FOLDER, 0755)) {
-			$errMsg .= JText::_("JA_UPDATER_CAN_NOT_CREATE_BELOW_FOLDER_AUTOMATICALLY_PLEASE_MANUAL_DO_IT") . "<br />";
+	if (!is_dir(JA_WORKING_DATA_FOLDER)) {
+		if (!Folder::create(JA_WORKING_DATA_FOLDER, 0755)) {
+			$errMsg .= Text::_("JA_UPDATER_CAN_NOT_CREATE_BELOW_FOLDER_AUTOMATICALLY_PLEASE_MANUAL_DO_IT") . "<br />";
 			$errMsg .= "<i>" . JA_WORKING_DATA_FOLDER . "</i>";
 		}
 	} elseif (!is_writeable(JA_WORKING_DATA_FOLDER)) {
 		if (!chmod(JA_WORKING_DATA_FOLDER, 0755)) {
-			$errMsg .= JText::_("JA_UPDATER_CAN_NOT_AUTOMATICALLY_CHMOD_FOR_BELOW_FOLDER_TO_WRIABLE_PLEASE_MANUAL_DO_IT") . "<br />";
+			$errMsg .= Text::_("JA_UPDATER_CAN_NOT_AUTOMATICALLY_CHMOD_FOR_BELOW_FOLDER_TO_WRIABLE_PLEASE_MANUAL_DO_IT") . "<br />";
 			$errMsg .= "<i>" . JA_WORKING_DATA_FOLDER . "</i>";
 		}
 	} else {
 		$fileAccess = JA_WORKING_DATA_FOLDER . ".htaccess";
-		if (!JFile::exists($fileAccess)) {
+		if (!is_file($fileAccess)) {
 			$buffer = "Order deny,allow\r\nDeny from all";
-			JFile::write($fileAccess, $buffer);
+			File::write($fileAccess, $buffer);
 		}
 	}
 	if (substr(PHP_OS, 0, 3) == 'WIN') {
-		if (!JFolder::exists(dirname($params->get("MYSQL_PATH")))) {
-			$errMsg .= JText::_("PATH_TO_MYSQL_CLI_IS_NOT_CORRECT") . "<br />";
+		if (!is_dir(dirname($params->get("MYSQL_PATH") ?: ''))) {
+			$errMsg .= Text::_("PATH_TO_MYSQL_CLI_IS_NOT_CORRECT") . "<br />";
 		}
-		if (!JFolder::exists(dirname($params->get("MYSQLDUMP_PATH")))) {
-			$errMsg .= JText::_("PATH_TO_MYSQL_DUMP_CLI_IS_NOT_CORRECT") . "<br />";
+		if (!is_dir(dirname($params->get("MYSQLDUMP_PATH") ?: ''))) {
+			$errMsg .= Text::_("PATH_TO_MYSQL_DUMP_CLI_IS_NOT_CORRECT") . "<br />";
 		}
 	}
 	if ($errMsg != "") {
 		if (JRequest::getVar('layout') == 'config_service') {
 			jaucRaiseMessage($errMsg, true);
 		}
-		/*$errMsg .= "<a href=\"index.php?option=com_jaextmanager&view=default&layout=config_service\" title=\"\">".JText::_('CLICK_HERE_TO_EDIT_SETTINGS')."</a>";
-		 JError::raiseWarning(100, $errMsg);*/
 	}
 }
 //option=com_jauc&view=default&layout=config_service

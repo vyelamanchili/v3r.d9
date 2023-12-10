@@ -8,6 +8,15 @@
 // No direct access
 defined('_JEXEC') or die();
 
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Component\ComponentHelper;
+
 jimport('joomla.application.component.view');
 
 /**
@@ -20,45 +29,47 @@ jimport('joomla.application.component.view');
 class JaextmanagerViewRepo extends JAEMView
 {
 
+	public $folders;
+	public $folders_id;
 
 	function display($tpl = null)
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		
-		$config = JComponentHelper::getParams(JACOMPONENT);
+		$config = ComponentHelper::getParams(JACOMPONENT);
 		
-		$lang	= JFactory::getLanguage();
+		$lang	= Factory::getLanguage();
 		//$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'details', 'word');
 		$style = "details";
 
 		if (version_compare(JVERSION, '4', '<')) {
-			JHtml::_('behavior.framework', true);
-			JHtml::_('script', 'system/mootree.js');
-			JHtml::_('stylesheet', 'system/mootree.css', array(), true);
+			HTMLHelper::_('behavior.framework', true);
+			HTMLHelper::_('script', 'system/mootree.js');
+			HTMLHelper::_('stylesheet', 'system/mootree.css', array(), true);
 		}
 
-		$assets = JURI::root() . 'administrator/components/com_jaextmanager/assets/';
-		$document = JFactory::getDocument();
+		$assets = Uri::root() . 'administrator/components/com_jaextmanager/assets/';
+		$document = Factory::getDocument();
 		if (jaIsJoomla4x()) {
 			$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'top');
-			JHtml::_('stylesheet', $assets . 'repo_manager_3/' . 'repomanager.css');
+			HTMLHelper::_('stylesheet', $assets . 'repo_manager_3/' . 'repomanager.css');
 		} else if(jaIsJoomla3x()){
 			$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'top');
-			JHtml::_('script', $assets . 'repo_manager_3/' . 'repomanager.js');
-			JHtml::_('stylesheet', $assets . 'repo_manager_3/' . 'repomanager.css');
+			HTMLHelper::_('script', $assets . 'repo_manager_3/' . 'repomanager.js');
+			HTMLHelper::_('stylesheet', $assets . 'repo_manager_3/' . 'repomanager.css');
 		}else{
 			$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');
-			JHtml::_('script', $assets . 'repo_manager/' . 'repomanager.js');
-			JHtml::_('stylesheet', $assets . 'repo_manager/' . 'repomanager.css');
+			HTMLHelper::_('script', $assets . 'repo_manager/' . 'repomanager.js');
+			HTMLHelper::_('stylesheet', $assets . 'repo_manager/' . 'repomanager.css');
 		}
 		
 		
 		if ($lang->isRTL()) :
-			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
+			HTMLHelper::_('stylesheet', 'media/mootree_rtl.css', array(), true);
 		endif;
 		if ($config->get('enable_flash', 0)) {
-			JHtml::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ MediaManager.refreshFrame(); }'));
+			HTMLHelper::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ MediaManager.refreshFrame(); }'));
 		}
 		
 		if (DS == '\\') {
@@ -78,8 +89,8 @@ class JaextmanagerViewRepo extends JAEMView
 		 * Don't set them here, as there are other functions called before this one if there is any file write operation
 		 */
 		jimport('joomla.client.helper');
-		$ftp = !JClientHelper::hasCredentials('ftp');
-		$session 	= JFactory::getSession();
+		$ftp = !ClientHelper::hasCredentials('ftp');
+		$session 	= Factory::getSession();
 		$state 		= $this->get('state');
 		$folderTree = $this->get('folderTree');
 		$this->assignRef('session', $session);
@@ -104,14 +115,14 @@ class JaextmanagerViewRepo extends JAEMView
 	protected function addToolbar()
 	{
 		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = ToolBar::getInstance('toolbar');
 		
 		// Set the titlebar text
-		JToolBarHelper::title(JText::_('JOOMLART_EXTENSIONS_MANAGER'), 'generic');
+		// ToolBarHelper::title(Text::_('JOOMLART_EXTENSIONS_MANAGER'), 'generic');
 		
 		if(jaIsJoomla3x()) {
 			// Add a upload button
-			$title = JText::_('UPLOAD');
+			$title = Text::_('UPLOAD');
 			$dhtml = "<button href=\"#\" onclick=\"jaOpenUploader(); return false;\" class=\"toolbar btn btn-small btn-success\">
 						<i class=\"icon-plus icon-white\" title=\"$title\"></i>
 						$title</button>";
@@ -119,14 +130,14 @@ class JaextmanagerViewRepo extends JAEMView
 			$bar->appendButton('Custom', $dhtml, 'upload');
 			
 			// Add a delete button
-			$title = JText::_('DELETE');
+			$title = Text::_('DELETE');
 			$dhtml = "<button href=\"#\" onclick=\"multiDelete(); return false;\" class=\"toolbar btn btn-small\">
 						<i class=\"icon-remove\" title=\"$title\"></i>
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'delete');
 		} else {
 			// Add a upload button
-			$title = JText::_('UPLOAD');
+			$title = Text::_('UPLOAD');
 			$dhtml = "<a href=\"#\" onclick=\"jaOpenUploader(); return false;\" class=\"toolbar btn btn-small btn-success\">
 						<span class=\"icon-32-upload\" title=\"$title\" type=\"Custom\"></span>
 						$title</a>";
@@ -134,7 +145,7 @@ class JaextmanagerViewRepo extends JAEMView
 			$bar->appendButton('Custom', $dhtml, 'upload');
 			
 			// Add a delete button
-			$title = JText::_('DELETE');
+			$title = Text::_('DELETE');
 			$dhtml = "<a href=\"#\" onclick=\"multiDelete(); return false;\" class=\"toolbar\">
 						<span class=\"icon-32-delete\" title=\"$title\" type=\"Custom\"></span>
 						$title</a>";
@@ -145,7 +156,6 @@ class JaextmanagerViewRepo extends JAEMView
 
 	function getFolderLevel($folder)
 	{
-		$this->folders_id = null;
 		$txt = null;
 		if (isset($folder['children']) && count($folder['children'])) {
 			$tmp = $this->folders;

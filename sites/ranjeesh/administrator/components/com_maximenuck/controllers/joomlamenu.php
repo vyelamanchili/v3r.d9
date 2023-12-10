@@ -14,6 +14,11 @@ use Maximenuck\CKFof;
 class MaximenuckControllerJoomlamenu extends CKController
 {
 
+	public function __construct() {
+		CKFof::cleanCache('com_menus');
+		parent::__construct();
+	}
+
 	public function ajaxPublish($model = null) {
 		CKFof::checkAjaxToken(false);
 
@@ -21,14 +26,14 @@ class MaximenuckControllerJoomlamenu extends CKController
 		$ids   = $this->input->get('id', null, 'array');
 
 		$model = $this->getModel();
-		$ids = $model->publish($ids, 1 - $state);
+		$ids = $model->publishItem($ids, 1 - $state);
 		if ($ids === false)
 		{
 			echo '{"status": "0", "message": "' . CKText::_('CK_FAILED_PUBLISH') . '"}';
 			exit;
 		}
 		
-		echo '{"status": "1", "ids": "' . implode($ids, ',') . '"}';
+		echo '{"status": "1", "ids": "' . implode(',', $ids) . '"}';
 		exit;
 	}
 

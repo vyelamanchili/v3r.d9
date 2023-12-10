@@ -12,9 +12,12 @@
 
 //no direct access
 defined( '_JEXEC' ) or die( 'Retricted Access' );
+
+use Joomla\CMS\Language\Text;
+
 ?>
 <fieldset>
-  <legend><?php echo JText::_("GENERAL_CONFIG");?></legend>
+  <legend><?php echo Text::_("GENERAL_CONFIG");?></legend>
   
   <?php defined('_JEXEC') or die('Restricted access'); ?>
 <script type="text/javascript" language="javascript">
@@ -42,7 +45,7 @@ Joomla.submitbutton = function(pressbutton) {
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="title">
-					<?php echo JText::_('AUTO_CHECK_UPDATE' ); ?><font color="Red">*</font>:
+					<?php echo Text::_('AUTO_CHECK_UPDATE' ); ?><font color="Red">*</font>:
 				</label>
 			</td>
 			<td>

@@ -13,13 +13,14 @@
  */
 
 defined('_JEXEC') or die;
-
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8"/>
-		<title><?php echo JText::_('T3_TM_TITLE'); ?></title>
+		<title><?php echo Text::_('T3_TM_TITLE'); ?></title>
 		<link type="text/css" rel="stylesheet" href="<?php echo T3_ADMIN_URL; ?>/admin/bootstrap/css/bootstrap.css" />
 		<link type="text/css" rel="stylesheet" href="<?php echo T3_ADMIN_URL; ?>/admin/plugins/miniColors/jquery.miniColors.css" />
 		<link type="text/css" rel="stylesheet" href="<?php echo T3_ADMIN_URL; ?>/admin/thememagic/css/thememagic.css" />
@@ -32,26 +33,26 @@ defined('_JEXEC') or die;
 		<div id="wrapper">
 			<?php if($tplparams->get('themermode', 1)): ?>
 			<div id="t3-admin-thememagic">
-				<a href="<?php echo JURI::base(true); ?>" class="themer-minimize"><i class="icon-remove-sign"></i><i class="icon-magic"></i>  <span><?php echo JText::_('T3_TM_MINIMIZE') ; ?></span></a>
-				<a href="<?php echo $backurl; ?>" class="themer-close" title="<?php echo JText::_($isadmin ? 'T3_TM_BACK_TO_ADMIN' : 'T3_TM_EXIT'); ?>"><i class="icon-arrow-left"></i><?php echo JText::_($isadmin ? 'T3_TM_BACK_TO_ADMIN' : 'T3_TM_EXIT'); ?></a>
+				<a href="<?php echo Uri::base(true); ?>" class="themer-minimize"><i class="icon-remove-sign"></i><i class="icon-magic"></i>  <span><?php echo Text::_('T3_TM_MINIMIZE') ; ?></span></a>
+				<a href="<?php echo $backurl; ?>" class="themer-close" title="<?php echo Text::_($isadmin ? 'T3_TM_BACK_TO_ADMIN' : 'T3_TM_EXIT'); ?>"><i class="icon-arrow-left"></i><?php echo Text::_($isadmin ? 'T3_TM_BACK_TO_ADMIN' : 'T3_TM_EXIT'); ?></a>
 				
 				<div class="t3-admin-tm-header">
 					<div id="t3-admin-tm-recss" class="t3-progress"></div>
-				  <h2><strong><?php echo JText::_('T3_TM_CUSTOMIZING'); ?></strong> <span><?php echo T3_TEMPLATE ?></span></h2>
+				  <h2><strong><?php echo Text::_('T3_TM_CUSTOMIZING'); ?></strong> <span><?php echo T3_TEMPLATE ?></span></h2>
 				  <form id="t3-admin-tm-form" name="t3-admin-tm-form" class="form-validate form-inline">
 					<div class="controls controls-row">
-						<label for="t3-admin-theme-list"><?php echo JText::_('T3_TM_THEME_LABEL'); ?></label>
+						<label for="t3-admin-theme-list"><?php echo Text::_('T3_TM_THEME_LABEL'); ?></label>
 					  <?php
 						echo JHTML::_('select.genericlist', $themes, 't3-admin-theme-list', 'autocomplete="off"', 'id', 'title', $tplparams->get('theme', -1));
 					  ?>
 					  <div class="btn-group">
-						<button id="t3-admin-tm-pvbtn" class="btn btn-primary"><?php echo JText::_('T3_TM_PREVIEW') ?></button>
+						<button id="t3-admin-tm-pvbtn" class="btn btn-primary"><?php echo Text::_('T3_TM_PREVIEW') ?></button>
 						<?php if( $isadmin) : ?>
 						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
 						<ul class="dropdown-menu">
-						  <li><a id="t3-admin-tm-save" href="" title="<?php echo JText::_('T3_TM_SAVE') ?>"><?php echo JText::_('T3_TM_SAVE') ?></a></li>
-						  <li><a id="t3-admin-tm-saveas" href="" title="<?php echo JText::_('T3_TM_SAVEAS') ?>"><?php echo JText::_('T3_TM_SAVEAS') ?></a></li>
-						  <li><a id="t3-admin-tm-delete" href="" title="<?php echo JText::_('T3_TM_DELETE') ?>"><?php echo JText::_('T3_TM_DELETE') ?></a></li>
+						  <li><a id="t3-admin-tm-save" href="" title="<?php echo Text::_('T3_TM_SAVE') ?>"><?php echo Text::_('T3_TM_SAVE') ?></a></li>
+						  <li><a id="t3-admin-tm-saveas" href="" title="<?php echo Text::_('T3_TM_SAVEAS') ?>"><?php echo Text::_('T3_TM_SAVEAS') ?></a></li>
+						  <li><a id="t3-admin-tm-delete" href="" title="<?php echo Text::_('T3_TM_DELETE') ?>"><?php echo Text::_('T3_TM_DELETE') ?></a></li>
 						</ul>
 					  	<?php endif; ?>
 					  </div>
@@ -73,7 +74,7 @@ defined('_JEXEC') or die;
 							
 						<div class="accordion-group<?php echo $i == 0?' active':'' ?>">
 							<div class="accordion-heading">
-								<a class="accordion-toggle" data-toggle="collapse" data-parent="#t3-admin-tm-accord" href="#<?php echo preg_replace( '/\s+/', ' ', $name);?>"><?php echo JText::_($label) ?></a>
+								<a class="accordion-toggle" data-toggle="collapse" data-parent="#t3-admin-tm-accord" href="#<?php echo preg_replace( '/\s+/', ' ', $name);?>"><?php echo Text::_($label) ?></a>
 							</div>
 							<div id="<?php echo preg_replace( '/\s+/', ' ', $name);?>" class="accordion-body collapse<?php echo (($i == 0)? ' in' : ''); ?>">
 								<div class="accordion-inner">
@@ -152,13 +153,13 @@ defined('_JEXEC') or die;
 			<div id="t3-admin-tm-warning" class="modal hide fade">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3><?php echo JText::_('T3_TM_TITLE'); ?></h3>
+					<h3><?php echo Text::_('T3_TM_TITLE'); ?></h3>
 				</div>
 				<div class="modal-body">
-					<p><?php echo JText::_('T3_MSG_ENABLE_THEMEMAGIC'); ?></p>
+					<p><?php echo Text::_('T3_MSG_ENABLE_THEMEMAGIC'); ?></p>
 				</div>
 				<div class="modal-footer">
-					<a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><?php echo JText::_('T3_LBL_OK') ?></a>
+					<a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><?php echo Text::_('T3_LBL_OK') ?></a>
 				</div>
 			</div>
 
@@ -173,14 +174,14 @@ defined('_JEXEC') or die;
 		<div id="t3-admin-thememagic-dlg" class="modal hide fade">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3><?php echo JText::_('T3_TM_THEME_MAGIC') ?></h3>
+				<h3><?php echo Text::_('T3_TM_THEME_MAGIC') ?></h3>
 			</div>
 			<div class="modal-body">
 				<div class="row-fluid">
 					<form id="prompt-form" name="prompt-form" class="form-horizontal prompt-block">
-						<span class="help-block"><?php echo JText::_('T3_TM_ASK_ADD_THEME') ?></span>
+						<span class="help-block"><?php echo Text::_('T3_TM_ASK_ADD_THEME') ?></span>
 						<p>
-							<input type="text" id="theme-name" class="span12" placeholder="<?php echo JText::_('T3_TM_THEME_NAME') ?>">
+							<input type="text" id="theme-name" class="span12" placeholder="<?php echo Text::_('T3_TM_THEME_NAME') ?>">
 						</p>
 					</form>
 					<div class="message-block">
@@ -216,7 +217,7 @@ defined('_JEXEC') or die;
 			T3Theme.themes = <?php echo json_encode($themes); ?>;
 			T3Theme.template = '<?php echo T3_TEMPLATE; ?>';
 			T3Theme.templateid = '<?php echo JFactory::getApplication()->input->getInt('id'); ?>';
-			T3Theme.url = '<?php echo JURI::root(true) . '/administrator/index.php'; ?>';
+			T3Theme.url = '<?php echo Uri::root(true) . '/administrator/index.php'; ?>';
 			T3Theme.langs = <?php echo json_encode($langs); ?>;
 			T3Theme.active = '<?php echo $active_theme ?>';
 			T3Theme.variables = <?php echo ($tplparams->get('theme', -1) == -1 ? '{}' : 'T3Theme.data[T3Theme.active]') ?>;

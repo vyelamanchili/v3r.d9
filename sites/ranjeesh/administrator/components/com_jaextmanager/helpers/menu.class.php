@@ -10,6 +10,8 @@
  * ------------------------------------------------------------------------
  */
 
+use Joomla\CMS\Language\Text;
+
 defined('_VALID_MOS') or defined('_JEXEC') or die('Restricted access');
 
 if (!defined('_JA_BASE_MENU_CLASS')) {
@@ -37,9 +39,7 @@ if (!defined('_JA_BASE_MENU_CLASS')) {
 			
 			$xml = new JSimpleXML();
 			$xml->loadFile($xmlfile);
-			//$xml = JFactory::getXML($xmlfile);
-			//print_r($xml);
-			
+
 			if (!$xml->document) {
 				echo "Cannot load menu xml: $xmlfile";
 				return;
@@ -134,7 +134,7 @@ if (!defined('_JA_BASE_MENU_CLASS')) {
 		{
 			echo "
 			<a href=\"" . $this->getlink($item) . "\" " . $this->getclass($item, $level) . " title=\"\">
-				<span>" . JText::_($this->gettitle($item)) . "</span>
+				<span>" . Text::_($this->gettitle($item)) . "</span>
 			</a>
 			";
 		}

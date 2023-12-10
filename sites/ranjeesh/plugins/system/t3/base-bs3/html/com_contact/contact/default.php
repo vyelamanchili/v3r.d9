@@ -15,11 +15,12 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 jimport('joomla.html.html.bootstrap');
 
-$cparams = JComponentHelper::getParams('com_media');
+$cparams = ComponentHelper::getParams('com_media');
 $tparams = $this->item->params;
 $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 
@@ -52,7 +53,7 @@ if(version_compare(JVERSION, '4', 'ge')) {
 		<div class="icons">
 			<div class="float-end">
 				<div>
-					<?php echo JHtml::_('contacticon.edit', $this->item, $tparams); ?>
+					<?php echo HTMLHelper::_('contacticon.edit', $this->item, $tparams); ?>
 				</div>
 			</div>
 		</div>
@@ -78,7 +79,7 @@ if(version_compare(JVERSION, '4', 'ge')) {
 	<?php if ($tparams->get('show_contact_list') && count($this->contacts) > 1) : ?>
 		<form action="#" method="get" name="selectForm" id="selectForm">
 			<label for="select_contact"><?php echo Text::_('COM_CONTACT_SELECT_CONTACT'); ?></label>
-			<?php echo JHtml::_('select.genericlist', $this->contacts, 'select_contact', 'class="inputbox" onchange="document.location.href = this.value"', 'link', 'name', $this->contact->link); ?>
+			<?php echo HTMLHelper::_('select.genericlist', $this->contacts, 'select_contact', 'class="inputbox" onchange="document.location.href = this.value"', 'link', 'name', $this->contact->link); ?>
 		</form>
 	<?php endif; ?>
 
@@ -102,7 +103,7 @@ if(version_compare(JVERSION, '4', 'ge')) {
 	<?php if ($presentation_style === 'sliders') : ?>
 		<?php if (!$accordionStarted)
 		{
-			echo JHtml::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'display-misc'));
+			echo HTMLHelper::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'display-misc'));
 			$accordionStarted = true;
 		}
 		?>
@@ -122,7 +123,7 @@ if(version_compare(JVERSION, '4', 'ge')) {
           <div class="panel-body">
             <?php if ($this->contact->image && $tparams->get('show_image')) : ?>
               <div class="thumbnail pull-right">
-                <?php echo JHtml::_('image', $this->contact->image, $this->contact->name, array('itemprop' => 'image')); ?>
+                <?php echo HTMLHelper::_('image', $this->contact->image, $this->contact->name, array('itemprop' => 'image')); ?>
               </div>
             <?php endif; ?>
 
@@ -139,7 +140,7 @@ if(version_compare(JVERSION, '4', 'ge')) {
 
             <?php if ($tparams->get('allow_vcard')) : ?>
               <?php echo Text::_('COM_CONTACT_DOWNLOAD_INFORMATION_AS'); ?>
-              <a href="<?php echo JRoute::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->contact->id . '&amp;format=vcf'); ?>">
+              <a href="<?php echo Route::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->contact->id . '&amp;format=vcf'); ?>">
               <?php echo Text::_('COM_CONTACT_VCARD'); ?></a>
             <?php endif; ?>
           </div>
@@ -204,7 +205,7 @@ if(version_compare(JVERSION, '4', 'ge')) {
       </div>
 	  <?php endif; ?> <!-- // Show articles -->
 
-	  <?php if ($tparams->get('show_profile') && $this->contact->user_id && JPluginHelper::isEnabled('user', 'profile')) : ?>
+	  <?php if ($tparams->get('show_profile') && $this->contact->user_id && PluginHelper::isEnabled('user', 'profile')) : ?>
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
@@ -266,13 +267,13 @@ if(version_compare(JVERSION, '4', 'ge')) {
 	<?php if ($presentation_style === 'tabs') : ?>
 
 		<?php if ($this->params->get('show_info', 1)) : ?>
-      <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'basic-details')); ?>
+      <?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'basic-details')); ?>
       <?php $tabSetStarted = true; ?>
-      <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic-details', Text::_('COM_CONTACT_DETAILS')); ?>
+      <?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'basic-details', Text::_('COM_CONTACT_DETAILS')); ?>
 
 	    <?php if ($this->contact->image && $tparams->get('show_image')) : ?>
 	      <div class="thumbnail pull-right">
-	        <?php echo JHtml::_('image', $this->contact->image, $this->contact->name, array('itemprop' => 'image')); ?>
+	        <?php echo HTMLHelper::_('image', $this->contact->image, $this->contact->name, array('itemprop' => 'image')); ?>
 	      </div>
 	    <?php endif; ?>
 
@@ -289,26 +290,26 @@ if(version_compare(JVERSION, '4', 'ge')) {
 
 	    <?php if ($tparams->get('allow_vcard')) : ?>
 	      <?php echo Text::_('COM_CONTACT_DOWNLOAD_INFORMATION_AS'); ?>
-	      <a href="<?php echo JRoute::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->contact->id . '&amp;format=vcf'); ?>">
+	      <a href="<?php echo Route::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->contact->id . '&amp;format=vcf'); ?>">
 	      <?php echo Text::_('COM_CONTACT_VCARD'); ?></a>
 	    <?php endif; ?>
 
-	    <?php echo JHtml::_('bootstrap.endTab'); ?>
+	    <?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
 		<?php endif; ?><!-- // Show info -->
 
 		<?php if ($tparams->get('show_email_form') && ($this->contact->email_to || $this->contact->user_id)) : ?>
       <?php if (!$tabSetStarted)
       {
-        echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-form'));
+        echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-form'));
         $tabSetStarted = true;
       }
       ?>
-      <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-form', Text::_('COM_CONTACT_EMAIL_FORM')); ?>
+      <?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-form', Text::_('COM_CONTACT_EMAIL_FORM')); ?>
 
       <?php echo $this->loadTemplate('form'); ?>
 
-      <?php echo JHtml::_('bootstrap.endTab'); ?>
+      <?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 		<?php endif; ?> <!-- // Show email form -->
 
 	  <?php if ($tparams->get('show_links')) : ?>
@@ -318,28 +319,28 @@ if(version_compare(JVERSION, '4', 'ge')) {
 	  <?php if ($tparams->get('show_articles') && $this->contact->user_id && $this->contact->articles) : ?>
       <?php if (!$tabSetStarted)
       {
-        echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-articles'));
+        echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-articles'));
         $tabSetStarted = true;
       }
       ?>
-      <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-articles', Text::_('JGLOBAL_ARTICLES')); ?>
+      <?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-articles', Text::_('JGLOBAL_ARTICLES')); ?>
 
       <?php echo $this->loadTemplate('articles'); ?>
 
-      <?php echo JHtml::_('bootstrap.endTab'); ?>
+      <?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 	  <?php endif; ?> <!-- // Show articles -->
 
-	  <?php if ($tparams->get('show_profile') && $this->contact->user_id && JPluginHelper::isEnabled('user', 'profile')) : ?>
+	  <?php if ($tparams->get('show_profile') && $this->contact->user_id && PluginHelper::isEnabled('user', 'profile')) : ?>
       <?php if (!$tabSetStarted)
       {
-        echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-profile'));
+        echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-profile'));
         $tabSetStarted = true;
       }
       ?>
-      <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-profile', Text::_('COM_CONTACT_PROFILE')); ?>
+      <?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-profile', Text::_('COM_CONTACT_PROFILE')); ?>
 
       <?php echo $this->loadTemplate('profile'); ?>
-      <?php echo JHtml::_('bootstrap.endTab'); ?>
+      <?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 	  <?php endif; ?> <!-- // Show profile -->
 
 	  <?php if ($tparams->get('show_user_custom_fields') && $this->contactUser) : ?>
@@ -349,11 +350,11 @@ if(version_compare(JVERSION, '4', 'ge')) {
 	  <?php if ($this->contact->misc && $tparams->get('show_misc')) : ?>
       <?php if (!$tabSetStarted)
       {
-        echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-misc'));
+        echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-misc'));
         $tabSetStarted = true;
       }
       ?>
-      <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-misc', Text::_('COM_CONTACT_OTHER_INFORMATION')); ?>
+      <?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-misc', Text::_('COM_CONTACT_OTHER_INFORMATION')); ?>
 
 	    <div class="contact-miscinfo">
 	      <dl class="dl-horizontal">
@@ -369,7 +370,7 @@ if(version_compare(JVERSION, '4', 'ge')) {
 	        </dd>
 	      </dl>
 	    </div>
-	    <?php echo JHtml::_('bootstrap.endTab'); ?>
+	    <?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 	  <?php endif; ?>  <!-- // Contact misc -->
 
 	<?php endif; ?>
@@ -384,7 +385,7 @@ if(version_compare(JVERSION, '4', 'ge')) {
 
 	    <?php if ($this->contact->image && $tparams->get('show_image')) : ?>
 	      <div class="thumbnail pull-right">
-	        <?php echo JHtml::_('image', $this->contact->image, $this->contact->name, array('itemprop' => 'image')); ?>
+	        <?php echo HTMLHelper::_('image', $this->contact->image, $this->contact->name, array('itemprop' => 'image')); ?>
 	      </div>
 	    <?php endif; ?>
 
@@ -401,7 +402,7 @@ if(version_compare(JVERSION, '4', 'ge')) {
 
 	    <?php if ($tparams->get('allow_vcard')) : ?>
 	      <?php echo Text::_('COM_CONTACT_DOWNLOAD_INFORMATION_AS'); ?>
-	      <a href="<?php echo JRoute::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->contact->id . '&amp;format=vcf'); ?>">
+	      <a href="<?php echo Route::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->contact->id . '&amp;format=vcf'); ?>">
 	      <?php echo Text::_('COM_CONTACT_VCARD'); ?></a>
 	    <?php endif; ?>
 
@@ -424,7 +425,7 @@ if(version_compare(JVERSION, '4', 'ge')) {
 	  	<?php echo $this->loadTemplate('articles'); ?>
 	  <?php endif; ?> <!-- // Show articles -->
 
-	  <?php if ($tparams->get('show_profile') && $this->contact->user_id && JPluginHelper::isEnabled('user', 'profile')) : ?>
+	  <?php if ($tparams->get('show_profile') && $this->contact->user_id && PluginHelper::isEnabled('user', 'profile')) : ?>
 	  	<?php echo '<h3>' . Text::_('COM_CONTACT_PROFILE') . '</h3>'; ?>
 	  	<?php echo $this->loadTemplate('profile'); ?>
 	  <?php endif; ?> <!-- // Show profile -->
@@ -455,9 +456,9 @@ if(version_compare(JVERSION, '4', 'ge')) {
 	<!-- //Plain type -->
 
   <?php if ($accordionStarted) : ?>
-    <?php echo JHtml::_('bootstrap.endAccordion'); ?>
+    <?php echo HTMLHelper::_('bootstrap.endAccordion'); ?>
   <?php elseif ($tabSetStarted) : ?>
-    <?php echo JHtml::_('bootstrap.endTabSet'); ?>
+    <?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
   <?php endif; ?>
 
 	<?php if (!empty($this->item->event)) echo $this->item->event->afterDisplayContent; ?>

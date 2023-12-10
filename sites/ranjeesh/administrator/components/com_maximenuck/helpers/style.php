@@ -140,10 +140,10 @@ class Style {
 				&& ($fields['level1itemnormalstyles']->get('level1itemnormalstylesparentarrowtype', '') == 'triangle' || $level1itemnormalstylesparentarrowcolor)
 						){
 			// for parent arrow normal state
-			if ($level1itemnormalstylesparentarrowcolor) {
+//			if ($level1itemnormalstylesparentarrowcolor) {
 				$csstoinject .= "\ndiv#" . $menuCSSID . " li.maximenuck.level1.parent > a:after, div#" . $menuCSSID . " li.maximenuck.level1.parent > span.separator:after, div#" . $menuCSSID . " li.maximenuck.level1.parent > .maximenuck-toggler:after { " 
-					. ( $params->get('orientation', 'horizontal') === 'vertical'  ? "border-left-color: " . $level1itemnormalstylesparentarrowcolor . ";" : "border-top-color: " . $level1itemnormalstylesparentarrowcolor . ";" )
-					. "color: " . $level1itemnormalstylesparentarrowcolor . ";"
+					. ($level1itemnormalstylesparentarrowcolor ? ( $params->get('orientation', 'horizontal') === 'vertical'  ? "border-left-color: " . $level1itemnormalstylesparentarrowcolor . ";" : "border-top-color: " . $level1itemnormalstylesparentarrowcolor . ";" )
+					. "color: " . $level1itemnormalstylesparentarrowcolor . ";" : "")
 						. "display:block;"
 						. "position:absolute;"
 					. (($fields['level1itemnormalstyles']->get('level1itemnormalstylesparentarrowmargintop', '') != '') ? "margin-top: " . Helper::testUnit($fields['level1itemnormalstyles']->get('level1itemnormalstylesparentarrowmargintop', '')) . ";" : "")
@@ -155,7 +155,7 @@ class Style {
 						. (($fields['level1itemnormalstyles']->get('level1itemnormalstylesparentarrowpositionbottom', '') != '') ? "bottom: " . Helper::testUnit($fields['level1itemnormalstyles']->get('level1itemnormalstylesparentarrowpositionbottom', '')) . ";" : "")
 						. (($fields['level1itemnormalstyles']->get('level1itemnormalstylesparentarrowpositionleft', '') != '') ? "left: " . Helper::testUnit($fields['level1itemnormalstyles']->get('level1itemnormalstylesparentarrowpositionleft', '')) . ";" : "")
 					. "} ";
-			}
+//			}
 
 			$level1itemhoverstylesparentarrowcolor = $fields['level1itemhoverstyles']->get('level1itemhoverstylesparentarrowcolor', '') ? $fields['level1itemhoverstyles']->get('level1itemhoverstylesparentarrowcolor', '') : $fields['level1itemhoverstyles']->get('level1itemhoverstylesfontcolor', '');
 			// for parent arrow hover state
@@ -223,17 +223,17 @@ class Style {
 				&& ($fields['level2itemnormalstyles']->get('level2itemnormalstylesparentarrowtype', '') == 'triangle' || $level2itemnormalstylesparentarrowcolor) 
 				) {
 			// for parent arrow normal state
-			if ($level2itemnormalstylesparentarrowcolor) {
+//			if ($level2itemnormalstylesparentarrowcolor) {
 				$csstoinject .= "\ndiv#" . $menuCSSID . " li.maximenuck.level1 li.maximenuck.parent > a:after, div#" . $menuCSSID . " li.maximenuck.level1 li.maximenuck.parent > span.separator:after,
 	div#" . $menuID . " .maxipushdownck li.maximenuck.parent > a:after, div#" . $menuID . " .maxipushdownck li.maximenuck.parent > span.separator:after { " 
-					. "border-left-color: " . $level2itemnormalstylesparentarrowcolor . ";"
-					. "color: " . $level2itemnormalstylesparentarrowcolor . ";"
+					. ($level2itemnormalstylesparentarrowcolor ? "border-left-color: " . $level2itemnormalstylesparentarrowcolor . ";"
+					. "color: " . $level2itemnormalstylesparentarrowcolor . ";" : "")
 					. (($fields['level2itemnormalstyles']->get('level2itemnormalstylesparentarrowmargintop', '') != '') ? "margin-top: " . Helper::testUnit($fields['level2itemnormalstyles']->get('level2itemnormalstylesparentarrowmargintop', '')) . ";" : "")
 					. (($fields['level2itemnormalstyles']->get('level2itemnormalstylesparentarrowmarginright', '') != '') ? "margin-right: " . Helper::testUnit($fields['level2itemnormalstyles']->get('level2itemnormalstylesparentarrowmarginright', '')) . ";" : "")
 					. (($fields['level2itemnormalstyles']->get('level2itemnormalstylesparentarrowmarginbottom', '') != '') ? "margin-bottom: " . Helper::testUnit($fields['level2itemnormalstyles']->get('level2itemnormalstylesparentarrowmarginbottom', '')) . ";" : "")
 					. (($fields['level2itemnormalstyles']->get('level2itemnormalstylesparentarrowmarginleft', '') != '') ? "margin-left: " . Helper::testUnit($fields['level2itemnormalstyles']->get('level2itemnormalstylesparentarrowmarginleft', '')) . ";" : "")
 					. "} ";
-			}
+//			}
 
 			$level2itemhoverstylesparentarrowcolor = $fields['level2itemhoverstyles']->get('level2itemhoverstylesparentarrowcolor', '') ? $fields['level2itemhoverstyles']->get('level2itemhoverstylesparentarrowcolor', '') : $fields['level2itemhoverstyles']->get('level2itemhoverstylesfontcolor', '');
 			// for parent arrow hover state
@@ -650,9 +650,9 @@ div#" . $menuID . " .maxipushdownck li.maximenuck li.maximenuck:hover > a span.d
 			$borderradius = $css->headingstyles['borderradius'] ? trim($css->headingstyles['borderradius'], ";") . ";" : '';
 			$shadow = $css->headingstyles['shadow'] ? trim($css->headingstyles['shadow'], ";") . ";" : '';
 			$border = $css->headingstyles['border'] ? trim($css->headingstyles['border'], ";") . ";" : '';
-			if ($padding || $margin || $background || $gradient || $borderradius || $shadow || $border || $css->headingstyles['text-align']) {
+			if ($padding || $margin || $background || $gradient || $borderradius || $shadow || $border || $css->headingstyles['text-align'] || $css->headingstyles['text-transform']) {
 			$csstoinject .= "\ndiv#" . $menuCSSID . " ul.maximenuck2 li.maximenuck > " . $headingclass . ",
-div#" . $menuID . " .maxipushdownck ul.maximenuck2 li.maximenuck > " . $headingclass . " { " . $padding . $margin . $background . $gradient . $borderradius . $shadow . $border . $css->headingstyles['text-align']. " } ";
+div#" . $menuID . " .maxipushdownck ul.maximenuck2 li.maximenuck > " . $headingclass . " { " . $padding . $margin . $background . $gradient . $borderradius . $shadow . $border . $css->headingstyles['text-align'] . $css->headingstyles['text-transform'] . " } ";
 			}
 			if ($css->headingstyles['fontcolor'] || $css->headingstyles['fontsize'] || $css->headingstyles['fontweight'] || $css->headingstyles['textshadow']) {
 			$csstoinject .= "\ndiv#" . $menuCSSID . " ul.maximenuck2 li.maximenuck > " . $headingclass . " span.titreck,
@@ -887,6 +887,7 @@ div#" . $menuID . " .maxipushdownck ul.maximenuck2 li.maximenuck > " . $headingc
 		$query = 'SELECT a.params, a.layoutcss, a.customcss FROM #__maximenuck_styles as a WHERE (a.state IN (0, 1)) AND a.id = ' . (int)$id;
 		$result = CKFof::dbLoadObject($query);
 
+		if ($result === null) return '';
 		$result->css = $result->layoutcss . $result->customcss;
 
 		self::makeCssReplacement($result->css);

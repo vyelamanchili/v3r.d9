@@ -8,20 +8,24 @@
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 if(version_compare(JVERSION, '4', 'ge')){
 	class TagsHelperRoute extends \Joomla\Component\Tags\Site\Helper\RouteHelper{};
 }
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
+HTMLHelper::addIncludePath(JPATH_COMPONENT.'/helpers');
 if(version_compare(JVERSION, '4','lt')){
-  JHtml::_('behavior.caption'); 
+  HTMLHelper::_('behavior.caption'); 
 }
-JHtml::_('behavior.core');
-JHtml::_('formbehavior.chosen', 'select');
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('formbehavior.chosen', 'select');
 
 // Get the user object.
-$user = JFactory::getUser();
+$user = Factory::getUser();
 
 // Check if user is allowed to add/edit based on tags permissions.
 $canEdit = $user->authorise('core.edit', 'com_tags');
@@ -43,14 +47,14 @@ if ($bsspans < 1)
 $bscolumns = min($columns, floor(12 / $bsspans));
 $n = count($this->items);
 
-JFactory::getDocument()->addScriptDeclaration("
+Factory::getDocument()->addScriptDeclaration("
 		var resetFilter = function() {
 		document.getElementById('filter-search').value = '';
 	}
 ");
 ?>
 
-<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="filters btn-toolbar">
 		<?php if ($this->params->get('filter_field')) : ?>
@@ -94,7 +98,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
  			<li class="cat-list-row<?php echo $i % 2; ?>" >
 				<h3>
-					<a href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->id . '-' . $item->alias)); ?>">
+					<a href="<?php echo Route::_(TagsHelperRoute::getTagRoute($item->id . '-' . $item->alias)); ?>">
 						<?php echo $this->escape($item->title); ?>
 					</a>
 				</h3>
@@ -117,7 +121,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		<div class="caption">
 			<?php if ($this->params->get('all_tags_show_tag_description', 1)) : ?>
 				<span class="tag-body">
-					<?php echo JHtml::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
+					<?php echo HTMLHelper::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
 				</span>
 			<?php endif; ?>
 			<?php if ($this->params->get('all_tags_show_tag_hits')) : ?>
@@ -125,17 +129,17 @@ JFactory::getDocument()->addScriptDeclaration("
 					<?php 
 					if (version_compare(JVERSION, '3.0', 'ge'))
 					{
-						 echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits);
+						 echo Text::sprintf('JGLOBAL_HITS_COUNT', $item->hits);
 
 					}
 					else if (version_compare(JVERSION, '2.5', 'ge'))
 					{
-						echo JText::sprintf('JAGLOBAL_HITS_COUNT', $item->hits);
+						echo Text::sprintf('JAGLOBAL_HITS_COUNT', $item->hits);
 
 					}
 					else
 					{
-						echo JText::sprintf('JAGLOBAL_HITS_COUNT', $item->hits);
+						echo Text::sprintf('JAGLOBAL_HITS_COUNT', $item->hits);
 
 					}  ?>
 				</span>

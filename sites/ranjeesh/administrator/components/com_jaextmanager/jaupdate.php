@@ -11,11 +11,15 @@
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\Filesystem\Folder;
+use Joomla\CMS\Factory;
+use Joomla\Filesystem\File;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
-class JaExtUpdatehelper extends JObject
+class JaExtUpdatehelper extends CMSObject
 {
 	public static $extension = 'com_jaextmanager';
 
@@ -29,7 +33,7 @@ class JaExtUpdatehelper extends JObject
 
 	static public function isInstalled($extension)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$db->setQuery("SELECT ".$db->quoteName('extension_id')." FROM #__extensions WHERE ".$db->quoteName('type')." = 'component' AND ".$db->quoteName('element')." = ".$db->quote($extension));
 		$id = $db->loadResult();
 		return $id;
@@ -37,13 +41,13 @@ class JaExtUpdatehelper extends JObject
 
 	public function update() {
 		$path = JPATH_COMPONENT_ADMINISTRATOR . '/installer/sql/';
-		if(!JFolder::exists($path)) {
-			JFolder::create($path, 0755);
+		if(!is_dir($path)) {
+			Folder::create($path, 0755);
 		}
 		$versions = array('100');
 		foreach($versions as $version) {
 			$file = $path.'upgrade_v'.$version.'.log';
-			if(!JFile::exists($file)) {
+			if(!is_file($file)) {
 				$func = 'updateVersion'.$version;
 				if(method_exists($this, $func)) {
 					$result = call_user_func_array(array($this, $func), array());
@@ -53,7 +57,7 @@ class JaExtUpdatehelper extends JObject
 					$this->parseSQLFile($dbfile);
 					
 					$log = 'Updated on: '.date('Y-m-d H:i:s');
-					JFile::write($file, $log);
+					File::write($file, $log);
 				}
 			}
 		}
@@ -61,10 +65,10 @@ class JaExtUpdatehelper extends JObject
 	
 	protected function parseSQLFile($file) {
 		try {
-			if(JFile::exists($file)) {
+			if(is_file($file)) {
 				$buffer = file_get_contents($file);
 				if($buffer) {
-					$db = JFactory::getDbo();
+					$db = Factory::getDbo();
 					$queries = $db->splitSql($buffer);
 					foreach ($queries as $query) {
 						$query = trim($query);

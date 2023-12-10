@@ -14,6 +14,9 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
 define('JA_DTREE_IMG_PATH', 'components/com_jaextmanager/assets/dtree/img/');
 
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
@@ -52,7 +55,7 @@ function _printTreeConflicted($product, $parent, $folder, $path = "")
 			$found = true;
 			$treeNode++;
 			$item = $folder . $entry;
-			if (JFolder::exists($item)) {
+			if (is_dir($item)) {
 				$str .= "d.add(" . $treeNode . "," . $parent . ",' " . $entry . "','#', 'folder'); \r\n";
 				$aFolder[$treeNode] = array();
 				$aFolder[$treeNode]['parent'] = $parent;
@@ -60,7 +63,7 @@ function _printTreeConflicted($product, $parent, $folder, $path = "")
 			} else {
 				$location = $path . $entry;
 				$fileLive = $product->getFilePath($location);
-				if (JFile::exists($fileLive)) {
+				if (is_file($fileLive)) {
 					$status = ($md5CheckSums->getCheckSum($item) == $md5CheckSums->getCheckSum($fileLive)) ? "solved" : "bmodified";
 				}
 				$str .= "d.add(" . $treeNode . "," . $parent . ",' " . $entry . "','#', '" . $location . "', '', '" . JA_DTREE_IMG_PATH . "icon_" . $status . ".gif','',0,'dtree_status_" . $status . "'); \r\n";

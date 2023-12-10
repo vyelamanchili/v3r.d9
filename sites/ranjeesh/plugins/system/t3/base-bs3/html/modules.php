@@ -14,6 +14,8 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Helper\ModuleHelper;
+
 /**
  * This is a file to add template specific chrome to module rendering.  To use it you would
  * set the style attribute for the given module(s) include in your template to use the style
@@ -68,7 +70,7 @@ function modChrome_t3tabs($module, $params, $attribs)
 	static $modules;
 
 	if ($modulecount < 1) {
-		$modulecount = count(JModuleHelper::getModules($attribs['name']));
+		$modulecount = count(ModuleHelper::getModules($attribs['name']));
 		$modules = array();
 	}
 

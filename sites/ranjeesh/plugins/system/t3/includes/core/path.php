@@ -12,13 +12,15 @@
  *------------------------------------------------------------------------------
  */
 
+use Joomla\Registry\Registry;
+
 // No direct access
 defined('_JEXEC') or die();
 
 /**
  * T3Path class
  */
-class T3Path extends JObject
+class T3Path extends Registry
 {
 
 	/**

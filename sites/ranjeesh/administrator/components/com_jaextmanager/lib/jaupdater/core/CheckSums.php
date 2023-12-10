@@ -11,6 +11,10 @@
  */
 // no direct access
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
+
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 class CheckSums
@@ -66,7 +70,7 @@ class CheckSums
 	 */
 	function dumpCRC($path, $ignore = null)
 	{
-		if (!JFolder::exists($path) || $this->isIgnore(basename($path), $ignore)) {
+		if (!is_dir($path) || $this->isIgnore(basename($path), $ignore)) {
 			return false;
 		}
 		
@@ -79,7 +83,7 @@ class CheckSums
 		
 		foreach ($entries as $entry) {
 			if ($entry != '.' && $entry != '..' && !$this->isIgnore($entry, $ignore)) {
-				if (JFolder::exists($path.'/'.$entry)) {
+				if (is_dir($path.'/'.$entry)) {
 					$fileCheckSum[$entry] = $this->dumpCRC($path.'/'.$entry, $ignore);
 				} else {
 					$fileCheckSum[$entry] = $this->getCheckSum($path.'/'.$entry);
@@ -109,11 +113,11 @@ class CheckSums
 			return false;
 		}
 		
-		if (JFile::exists($path)) {
+		if (is_file($path)) {
 			return $this->getCheckSum($path);
 		}
 		
-		if (!JFolder::exists($path)) {
+		if (!is_dir($path)) {
 			return false;
 		}
 		
@@ -126,7 +130,7 @@ class CheckSums
 		$entries = $this->_scanDir($path, 0);
 		foreach ($entries as $entry) {
 			if (!$this->isIgnore($entry, $ignore)) {
-				if (JFolder::exists($path.'/'.$entry)) {
+				if (is_dir($path.'/'.$entry)) {
 					$fileCheckSum->$entry = $this->dumpCRCObject($path.'/'.$entry, $ignore);
 				} else {
 					$fileCheckSum->$entry = $this->getCheckSum($path.'/'.$entry);
@@ -147,7 +151,7 @@ class CheckSums
 	 */
 	function _scanDir($path, $rsort = 0)
 	{
-		if (!JFolder::exists($path)) {
+		if (!is_dir($path)) {
 			return false;
 		}
 		$d = dir($path);
@@ -158,7 +162,7 @@ class CheckSums
 			if ($entry == '.' || $entry == '..') {
 				continue;
 			}
-			if (JFolder::exists($path.'/'.$entry)) {
+			if (is_dir($path.'/'.$entry)) {
 				$aFolders[] = $entry;
 			} else {
 				$aFiles[] = $entry;
@@ -308,11 +312,11 @@ class CheckSums
 	function verify($path, $crc, &$r)
 	{
 		$retVal = true;
-		if (JFolder::exists($path) && is_object($crc)) {
+		if (is_dir($path) && is_object($crc)) {
 			foreach ($crc as $name => $value) {
 				$cPath = $path.'/'.$name;
 				if (file_exists($cPath)) {
-					if (is_object($value) && JFolder::exists($cPath)) {
+					if (is_object($value) && is_dir($cPath)) {
 						$rNew = null;
 						if ($this->verify($cPath, $rNew) === false) {
 							$retVal = false;
@@ -328,7 +332,7 @@ class CheckSums
 					$retVal = $r->$name = false;
 				}
 			}
-		} else if (JFile::exists($path)) {
+		} else if (is_file($path)) {
 			$r = $this->getCheckSum($path) == $crc;
 			$retVal = $r;
 		}

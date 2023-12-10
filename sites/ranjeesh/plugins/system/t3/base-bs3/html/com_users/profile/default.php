@@ -8,19 +8,22 @@
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
 if(version_compare(JVERSION, '3.0', 'ge')){
-	JHtml::_('bootstrap.tooltip');
+	HTMLHelper::_('bootstrap.tooltip');
 } else {
-	JHtml::_('behavior.tooltip');
+	HTMLHelper::_('behavior.tooltip');
 }
 ?>
 <div class="profile <?php echo $this->pageclass_sfx; ?>">
-<?php if (JFactory::getUser()->id == $this->data->id) : ?>
+<?php if (Factory::getUser()->id == $this->data->id) : ?>
 <ul class="btn-toolbar pull-right">
 	<li class="btn-group">
-		<a class="btn btn-default" href="<?php echo JRoute::_('index.php?option=com_users&task=profile.edit&user_id='.(int) $this->data->id);?>">
+		<a class="btn btn-default" href="<?php echo Route::_('index.php?option=com_users&task=profile.edit&user_id='.(int) $this->data->id);?>">
 			<span class="fa fa-user"></span> <?php echo Text::_('COM_USERS_EDIT_PROFILE'); ?>
 		</a>
 	</li>

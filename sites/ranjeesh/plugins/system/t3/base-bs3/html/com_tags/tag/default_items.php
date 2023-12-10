@@ -40,7 +40,7 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
 $items = $this->items;
 $n = count($this->items);
 
-JFactory::getDocument()->addScriptDeclaration("
+Factory::getDocument()->addScriptDeclaration("
 		var resetFilter = function() {
 		document.getElementById('filter-search').value = '';
 	}

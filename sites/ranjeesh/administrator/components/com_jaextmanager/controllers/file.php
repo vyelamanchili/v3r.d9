@@ -7,6 +7,13 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
+use Joomla\Filesystem\Folder;
+use Joomla\CMS\Client\ClientHelper;
+
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
@@ -29,7 +36,7 @@ class JaextmanagerControllerFile extends JaextmanagerController
 	function upload()
 	{
 		// Initialise variables.
-		$mainframe = JFactory::getApplication('administrator');
+		$mainframe = Factory::getApplication('administrator');
 		
 		// Check for request forgeries
 		JRequest::checkToken('request') or jexit('Invalid Token');
@@ -42,14 +49,15 @@ class JaextmanagerControllerFile extends JaextmanagerController
 		
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
-		JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 		
 		// Make the filename safe
 		jimport('joomla.filesystem.file');
-		$file['name'] = JFile::makeSafe($file['name']);
+		$file['name'] = File::makeSafe($file['name']);
+		$app = Factory::getApplication();
 		
 		if (isset($file['name'])) {
-			$filepath = JPath::clean(JA_WORKING_DATA_FOLDER .'/'. $folder .'/'. strtolower($file['name']));
+			$filepath = Path::clean(JA_WORKING_DATA_FOLDER .'/'. $folder .'/'. strtolower($file['name']));
 			
 			if (!RepoHelper::canUpload($file, $err)) {
 				if ($format == 'json') {
@@ -59,7 +67,7 @@ class JaextmanagerControllerFile extends JaextmanagerController
 					header('HTTP/1.0 415 Unsupported Media Type');
 					jexit('Error. Unsupported Media Type!');
 				} else {
-					JError::raiseNotice(100, JText::_($err));
+					$app->enqueueMessage(Text::_($err), 'notice');
 					// REDIRECT
 					if ($return) {
 						$mainframe->redirect(base64_decode($return) . '&folder=' . $folder);
@@ -68,7 +76,7 @@ class JaextmanagerControllerFile extends JaextmanagerController
 				}
 			}
 			
-			if (JFile::exists($filepath)) {
+			if (is_file($filepath)) {
 				if ($format == 'json') {
 					jimport('joomla.error.log');
 					$log = JLog::getInstance('upload.error.php');
@@ -76,7 +84,7 @@ class JaextmanagerControllerFile extends JaextmanagerController
 					header('HTTP/1.0 409 Conflict');
 					jexit('Error. File already exists');
 				} else {
-					JError::raiseNotice(100, JText::_('ERROR_FILE_ALREADY_EXISTS'));
+					$app->enqueueMessage(Text::_('ERROR_FILE_ALREADY_EXISTS'), 'notice');
 					// REDIRECT
 					if ($return) {
 						$mainframe->redirect(base64_decode($return) . '&folder=' . $folder);
@@ -85,7 +93,7 @@ class JaextmanagerControllerFile extends JaextmanagerController
 				}
 			}
 			
-			if (!JFile::upload($file['tmp_name'], $filepath)) {
+			if (!File::upload($file['tmp_name'], $filepath)) {
 				if ($format == 'json') {
 					jimport('joomla.error.log');
 					$log = JLog::getInstance('upload.error.php');
@@ -93,7 +101,7 @@ class JaextmanagerControllerFile extends JaextmanagerController
 					header('HTTP/1.0 400 Bad Request');
 					jexit('Error. Unable to upload file');
 				} else {
-					JError::raiseWarning(100, JText::_('ERROR_UNABLE_TO_UPLOAD_FILE'));
+					$app->enqueueMessage(Text::_('ERROR_UNABLE_TO_UPLOAD_FILE'), 'warning');
 					// REDIRECT
 					if ($return) {
 						$mainframe->redirect(base64_decode($return) . '&folder=' . $folder);
@@ -107,7 +115,7 @@ class JaextmanagerControllerFile extends JaextmanagerController
 					$log->addEntry(array('comment' => $folder));
 					jexit('Upload complete');
 				} else {
-					$mainframe->enqueueMessage(JText::_('UPLOAD_COMPLETE'));
+					$mainframe->enqueueMessage(Text::_('UPLOAD_COMPLETE'));
 					// REDIRECT
 					if ($return) {
 						$mainframe->redirect(base64_decode($return) . '&folder=' . $folder);
@@ -129,13 +137,13 @@ class JaextmanagerControllerFile extends JaextmanagerController
 	 */
 	function delete()
 	{
-		$mainframe = JFactory::getApplication('administrator');
+		$mainframe = Factory::getApplication('administrator');
 		
 		JRequest::checkToken('request') or jexit('Invalid Token');
 		
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
-		JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 		
 		// Get some data from the request
 		$tmpl = JRequest::getCmd('tmpl');
@@ -145,19 +153,20 @@ class JaextmanagerControllerFile extends JaextmanagerController
 		// Initialize variables
 		$msg = array();
 		$ret = true;
+		$app = Factory::getApplication();
 		
 		if (count($paths)) {
 			foreach ($paths as $path) {
-				if ($path !== JFile::makeSafe($path)) {
-					JError::raiseWarning(100, JText::_('UNABLE_TO_DELETE') . htmlspecialchars($path, ENT_COMPAT, 'UTF-8') . ' ' . JText::_('WARNFILENAME'));
+				if ($path !== File::makeSafe($path)) {
+					$app->enqueueMessage(Text::_('UNABLE_TO_DELETE') . htmlspecialchars($path, ENT_COMPAT, 'UTF-8') . ' ' . Text::_('WARNFILENAME'), 'warning');
 					continue;
 				}
 				
-				$fullPath = JPath::clean(JA_WORKING_DATA_FOLDER .'/'. $folder .'/'. $path);
-				if (JFile::exists($fullPath)) {
-					$ret |= !JFile::delete($fullPath);
-				} else if (JFolder::exists($fullPath)) {
-					$files = JFolder::files($fullPath, '.', true);
+				$fullPath = Path::clean(JA_WORKING_DATA_FOLDER .'/'. $folder .'/'. $path);
+				if (is_file($fullPath)) {
+					$ret |= !File::delete($fullPath);
+				} else if (is_dir($fullPath)) {
+					$files = Folder::files($fullPath, '.', true);
 					$canDelete = true;
 					foreach ($files as $file) {
 						if ($file != 'index.html') {
@@ -165,20 +174,20 @@ class JaextmanagerControllerFile extends JaextmanagerController
 						}
 					}
 					if ($canDelete) {
-						$ret |= !JFolder::delete($fullPath);
+						$ret |= !Folder::delete($fullPath);
 					} else {
 						//allow remove folder not empty on local repository
-						$ret2 = JFolder::delete($fullPath);
+						$ret2 = Folder::delete($fullPath);
 						$ret |= !$ret2;
 						if ($ret2 == false) {
-							JError::raiseWarning(100, JText::_('UNABLE_TO_DELETE') . $fullPath);
+							$app->enqueueMessage(Text::_('UNABLE_TO_DELETE') . $fullPath, 'warning');
 						}
 					}
 				}
 			}
 		}
 		if ($ret) {
-			JError::raiseNotice(200, JText::_('SUCCESSFULLY_DELETE_A_SELETED_ITEMS'));
+			$app->enqueueMessage(Text::_('SUCCESSFULLY_DELETE_A_SELETED_ITEMS'));
 		}
 		if ($tmpl == 'component') {
 			// We are inside the iframe
@@ -191,13 +200,13 @@ class JaextmanagerControllerFile extends JaextmanagerController
 
 	function download()
 	{
-		$mainframe = JFactory::getApplication('administrator');
+		$mainframe = Factory::getApplication('administrator');
 		
 		JRequest::checkToken('request') or jexit('Invalid Token');
 		
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
-		JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 		
 		// Get some data from the request
 		$tmpl = JRequest::getCmd('tmpl');
@@ -210,8 +219,8 @@ class JaextmanagerControllerFile extends JaextmanagerController
 		
 		if (count($paths)) {
 			foreach ($paths as $path) {
-				$fullPath = JPath::clean(JA_WORKING_DATA_FOLDER .'/'. $folder .'/'. $path);
-				if (JFile::exists($fullPath) && JFile::getExt($fullPath) == 'zip') {
+				$fullPath = Path::clean(JA_WORKING_DATA_FOLDER .'/'. $folder .'/'. $path);
+				if (is_file($fullPath) && File::getExt($fullPath) == 'zip') {
 					// Set headers
 					header("Cache-Control: public");
 					header("Content-Description: File Transfer");

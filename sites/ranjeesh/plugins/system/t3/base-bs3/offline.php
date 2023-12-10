@@ -13,7 +13,13 @@
  */
 
 defined('_JEXEC') or die;
-$app = JFactory::getApplication();
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
+$app = Factory::getApplication();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -38,30 +44,30 @@ $app = JFactory::getApplication();
 		<p>
 			<?php echo $app->getCfg('offline_message'); ?>
 		</p>
-	<?php elseif ($app->getCfg('display_offline_message', 1) == 2 && str_replace(' ', '', JText::_('JOFFLINE_MESSAGE')) != ''): ?>
+	<?php elseif ($app->getCfg('display_offline_message', 1) == 2 && str_replace(' ', '', Text::_('JOFFLINE_MESSAGE')) != ''): ?>
 		<p>
-			<?php echo JText::_('JOFFLINE_MESSAGE'); ?>
+			<?php echo Text::_('JOFFLINE_MESSAGE'); ?>
 		</p>
 	<?php  endif; ?>
-	<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
+	<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset class="input">
 		<p id="form-login-username">
-			<label for="username"><?php echo JText::_('JGLOBAL_USERNAME') ?></label>
-			<input name="username" id="username" type="text" class="input" alt="<?php echo JText::_('JGLOBAL_USERNAME') ?>" size="18" />
+			<label for="username"><?php echo Text::_('JGLOBAL_USERNAME') ?></label>
+			<input name="username" id="username" type="text" class="input" alt="<?php echo Text::_('JGLOBAL_USERNAME') ?>" size="18" />
 		</p>
 		<p id="form-login-password">
-			<label for="passwd"><?php echo JText::_('JGLOBAL_PASSWORD') ?></label>
-			<input type="password" name="password" class="input" size="18" alt="<?php echo JText::_('JGLOBAL_PASSWORD') ?>" id="passwd" />
+			<label for="passwd"><?php echo Text::_('JGLOBAL_PASSWORD') ?></label>
+			<input type="password" name="password" class="input" size="18" alt="<?php echo Text::_('JGLOBAL_PASSWORD') ?>" id="passwd" />
 		</p>
 		<p id="form-login-remember">
-			<label for="remember"><?php echo JText::_('JGLOBAL_REMEMBER_ME') ?></label>
-			<input type="checkbox" name="remember" class="input" value="yes" alt="<?php echo JText::_('JGLOBAL_REMEMBER_ME') ?>" id="remember" />
+			<label for="remember"><?php echo Text::_('JGLOBAL_REMEMBER_ME') ?></label>
+			<input type="checkbox" name="remember" class="input" value="yes" alt="<?php echo Text::_('JGLOBAL_REMEMBER_ME') ?>" id="remember" />
 		</p>
-		<input type="submit" name="Submit" class="button" value="<?php echo JText::_('JLOGIN') ?>" />
+		<input type="submit" name="Submit" class="button" value="<?php echo Text::_('JLOGIN') ?>" />
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
-		<input type="hidden" name="return" value="<?php echo base64_encode(JURI::base()) ?>" />
-		<?php echo JHtml::_('form.token'); ?>
+		<input type="hidden" name="return" value="<?php echo base64_encode(Uri::base()) ?>" />
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</fieldset>
 	</form>
 	</div>

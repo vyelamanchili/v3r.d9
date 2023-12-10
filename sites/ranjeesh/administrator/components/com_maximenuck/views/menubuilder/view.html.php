@@ -9,6 +9,10 @@ use Maximenuck\Helper;
 
 class MaximenuckViewMenubuilder extends CKView {
 
+	protected $interface;
+
+	protected $joomlamenus;
+
 	function display($tpl = null) {
 		$user = JFactory::getUser();
 		$authorised = ($user->authorise('core.edit', 'com_maximenuck') || (count($user->getAuthorisedCategories('com_maximenuck', 'core.edit'))));

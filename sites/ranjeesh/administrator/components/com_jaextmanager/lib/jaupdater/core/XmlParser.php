@@ -12,6 +12,8 @@
 // no direct access
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
+use Joomla\Filesystem\File;
+
  /**
  * @desc convert xml to object
  * @desc implement on php4
@@ -48,7 +50,7 @@ class jaXmlParser
 
 	function loadFile($file)
 	{
-		if (JFile::exists($file)) {
+		if (is_file($file)) {
 			$this->loadString(file_get_contents($file));
 		}
 	}

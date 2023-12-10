@@ -5,6 +5,9 @@
  * @license		GNU/GPL
  * */
 
+// v9.0.11	- 11/04/23 : add feature for the tab layout
+// v9.0.10	- 15/09/22 : improve accessibility with arrows, and escape
+// v9.0.9	- 08/09/22 : add option to use a toggler icon on click
 // v9.0.8	- 25/06/21 : fix issue with rollover image
 // v9.0.7	- 03/06/21 : fix issue with fade effect and close outside click
 // v9.0.6	- 10/05/21 : add rollover image effect
@@ -43,6 +46,7 @@
 			topfixedoffset: '',
 			clickclose: '0',
 			effecttype: 'dropdown',
+			clicktoggler: '0',
 			closeclickoutside: '0'
 		};
 
@@ -123,13 +127,14 @@
 						|| (status[el.data('level') - 1] == 'showing' && opentype == 'drop')
 						)
 					return;
+
 				//manage submenus that must be opened
 				if (el.find('li.maximenuck.openck').length) {
 					var submenusToForce = el.find('li.maximenuck.openck');
 					for (var i=0; i<submenusToForce.length; i++) {
 						var submenuToForce = submenusToForce[i];
 						submenuToForce.submenu = $('> .floatck', submenuToForce);
-						if (submenuToForce.hasClass('fullwidth')) {
+						if ($(submenuToForce).hasClass('fullwidth')) {
 							submenuToForce.submenu.css('display', 'block');
 							// if (orientation == 'horizontal') el.submenu.css('left', '0');
 						} else {
@@ -137,6 +142,7 @@
 						}
 						submenuToForce.submenu.css('max-height', '');
 						submenuToForce.submenu.show();
+						$(submenuToForce).data('status', 'opened');
 					}
 				}
 				// if (el.hasClass('fullwidth') && maximenuObj.hasClass('maximenuckh') ) {
@@ -717,7 +723,7 @@
 							el.removeClass('clickedck');
 						});
 					} else if (itembehavior == 'click') {
-						if (el.hasClass('parent') && $('> a.maximenuck', el).length) {
+						if (el.hasClass('parent') && $('> a.maximenuck', el).length && defaults.clicktoggler != '1') {
 							el.redirection = $('> a.maximenuck', el).prop('href');
 							$('> a.maximenuck', el).each(function() {
 								$(this).attr('data-href', $(this).attr('href'));
@@ -726,11 +732,16 @@
 							el.hasBeenClicked = false;
 						}
 
-						$('> a.maximenuck,> span.separator,> span.nav-header', el).on('mousedown', function() {
+						if (defaults.clicktoggler == '1') {
+							var target = '> * > .maximenuck-toggler';
+						} else {
+							var target = '> a.maximenuck, > * > .maximenuck-toggler,> span.separator,> span.nav-header';
+						}
+						$(target, el).on('mousedown', function() {
 							$(this).off('focus');
 						});
-						$('> a.maximenuck,> span.separator,> span.nav-header', el).click(function() {
-							// event.stopPropagation();
+						$(target, el).click(function(event) {
+							if (defaults.clicktoggler == '1') event.preventDefault();
 							// set the redirection again for mobile
 							// if (el.hasBeenClicked == true && ismobile) {
 							// el.getFirst('a.maximenuck').setProperty('href',el.redirection);
@@ -769,6 +780,7 @@
 								});
 								showSubmenuck(el);
 							}
+							return false;
 						});
 						$('> .maxiclose', el.submenu).click(function() {
 							hideSubmenuck(el);
@@ -845,10 +857,50 @@
 						$(this).off('focus');
 					});
 					$link.on('focus', function() {
-						if ($li.hasClass('parent')) {
-							$li.submenu.show();
-							maximenuObj.addClass('maximenuck-wcag-active');
-						}
+						// if ($li.hasClass('parent')) {
+							// $li.submenu.show();
+							// maximenuObj.addClass('maximenuck-wcag-active');
+						// }
+
+						$(this).on('keydown', function(event) {
+							// event.which >> retuns the key number
+							if ($li.hasClass('parent')) {
+								if ($li.hasClass('level1') && orientation == 'horizontal') {
+									if (event.which === 40 || event.which === 32) {
+										event.preventDefault();
+										$li.submenu.show();
+										maximenuObj.addClass('maximenuck-wcag-active');
+									}
+									if (event.which === 38 || event.which === 27) {
+										event.preventDefault();
+										$li.submenu.hide();
+										maximenuObj.removeClass('maximenuck-wcag-active');
+									}
+								} else {
+									if (event.which === 39 || event.which === 32) {
+										event.preventDefault();
+										$li.submenu.show();
+										maximenuObj.addClass('maximenuck-wcag-active');
+									}
+									if (event.which === 37 || event.which === 27) {
+										event.preventDefault();
+										$li.submenu.hide();
+										maximenuObj.removeClass('maximenuck-wcag-active');
+									}
+								}
+							}
+							// press escape
+							/*
+							if (event.which === 27 && $(this).parents('.floatck').length) {
+								event.preventDefault();
+								$($(this).parents('.floatck')[0]).hide();
+								// maximenuObj.removeClass('maximenuck-wcag-active');
+							} else if (event.which === 27) {
+								event.preventDefault();
+								$('.floatck', maximenuObj).hide();
+								maximenuObj.removeClass('maximenuck-wcag-active');
+							}*/
+						});
 						$('li.maximenuck.parent.level' + $li.data('level'), maximenuObj).each(function(j, el2) {
 							el2 = $(el2);
 							if ($li.prop('class') != el2.prop('class')) {
@@ -863,7 +915,6 @@
 						});
 					});
 					
-			
 				});
 				
 				$('.maximenuck-toggler-anchor', maximenuObj).on('focus', function() {

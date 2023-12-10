@@ -11,6 +11,14 @@
  */
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Installer\Installer;
+use Joomla\Filesystem\File;
+use Joomla\CMS\Pagination\Pagination;
 
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
@@ -41,7 +49,7 @@ class JaextmanagerModelDefault extends JAEMModel
 	function __construct()
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication('administrator');
+		$app = Factory::getApplication('administrator');
 		
 		parent::__construct();
 		
@@ -119,7 +127,7 @@ class JaextmanagerModelDefault extends JAEMModel
 		}
 		
 		jimport('joomla.html.pagination');
-		$this->_pagination = new JPagination($total, $lists['limitstart'], $lists['limit']);
+		$this->_pagination = new Pagination($total, $lists['limitstart'], $lists['limit']);
 		
 		return $this->_updateExtensions;
 	
@@ -154,7 +162,7 @@ class JaextmanagerModelDefault extends JAEMModel
 	function _getUsListExtensions()
 	{
 		// Initialise variables.
-		$mainframe = JFactory::getApplication('administrator');
+		$mainframe = Factory::getApplication('administrator');
 		$option = JACOMPONENT;
 		$lists = array();
 		$lists['filter_order'] = $mainframe->getUserStateFromRequest($option . '.filter_order', 'filter_order', 't.id', 'string');
@@ -221,7 +229,7 @@ class JaextmanagerModelDefault extends JAEMModel
 	 */
 	function _getTotalExtensions($lists)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$type = (JRequest::getVar('type', '') != '') ? JRequest::getVar('type') : $lists['extionsion_type'];
 		$sFilter = $this->_getFilterExtensions();
 		
@@ -250,11 +258,11 @@ class JaextmanagerModelDefault extends JAEMModel
 	function _loadExtensions($limitstart = 0, $limit = 20, $lists = array())
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication('administrator');
+		$app = Factory::getApplication('administrator');
 		$type = (JRequest::getVar('type', '') != '') ? JRequest::getVar('type') : $lists['extionsion_type'];
 		$sFilter = $this->_getFilterExtensions();
 		
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$query = "
 				SELECT 
@@ -293,11 +301,11 @@ class JaextmanagerModelDefault extends JAEMModel
 	function getListExtensionType()
 	{
 		$aData = array();
-		$aData[] = JHtml::_('select.option', '', JText::_('ALL'));
-		$aData[] = JHtml::_('select.option', 'component', JText::_('COMPONENTS'));
-		$aData[] = JHtml::_('select.option', 'module', JText::_('MODULES'));
-		$aData[] = JHtml::_('select.option', 'plugin', JText::_('PLUGINS'));
-		$aData[] = JHtml::_('select.option', 'template', JText::_('TEMPLATES'));
+		$aData[] = HTMLHelper::_('select.option', '', Text::_('ALL'));
+		$aData[] = HTMLHelper::_('select.option', 'component', Text::_('COMPONENTS'));
+		$aData[] = HTMLHelper::_('select.option', 'module', Text::_('MODULES'));
+		$aData[] = HTMLHelper::_('select.option', 'plugin', Text::_('PLUGINS'));
+		$aData[] = HTMLHelper::_('select.option', 'template', Text::_('TEMPLATES'));
 		return $aData;
 	}
 
@@ -341,10 +349,10 @@ class JaextmanagerModelDefault extends JAEMModel
 		$obj = $this->_getProduct();
 		if ($obj === false) {
 			$css = "status-not-support";
-			$status = JText::_('THIS_EXTENSION_IS_NOT_SUPPORTED');
+			$status = Text::_('THIS_EXTENSION_IS_NOT_SUPPORTED');
 		}
-		$uploadScript = " <br />[<a href=\"#\" onclick=\"jaOpenUploader(); return false;\" title=\"" . JText::_("UPLOAD_VERSION_PACKAGE") . "\">" . JText::_("UPLOAD_NOW") . "</a>]";
-		$versionsNote = JText::_("A_VERSION_IS_CONSIDERRED_AS_NEW_VERSION_IF_WE_DETECT_A_HIGHER_NUMBER_IN_XML_FILE");
+		$uploadScript = " <br />[<a href=\"#\" onclick=\"jaOpenUploader(); return false;\" title=\"" . Text::_("UPLOAD_VERSION_PACKAGE") . "\">" . Text::_("UPLOAD_NOW") . "</a>]";
+		$versionsNote = Text::_("A_VERSION_IS_CONSIDERRED_AS_NEW_VERSION_IF_WE_DETECT_A_HIGHER_NUMBER_IN_XML_FILE");
 		$versionsNote = preg_replace("/\r\n/", "", $versionsNote);
 		
 		$versions = $jauc->getNewerVersions($obj);
@@ -353,28 +361,28 @@ class JaextmanagerModelDefault extends JAEMModel
 				$css = "status-not-uploaded";
 				
 				$tipid = uniqid("ja-tooltip-");
-				$title = JText::sprintf("IT_SEEM_NO_VERSION_OF_S_HAS_BEEN_UPLOADED_TO_S", $obj->name, "<br /><strong>" . $jauc->getLocalVersionsPath($obj, false) . "</strong><br />");
-				$linkRepo = "<a id=\"{$tipid}\" class=\"ja-tips-title\" href=\"#\" title=\"\" >" . JText::_("REPOSITORY") . "</a>";
-				$status = JText::sprintf("SORRY_NO_VERSION_UPLOADED_IN_S", $linkRepo);
+				$title = Text::sprintf("IT_SEEM_NO_VERSION_OF_S_HAS_BEEN_UPLOADED_TO_S", $obj->name, "<br /><strong>" . $jauc->getLocalVersionsPath($obj, false) . "</strong><br />");
+				$linkRepo = "<a id=\"{$tipid}\" class=\"ja-tips-title\" href=\"#\" title=\"\" >" . Text::_("REPOSITORY") . "</a>";
+				$status = Text::sprintf("SORRY_NO_VERSION_UPLOADED_IN_S", $linkRepo);
 				
 				$script = jaEMTooltips($tipid, $title);
 			} else {
 				//this extensions is not an service' extension
 				$css = "status-not-found";
-				$status = JText::_("PLEASE_UPDATE_THE_SERVICE_SETTING_OR_CONTACT_WITH_SERVICE_PROVIDER");
+				$status = Text::_("PLEASE_UPDATE_THE_SERVICE_SETTING_OR_CONTACT_WITH_SERVICE_PROVIDER");
 			}
 		} else {
 			
 			if (!is_object($versions)) {
 				$css = "status-not-support";
-				$status = JText::_('THIS_EXTENSION_IS_NOT_SUPPORTED');
+				$status = Text::_('THIS_EXTENSION_IS_NOT_SUPPORTED');
 			} else {
 				$extID = $obj->extId;
 				$css = "status-new";
 				
 				$tipid = uniqid("ja-tooltip-");
-				$title = "<sup><a href=\"#\" id=\"{$tipid}\" class=\"ja-tips-title\" title=\"\">" . JText::_("") . "</a></sup>";
-				$status = JText::sprintf("NEW_VERSION_FOUND_S", $title);
+				$title = "<sup><a href=\"#\" id=\"{$tipid}\" class=\"ja-tips-title\" title=\"\">" . Text::_("") . "</a></sup>";
+				$status = Text::sprintf("NEW_VERSION_FOUND_S", $title);
 				$status .= jaEMTooltips($tipid, $versionsNote);
 				$lastest = '';
 				
@@ -388,27 +396,27 @@ class JaextmanagerModelDefault extends JAEMModel
 					}
 					/*if ( $index == $showOnly + 1 ) {
 						$more = 1;
-						$status .= '<br/> <a href="#" style="color:#800000" onclick="showMoreOlderVersion(this, \'olderVersion'.$extID.'\'); return false;">'.JText::_("MORE").'</a>';
+						$status .= '<br/> <a href="#" style="color:#800000" onclick="showMoreOlderVersion(this, \'olderVersion'.$extID.'\'); return false;">'.Text::_("MORE").'</a>';
 						$status .= '<br/> <div id="olderVersion'.$extID.'" style="display:none">';
 						}*/
 					
 					$status .= '<br />';
 					$status .= "- {$v} <sup style=\"color:red;\">[New!";
-					$status .= (isset($vInfo->releaseDate) ? " " . $vInfo->releaseDate : '') . (isset($vInfo->lastest) ? " - " . JText::_('LASTEST') : '');
+					$status .= (isset($vInfo->releaseDate) ? " " . $vInfo->releaseDate : '') . (isset($vInfo->lastest) ? " - " . Text::_('LASTEST') : '');
 					$status .= "]</sup>";
 					if (isset($vInfo->notSure)) {
 						$tipid = uniqid("ja-tooltip-");
-						$title = "++++++++<br />" . JText::sprintf("WE_CAN_NOT_DETECT_WHICH_IS_A_NEWER_VERSION_BETWEEN__S_AND_S_", $obj->version, $v) . $versionsNote;
+						$title = "++++++++<br />" . Text::sprintf("WE_CAN_NOT_DETECT_WHICH_IS_A_NEWER_VERSION_BETWEEN__S_AND_S_", $obj->version, $v) . $versionsNote;
 						$status .= "<sup style=\"color:#FF6600;\" id=\"{$tipid}\">[!Notice]</sup>";
 						$status .= jaEMTooltips($tipid, $title);
 					}
 					if (isset($vInfo->changelogUrl) && !empty($vInfo->changelogUrl)) {
 						$jirakey = str_replace(array('http://pm.joomlart.com/browse/','?report=com.atlassian.jira.plugin.system.project:changelog-panel'),array("",""),$vInfo->changelogUrl);
-						// $status .= ' <a href="' . $vInfo->changelogUrl . '" title="' . JText::_('SHOW_CHANGE_LOG') . '" target="_blank" >' . JText::_('CHANGE_LOG') . '</a>';
-						// $status .= ' <a href="javascript:;" title="' . JText::_('SHOW_CHANGE_LOG') . '" onclick="doShowChangeLog(\''.$extID.'\',\''.$jirakey.'\',\''.$vInfo->version.'\')" >' . JText::_('CHANGE_LOG') . '</a>';
+						// $status .= ' <a href="' . $vInfo->changelogUrl . '" title="' . Text::_('SHOW_CHANGE_LOG') . '" target="_blank" >' . Text::_('CHANGE_LOG') . '</a>';
+						// $status .= ' <a href="javascript:;" title="' . Text::_('SHOW_CHANGE_LOG') . '" onclick="doShowChangeLog(\''.$extID.'\',\''.$jirakey.'\',\''.$vInfo->version.'\')" >' . Text::_('CHANGE_LOG') . '</a>';
 					}
-					$status .= ' - <a href="index.php?option=com_jaextmanager&view=default&task=compare&cId[]=' . $extID . '&version=' . $v . '" title="' . JText::_('VIEW_DIFFERENCE_BETWEEN_TWO_VERSIONS') . '">' . JText::_('COMPARE') . '</a>';
-					$status .= ' - <a href="#" onclick="doUpgrade(\'' . $extID . '\', \'' . $v . '\', \'LastCheckStatus_' . $extID . '\'); return false;" title="' . JText::_('UPGARDE_TO_NEW_VERSION_NOW') . '">' . JText::_('UPGRADE_NOW') . '</a>';
+					$status .= ' - <a href="index.php?option=com_jaextmanager&view=default&task=compare&cId[]=' . $extID . '&version=' . $v . '" title="' . Text::_('VIEW_DIFFERENCE_BETWEEN_TWO_VERSIONS') . '">' . Text::_('COMPARE') . '</a>';
+					$status .= ' - <a href="#" onclick="doUpgrade(\'' . $extID . '\', \'' . $v . '\', \'LastCheckStatus_' . $extID . '\'); return false;" title="' . Text::_('UPGARDE_TO_NEW_VERSION_NOW') . '">' . Text::_('UPGRADE_NOW') . '</a>';
 				}
 				/*if ( $more ) {
 					$status .= '</div>';
@@ -419,15 +427,15 @@ class JaextmanagerModelDefault extends JAEMModel
 						$css = "status-normal";
 						
 						$tipid = uniqid("ja-tooltip-");
-						$title = JText::sprintf("S_NEW_VERSIONS_ARE_STORED_AT_S_IF_YOU_HAVE_NEW_VERSION_UPLOAD_IT_OR_DO_IT_VIA_FTP", $obj->name, "<br /><strong>" . $jauc->getLocalVersionsPath($obj, false) . "</strong><br />");
-						$linkRepo = "<a id=\"{$tipid}\" class=\"ja-tips-title\" href=\"#\" title=\"\">" . JText::_("REPOSITORY") . "</a>";
-						$status = JText::sprintf('NO_NEW_VERSION_FOUND_IN_S', $linkRepo);
+						$title = Text::sprintf("S_NEW_VERSIONS_ARE_STORED_AT_S_IF_YOU_HAVE_NEW_VERSION_UPLOAD_IT_OR_DO_IT_VIA_FTP", $obj->name, "<br /><strong>" . $jauc->getLocalVersionsPath($obj, false) . "</strong><br />");
+						$linkRepo = "<a id=\"{$tipid}\" class=\"ja-tips-title\" href=\"#\" title=\"\">" . Text::_("REPOSITORY") . "</a>";
+						$status = Text::sprintf('NO_NEW_VERSION_FOUND_IN_S', $linkRepo);
 						
 						$script = jaEMTooltips($tipid, $title);
 					} else {
 						//$css = "status-lastest";
 						$css = "status-normal";
-						$status = JText::_("NO_NEW_VERSION_FOUND");
+						$status = Text::_("NO_NEW_VERSION_FOUND");
 					}
 				}
 			}
@@ -455,7 +463,7 @@ class JaextmanagerModelDefault extends JAEMModel
 	 */
 	function storeLastCheck($objID, $status)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		
 		$query = "
 			INSERT INTO #__jaem_log (ext_id, check_date, check_info)
@@ -477,7 +485,7 @@ class JaextmanagerModelDefault extends JAEMModel
 	 */
 	function getLastCheckStatus($aSettings, $extId)
 	{
-		if (isset($aSettings->$extId)) {
+		if (isset($aSettings->$extId) && isset($aSettings->$extId->check_info)) {
 			return stripslashes($aSettings->$extId->check_info);
 		}
 		return '';
@@ -488,7 +496,7 @@ class JaextmanagerModelDefault extends JAEMModel
 	{
 		static $aSettings = null;
 		if (is_null($aSettings)) {
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			
 			$query = "SELECT * FROM #__jaem_log WHERE 1";
 			$db->setQuery($query);
@@ -594,7 +602,8 @@ class JaextmanagerModelDefault extends JAEMModel
 		} else {
 			$result = $jauc->buildDiffFilesConflicted($obj);
 			if ($result === false) {
-				JError::raiseWarning(0, JText::_("FAILURED_TO_BUILD_DIFFERENCE_VIEW"));
+				$app = Factory::getApplication();
+				$app->enqueueMessage(Text::_("FAILURED_TO_BUILD_DIFFERENCE_VIEW"), 'warning');
 				return false;
 			} else {
 				$obj->diffInfo = $result;
@@ -661,7 +670,7 @@ class JaextmanagerModelDefault extends JAEMModel
 		
 		$obj = $this->_getProduct();
 		if ($obj === false) {
-			return JText::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
+			return Text::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
 		}
 		
 		$version = JRequest::getVar('version',$obj->version);
@@ -669,7 +678,7 @@ class JaextmanagerModelDefault extends JAEMModel
 		$log = $jauc->getChangeLog($obj, $version);
 
 		if ($log === false) {
-			return JText::_("FAIL_TO_GET_CHANGE_LOG");
+			return Text::_("FAIL_TO_GET_CHANGE_LOG");
 		} else {
 			return $log;
 		}
@@ -686,7 +695,7 @@ class JaextmanagerModelDefault extends JAEMModel
 		global $jauc;
 		$obj = $this->_getProduct();
 		if ($obj === false) {
-			return JText::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
+			return Text::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
 		}
 		$obj->version = '1.0.0';
 		$dataLogs = $jauc->getChangeLogsLocal($obj);
@@ -694,14 +703,14 @@ class JaextmanagerModelDefault extends JAEMModel
 		if(!$dataLogs){
 			$versions = $jauc->getNewerVersions($obj);
 			if (!$versions){
-				return JText::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
+				return Text::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
 			}
 			
 			$vInfo = reset($versions);
 			$jirakey = str_replace(array('http://pm.joomlart.com/browse/','?report=com.atlassian.jira.plugin.system.project:changelog-panel'),array("",""),$vInfo->changelogUrl);
 			
 			if (!isset($jirakey)) {
-				return JText::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
+				return Text::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
 			}
 			// changelog
 			$jiraUrl = 'https://pm.joomlart.com/jira-projects.php?changelog&task=changelog&key='.$jirakey;
@@ -710,7 +719,7 @@ class JaextmanagerModelDefault extends JAEMModel
 			$dataLogs = @json_decode($json, true);
 
 			if (empty($dataLogs)) {
-				return JText::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
+				return Text::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
 			}
 			krsort($dataLogs);
 
@@ -728,10 +737,10 @@ class JaextmanagerModelDefault extends JAEMModel
 		}else{
 			$changelogs = $dataLogs;
 		}
-		$logs = JLayoutHelper::render('changelogs.item', array('changelog' => $changelogs), JPATH_ADMINISTRATOR.'/components/com_jaextmanager/layouts');
+		$logs = LayoutHelper::render('changelogs.item', array('changelog' => $changelogs), JPATH_ADMINISTRATOR.'/components/com_jaextmanager/layouts');
 
 		if (!$logs) {
-			return JText::_("FAIL_TO_GET_CHANGE_LOG");
+			return Text::_("FAIL_TO_GET_CHANGE_LOG");
 		} else {
 			return $logs;
 		}
@@ -751,7 +760,7 @@ class JaextmanagerModelDefault extends JAEMModel
 		
 		$obj = $this->_getProduct();
 		if ($obj === false) {
-			return JText::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
+			return Text::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
 		}
 		
 		$version = JRequest::getVar('version');
@@ -762,7 +771,7 @@ class JaextmanagerModelDefault extends JAEMModel
 		if ($result === false) {
 			return false;
 		} else {
-			$message = JText::_("YOU_HAVE_SUCCESSFULLY_UPGRADED_FROM_VERSION_FROM_VERSION_TO_VERSION_TO_VERSION_AT_TIME");
+			$message = Text::_("YOU_HAVE_SUCCESSFULLY_UPGRADED_FROM_VERSION_FROM_VERSION_TO_VERSION_TO_VERSION_AT_TIME");
 			$message = str_replace(array('{from_version}', '{to_version}', '{time}'), array($obj->version, $version, date('d M Y, H:i:s')), $message);
 			$this->storeLastCheck($obj->extId, $message);
 			
@@ -782,7 +791,7 @@ class JaextmanagerModelDefault extends JAEMModel
 		jimport('joomla.installer.installer');
 
 		// Get an installer object for the extension type
-		$installer = JInstaller::getInstance();
+		$installer = Installer::getInstance();
 		$result = $installer->refreshManifestCache($eid);
 		return $result;
 	}
@@ -802,7 +811,7 @@ class JaextmanagerModelDefault extends JAEMModel
 		
 		$obj = $this->_getProduct();
 		if ($obj === false) {
-			return JText::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
+			return Text::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
 		}
 		$version = JRequest::getVar('version');
 		
@@ -828,7 +837,7 @@ class JaextmanagerModelDefault extends JAEMModel
 		
 		$obj = $this->_getProduct();
 		if ($obj === false) {
-			return JText::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
+			return Text::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
 		}
 		$version = JRequest::getVar('version');
 		
@@ -853,7 +862,7 @@ class JaextmanagerModelDefault extends JAEMModel
 		
 		$obj = $this->_getProduct();
 		if ($obj === false) {
-			return JText::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
+			return Text::_('THIS_PRODUCT_IS_NOT_SUPPORTED');
 		}
 		$file = JRequest::getVar('file');
 		
@@ -861,10 +870,10 @@ class JaextmanagerModelDefault extends JAEMModel
 		
 		$result = $jauc->doRecoveryFile($obj, $file);
 		if ($result === false) {
-			echo JText::_("FAIL_TO_RECOVERY");
+			echo Text::_("FAIL_TO_RECOVERY");
 			return false;
 		} else {
-			$this->storeLastCheck($obj->extId, JText::_("YOU_ARE_SUCCESSFULLY_ROLLBACK_AT") . date('d M Y, H:i:s'));
+			$this->storeLastCheck($obj->extId, Text::_("YOU_ARE_SUCCESSFULLY_ROLLBACK_AT") . date('d M Y, H:i:s'));
 			$this->refresh($obj->id);
 			return $result;
 		}
@@ -883,7 +892,7 @@ class JaextmanagerModelDefault extends JAEMModel
 		$pro = $jauc->getProduct($product);
 		$file = JRequest::getVar('file');
 		$fileLive = $pro->getFilePath($file);
-		if (JFile::exists($fileLive)) {
+		if (is_file($fileLive)) {
 			$source = file_get_contents($fileLive);
 			return $source;
 		} else {
@@ -915,7 +924,7 @@ class JaextmanagerModelDefault extends JAEMModel
 		$params = $this->getComponentParams();
 		//get mysql variables
 		if (substr(PHP_OS, 0, 3) == 'WIN') {
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = 'SHOW VARIABLES';
 			$db->setQuery($query);
 			$rs = $db->loadObjectList();
@@ -961,14 +970,14 @@ class JaextmanagerModelDefault extends JAEMModel
 
 	function getComponentParams()
 	{
-		$params = JComponentHelper::getParams(JACOMPONENT);
+		$params = ComponentHelper::getParams(JACOMPONENT);
 		return $params;
 	}
 
 
 	function storeComponentParams($data)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = "SELECT params FROM #__extensions WHERE `element` = 'com_jaextmanager'";
 		$db->setQuery($query);
 		$arr = $db->loadAssoc();
@@ -991,7 +1000,7 @@ class JaextmanagerModelDefault extends JAEMModel
 	function storeExtensionSettings($data)
 	{
 		if (is_array($data) && count($data)) {
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			
 			foreach ($data as $extId => $service_id) {
 				$query = "

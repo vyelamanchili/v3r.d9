@@ -11,6 +11,7 @@
  */
 // no direct access
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
+use Joomla\Filesystem\Folder;
  
 /**
  * Visual package emulator
@@ -127,7 +128,7 @@ class VPackageHelper
 				echo "entry: $entry<br>";
 				echo "full path: $fullPath<br>";
 			}
-			if (JFolder::exists($fullPath)) {
+			if (is_dir($fullPath)) {
 				VPackageHelper::importAll($fullPath);
 				VPackageHelper::importRecursive($fullPath);
 			}

@@ -8,9 +8,13 @@
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
-
 use Joomla\Registry\Registry;
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Content Component HTML Helper
  *
@@ -32,9 +36,9 @@ abstract class JHtmlIcon
 	 */
 	public static function create($category, $params, $attribs = array(), $legacy = false)
 	{
-		JHtml::_('bootstrap.tooltip');
+		HTMLHelper::_('bootstrap.tooltip');
 
-		$uri = JUri::getInstance();
+		$uri = Uri::getInstance();
 
 		$url = 'index.php?option=com_content&task=article.add&return=' . base64_encode($uri) . '&a_id=0&catid=' . $category->id;
 
@@ -42,7 +46,7 @@ abstract class JHtmlIcon
 		{
 			if ($legacy)
 			{
-				$text = JHtml::_('image', 'system/new.png', Text::_('JNEW'), null, true);
+				$text = HTMLHelper::_('image', 'system/new.png', Text::_('JNEW'), null, true);
 			}
 			else
 			{
@@ -64,7 +68,7 @@ abstract class JHtmlIcon
 			$attribs['class'] = 'btn btn-primary';
 		}
 
-		$button = JHtml::_('link', JRoute::_($url), $text, $attribs);
+		$button = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
 		$output = '<span class="hasTooltip" title="' . T3J::tooltipText('COM_CONTENT_CREATE_ARTICLE') . '">' . $button . '</span>';
 
@@ -85,10 +89,10 @@ abstract class JHtmlIcon
 	{
 		require_once JPATH_SITE . '/components/com_mailto/helpers/mailto.php';
 
-		$uri      = JUri::getInstance();
+		$uri      = Uri::getInstance();
 		$base     = $uri->toString(array('scheme', 'host', 'port'));
-		$template = JFactory::getApplication()->getTemplate();
-		$link     = $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false);
+		$template = Factory::getApplication()->getTemplate();
+		$link     = $base . Route::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false);
 		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailToHelper::addLink($link);
 
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
@@ -97,7 +101,7 @@ abstract class JHtmlIcon
 		{
 			if ($legacy)
 			{
-				$text = JHtml::_('image', 'system/emailButton.png', Text::_('JGLOBAL_EMAIL'), null, true);
+				$text = HTMLHelper::_('image', 'system/emailButton.png', Text::_('JGLOBAL_EMAIL'), null, true);
 			}
 			else
 			{
@@ -112,7 +116,7 @@ abstract class JHtmlIcon
 		$attribs['title']   = Text::_('JGLOBAL_EMAIL');
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 
-		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
+		$output = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
 		return $output;
 	}
@@ -133,8 +137,8 @@ abstract class JHtmlIcon
 	 */
 	public static function edit($article, $params, $attribs = array(), $legacy = false)
 	{
-		$user = JFactory::getUser();
-		$uri  = JUri::getInstance();
+		$user = Factory::getUser();
+		$uri  = Uri::getInstance();
 
 		// Ignore if in a popup window.
 		if ($params && $params->get('popup'))
@@ -148,21 +152,21 @@ abstract class JHtmlIcon
 			return;
 		}
 
-		JHtml::_('bootstrap.tooltip');
+		HTMLHelper::_('bootstrap.tooltip');
 
 		// Show checked_out icon if the article is checked out by a different user
 		if (property_exists($article, 'checked_out') && property_exists($article, 'checked_out_time') && $article->checked_out > 0 && $article->checked_out != $user->get('id'))
 		{
-			$checkoutUser = JFactory::getUser($article->checked_out);
+			$checkoutUser = Factory::getUser($article->checked_out);
 
-			$date         = JHtml::_('date', $article->checked_out_time);
-			$tooltip      = Text::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
+			$date         = HTMLHelper::_('date', $article->checked_out_time);
+			$tooltip      = Text::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . Text::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
 				. ' <br /> ' . $date;
 
 			if ($legacy)
 			{
-				$button = JHtml::_('image', 'system/checked_out.png', null, null, true);
-				$text   = '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip . '', 0) . '">'
+				$button = HTMLHelper::_('image', 'system/checked_out.png', null, null, true);
+				$text   = '<span class="hasTooltip" title="' . HTMLHelper::tooltipText($tooltip . '', 0) . '">'
 					. $button . '</span> ' . Text::_('JLIB_HTML_CHECKED_OUT');
 			}
 			else
@@ -170,7 +174,7 @@ abstract class JHtmlIcon
 				$text = '<span class="hasTooltip icon-lock" title="' . T3J::tooltipText($tooltip . '', 0) . '"></span> ' . Text::_('JLIB_HTML_CHECKED_OUT');
 			}
 
-			$output = JHtml::_('link', '#', $text, $attribs);
+			$output = HTMLHelper::_('link', '#', $text, $attribs);
 
 			return $output;
 		}
@@ -186,37 +190,37 @@ abstract class JHtmlIcon
 			$overlib = Text::_('JPUBLISHED');
 		}
 
-		$date   = JHtml::_('date', $article->created);
+		$date   = HTMLHelper::_('date', $article->created);
 		$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
 
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= $date;
 		$overlib .= '&lt;br /&gt;';
-		$overlib .= JText::sprintf('COM_CONTENT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
+		$overlib .= Text::sprintf('COM_CONTENT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
 		$publishUp = $article->publish_up != null ? $article->publish_up : '';
 		$publishDown = $article->publish_down != null ? $article->publish_down : '';
 		if ($legacy)
 		{
 			$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
-			if (strtotime($publishUp) > strtotime(JFactory::getDate())
-				|| ((strtotime($publishDown) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
+			if (strtotime($publishUp) > strtotime(Factory::getDate())
+				|| ((strtotime($publishDown) < strtotime(Factory::getDate())) && $article->publish_down != Factory::getDbo()->getNullDate()))
 			{
 				$icon = 'edit_unpublished.png';
 			}
-			$text = JHtml::_('image', 'system/' . $icon, Text::_('JGLOBAL_EDIT'), null, true);
+			$text = HTMLHelper::_('image', 'system/' . $icon, Text::_('JGLOBAL_EDIT'), null, true);
 		}
 		else
 		{
 			$icon = $article->state ? 'edit' : 'eye-close';
-			if (strtotime($publishUp) > strtotime(JFactory::getDate())
-				|| ((strtotime($publishDown) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
+			if (strtotime($publishUp) > strtotime(Factory::getDate())
+				|| ((strtotime($publishDown) < strtotime(Factory::getDate())) && $article->publish_down != Factory::getDbo()->getNullDate()))
 			{
 				$icon = 'eye-close';
 			}
 			$text = '<span class="hasTooltip fa fa-' . $icon . ' tip" title="' . T3J::tooltipText(Text::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0) . '"></span>&#160;' . Text::_('JGLOBAL_EDIT') . '&#160;';
 		}
 
-		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
+		$output = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
 		return $output;
 	}
@@ -233,7 +237,7 @@ abstract class JHtmlIcon
 	 */
 	public static function print_popup($article, $params, $attribs = array(), $legacy = false)
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		$input = $app->input;
 		$request = $input->request;
 
@@ -247,7 +251,7 @@ abstract class JHtmlIcon
 		{
 			if ($legacy)
 			{
-				$text = JHtml::_('image', 'system/printButton.png', Text::_('JGLOBAL_PRINT'), null, true);
+				$text = HTMLHelper::_('image', 'system/printButton.png', Text::_('JGLOBAL_PRINT'), null, true);
 			}
 			else
 			{
@@ -263,7 +267,7 @@ abstract class JHtmlIcon
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		$attribs['rel']     = 'nofollow';
 
-		return JHtml::_('link', JRoute::_($url), $text, $attribs);
+		return HTMLHelper::_('link', Route::_($url), $text, $attribs);
 	}
 
 	/**
@@ -283,7 +287,7 @@ abstract class JHtmlIcon
 		{
 			if ($legacy)
 			{
-				$text = JHtml::_('image', 'system/printButton.png', Text::_('JGLOBAL_PRINT'), null, true);
+				$text = HTMLHelper::_('image', 'system/printButton.png', Text::_('JGLOBAL_PRINT'), null, true);
 			}
 			else
 			{

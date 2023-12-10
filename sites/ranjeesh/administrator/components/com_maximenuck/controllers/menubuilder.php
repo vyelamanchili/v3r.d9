@@ -169,10 +169,22 @@ class MaximenuckControllerMenubuilder extends CKController {
 		// get data
 		$customid = $this->input->get('customid', 0, 'int');
 		$fields = $this->input->get('fields', '', 'raw');
+		$params = $this->input->get('params', '', 'raw');
 
 		// set data
 		$model = $this->getModel();
 		$row = $model->getMenubuilderItem($customid);
+
+		// take care that the params are saved, else the item will disapear
+		if (empty($row->params)) {
+			if (!empty($params)) {
+				$row->params = $params;
+			} else {
+				echo "{'result': '0', 'id': '" . $row->id . "', 'message': 'Error : Can not save the Styles ! Problem to get the Params from the item'}";
+				exit;
+			}
+		}
+
 		$row->styles = $fields;
 		$row->customid = $customid;
 

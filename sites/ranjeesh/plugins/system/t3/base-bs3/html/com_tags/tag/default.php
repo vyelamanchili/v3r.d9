@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 // Note that there are certain parts of this layout used only when there is exactly one tag.
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
+HTMLHelper::addIncludePath(JPATH_COMPONENT.'/helpers');
 $isSingleTag = count($this->item) === 1;
 $htag        = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 ?>

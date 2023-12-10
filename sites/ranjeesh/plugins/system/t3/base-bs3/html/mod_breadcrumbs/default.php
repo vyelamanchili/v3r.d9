@@ -9,9 +9,10 @@
 
 defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 if (version_compare(JVERSION, '3.0', 'ge')) {	
-	JHtml::_('bootstrap.tooltip');
+	HTMLHelper::_('bootstrap.tooltip');
 }
 $moduleclass_sfx = $params->get('moduleclass_sfx','');
 ?>

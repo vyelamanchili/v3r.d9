@@ -1,6 +1,12 @@
-<?php defined ( '_JEXEC' ) or die ( 'Restricted access' ); ?>
+<?php 
+
+defined ( '_JEXEC' ) or die ( 'Restricted access' ); 
+
+use Joomla\CMS\Language\Text;
+
+?>
 <fieldset>
-<legend><?php echo JText::_("HELP_AND_SUPPORT");?></legend>
+<legend><?php echo Text::_("HELP_AND_SUPPORT");?></legend>
 <!-- icon and title -->
 <div class="smallfont"> <strong>JA Extensions Manager...</strong> </div>
 <hr size="1" style="color: rgb(255, 255, 255); background-color: rgb(255, 255, 255);" />

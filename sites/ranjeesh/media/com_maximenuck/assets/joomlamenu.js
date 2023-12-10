@@ -186,7 +186,7 @@ function ckUdpateModuleTitle(id, title) {
 
 function ckEditTitle(editbutton) {
 	el = $ck('> div .cktitle', $ck($ck(editbutton).parents('li')[0]));
-	txt = $ck(el).text().trim();
+	txt = $ck(el).text().trim().replace(/"/g, '&quot;');
 	$ck(el).html("<input type=\"text\" value=\""+txt+"\" style=\"width:150px;\"/>");
 	$ck(el).attr('data-text-origin', txt);
 	$ck('input', $ck(el)).focus();

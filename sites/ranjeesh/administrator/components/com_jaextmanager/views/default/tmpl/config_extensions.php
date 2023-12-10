@@ -13,6 +13,9 @@
 //no direct access
 defined( '_JEXEC' ) or die( 'Retricted Access' );
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 $extId = $this->extension->extId;
 $configId = $this->configId;
 $serviceId = "params[{$configId}]";
@@ -25,9 +28,9 @@ $serviceId = "params[{$configId}]";
   <input type="hidden" name="task" value="config_extensions" />
   <input type="hidden" name="layout" value="config_extensions" />
   <input type="hidden" name="view" value="default" />
-  <?php echo JHtml::_( 'form.token' ); ?>
+  <?php echo HTMLHelper::_( 'form.token' ); ?>
     <fieldset>
-    <legend> <?php echo JText::_('SERVICES' ); ?> </legend>
+    <legend> <?php echo Text::_('SERVICES' ); ?> </legend>
     <table class="admintable" width="100%">
     <?php 
 	foreach($this->services as $service) {
@@ -43,7 +46,7 @@ $serviceId = "params[{$configId}]";
       </tr>
       <?php } ?>    
       <tr>
-        <td><a href="index.php?option=com_jaextmanager&view=services" target="_parent" title="<?php echo JText::_('MANAGE_SERVICES'); ?>"><?php echo JText::_('MANAGE_SERVICES'); ?></a></td>
+        <td><a href="index.php?option=com_jaextmanager&view=services" target="_parent" title="<?php echo Text::_('MANAGE_SERVICES'); ?>"><?php echo Text::_('MANAGE_SERVICES'); ?></a></td>
       </tr>
     </table>
   </fieldset>

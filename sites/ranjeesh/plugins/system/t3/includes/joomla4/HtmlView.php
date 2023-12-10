@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 
 defined('JPATH_PLATFORM') or die;
@@ -39,8 +41,8 @@ class HtmlView extends _JHtmlView
 	 */
 	protected function _setPath($type, $path)
 	{
-		$component = \JApplicationHelper::getComponentName();
-		$app = \JFactory::getApplication();
+		$component = ApplicationHelper::getComponentName();
+		$app = Factory::getApplication();
 
 		// Clear out the prior search dirs
 		$this->_path[$type] = array();

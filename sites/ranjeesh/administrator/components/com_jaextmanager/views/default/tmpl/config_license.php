@@ -12,20 +12,23 @@
 
 //no direct access
 defined( '_JEXEC' ) or die( 'Retricted Access' );
+
+use Joomla\CMS\Language\Text;
+
 ?>
 <fieldset>
-<legend><?php echo JText::_("LICENSE_INFORMATION");?></legend>
+<legend><?php echo Text::_("LICENSE_INFORMATION");?></legend>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
   <div class="col100">
     <table class="admintable">
       <tr>
-        <td class="key" align="right"><label for="title"> <?php echo JText::_('USERNAME' ); ?>: </label>
+        <td class="key" align="right"><label for="title"> <?php echo Text::_('USERNAME' ); ?>: </label>
         </td>
         <td><input type="text" value="<?php echo $this->params->get("WS_USER", "");?>" size="80" name="params[WS_USER]" />
         </td>
       </tr>
       <tr>
-        <td class="key" align="right"><label for="title"> <?php echo JText::_('PASSWORD' ); ?>: </label>
+        <td class="key" align="right"><label for="title"> <?php echo Text::_('PASSWORD' ); ?>: </label>
         </td>
         <td><input type="password" value="<?php echo $this->params->get("WS_PASS", "");?>" size="80" name="params[WS_PASS]" />
         </td>

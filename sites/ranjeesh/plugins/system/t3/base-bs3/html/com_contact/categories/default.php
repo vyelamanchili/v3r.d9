@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
-JHtml::_('behavior.caption');
-JHtml::_('behavior.core');
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
+HTMLHelper::_('behavior.caption');
+HTMLHelper::_('behavior.core');
 ?>
 <div class="contact-categories categories-list<?php echo $this->pageclass_sfx;?>">
 
@@ -25,13 +27,13 @@ JHtml::_('behavior.core');
 		<?php //If there is a description in the menu parameters use that; ?>
 		<?php if($this->params->get('categories_description')) : ?>
 		<div class="category-desc base-desc">
-			<?php echo  JHtml::_('content.prepare', $this->params->get('categories_description'), '', 'com_contact.categories'); ?>
+			<?php echo  HTMLHelper::_('content.prepare', $this->params->get('categories_description'), '', 'com_contact.categories'); ?>
 		</div>
 		<?php  else: ?>
 			<?php //Otherwise get one from the database if it exists. ?>
 			<?php  if ($this->parent->description) : ?>
 				<div class="category-desc base-desc">
-					<?php  echo JHtml::_('content.prepare', $this->parent->description, '', 'com_contact.categories'); ?>
+					<?php  echo HTMLHelper::_('content.prepare', $this->parent->description, '', 'com_contact.categories'); ?>
 				</div>
 			<?php  endif; ?>
 		<?php  endif; ?>

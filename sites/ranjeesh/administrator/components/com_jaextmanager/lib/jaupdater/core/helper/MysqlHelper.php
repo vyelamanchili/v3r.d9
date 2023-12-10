@@ -15,6 +15,9 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
 define('JA_BACKUP_ALL', 0); //backup all tables if no specific tables provied
 
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 class jaMysqlHelper
@@ -72,7 +75,7 @@ class jaMysqlHelper
 		}
 		
 		$backupDir = dirname($backupFile);
-		if (!(@JFolder::exists($backupDir) && @is_writable($backupDir))) {
+		if (!(@is_dir($backupDir) && @is_writable($backupDir))) {
 			return false;
 		}
 		
@@ -94,7 +97,7 @@ class jaMysqlHelper
 		$FileSystemHelper	= new FileSystemHelper();
 		$backupFile = $FileSystemHelper->clean($backupFile);
 		
-		if (!JFile::exists($backupFile)) {
+		if (!is_file($backupFile)) {
 			return false;
 		}
 		//create temp file with replaced #__ by db prefix
@@ -103,7 +106,7 @@ class jaMysqlHelper
 		$sql = file_get_contents($backupFile);
 		$sql = preg_replace('/\`\#__([a-zA-Z_0-9]*)\`/', "`" . $this->_prefix . "$1`", $sql);
 		
-		JFile::write($tmpFile, $sql);
+		File::write($tmpFile, $sql);
 		//echo $tmpFile;
 		
 

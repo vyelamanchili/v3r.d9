@@ -1,4 +1,7 @@
 <?php
+
+use Joomla\CMS\Factory;
+
 /** 
  *------------------------------------------------------------------------------
  * @package       T3 Framework for Joomla!
@@ -22,14 +25,14 @@ class T3Admin {
 	 * init admin backend to edit template style
 	 */
 	public function init() {
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		$input = $app->input;
 		if ($input->getCmd('view') == 'style') {
 			$app->set('themes.base', T3_ADMIN_PATH);
 			$app->set('theme', 'admin');
 		}
 		if(version_compare(JVERSION, '4', 'ge')){
-			$wa = JFactory::getDocument()->getWebAssetManager();
+			$wa = Factory::getDocument()->getWebAssetManager();
 			//var_dump($wa->getAssets('script'));die;
 			$wa->registerAsset('script', 'bootstrap.js.bundle', T3_ADMIN_REL . '/admin/bootstrap/js/bootstrap.js', ['dependencies' => 'jquery']);
 			$wa->registerAsset('script', 'jquery', T3_ADMIN_REL . '/admin/js/jquery-1.x.min.js');
@@ -50,7 +53,7 @@ class T3Admin {
 	 * @return render success or not
 	 */
 	public function render(){
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		$input  = $app->input;
 		if ('style' != $input->getCmd('view')) return;
 
@@ -105,16 +108,16 @@ class T3Admin {
 	}
 
 	public function addAssets() {
-		$japp   = JFactory::getApplication();
-		$jdoc   = JFactory::getDocument();
-		$db     = JFactory::getDbo();
+		$japp   = Factory::getApplication();
+		$jdoc   = Factory::getDocument();
+		$db     = Factory::getDbo();
 		$params = T3::getTplParams();
 		$input  = $japp->input;
 
 		if ('style' != $input->getCmd('view')) return;
 
 		// load template language
-		JFactory::getLanguage()->load ('tpl_'.T3_TEMPLATE.'.sys', JPATH_ROOT, null, true);
+		Factory::getLanguage()->load ('tpl_'.T3_TEMPLATE.'.sys', JPATH_ROOT, null, true);
 
 		$langs = array(
 			'unknownError' => JText::_('T3_MSG_UNKNOWN_ERROR'),
@@ -233,7 +236,7 @@ class T3Admin {
 			T3Admin.baseurl = \'' . JURI::base(true) . '\';
 			T3Admin.rooturl = \'' . JURI::root() . '\';
 			T3Admin.template = \'' . T3_TEMPLATE . '\';
-			T3Admin.templateid = \'' . JFactory::getApplication()->input->get('id') . '\';
+			T3Admin.templateid = \'' . Factory::getApplication()->input->get('id') . '\';
 			T3Admin.langs = ' . json_encode($langs) . ';
 			T3Admin.devmode = ' . $params->get('devmode', 0) . ';
 			T3Admin.themermode = ' . $params->get('themermode', 1) . ';
@@ -298,7 +301,7 @@ class T3Admin {
 			$xml = simplexml_load_file($tplXml);
 			$fxml = simplexml_load_file($frwXml);
 
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true);
 			$query
 				->select('id, title')
@@ -311,17 +314,17 @@ class T3Admin {
 				$style->title = ucwords(str_replace('_', ' ', $style->title));
 			}
 			
-			$session = JFactory::getSession();
+			$session = Factory::getSession();
 			$t3lock = $session->get('T3.t3lock', 'overview_params');
 			$session->set('T3.t3lock', null);
-			$input = JFactory::getApplication()->input;
+			$input = Factory::getApplication()->input;
 
 			ob_start();
 			include $jtpl;
 			$this->html['admin'] = ob_get_clean();
 			/*
 			//search for global parameters
-			$japp = JFactory::getApplication();
+			$japp = Factory::getApplication();
 			$pglobals = array();
 			foreach($form->getGroup('params') as $param){
 				if($form->getFieldAttribute($param->fieldname, 'global', 0, 'params')){
@@ -339,7 +342,7 @@ class T3Admin {
 
 	function _renderToolbar() {
 		$t3toolbar = T3_ADMIN_PATH . '/admin/tpls/toolbar.php';
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		if(file_exists($t3toolbar) && class_exists('JToolBar')){
 			//get the existing toolbar html
@@ -359,7 +362,7 @@ class T3Admin {
 	function replaceToolbar($body){
 		/*
 		$t3toolbar = T3_ADMIN_PATH . '/admin/tpls/toolbar.php';
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		if(file_exists($t3toolbar) && class_exists('JToolBar')){
 			//get the existing toolbar html
@@ -389,7 +392,7 @@ class T3Admin {
 	}
 
 	function checkAssetsLoaded($pattern, $hash){
-		$doc = JFactory::getDocument();
+		$doc = Factory::getDocument();
 		$hash = $doc->$hash;
 
 		foreach ($hash as $path => $object) {

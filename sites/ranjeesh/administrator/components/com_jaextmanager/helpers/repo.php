@@ -2,6 +2,11 @@
 // no direct access
 defined ( '_JEXEC' ) or die ( 'Restricted access' ); 
 
+use Joomla\CMS\Factory;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+use Joomla\CMS\Component\ComponentHelper;
+
 /**
  * @desc Modify from component Media Manager of Joomla
  *
@@ -50,7 +55,7 @@ class RepoHelper
 	 */
 	function canUpload($file, &$err)
 	{
-		$params = JComponentHelper::getParams(JACOMPONENT);
+		$params = ComponentHelper::getParams(JACOMPONENT);
 		
 		if (empty($file['name'])) {
 			$err = 'Please input a file for upload';
@@ -58,12 +63,12 @@ class RepoHelper
 		}
 		
 		jimport('joomla.filesystem.file');
-		if ($file['name'] !== JFile::makesafe($file['name'])) {
+		if ($file['name'] !== File::makesafe($file['name'])) {
 			$err = 'WARNFILENAME';
 			return false;
 		}
 		
-		$format = strtolower(JFile::getExt($file['name']));
+		$format = strtolower(File::getExt($file['name']));
 		
 		$allowable = explode(',', $params->get('upload_extensions'));
 		$ignored = explode(',', $params->get('ignore_extensions'));
@@ -78,7 +83,7 @@ class RepoHelper
 			return false;
 		}
 		
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 		$imginfo = null;
 		if ($params->get('restrict_uploads', 1)) {
 			$images = explode(',', $params->get('image_extensions'));
@@ -114,7 +119,7 @@ class RepoHelper
 			}
 		}
 		
-		$xss_check = JFile::read($file['tmp_name'], false, 256);
+		$xss_check = File::read($file['tmp_name'], false, 256);
 		$html_tags = array('abbr', 'acronym', 'address', 'applet', 'area', 'audioscope', 'base', 'basefont', 'bdo', 'bgsound', 'big', 'blackface', 'blink', 'blockquote', 'body', 'bq', 'br', 'button', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'comment', 'custom', 'dd', 'del', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'fn', 'font', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'hr', 'html', 'iframe', 'ilayer', 'img', 'input', 'ins', 'isindex', 'keygen', 'kbd', 'label', 'layer', 'legend', 'li', 'limittext', 'link', 'listing', 'map', 'marquee', 'menu', 'meta', 'multicol', 'nobr', 'noembed', 'noframes', 'noscript', 'nosmartquotes', 'object', 'ol', 'optgroup', 'option', 'param', 'plaintext', 'pre', 'rt', 'ruby', 's', 'samp', 'script', 'select', 'server', 'shadow', 'sidebar', 'small', 'spacer', 'span', 'strike', 'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'title', 'tr', 'tt', 'ul', 'var', 'wbr', 'xml', 'xmp', '!DOCTYPE', '!--');
 		foreach ($html_tags as $tag) {
 			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
@@ -165,14 +170,14 @@ class RepoHelper
 		$total_file = 0;
 		$total_dir = 0;
 		
-		if (JFolder::exists($dir)) {
+		if (is_dir($dir)) {
 			$d = dir($dir);
 			
 			while (false !== ($entry = $d->read())) {
-				if (substr($entry, 0, 1) != '.' && JFile::exists($dir . DIRECTORY_SEPARATOR . $entry) && strpos($entry, '.html') === false && strpos($entry, '.php') === false) {
+				if (substr($entry, 0, 1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry) && strpos($entry, '.html') === false && strpos($entry, '.php') === false) {
 					$total_file++;
 				}
-				if (substr($entry, 0, 1) != '.' && JFolder::exists($dir . DIRECTORY_SEPARATOR . $entry)) {
+				if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry)) {
 					$total_dir++;
 				}
 			}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -8,25 +9,29 @@
  */
 
 defined('_JEXEC') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-if(!class_exists('ContentHelperRoute')){
-  if(version_compare(JVERSION, '4', 'ge')){
-    abstract class ContentHelperRoute extends \Joomla\Component\content\Site\Helper\RouteHelper{};
-  }else{
+
+if (!class_exists('ContentHelperRoute')) {
+  if (version_compare(JVERSION, '4', 'ge')) {
+    abstract class ContentHelperRoute extends \Joomla\Component\Content\Site\Helper\RouteHelper
+    {
+    };
+  } else {
     JLoader::register('ContentHelperRoute', $com_path . '/helpers/route.php');
   }
 }
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
-if(version_compare(JVERSION, '4','lt')){
-  JHtml::_('behavior.caption'); 
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
+if (version_compare(JVERSION, '4', 'lt')) {
+  HTMLHelper::_('behavior.caption');
 }
-JHtml::_('behavior.core');
+HTMLHelper::_('behavior.core');
 
-JFactory::getDocument()->addScriptDeclaration("
+Factory::getDocument()->addScriptDeclaration("
 jQuery(function($) {
   $('.categories-list').find('[id^=category-btn-]').each(function(index, btn) {
     var btn = $(btn);
@@ -39,7 +44,7 @@ jQuery(function($) {
 ?>
 <div class="categories-list<?php echo $this->pageclass_sfx; ?>">
   <?php
-    echo JLayoutHelper::render('joomla.content.categories_default', $this);
-    echo $this->loadTemplate('items');
+  echo LayoutHelper::render('joomla.content.categories_default', $this);
+  echo $this->loadTemplate('items');
   ?>
 </div>

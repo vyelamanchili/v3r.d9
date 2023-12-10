@@ -19,6 +19,7 @@ if (is_file(T3_TEMPLATE_PATH.'/html/megamenu.php')) {
 	require_once T3_TEMPLATE_PATH.'/html/megamenu.php';
 }
 
+#[AllowDynamicProperties]
 class T3MenuMegamenu {
 
 	/**

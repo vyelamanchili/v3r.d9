@@ -34,13 +34,13 @@ defined('_JEXEC') or die('Restricted access');
  */
 function modChrome_T3Xhtml($module, &$params, &$attribs)
 { 
-	$badge          = preg_match ('/badge/', $params->get('moduleclass_sfx'))? '<span class="badge">&nbsp;</span>' : '';
+	$badge          = preg_match ('/badge/', $params->get('moduleclass_sfx',''))? '<span class="badge">&nbsp;</span>' : '';
 	$moduleTag      = htmlspecialchars($params->get('module_tag', 'div'));
 	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'));
 	$headerClass    = $params->get('header_class');
 	$bootstrapSize  = $params->get('bootstrap_size');
 	$moduleClass    = !empty($bootstrapSize) ? ' col-sm-' . (int) $bootstrapSize . '' : '';
-	$moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx'));
+	$moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx',''));
 
 	if (!empty ($module->content)) {
 		$html = "<{$moduleTag} class=\"t3-module module{$moduleClassSfx} {$moduleClass}\" id=\"Mod{$module->id}\">" .
@@ -59,13 +59,13 @@ function modChrome_T3Xhtml($module, &$params, &$attribs)
 
 function modChrome_FeatureRow($module, &$params, &$attribs)
 { 
-	$badge          = preg_match ('/badge/', $params->get('moduleclass_sfx'))? '<span class="badge">&nbsp;</span>' : '';
+	$badge          = preg_match ('/badge/', $params->get('moduleclass_sfx',''))? '<span class="badge">&nbsp;</span>' : '';
 	$moduleTag      = htmlspecialchars($params->get('module_tag', 'div'));
 	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'));
 	$headerClass    = $params->get('header_class');
 	$bootstrapSize  = $params->get('bootstrap_size');
 	$moduleClass    = !empty($bootstrapSize) ? ' col-sm-' . (int) $bootstrapSize . '' : '';
-	$moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx'));
+	$moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx',''));
 
 	if (!empty ($module->content)) {
 		$html = "<{$moduleTag} class=\"row-feature {$moduleClassSfx} {$moduleClass}\" id=\"Mod{$module->id}\">" .
@@ -195,11 +195,11 @@ function modChrome_t3modal($module, &$params, &$attribs)
 
 function modChrome_popover($module, &$params, &$attribs)
 {
-	$position = preg_match ('/left/', $params->get('moduleclass_sfx'))?"":"";
+	$position = preg_match ('/left/', $params->get('moduleclass_sfx',''))?"":"";
 	$headerLevel = isset($attribs['headerLevel']) ? (int) $attribs['headerLevel'] : 3;
 
 	if (!empty ($module->content)) : ?>
-	<div class="moduletable <?php echo $params->get('moduleclass_sfx'); ?> popovermodule">
+	<div class="moduletable <?php echo $params->get('moduleclass_sfx',''); ?> popovermodule">
 		<a id="popover<?php echo $module->id ?>" href="#" rel="popover" data-placement="right" class="btn">
 			<h<?php echo $headerLevel; ?>><span><?php echo $module->title; ?></span></h<?php echo $headerLevel; ?>>
 		</a>

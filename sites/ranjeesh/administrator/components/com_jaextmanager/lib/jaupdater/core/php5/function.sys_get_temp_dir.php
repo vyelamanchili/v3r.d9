@@ -11,13 +11,17 @@
  */
 // no direct access
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
+
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
  //if ( !function_exists('sys_get_temp_dir') ) {
 function ja_sys_get_temp_dir()
 {
 	// Try to get from environment variable
-	if (defined('JPATH_ROOT') && JFolder::exists(JPATH_ROOT.'/tmp/')) {
+	if (defined('JPATH_ROOT') && is_dir(JPATH_ROOT.'/tmp/')) {
 		return JPATH_ROOT.'/tmp/';
 	} elseif (!empty($_ENV['TMPDIR'])) {
 		return realpath($_ENV['TMPDIR']);
@@ -38,7 +42,7 @@ function ja_sys_get_temp_dir()
 		$temp_file = tempnam(md5(uniqid(rand(), TRUE)), '');
 		if ($temp_file) {
 			$temp_dir = realpath(dirname($temp_file));
-			JFile::delete($temp_file);
+			File::delete($temp_file);
 			return $temp_dir;
 		} else {
 			return null;

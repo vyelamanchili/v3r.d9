@@ -8,12 +8,13 @@
  */
 
 defined('_JEXEC') or die ;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 jimport('joomla.application.component.controller');
 
 if (version_compare(JVERSION, '3.0', 'ge'))
 {
-    class JAEMController extends JControllerLegacy
+    class JAEMController extends BaseController
     {
         public function display($cachable = false, $urlparams = array())
         {

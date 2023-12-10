@@ -8,12 +8,15 @@
  */
 
 defined('JPATH_BASE') or die;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Create a shortcut for params.
 $params = $displayData->params;
 $canEdit = $displayData->params->get('access-edit');
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 ?>
 
 	<?php if ($params->get('show_title') || $displayData->state == 0 || ($params->get('show_author') && !empty($displayData->author ))) : ?>
@@ -23,7 +26,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 				<h2 itemprop="name">
 					<?php if ($params->get('link_titles') &&
 						($params->get('access-view') || $params->get('show_noauth', '0') == '1')): ?>
-						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>" itemprop="url">
+						<a href="<?php echo Route::_(ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>" itemprop="url">
 						<?php echo $this->escape($displayData->title); ?></a>
 					<?php else : ?>
 						<?php echo $this->escape($displayData->title); ?>
@@ -34,11 +37,11 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 			<?php if ($displayData->state == 0) : ?>
 				<span class="label label-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 			<?php endif; ?>
-			<?php if (strtotime($displayData->publish_up) > strtotime(JFactory::getDate())) : ?>
+			<?php if (strtotime($displayData->publish_up) > strtotime(Factory::getDate())) : ?>
 				<span class="label label-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 			<?php endif; ?>
 
-			<?php if ((strtotime($displayData->publish_down) < strtotime(JFactory::getDate())) && !in_array($displayData->publish_down, array('',JFactory::getDbo()->getNullDate()))) : ?>
+			<?php if ((strtotime($displayData->publish_down) < strtotime(Factory::getDate())) && !in_array($displayData->publish_down, array('',Factory::getDbo()->getNullDate()))) : ?>
 				<span class="label label-warning"><?php echo Text::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 		</div>

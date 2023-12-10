@@ -12,6 +12,9 @@
  *------------------------------------------------------------------------------
  */
 
+use Joomla\CMS\Factory;
+use Joomla\Registry\Registry;
+
 // No direct access
 defined('_JEXEC') or die();
 /**
@@ -20,19 +23,19 @@ defined('_JEXEC') or die();
  *
  * @package T3
  */
-class T3Bot extends JObject
+class T3Bot extends Registry
 {
 	// call before checking & loading T3
 	public static function preload () {
 		// NO NEED TO reupdate megamenu configuration
 		return;
 		// check if menu is alter, then turn a flag to reupdate megamenu configuration
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		if ($input->get('option') == 'com_menus' && 
 			preg_match('#save|apply|trash|remove|delete|publish|order#i', $input->get('task'))) {
 			
 			// get all template styles
-			$db = JFactory::getDBO();
+			$db = Factory::getDBO();
 			$query = $db->getQuery(true);
 			$query
 				->select('*')
@@ -62,7 +65,7 @@ class T3Bot extends JObject
 				$db->execute();
 			}
 			// force reload cache template
-			$cache = JFactory::getCache('com_templates', '');
+			$cache = Factory::getCache('com_templates', '');
 			$cache->clean();
 		}
 	}
@@ -74,7 +77,7 @@ class T3Bot extends JObject
 	// call after call T3::init
 	public static function afterInit () {
 		
-		$app       = JFactory::getApplication();
+		$app       = Factory::getApplication();
 		$input     = $app->input;
 		$tplparams = $app->getTemplate(true)->params;
 		
@@ -251,7 +254,7 @@ class T3Bot extends JObject
 				T3::setTemplate(T3_TEMPLATE, $params);
 
 				//get all other styles that have the same template
-				$db = JFactory::getDBO();
+				$db = Factory::getDBO();
 				$query = $db->getQuery(true);
 				$query
 					->select('*')
@@ -279,7 +282,7 @@ class T3Bot extends JObject
 					$db->execute();
 				}
 				// force reload cache template
-				$cache = JFactory::getCache('com_templates', '');
+				$cache = Factory::getCache('com_templates', '');
 				$cache->clean();
 			}
 		}
@@ -309,7 +312,7 @@ class T3Bot extends JObject
 			
 			//load languages
 			if(!defined('T3_TEMPLATE')){
-				JFactory::getLanguage()->load(T3_PLUGIN, JPATH_ADMINISTRATOR);
+				Factory::getLanguage()->load(T3_PLUGIN, JPATH_ADMINISTRATOR);
 			}
 
 			$_xml =
@@ -363,7 +366,7 @@ class T3Bot extends JObject
 					
 					//load languages
 					if(!defined('T3_TEMPLATE')){
-						JFactory::getLanguage()->load(T3_PLUGIN, JPATH_ADMINISTRATOR);
+						Factory::getLanguage()->load(T3_PLUGIN, JPATH_ADMINISTRATOR);
 					}
 
 					$_xml =
@@ -389,7 +392,7 @@ class T3Bot extends JObject
 
 				} else {
 					
-					$app   = JFactory::getApplication();
+					$app   = Factory::getApplication();
 					$input = $app->input;
 					$fdata = empty($data) ? $input->post->get('jform', array(), 'array') : (is_object($data) ? $data->getProperties() : $data);
 					if (isset($data->attribs) && is_string($data->attribs))

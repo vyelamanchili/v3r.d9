@@ -1190,24 +1190,16 @@ class T3Template extends ObjectExtendable
 								}
 
 								if ($url) {
+									$attributes = [];
+
+									foreach ($file->attributes() as $key => $value) {
+										$attributes[$key] = (string) $value;
+									}
+
 									if ($node == 'stylesheets') {
-										if(version_compare(JVERSION, '3.7', 'lt')) {
-											$type = $file['type'] ? (string) $file['type'] : 'text/css';
-											$media = $file['media'] ? (string) $file['media'] : null;
-											$this->addStylesheet($url, $type, $media);
-										} else {
-											//$this->addStylesheet($url, array(), current($file->attributes()));
-											$this->addStylesheet($url, array(), current((array) $file->attributes()));
-										}
+										$this->addStylesheet($url, array(), $attributes);
 									} else {
-										if(version_compare(JVERSION, '3.7', 'lt')) {
-											$type = $file['type'] ? (string) $file['type'] : 'text/javascript';
-											$defer = $file['defer'] ? (bool) $file['defer'] : false;
-											$async = $file['async'] ? (bool) $file['async'] : false;
-											$this->addScript($url, $type, $defer, $async);
-										} else {
-											$this->addScript($url, array(), current((array) $file->attributes()));
-										}
+										$this->addScript($url, array(), $attributes);
 									}
 								}
 							}

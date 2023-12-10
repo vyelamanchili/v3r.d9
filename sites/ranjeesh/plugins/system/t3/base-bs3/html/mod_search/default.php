@@ -8,15 +8,20 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
+
 // Including fallback code for the placeholder attribute in the search field.
-JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
+HTMLHelper::_('jquery.framework');
+HTMLHelper::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
 if ($width)
 {
 	$moduleclass_sfx .= ' ' . 'mod_search' . $module->id;
 	$css = 'div.mod_search' . $module->id . ' input[type="search"]{ width:auto; }';
-	JFactory::getDocument()->addStyleDeclaration($css);
+	Factory::getDocument()->addStyleDeclaration($css);
 	$width = ' size="' . $width . '"';
 }
 else
@@ -25,7 +30,7 @@ else
 }
 ?>
 <div class="search<?php echo $moduleclass_sfx; ?>">
-	<form action="<?php echo JRoute::_('index.php');?>" method="post" class="form-inline form-search">
+	<form action="<?php echo Route::_('index.php');?>" method="post" class="form-inline form-search">
 		<?php
 			$output = '<label for="mod-search-searchword' . $module->id . '" class="element-invisible">' . $label . '</label> ';
 			$output .= '<input name="searchword" id="mod-search-searchword" aria-label="search" maxlength="' . $maxlength . '"  class="form-control search-query" type="search"' . $width . ' placeholder="' . $text . '" />';

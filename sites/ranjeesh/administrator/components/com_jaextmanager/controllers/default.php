@@ -12,6 +12,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\File;
+
+#[AllowDynamicProperties]
 class JaextmanagerControllerDefault extends JaextmanagerController
 {
 
@@ -86,13 +91,13 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 		
 		$errors = "";
 		if ($params->get('MYSQL_PATH') == '') {
-			$errors .= JText::_("MYSQL_PATH_IS_NOT_CONFIGED") . "<br />";
+			$errors .= Text::_("MYSQL_PATH_IS_NOT_CONFIGED") . "<br />";
 		}
 		if ($params->get('MYSQLDUMP_PATH') == '') {
-			$errors .= JText::_("MYSQL_DUMP_PATH_IS_NOT_CONFIGED") . "<br />";
+			$errors .= Text::_("MYSQL_DUMP_PATH_IS_NOT_CONFIGED") . "<br />";
 		}
 		if ($params->get('DATA_FOLDER', '') == '') {
-			$errors .= JText::_("LOCAL_REPOSITORY_PATH_IS_NOT_CONFIGED") . "<br />";
+			$errors .= Text::_("LOCAL_REPOSITORY_PATH_IS_NOT_CONFIGED") . "<br />";
 		}
 		return $errors;
 	}
@@ -105,13 +110,13 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 	function upgrade()
 	{
 		if (strtoupper($_SERVER['REQUEST_METHOD']) != 'POST') {
-			//$this->setRedirect($this->getLink(), JText::_("INVALID_REQUEST"));
-			die(JText::_("INVALID_REQUEST"));
+			//$this->setRedirect($this->getLink(), Text::_("INVALID_REQUEST"));
+			die(Text::_("INVALID_REQUEST"));
 		}
 		
 		$errors = $this->checkSettings();
 		if (!empty($errors)) {
-			$errors = JText::_("ERRORS_OCCURED_DURING_UPGRADING_PLEASE_FIX_THEM_FIST") . "<br />" . $errors;
+			$errors = Text::_("ERRORS_OCCURED_DURING_UPGRADING_PLEASE_FIX_THEM_FIST") . "<br />" . $errors;
 			die($errors);
 		}
 		
@@ -119,9 +124,9 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 		$model = $this->getModel('default');
 		$version = $model->doUpgrade();
 		if ($version === false) {
-			$message = JText::_("UPGRADE_FAILURED");
+			$message = Text::_("UPGRADE_FAILURED");
 		} else {
-			$message = JText::sprintf("SUCCESSFULLY_UPGRADED_TO_VERSION_S_PLEASE_REFRESH_THIS_PAGE_TO_SEE_THE_VERSION_UPDATE", $version);
+			$message = Text::sprintf("SUCCESSFULLY_UPGRADED_TO_VERSION_S_PLEASE_REFRESH_THIS_PAGE_TO_SEE_THE_VERSION_UPDATE", $version);
 		}
 		die($message);
 		// $this->setRedirect($this->getLink(), $message);
@@ -146,13 +151,13 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 	function doRecovery()
 	{
 		if (strtoupper($_SERVER['REQUEST_METHOD']) != 'POST') {
-			//$this->setRedirect($this->getLink(), JText::_("INVALID_REQUEST"));
-			die(JText::_("INVALID_REQUEST"));
+			//$this->setRedirect($this->getLink(), Text::_("INVALID_REQUEST"));
+			die(Text::_("INVALID_REQUEST"));
 		}
 		
 		$errors = $this->checkSettings();
 		if (!empty($errors)) {
-			$errors = JText::_("ERRORS_OCCURED_DURING_ROLLING_BACK_PLEASE_FIX_THEM_FIST") . "<br />" . $errors;
+			$errors = Text::_("ERRORS_OCCURED_DURING_ROLLING_BACK_PLEASE_FIX_THEM_FIST") . "<br />" . $errors;
 			die($errors);
 		}
 		
@@ -245,24 +250,24 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 			$otherSideUpper = ucfirst($otherSide);
 			$otherSideEditabled = JRequest::getInt("editabled" . $otherSideUpper, 0);
 			$fileOther = $_POST['file' . $otherSideUpper];
-			if (!$otherSideEditabled && $sameContent && JFile::exists($fileOther)) {
+			if (!$otherSideEditabled && $sameContent && is_file($fileOther)) {
 				//if compared side is not editabled
 				//and two sides is the same content
 				//therefore, content of this side is the same with original content of compared side
 				$copyBinary = true;
 			}
 			
-			if (JFile::exists($file)) {
+			if (is_file($file)) {
 				if ($copyBinary) {
-					JFile::copy($fileOther, $file);
+					File::copy($fileOther, $file);
 				} elseif (isset($_POST['src' . $sideUpper])) {
 					$src = html_entity_decode($_POST['src' . $sideUpper]);
-					JFile::write($file, $src);
+					File::write($file, $src);
 				}
 				
-				$message = JText::sprintf("SUCCESS_WROTE_TO_FILE_S", $file);
+				$message = Text::sprintf("SUCCESS_WROTE_TO_FILE_S", $file);
 			} else {
-				$message = JText::_("CONTENT_IS_NOT_WROTE_BECAUSE_MISSING_SOME_INFORMATION");
+				$message = Text::_("CONTENT_IS_NOT_WROTE_BECAUSE_MISSING_SOME_INFORMATION");
 			}
 		}
 		$this->setRedirect($backUrl, $message);
@@ -289,8 +294,8 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 	 */
 	function changelogs()
 	{
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
+		$app = Factory::getApplication();
+		$user = Factory::getUser();
 		if($user->guest){
 			$app->redirect('index','login first!');
 		}
@@ -313,7 +318,7 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 		$data = JRequest::getVar('params', array());
 		$param = $model->storeComponentParams($data);
 		
-		$msg = JText::_('YOUR_SETTING_IS_SUCCESSFULLY_SAVED');
+		$msg = Text::_('YOUR_SETTING_IS_SUCCESSFULLY_SAVED');
 		$this->setRedirect("index.php?option=com_jaextmanager&view=default&layout=" . JRequest::getVar("layout"), $msg);
 	}
 
@@ -325,7 +330,7 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 		$data = JRequest::getVar('params', array());
 		$param = $model->storeComponentParams($data);
 		//
-		$msg = JText::_('YOUR_SETTING_IS_SUCCESSFULLY_SAVED');
+		$msg = Text::_('YOUR_SETTING_IS_SUCCESSFULLY_SAVED');
 		$this->setRedirect("index.php?option=com_jaextmanager&view=default&layout=" . JRequest::getVar("layout"), $msg);
 	}
 
@@ -350,7 +355,7 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 			$number = 0;
 			
 			if (!$reload) {
-				$objects[] = $helper->parseProperty("html", "#system-message-container", $helper->message(0, JText::_('YOUR_SETTING_IS_SUCCESSFULLY_SAVED', true)));
+				$objects[] = $helper->parseProperty("html", "#system-message-container", $helper->message(0, Text::_('YOUR_SETTING_IS_SUCCESSFULLY_SAVED', true)));
 				$serviceName = JRequest::getVar("service-name-" . $data[$pro->extId]);
 				$objects[] = $helper->parseProperty("html", "#config" . $pro->extId, $serviceName, $number);
 			}
@@ -358,7 +363,7 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 			$objects[] = $helper->parseProperty("reload", "#reload", $reload);
 		
 		} else {
-			$objects[] = $helper->parseProperty("html", "#system-message-container", $helper->message(1, JText::_('YOUR_SETTING_IS_UNSUCCESSFULLY_SAVED', true)));
+			$objects[] = $helper->parseProperty("html", "#system-message-container", $helper->message(1, Text::_('YOUR_SETTING_IS_UNSUCCESSFULLY_SAVED', true)));
 		}
 		//var_dump($objects);
 		$data = '{"data":[';
@@ -390,9 +395,9 @@ class JaextmanagerControllerDefault extends JaextmanagerController
 			}
 			$result = $model->storeExtensionSettings($data);
 			if ($result !== false) {
-				$msg = JText::_('YOUR_SETTING_IS_SUCCESSFULLY_SAVED');
+				$msg = Text::_('YOUR_SETTING_IS_SUCCESSFULLY_SAVED');
 			} else {
-				$msg = JText::_('YOUR_SETTING_IS_UNSUCCESSFULLY_SAVED');
+				$msg = Text::_('YOUR_SETTING_IS_UNSUCCESSFULLY_SAVED');
 			}
 		}
 		$this->setRedirect("index.php?option=com_jaextmanager&view=default&extionsion_type=" . JRequest::getVar("extionsion_type") . "&search=" . JRequest::getVar("search"), $msg);

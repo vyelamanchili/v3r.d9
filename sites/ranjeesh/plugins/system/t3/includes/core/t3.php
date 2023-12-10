@@ -12,6 +12,11 @@
  *------------------------------------------------------------------------------
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Filesystem\Path;
+use Joomla\Registry\Registry;
+
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
@@ -58,7 +63,7 @@ class T3 {
 		// register T3Html class
 		JLoader::registerPrefix('T3Html', T3_ADMIN_PATH . '/includes/joomla4/html');
 
-		$serviceRegistry = JFactory::getContainer()->get(\Joomla\CMS\HTML\Registry::class);
+		$serviceRegistry = Factory::getContainer()->get(\Joomla\CMS\HTML\Registry::class);
 		$serviceRegistry->register('behavior', T3HtmlBehavior::class, true);
 		$serviceRegistry->register('bootstrap', T3HtmlBootstrap::class, true);
 	}
@@ -69,7 +74,7 @@ class T3 {
 	 */
 	public static function getApp($tpl = null){
 		if(empty(self::$t3app)){
-			$japp = JFactory::getApplication();
+			$japp = Factory::getApplication();
 			self::$t3app = T3::isAdmin() ? self::getAdmin() : self::getSite($tpl);
 		}
 
@@ -80,7 +85,7 @@ class T3 {
 	 * initialize T3
 	 */
 	public static function init ($xml) {
-		$app       = JFactory::getApplication();
+		$app       = Factory::getApplication();
 		$input     = $app->input;
 		// echo '<pre>';var_dump($xml->t3->base);echo '</pre>';
 //		if ($xml->t3->base === null){echo '<pre>';var_dump($xml->t3->base);echo '</pre>';die('');}
@@ -115,7 +120,7 @@ class T3 {
 		}
 
 		define ('T3_TEMPLATE', (String)$xml->tplname);
-		define ('T3_TEMPLATE_URL', JURI::root(true).'/templates/'.T3_TEMPLATE);
+		define ('T3_TEMPLATE_URL', Uri::root(true).'/templates/'.T3_TEMPLATE);
 		define ('T3_TEMPLATE_PATH', str_replace ('\\', '/', JPATH_ROOT) . '/templates/' . T3_TEMPLATE);
 		define ('T3_TEMPLATE_REL', 'templates/' . T3_TEMPLATE);
 
@@ -141,7 +146,7 @@ class T3 {
 		}
 
 		if($input->getCmd('t3lock', '')){
-			JFactory::getSession()->set('T3.t3lock', $input->getCmd('t3lock', ''));
+			Factory::getSession()->set('T3.t3lock', $input->getCmd('t3lock', ''));
 			$input->set('t3lock', null);
 		}
 
@@ -204,7 +209,7 @@ class T3 {
 		        T3::register('JHtmlJquery', T3_ADMIN_PATH . '/includes/joomla25/html/jquery.php');
 
 		        // load j25 compat language
-		        JFactory::getLanguage()->load('plg_system_t3.j25.compat', JPATH_ADMINISTRATOR);
+		        Factory::getLanguage()->load('plg_system_t3.j25.compat', JPATH_ADMINISTRATOR);
 			}
 
 			// import renderer
@@ -225,7 +230,7 @@ class T3 {
 
 	public static function checkAction () {
 		// excute action by T3
-		if ($action = JFactory::getApplication()->input->getCmd ('t3action')) {
+		if ($action = Factory::getApplication()->input->getCmd ('t3action')) {
 			T3::import ('core/action');
 			T3Action::run ($action);
 		}
@@ -236,7 +241,7 @@ class T3 {
 	 */
 	public static function checkAjax () {
 		// excute action by T3
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		if ($input->getCmd ('t3ajax')) {
 			T3::import('core/ajax');
@@ -244,7 +249,7 @@ class T3 {
 
 			//T3Ajax::processAjaxRule();
 
-			JFactory::getApplication()->getTemplate(true)->params->set('mainlayout', 'ajax.' . $input->getCmd('f', 'html'));
+			Factory::getApplication()->getTemplate(true)->params->set('mainlayout', 'ajax.' . $input->getCmd('f', 'html'));
 		}
 	}
 
@@ -268,7 +273,7 @@ class T3 {
 			return false;
 		}
 
-		$type = 'Template'. JFactory::getApplication()->input->getCmd ('t3tp', '');
+		$type = 'Template'. Factory::getApplication()->input->getCmd ('t3tp', '');
 		T3::import ('core/' . $type);
 
 		// create global t3 template object
@@ -301,7 +306,7 @@ class T3 {
 
 		if (!isset($t3)) {
 			$t3 = false; // set false
-			$app = JFactory::getApplication();
+			$app = Factory::getApplication();
 			$input = $app->input;
 
 			// get template name
@@ -313,7 +318,7 @@ class T3 {
 
 			} elseif (T3::isAdmin()) {
 				// if not login, do nothing
-				$user = JFactory::getUser();
+				$user = Factory::getUser();
 				if (!$user->id){
 					return false;
 				}
@@ -323,7 +328,7 @@ class T3 {
 						$input->getCmd('view') == 'style' ||
 						$input->getCmd('view') == 'template')){
 
-					$db    = JFactory::getDBO();
+					$db    = Factory::getDBO();
 					$query = $db->getQuery(true);
 					$id    = $input->getInt('id');
 
@@ -350,7 +355,7 @@ class T3 {
 
 			if ($tplname) {
 					// parse xml
-				$filePath = JPath::clean(JPATH_ROOT.'/templates/'.$tplname.'/templateDetails.xml');
+				$filePath = Path::clean(JPATH_ROOT.'/templates/'.$tplname.'/templateDetails.xml');
 				if (is_file ($filePath)) {
 					$xml = $xml = simplexml_load_file($filePath);
 					// check t3 or group=t3 (compatible with previous definition)
@@ -372,7 +377,7 @@ class T3 {
 
 		if (!isset($template)) {
 
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true);
 			$query
 				->select('id, home, template, s.params')
@@ -404,12 +409,12 @@ class T3 {
 	{
 		if(!isset(self::$tmpl) || !self::$tmpl){
 
-			$app   = JFactory::getApplication();
+			$app   = Factory::getApplication();
 			$input = $app->input;
 			$id    = $input->getInt('styleid', $input->getInt('id'));
 
 			if($id){
-				$db    = JFactory::getDbo();
+				$db    = Factory::getDbo();
 				$query = $db->getQuery(true);
 				$query
 					->select('template, params')
@@ -426,7 +431,7 @@ class T3 {
 				$template = $db->loadObject();
 
 				if ($template) {
-					$registry = new JRegistry;
+					$registry = new Registry();
 					$registry->loadString($template->params);
 					$template->params = $registry;
 				}
@@ -460,24 +465,24 @@ class T3 {
 
 	/**
 	 * get template parameters
-	 * @return JRegistry
+	 * @return Registry()
 	 */
 	public static function getTplParams()
 	{
 		$tmpl = self::getTemplate();
-		return $tmpl ? $tmpl->params : new JRegistry; //empty registry ? or throw error
+		return $tmpl ? $tmpl->params : new Registry(); //empty registry ? or throw error
 	}
 
 	/**
 	 * check if current page is homepage
 	 */
 	public static function isHome(){
-		$active = JFactory::getApplication()->getMenu()->getActive();
+		$active = Factory::getApplication()->getMenu()->getActive();
 		return (!$active || $active->home);
 	}
 
 	public static function isAdmin() {
-		return JFactory::getApplication()->isClient('administrator');
+		return Factory::getApplication()->isClient('administrator');
 	}
 	/**
 	 * fix ja back link

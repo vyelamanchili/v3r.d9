@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_sampledata
@@ -7,14 +8,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-// Include dependencies.
-JLoader::register('ModSampledataHelper', __DIR__ . '/helper.php');
-
-$items = ModSampledataHelper::getList();
+$items = \Joomla\Module\Sampledata\Administrator\Helper\SampledataHelper::getList();
 
 // Filter out empty entries
 $items = array_filter($items);
 
-require JModuleHelper::getLayoutPath('mod_sampledata', $params->get('layout', 'default'));
+require \Joomla\CMS\Helper\ModuleHelper::getLayoutPath('mod_sampledata', $params->get('layout', 'default'));

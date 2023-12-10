@@ -9,11 +9,12 @@
 
 defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 
 <?php if ($this->params->get('presentation_style') === 'tabs') : ?>
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-links', Text::_('COM_CONTACT_LINKS')); ?>
+	<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-links', Text::_('COM_CONTACT_LINKS')); ?>
 <?php endif; ?>
 <?php if ($this->params->get('presentation_style') === 'plain') : ?>
 	<?php echo '<h3>' . Text::_('COM_CONTACT_LINKS') . '</h3>'; ?>
@@ -47,5 +48,5 @@ use Joomla\CMS\Language\Text;
 </div>
 
 <?php if ($this->params->get('presentation_style') === 'tabs') : ?>
-	<?php echo JHtml::_('bootstrap.endTab'); ?>
+	<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 <?php endif; ?>

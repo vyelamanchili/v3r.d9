@@ -11,6 +11,8 @@
  */
 
 use Joomla\Archive\Archive;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 
 // no direct access
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
@@ -44,17 +46,17 @@ class ArchiveHelper
 			$paths = $path;
 		}
 		foreach ($paths as $path) {
-			if (JFile::exists($path)) {
+			if (is_file($path)) {
 				$oZip->addDirectory($outputDir);
 				$fileContents = file_get_contents($path);
 				$oZip->addFile($fileContents, basename($path));
-			} elseif (JFolder::exists($path)) {
+			} elseif (is_dir($path)) {
 				$outputDir = str_replace(array(dirname($path), DS, '/'), '', $path).'/';
 				$oZip->zipDirectory($path, $outputDir);
 			}
 		}
 		$getZippedfile = $oZip->getZippedfile();
-		$out = JFile::write($zipFile, $getZippedfile);
+		$out = File::write($zipFile, $getZippedfile);
 		
 		return $out;
 	}

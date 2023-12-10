@@ -11,7 +11,11 @@
  */
 // no direct access
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
- jimport('joomla.filesystem.file');
+
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+
+jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 /**
  * Helper for FileSystem functions
@@ -54,7 +58,7 @@ class FileSystemHelper
 	{
 		$path = $path.'/';
 		$path = FileSystemHelper::clean($path, DS);
-		JFolder::create($path, $mod);
+		Folder::create($path, $mod);
 		return $path;
 	}
 
@@ -73,11 +77,11 @@ class FileSystemHelper
 		$dir = empty($dir) ? ja_sys_get_temp_dir() : $dir;
 		$tmpName = jaTempnam($dir, $prefix);
 		
-		if (JFile::exists($tmpName)) {
-			JFile::delete($tmpName);
+		if (is_file($tmpName)) {
+			File::delete($tmpName);
 		}
-		if (!JFolder::exists($tmpName)) {
-			JFolder::create($tmpName, $mod);
+		if (!is_dir($tmpName)) {
+			Folder::create($tmpName, $mod);
 		}
 		return FileSystemHelper::clean($tmpName.'/');
 	}
@@ -96,19 +100,19 @@ class FileSystemHelper
 	{
 		$retVal = true;
 		$path = FileSystemHelper::clean($path);
-		if (JFolder::exists($path)) {
+		if (is_dir($path)) {
 			$dh = opendir($path);
 			while (($entry = readdir($dh)) !== false) {
 				if ($entry == "." || $entry == "..") {
 					continue;
 				}
 				$entry = FileSystemHelper::clean($path.'/'.$entry);
-				if (JFolder::exists($entry) && $recursive === true) {
+				if (is_dir($entry) && $recursive === true) {
 					if (FileSystemHelper::rm($entry, $recursive) === false) {
 						$retVal = false;
 					}
-				} else if (JFile::exists($entry)) {
-					if (JFile::delete($entry) === false) {
+				} else if (is_file($entry)) {
+					if (File::delete($entry) === false) {
 						$retVal = false;
 					}
 				}
@@ -117,8 +121,8 @@ class FileSystemHelper
 			if (@rmdir($path) === false) {
 				$retVal = false;
 			}
-		} else if (JFile::exists($path)) {
-			if (JFile::delete($path) === false) {
+		} else if (is_file($path)) {
+			if (File::delete($path) === false) {
 				$retVal = false;
 			}
 		}
@@ -140,13 +144,13 @@ class FileSystemHelper
 	function cp($src, $dst, $recursive = false, $mod = 0700, $exclude = array('.svn', 'CVS'))
 	{
 		$retVal = true;
-		if (JFolder::exists($src)) {
-			$retVal = JFolder::copy($src, $dst, '', true);
-		} elseif (JFile::exists($src)) {
-			/*if(JFolder::exists($dst)) {
+		if (is_dir($src)) {
+			$retVal = Folder::copy($src, $dst, '', true);
+		} elseif (is_file($src)) {
+			/*if(is_dir($dst)) {
 			 $dst = FileSystemHelper::clean($dst.'/') . basename($src);
 			 }*/
-			$retVal = JFile::copy($src, $dst);
+			$retVal = File::copy($src, $dst);
 		}
 		return $retVal;
 	}
@@ -167,7 +171,7 @@ class FileSystemHelper
 		if (FileSystemHelper::cp($src, $dest, $recursive, $mod) === false) {
 			return false;
 		}
-		if (JFolder::exists($src) && preg_match("/\/$/", $src) > 0) {
+		if (is_dir($src) && preg_match("/\/$/", $src) > 0) {
 			$rv = true;
 			$dh = opendir($src);
 			while (($entry = readdir($dh)) !== false) {
@@ -201,7 +205,7 @@ class FileSystemHelper
 		$path = FileSystemHelper::clean($path);
 		
 		// Is the path a folder?
-		if (!JFolder::exists($path)) {
+		if (!is_dir($path)) {
 			return false;
 		}
 		
@@ -210,7 +214,7 @@ class FileSystemHelper
 		while (($file = readdir($handle)) !== false) {
 			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude))) {
 				$dir = $path.'/'.$file;
-				$isDir = JFolder::exists($dir);
+				$isDir = is_dir($dir);
 				if ($isDir) {
 					if ($recurse) {
 						if (is_integer($recurse)) {

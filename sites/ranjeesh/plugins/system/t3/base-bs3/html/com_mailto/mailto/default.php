@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
 
-JHtml::_('behavior.core');
-JHtml::_('behavior.keepalive');
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('behavior.keepalive');
 
 ?>
 <div id="mailto-window">
@@ -23,7 +25,7 @@ JHtml::_('behavior.keepalive');
 		</a>
 	</h2>
 
-	<form id="mailtoForm" action="<?php echo JRoute::_('index.php?option=com_mailto&task=send'); ?>" method="post" class="form-validate form-horizontal">
+	<form id="mailtoForm" action="<?php echo Route::_('index.php?option=com_mailto&task=send'); ?>" method="post" class="form-validate form-horizontal">
 		<fieldset>
 			<?php foreach ($this->form->getFieldset('') as $field) : ?>
 				<?php if (!$field->hidden) : ?>
@@ -46,6 +48,6 @@ JHtml::_('behavior.keepalive');
 		<input type="hidden" name="task" value="send" />
 		<input type="hidden" name="tmpl" value="component" />
 		<input type="hidden" name="link" value="<?php echo $this->link; ?>" />
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 </div>

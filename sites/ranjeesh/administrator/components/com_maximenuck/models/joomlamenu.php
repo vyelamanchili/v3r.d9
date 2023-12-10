@@ -22,7 +22,7 @@ class MaximenuckModelJoomlamenu extends CKModel {
 	 *
 	 * @since   1.6
 	 */
-	public function publish(&$pks, $value = 1)
+	public function publishItem(&$pks, $value = 1)
 	{
 		$pks		= (array) $pks;
 
@@ -245,7 +245,15 @@ class MaximenuckModelJoomlamenu extends CKModel {
 			$row->params = new JRegistry($row->params);
 			
 			if ($param == 'maximenu_liclass') {
-				$value = $this->setLiclass($row->params->get('maximenu_liclass'));
+				$value = $this->setLiclass($row->params->get('maximenu_liclass'), 'fullwidth');
+			} else if ($param == 'maximenu_tab' && $value['maximenucktab'] === '1') {
+				$row->params->set('maximenu_tabwidth', $value['maximenu_tabwidth']);
+				$value = $this->addLiclass($row->params->get('maximenu_liclass'), 'maximenucktab');
+				$param = 'maximenu_liclass';
+			} else if ($param == 'maximenu_tab' && ! $value['maximenucktab']) {
+				$row->params->set('maximenu_tabwidth', '');
+				$value = $this->removeLiclass($row->params->get('maximenu_liclass'), 'maximenucktab');
+				$param = 'maximenu_liclass';
 			}
 			
 			// set the new params
@@ -266,12 +274,40 @@ class MaximenuckModelJoomlamenu extends CKModel {
 	 * @access	public
 	 * @return	string the new value
 	 */
-	private function setLiclass($liclass) {
-		if (stristr($liclass, "fullwidth")) {
-			$value = str_replace("fullwidth", "", $liclass);
+	private function setLiclass($liclass, $class) {
+		if (stristr($liclass, $class)) {
+			$value = str_replace($class, "", (string)$liclass);
 		} else {
-			$value = $liclass . " fullwidth";
+			$value = $liclass . " " . $class;
 		}
+
+		$value = trim($value);
+		return $value;
+	}
+
+	/**
+	 * Method to add the css class
+	 *
+	 * @access	public
+	 * @return	string the new value
+	 */
+	private function addLiclass($liclass, $class) {
+		if ($liclass && stristr((string)$liclass, (string)$class)) return $liclass;
+
+		$value = $liclass . " " . $class;
+
+		$value = trim($value);
+		return $value;
+	}
+
+	/**
+	 * Method to rmove the css class
+	 *
+	 * @access	public
+	 * @return	string the new value
+	 */
+	private function removeLiclass($liclass, $class) {
+		$value = str_replace($class, "", (string)$liclass);
 
 		$value = trim($value);
 		return $value;

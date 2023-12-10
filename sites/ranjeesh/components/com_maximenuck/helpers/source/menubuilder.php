@@ -26,6 +26,19 @@ class MaximenuckHelpersourceMenubuilder {
 		return $value;
 	}
 
+	/**
+	 * Method to update the css class
+	 *
+	 * @access	public
+	 * @return	string the new value
+	 */
+	private static function addLiclass($liclass, $class) {
+		$value = $liclass . " " . $class;
+
+		$value = trim($value);
+		return $value;
+	}
+
 	public static function parseItem($item, &$items) {
 		if (is_array($item)) $item = CKFof::convertArrayToObject ($item);
 	
@@ -43,22 +56,25 @@ class MaximenuckHelpersourceMenubuilder {
 		$item->id = $item->customid; // to give a unique ID to each menu item
 		$item->pathTree = isset($item->pathTree) ? $item->pathTree : array($item->id);
 
-		$item->type = str_replace('autoload.', '', $item->type);
+		// type is already used by the menu items so we must useanother one and remove its entry
+		$item->cktype = str_replace('autoload.', '', $item->type);
+		unset($item->type);
+
 		if ($item->fparams->get('thirdparty', '0') === '1') {
 			$itemtypeObj = new stdClass();
 			$itemtypeObj->link = '';
 
 		} else {
-			switch ($item->type) {
+			switch ($item->cktype) {
 				case 'menuitem' :
 					$item->id = $item->fparams->get('id'); // needed to link the id to the original menu item
 					$itemtypeObj = self::getMenuItem($item->fparams->get('id'));
-					if ($itemtypeObj === false) {
+					/*if ($itemtypeObj === false) {
 						$itemtypeObj = new stdClass();
 						$itemtypeObj->link = '';
 //						$item->title = '';
 						$itemtypeObj->content = '';
-					}
+					}*/
 
 					break;
 				case 'module' :
@@ -74,11 +90,25 @@ class MaximenuckHelpersourceMenubuilder {
 					$item->title = '';
 					$itemtypeObj->content = self::getImage($item);
 					break;
+				case 'custom' :
+					$itemtypeObj = new stdClass();
+					$itemtypeObj->link = $item->fparams->get('link', '');
+					$itemtypeObj->title = $item->fparams->get('title', '');
+					$itemtypeObj->content = '';
+					$itemtypeObj->type = 'custom';
+					break;
 				default:
 					$itemtypeObj = new stdClass();
 					$itemtypeObj->link = '';
+					$itemtypeObj->type = $item->cktype;
 					break;
 			}
+		}
+
+		// if the item does not exist, do not list it
+		if ($itemtypeObj === false) {
+			unset($item->submenu);
+			return;
 		}
 
 		foreach ($itemtypeObj as $key => $val) {
@@ -105,6 +135,10 @@ class MaximenuckHelpersourceMenubuilder {
 					$item->fparams->set('maximenu_liclass', self::setLiclassFullwidth($item->fparams->get('maximenu_liclass', ''), '1'));
 				} else {
 					$item->fparams->set('maximenu_liclass', self::setLiclassFullwidth($item->fparams->get('maximenu_liclass', ''), '0'));
+				}
+				if (isset($item->submenu->params->tab) && $item->submenu->params->tab === '1') {
+					$item->fparams->set('maximenu_liclass', self::addLiclass($item->fparams->get('maximenu_liclass', ''), 'maximenucktab'));
+					if (isset($item->submenu->params->tabwidth)) $item->fparams->set('maximenu_tabwidth', $item->submenu->params->tabwidth);
 				}
 			}
 
@@ -240,7 +274,7 @@ class MaximenuckHelpersourceMenubuilder {
 //					|| (isset($item->component) && ($item->component == 'com_maximenuckhikashop' || $item->component == 'com_maximenuck')
 				) {
 
-					$source = $item->type;
+					$source = $item->cktype;
 					$sourceFile = MAXIMENUCK_PLUGINS_PATH . '/' . strtolower($source) . '/helper/helper_' . strtolower($source) . '.php';
 					if (! file_exists($sourceFile)) {
 						echo '<p syle="color:red;">Error : File plugins/maximenuck/' . strtolower($source) . '/helpers/helper_' . strtolower($source) . '.php not found !</p>';
@@ -322,9 +356,16 @@ class MaximenuckHelpersourceMenubuilder {
 				$item->current = false;
 				$item->flink = $item->link;
 				if (! $item->isthirdparty) $item->classe = '';
+
+				if (! isset($item->type)) $item->type = '';
 				switch ($item->type) {
 					case 'separator':
+						$item->classe .= ' headingck';
+						// No further action needed.
+						break;
+
 					case 'heading':
+						$item->fparams->set('menu-anchor_css', $item->fparams->get('menu-anchor_css', '') . ' separator');
 						$item->classe .= ' headingck';
 						// No further action needed.
 						break;
@@ -338,6 +379,8 @@ class MaximenuckHelpersourceMenubuilder {
 						break;
 
 					case 'thirdparty':
+					case 'custom':
+					case 'component':
 						break;
 
 					case 'alias':
@@ -536,6 +579,7 @@ class MaximenuckHelpersourceMenubuilder {
 			}
 //			$cache->store($items, $key);
 //		}
+
 		return $items;
 	}
 
@@ -638,20 +682,20 @@ class MaximenuckHelpersourceMenubuilder {
 
 // @TODO : vraiment utile ce truc ?
 	public static function getThirdparty($item) {
-		if ( !JPluginHelper::isEnabled('maximenuck', $item->type)) {
+		if ( !JPluginHelper::isEnabled('maximenuck', $item->cktype)) {
 			return '';
 		}
 
 		JPluginHelper::importPlugin( 'maximenuck' );
 //		$dispatcher = JEventDispatcher::getInstance();
-		$otheritems = CKFof::triggerEvent( 'onMaximenuckRenderItem' .  ucfirst($item->type) , array($item));
+		$otheritems = CKFof::triggerEvent( 'onMaximenuckRenderItem' .  ucfirst($item->cktype) , array($item));
 
 		ob_start();
 		if (count($otheritems) == 1) {
 			// load only the first instance found, because each plugin type must be unique
 			// add override feature here, look in the template
 			$template = JFactory::getApplication()->getTemplate();
-			$overridefile = JPATH_ROOT . '/templates/' . $template . '/html/maximenuck/' . strtolower($item->type) . '.php';
+			$overridefile = JPATH_ROOT . '/templates/' . $template . '/html/maximenuck/' . strtolower($item->cktype) . '.php';
 			if (file_exists($overridefile)) {
 				$item = $e;
 				include_once $overridefile;
@@ -661,7 +705,7 @@ class MaximenuckHelpersourceMenubuilder {
 			}
 			echo $html;
 		} else {
-			echo '<p style="text-align:center;color:red;font-size:14px;">ERROR - MAXIMENU CK DEBUG : ELEMENT TYPE INSTANCE : ' . $item->type . '. Number of instances found : ' . count($otheritems) . '</p>';
+			echo '<p style="text-align:center;color:red;font-size:14px;">ERROR - MAXIMENU CK DEBUG : ELEMENT TYPE INSTANCE : ' . $item->cktype . '. Number of instances found : ' . count($otheritems) . '</p>';
 		}
 		$element_code = ob_get_clean();
 		return $element_code;
@@ -669,6 +713,7 @@ class MaximenuckHelpersourceMenubuilder {
 
 	public static function getImage($item) {
 		$url = $item->fparams->get('imageurl');
+
 		if (! $url) return '';
 		$width = $item->fparams->get('imagewidth');
 		$height = $item->fparams->get('imageheight');
@@ -677,8 +722,19 @@ class MaximenuckHelpersourceMenubuilder {
 		$width = $width ? ' width="' . $width . '"' : '';
 		$height = $height ? ' height="' . $height . '"' : '';
 		$alt = $alt ? ' alt="' . Helper::decodeCharsAfterJson($alt) . '"' : '';
+		// for anchor
+		$anchor = $item->fparams->get('anchor');
+		if ($anchor) {
+			$rel = $item->fparams->get('rel') ? ' rel="' . Helper::decodeCharsAfterJson($rel) . '"' : '';
+			$linkcssclass = $item->fparams->get('linkcssclass') ? ' class="' . Helper::decodeCharsAfterJson($linkcssclass) . '"' : '';
+			$anchorStart = '<a href="' . $anchor . '" ' . $linkcssclass . $rel . '>';
+			$anchorEnd = '</a>';
+		} else {
+			$anchorStart = '';
+			$anchorEnd = '';
+		}
 
-		$html = '<img src="' . $url . '" ' . $width  . $height . $alt . '/>';
+		$html = $anchorStart . '<img src="' . $url . '" ' . $width  . $height . $alt . '/>' . $anchorEnd;
 		return $html;
 	}
 

@@ -28,7 +28,7 @@ $id     = $input->getInt('id');
 foreach ($list as $item) : ?>
 	<li<?php if ($id == $item->id && in_array($view, array('category', 'categories')) && $option == 'com_content') echo ' class="active"'; ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
 		<h<?php echo $params->get('item_heading') + $levelup; ?>>
-		<a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
+		<a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
 		<?php echo $item->title; ?>
 			<?php if ($params->get('numitems')) : ?>
 				(<?php echo $item->numitems; ?>)
@@ -36,7 +36,7 @@ foreach ($list as $item) : ?>
 		</a>
 		</h<?php echo $params->get('item_heading') + $levelup; ?>>
 		<?php if ($params->get('show_description', 0)) : ?>
-			<?php echo JHtml::_('content.prepare', $item->description, $item->getParams(), 'mod_articles_categories.content'); ?>
+			<?php echo HTMLHelper::_('content.prepare', $item->description, $item->getParams(), 'mod_articles_categories.content'); ?>
 		<?php endif; ?>
 		<?php if ($params->get('show_children', 0) && (($params->get('maxlevel', 0) == 0)
 			|| ($params->get('maxlevel') >= ($item->level - $startLevel)))

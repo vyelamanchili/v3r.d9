@@ -13,6 +13,8 @@
  */
 
 	T3::import('admin/layout');
+
+	use Joomla\CMS\Language\Text;
 ?>
 
 <!-- LAYOUT CONFIGURATION PANEL -->
@@ -20,23 +22,23 @@
 	<div class="t3-admin-inline-nav clearfix">
 		<div class="t3-admin-layout-row-mode clearfix">
 			<ul class="t3-admin-layout-modes nav nav-tabs">
-				<li class="t3-admin-layout-mode-structure active"><a href="" title="<?php echo JText::_('T3_LAYOUT_MODE_STRUCTURE') ?>"><?php echo JText::_('T3_LAYOUT_MODE_STRUCTURE') ?></a></li>
-				<li class="t3-admin-layout-mode-layout"><a href="" title="<?php echo JText::_('T3_LAYOUT_MODE_LAYOUT') ?>"><?php echo JText::_('T3_LAYOUT_MODE_LAYOUT') ?></a></li>
+				<li class="t3-admin-layout-mode-structure active"><a href="" title="<?php echo Text::_('T3_LAYOUT_MODE_STRUCTURE') ?>"><?php echo Text::_('T3_LAYOUT_MODE_STRUCTURE') ?></a></li>
+				<li class="t3-admin-layout-mode-layout"><a href="" title="<?php echo Text::_('T3_LAYOUT_MODE_LAYOUT') ?>"><?php echo Text::_('T3_LAYOUT_MODE_LAYOUT') ?></a></li>
 			</ul>
-			<button class="t3-admin-layout-reset-all btn pull-right"><i class="icon-undo"></i>  <?php echo JText::_('T3_LAYOUT_RESET_ALL') ?></button>
+			<button class="t3-admin-layout-reset-all btn pull-right"><i class="icon-undo"></i>  <?php echo Text::_('T3_LAYOUT_RESET_ALL') ?></button>
 		</div>
 		<div class="t3-admin-layout-row-device clearfix">
 			<div class="t3-admin-layout-devices btn-group hide">
 				<?php $t3devices = json_decode(T3_BASE_DEVICES, true); ?>
 				<?php foreach($t3devices as $device) : ?>
 					<?php if((bool)T3_BASE_RSP_IN_CLASS || $device != T3_BASE_DEFAULT_DEVICE) : ?>
-						<button class="btn t3-admin-dv-<?php echo $device ?>" data-device="<?php echo $device ?>" title="<?php echo JText::_('T3_LAYOUT_DVI_' . strtoupper($device)) ?>"><i class="icon-device"></i>  <?php echo JText::_('T3_LAYOUT_DVI_' . strtoupper($device)) ?></button>
+						<button class="btn t3-admin-dv-<?php echo $device ?>" data-device="<?php echo $device ?>" title="<?php echo Text::_('T3_LAYOUT_DVI_' . strtoupper($device)) ?>"><i class="icon-device"></i>  <?php echo Text::_('T3_LAYOUT_DVI_' . strtoupper($device)) ?></button>
 					<?php endif ?>				
 				<?php endforeach; ?>
 			</div>
-			<button class="btn t3-admin-layout-reset-device pull-right hide"><?php echo JText::_('T3_LAYOUT_RESET_PER_DEVICE') ?></button>
-			<button class="btn t3-admin-layout-reset-position pull-right"><?php echo JText::_('T3_LAYOUT_RESET_POSITION') ?></button>
-			<button class="t3-admin-tog-fullscreen" title="<?php echo JText::_('T3_LAYOUT_TOGG_FULLSCREEN') ?>"><i class="icon-resize-full"></i></button>
+			<button class="btn t3-admin-layout-reset-device pull-right hide"><?php echo Text::_('T3_LAYOUT_RESET_PER_DEVICE') ?></button>
+			<button class="btn t3-admin-layout-reset-position pull-right"><?php echo Text::_('T3_LAYOUT_RESET_POSITION') ?></button>
+			<button class="t3-admin-tog-fullscreen" title="<?php echo Text::_('T3_LAYOUT_TOGG_FULLSCREEN') ?>"><i class="icon-resize-full"></i></button>
 		</div>
 	</div>
 	<div id="t3-admin-layout-container" class="t3-admin-layout-container t3-admin-layout-preview t3-admin-layout-mode-m"></div>
@@ -45,19 +47,19 @@
 <!-- POPOVER POSITIONS -->
 <div id="t3-admin-layout-tpl-positions" class="popover right hide">
 	<div class="arrow"></div>
-	<h3 class="popover-title"><?php echo JText::_('T3_LAYOUT_POPOVER_TITLE') ?></h3>
+	<h3 class="popover-title"><?php echo Text::_('T3_LAYOUT_POPOVER_TITLE') ?></h3>
 	<div class="popover-content">
 		<?php echo T3AdminLayout::getPositions() ?>
-		<button class="t3-admin-layout-rmvbtn btn btn-small"><i class="icon-remove"></i>  <?php echo JText::_('T3_LAYOUT_EMPTY_POSITION') ?></button>
-		<button class="t3-admin-layout-defbtn btn btn-small btn-success"><i class="icon-ok-circle"></i>  <?php echo JText::_('JDEFAULT') ?></button>
+		<button class="t3-admin-layout-rmvbtn btn btn-small"><i class="icon-remove"></i>  <?php echo Text::_('T3_LAYOUT_EMPTY_POSITION') ?></button>
+		<button class="t3-admin-layout-defbtn btn btn-small btn-success"><i class="icon-ok-circle"></i>  <?php echo Text::_('JDEFAULT') ?></button>
 	</div>
 </div>
 
 <!-- CLONE BUTTONS -->
 <div id="t3-admin-layout-clone-btns">
-	<button id="t3-admin-layout-clone-copy" class="btn btn-success"><i class="icon-save"></i>  <?php echo JText::_('T3_LAYOUT_LABEL_SAVE_AS_COPY') ?></button>
-	<button id="t3-admin-layout-clone-delete" class="btn hasTooltip" title="<?php echo JText::_('T3_LAYOUT_DESC_DELETE') ?>"><i class="icon-trash"></i>  <?php echo JText::_('T3_LAYOUT_LABEL_DELETE') ?></button>
-	<button id="t3-admin-layout-clone-purge" class="btn hasTooltip" title="<?php echo JText::_('T3_LAYOUT_DESC_PURGE') ?>"><i class="icon-remove"></i>  <?php echo JText::_('T3_LAYOUT_LABEL_PURGE') ?></button>
+	<button id="t3-admin-layout-clone-copy" class="btn btn-success"><i class="icon-save"></i>  <?php echo Text::_('T3_LAYOUT_LABEL_SAVE_AS_COPY') ?></button>
+	<button id="t3-admin-layout-clone-delete" class="btn hasTooltip" title="<?php echo Text::_('T3_LAYOUT_DESC_DELETE') ?>"><i class="icon-trash"></i>  <?php echo Text::_('T3_LAYOUT_LABEL_DELETE') ?></button>
+	<button id="t3-admin-layout-clone-purge" class="btn hasTooltip" title="<?php echo Text::_('T3_LAYOUT_DESC_PURGE') ?>"><i class="icon-remove"></i>  <?php echo Text::_('T3_LAYOUT_LABEL_PURGE') ?></button>
 </div>
 
 <!-- MODAL CLONE LAYOUT -->
@@ -65,25 +67,25 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h3><?php echo JText::_('T3_LAYOUT_ASK_ADD_LAYOUT') ?></h3>
+				<h3><?php echo Text::_('T3_LAYOUT_ASK_ADD_LAYOUT') ?></h3>
 				<button type="button" class="close" <?php echo version_compare(JVERSION, '4', 'ge') ? 'data-bs-dismiss="modal"' : 'data-dismiss="modal"'; ?>>×</button>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal prompt-block">
-					<p><?php echo JText::_('T3_LAYOUT_ASK_ADD_LAYOUT_DESC') ?></p>
+					<p><?php echo Text::_('T3_LAYOUT_ASK_ADD_LAYOUT_DESC') ?></p>
 		      <div class="input-prepend">
 		        <span class="add-on"><i class="icon-info-sign"></i></span>
 		        <input type="text" class="input-xlarge" id="t3-admin-layout-cloned-name" />
 		      </div>
 				</form>
 				<div class="message-block">
-					<p class="msg"><?php echo JText::_('T3_LAYOUT_ASK_DEL_LAYOUT_DESC') ?></p>
+					<p class="msg"><?php echo Text::_('T3_LAYOUT_ASK_DEL_LAYOUT_DESC') ?></p>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button class="btn cancel" <?php echo version_compare(JVERSION, '4', 'ge') ? 'data-bs-dismiss="modal"' : 'data-dismiss="modal"'; ?>><?php echo JText::_('JCANCEL') ?></button>
-				<button class="btn btn-danger yes hide"><?php echo JText::_('T3_LAYOUT_LABEL_DELETEIT') ?></button>
-				<button class="btn btn-success yes"><?php echo JText::_('T3_LAYOUT_LABEL_CLONEIT') ?></button>
+				<button class="btn cancel" <?php echo version_compare(JVERSION, '4', 'ge') ? 'data-bs-dismiss="modal"' : 'data-dismiss="modal"'; ?>><?php echo Text::_('JCANCEL') ?></button>
+				<button class="btn btn-danger yes hide"><?php echo Text::_('T3_LAYOUT_LABEL_DELETEIT') ?></button>
+				<button class="btn btn-success yes"><?php echo Text::_('T3_LAYOUT_LABEL_CLONEIT') ?></button>
 			</div>
 		</div>
 	</div>

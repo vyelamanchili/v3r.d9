@@ -1,16 +1,23 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php 
+
+defined('_JEXEC') or die('Restricted access'); 
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
+?>
 <script type="text/javascript">
 /*<![CDATA[*/
 function multiDelete() {
 	var numChecked = jQuery("input[name='rm[]']:checked", window.frames['folderframe'].document).size();
 	if(numChecked > 0) {
-		var title = '<?php echo JText::_("ARE_YOU_REALLY_WANT_TO_DELETE", true); ?>';
+		var title = '<?php echo Text::_("ARE_YOU_REALLY_WANT_TO_DELETE", true); ?>';
 		if(confirm(title)){
 			MediaManager.submit('delete');
 		}
 		return false;
 	} else {
-		alert("<?php echo JText::_("PLEASE_SELECT_AN_ITEMS_FROM_THE_LIST_TO_DELETE", true); ?>");
+		alert("<?php echo Text::_("PLEASE_SELECT_AN_ITEMS_FROM_THE_LIST_TO_DELETE", true); ?>");
 		return false;
 	}
 }
@@ -21,7 +28,7 @@ function multiDelete() {
 	<tr valign="top">
 		<td style="width:300px;">
       <fieldset id="treeview">
-      <legend><?php echo JText::_('FOLDERS' ); ?></legend>
+      <legend><?php echo Text::_('FOLDERS' ); ?></legend>
       <div id="media-tree_tree"></div>
       <?php if(jaIsJoomla3x()): ?>
       <?php echo $this->loadTemplate('folders30'); ?>
@@ -33,7 +40,7 @@ function multiDelete() {
     <td>
     <form action="index.php?option=com_jaextmanager&amp;view=folder&amp;task=create" name="folderForm" id="folderForm" method="post">
         <fieldset id="folderview">
-        <legend><?php echo JText::_('FILES' ); ?></legend>
+        <legend><?php echo Text::_('FILES' ); ?></legend>
         <div class="path">
           <input class="inputbox" type="text" id="folderpath" readonly="readonly" />
           <!--<input class="inputbox" type="text" id="foldername" name="foldername"  />
@@ -43,7 +50,7 @@ function multiDelete() {
           <iframe src="index.php?option=com_jaextmanager&amp;view=repolist&amp;tmpl=component&amp;folder=<?php echo $this->state->folder;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
         </div>
         </fieldset>
-        <?php echo JHtml::_( 'form.token' ); ?>
+        <?php echo HTMLHelper::_( 'form.token' ); ?>
       </form>
       <form action="index.php?option=com_jaextmanager&amp;view=repo" name="adminForm" id="mediamanager-form" method="post" enctype="multipart/form-data" >
         <input type="hidden" name="task" value="" />

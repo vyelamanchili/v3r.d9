@@ -9,6 +9,9 @@
 
 // No direct access.
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 ?>
 		<tr>
 			<td class="imgTotal">
@@ -25,7 +28,7 @@ defined('_JEXEC') or die;
 
 			</td>
 			<td>
-				<a class="delete-item" href="index.php?option=com_jaextmanager&amp;view=folder&amp;task=delete&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>&amp;<?php echo JSession::getFormToken(); ?>=1&amp;rm[]=<?php echo $this->_tmp_folder->name; ?>" rel="<?php echo $this->_tmp_folder->name; ?> :: <?php echo $this->_tmp_folder->files+$this->_tmp_folder->folders; ?>"><img src="components/com_jaextmanager/assets/images/icons/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_('DELETE' ); ?>" /></a>
+				<a class="delete-item" href="index.php?option=com_jaextmanager&amp;view=folder&amp;task=delete&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>&amp;<?php echo JSession::getFormToken(); ?>=1&amp;rm[]=<?php echo $this->_tmp_folder->name; ?>" rel="<?php echo $this->_tmp_folder->name; ?> :: <?php echo $this->_tmp_folder->files+$this->_tmp_folder->folders; ?>"><img src="components/com_jaextmanager/assets/images/icons/remove.png" width="16" height="16" border="0" alt="<?php echo Text::_('DELETE' ); ?>" /></a>
 				<input type="checkbox" name="rm[]" value="<?php echo $this->_tmp_folder->name; ?>" />
 			</td>
 		</tr>

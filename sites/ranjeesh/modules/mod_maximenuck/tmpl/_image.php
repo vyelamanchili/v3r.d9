@@ -22,7 +22,7 @@ if ($item->fparams->get('maximenu_icon', '') && $params->get('useicons', '1') !=
 	}
 	$itemicon = '<span class="maximenuiconck ' . $icon . '"></span>';
 }
-$datahover = $params->get('datahover', '1') == '1' ? ' data-hover="' . addslashes($item->ftitle) . '"' : '';
+$datahover = $params->get('datahover', '1') == '1' ? ' data-hover="' . htmlspecialchars($item->ftitle, ENT_COMPAT, 'UTF-8', false) . '"' : '';
 $texthtml = $itemicon . '<span class="titreck-text"><span class="titreck-title">' . $item->ftitle . '</span>' . $description . '</span>';
 $texthtml = Maximenuck\Helper::decodeCharsAfterJson($texthtml);
 
@@ -48,10 +48,10 @@ if ($item->menu_image && $params->get('useimages', '1') !== '0') {
 		}
 	}
 
-	$imagesalign = ($item->fparams->get('maximenu_images_align', 'moduledefault') != 'moduledefault') ? $item->fparams->get('maximenu_images_align', 'top') : $params->get('menu_images_align', 'top');
 	$image_dimensions = ( $item->fparams->get('maximenuparams_imgwidth', '') != '' && ($item->fparams->get('maximenuparams_imgheight', '') != '') ) ? ' width="' . $item->fparams->get('maximenuparams_imgwidth', '') . '" height="' . $item->fparams->get('maximenuparams_imgheight', '') . '"' : '';
 	$imagealt = addslashes($item->fparams->get('maximenuparams_imagealt', '')) ? $item->fparams->get('maximenuparams_imagealt', '') : $item->ftitle;
 	$imagealt = Maximenuck\Helper::decodeCharsAfterJson($imagealt);
+	$imagesalign = ($item->fparams->get('maximenu_images_align', 'moduledefault') != 'moduledefault') ? $item->fparams->get('maximenu_images_align', 'top') : $params->get('menu_images_align', 'top');
 
 	if ($item->fparams->get('menu_text', 1) AND !$params->get('imageonly', '0')) {
 		switch ($imagesalign) :

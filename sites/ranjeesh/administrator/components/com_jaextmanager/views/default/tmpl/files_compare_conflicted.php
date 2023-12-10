@@ -1,31 +1,34 @@
 <?php
 defined( '_JEXEC' ) or die( 'Retricted Access' );
 
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
+
 global $jauc;
 
 $diffInfo = $this->obj->diffInfo;
 ?>
 <div id="ja-diff-toolbar">
-<a href="#" class="close" onclick="window.close();"><?php echo JText::_("CLOSE"); ?></a>
+<a href="#" class="close" onclick="window.close();"><?php echo Text::_("CLOSE"); ?></a>
 </div>
 <div id="ja-diff-viewer">
   <div id="diffviewer-side-left">
     <div class="title">
     	<h4><?php echo $diffInfo->left->title; ?></h4>
         <?php if($diffInfo->right->editabled): ?>
-        <a href="#" onclick="jaDiffCopyAllToRight(); return false;"><?php echo JText::_("COPY_ALL_TO_RIGHT"); ?></a> | 
+        <a href="#" onclick="jaDiffCopyAllToRight(); return false;"><?php echo Text::_("COPY_ALL_TO_RIGHT"); ?></a> | 
         <?php else: ?>
-        <a href="#" class="disabled"><?php echo JText::_("COPY_ALL_TO_RIGHT"); ?></a> | 
+        <a href="#" class="disabled"><?php echo Text::_("COPY_ALL_TO_RIGHT"); ?></a> | 
         <?php endif; ?>
         
-        <a href="#" onclick="jaDiffViewSource('left', 'view'); return false;"><?php echo JText::_("VIEW_PLAIN"); ?></a> | 
+        <a href="#" onclick="jaDiffViewSource('left', 'view'); return false;"><?php echo Text::_("VIEW_PLAIN"); ?></a> | 
         
         <?php if($diffInfo->left->editabled): ?>
-        <a href="#" onclick="jaDiffViewSource('left', 'edit'); return false;"><?php echo JText::_("EDIT_SOURCE"); ?></a> | 
-        <a href="#" onClick="jaDiffSaveSource('left'); return false;"><?php echo JText::_("SAVE"); ?></a>
+        <a href="#" onclick="jaDiffViewSource('left', 'edit'); return false;"><?php echo Text::_("EDIT_SOURCE"); ?></a> | 
+        <a href="#" onClick="jaDiffSaveSource('left'); return false;"><?php echo Text::_("SAVE"); ?></a>
         <?php else: ?>
-        <a href="#" class="disabled"><?php echo JText::_("EDIT_SOURCE"); ?></a> | 
-        <a href="#" class="disabled"><?php echo JText::_("SAVE"); ?></a>
+        <a href="#" class="disabled"><?php echo Text::_("EDIT_SOURCE"); ?></a> | 
+        <a href="#" class="disabled"><?php echo Text::_("SAVE"); ?></a>
         <?php endif; ?>
         <br  />
         <em><?php echo $diffInfo->left->file; ?> </em>
@@ -36,19 +39,19 @@ $diffInfo = $this->obj->diffInfo;
     <div class="title">
     	<h4><?php echo $diffInfo->right->title; ?></h4>
         <?php if($diffInfo->left->editabled): ?>
-        <a href="#" onclick="jaDiffCopyAllToLeft(); return false;"><?php echo JText::_("COPY_ALL_TO_LEFT"); ?></a> |
+        <a href="#" onclick="jaDiffCopyAllToLeft(); return false;"><?php echo Text::_("COPY_ALL_TO_LEFT"); ?></a> |
         <?php else: ?>
-        <a href="#" class="disabled"><?php echo JText::_("COPY_ALL_TO_LEFT"); ?></a> | 
+        <a href="#" class="disabled"><?php echo Text::_("COPY_ALL_TO_LEFT"); ?></a> | 
         <?php endif; ?>
         
-        <a href="#" onclick="jaDiffViewSource('right', 'view'); return false;"><?php echo JText::_("VIEW_PLAIN"); ?></a> | 
+        <a href="#" onclick="jaDiffViewSource('right', 'view'); return false;"><?php echo Text::_("VIEW_PLAIN"); ?></a> | 
         
         <?php if($diffInfo->right->editabled): ?>
-        <a href="#" onclick="jaDiffViewSource('right', 'edit'); return false;"><?php echo JText::_("EDIT_SOURCE"); ?></a> | 
-        <a href="#" onClick="jaDiffSaveSource('right'); return false;"><?php echo JText::_("SAVE"); ?></a>
+        <a href="#" onclick="jaDiffViewSource('right', 'edit'); return false;"><?php echo Text::_("EDIT_SOURCE"); ?></a> | 
+        <a href="#" onClick="jaDiffSaveSource('right'); return false;"><?php echo Text::_("SAVE"); ?></a>
         <?php else: ?>
-        <a href="#" class="disabled"><?php echo JText::_("EDIT_SOURCE"); ?></a>  | 
-        <a href="#" class="disabled"><?php echo JText::_("SAVE"); ?></a>
+        <a href="#" class="disabled"><?php echo Text::_("EDIT_SOURCE"); ?></a>  | 
+        <a href="#" class="disabled"><?php echo Text::_("SAVE"); ?></a>
         <?php endif; ?>
         <br  />
         <em><?php echo $diffInfo->right->file; ?> </em>
@@ -60,7 +63,7 @@ $diffInfo = $this->obj->diffInfo;
     <textarea name="diffViewSrc" id="diffViewSrc" style="display:none;"></textarea>
     <textarea name="srcLeft" id="srcLeft" style="display:none;"></textarea>
     <textarea name="srcRight" id="srcRight" style="display:none;"></textarea>
-    <input type="hidden" name="backUrl" id="backUrl" value="<?php echo JURI::current() ."?". $_SERVER['QUERY_STRING']; ?>" />
+    <input type="hidden" name="backUrl" id="backUrl" value="<?php echo Uri::current() ."?". $_SERVER['QUERY_STRING']; ?>" />
     <input type="hidden" name="sameContent" id="sameContent" value="0" />
     <input type="hidden" name="titleLeft" id="titleLeft" value="<?php echo addslashes($diffInfo->left->title); ?>" />
     <input type="hidden" name="fileLeft" id="fileLeft" value="<?php echo addslashes($diffInfo->left->file); ?>" />

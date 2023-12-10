@@ -42,22 +42,22 @@ if(version_compare(JVERSION, '4', 'ge')){
 		$this->form->setFieldAttribute('language', 'readonly', 'true');
 	}
 }else{
-	JHtml::_('bootstrap.tooltip');
-	JHtml::_('behavior.formvalidator');
-	JHtml::_('behavior.keepalive');
-	JHtml::_('behavior.framework', true);
-	JHtml::_('behavior.combobox');
-	JHtml::_('formbehavior.chosen', 'select');
+	HTMLHelper::_('bootstrap.tooltip');
+	HTMLHelper::_('behavior.formvalidator');
+	HTMLHelper::_('behavior.keepalive');
+	HTMLHelper::_('behavior.framework', true);
+	HTMLHelper::_('behavior.combobox');
+	HTMLHelper::_('formbehavior.chosen', 'select');
 
 	$hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom';
 
 	// If multi-language site, make language read-only
-	if (JLanguageMultilang::isEnabled())
+	if (Multilanguage::isEnabled())
 	{
 		$this->form->setFieldAttribute('language', 'readonly', 'true');
 	}
 
-	JFactory::getDocument()->addScriptDeclaration("
+	Factory::getDocument()->addScriptDeclaration("
 		Joomla.submitbutton = function(task)
 		{
 			if (task == 'config.cancel.modules' || document.formvalidator.isValid(document.getElementById('modules-form')))
@@ -70,7 +70,7 @@ if(version_compare(JVERSION, '4', 'ge')){
 ?>
 
 <form
-	action="<?php echo JRoute::_('index.php?option=com_config'); ?>"
+	action="<?php echo Route::_('index.php?option=com_config'); ?>"
 	method="post" name="adminForm" id="modules-form"
 	class="form-validate">
 
@@ -163,7 +163,7 @@ if(version_compare(JVERSION, '4', 'ge')){
 						<hr />
 
 						<?php
-						if (JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
+						if (Factory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('published'); ?>
@@ -240,9 +240,9 @@ if(version_compare(JVERSION, '4', 'ge')){
 				</div>
 
 				<input type="hidden" name="id" value="<?php echo $this->item['id'];?>" />
-				<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', null, 'base64');?>" />
+				<input type="hidden" name="return" value="<?php echo Factory::getApplication()->input->get('return', null, 'base64');?>" />
 				<input type="hidden" name="task" value="" />
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 
 			</div>
 

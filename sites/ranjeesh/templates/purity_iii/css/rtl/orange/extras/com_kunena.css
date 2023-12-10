@@ -1074,3 +1074,22 @@ div.kstats-module ul.kstats-items li {
 .view-topic body.modal-open {
   overflow: auto;
 }
+.com_kunena #t3-mainnav {
+  padding: 0;
+}
+.com_kunena #t3-mainnav .t3-navbar {
+  display: inline-block;
+  flex: 1;
+}
+.com_kunena .t3-megamenu .navbar-nav {
+  flex-direction: row;
+}
+.com_kunena .t3-megamenu .navbar-nav .dropdown-menu {
+  position: absolute;
+}
+.com_kunena .t3-megamenu .navbar-nav .dropdown-toggle::after {
+  display: none;
+}
+.com_kunena .tab-pane.show {
+  opacity: 1;
+}

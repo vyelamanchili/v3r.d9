@@ -8,6 +8,10 @@
 // No direct access
 defined('_JEXEC') or die();
 
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Object\CMSObject;
+
 jimport('joomla.application.component.view');
 
 /**
@@ -20,26 +24,29 @@ jimport('joomla.application.component.view');
 class JaextmanagerViewRepolist extends JAEMView
 {
 
-
+	public $_tmp_img;
+	public $_tmp_doc;
+	public $_tmp_folder;
+	
 	function display($tpl = null)
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication('administrator');
+		$app = Factory::getApplication('administrator');
 		
 		// Do not allow cache
-		JFactory::getApplication()->allowCache(false);
+		Factory::getApplication()->allowCache(false);
 		
 		//$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'details', 'word');
 		$style = "details";
 		
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 		$document->addStyleSheet('components/com_jaextmanager/assets/repo_manager/repolist-' . $style . '.css');
 		
 		$images 	= $this->get('images');
 		$documents 	= $this->get('documents');
 		$folders	= $this->get('folders');
 		$state		= $this->get('state');
-		$this->assign('baseURL', JURI::root());
+		$this->assign('baseURL', Uri::root());
 		$this->assignRef('images', $images);
 		$this->assignRef('documents', $documents);
 		$this->assignRef('folders', $folders);
@@ -54,7 +61,7 @@ class JaextmanagerViewRepolist extends JAEMView
 		if (isset($this->folders[$index])) {
 			$this->_tmp_folder = &$this->folders[$index];
 		} else {
-			$this->_tmp_folder = new JObject();
+			$this->_tmp_folder = new CMSObject();
 		}
 	}
 
@@ -64,7 +71,7 @@ class JaextmanagerViewRepolist extends JAEMView
 		if (isset($this->images[$index])) {
 			$this->_tmp_img = &$this->images[$index];
 		} else {
-			$this->_tmp_img = new JObject();
+			$this->_tmp_img = new CMSObject();
 		}
 	}
 
@@ -74,7 +81,7 @@ class JaextmanagerViewRepolist extends JAEMView
 		if (isset($this->documents[$index])) {
 			$this->_tmp_doc = &$this->documents[$index];
 		} else {
-			$this->_tmp_doc = new JObject();
+			$this->_tmp_doc = new CMSObject();
 		}
 	}
 }

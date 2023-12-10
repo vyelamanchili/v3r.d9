@@ -159,10 +159,12 @@
   
   input[type="text"],
   input[type="password"] {
-    width: auto;
+    width: 100%;
   }
 
   .input-group-addon {
+    align-items: center;
+    display: flex;
     width: auto;
   }
   
@@ -189,6 +191,14 @@
     }
   }
 
+  button[class*=plg_system_webauthn_login_button] {
+    align-items: center;
+    color: #000;
+    display: flex;
+    max-height: unset;
+    gap: 4px;
+    width: 100%;
+  }
 }
 
 

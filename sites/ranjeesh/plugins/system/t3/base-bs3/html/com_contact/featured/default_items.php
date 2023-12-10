@@ -9,8 +9,11 @@
 
 defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Uri\Uri;
 
-JHtml::_('behavior.core');
+HTMLHelper::_('behavior.core');
 if(version_compare(JVERSION, '4', 'ge')){
 	class ContactHelperRoute extends \Joomla\Component\Contact\Site\Helper\RouteHelper{};
 }
@@ -23,7 +26,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<p> <?php echo Text::_('COM_CONTACT_NO_CONTACTS'); ?>	 </p>
 <?php else : ?>
 
-<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filters">
 	<legend class="hidelabeltxt"><?php echo Text::_('JGLOBAL_FILTER_LABEL'); ?></legend>
 	<?php if ($this->params->get('show_pagination_limit')) : ?>
@@ -43,11 +46,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php echo Text::_('JGLOBAL_NUM'); ?>
 			</th>
 			<th class="item-title">
-				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_CONTACT_EMAIL_NAME_LABEL', 'a.name', $listDirn, $listOrder); ?>
+				<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_CONTACT_EMAIL_NAME_LABEL', 'a.name', $listDirn, $listOrder); ?>
 			</th>
 			<?php if ($this->params->get('show_position_headings')) : ?>
 			<th class="item-position">
-				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_POSITION', 'a.con_position', $listDirn, $listOrder); ?>
+				<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_POSITION', 'a.con_position', $listDirn, $listOrder); ?>
 			</th>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_email_headings')) : ?>
@@ -75,19 +78,19 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 			<?php if ($this->params->get('show_suburb_headings')) : ?>
 			<th class="item-suburb">
-				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_SUBURB', 'a.suburb', $listDirn, $listOrder); ?>
+				<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_SUBURB', 'a.suburb', $listDirn, $listOrder); ?>
 			</th>
 			<?php endif; ?>
 
 			<?php if ($this->params->get('show_state_headings')) : ?>
 			<th class="item-state">
-				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_STATE', 'a.state', $listDirn, $listOrder); ?>
+				<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_STATE', 'a.state', $listDirn, $listOrder); ?>
 			</th>
 			<?php endif; ?>
 
 			<?php if ($this->params->get('show_country_headings')) : ?>
 			<th class="item-state">
-				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_COUNTRY', 'a.country', $listDirn, $listOrder); ?>
+				<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_COUNTRY', 'a.country', $listDirn, $listOrder); ?>
 			</th>
 			<?php endif; ?>
 
@@ -106,7 +109,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php if ($this->items[$i]->published == 0) : ?>
 							<span class="label label-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 						<?php endif; ?>
-						<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>" itemprop="url">
+						<a href="<?php echo Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>" itemprop="url">
 							<span itemprop="name"><?php echo $item->name; ?></span>
 						</a>
 					</td>

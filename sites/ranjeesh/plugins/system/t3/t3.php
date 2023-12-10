@@ -15,13 +15,19 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
+
 /**
  * T3 plugin class
  *
  * @package        T3
  */
 
-class plgSystemT3 extends JPlugin
+class plgSystemT3 extends CMSPlugin
 {
 	/**
 	 * Switch template for thememagic
@@ -33,7 +39,7 @@ class plgSystemT3 extends JPlugin
 		include_once dirname(__FILE__) . '/includes/core/bot.php';
 
 		//must be in frontend
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		if (T3::isAdmin()) {
 			return;
 		}
@@ -41,15 +47,15 @@ class plgSystemT3 extends JPlugin
 		$input = $app->input;
 
 		if($input->getCmd('themer', 0) && ($t3tmid = $input->getCmd('t3tmid', 0))){
-			$user = JFactory::getUser();
+			$user = Factory::getUser();
 
 			if($t3tmid > 0 && ($user->authorise('core.manage', 'com_templates') ||
-					(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], JUri::base()) !== false))){
+					(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], Uri::base()) !== false))){
 
 				$current = T3::getDefaultTemplate();
 				if(!$current || ($current->id != $t3tmid)){
 
-					$db = JFactory::getDbo();
+					$db = Factory::getDbo();
 					$query = $db->getQuery(true);
 					$query
 						->select('home, template, params')
@@ -90,7 +96,7 @@ class plgSystemT3 extends JPlugin
 				T3Bot::afterInit();
 
 				//load T3 plugins
-				JPluginHelper::importPlugin('t3');
+				PluginHelper::importPlugin('t3');
 
 				if (is_file(T3_TEMPLATE_PATH . '/templateHook.php')) {
 					include_once T3_TEMPLATE_PATH . '/templateHook.php';
@@ -104,9 +110,9 @@ class plgSystemT3 extends JPlugin
 				// }
 				
 
-				JFactory::getApplication()->triggerEvent('onT3Init');
+				Factory::getApplication()->triggerEvent('onT3Init');
 
-				$jinput = JFactory::getApplication()->input;
+				$jinput = Factory::getApplication()->input;
 				$t3Task = $jinput->get('t3task', '');
 				$template = $jinput->getCmd('template');
 				$layout   = $jinput->getCmd('layout');
@@ -145,9 +151,9 @@ class plgSystemT3 extends JPlugin
 	{
 
 		if (defined('T3_PLUGIN') && T3::detect()) {
-			$japp = JFactory::getApplication();
+			$japp = Factory::getApplication();
 
-			JFactory::getApplication()->triggerEvent('onT3BeforeRender');
+			Factory::getApplication()->triggerEvent('onT3BeforeRender');
 
 			if (T3::isAdmin()) {
 
@@ -166,7 +172,7 @@ class plgSystemT3 extends JPlugin
 				}
 				
 				// allow load module/modules in component using jdoc:include
-				$doc = JFactory::getDocument();
+				$doc = Factory::getDocument();
 				$main_content = $doc->getBuffer('component');
 				if ($main_content) {
 					// parse jdoc
@@ -202,11 +208,11 @@ class plgSystemT3 extends JPlugin
 			$t3app = T3::getApp();
 			if ($t3app) {
 
-				JFactory::getApplication()->triggerEvent('onT3BeforeCompileHead');
+				Factory::getApplication()->triggerEvent('onT3BeforeCompileHead');
 
 				$t3app->updateHead();
 
-				JFactory::getApplication()->triggerEvent('onT3AfterCompileHead');
+				Factory::getApplication()->triggerEvent('onT3AfterCompileHead');
 			}
 		}
 	}
@@ -224,10 +230,12 @@ class plgSystemT3 extends JPlugin
 					$t3app->snippet();
 				}
 
-				JFactory::getApplication()->triggerEvent('onT3AfterRender');
+				Factory::getApplication()->triggerEvent('onT3AfterRender');
 			}
 		}
 	}
+
+		public $gparams = [];
 
 	/**
 	 * Add JA Extended menu parameter in administrator
@@ -261,7 +269,7 @@ class plgSystemT3 extends JPlugin
 				T3Bot::prepareForm($form);
 
 				//search for global parameters and store in user state
-				$app      = JFactory::getApplication();
+				$app      = Factory::getApplication();
 				$gparams = array();
 				foreach($_form->getGroup('params') as $param){
 					if($_form->getFieldAttribute($param->fieldname, 'global', 0, 'params')){
@@ -276,11 +284,11 @@ class plgSystemT3 extends JPlugin
 			if ($tmpl) {
 				$tplpath  = JPATH_ROOT . '/templates/' . (is_object($tmpl) && !empty($tmpl->tplname) ? $tmpl->tplname : $tmpl);
 				$formpath = $tplpath . '/etc/form/';
-				JForm::addFormPath($formpath);
+				Form::addFormPath($formpath);
 
 				$extended = $formpath . $form_name . '.xml';
 				if (is_file($extended)) {
-					JFactory::getLanguage()->load('tpl_' . $tmpl, JPATH_SITE);
+					Factory::getLanguage()->load('tpl_' . $tmpl, JPATH_SITE);
 					$form->loadFile($form_name, false);
 				}
 
@@ -288,12 +296,12 @@ class plgSystemT3 extends JPlugin
 				if ($form_name == 'com_modules.module') {
 					$module = isset($data->module) ? $data->module : '';
 					if (!$module) {
-						$jform = JFactory::getApplication()->input->get ("jform", null, 'array');
+						$jform = Factory::getApplication()->input->get ("jform", null, 'array');
 						$module = $jform['module'];
 					}
 					$extended = $formpath . $module . '.xml';
 					if (is_file($extended)) {
-						JFactory::getLanguage()->load('tpl_' . $tmpl, JPATH_SITE);
+						Factory::getLanguage()->load('tpl_' . $tmpl, JPATH_SITE);
 						$form->loadFile($module, false);
 					}
 				}
@@ -327,14 +335,14 @@ class plgSystemT3 extends JPlugin
 	{
 		if (defined('T3_PLUGIN') && T3::detect() && $option == 'com_templates.style' && !empty($data->id)) {
 			//get new params value
-			$japp = JFactory::getApplication();
+			$japp = Factory::getApplication();
 			$params = new JRegistry;
 			$params->loadString($data->params);
 			//if we have any changed, we will update to global
 			if (isset($this->gparams) && count($this->gparams)) {
 
 				//get all other styles that have the same template
-				$db = JFactory::getDBO();
+				$db = Factory::getDBO();
 				$query = $db->getQuery(true);
 				$query
 					->select('*')
@@ -443,7 +451,7 @@ class plgSystemT3 extends JPlugin
 	public function onContentPrepare ($context, &$article, &$params, $page = 0) {
 		// update params for Article View
 		if ($context == 'com_content.article') {
-			$app = JFactory::getApplication();
+			$app = Factory::getApplication();
 			$tmpl = $app->getTemplate(true);
 			if ($tmpl->params->get('link_titles') !== NULL) {
 				if (isset($article->params) && is_object($article->params)) $article->params->set('link_titles', $tmpl->params->get('link_titles'));

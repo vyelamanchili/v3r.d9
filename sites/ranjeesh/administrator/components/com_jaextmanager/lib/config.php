@@ -13,6 +13,9 @@
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
  
 define('JA_WORKING_DATA_FOLDER', PATH_ROOT."/jaextmanager_data/");
+
+use Joomla\Filesystem\Folder;
+
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
@@ -26,8 +29,8 @@ function jaucRaiseMessage($message, $error = false)
 }
 
 $errMsg = "";
-if (!JFolder::exists(JA_WORKING_DATA_FOLDER)) {
-	if (!JFolder::create(JA_WORKING_DATA_FOLDER, 0755)) {
+if (!is_dir(JA_WORKING_DATA_FOLDER)) {
+	if (!Folder::create(JA_WORKING_DATA_FOLDER, 0755)) {
 		$errMsg .= "JA Updater can not create below folder automatically. Please manual create and chmod it to wriable!" . "<br />";
 		$errMsg .= "<i>" . JA_WORKING_DATA_FOLDER . "</i>";
 	}

@@ -9,13 +9,15 @@
 
 defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
 
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.formvalidator');
 
 ?>
 <div class="contact-form">
-	<form id="contact-form" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-validate form-horizontal">
+	<form id="contact-form" action="<?php echo Route::_('index.php'); ?>" method="post" class="form-validate form-horizontal">
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<?php if ($fieldset->name === 'captcha' && !$this->captchaEnabled) : ?>
 				<?php continue; ?>
@@ -39,7 +41,7 @@ JHtml::_('behavior.formvalidator');
 				<input type="hidden" name="task" value="contact.submit" />
 				<input type="hidden" name="return" value="<?php echo $this->return_page; ?>" />
 				<input type="hidden" name="id" value="<?php echo $this->contact->slug; ?>" />
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</form>

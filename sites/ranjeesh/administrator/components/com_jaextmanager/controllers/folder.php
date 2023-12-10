@@ -7,6 +7,13 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
+use Joomla\Filesystem\Folder;
+use Joomla\CMS\Client\ClientHelper;
+
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
@@ -29,13 +36,13 @@ class JaextmanagerControllerFolder extends JaextmanagerController
 	 */
 	function delete()
 	{
-		$mainframe = JFactory::getApplication('administrator');
+		$mainframe = Factory::getApplication('administrator');
 		
 		JRequest::checkToken('request') or jexit('Invalid Token');
 		
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
-		JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 		
 		// Get some data from the request
 		$tmpl = JRequest::getCmd('tmpl');
@@ -45,19 +52,20 @@ class JaextmanagerControllerFolder extends JaextmanagerController
 		// Initialize variables
 		$msg = array();
 		$ret = true;
-		
+		$app = Factory::getApplication();
+
 		if (count($paths)) {
 			foreach ($paths as $path) {
-				if ($path !== JFile::makeSafe($path)) {
-					JError::raiseWarning(100, JText::_('UNABLE_TO_DELETE') . htmlspecialchars($path, ENT_COMPAT, 'UTF-8') . ' ' . JText::_('WARNDIRNAME'));
+				if ($path !== File::makeSafe($path)) {
+					$app->enqueueMessage(Text::_('UNABLE_TO_DELETE') . htmlspecialchars($path, ENT_COMPAT, 'UTF-8') . ' ' . Text::_('WARNDIRNAME'), 'warning');
 					continue;
 				}
 				
-				$fullPath = JPath::clean(JA_WORKING_DATA_FOLDER .'/'. $folder .'/'. $path);
-				if (JFile::exists($fullPath)) {
-					$ret |= !JFile::delete($fullPath);
-				} else if (JFolder::exists($fullPath)) {
-					$files = JFolder::files($fullPath, '.', true);
+				$fullPath = Path::clean(JA_WORKING_DATA_FOLDER .'/'. $folder .'/'. $path);
+				if (is_file($fullPath)) {
+					$ret |= !File::delete($fullPath);
+				} else if (is_dir($fullPath)) {
+					$files = Folder::files($fullPath, '.', true);
 					$canDelete = true;
 					foreach ($files as $file) {
 						if ($file != 'index.html') {
@@ -65,20 +73,20 @@ class JaextmanagerControllerFolder extends JaextmanagerController
 						}
 					}
 					if ($canDelete) {
-						$ret |= !JFolder::delete($fullPath);
+						$ret |= !Folder::delete($fullPath);
 					} else {
 						//allow remove folder not empty on local repository
-						$ret2 = JFolder::delete($fullPath);
+						$ret2 = Folder::delete($fullPath);
 						$ret |= !$ret2;
 						if ($ret2 == false) {
-							JError::raiseWarning(100, JText::_('UNABLE_TO_DELETE') . $fullPath);
+							$app->enqueueMessage(Text::_('UNABLE_TO_DELETE') . $fullPath, 'warning');
 						}
 					}
 				}
 			}
 		}
 		if ($ret) {
-			JError::raiseNotice(200, JText::_('SUCCESSFULLY_DELETE_A_SELETED_ITEMS'));
+			$app->enqueueMessage(Text::_('SUCCESSFULLY_DELETE_A_SELETED_ITEMS'));
 		}
 		if ($tmpl == 'component') {
 			// We are inside the iframe
@@ -97,14 +105,14 @@ class JaextmanagerControllerFolder extends JaextmanagerController
 	 */
 	function create()
 	{
-		$mainframe = JFactory::getApplication('administrator');
+		$mainframe = Factory::getApplication('administrator');
 		
 		// Check for request forgeries
 		JRequest::checkToken() or jexit('Invalid Token');
 		
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
-		JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 		
 		$folder = JRequest::getCmd('foldername', '');
 		$folderCheck = JRequest::getVar('foldername', null, '', 'string', JREQUEST_ALLOWRAW);
@@ -113,16 +121,16 @@ class JaextmanagerControllerFolder extends JaextmanagerController
 		JRequest::setVar('folder', $parent);
 		
 		if (($folderCheck !== null) && ($folder !== $folderCheck)) {
-			$mainframe->redirect('index.php?option=com_jaextmanager&view=repolist&folder=' . $parent, JText::_('WARNDIRNAME'));
+			$mainframe->redirect('index.php?option=com_jaextmanager&view=repolist&folder=' . $parent, Text::_('WARNDIRNAME'));
 		}
 		
 		if (strlen($folder) > 0) {
-			$path = JPath::clean(JA_WORKING_DATA_FOLDER .'/'. $parent .'/'. $folder);
-			if (!JFolder::exists($path) && !JFile::exists($path)) {
+			$path = Path::clean(JA_WORKING_DATA_FOLDER .'/'. $parent .'/'. $folder);
+			if (!is_dir($path) && !is_file($path)) {
 				jimport('joomla.filesystem.*');
-				JFolder::create($path);
+				Folder::create($path);
 				$content = "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>";
-				JFile::write($path ."/index.html", $content);
+				File::write($path ."/index.html", $content);
 			}
 			JRequest::setVar('folder', ($parent) ? $parent . '/' . $folder : $folder);
 		}

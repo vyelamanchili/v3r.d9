@@ -8,9 +8,14 @@
  */
 
 defined('_JEXEC') or die;
-use Joomla\CMS\Language\Text;
 
-JHtml::_('behavior.framework');
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\String\PunycodeHelper;
+
+HTMLHelper::_('behavior.framework');
 if(version_compare(JVERSION, '4','ge')){
 	class NewsFeedsHelperRoute extends Joomla\Component\Newsfeeds\Site\Helper\RouteHelper{};
 }
@@ -23,7 +28,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<p><?php echo Text::_('COM_NEWSFEEDS_NO_ARTICLES'); ?></p>
 <?php else : ?>
 
-	<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString(), ENT_COMPAT, 'UTF-8'); ?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString(), ENT_COMPAT, 'UTF-8'); ?>" method="post" name="adminForm" id="adminForm">
 		<?php if ($this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) : ?>
 			<fieldset class="filters btn-toolbar">
 				<?php if ($this->params->get('filter_field') != 'hide' && $this->params->get('filter_field') == '1') : ?>
@@ -64,12 +69,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php endif; ?>
 				<?php if ($this->params->get('show_articles')) : ?>
 					<span class="list-hits badge badge-info pull-right">
-						<?php echo JText::sprintf('COM_NEWSFEEDS_NUM_ARTICLES_COUNT', '<strong>' . $item->numarticles . '</strong>'); ?>
+						<?php echo Text::sprintf('COM_NEWSFEEDS_NUM_ARTICLES_COUNT', '<strong>' . $item->numarticles . '</strong>'); ?>
 					</span>
 				<?php endif; ?>
 				<span class="list pull-left">
 					<strong class="list-title">
-						<a href="<?php echo JRoute::_(NewsFeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catid)); ?>">
+						<a href="<?php echo Route::_(NewsFeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catid)); ?>">
 							<?php echo $item->name; ?></a>
 					</strong>
 				</span>
@@ -80,7 +85,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php endif; ?>
 				<br/>
 				<?php if ($this->params->get('show_link')) : ?>
-					<?php $link = JStringPunycode::urlToUTF8($item->link); ?>
+					<?php $link = PunycodeHelper::urlToUTF8($item->link); ?>
 					<span class="list pull-left">
 						<a href="<?php echo $item->link; ?>">
 							<?php echo $item->link; ?>

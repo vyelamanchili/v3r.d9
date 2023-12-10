@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+
 /** @var JDocumentHtml $this */
 $displayHeader = $this->params->get('displayHeader', '1');
 $header_is_light = true;
@@ -21,7 +23,7 @@ $header_is_light = true;
 	<link type="text/css" rel="stylesheet" href="<?php echo T3_ADMIN_URL; ?>/admin/bootstrap/css/bootstrap.css" />
 	<jdoc:include type="head" />
 </head>
-<body class="admin" data-basepath="<?php echo JURI::root(true); ?>">
+<body class="admin" data-basepath="<?php echo Uri::root(true); ?>">
 <header class="header<?php echo $header_is_light ? ' header-inverse' : ''; ?>">
 	<!-- <div class="container-logo">
 		<img src="<?php echo $logo; ?>" class="logo" alt="<?php echo $sitename;?>" />

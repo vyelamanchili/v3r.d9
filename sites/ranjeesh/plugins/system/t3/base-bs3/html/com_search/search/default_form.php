@@ -8,16 +8,20 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 if (version_compare(JVERSION, '3.0', 'ge')) {
-	JHtml::_('bootstrap.tooltip');
+	HTMLHelper::_('bootstrap.tooltip');
 }
 
-$lang        = JFactory::getLanguage();
+$lang        = Factory::getLanguage();
 $upper_limit = $lang->getUpperLimitSearchWord();
 ?>
-<form id="searchForm" action="<?php echo JRoute::_('index.php?option=com_search'); ?>" method="post">
+<form id="searchForm" action="<?php echo Route::_('index.php?option=com_search'); ?>" method="post">
 
 	<input type="hidden" name="task" value="search"/>
 
@@ -33,7 +37,7 @@ $upper_limit = $lang->getUpperLimitSearchWord();
 
 	<div class="searchintro<?php echo $this->params->get('pageclass_sfx'); ?>">
 		<?php if (!empty($this->searchword)): ?>
-			<p><?php echo JText::plural('COM_SEARCH_SEARCH_KEYWORD_N_RESULTS', '<span class="badge badge-info">' . $this->total . '</span>'); ?></p>
+			<p><?php echo Text::plural('COM_SEARCH_SEARCH_KEYWORD_N_RESULTS', '<span class="badge badge-info">' . $this->total . '</span>'); ?></p>
 		<?php endif; ?>
 	</div>
 	<?php if ($this->params->get('search_phrases', 1)) : ?>

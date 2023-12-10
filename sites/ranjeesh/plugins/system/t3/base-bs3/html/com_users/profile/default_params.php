@@ -9,8 +9,9 @@
 
 defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 ?>
 <?php $fields = $this->form->getFieldset('params'); ?>
 <?php if (count($fields)) : ?>
@@ -21,14 +22,14 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 		if (!$field->hidden) :?>
 		<dt><?php echo $field->title; ?></dt>
 		<dd>
-			<?php if (JHtml::isRegistered('users.'.$field->id)):?>
-				<?php echo JHtml::_('users.'.$field->id, $field->value);?>
-			<?php elseif (JHtml::isRegistered('users.'.$field->fieldname)):?>
-				<?php echo JHtml::_('users.'.$field->fieldname, $field->value);?>
-			<?php elseif (JHtml::isRegistered('users.'.$field->type)):?>
-				<?php echo JHtml::_('users.'.$field->type, $field->value);?>
+			<?php if (HTMLHelper::isRegistered('users.'.$field->id)):?>
+				<?php echo HTMLHelper::_('users.'.$field->id, $field->value);?>
+			<?php elseif (HTMLHelper::isRegistered('users.'.$field->fieldname)):?>
+				<?php echo HTMLHelper::_('users.'.$field->fieldname, $field->value);?>
+			<?php elseif (HTMLHelper::isRegistered('users.'.$field->type)):?>
+				<?php echo HTMLHelper::_('users.'.$field->type, $field->value);?>
 			<?php else:?>
-				<?php echo JHtml::_('users.value', $field->value);?>
+				<?php echo HTMLHelper::_('users.value', $field->value);?>
 			<?php endif;?>
 		</dd>
 		<?php endif;?>

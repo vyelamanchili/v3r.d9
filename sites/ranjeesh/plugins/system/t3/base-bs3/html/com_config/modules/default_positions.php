@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $positions = !empty($this->positions) ? $this->positions : $this->model->getPositions();
 
@@ -25,4 +26,4 @@ $attr = array(
 		. 'data-placeholder="' . Text::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '
 );
 
-echo JHtml::_('select.groupedlist', $positions, 'jform[position]', $attr);
+echo HTMLHelper::_('select.groupedlist', $positions, 'jform[position]', $attr);

@@ -92,7 +92,7 @@ class jaCompareTool
 	{
 		$aFilesServer = $this->_getFilesOnly($vServer);
 		
-		if (count($vUpgrade) > 0) {
+		if ($vUpgrade) {
 			foreach ($vUpgrade as $key => $value) {
 				if (in_array($key, $this->exceptions)) {
 					continue;
@@ -123,7 +123,7 @@ class jaCompareTool
 		}
 		
 		if ($this->_isFolder($vServer)) {
-			if (count($vServer) > 0) {
+			if ($vServer) {
 				foreach ($vServer as $key => $value) {
 					if (in_array($key, $this->exceptions)) {
 						continue;
@@ -143,7 +143,7 @@ class jaCompareTool
 		}
 		
 		if ($this->_isFolder($vLocal)) {
-			if (count($vLocal) > 0) {
+			if ($vLocal) {
 				foreach ($vLocal as $key => $value) {
 					if (in_array($key, $this->exceptions)) {
 						continue;
@@ -207,7 +207,7 @@ class jaCompareTool
 	{
 		$aFilesServer = $this->_getFilesOnly($vServer);
 		
-		if (count($vUpgrade) > 0) {
+		if ($vUpgrade) {
 			foreach ($vUpgrade as $key => $value) {
 				if (in_array($key, $this->exceptions)) {
 					continue;
@@ -235,7 +235,7 @@ class jaCompareTool
 		}
 		
 		if ($this->_isFolder($vServer)) {
-			if (count($vServer) > 0) {
+			if ($vServer) {
 				foreach ($vServer as $key => $value) {
 					if (in_array($key, $this->exceptions)) {
 						continue;

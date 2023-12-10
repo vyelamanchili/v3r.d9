@@ -13,9 +13,15 @@
 // no direct access
 //defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
-if (!defined('_JA'))
+if (!defined('_JA')){
 	define("_JA", "JoomlArt Enterprise");
+}
+
 define("_JA_ROOT", realpath(dirname(__FILE__)));
+
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 require_once (_JA_ROOT .  "/jaupdater/JAUpdater.php");
@@ -227,7 +233,7 @@ class UpdaterClient
 			} else {
 				$productList = $result;
 				//update cache
-				JFile::write($productsFile, json_encode($productList));
+				File::write($productsFile, json_encode($productList));
 			}
 		}
 		return $productList;
@@ -259,7 +265,7 @@ class UpdaterClient
 			return false;
 		}
 		
-		if (!JFolder::exists($productDir)) {
+		if (!is_dir($productDir)) {
 			return false;
 		} else {
 			$obj = new stdClass();
@@ -267,7 +273,7 @@ class UpdaterClient
 			
 			$pro = new jaProducts($product, $this->config);
 			while (($entry = readdir($handle)) !== false) {
-				if (JFolder::exists($productDir . $entry.'/') && $entry != '.' && $entry != '..') {
+				if (is_dir($productDir . $entry.'/') && $entry != '.' && $entry != '..') {
 					$result = $this->isNewerVersion($entry, $product->version);
 					if ($result) {
 						$aVersions = $pro->_parseListVersions($productDir . $entry.'/'.basename($pro->configFile));
@@ -323,14 +329,14 @@ class UpdaterClient
 		}
 		//
 		$newVerDir = $productDir . $newVersion.'/';
-		if (!JFolder::exists($newVerDir)) {
+		if (!is_dir($newVerDir)) {
 			return false;
 		}
 		$vUpgrade = new stdClass();
 		$vUpgrade->crc = $this->getVersionChecksum($newVerDir);
 		//
 		$orgVerDir = $productDir . $product->version.'/';
-		if (JFolder::exists($orgVerDir)) {
+		if (is_dir($orgVerDir)) {
 			$vServer = new stdClass();
 			$vServer->crc = $this->getVersionChecksum($orgVerDir);
 		}
@@ -369,7 +375,7 @@ class UpdaterClient
 		$product->version = $version;
 		$location = $this->getLocalVersionPath($product);
 		$file = $location . $file;
-		if (JFile::exists($file)) {
+		if (is_file($file)) {
 			return file_get_contents($file);
 		} else {
 			return false;
@@ -386,7 +392,7 @@ class UpdaterClient
 		
 		$titleLive = "Live file";
 		$fileLive = $pro->getFilePath($diffFile);
-		if (!JFile::exists($fileLive)) {
+		if (!is_file($fileLive)) {
 			$titleLive = "Removed";
 			$strLive = "";
 		} else {
@@ -424,7 +430,7 @@ class UpdaterClient
 		$fileOrig = "Remote File";
 		$fileNew = "Remote File";
 		
-		if (JFile::exists($fileLive)) {
+		if (is_file($fileLive)) {
 			$strLive = file_get_contents($fileLive);
 		} else {
 			$strLive = '';
@@ -490,7 +496,7 @@ class UpdaterClient
 		$fileLive = $pro->getFilePath($diffFile);
 		$fileOrig = $FileSystemHelper->clean($productDir . $product->version.'/'.$diffFile);
 		$fileNew = $FileSystemHelper->clean($productDir . $newVersion.'/'.$diffFile);
-		if (!JFile::exists($fileOrig)) {
+		if (!is_file($fileOrig)) {
 			//missing current version on local repository
 			//=> using live file to compare
 			$fileOrig = $fileLive;
@@ -508,7 +514,7 @@ class UpdaterClient
 		$file2 = ${'file' . $suffix2};
 		/*********/
 		
-		if (JFile::exists($file1) && JFile::exists($file2)) {
+		if (is_file($file1) && is_file($file2)) {
 			$diff = new jaDiffTool();
 			$objLeft = $diff->buildObject($title1, $file1, '', 0);
 			$objRight = $diff->buildObject($title2, $file2, '', 0);
@@ -573,7 +579,7 @@ class UpdaterClient
 			$data = json_encode($data);
 		}
 		$logFile = $productDir . "change_log.log";
-		JFile::write($logFile, $data);
+		File::write($logFile, $data);
 		return true;
 	}
 
@@ -587,7 +593,7 @@ class UpdaterClient
 		}
 
 		$logFile = $productDir . "change_log.log";
-		if (JFile::exists($logFile)) {
+		if (is_file($logFile)) {
 			return file_get_contents($logFile);
 		} else {
 			return false;
@@ -607,7 +613,7 @@ class UpdaterClient
 		}else{
 			$logFile = $productDir . "change_log.log";
 		}
-		if (JFile::exists($logFile)) {
+		if (is_file($logFile)) {
 			return file_get_contents($logFile);
 		} else {
 			return false;
@@ -684,7 +690,7 @@ class UpdaterClient
 		$tmpFile = jaTempnam(ja_sys_get_temp_dir(), 'ja');
 		$result =NetworkHelper::downloadFile($tmpFile, $this->getServiceUrl($product), $message);
 		$downloadedFile = $result["savePath"];
-		if (!JFile::exists($downloadedFile)) {
+		if (!is_file($downloadedFile)) {
 			//throw new Exception('[UpdaterClient] Fail to download upgrade package', 100);
 			jaucRaiseMessage("Error occur when downloading upgrade package!", true);
 			return false;
@@ -712,14 +718,14 @@ class UpdaterClient
 		}
 		//
 		$newVerDir = $productDir . $upgradeVersion.'/';
-		if (!JFolder::exists($newVerDir)) {
+		if (!is_dir($newVerDir)) {
 			return false;
 		}
 		$vUpgrade = new stdClass();
 		$vUpgrade->crc = $this->getVersionChecksum($newVerDir);
 		//
 		$orgVerDir = $productDir . $product->version.'/';
-		if (JFolder::exists($orgVerDir)) {
+		if (is_dir($orgVerDir)) {
 			$vServer = new stdClass();
 			$vServer->crc = $this->getVersionChecksum($orgVerDir);
 		}
@@ -733,12 +739,12 @@ class UpdaterClient
 		
 		if (!isset($vServer)) {
 			//clear cached package file
-			if (JFile::exists($package)) {
-				JFile::delete($package);
+			if (is_file($package)) {
+				File::delete($package);
 			}
 		}
 		
-		if (!JFile::exists($package)) {
+		if (!is_file($package)) {
 			
 			$compare = new jaCompareTool();
 			if (isset($vServer)) {
@@ -749,13 +755,13 @@ class UpdaterClient
 			
 			$tmpDir = $FileSystemHelper->tmpDir(null, 'ja', 0755);
 			$tmpDir = $tmpDir . $oldPro->extKey.'/';
-			if (JFolder::create($tmpDir, 0755) === false) {
+			if (Folder::create($tmpDir, 0755) === false) {
 				jaucRaiseMessage("UpdaterService: cannot build upgrade package", true);
 				return false;
 			}
 			
 			$infoFile = $tmpDir . "jaupdater.info.json";
-			JFile::write($infoFile, json_encode($vResult));
+			File::write($infoFile, json_encode($vResult));
 			
 			//echo $tmpDir;
 			$this->_buildUpgradePackage($newVerDir, $tmpDir, $vResult);
@@ -773,32 +779,32 @@ class UpdaterClient
 		$src = $FileSystemHelper->clean($src);
 		$dst = $FileSystemHelper->clean($dst);
 		
-		if (JFolder::exists($src)) {
-			if (!JFolder::exists($dst)) {
-				JFolder::create($dst, 0755);
+		if (is_dir($src)) {
+			if (!is_dir($dst)) {
+				Folder::create($dst, 0755);
 			}
 			$dir = opendir($src);
 			while (false !== ($file = readdir($dir))) {
 				if (($file != '.') && ($file != '..')) {
-					if (JFolder::exists($src.'/'.$file)) {
+					if (is_dir($src.'/'.$file)) {
 						if (isset($objectFilter->$file)) {
 							$this->_buildUpgradePackage($src.'/'.$file, $dst.'/'.$file, $objectFilter->$file);
 						}
 					} else {
 						if (isset($objectFilter->$file) && in_array($objectFilter->$file, array('new', 'updated'))) {
-							JFile::copy($src.'/'.$file, $dst.'/'.$file);
+							File::copy($src.'/'.$file, $dst.'/'.$file);
 						}
 					}
 				}
 			}
 			closedir($dir);
-		} elseif (JFile::exists($src)) {
+		} elseif (is_file($src)) {
 			$file = basename($src);
-			if (JFolder::exists($dst)) {
+			if (is_dir($dst)) {
 				$dst = $FileSystemHelper->clean($dst.'/'.$file);
 			}
 			if (isset($objectFilter->$file) && in_array($objectFilter->$file, array('new', 'updated'))) {
-				JFile::copy($src, $dst);
+				File::copy($src, $dst);
 			}
 		}
 	}
@@ -807,7 +813,7 @@ class UpdaterClient
 	function _parseBackupInfo($fileInfo)
 	{
 		$aFields = array("extKey", "version", "createDate", "comment");
-		if (JFile::exists($fileInfo)) {
+		if (is_file($fileInfo)) {
 			$content = file_get_contents($fileInfo);
 			preg_match_all("/([^\r\n=]+)=([^\r\n]*)/", $content, $matches);
 			
@@ -847,7 +853,7 @@ class UpdaterClient
 							$aFiles[$i]['name'] = $file;
 							$aFiles[$i]['title'] = date("M d, Y - H:i:s", strtotime($data["createDate"]));
 							$aFiles[$i]['comment'] = $data["comment"];
-							if (JFolder::exists($folder . $backupName.'/')) {
+							if (is_dir($folder . $backupName.'/')) {
 								$aFiles[$i]['conflicted'] = 1;
 								$aFiles[$i]['conflictedFolder'] = $backupName;
 							} else {
@@ -883,12 +889,12 @@ class UpdaterClient
 		$i = -1;
 		while (($entry = readdir($handle)) !== false) {
 			$path = $backupDir . $entry.'/';
-			if ($entry != '.' && $entry != '..' && JFolder::exists($path)) {
+			if ($entry != '.' && $entry != '..' && is_dir($path)) {
 				$i++;
 				$aFolders[$i] = array();
 				$aFolders[$i]['name'] = $entry;
 				$aFolders[$i]['title'] = date("M d, Y - H:i:s", $entry);
-				if (JFile::exists($path . "jaupdater.comment.txt")) {
+				if (is_file($path . "jaupdater.comment.txt")) {
 					$aFolders[$i]['comment'] = file_get_contents($path . "jaupdater.comment.txt");
 				}
 			}
@@ -998,13 +1004,13 @@ class UpdaterClient
 	function getVersionChecksum($path)
 	{
 		$cache = $path . "jaupdater.checksum.json";
-		if (JFile::exists($cache)) {
+		if (is_file($cache)) {
 			return file_get_contents($cache);
 		} else {
 			$md5CheckSums = new CheckSumsMD5();
 			$crc = $md5CheckSums->dumpCRCObject($path);
 			$json = json_encode($crc);
-			JFile::write($cache, $json);
+			File::write($cache, $json);
 			
 			return $json;
 		}
@@ -1030,7 +1036,7 @@ class UpdaterClient
 	function getLocalVersionsPath($product, $checkExists = true)
 	{
 		$path = $this->getLocalBasePath($product) . "versions/";
-		if (JFolder::exists($path) || !$checkExists) {
+		if (is_dir($path) || !$checkExists) {
 			return $path;
 		} else {
 			return false;
@@ -1041,7 +1047,7 @@ class UpdaterClient
 	function getLocalVersionPath($product, $checkExists = true)
 	{
 		$path = $this->getLocalVersionsPath($product, $checkExists) . $product->version.'/';
-		if (JFolder::exists($path) || !$checkExists) {
+		if (is_dir($path) || !$checkExists) {
 			return $path;
 		} else {
 			return false;
@@ -1053,7 +1059,7 @@ class UpdaterClient
 	{
 		$FileSystemHelper = new FileSystemHelper();
 		$path = $this->getLocalBasePath($product) . "patch/";
-		if (!JFolder::exists($path)) {
+		if (!is_dir($path)) {
 			if (!$FileSystemHelper->createDirRecursive($path, 0755)) {
 				return false;
 			}
@@ -1066,7 +1072,7 @@ class UpdaterClient
 	{
 		$FileSystemHelper = new FileSystemHelper();
 		$path = $this->getLocalBasePath($product) . "backup/";
-		if (!JFolder::exists($path)) {
+		if (!is_dir($path)) {
 			if (!$FileSystemHelper->createDirRecursive($path, 0755)) {
 				return false;
 			}
@@ -1085,7 +1091,7 @@ class UpdaterClient
 		}
 		//store same folder with backup files
 		$path = $this->getLocalBasePath($product) . "backup/".$folder.'/';
-		if (!JFolder::exists($path)) {
+		if (!is_dir($path)) {
 			if (!$FileSystemHelper->createDirRecursive($path, 0755)) {
 				return false;
 			}
@@ -1098,7 +1104,7 @@ class UpdaterClient
 	{
 		$FileSystemHelper = new FileSystemHelper();
 		$path = $this->getLocalBasePath($product) . "backup/";
-		if (!JFolder::exists($path)) {
+		if (!is_dir($path)) {
 			if (!$FileSystemHelper->createDirRecursive($path, 0755)) {
 				return false;
 			}

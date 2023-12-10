@@ -10,7 +10,9 @@
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 if(version_compare(JVERSION, '3.0', 'lt')){
@@ -33,10 +35,13 @@ $icons = $params->get('access-edit') || $params->get('show_print_icon') || $para
 if (empty ($this->item->catslug)) {
 	$this->item->catslug = $this->item->category_alias ? ($this->item->catid.':'.$this->item->category_alias) : $this->item->catid;
 }
+
+$currentDate   = Factory::getDate()->format('Y-m-d H:i:s');
+$isUnpublished = ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED || $this->item->publish_up > $currentDate)
+    || ($this->item->publish_down < $currentDate && $this->item->publish_down !== null);
 ?>
-<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
-|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != '0000-00-00 00:00:00' )) : ?>
-<div class="system-unpublished">
+	<?php if ($isUnpublished) : ?>
+		<div class="system-unpublished">
 	<?php endif; ?>
 
 	<!-- Article -->
@@ -101,9 +106,8 @@ if (empty ($this->item->catslug)) {
 	</article>
 	<!-- //Article -->
 
-<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
-|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != '0000-00-00 00:00:00' )) : ?>
-</div>
-<?php endif; ?>
+	<?php if ($isUnpublished) : ?>
+		</div>
+	<?php endif; ?>
 
 <?php echo $this->item->event->afterDisplayContent; ?> 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -9,24 +10,29 @@
 
 defined('_JEXEC') or die;
 
-if(!class_exists('ContentHelperRoute')){
-	if(version_compare(JVERSION, '4', 'ge')){
-		abstract class ContentHelperRoute extends \Joomla\Component\content\Site\Helper\RouteHelper{};
-	}else{
-		JLoader::register('ContentHelperRoute', $com_path . '/helpers/route.php');
-	}
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
+
+if (!class_exists('ContentHelperRoute')) {
+  if (version_compare(JVERSION, '4', 'ge')) {
+    abstract class ContentHelperRoute extends \Joomla\Component\Content\Site\Helper\RouteHelper
+    {
+    };
+  } else {
+    JLoader::register('ContentHelperRoute', $com_path . '/helpers/route.php');
+  }
 }
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
-if(version_compare(JVERSION, '4','lt')){
-  JHtml::_('behavior.caption'); 
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
+if (version_compare(JVERSION, '4', 'lt')) {
+  HTMLHelper::_('behavior.caption');
 }
 ?>
-<div class="category-list<?php echo $this->pageclass_sfx;?>">
+<div class="category-list<?php echo $this->pageclass_sfx; ?>">
 
   <?php
-    $this->subtemplatename = 'articles';
-    echo JLayoutHelper::render('joomla.content.category_default', $this);
+  $this->subtemplatename = 'articles';
+  echo LayoutHelper::render('joomla.content.category_default', $this);
   ?>
 
 </div>

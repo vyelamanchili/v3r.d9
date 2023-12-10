@@ -7,7 +7,7 @@
  * @license      http://www.gnu.org/licenses/gpl.html GNU/GPL, see LICENSE.txt
  */
 
-defined('_JEXEC') or die();
+ defined('_JEXEC') or die();
 
 
 class plgSystemT3InstallerScript

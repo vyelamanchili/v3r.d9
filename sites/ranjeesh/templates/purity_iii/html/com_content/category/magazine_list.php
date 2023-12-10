@@ -114,7 +114,7 @@ JPluginHelper::importPlugin('content');
 						</aside>
 					<?php endif; ?>
 				  
-				  <?php if ($params->get('show_readmore')) :
+				  <?php if ($params->get('show_readmore') && $item->readmore) :
 				    if ($params->get('access-view')) :
 				      $link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 				    else :

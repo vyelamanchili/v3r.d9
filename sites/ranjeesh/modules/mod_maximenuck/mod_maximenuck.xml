@@ -11,7 +11,7 @@
 	<license>GNU/GPL 3 https://www.gnu.org/licenses/gpl.html</license>
 	<authorEmail>ced1870@gmail.com</authorEmail>
 	<authorUrl>https://www.joomlack.fr</authorUrl>
-	<version>10.0.4</version>
+	<version>10.0.9</version>
 	<description>MOD_MAXIMENUCK_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_maximenuck">mod_maximenuck.php</filename>
@@ -896,7 +896,7 @@
 					class="btn-group"
 					>
 					<option value="0">MAXIMENUCK_VERSION8</option>
-					<option value="1">MAXIMENUCK_VERSION9</option>
+					<option value="1">MAXIMENUCK_VERSION10</option>
 				</field>
 				<field
 					name="datahover"
@@ -983,7 +983,7 @@
 				<field
 					name="fontawesomeversion"
 					type="maximenucklist"
-					default="left"
+					default="5"
 					label="MAXIMENUCK_FONTWESOME_VERSION_LABEL"
 					description="MAXIMENUCK_FONTWESOME_VERSION_DESC"
 					icon="text_padding_left.png"

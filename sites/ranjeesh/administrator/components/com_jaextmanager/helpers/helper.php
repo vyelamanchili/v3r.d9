@@ -12,6 +12,12 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\Factory;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
+
+
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
@@ -49,7 +55,7 @@ function jaGetCoreVersion($jVersion, $extname = '')
 
 function jaGetListServices()
 {
-	$db = JFactory::getDbo();
+	$db = Factory::getDbo();
 	
 	$sql = "SELECT * FROM #__jaem_services AS t WHERE 1 ORDER BY t.ws_name";
 	$db->setQuery($sql);
@@ -96,22 +102,22 @@ function jaEMTooltips($tipid, $title)
  */
 function jaTempnam($dir, $prefix)
 {
-	$dir = JPath::clean($dir . '/');
-	if (!JFolder::exists($dir)) {
-		$dir = JPath::clean(ja_sys_get_temp_dir() . '/');
+	$dir = Path::clean($dir . '/');
+	if (!is_dir($dir)) {
+		$dir = Path::clean(ja_sys_get_temp_dir() . '/');
 	}
 	
 	$sand = md5(microtime());
 	$fileName = $prefix . date("YmdHis") . $sand;
 	$i = 0;
 	$fileNameTest = $fileName . ".tmp";
-	while (JFile::exists($dir . $fileNameTest)) {
+	while (is_file($dir . $fileNameTest)) {
 		$i++;
 		$fileNameTest = $fileName . "_{$i}.tmp";
 	}
 	$file = $dir . $fileNameTest;
 	//$content = '';
-	//JFile::write($file, $content);
+	//::write($file, $content);
 	//chmod
 	//@chmod($file, '0755');
 	return $file;

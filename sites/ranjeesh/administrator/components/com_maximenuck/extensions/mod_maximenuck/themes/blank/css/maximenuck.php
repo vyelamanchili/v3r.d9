@@ -242,6 +242,7 @@ div#<?php echo $id; ?> ul.maximenuck2 li.maximenuck:hover {
 /* all links styles */
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck a,
 div#<?php echo $id; ?> ul.maximenuck li.maximenuck span.separator,
+div#<?php echo $id; ?> ul.maximenuck li.maximenuck span.nav-header,
 div#<?php echo $id; ?> ul.maximenuck2 a,
 div#<?php echo $id; ?> ul.maximenuck2 li.maximenuck span.separator {
 	display: block;
@@ -671,4 +672,17 @@ div#<?php echo $id; ?> li.fullwidth > div.floatck > div.maxidrop-main {
 div#<?php echo $id; ?>.maximenuckv li.fullwidth > div.floatck > .maxidrop-main {
 	height: 100%;
 	overflow-y: auto;
+}
+
+/*---------------------------------------------
+---	 Tabs					                ---
+----------------------------------------------*/
+
+div#<?php echo $id; ?> ul.maximenuck li.maximenucktab > div.floatck div.floatck {
+	top: 0;
+	bottom: 0;
+	left: 180px;
+	width: calc(100% - 180px);
+	margin: 0;
+	overflow: auto;
 }

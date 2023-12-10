@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
 
 // Create a shortcut for params.
@@ -18,11 +21,11 @@ $canEdit = $params->get('access-edit');
 if (empty ($item->catslug)) {
   $item->catslug = $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
 }
-$url = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
-$uri = JUri::getInstance();
+$url = Route::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
+$uri = Uri::getInstance();
 $prefix = $uri->toString(array('scheme', 'host', 'port'));
-	$timePublishDown = $item->publish_down != null ? $item->publish_down : '';
-	$timePublishUp = $item->publish_up != null ? $item->publish_up : '';
+$timePublishDown = $item->publish_down != null ? $item->publish_down : Factory::getDbo()->getNullDate();
+$timePublishUp = $item->publish_up != null ? $item->publish_up : Factory::getDbo()->getNullDate();
 ?>
 
 <header class="article-header clearfix">
@@ -39,10 +42,10 @@ $prefix = $uri->toString(array('scheme', 'host', 'port'));
 	<?php if ($item->state == 0) : ?>
 		<span class="label label-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 	<?php endif; ?>
-	<?php if (strtotime($timePublishUp) > strtotime(JFactory::getDate())) : ?>
+	<?php if (strtotime($timePublishUp) > strtotime(Factory::getDate())) : ?>
 		<span class="label label-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 	<?php endif; ?>
-	<?php if ((strtotime($timePublishDown) < strtotime(JFactory::getDate())) && !in_array($item->publish_down, array('',JFactory::getDbo()->getNullDate()))) : ?>
+	<?php if ((strtotime($timePublishDown) < strtotime(Factory::getDate())) && !in_array($item->publish_down, array('',Factory::getDbo()->getNullDate()))) : ?>
 		<span class="label label-warning"><?php echo Text::_('JEXPIRED'); ?></span>
 	<?php endif; ?>
 </header>

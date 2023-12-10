@@ -7,6 +7,8 @@ use Maximenuck\CKFof;
 
 class MaximenuckControllerInterface extends MaximenuckController {
 
+	protected $imagespath;
+
 	/**
 	 * Load the needed interface
 	 * 
@@ -46,13 +48,13 @@ class MaximenuckControllerInterface extends MaximenuckController {
 
 		$customid = $this->input->get('customid', '', 'string');
 		$model = CKFof::getModel('Menubuilder');
-		$this->item = $model->getMenubuilderItem($customid);
+		$item = $model->getMenubuilderItem($customid);
 
 		?>
-		<input class="itemdata" name="id" type="hidden" value="<?php echo $this->item->id ?>" />
-		<input class="itemdata" name="fields" type="hidden" value="<?php echo $this->item->styles ?>" />
-		<input class="itemdata" name="params" type="hidden" value="<?php echo $this->item->params ?>"/>
-		<input class="itemdata" name="customid" type="hidden" value="<?php echo $this->item->customid ?>"/>
+		<input class="itemdata" name="id" type="hidden" value="<?php echo $item->id ?>" />
+		<input class="itemdata" name="fields" type="hidden" value="<?php echo $item->styles ?>" />
+		<input class="itemdata" name="params" type="hidden" value="<?php echo $item->params ?>"/>
+		<input class="itemdata" name="customid" type="hidden" value="<?php echo $item->customid ?>"/>
 		<script>
 			function ckLoadEditionItem() {} // needed to clean the function on load
 			function ckBeforeSaveItem() {} // needed to clean the function on save
