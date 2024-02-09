@@ -12,6 +12,138 @@
                 <div class="box">
                     <table>
                         <tr>
+                            <td style="border-bottom:none">2024-02-01</td>
+                            <td style="border-bottom:none"><h3>Google Drive</h3></td>
+                            <td style="border-bottom:none">service</td>
+                        </tr>
+                    </table>
+                    <div class="greybox" style="position: relative; top: -10px">
+                        Google Drive images not displayed:<br>
+                        1) enable "FIFU Settings → Performance → CDN + Optimized Thumbnails".<br>
+                    </div>
+                </div>
+                <div class="box">
+                    <table>
+                        <tr>
+                            <td style="border-bottom:none">2024-01-31</td>
+                            <td style="border-bottom:none"><h3> Electron
+                            </h3></td>
+                            <td style="border-bottom:none">theme</td>
+                        </tr>
+                    </table>
+                    <div class="greybox" style="position: relative; top: -10px">
+                        FIFU Product gallery is not displayed:<br>
+                        1) edit "electron/woocommerce/content-single-product.php" and replace<br>
+                        <textarea style="width:100%;height:25px;overflow:hidden" disabled>
+                            wc_get_template_part( 'content', 'main-gallery' );
+                        </textarea>
+                        with<br>
+                        <textarea style="width:100%;height:25px;overflow:hidden" disabled>
+                            echo do_shortcode('[fifu_gallery]');
+                        </textarea>
+                    </div>
+                </div>
+                <div class="box">
+                    <table>
+                        <tr>
+                            <td style="border-bottom:none">2024-01-29</td>
+                            <td style="border-bottom:none"><h3> Salient</h3></td>
+                            <td style="border-bottom:none">theme</td>
+                        </tr>
+                    </table>
+                    <div class="greybox" style="position: relative; top: -10px">
+                        Large empty area following the featured video:<br>
+                        1) access "Appearance → Customize → Additional CSS";<br>
+                        2) add:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;div.nectar-post-grid-item-bg > video {position: absolute;}<br>
+                        3) publish.
+                    </div>
+                </div>
+                <div class="box">
+                    <table>
+                        <tr>
+                            <td style="border-bottom:none">2024-01-20</td>
+                            <td style="border-bottom:none"><h3>TI WooCommerce Wishlist</h3></td>
+                            <td style="border-bottom:none">plugin</td>
+                        </tr>
+                    </table>
+                    <div class="greybox" style="position: relative; top: -10px">
+                        "Add to Wishlist" button not being displayed for featured video:<br>
+                        1) set "1" for "FIFU Settings → Featured video → Play Button → z-index";<br>
+                    </div>
+                </div>
+                <div class="box">
+                    <table>
+                        <tr>
+                            <td style="border-bottom:none">2024-01-15</td>
+                            <td style="border-bottom:none"><h3>Security Optimizer</h3></td>
+                            <td style="border-bottom:none">plugin</td>
+                        </tr>
+                    </table>
+                    <div class="greybox" style="position: relative; top: -10px">
+                        "Update failed: Download failed. Unauthorized" message:<br>
+                        1) Disable Security Optimizer, wait a few minutes and try again.<br>
+                    </div>
+                </div>
+                <div class="box">
+                    <table>
+                        <tr>
+                            <td style="border-bottom:none">2024-01-14</td>
+                            <td style="border-bottom:none"><h3>WooCommerce</h3></td>
+                            <td style="border-bottom:none">plugin</td>
+                        </tr>
+                    </table>
+                    <div class="greybox" style="position: relative; top: -10px">
+                        Images cropped when "CDN + Optimized Thumbnails" is enabled:<br>
+                        1) Select "Appearance → Customize → WooCommerce → Product Images → Thumbnail cropping → Uncropped".<br>
+                        2) Publish.
+                    </div>
+                </div>
+                <div class="box">
+                    <table>
+                        <tr>
+                            <td style="border-bottom:none">2024-01-04</td>
+                            <td style="border-bottom:none"><h3> Zank
+                            </h3></td>
+                            <td style="border-bottom:none">theme</td>
+                        </tr>
+                    </table>
+                    <div class="greybox" style="position: relative; top: -10px">
+                        FIFU Product gallery is not displayed:<br>
+                        1) edit "zank-child/woocommerce/content-single-product.php" and replace<br>
+                        <textarea style="width:100%;height:25px;overflow:hidden" disabled>
+                            zank_product_gallery_slider();
+                        </textarea>
+                        with<br>
+                        <textarea style="width:100%;height:25px;overflow:hidden" disabled>
+                            echo do_shortcode('[fifu_gallery]');
+                        </textarea>
+                    </div>
+                </div>
+                <div class="box">
+                    <table>
+                        <tr>
+                            <td style="border-bottom:none">2024-01-01</td>
+                            <td style="border-bottom:none"><h3> Sahifa
+                            </h3></td>
+                            <td style="border-bottom:none">theme</td>
+                        </tr>
+                    </table>
+                    <div class="greybox" style="position: relative; top: -10px">
+                        Images being displayed larger than the standard size:<br>
+                        1) access "Appearance → Customize → Additional CSS";<br>
+                        2) add:<br>
+                        <textarea style="width:100%;height:60px;overflow:hidden" disabled="">
+                        &nbsp;&nbsp;&nbsp;&nbsp;li.first-news > div > a > img {aspect-ratio: 310 / 165; object-fit: cover; width: 100%;}
+                        &nbsp;&nbsp;&nbsp;&nbsp;li.other-news > div > a > img {aspect-ratio: 110 / 75; object-fit: cover; width: 100%;}
+                        &nbsp;&nbsp;&nbsp;&nbsp;div.post-thumbnail.tie-appear > a > img {aspect-ratio: 110 / 75; object-fit: cover; max-height: 211px;}
+                        </textarea>
+                        3) publish.
+                    </div>
+                </div>
+                <div class="box">
+                    <table>
+                        <tr>
                             <td style="border-bottom:none">2023-11-23</td>
                             <td style="border-bottom:none"><h3> Rosa
                             </h3></td>
@@ -51,7 +183,7 @@
                         </textarea><br>
                         within the function 'wpqa_get_aq_resize_img_url';
                     </div>
-                </div>
+                </div>            
                 <div class="box">
                     <table>
                         <tr>
@@ -289,34 +421,6 @@
                 <div class="box">
                     <table>
                         <tr>
-                            <td style="border-bottom:none">2022-12-29</td>
-                            <td style="border-bottom:none"><h3> WP Job Manager</h3></td>
-                            <td style="border-bottom:none">plugin</td>
-                        </tr>
-                    </table>
-                    <div class="greybox" style="position: relative; top: -10px">
-                        Deformed images:<br>
-                        1) access "FIFU Settings → Performance → CDN + Optimized Thumbnails"<br>
-                        2) enable "CDN + optimized thumbnails"<br>
-                        3) enable "crop featured images"
-                    </div>
-                </div>
-                <div class="box">
-                    <table>
-                        <tr>
-                            <td style="border-bottom:none">2022-12-26</td>
-                            <td style="border-bottom:none"><h3> AMP</h3></td>
-                            <td style="border-bottom:none">plugin</td>
-                        </tr>
-                    </table>
-                    <div class="greybox" style="position: relative; top: -10px">
-                        CSS issues on AMP version:<br>
-                        1) run "FIFU Settings → Metadata → Save Image Dimensions".
-                    </div>
-                </div>
-                <div class="box">
-                    <table>
-                        <tr>
                             <td style="border-bottom:none">2022-12-19</td>
                             <td style="border-bottom:none"><h3> Astra Pro</h3></td>
                             <td style="border-bottom:none">plugin</td>
@@ -367,7 +471,7 @@
                     </table>
                     <div class="greybox" style="position: relative; top: -10px">
                         "Archive Products" widget displays a small category image when FIFU → Settings → Performance → Lazy Load is enabled:<br>
-                        1) access "Appearance → your theme → Customize → Additional CSS";<br>
+                        1) access "Appearance → Customize → Additional CSS";<br>
                         2) add:<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;li.product-category>a{width:100%;}<br>
                         3) publish.
@@ -485,20 +589,6 @@
                 <div class="box">
                     <table>
                         <tr>
-                            <td style="border-bottom:none">2022-07-23</td>
-                            <td style="border-bottom:none"><h3> Woodmart, Mipro</h3></td>
-                            <td style="border-bottom:none">themes</td>
-                        </tr>
-                    </table>
-                    <div class="greybox" style="position: relative; top: -10px">
-                        Product gallery doesn't work correctly. Two possible solutions:<br>
-                        a) run "FIFU Settings → Metadata → Save Image Dimensions";<br>
-                        b) enable "FIFU Settings → WooCommerce → FIFU Product Gallery".
-                    </div>
-                </div>
-                <div class="box">
-                    <table>
-                        <tr>
                             <td style="border-bottom:none">2022-06-15</td>
                             <td style="border-bottom:none"><h3>Bacola Core</h3></td>
                             <td style="border-bottom:none">plugin</td>
@@ -521,10 +611,10 @@
                     <div class="greybox" style="position: relative; top: -10px">
                         Solving "Featured Video" CSS issues:<br>
                         1) access "FIFU Settings → Video";<br>
-                        2) set "0" for "Play Button > z-index";<br>
+                        2) set "0" for "Play Button → z-index";<br>
                         3) set "50" for "Minimum Width";<br>
                         4) set "lightbox" for "Play Button → mode";<br>
-                        4) access "Appearance → your theme → Customize → Additional CSS";<br>
+                        4) access "Appearance → Customize → Additional CSS";<br>
                         5) add:<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;.fifu_play {height: 100%;}<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;.fifu_h_iframe, .fifu_wrapper {height: 100% !important;}<br>
@@ -573,19 +663,6 @@
                         1) go to "Featured image" meta box and type some text into "alt/title attribute" field<br>
                         2) publish/update the post<br>
                         3) refresh the page (F5)<br>
-                    </div>
-                </div>
-                <div class="box">
-                    <table>
-                        <tr>
-                            <td style="border-bottom:none">2022-03-05</td>
-                            <td style="border-bottom:none"><h3>Gutentor - Gutenberg Blocks - Page Builder for Gutenberg Editor</h3></td>
-                            <td style="border-bottom:none">plugin</td>
-                        </tr>
-                    </table>
-                    <div class="greybox" style="position: relative; top: -10px">
-                        Fixing "This block has encountered an error and cannot be previewed":<br>
-                        1) run "FIFU Settings → Metadata → Save Image Dimensions"
                     </div>
                 </div>
                 <div class="box">
@@ -778,7 +855,7 @@
                     <div class="greybox" style="position: relative; top: -10px">
                         Product gallery doesn't work correctly.<br>
                         1) enable "FIFU Settings → WooCommerce → FIFU Product Gallery";<br>
-                        2) access "Appearance → your theme → Customize → Additional CSS";<br>
+                        2) access "Appearance → Customize → Additional CSS";<br>
                         3) add:<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;div.rey-productSummary {justify-content:unset !important}<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;div.fifu-woo-gallery {padding: 20px !important}<br>
@@ -795,7 +872,7 @@
                     </table>
                     <div class="greybox" style="position: relative; top: -10px">
                         Badge is not being displayed when FIFU Product Gallery is enabled:<br>
-                        1) access "Appearance → your theme → Customize → Additional CSS";<br>
+                        1) access "Appearance → Customize → Additional CSS";<br>
                         2) add:<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;.yith-wcbm-badge {z-index: 11}<br>
                         3) publish.<br>
@@ -944,20 +1021,6 @@
                         The image URL is not in the feed:<br>
                         1) enable "FIFU Settings → Social → Media RSS Tags";<br>
                         2) for single posts (only) it's necessary to add "?withoutcomments=1" in the end of the feed URL.<br>
-                    </div>
-                </div>
-                <div class="box">
-                    <table>
-                        <tr>
-                            <td style="border-bottom:none">2020-08-25</td>
-                            <td style="border-bottom:none"><h3> Flatsome</h3></td>
-                            <td style="border-bottom:none">theme</td>
-                        </tr>
-                    </table>
-                    <div class="greybox" style="position: relative; top: -10px">
-                        WooCommerce lightbox doesn't work. Two possible solutions:<br>
-                        a) run "FIFU Settings → Metadata → Save Image Dimensions";<br>
-                        b) select "Flatsome → Customize → WooCommerce → Product Page → Gallery → Product Image Lightbox → Flatsome Lightbox".<br>
                     </div>
                 </div>
                 <div class="box">

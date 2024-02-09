@@ -26,12 +26,12 @@ function burst_install_sessions_table() {
 		$table_name = $wpdb->prefix . 'burst_sessions';
 		$sql        = "CREATE TABLE $table_name (
 			`ID` int(11) NOT NULL AUTO_INCREMENT,
+			`first_visited_url` varchar(255) NOT NULL,
 			`last_visited_url` varchar(255) NOT NULL,
             `goal_id` int(11),
-            `experiment_id` int(11),
-            `experiment_version` int(11),
             `country_code` varchar(2),
-              PRIMARY KEY  (ID)
+              PRIMARY KEY  (ID),
+              KEY `goal_id_index` (goal_id)
             ) $charset_collate;";
 		dbDelta( $sql );
 		update_option( 'burst_sessions_db_version', burst_version );

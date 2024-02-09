@@ -244,6 +244,43 @@ class PostsTerms {
 	}
 
 	/**
+	 * Load post settings from Post screen.
+	 *
+	 * @since 4.5.5
+	 *
+	 * @param  \WP_REST_Request  $request The REST Request
+	 * @return \WP_REST_Response          The response.
+	 */
+	public static function loadPostDetailsColumn( $request ) {
+		$body = $request->get_json_params();
+		$ids  = ! empty( $body['ids'] ) ? (array) $body['ids'] : [];
+
+		if ( ! $ids ) {
+			return new \WP_REST_Response( [
+				'success' => false,
+				'message' => 'Post IDs are missing.'
+			], 400 );
+		}
+
+		$posts = [];
+		foreach ( $ids as $postId ) {
+			$headlineResult = aioseo()->standalone->headlineAnalyzer->getResult( html_entity_decode( get_the_title( $postId ) ) );
+
+			$posts[] = [
+				'id'                => $postId,
+				'titleParsed'       => aioseo()->meta->title->getPostTitle( $postId ),
+				'descriptionParsed' => aioseo()->meta->description->getPostDescription( $postId ),
+				'headlineScore'     => ! empty( $headlineResult['score'] ) ? (int) $headlineResult['score'] : 0,
+			];
+		}
+
+		return new \WP_REST_Response( [
+			'success' => true,
+			'posts'   => $posts
+		], 200 );
+	}
+
+	/**
 	 * Update post settings from Post screen.
 	 *
 	 * @since 4.0.0
@@ -251,7 +288,7 @@ class PostsTerms {
 	 * @param  \WP_REST_Request  $request The REST Request
 	 * @return \WP_REST_Response          The response.
 	 */
-	public static function updatePostFromScreen( $request ) {
+	public static function updatePostDetailsColumn( $request ) {
 		$body    = $request->get_json_params();
 		$postId  = ! empty( $body['postId'] ) ? intval( $body['postId'] ) : null;
 		$isMedia = isset( $body['isMedia'] ) ? true : false;
@@ -431,6 +468,46 @@ class PostsTerms {
 
 		return new \WP_REST_Response( [
 			'success' => true
+		], 200 );
+	}
+
+	/**
+	 * Get the processed content by the given raw content.
+	 *
+	 * @since 4.5.2
+	 *
+	 * @param  \WP_REST_Request  $request The REST Request.
+	 * @return \WP_REST_Response          The response.
+	 */
+	public static function processContent( $request ) {
+		$args = $request->get_params();
+		$body = $request->get_json_params();
+
+		if ( empty( $args['postId'] ) ) {
+			return new \WP_REST_Response( [
+				'success' => false,
+				'message' => 'No post ID was provided.'
+			], 400 );
+		}
+
+		// Check if the content was passed, otherwise get it from the post.
+		$content = $body['content'] ?? '';
+		if ( empty( $content ) ) {
+			$content = aioseo()->helpers->getPostContent( $args['postId'] );
+		}
+
+		// Check if we can process it using a page builder integration.
+		$pageBuilder = aioseo()->helpers->getPostPageBuilderName( $args['postId'] );
+		if ( ! empty( $pageBuilder ) ) {
+			return new \WP_REST_Response( [
+				'success' => true,
+				'content' => aioseo()->standalone->pageBuilderIntegrations[ $pageBuilder ]->processContent( $args['postId'], $body['content'] ),
+			], 200 );
+		}
+
+		return new \WP_REST_Response( [
+			'success' => true,
+			'content' => apply_filters( 'the_content', $content ),
 		], 200 );
 	}
 }

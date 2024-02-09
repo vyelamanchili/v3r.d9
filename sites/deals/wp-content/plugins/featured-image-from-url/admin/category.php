@@ -35,6 +35,7 @@ function fifu_ctgr_edit_box($term) {
     $check_ignore = fifu_is_on('fifu_check') ? 'checked' : '';
 
     $fifu = fifu_get_strings_meta_box();
+    $adjustedUrl = fifu_cdn_adjust($url);
     include 'html/category.html';
 }
 
@@ -53,6 +54,7 @@ function fifu_ctgr_add_box() {
     $check_ignore = fifu_is_on('fifu_check') ? 'checked' : '';
 
     $fifu = fifu_get_strings_meta_box();
+    $adjustedUrl = fifu_cdn_adjust($url);
     include 'html/category.html';
 }
 
@@ -64,7 +66,7 @@ function fifu_ctgr_save_properties($term_id) {
         if (empty($_POST['fifu_input_alt']))
             delete_term_meta($term_id, 'fifu_image_alt');
         else
-            update_term_meta($term_id, 'fifu_image_alt', wp_strip_all_tags($_POST['fifu_input_alt']));
+            update_term_meta($term_id, 'fifu_image_alt', esc_html(wp_strip_all_tags($_POST['fifu_input_alt'])));
     }
 
     if (isset($_POST['fifu_input_url'])) {

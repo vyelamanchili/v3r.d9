@@ -1,4 +1,4 @@
-<?php die("Access Denied"); ?>#x#a:5:{s:4:"body";s:4773:"<div class="blog-featured" itemscope itemtype="https://schema.org/Blog">
+<?php die("Access Denied"); ?>#x#a:5:{s:4:"body";s:4893:"<div class="blog-featured" itemscope itemtype="https://schema.org/Blog">
 
 <div class="items-leading clearfix ">
 			<div class="leading leading-0" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
@@ -22,7 +22,7 @@
 				
 				
 				<section class="article-intro clearfix">
-					<p><img style="float: left;" src="images/banners/Technologies.png" alt="Technologies I know" width="960" height="200" /></p>
+					<p><img style="float: left;" src="images/banners/Technologies.png" alt="Technologies I know" width="960" height="200"></p>
 <p> </p>
 <p> </p>
 <p> </p>
@@ -32,12 +32,13 @@
 <p> </p>
 <p> </p>
 <p> </p>
-<p>With over 14 years of experience in the IT industry, primarily as a Senior Drupal Web Developer, I am a Full Stack Web developer with experience in the Government, Health and Education Sector in the following fields:</p>
+<p>With over 14 years of experience in the IT industry, primarily as a Full Stack Developer and DevOps Engineer, with experience in the Government, Health and Education Sector in the following fields:</p>
 <p> </p>
 <ul>
 <li>Web Development and Maintenance
 <ul>
-<li>Various <strong>PHP</strong> CMS Developments and Management like <strong>Drupal</strong> 6/7/8/9 , Wordpress and Joomla</li>
+<li><strong>C#.NET </strong>and Razer Pages and <strong>MVC, React, AngularJS and Javascript</strong></li>
+<li>Various <strong>PHP</strong> CMS Development and Management like <strong>Drupal</strong> 6/7/8/9 , Wordpress and Joomla</li>
 <li><strong>MVC</strong> Frameworks like MVCnPHP, Zend, CodeIgniter etc</li>
 <li>PHP, HTML, Javascript (JS), CSS, jQuery, NodeJS, AngularJS, React</li>
 </ul>
@@ -45,7 +46,7 @@
 <li>Server Setup, Management and Administration
 <ul>
 <li>Both Linux (LAMP) and Windows (WAMP) Stack i.e. XAMP</li>
-<li><strong>Cloud </strong>Resources like AWS, Azure and Acquia</li>
+<li><strong>Cloud </strong>Resources like AWS, <strong>Azure </strong>and Acquia</li>
 <li>I am Drush and CLI friendly</li>
 </ul>
 </li>
@@ -53,7 +54,7 @@
 <ul>
 <li>Primarily work with <strong>MySQL</strong></li>
 <li>also experienced in Oracle and SQL Server Development and Management</li>
-<li>and noSQL DBs like MongoDB and Elastic Search DB</li>
+<li>and <strong>noSQL</strong> DBs like MongoDB and Elastic Search DB</li>
 </ul>
 </li>
 <li>Code, Team and Project Management

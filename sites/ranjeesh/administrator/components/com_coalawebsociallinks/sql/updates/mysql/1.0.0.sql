@@ -1,1 +1,0 @@
-ALTER TABLE `#__cwsocial_count` ADD COLUMN `ordering` int(11) NOT NULL DEFAULT 0;

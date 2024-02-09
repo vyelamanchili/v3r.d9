@@ -86,11 +86,39 @@ if ( ! class_exists( 'Astra_Customizer' ) ) {
 		/**
 		 * All groups parent-child relation array data.
 		 *
-		 * @access Public
+		 * @access public
 		 * @since 2.0.0
 		 * @var Array
 		 */
 		public static $group_configs = array();
+
+		/**
+		 * All header configs array data.
+		 *
+		 * @access public
+		 * @since 4.5.2
+		 * @var array
+		 */
+		public static $customizer_header_configs = array(
+			'different-retina-logo',
+			'ast-header-retina-logo',
+			'different-mobile-logo',
+			'mobile-header-logo',
+			'header-color-site-tagline',
+			'ast-header-responsive-logo-width',
+			'display-site-title-responsive',
+			'display-site-tagline-responsive',
+			'logo-title-inline',
+		);
+
+		/**
+		 * All footer configs array data.
+		 *
+		 * @access public
+		 * @since 4.5.2
+		 * @var array
+		 */
+		public static $customizer_footer_configs = array();
 
 		/**
 		 * Initiator
@@ -581,11 +609,12 @@ if ( ! class_exists( 'Astra_Customizer' ) ) {
 					}
 
 					break;
-
 				case 'ast-font-variant':
 					$configuration['value'] = $val;
 					break;
-
+				case 'ast-number':
+					$configuration['value'] = $val;
+					break;
 				case 'ast-select-multi':
 					$configuration['value'] = $val;
 					break;
@@ -650,7 +679,9 @@ if ( ! class_exists( 'Astra_Customizer' ) ) {
 			if ( isset( $config['clone_type'] ) && isset( $config['clone_index'] ) ) {
 
 				if ( isset( Astra_Builder_Helper::$component_count_array[ $config['clone_type'] ] ) ) {
+					/** @psalm-suppress PossiblyUndefinedStringArrayOffset */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
 					if ( in_array( $section_name, Astra_Builder_Helper::$component_count_array['removed-items'], true ) || Astra_Builder_Helper::$component_count_array[ $config['clone_type'] ] < $config['clone_index'] ) {
+						/** @psalm-suppress PossiblyUndefinedStringArrayOffset */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
 						self::$js_configs['clone_sections'][ $section_name ] = $config;
 					} else {
 						self::$js_configs['sections'][ $section_name ] = $config;
@@ -1160,14 +1191,8 @@ if ( ! class_exists( 'Astra_Customizer' ) ) {
 			require ASTRA_THEME_DIR . 'inc/customizer/configurations/typography/class-astra-archive-typo-configs.php';
 			require ASTRA_THEME_DIR . 'inc/customizer/configurations/typography/class-astra-body-typo-configs.php';
 			require ASTRA_THEME_DIR . 'inc/customizer/configurations/block-editor/class-astra-block-editor-configs.php';
-
-			if( astra_has_gcp_typo_preset_compatibility() ) {
-				require ASTRA_THEME_DIR . 'inc/customizer/configurations/typography/class-astra-headings-typo-configs.php';
-			} else {
-				require ASTRA_THEME_DIR . 'inc/customizer/configurations/typography/class-astra-content-typo-configs.php';
-			}
-
-			require ASTRA_THEME_DIR . 'inc/customizer/configurations/typography/class-astra-header-typo-configs.php';
+			require ASTRA_THEME_DIR . 'inc/customizer/configurations/comments/class-astra-comments-configs.php';
+			require ASTRA_THEME_DIR . 'inc/customizer/configurations/typography/class-astra-headings-typo-configs.php';
 			require ASTRA_THEME_DIR . 'inc/customizer/configurations/typography/class-astra-single-typo-configs.php';
 			require ASTRA_THEME_DIR . 'inc/customizer/configurations/typography/class-astra-global-typo-configs.php';
 			require ASTRA_THEME_DIR . 'inc/customizer/configurations/global-misc/class-astra-global-misc-configs.php';
@@ -1462,6 +1487,7 @@ if ( ! class_exists( 'Astra_Customizer' ) ) {
 				'apply_content_bg_fullwidth_layouts'   => astra_get_option( 'apply-content-background-fullwidth-layouts', true ),
 				'astra_woo_btn_global_compatibility'   => is_callable( 'Astra_Dynamic_CSS::astra_woo_support_global_settings' ) ? Astra_Dynamic_CSS::astra_woo_support_global_settings() : false,
 				'v4_2_2_core_form_btns_styling'        => ( true === Astra_Dynamic_CSS::astra_core_form_btns_styling() ) ? ', #comments .submit, .search .search-submit' : '',
+				'improved_button_selector'             => Astra_Dynamic_CSS::astra_4_6_4_compatibility() ? ', .ast-single-post .entry-content .wp-block-button .wp-block-button__link, .ast-single-post .entry-content .wp-block-search .wp-block-search__button, body .entry-content .wp-block-file .wp-block-file__button' : '',
 				'tablet_breakpoint'                    => astra_get_tablet_breakpoint(),
 				'mobile_breakpoint'                    => astra_get_mobile_breakpoint(),
 			);
@@ -1630,3 +1656,39 @@ if ( ! class_exists( 'Astra_Customizer' ) ) {
  *  Kicking this off by calling 'get_instance()' method
  */
 Astra_Customizer::get_instance();
+
+/**
+ * Customizer save configs.
+ *
+ * Usecase: Header presets.
+ *
+ * @param array $configs configs.
+ *
+ * @since 4.5.2
+ * @return void
+ */
+function astra_save_header_customizer_configs( $configs ) {
+	if ( ! empty( $configs['name'] ) ) {
+		$key = str_replace( ASTRA_THEME_SETTINGS . '[', '', $configs['name'] );
+		$key = str_replace( ']', '', $key );
+		Astra_Customizer::$customizer_header_configs[] = $key;
+	}
+}
+
+/**
+ * Customizer save configs.
+ *
+ * Usecase: footer presets.
+ *
+ * @param array $configs configs.
+ *
+ * @since 4.5.2
+ * @return void
+ */
+function astra_save_footer_customizer_configs( $configs ) {
+	if ( ! empty( $configs['name'] ) ) {
+		$key = str_replace( ASTRA_THEME_SETTINGS . '[', '', $configs['name'] );
+		$key = str_replace( ']', '', $key );
+		Astra_Customizer::$customizer_footer_configs[] = $key;
+	}
+}

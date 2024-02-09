@@ -361,11 +361,8 @@ function rsssl_menu() {
 									'premium_title'         => __( 'Limit Login Attempts', 'really-simple-ssl' ),
 									'premium_text'         => __( 'Customize login attempts, intervals, and temporary lockouts according to your preferences to regulate the level of security on your website during authentication. No additional settings required', 'really-simple-ssl' ),
 									'upgrade'              => 'https://really-simple-ssl.com/pro/?mtm_campaign=lla&mtm_source=free&mtm_content=upgrade',
-									'helpLink'     => 'https://really-simple-ssl.com/instructions/password-security/?mtm_campaign=instructions&mtm_source=free',
 									'title'        => __( 'General', 'really-simple-ssl' ),
 									'intro'        => __( 'Protect your site against brute force login attacks by limiting the number of login attempts. Enabling this feature will temporary lock-out a username and the IP address that tries to login, after the set number of false logins.',
-										'really-simple-ssl' ),
-									'premium_text' => __( 'Protect your site against brute force login attacks by limiting the number of login attempts. Enabling this feature will temporary lock-out a username and the IP address that tries to login, after the set number of false logins.',
 										'really-simple-ssl' ),
 								],
 								[
@@ -378,8 +375,6 @@ function rsssl_menu() {
 									'helpLink'     => 'https://really-simple-ssl.com/instructions/limit-login-attempts/?mtm_campaign=instructions&mtm_source=free',
 									'title'        => __( 'Limit Attempts', 'really-simple-ssl' ),
 									'intro'        => __( 'The settings below determine how strict your site will be protected. You can leave these settings on their default values, unless you experience issues.',
-										'really-simple-ssl' ),
-									'premium_text' => __( 'Customize login attempts, intervals, and temporary lockouts according to your preferences to regulate the level of security on your website during authentication. No additional settings required',
 										'really-simple-ssl' ),
 								],
 								[
@@ -417,8 +412,6 @@ function rsssl_menu() {
 										'blocked' => __( 'You can add any non-existing username to this table, to instantly block IP addresses that try common usernames like "admin".',
 											'really-simple-ssl' ),
 									],
-									'premium_text' => __( 'Here you control the users that are automatically, and temporarily blocked. You can also add or remove users manually. We recommend blocking ‘admin’ as username as a start.',
-										'really-simple-ssl' ),
 								],
 								[
 									'id'           => 'limit_login_attempts_ip_address',
@@ -522,10 +515,10 @@ function rsssl_menu() {
 			'default_hidden' => true,
 			"title"          => "Let's Encrypt",
 			'intro'          => sprintf( __( 'We have tried to make our Wizard as simple and fast as possible. Although these questions are all necessary, if there’s any way you think we can improve the plugin, please let us %sknow%s!',
-					'really-simple-ssl' ), '<a target="_blank" href="https://really-simple-ssl.com/contact/?mtm_campaign=instructions&mtm_source=free">', '</a>' ) .
+					'really-simple-ssl' ), '<a target="_blank" rel="noopener noreferrer" href="https://really-simple-ssl.com/contact/?mtm_campaign=instructions&mtm_source=free">', '</a>' ) .
 			                    sprintf( __( ' Please note that you can always save and finish the wizard later, use our %sdocumentation%s for additional information or log a %ssupport ticket%s if you need our assistance.',
-				                    'really-simple-ssl' ), '<a target="_blank" href="https://really-simple-ssl.com/install-ssl-certificate/?mtm_campaign=instructions&mtm_source=free">', '</a>',
-				                    '<a target="_blank" href="https://wordpress.org/support/plugin/really-simple-ssl/">', '</a>' ),
+				                    'really-simple-ssl' ), '<a target="_blank" rel="noopener noreferrer" href="https://really-simple-ssl.com/install-ssl-certificate/?mtm_campaign=instructions&mtm_source=free">', '</a>',
+				                    '<a target="_blank" rel="noopener noreferrer" href="https://wordpress.org/support/plugin/really-simple-ssl/">', '</a>' ),
 			'menu_items' => [
 				[
 					'id'         => 'le-system-status',
@@ -543,7 +536,7 @@ function rsssl_menu() {
 				[
 					'id'    => 'le-hosting',
 					'title' => __('Hosting', 'really-simple-ssl'),
-					'intro' => __('Below you will find the instructions for different hosting environments and configurations. If you start the process with the necessary instructions and credentials the next view steps will be done in no time.',
+					'intro' => __('Below you will find the instructions for different hosting environments and configurations. If you start the process with the necessary instructions and credentials the next steps will be done in no time.',
 						'really-simple-ssl'),
 				],
 				[

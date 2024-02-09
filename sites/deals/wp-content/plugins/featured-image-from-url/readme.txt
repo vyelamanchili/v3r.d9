@@ -3,8 +3,8 @@ Contributors: marceljm
 Donate link: https://donorbox.org/fifu
 Tags: featured, image, url, video, woocommerce
 Requires at least: 5.3
-Tested up to: 6.4.1
-Stable tag: 4.5.3
+Tested up to: 6.4.3
+Stable tag: 4.6.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -27,7 +27,6 @@ Use an external image as featured image of your post, page or custom post type.
 * Hide featured media
 * Featured image in content
 * Auto set image title
-* Save image dimensions
 * Column for featured image
 * **[PRO]** Image search (search engine)
 * **[PRO]** Disable right-click
@@ -36,6 +35,7 @@ Use an external image as featured image of your post, page or custom post type.
 * **[PRO]** Replace not found image
 * **[PRO]** Custom popup
 * **[PRO]** Page redirection
+* **[PRO]** Cloak links
 
 #### Automatic featured media
 
@@ -265,14 +265,14 @@ Supports URLs from YouTube, Vimeo, Twitter, 9GAG, Cloudinary, Tumblr, Publitio, 
 
 == Changelog ==
 
-= 4.5.3 =
-* Note: about FIFU Cloud 2; fix: conflict between Lazy Load and Bricks theme (and possibly others).
+= 4.6.2 =
+* New feature: Cloak Links; New option: FIFU Product Gallery → Variations images in the main gallery; Fix: conflict with Bricks editor; Fix: CDN + Optimized Thumbnails (Warning message).
 
-= 4.5.2 =
-* Compatibility with the latest WordPress and WooCommerce versions.
+= 4.6.1 =
+* New option: Play Button → Draw; enhancement: Autoplay on Mouseover (now supports both local and remote video files); fix: Quick Edit (issue with not displaying images requiring CDN resolved); fix: CDN + Optimized Thumbnails (resolved conflict with YouTube thumbnails and URLs containing query parameters).
 
-= 4.5.1 =
-* Fix: quick editor (not displaying gallery fields after filtering the product); fix: Remove external image link (moving the scroll on mobile).
+= 4.6.0 =
+* New Option: Meta Tags → Homepage; New Option: Play Button → Size; Enhancements: Featured Video now supports Autoplay, Playback Loop, and Mute for external video files; Enhancements: CDN + Optimized Thumbnails, now capable of serving images from X, Dropbox, and Yahoo; Enhancement: Centralized Featured Image in Content; Fix: CDN + Optimized Thumbnails, with added fallback for unregistered sizes and resolution of conflicts with video thumbnails, Amazon images, FIFU Cloud, and SVG format; Fix: Resolved conflicts with the WordPress featured image box; Fix: Resolved issue where Google Drive images were not displayed in wp-admin and product galleries.
 
 = others =
 * [more](https://fifu.app/changelog)
@@ -280,5 +280,5 @@ Supports URLs from YouTube, Vimeo, Twitter, 9GAG, Cloudinary, Tumblr, Publitio, 
 
 == Upgrade Notice ==
 
-= 4.5.3 =
-* Note: about FIFU Cloud 2; fix: conflict between Lazy Load and Bricks theme (and possibly others).
+= 4.6.2 =
+* New feature: Cloak Links; New option: FIFU Product Gallery → Variations images in the main gallery; Fix: conflict with Bricks editor; Fix: CDN + Optimized Thumbnails (Warning message).

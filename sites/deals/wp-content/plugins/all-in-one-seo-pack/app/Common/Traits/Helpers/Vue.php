@@ -75,7 +75,7 @@ trait Vue {
 		$this->setSocialNetworksData();
 		$this->setSeoRevisionsData();
 		$this->setToolsOrSettingsData();
-		$this->setDiviData();
+		$this->setPageBuilderData();
 
 		$this->cache[ $hash ] = $this->data;
 
@@ -167,10 +167,7 @@ trait Vue {
 			'backups'           => [],
 			'importers'         => [],
 			'data'              => [
-				'server'              => [
-					'apache' => null,
-					'nginx'  => null
-				],
+				'server'              => aioseo()->helpers->getServerName(),
 				'robots'              => [
 					'defaultRules'      => [],
 					'hasPhysicalRobots' => null,
@@ -264,6 +261,7 @@ trait Vue {
 		$postId         = $this->args['staticPostId'] ?: get_the_ID();
 		$postTypeObj    = get_post_type_object( get_post_type( $postId ) );
 		$post           = Models\Post::getPost( $postId );
+		$wpPost         = get_post( $postId );
 		$staticHomePage = intval( get_option( 'page_on_front' ) );
 
 		$this->data['currentPost'] = [
@@ -289,6 +287,7 @@ trait Vue {
 			'type'                           => $postTypeObj->labels->singular_name,
 			'postType'                       => 'type' === $postTypeObj->name ? '_aioseo_type' : $postTypeObj->name,
 			'postStatus'                     => get_post_status( $postId ),
+			'postAuthor'                     => (int) $wpPost->post_author,
 			'isSpecialPage'                  => $this->isSpecialPage( $postId ),
 			'isStaticPostsPage'              => aioseo()->helpers->isStaticPostsPage(),
 			'isHomePage'                     => $postId === $staticHomePage,
@@ -309,7 +308,6 @@ trait Vue {
 			'maxImagePreview'                => $post->robots_max_imagepreview,
 			'modalOpen'                      => false,
 			'generalMobilePrev'              => false,
-			'socialMobilePreview'            => false,
 			'og_object_type'                 => ! empty( $post->og_object_type ) ? $post->og_object_type : 'default',
 			'og_title'                       => $post->og_title,
 			'og_description'                 => $post->og_description,
@@ -519,10 +517,6 @@ trait Vue {
 		if ( 'tools' === $this->args['page'] ) {
 			$this->data['backups']                = array_reverse( aioseo()->backup->all() );
 			$this->data['importers']              = aioseo()->importExport->plugins();
-			$this->data['data']['server']         = [
-				'apache' => $this->isApache(),
-				'nginx'  => $this->isNginx()
-			];
 			$this->data['data']['robots']         = [
 				'defaultRules'      => $this->args['page'] ? aioseo()->robotsTxt->extractRules( aioseo()->robotsTxt->getDefaultRobotsTxtContent() ) : [],
 				'hasPhysicalRobots' => aioseo()->robotsTxt->hasPhysicalRobotsTxt(),
@@ -559,20 +553,23 @@ trait Vue {
 	}
 
 	/**
-	 * Set Vue Divi data.
+	 * Set Vue Page Builder data.
 	 *
-	 * @since 4.4.9
+	 * @since   4.4.9
+	 * @version 4.5.2 Renamed.
 	 *
 	 * @return void
 	 */
-	private function setDiviData() {
-		if ( 'divi' !== $this->args['integration'] ) {
+	private function setPageBuilderData() {
+		if ( empty( $this->args['integration'] ) ) {
 			return;
 		}
 
-		// This needs to be dropped in order to prevent JavaScript errors in Divi's visual builder.
-		// Some of the data from the site analysis can contain HTML tags, e.g. the search preview, and somehow that causes JSON.parse to fail on our localized Vue data.
-		unset( $this->data['internalOptions']['internal']['siteAnalysis'] );
+		if ( 'divi' === $this->args['integration'] ) {
+			// This needs to be dropped in order to prevent JavaScript errors in Divi's visual builder.
+			// Some of the data from the site analysis can contain HTML tags, e.g. the search preview, and somehow that causes JSON.parse to fail on our localized Vue data.
+			unset( $this->data['internalOptions']['internal']['siteAnalysis'] );
+		}
 	}
 
 	/**

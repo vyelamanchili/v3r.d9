@@ -68,6 +68,14 @@ function fifu_has_local_featured_image($post_id) {
     return $att_post->post_author != FIFU_AUTHOR;
 }
 
+function fifu_is_remote_image($att_id) {
+    $att_post = get_post($att_id);
+    if (!$att_post)
+        return false;
+
+    return $att_post->post_author == FIFU_AUTHOR;
+}
+
 function fifu_get_delimiter($property, $html) {
     $delimiter = explode($property . '=', $html);
     return $delimiter ? substr($delimiter[1], 0, 1) : null;
@@ -187,14 +195,13 @@ function fifu_get_author() {
 }
 
 function fifu_get_full_image_url($att_id) {
-    $url = $att_id ? get_the_guid($att_id) : null;
-    // for local image with no URL in guid
-    if ($url && strpos($url, "://") === false) {
-        $image_attributes = wp_get_attachment_image_src($att_id, 'full');
-        if ($image_attributes)
-            $url = $image_attributes[0];
-    }
-    return $url;
+    if (!$att_id)
+        return null;
+
+    if (fifu_is_remote_image($att_id))
+        return get_the_guid($att_id);
+
+    return wp_get_attachment_url($att_id);
 }
 
 function fifu_check_screen_base() {
