@@ -9,6 +9,14 @@ function fifu_replace_attached_file($att_url, $att_id) {
 }
 
 function fifu_process_url($att_url, $att_id) {
+    if (strpos($att_url, "https://thumbnails.odycdn.com") === 0 ||
+            strpos($att_url, "https://res.cloudinary.com") === 0 ||
+            strpos($att_url, "https://i0.wp.com") === 0 ||
+            strpos($att_url, "https://i1.wp.com") === 0 ||
+            strpos($att_url, "https://i2.wp.com") === 0 ||
+            strpos($att_url, "https://i3.wp.com") === 0)
+        return $att_url;
+
     if (!$att_id)
         return $att_url;
 
@@ -175,7 +183,7 @@ function fifu_add_size($image, $size) {
 function fifu_get_photon_url($image, $size, $att_id) {
     $image = fifu_add_size($image, $size);
     $w = $image[1];
-    $h = fifu_is_on('fifu_cdn_crop') ? $image[2] : null;
+    $h = $image[2];
 
     $args = array();
 
@@ -209,8 +217,8 @@ function fifu_callback($buffer) {
     if (empty($buffer))
         return;
 
-    /* plugin: Oxygen */
-    if (isset($_REQUEST['ct_builder']))
+    /* plugins: Oxygen, Bricks */
+    if (isset($_REQUEST['ct_builder']) || isset($_REQUEST['bricks']))
         return $buffer;
 
     /* fifu_save_query(); */
@@ -230,9 +238,20 @@ function fifu_callback($buffer) {
         $post_id = null;
 
         // get parameters
-        if (isset($FIFU_SESSION[$url]))
+        $data = null;
+
+        if (isset($FIFU_SESSION[$url])) {
             $data = $FIFU_SESSION[$url];
-        else
+        } else {
+            if (isset($FIFU_SESSION['cdn-new-old'][$url])) {
+                $prev_url = $FIFU_SESSION['cdn-new-old'][$url];
+                if (isset($FIFU_SESSION[$prev_url])) {
+                    $data = $FIFU_SESSION[$prev_url];
+                }
+            }
+        }
+
+        if (!$data)
             continue;
 
         if (strpos($imgItem, 'fifu-replaced') !== false)
@@ -441,4 +460,30 @@ function fifu_get_photon_args($w, $h) {
     }
     return $args;
 }
+
+function fifu_add_parameters_single_post($post_id) {
+    $att_id = get_post_thumbnail_id($post_id);
+    $att_post = get_post($att_id);
+    $url = isset($att_post->guid) ? $att_post->guid : null;
+    if ($url)
+        fifu_add_url_parameters($url, $att_id, null);
+}
+
+// dont load remote image data in the media library when called from block editor
+
+function custom_get_attachment_intercept() {
+    $att_id = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
+
+    if ($att_id > 0) {
+        if (fifu_is_remote_image($att_id)) {
+            $response = array(
+                'success' => false,
+                'data' => array(),
+            );
+            wp_die();
+        }
+    }
+}
+
+add_action('wp_ajax_get-attachment', 'custom_get_attachment_intercept', 0);
 

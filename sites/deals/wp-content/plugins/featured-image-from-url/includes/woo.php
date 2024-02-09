@@ -88,22 +88,72 @@ function fifu_get_pretty_variation_attributes_map($parent_product_id) {
         // Get the child variation IDs
         $variations = $parent_product->get_children();
 
-        foreach ($variations as $variation_id) {
-            // Load each variation product object
-            $variation = wc_get_product($variation_id);
+        // Get the pretty names of the attributes
+        $pretty_names = fifu_get_pretty_attribute_names($parent_product_id);
 
-            // Get attributes of the variation
-            $attributes = $variation->get_variation_attributes();
+        $attributes = fifu_get_all_variation_attributes($variations);
 
-            // Get the pretty names of the attributes
-            $pretty_names = fifu_get_pretty_attribute_names($parent_product_id);
+        $pretty_names = filterPrettyNames($pretty_names, $attributes);
 
-            // Add to the map
-            $variation_map[$variation_id] = array_combine($pretty_names, $attributes);
+        foreach ($attributes as $variation_id => $attribute_values) {
+            if (is_array($pretty_names) && is_array($attribute_values) && count($pretty_names) == count($attribute_values)) {
+                $variation_map[$variation_id] = array_combine($pretty_names, $attribute_values);
+            } else {
+                error_log("Error in variation ID $variation_id: Mismatch in array lengths or non-array arguments.");
+                error_log(print_r($pretty_names, true));
+                error_log(print_r($attribute_values, true));
+                $variation_map[$variation_id] = []; // Assign default value or skip
+            }
         }
     }
 
     return $variation_map;
+}
+
+function filterPrettyNames($pretty_names, $attributes) {
+    if (empty($attributes)) {
+        return [];
+    }
+
+    // Get the first element of the attributes array
+    $firstAttribute = reset($attributes);
+
+    // Convert the keys of the first attribute to lowercase for case-insensitive comparison
+    $firstAttributeLowerKeys = array_change_key_case($firstAttribute, CASE_LOWER);
+
+    // Filter pretty names based on keys existing in the first attribute (case-insensitive)
+    $filteredPrettyNames = array_filter($pretty_names, function ($key) use ($firstAttributeLowerKeys) {
+        return array_key_exists('attribute_' . strtolower($key), $firstAttributeLowerKeys);
+    }, ARRAY_FILTER_USE_KEY);
+
+    return $filteredPrettyNames;
+}
+
+function fifu_get_all_variation_attributes($variation_ids) {
+    global $wpdb;
+
+    // Check if there are any variations
+    if (empty($variation_ids)) {
+        return [];
+    }
+
+    // Prepare SQL query
+    $placeholders = implode(',', array_fill(0, count($variation_ids), '%d'));
+    $sql = "SELECT post_id, meta_key, meta_value 
+            FROM {$wpdb->postmeta} 
+            WHERE post_id IN ($placeholders) 
+              AND meta_key LIKE 'attribute_%'";
+
+    // Execute the query
+    $results = $wpdb->get_results($wpdb->prepare($sql, $variation_ids));
+
+    // Organize attributes by variation ID
+    $attributes = [];
+    foreach ($results as $result) {
+        $attributes[$result->post_id][$result->meta_key] = $result->meta_value;
+    }
+
+    return $attributes;
 }
 
 function fifu_get_pretty_attribute_names($product_id) {
@@ -157,8 +207,10 @@ function fifu_array_to_sorted_html_table($data, $post_id) {
         // Sort the array based on the values in the inner arrays
         uasort($data, function ($a, $b) {
             foreach ($a as $key => $value) {
-                if ($a[$key] != $b[$key]) {
-                    return $a[$key] <=> $b[$key];
+                if (isset($a[$key]) && isset($b[$key])) {
+                    if ($a[$key] != $b[$key]) {
+                        return $a[$key] <=> $b[$key];
+                    }
                 }
             }
             return 0;
@@ -187,7 +239,7 @@ function fifu_array_to_sorted_html_table($data, $post_id) {
             if ($col !== 'ID') {  // Skip the 'ID' column as it's already added
                 if (strpos($col, 'dashicons-camera') !== false) {
                     // Add your image here. For example, using a placeholder image.
-                    list($border, $height, $width, $video_url, $video_src, $is_ctgr, $is_variable, $image_url, $url, $vars) = fifu_column_featured($id);
+                    list($border, $height, $width, $video_url, $video_src, $is_ctgr, $is_variable, $image_url, $url, $vars) = fifu_column_featured($id, false);
                     $html .= "
                         <td>
                             <div

@@ -44,7 +44,7 @@ function fifu_register_meta_box_script() {
     wp_enqueue_script('fancy-box-js', 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js');
 
     wp_enqueue_script('fifu-rest-route-js', plugins_url('/html/js/rest-route.js', __FILE__), array('jquery'), fifu_version_number());
-    wp_enqueue_script('fifu-meta-box-js', plugins_url('/html/js/meta-box.js', __FILE__), array('jquery'), fifu_version_number());
+    wp_enqueue_script('fifu-meta-box-js', plugins_url('/html/js/meta-box.js', __FILE__), array('jquery', 'wp-edit-post'), fifu_version_number());
     wp_enqueue_script('fifu-convert-url-js', plugins_url('/html/js/convert-url.js', __FILE__), array('jquery'), fifu_version_number());
 
     wp_register_style('fifu-unsplash-css', plugins_url('/html/css/unsplash.css', __FILE__), array(), fifu_version_number());
@@ -110,6 +110,7 @@ function fifu_show_elements($post) {
     $check_ignore = fifu_is_on('fifu_check') ? 'checked' : '';
 
     $fifu = fifu_get_strings_meta_box();
+    $adjustedUrl = fifu_cdn_adjust($url);
     include 'html/meta-box.html';
 }
 
@@ -212,7 +213,7 @@ function fifu_save_properties($post_id) {
 
     /* alt */
     if (isset($_POST['fifu_input_alt'])) {
-        $alt = wp_strip_all_tags($_POST['fifu_input_alt']);
+        $alt = esc_html(wp_strip_all_tags($_POST['fifu_input_alt']));
         $post_title = get_the_title();
         $alt = !$alt && $url && fifu_is_on('fifu_auto_alt') && $post_title != 'AUTO-DRAFT' ? $post_title : $alt;
         fifu_update_or_delete_value($post_id, 'fifu_image_alt', $alt);
@@ -357,7 +358,7 @@ function fifu_get_height_meta($req) {
 add_action('import_end', 'fifu_import_end', 10, 0);
 
 function fifu_import_end() {
-    if ($_POST['action'] == "woocommerce_csv_import_request" && !isset($_POST['mapping']))
+    if (isset($_POST['action']) && $_POST['action'] == "woocommerce_csv_import_request" && !isset($_POST['mapping']))
         return;
     fifu_db_delete_thumbnail_id_without_attachment();
     fifu_db_insert_attachment();

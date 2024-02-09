@@ -4,11 +4,11 @@
  * Plugin Name: Featured Image from URL (FIFU)
  * Plugin URI: https://fifu.app/
  * Description: Use an external image/video/audio as featured image of a post or WooCommerce product.
- * Version: 4.5.3
+ * Version: 4.6.2
  * Author: fifu.app
  * Author URI: https://fifu.app/
  * WC requires at least: 4.0
- * WC tested up to: 8.3.1
+ * WC tested up to: 8.5.2
  * Text Domain: featured-image-from-url
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -40,6 +40,7 @@ require_once (FIFU_ADMIN_DIR . '/db.php');
 require_once (FIFU_ADMIN_DIR . '/category.php');
 require_once (FIFU_ADMIN_DIR . '/column.php');
 require_once (FIFU_ADMIN_DIR . '/cron.php');
+require_once (FIFU_ADMIN_DIR . '/dimensions.php');
 require_once (FIFU_ADMIN_DIR . '/log.php');
 require_once (FIFU_ADMIN_DIR . '/menu.php');
 require_once (FIFU_ADMIN_DIR . '/meta-box.php');
@@ -118,7 +119,7 @@ function fifu_row_meta($plugin_meta, $plugin_file, $plugin_data, $status) {
         $strings = fifu_get_strings_plugins();
 
         $ref = '<a href="https://referral.fifu.app" target="_blank">' . $strings['affiliate']() . '</a>';
-        $email = '<a style="color:#2271b1">marcel@fifu.app</a>';
+        $email = '<a style="color:#2271b1">support@fifu.app</a>';
         $new_links = array(
             'affiliate' => $ref,
             'email' => $email,

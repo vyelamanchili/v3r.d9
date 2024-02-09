@@ -68,12 +68,14 @@ $hideFinalTrailModal = $options->_getOption('hide_final_trail');
 </div>
 <div class="panel panel-group b2s-server-connection-fail" style="display: none;">
     <div class="panel-body">
-        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php esc_html_e('The connection to the server failed. Please try again! You can find more information and solutions in the', 'blog2social') . '<a target="_blank" href="' . esc_url(B2S_Tools::getSupportLink('connection_guide')) . '"> ' . esc_html__('guide for server connection', 'blog2social'); ?></a>
+        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> 
+        <?php echo sprintf(__('The connection to the server failed. Please try again! You can find more information and solutions in the <a href="%s" target="_blank">guide for server connection</a>.', 'blog2social'), esc_url(B2S_Tools::getSupportLink('connection_guide'))); ?>
+
     </div>
 </div>
 <div class="panel panel-group b2s-nonce-check-fail" style="display: none;">
     <div class="panel-body">
-        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php esc_html_e('WordPress session timeout: For security reasons, WordPress will let your session expire automatically if your site has been inactive for a while. <a href="">Please reload this page to go on with your current action.</a>', 'blog2social'); ?>
+        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php esc_html_e('WordPress session timeout: For security reasons, WordPress will let your session expire automatically if your site has been inactive for a while. Please reload this page to go on with your current action.', 'blog2social'); ?>
     </div>
 </div>
 
@@ -232,29 +234,34 @@ $hideFinalTrailModal = $options->_getOption('hide_final_trail');
 </div>
 
 <!-- user apps -->
-<div class="panel panel-group b2s-user-apps-generic-error" style="display: none;">
+<div class="panel panel-group b2s-user-app-alert b2s-user-apps-generic-error" style="display: none;">
     <div class="panel-body">
-        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php esc_html_e('The app data could not be saved. Please try again.', 'blog2social'); ?></a>
+        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php esc_html_e('Your app could not be saved. Please try again.', 'blog2social'); ?></a>
     </div>
 </div>
-<div class="panel panel-group b2s-user-apps-permission-premium" style="display: none;">
+<div class="panel panel-group b2s-user-app-alert b2s-user-apps-permission-premium" style="display: none;">
     <div class="panel-body">
         <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php echo sprintf(__('To connect more Twitter apps with your Twitter accounts, please upgrade your current Blog2Social license or get a Twitter app add-on to your current license <a href="%s">Login with your Blog2Social account and continue to booking.</a>', esc_url(B2S_Tools::getSupportLink('addon_apps'))), 'blog2social'); ?></a>
     </div>
 </div>
-<div class="panel panel-group b2s-user-apps-permission-free" style="display: none;">
+<div class="panel panel-group b2s-user-app-alert b2s-user-apps-permission-free" style="display: none;">
     <div class="panel-body">
         <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php echo sprintf(__('You have no more open app slots for this network. <a href="%s">Upgrade to a premium license to purchase additional slots.</a>', esc_url(B2S_Tools::getSupportLink('affiliate'))), 'blog2social'); ?></a>
     </div>
 </div>
-<div class="panel panel-group b2s-user-apps-success" style="display: none;">
+<div class="panel panel-group b2s-user-app-alert b2s-user-apps-success" style="display: none;">
     <div class="panel-body">
-        <span class="glyphicon glyphicon-check glyphicon-success"></span> <?php esc_html_e('App data creation successful', 'blog2social'); ?></a>
+        <span class="glyphicon glyphicon-ok glyphicon-success"></span> <?php esc_html_e('Your app was saved successfully.', 'blog2social'); ?></a>
     </div>
 </div>
-<div class="panel panel-group b2s-user-apps-edit-success" style="display: none;">
+<div class="panel panel-group b2s-user-app-alert b2s-user-apps-edit-success" style="display: none;">
     <div class="panel-body">
-        <span class="glyphicon glyphicon-check glyphicon-success"></span> <?php esc_html_e('App data successfully edited', 'blog2social'); ?></a>
+        <span class="glyphicon glyphicon-ok glyphicon-success"></span> <?php esc_html_e('Your app was updated successfully.', 'blog2social'); ?></a>
+    </div>
+</div>
+<div class="panel panel-group b2s-user-app-alert b2s-user-apps-delete-success" style="display: none;">
+    <div class="panel-body">
+        <span class="glyphicon glyphicon-ok glyphicon-success"></span> <?php esc_html_e('Your app has been removed successfully.', 'blog2social'); ?></a>
     </div>
 </div>
 
@@ -327,28 +334,30 @@ if (!B2S_System::isblockedArea('B2S_MENU_MODUL_RATING', B2S_PLUGIN_ADMIN)) {
 
 <?php if (!B2S_System::isblockedArea('', B2S_PLUGIN_ADMIN, true)) { ?>
     <!--Info-Trail-->
-    <?php if (B2S_PLUGIN_USER_VERSION == 0 && !defined("B2S_PLUGIN_TRAIL_END") && !get_option('B2S_PLUGIN_DISABLE_TRAIL') && !get_option('B2S_HIDE_PREMIUM_MESSAGE') && (isset($_GET['page']) && in_array($_GET['page'], array("blog2social", "blog2social-post", "blog2social-sched", "blog2social-publish", "blog2social-calendar")))) { 
-            $optionsOnboarding = new B2S_Options(B2S_PLUGIN_BLOG_USER_ID, "B2S_PLUGIN_ONBOARDING");
-            $onboardingval = $optionsOnboarding->_getOption('onboarding_active');
-            if($onboardingval != 1){ ?>
-        <div class="panel panel-group b2s-trail-premium-info-area b2s-notice">
-            <div class="panel-body">
-                <div class="b2s-hide-premium-message b2s-close"><i class="glyphicon glyphicon-remove"></i></div>
-                <h2 style="margin-top:0;font-size:20px;"><?php esc_html_e('Start your free 30-day-Premium-trial', 'blog2social'); ?></h2>
-                <p>
-                    <?php esc_html_e('Check out Blog2Social Premium with more awesome features for scheduling and sharing (e.g. auto-posting, best time scheduling, social media calendar) 30-days for free. The trial is free of charge, without any obligations, no automatic subscription. Basic features of the Free Version are free forever.', 'blog2social'); ?>
-                </p>
-                <p class="b2s-notice-buttons">
-                    <a href="<?php echo esc_url(B2S_Tools::getSupportLink('feature')); ?>" target="_blank" class="b2s-text-underline">
-                        <?php esc_html_e('Yes, I want to test Blog2Social Premium 30 days for free', 'blog2social'); ?>
-                    </a>
-                </p>
+    <?php
+    if (B2S_PLUGIN_USER_VERSION == 0 && !defined("B2S_PLUGIN_TRAIL_END") && !get_option('B2S_PLUGIN_DISABLE_TRAIL') && !get_option('B2S_HIDE_PREMIUM_MESSAGE') && (isset($_GET['page']) && in_array($_GET['page'], array("blog2social", "blog2social-post", "blog2social-sched", "blog2social-publish", "blog2social-calendar")))) {
+        $optionsOnboarding = new B2S_Options(B2S_PLUGIN_BLOG_USER_ID, "B2S_PLUGIN_ONBOARDING");
+        $onboardingval = $optionsOnboarding->_getOption('onboarding_active');
+        if ($onboardingval != 1) {
+            ?>
+            <div class="panel panel-group b2s-trail-premium-info-area b2s-notice">
+                <div class="panel-body">
+                    <div class="b2s-hide-premium-message b2s-close"><i class="glyphicon glyphicon-remove"></i></div>
+                    <h2 style="margin-top:0;font-size:20px;"><?php esc_html_e('Start your free 30-day-Premium-trial', 'blog2social'); ?></h2>
+                    <p>
+                        <?php esc_html_e('Check out Blog2Social Premium with more awesome features for scheduling and sharing (e.g. auto-posting, best time scheduling, social media calendar) 30-days for free. The trial is free of charge, without any obligations, no automatic subscription. Basic features of the Free Version are free forever.', 'blog2social'); ?>
+                    </p>
+                    <p class="b2s-notice-buttons">
+                        <a href="<?php echo esc_url(B2S_Tools::getSupportLink('feature')); ?>" target="_blank" class="b2s-text-underline">
+                            <?php esc_html_e('Yes, I want to test Blog2Social Premium 30 days for free', 'blog2social'); ?>
+                        </a>
+                    </p>
+                </div>
             </div>
-        </div>
-    <?php 
-            }
-        } 
-        ?>
+            <?php
+        }
+    }
+    ?>
 
     <?php if (defined("B2S_PLUGIN_TRAIL_END") && strtotime(B2S_PLUGIN_TRAIL_END) > strtotime(gmdate('Y-m-d H:i:s')) && !get_option('B2S_HIDE_TRAIL_MESSAGE') && (isset($_GET['page']) && in_array($_GET['page'], array("blog2social", "blog2social-post", "blog2social-sched", "blog2social-publish", "blog2social-calendar")))) { ?>
         <div class="panel panel-group b2s-trail-premium-info-area b2s-notice">

@@ -2,14 +2,20 @@
 
 class FifuDb {
 
+    private $wpdb;
     private $posts;
+    private $options;
     private $postmeta;
+    private $terms;
     private $termmeta;
     private $term_taxonomy;
     private $term_relationships;
+    private $fifu_invalid_media_su;
     private $query;
-    private $wpdb;
     private $author;
+    private $MAX_INSERT;
+    private $MAX_URL_LENGTH;
+    private $types;
 
     function __construct() {
         global $wpdb;
@@ -1494,10 +1500,6 @@ function fifu_db_clean_dimensions_all() {
 
 function fifu_db_missing_dimensions() {
     $db = new FifuDb();
-
-    // too much
-    if (fifu_db_count_urls_with_metadata() > 10000)
-        return -1;
 
     $aux = $db->get_count_posts_without_dimensions()[0];
     return $aux ? $aux->amount : -1;

@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to the OptinMonster plugin will be documented in this file.
 
+### 2.15.3 - 2024-01-03
+* Updates to onboarding.
+
+### 2.15.2 - 2024-01-02
+* Improved onboarding for new users.
+
+### 2.15.1 - 2023-12-06
+* Updates and improvements to our Gutenberg block.
+* Improved connection flow.
+
 ### 2.15.0 - 2023-11-15
 * Improved connection flow and onboarding for new/existing users.
 * Fixed filtering bug on Playbooks page.

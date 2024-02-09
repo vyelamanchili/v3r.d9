@@ -6,17 +6,18 @@ Requires at least: 5.8
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.4
-Stable tag: 1.5.2
+Stable tag: 1.5.5.1
 
 Self-hosted and privacy-friendly analytics for Wordpress.
 
 == Description ==
+
 = Unlock the Power of Privacy-Friendly Analytics with Burst Statistics! =
 Burst Statistics keeps all data on your server, making it fully compliant with privacy laws. Our dashboards offer clear and concise insights, allowing you to make informed decisions without feeling overwhelmed by abundant data. Choose Burst Statistics for seamless and reliable analytics trusted by over 100,000 users.
 
 **This plugin is free and does not require an account.**
 
-**Benefits**
+= Key Features for Powerful Insights =
 * **Privacy-Friendly:** All data is stored on your own server.
 * **Essential Metrics:** Get the core data you need, like Pageviews, Visitors, Sessions, Time on Page, and Referrers.
 * **Real-Time Data:** Get instant insights directly on your dashboard.
@@ -24,29 +25,31 @@ Burst Statistics keeps all data on your server, making it fully compliant with p
 * **Free Support:** Feel free to reach out to us for assistance. We would be happy to help in any way we can.
 * **Simplicity:** User-friendly analytics that does not overwhelm you with data.
 
-**Here’s a review from one of our users:**
+= Here’s a review from one of our users: =
 >“On-premise Analytics is a great, if not the best, alternative to Google Analytics in the GDPR era. On top of that, since it’s native to WordPress, it’s so easy to configure Goals, etc. That’s awesome.”
 >- [Daan from Daan.dev (@daanvandenbergh)](https://wordpress.org/support/topic/great-product-with-great-potential/)
 
-**From the creators of Really Simple SSL & Complianz**
+= From the creators of Really Simple SSL & Complianz =
 Burst Statistics was created by experienced developers who created [Really Simple SSL](https://wordpress.org/plugins/really-simple-ssl/) & [Complianz](https://wordpress.org/plugins/complianz-gdpr/), with over 6,000,000 active installs combined. With a proven track record of providing top-notch, user-friendly solutions, you can trust that Burst Statistics meets the same high standards.
+
 Our community speaks for itself: with over 1,000,000 downloads and 100,000 active users, Burst Statistics is a trusted choice for your analytics needs.
 
-**Make Burst Statistics better!**
+= Make Burst Statistics better! =
 Our team is always working on improving our plugin, and your input as a user can significantly help us in this process. You don’t require any coding or software development knowledge to contribute; simply sharing your ideas or any issues you encounter would help to improve the plugin significantly. Please feel free to contact us via [a support request on the WordPress forums; we welcome any feedback you may have.](https://wordpress.org/support/plugin/burst-statistics/)
 
-**Get even more insight with Burst Pro**
+= Get even more insight with Burst Pro =
 Unlock comprehensive insights into your website’s user behavior with Burst Pro. Benefit from advanced features designed to improve performance, boost engagement, and drive conversions. [Elevate your data analysis experience by upgrading to Burst Pro today.](https://burst-statistics.com/pricing/)
 
-Pro Features Include:
-* **Geo-Tracking:** Identify the countries your visitors are coming from.
-* **Data Archiving:** Automatic archiving and manual restore options.
-* **Multiple Goals:** Track multiple objectives to measure your site’s success.
-* **Premium Support:** Premium Support from our fantastic team.
+Burst Pro Features Include:
+* Geo-Tracking: Identify the countries your visitors are coming from.
+* Data Archiving: Automatic archiving and manual restore options.
+* Multiple Goals: Track multiple objectives to measure your site’s success.
+* More metrics: Get more insights into your website’s performance.
+* Premium Support: Premium Support from our fantastic team.
 
 For upcoming features, please [visit our roadmap on our website.](https://burst-statistics.com/development-roadmap/)
 
-== Installation ==
+= Installation =
 * Go to “Plugins” in your WordPress Dashboard, and click “Add new”.
 * Click “Upload”, and select the downloaded .zip file.
 * Activate your new plugin.
@@ -84,6 +87,32 @@ Performance is almost not affected. We have built Burst to be very performant fo
 We value your feedback. You can [submit a support request on the WordPress forums](https://wordpress.org/support/plugin/burst-statistics/), and we will respond promptly.
 
 == Change log ==
+= 1.5.5.1 =
+* Fix: Issue where the plugin could not be deleted due to a fatal error. This has been resolved.
+
+= 1.5.5 =
+* Fix: limit summary tables upgrade to new users, and explicit upgraded websites.
+* Fix: Don't delete data on uninstall. Only delete when the 'Delete all data and deactivate' prompt is selected.
+
+= 1.5.4 =
+* Improvement: We have added summary tables, which will speed up the dashboard tremendously on large websites. The summary tables are updated every hour.
+* Improvement: We have added some indexes and removed some unused data which speeds up the dashboard and it will reduce the database size quite a bit.
+* Improvement: Save the last used date range in local storage, so when you return the date is the same.
+* Fix: Added more data to delete on uninstall. This will prevent data from being left behind when uninstalling the plugin.
+* Improvement: Updated referrer spam list.
+* Fix: Referer spam would not be filtered out. This has been resolved.
+* Fix: Click goals where an ID was on a parent class, would not be tracked. Now this is checked recursively.
+
+= 1.5.3 =
+* Fix: Fixed error in class-statistics.php
+* Fix: Changed query for post count per page on for logged in users.
+* Fix: Fixed a PHP error after activating the plugin.
+* Improvement: Moved endpoint to within the plugin folder.
+* Improvement: Changed some React imports to WordPress imports to save on file size.
+* Improvement: Removed unused data from the database. Removed full user_agent, shortened the full page URL and the referrer url, by removing site_url.
+* Fix: Tracking with Complianz turned on could sometimes result in double tracking. This has been resolved.
+* Fix: For filtering by conversions, the insights chart would not show the data correctly. This has been resolved.
+
 = 1.5.2 =
 * New Feature: Added pageviews per page display in top menu for logged-in users.
 * Fix: Removed random string from goals script for better caching.
