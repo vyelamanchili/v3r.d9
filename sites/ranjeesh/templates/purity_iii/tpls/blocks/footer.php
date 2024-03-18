@@ -8,6 +8,12 @@
 defined('_JEXEC') or die;
 ?>
 
+<!-- Calendly badge widget begin -->
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+<script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: 'https://calendly.com/yvranjeesh', text: 'Schedule a call with me', color: '#0077bb', textColor: '#ffffff', branding: false }); }</script>
+<!-- Calendly badge widget end -->
+
 <!-- BACK TOP TOP BUTTON -->
 <div id="back-to-top" data-spy="affix" data-offset-top="300" class="back-to-top hidden-xs hidden-sm affix-top">
   <button class="btn btn-primary" title="<?php echo JText::_('TPL_PURITY_III_BACKTOTOP'); ?>"><i class="fa fa-caret-up"></i></button>

@@ -53,8 +53,11 @@ class Api {
 			'post/(?P<postId>[\d]+)/disable-primary-term-education' => [ 'callback' => [ 'PostsTerms', 'disablePrimaryTermEducation' ], 'access' => 'aioseo_page_general_settings' ],
 			'post/(?P<postId>[\d]+)/disable-link-format-education'  => [ 'callback' => [ 'PostsTerms', 'disableLinkFormatEducation' ], 'access' => 'aioseo_page_general_settings' ],
 			'post/(?P<postId>[\d]+)/update-internal-link-count'     => [ 'callback' => [ 'PostsTerms', 'updateInternalLinkCount' ], 'access' => 'aioseo_page_general_settings' ],
-			'postscreen'                                            => [ 'callback' => [ 'PostsTerms', 'updatePostFromScreen' ], 'access' => 'aioseo_page_general_settings' ],
-			'termscreen'                                            => [ 'callback' => [ 'PostsTerms', 'updateTermFromScreen' ], 'access' => 'aioseo_page_general_settings' ],
+			'post/(?P<postId>[\d]+)/process-content'                => [ 'callback' => [ 'PostsTerms', 'processContent' ], 'access' => 'aioseo_page_general_settings' ],
+			'posts-list/load-details-column'                        => [ 'callback' => [ 'PostsTerms', 'loadPostDetailsColumn' ], 'access' => 'aioseo_page_general_settings' ],
+			'posts-list/update-details-column'                      => [ 'callback' => [ 'PostsTerms', 'updatePostDetailsColumn' ], 'access' => 'aioseo_page_general_settings' ],
+			'terms-list/load-details-column'                        => [ 'callback' => [ 'PostsTerms', 'loadTermDetailsColumn' ], 'access' => 'aioseo_page_general_settings' ],
+			'terms-list/update-details-column'                      => [ 'callback' => [ 'PostsTerms', 'updateTermDetailsColumn' ], 'access' => 'aioseo_page_general_settings' ],
 			'keyphrases'                                            => [ 'callback' => [ 'PostsTerms', 'updatePostKeyphrases' ], 'access' => 'aioseo_page_analysis' ],
 			'analyze'                                               => [ 'callback' => [ 'Analyze', 'analyzeSite' ], 'access' => 'aioseo_seo_analysis_settings' ],
 			'analyze-headline'                                      => [ 'callback' => [ 'Analyze', 'analyzeHeadline' ], 'access' => 'everyone' ],
@@ -119,7 +122,23 @@ class Api {
 			'integration/wpcode/snippets'                           => [
 				'callback' => [ 'WpCode', 'getSnippets', 'AIOSEO\\Plugin\\Common\\Api\\Integrations' ],
 				'access'   => 'aioseo_tools_settings'
-			]
+			],
+			'crawl-cleanup'                                         => [
+				'callback' => [ 'CrawlCleanup', 'fetchLogs', 'AIOSEO\\Plugin\\Common\\QueryArgs' ],
+				'access'   => [ 'aioseo_search_appearance_settings' ]
+			],
+			'crawl-cleanup/block'                                   => [
+				'callback' => [ 'CrawlCleanup', 'blockArg', 'AIOSEO\\Plugin\\Common\\QueryArgs' ],
+				'access'   => [ 'aioseo_search_appearance_settings' ]
+			],
+			'crawl-cleanup/delete-blocked'                          => [
+				'callback' => [ 'CrawlCleanup', 'deleteBlocked', 'AIOSEO\\Plugin\\Common\\QueryArgs' ],
+				'access'   => [ 'aioseo_search_appearance_settings' ]
+			],
+			'crawl-cleanup/delete-unblocked'                        => [
+				'callback' => [ 'CrawlCleanup', 'deleteLog', 'AIOSEO\\Plugin\\Common\\QueryArgs' ],
+				'access'   => [ 'aioseo_search_appearance_settings' ]
+			],
 		],
 		'DELETE' => [
 			'backup' => [ 'callback' => [ 'Tools', 'deleteBackup' ], 'access' => 'aioseo_tools_settings' ]
@@ -249,7 +268,7 @@ class Api {
 				// Any user is able to access the route.
 				return true;
 			default:
-				return current_user_can( apply_filters( 'aioseo_manage_seo', 'aioseo_manage_seo' ) );
+				return aioseo()->access->hasCapability( $routeData['access'] );
 		}
 	}
 

@@ -1,6 +1,7 @@
 <?php
 
 use Joomla\CMS\Factory;
+use Joomla\Registry\Registry;
 
 /** 
  *------------------------------------------------------------------------------
@@ -161,8 +162,8 @@ class T3Admin {
 		);
 
 		//just in case
-		if(!($params instanceof JRegistry)){
-			$params = new JRegistry;
+		if(!($params instanceof Registry)){
+			$params = new Registry;
 		}
 
 		//get extension id of framework and template

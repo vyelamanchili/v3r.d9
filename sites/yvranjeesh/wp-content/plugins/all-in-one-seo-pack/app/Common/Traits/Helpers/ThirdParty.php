@@ -180,6 +180,42 @@ trait ThirdParty {
 	}
 
 	/**
+	 * Checks whether the queried object is a WooCommerce product page.
+	 *
+	 * @since 4.5.5
+	 *
+	 * @return bool Whether the current page is a WooCommerce product page.
+	 */
+	public function isWooCommerceProductPage() {
+		if (
+			! $this->isWooCommerceActive() ||
+			! function_exists( 'is_product' )
+		) {
+			return false;
+		}
+
+		return is_product();
+	}
+
+	/**
+	 * Checks whether the queried object is a WooCommerce taxonomy page.
+	 *
+	 * @since 4.5.5
+	 *
+	 * @return bool Whether the current page is a WooCommerce taxonomy page.
+	 */
+	public function isWooCommerceTaxonomyPage() {
+		if (
+			! $this->isWooCommerceActive() ||
+			! function_exists( 'is_product_taxonomy' )
+		) {
+			return false;
+		}
+
+		return is_product_taxonomy();
+	}
+
+	/**
 	 * Internationalize.
 	 *
 	 * @since 4.0.0
@@ -371,7 +407,21 @@ trait ThirdParty {
 					$value = "<img src='$imageUrl' />";
 					break;
 				case 'gallery':
-					$value = "<img src='{$field['value'][0]['url']}' />";
+					$imageUrl = $field['value'];
+					// The value of a gallery field should always be an array.
+					if ( is_array( $imageUrl ) ) {
+						$imageUrl = current( $imageUrl );
+					}
+
+					// Image array format.
+					if ( is_array( $imageUrl ) && ! empty( $imageUrl['url'] ) ) {
+						$imageUrl = $imageUrl['url'];
+					}
+
+					// Image ID format.
+					$imageUrl = is_numeric( $imageUrl ) ? wp_get_attachment_image_url( $imageUrl ) : $imageUrl;
+
+					$value = ! empty( $imageUrl ) ? "<img src='{$imageUrl}' />" : '';
 					break;
 				case 'link':
 					$value = make_clickable( $field['value']['url'] ?? $field['value'] ?? '' );

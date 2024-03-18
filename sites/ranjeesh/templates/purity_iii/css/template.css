@@ -2874,7 +2874,6 @@ a.list-group-item.active:focus .list-group-item-text {
 .logo a:hover,
 .logo a:active,
 .logo a:focus {
-  background: #0067a2;
   color: #ffffff;
   text-decoration: none;
 }
@@ -2883,7 +2882,6 @@ a.list-group-item.active:focus .list-group-item-text {
     position: static;
   }
   .logo a {
-    background: #0067a2;
   }
   .logo:hover a,
   .logo a:hover,
@@ -3218,7 +3216,7 @@ a.list-group-item.active:focus .list-group-item-text {
   top: auto;
 }
 #back-to-top.affix {
-  bottom: 40px;
+  bottom: 70px;
 }
 #back-to-top a {
   outline: none;
