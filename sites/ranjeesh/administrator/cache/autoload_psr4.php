@@ -266,4 +266,7 @@ return [
 	'Joomla\\Plugin\\Workflow\\Featuring\\' => [JPATH_PLUGINS . '/workflow/featuring/src'],
 	'Joomla\\Plugin\\Workflow\\Notification\\' => [JPATH_PLUGINS . '/workflow/notification/src'],
 	'Joomla\\Plugin\\Workflow\\Publishing\\' => [JPATH_PLUGINS . '/workflow/publishing/src'],
+	'SYW\\Library\\' => [JPATH_LIBRARIES . '/syw/src'],
+	'SYW\\Module\\WeblinkLogos\\Site\\' => [JPATH_SITE . '/modules/mod_weblinklogo/src'],
+	'SYW\\Plugin\\System\\SYW\\' => [JPATH_PLUGINS . '/system/syw/src'],
 ];

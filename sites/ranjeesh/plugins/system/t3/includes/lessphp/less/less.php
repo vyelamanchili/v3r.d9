@@ -6134,6 +6134,7 @@ class Less_Tree_NameValue extends Less_Tree{
  */
 class Less_Tree_Negative extends Less_Tree{
 
+	public $parensInOp;
 	public $value;
 	public $type = 'Negative';
 
@@ -6170,6 +6171,7 @@ class Less_Tree_Negative extends Less_Tree{
  */
 class Less_Tree_Operation extends Less_Tree{
 
+	public $parensInOp;
 	public $op;
 	public $operands;
 	public $isSpaced;

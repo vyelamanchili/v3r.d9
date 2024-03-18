@@ -12,7 +12,12 @@
  *------------------------------------------------------------------------------
  */
 
+use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Table\Table;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 
 // No direct access
@@ -47,7 +52,7 @@ class T3Bot extends Registry
 			
 			//update all global parameters
 			foreach($themes as $theme){
-				$registry = new JRegistry;
+				$registry = new Registry;
 				$registry->loadString($theme->params);
 				$mm_config = $registry->get('mm_config');
 				if (!$mm_config) continue;
@@ -267,7 +272,7 @@ class T3Bot extends Registry
 				
 				//update all global parameters
 				foreach($themes as $theme){
-					$registry = new JRegistry;
+					$registry = new Registry;
 					$registry->loadString($theme->params);
 					$registry->set('mm_config', $mm_config); //overwrite with new value
 					$registry->set('mm_config_needupdate', ""); //overwrite with new value
@@ -299,14 +304,14 @@ class T3Bot extends Registry
 		$path = T3_TEMPLATE_PATH . '/less/extras';
 		if (!is_dir ($path)) return ;
 
-		$files = JFolder::files($path, '.less');
+		$files = Folder::files($path, '.less');
 		if (!$files || !count($files)){
 			return ;
 		}
 
 		$extras = array();
 		foreach ($files as $file) {
-			$extras[] = JFile::stripExt($file);
+			$extras[] = File::stripExt($file);
 		}
 		if (count($extras)) {
 			
@@ -344,21 +349,18 @@ class T3Bot extends Registry
 		
 		if ($form->getName() == 'com_categories.categorycom_content' || $form->getName() == 'com_content.article') {
 			
-			jimport('joomla.filesystem.folder');
-			jimport('joomla.filesystem.file');
-
 			// check for extrafields overwrite
 			$path = $tplpath . '/etc/extrafields';
 			if (!is_dir ($path)) return ;
 
-			$files = JFolder::files($path, '.xml');
+			$files = Folder::files($path, '.xml');
 			if (!$files || !count($files)){
 				return ;
 			}
 
 			$extras = array();
 			foreach ($files as $file) {
-				$extras[] = JFile::stripExt($file);
+				$extras[] = File::stripExt($file);
 			}
 			if (count($extras)) {
 
@@ -411,18 +413,18 @@ class T3Bot extends Registry
 							jimport('joomla.application.categories');
 						}
 
-						$categories = JCategories::getInstance('Content', array('countItems' => 0 ));
+						$categories = Categories::getInstance('Content', array('countItems' => 0 ));
 						$category = $categories->get($catid);
 						$params = $category->params;
-						if(!$params instanceof JRegistry) {
-							$params = new JRegistry;
+						if(!$params instanceof Registry) {
+							$params = new Registry;
 							$params->loadString($category->params);
 						}
 
-						if($params instanceof JRegistry){
+						if($params instanceof Registry){
 							$extrafile = $path . '/' . $params->get('t3_extrafields') . '.xml';
 							if(is_file($extrafile)){
-								JForm::addFormPath($path);
+								Form::addFormPath($path);
 								$form->loadFile($params->get('t3_extrafields'), false);
 							}
 						}
@@ -435,10 +437,10 @@ class T3Bot extends Registry
 	public static function onContentBeforeSave($context, $data, $isNew)
 	{
 		if(isset($data->attribs)){
-			$contentTable = \JTable::getInstance('Content', 'JTable',array());
+			$contentTable = Table::getInstance('Content', 'JTable',array());
 			$contentTable->load($data->id);
-			$oldAttribs = new \JRegistry($contentTable->attribs);
-			$attribs = new \JRegistry($data->attribs);
+			$oldAttribs = new Registry($contentTable->attribs);
+			$attribs = new Registry($data->attribs);
 			$oldAttribs->merge($attribs);
 			$data->attribs = $oldAttribs->toString();
 		}

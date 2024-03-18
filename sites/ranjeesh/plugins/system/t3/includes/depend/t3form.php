@@ -12,6 +12,8 @@
  *------------------------------------------------------------------------------
  */
 
+use Joomla\CMS\Form\Form;
+
 // No direct access
 defined('_JEXEC') or die();
 
@@ -20,12 +22,12 @@ defined('_JEXEC') or die();
  *
  * @package  JAT3.Core.Element
  */
-class T3Form extends JForm
+class T3Form extends Form
 {
 
 	public function __construct($name, array $options = array()){
 
-		if($name instanceof JForm){
+		if($name instanceof Form){
 			
 			foreach($name as $property => $value) {
 				$this->$property = $value;

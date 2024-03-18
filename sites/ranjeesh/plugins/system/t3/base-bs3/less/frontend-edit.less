@@ -371,6 +371,55 @@
   }
 }
 
+.j40,
+.j50 {
+  .profile-edit {
+    .t3onoff {
+      min-height: auto;
+      border: 0;
+      height: auto;
+      width: auto;
+
+      .radio {
+        display: flex;
+        align-items: center;
+        min-height: auto;
+        padding: 0;
+
+        .form-check {
+          display: flex;
+          align-items: center;
+
+          input[type="radio"] {
+            display: inline-block;
+          }
+        }
+      }
+
+      label {
+        padding: 0;
+        margin: 0;
+        position: relative;
+        top: auto;
+        left: auto;
+        height: auto;
+        text-indent: 0;
+        text-transform: none;
+        width: auto;
+
+        &.active {
+          background: transparent;
+        }
+
+        &::before,
+        &::after {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
 
 // User profile
 // ----------------------

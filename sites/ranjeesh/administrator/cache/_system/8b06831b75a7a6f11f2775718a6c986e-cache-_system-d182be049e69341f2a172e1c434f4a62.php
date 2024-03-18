@@ -1,0 +1,1 @@
+<?php die("Access Denied"); ?>#x#a:2:{s:6:"result";O:8:"stdClass":4:{s:2:"id";i:10156;s:6:"option";s:3:"syw";s:6:"params";s:83:"{"mediaversions":"{\"mod_weblinklogos_139\":\"e322465b35037410de69209790594dc9\"}"}";s:7:"enabled";i:1;}s:6:"output";s:0:"";}

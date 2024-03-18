@@ -1,4 +1,7 @@
 <?php
+
+use Joomla\Registry\Registry;
+
 /** 
  *------------------------------------------------------------------------------
  * @package       T3 Framework for Joomla!
@@ -41,7 +44,7 @@ class T3AdminMegamenu
 		}
 
 		//check config
-		$currentconfig = $tplparams instanceof JRegistry ? json_decode($tplparams->get('mm_config', ''), true) : null;
+		$currentconfig = $tplparams instanceof Registry ? json_decode($tplparams->get('mm_config', ''), true) : null;
 		$mmkey         = $menutype . (($t3acl == 1) ? '' : '-' . $t3acl);
 		$mmconfig      = array();
 
@@ -92,7 +95,7 @@ class T3AdminMegamenu
 		$mmkey         = $input->get('mmkey', $input->get('menutype', 'mainmenu'));
 		$tplparams     = T3::getTplParams();
 		
-		$currentconfig = $tplparams instanceof JRegistry ? json_decode($tplparams->get('mm_config', ''), true) : null;
+		$currentconfig = $tplparams instanceof Registry ? json_decode($tplparams->get('mm_config', ''), true) : null;
 
 		if (!is_array($currentconfig)) {
 			$currentconfig = array();
@@ -117,7 +120,7 @@ class T3AdminMegamenu
 		$return = true;
 		
 		foreach($themes as $theme){
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($theme->params);
 
 			//overwrite with new value
@@ -153,8 +156,8 @@ class T3AdminMegamenu
 			$mmconfig  = stripslashes($mmconfig);
 		} 
 		
-		$currentconfig = $tplparams instanceof JRegistry ? $tplparams->get('mm_config', '') : null;
-		$_reg = new JRegistry;
+		$currentconfig = $tplparams instanceof Registry ? $tplparams->get('mm_config', '') : null;
+		$_reg = new Registry;
 		if(getType(json_decode($currentconfig, true)) == "array"){
 			$_reg->loadArray(json_decode($currentconfig, true));
 		}
@@ -175,7 +178,7 @@ class T3AdminMegamenu
 		$return = true;
 		
 		foreach($themes as $theme){
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($theme->params);
 
 			//overwrite with new value
@@ -301,7 +304,7 @@ class T3AdminMegamenu
 		$template = T3_TEMPLATE;
 		$styleid  = JFactory::getApplication()->input->getCmd('id');
 
-		$mm_type  = ($tplparams && $tplparams instanceof JRegistry) ? $tplparams->get('mm_type', '') : null;
+		$mm_type  = ($tplparams && $tplparams instanceof Registry) ? $tplparams->get('mm_type', '') : null;
 
 		//Keepalive
 		$config      = JFactory::getConfig();
@@ -315,7 +318,7 @@ class T3AdminMegamenu
 		}
 
 		//check config
-		$currentconfig = ($tplparams && $tplparams instanceof JRegistry) ? $tplparams->get('mm_config', '') : null;
+		$currentconfig = ($tplparams && $tplparams instanceof Registry) ? $tplparams->get('mm_config', '') : null;
 		if(!$currentconfig){
 			$currentconfig = '"{}"';
 		}

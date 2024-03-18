@@ -12,6 +12,8 @@
  *------------------------------------------------------------------------------
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 // No direct access
 defined('_JEXEC') or die();
 
@@ -860,6 +862,10 @@ class T3Template extends ObjectExtendable
 		if($legacycss){
 			$this->addCss('legacy-grid');	//legacy grid
 			$this->addStyleSheet(T3_URL . '/fonts/font-awesome/css/font-awesome' . ($this->getParam('devmode', 0) ? '' : '.min') . '.css'); //font awesome 3
+		}
+
+		if (version_compare(JVERSION, '4', 'ge')) {
+			HTMLHelper::stylesheet('media/system/css/joomla-fontawesome.min.css');
 		}
 
 		// FRONTEND EDITING

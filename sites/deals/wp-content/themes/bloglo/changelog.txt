@@ -1,0 +1,60 @@
+= 1.0.15 =
+* PYML meta style changed.
+
+= 1.0.14 =
+* Style.min.css issue fixed.
+
+= 1.0.13 =
+* Minor issue fixed.
+* Screenshot update.
+
+= 1.0.12 =
+* Limit the number of categories to be shown.
+
+= 1.0.11 =
+* Added new dynamic rgba color in preview js :root
+* Link to documentation added in customizer.
+
+= 1.0.10 =
+* Image not showing up in 'Ticker' and 'Post you might like section' when optimizing image with Jetpack plugin. Fixed!
+
+= 1.0.9 =
+* Added new dynamic rgba color in :root.
+
+= 1.0.8 =
+* Screenshot update.
+* Header button border issue fixed when user change Accent color.
+* View pro features section added in customizer.
+
+= 1.0.7 =
+* Ticker stop sliding in customizer preview when user show/hide Post Element in styles tab. Fixed!
+
+= 1.0.6 =
+* Header required condition fixed.
+* Hester Core plugin support added.
+* Theme URI updated.
+
+= 1.0.5 =
+* Removed install free plugin and pre-built demo import card from Theme optons.
+
+= 1.0.4 =
+* Removed non-functional components.
+
+= 1.0.5 =
+* Removed install free plugin and pre-built demo import card from Theme optons.
+
+= 1.0.4 =
+* Removed non-functional components.
+
+= 1.0.3 =
+* Skip to content accessibility issue fixed.
+
+= 1.0.2 =
+* esc_html_e missing text domain issue fixed.
+
+= 1.0.1 =
+* Accessibility issue fixed.
+* kses_post depricated issue fixed.
+
+= 1.0.0 =
+* Initial release 🚀
