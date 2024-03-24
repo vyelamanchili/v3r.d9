@@ -22,11 +22,15 @@ use Symfony\Component\Process\Process;
  */
 class UnixPipes extends AbstractPipes
 {
-    private $ttyMode;
-    private $ptyMode;
-    private $haveReadSupport;
+    private ?bool $ttyMode;
+    private bool $ptyMode;
+    private bool $haveReadSupport;
 
+<<<<<<< Updated upstream
     public function __construct($ttyMode, $ptyMode, $input, $haveReadSupport)
+=======
+    public function __construct(?bool $ttyMode, bool $ptyMode, mixed $input, bool $haveReadSupport)
+>>>>>>> Stashed changes
     {
         $this->ttyMode = (bool) $ttyMode;
         $this->ptyMode = (bool) $ptyMode;
@@ -35,15 +39,32 @@ class UnixPipes extends AbstractPipes
         parent::__construct($input);
     }
 
+<<<<<<< Updated upstream
+=======
+    public function __sleep(): array
+    {
+        throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
+    }
+
+    public function __wakeup(): void
+    {
+        throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
+    }
+
+>>>>>>> Stashed changes
     public function __destruct()
     {
         $this->close();
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      */
     public function getDescriptors()
+=======
+    public function getDescriptors(): array
+>>>>>>> Stashed changes
     {
         if (!$this->haveReadSupport) {
             $nullstream = fopen('/dev/null', 'c');
@@ -78,18 +99,26 @@ class UnixPipes extends AbstractPipes
         ];
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      */
     public function getFiles()
+=======
+    public function getFiles(): array
+>>>>>>> Stashed changes
     {
         return [];
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      */
     public function readAndWrite($blocking, $close = false)
+=======
+    public function readAndWrite(bool $blocking, bool $close = false): array
+>>>>>>> Stashed changes
     {
         $this->unblock();
         $w = $this->write();
@@ -99,7 +128,7 @@ class UnixPipes extends AbstractPipes
         unset($r[0]);
 
         // let's have a look if something changed in streams
-        set_error_handler([$this, 'handleError']);
+        set_error_handler($this->handleError(...));
         if (($r || $w) && false === stream_select($r, $w, $e, 0, $blocking ? Process::TIMEOUT_PRECISION * 1E6 : 0)) {
             restore_error_handler();
             // if a system call has been interrupted, forget about it, let's try again
@@ -135,18 +164,26 @@ class UnixPipes extends AbstractPipes
         return $read;
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      */
     public function haveReadSupport()
+=======
+    public function haveReadSupport(): bool
+>>>>>>> Stashed changes
     {
         return $this->haveReadSupport;
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      */
     public function areOpen()
+=======
+    public function areOpen(): bool
+>>>>>>> Stashed changes
     {
         return (bool) $this->pipes;
     }

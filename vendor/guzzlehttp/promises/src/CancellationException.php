@@ -1,4 +1,10 @@
 <?php
+<<<<<<< Updated upstream
+=======
+
+declare(strict_types=1);
+
+>>>>>>> Stashed changes
 namespace GuzzleHttp\Promise;
 
 /**

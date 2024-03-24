@@ -22,13 +22,17 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage as BaseExpressionLan
  */
 class ExpressionLanguage extends BaseExpressionLanguage
 {
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      */
     public function __construct($cache = null, array $providers = [], callable $serviceCompiler = null)
+=======
+    public function __construct(?CacheItemPoolInterface $cache = null, array $providers = [], ?callable $serviceCompiler = null, ?\Closure $getEnv = null)
+>>>>>>> Stashed changes
     {
         // prepend the default provider to let users override it easily
-        array_unshift($providers, new ExpressionLanguageProvider($serviceCompiler));
+        array_unshift($providers, new ExpressionLanguageProvider($serviceCompiler, $getEnv));
 
         parent::__construct($cache, $providers);
     }

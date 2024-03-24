@@ -1,4 +1,10 @@
 <?php
+<<<<<<< Updated upstream
+=======
+
+declare(strict_types=1);
+
+>>>>>>> Stashed changes
 namespace GuzzleHttp\Psr7;
 
 use InvalidArgumentException;
@@ -8,10 +14,7 @@ use RuntimeException;
 
 class UploadedFile implements UploadedFileInterface
 {
-    /**
-     * @var int[]
-     */
-    private static $errors = [
+    private const ERRORS = [
         UPLOAD_ERR_OK,
         UPLOAD_ERR_INI_SIZE,
         UPLOAD_ERR_FORM_SIZE,
@@ -23,12 +26,12 @@ class UploadedFile implements UploadedFileInterface
     ];
 
     /**
-     * @var string
+     * @var string|null
      */
     private $clientFilename;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $clientMediaType;
 
@@ -48,7 +51,7 @@ class UploadedFile implements UploadedFileInterface
     private $moved = false;
 
     /**
-     * @var int
+     * @var int|null
      */
     private $size;
 
@@ -59,22 +62,25 @@ class UploadedFile implements UploadedFileInterface
 
     /**
      * @param StreamInterface|string|resource $streamOrFile
+<<<<<<< Updated upstream
      * @param int $size
      * @param int $errorStatus
      * @param string|null $clientFilename
      * @param string|null $clientMediaType
+=======
+>>>>>>> Stashed changes
      */
     public function __construct(
         $streamOrFile,
-        $size,
-        $errorStatus,
-        $clientFilename = null,
-        $clientMediaType = null
+        ?int $size,
+        int $errorStatus,
+        string $clientFilename = null,
+        string $clientMediaType = null
     ) {
         $this->setError($errorStatus);
-        $this->setSize($size);
-        $this->setClientFilename($clientFilename);
-        $this->setClientMediaType($clientMediaType);
+        $this->size = $size;
+        $this->clientFilename = $clientFilename;
+        $this->clientMediaType = $clientMediaType;
 
         if ($this->isOk()) {
             $this->setStreamOrFile($streamOrFile);
@@ -84,10 +90,15 @@ class UploadedFile implements UploadedFileInterface
     /**
      * Depending on the value set file or stream variable
      *
+<<<<<<< Updated upstream
      * @param mixed $streamOrFile
+=======
+     * @param StreamInterface|string|resource $streamOrFile
+     *
+>>>>>>> Stashed changes
      * @throws InvalidArgumentException
      */
-    private function setStreamOrFile($streamOrFile)
+    private function setStreamOrFile($streamOrFile): void
     {
         if (is_string($streamOrFile)) {
             $this->file = $streamOrFile;
@@ -103,18 +114,15 @@ class UploadedFile implements UploadedFileInterface
     }
 
     /**
+<<<<<<< Updated upstream
      * @param int $error
+=======
+>>>>>>> Stashed changes
      * @throws InvalidArgumentException
      */
-    private function setError($error)
+    private function setError(int $error): void
     {
-        if (false === is_int($error)) {
-            throw new InvalidArgumentException(
-                'Upload file error status must be an integer'
-            );
-        }
-
-        if (false === in_array($error, UploadedFile::$errors)) {
+        if (false === in_array($error, UploadedFile::ERRORS, true)) {
             throw new InvalidArgumentException(
                 'Invalid error status for UploadedFile'
             );
@@ -123,6 +131,7 @@ class UploadedFile implements UploadedFileInterface
         $this->error = $error;
     }
 
+<<<<<<< Updated upstream
     /**
      * @param int $size
      * @throws InvalidArgumentException
@@ -152,11 +161,15 @@ class UploadedFile implements UploadedFileInterface
      * @return boolean
      */
     private function isStringNotEmpty($param)
+=======
+    private static function isStringNotEmpty($param): bool
+>>>>>>> Stashed changes
     {
         return is_string($param) && false === empty($param);
     }
 
     /**
+<<<<<<< Updated upstream
      * @param string|null $clientFilename
      * @throws InvalidArgumentException
      */
@@ -190,16 +203,23 @@ class UploadedFile implements UploadedFileInterface
      * Return true if there is no upload error
      *
      * @return boolean
+=======
+     * Return true if there is no upload error
+>>>>>>> Stashed changes
      */
-    private function isOk()
+    private function isOk(): bool
     {
         return $this->error === UPLOAD_ERR_OK;
     }
 
+<<<<<<< Updated upstream
     /**
      * @return boolean
      */
     public function isMoved()
+=======
+    public function isMoved(): bool
+>>>>>>> Stashed changes
     {
         return $this->moved;
     }
@@ -207,7 +227,7 @@ class UploadedFile implements UploadedFileInterface
     /**
      * @throws RuntimeException if is moved or not ok
      */
-    private function validateActive()
+    private function validateActive(): void
     {
         if (false === $this->isOk()) {
             throw new RuntimeException('Cannot retrieve stream due to upload error');
@@ -218,11 +238,15 @@ class UploadedFile implements UploadedFileInterface
         }
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      * @throws RuntimeException if the upload was not successful.
      */
     public function getStream()
+=======
+    public function getStream(): StreamInterface
+>>>>>>> Stashed changes
     {
         $this->validateActive();
 
@@ -230,9 +254,13 @@ class UploadedFile implements UploadedFileInterface
             return $this->stream;
         }
 
-        return new LazyOpenStream($this->file, 'r+');
+        /** @var string $file */
+        $file = $this->file;
+
+        return new LazyOpenStream($file, 'r+');
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      *
@@ -245,17 +273,20 @@ class UploadedFile implements UploadedFileInterface
      *     the second or subsequent call to the method.
      */
     public function moveTo($targetPath)
+=======
+    public function moveTo($targetPath): void
+>>>>>>> Stashed changes
     {
         $this->validateActive();
 
-        if (false === $this->isStringNotEmpty($targetPath)) {
+        if (false === self::isStringNotEmpty($targetPath)) {
             throw new InvalidArgumentException(
                 'Invalid path provided for move operation; must be a non-empty string'
             );
         }
 
         if ($this->file) {
-            $this->moved = php_sapi_name() == 'cli'
+            $this->moved = PHP_SAPI === 'cli'
                 ? rename($this->file, $targetPath)
                 : move_uploaded_file($this->file, $targetPath);
         } else {
@@ -274,16 +305,12 @@ class UploadedFile implements UploadedFileInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return int|null The file size in bytes or null if unknown.
-     */
-    public function getSize()
+    public function getSize(): ?int
     {
         return $this->size;
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      *
@@ -291,10 +318,14 @@ class UploadedFile implements UploadedFileInterface
      * @return int One of PHP's UPLOAD_ERR_XXX constants.
      */
     public function getError()
+=======
+    public function getError(): int
+>>>>>>> Stashed changes
     {
         return $this->error;
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      *
@@ -302,14 +333,14 @@ class UploadedFile implements UploadedFileInterface
      *     was provided.
      */
     public function getClientFilename()
+=======
+    public function getClientFilename(): ?string
+>>>>>>> Stashed changes
     {
         return $this->clientFilename;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getClientMediaType()
+    public function getClientMediaType(): ?string
     {
         return $this->clientMediaType;
     }

@@ -23,39 +23,43 @@ interface LoaderInterface
     /**
      * Gets the source code of a template, given its name.
      *
+<<<<<<< Updated upstream
      * @param string $name The name of the template to load
      *
      * @return string The template source code
      *
+=======
+>>>>>>> Stashed changes
      * @throws LoaderError When $name is not found
      *
      * @deprecated since 1.27 (to be removed in 2.0), implement Twig\Loader\SourceContextLoaderInterface
      */
+<<<<<<< Updated upstream
     public function getSource($name);
+=======
+    public function getSourceContext(string $name): Source;
+>>>>>>> Stashed changes
 
     /**
      * Gets the cache key to use for the cache for a given template name.
      *
-     * @param string $name The name of the template to load
-     *
-     * @return string The cache key
-     *
      * @throws LoaderError When $name is not found
      */
-    public function getCacheKey($name);
+    public function getCacheKey(string $name): string;
 
     /**
-     * Returns true if the template is still fresh.
-     *
-     * @param string $name The template name
-     * @param int    $time Timestamp of the last modification time of the
-     *                     cached template
-     *
-     * @return bool true if the template is fresh, false otherwise
+     * @param int $time Timestamp of the last modification time of the cached template
      *
      * @throws LoaderError When $name is not found
      */
+<<<<<<< Updated upstream
     public function isFresh($name, $time);
-}
+=======
+    public function isFresh(string $name, int $time): bool;
 
-class_alias('Twig\Loader\LoaderInterface', 'Twig_LoaderInterface');
+    /**
+     * @return bool
+     */
+    public function exists(string $name);
+>>>>>>> Stashed changes
+}

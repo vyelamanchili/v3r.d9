@@ -22,6 +22,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
  */
 class Yaml
 {
+<<<<<<< Updated upstream
     const DUMP_OBJECT = 1;
     const PARSE_EXCEPTION_ON_INVALID_TYPE = 2;
     const PARSE_OBJECT = 4;
@@ -38,6 +39,21 @@ class Yaml
      * @deprecated since version 3.4, to be removed in 4.0. Quote your evaluable keys instead.
      */
     const PARSE_KEYS_AS_STRINGS = 2048;
+=======
+    public const DUMP_OBJECT = 1;
+    public const PARSE_EXCEPTION_ON_INVALID_TYPE = 2;
+    public const PARSE_OBJECT = 4;
+    public const PARSE_OBJECT_FOR_MAP = 8;
+    public const DUMP_EXCEPTION_ON_INVALID_TYPE = 16;
+    public const PARSE_DATETIME = 32;
+    public const DUMP_OBJECT_AS_MAP = 64;
+    public const DUMP_MULTI_LINE_LITERAL_BLOCK = 128;
+    public const PARSE_CONSTANT = 256;
+    public const PARSE_CUSTOM_TAGS = 512;
+    public const DUMP_EMPTY_ARRAY_AS_SEQUENCE = 1024;
+    public const DUMP_NULL_AS_TILDE = 2048;
+    public const DUMP_NUMERIC_KEY_AS_STRING = 4096;
+>>>>>>> Stashed changes
 
     /**
      * Parses a YAML file into a PHP value.
@@ -50,11 +66,13 @@ class Yaml
      * @param string $filename The path to the YAML file to be parsed
      * @param int    $flags    A bit field of PARSE_* constants to customize the YAML parser behavior
      *
-     * @return mixed The YAML converted to a PHP value
-     *
      * @throws ParseException If the file could not be read or the YAML is not valid
      */
+<<<<<<< Updated upstream
     public static function parseFile($filename, $flags = 0)
+=======
+    public static function parseFile(string $filename, int $flags = 0): mixed
+>>>>>>> Stashed changes
     {
         $yaml = new Parser();
 
@@ -73,11 +91,13 @@ class Yaml
      * @param string $input A string containing YAML
      * @param int    $flags A bit field of PARSE_* constants to customize the YAML parser behavior
      *
-     * @return mixed The YAML converted to a PHP value
-     *
      * @throws ParseException If the YAML is not valid
      */
+<<<<<<< Updated upstream
     public static function parse($input, $flags = 0)
+=======
+    public static function parse(string $input, int $flags = 0): mixed
+>>>>>>> Stashed changes
     {
         if (\is_bool($flags)) {
             @trigger_error('Passing a boolean flag to toggle exception handling is deprecated since Symfony 3.1 and will be removed in 4.0. Use the PARSE_EXCEPTION_ON_INVALID_TYPE flag instead.', E_USER_DEPRECATED);
@@ -120,10 +140,12 @@ class Yaml
      * @param int   $inline The level where you switch to inline YAML
      * @param int   $indent The amount of spaces to use for indentation of nested nodes
      * @param int   $flags  A bit field of DUMP_* constants to customize the dumped YAML string
-     *
-     * @return string A YAML string representing the original PHP value
      */
+<<<<<<< Updated upstream
     public static function dump($input, $inline = 2, $indent = 4, $flags = 0)
+=======
+    public static function dump(mixed $input, int $inline = 2, int $indent = 4, int $flags = 0): string
+>>>>>>> Stashed changes
     {
         if (\is_bool($flags)) {
             @trigger_error('Passing a boolean flag to toggle exception handling is deprecated since Symfony 3.1 and will be removed in 4.0. Use the DUMP_EXCEPTION_ON_INVALID_TYPE flag instead.', E_USER_DEPRECATED);

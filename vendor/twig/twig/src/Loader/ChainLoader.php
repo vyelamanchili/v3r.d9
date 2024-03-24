@@ -21,7 +21,11 @@ use Twig\Source;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
+<<<<<<< Updated upstream
 class ChainLoader implements LoaderInterface, ExistsLoaderInterface, SourceContextLoaderInterface
+=======
+final class ChainLoader implements LoaderInterface
+>>>>>>> Stashed changes
 {
     private $hasSourceCache = [];
     protected $loaders = [];
@@ -36,7 +40,7 @@ class ChainLoader implements LoaderInterface, ExistsLoaderInterface, SourceConte
         }
     }
 
-    public function addLoader(LoaderInterface $loader)
+    public function addLoader(LoaderInterface $loader): void
     {
         $this->loaders[] = $loader;
         $this->hasSourceCache = [];
@@ -45,11 +49,12 @@ class ChainLoader implements LoaderInterface, ExistsLoaderInterface, SourceConte
     /**
      * @return LoaderInterface[]
      */
-    public function getLoaders()
+    public function getLoaders(): array
     {
         return $this->loaders;
     }
 
+<<<<<<< Updated upstream
     public function getSource($name)
     {
         @trigger_error(sprintf('Calling "getSource" on "%s" is deprecated since 1.27. Use getSourceContext() instead.', \get_class($this)), E_USER_DEPRECATED);
@@ -71,6 +76,9 @@ class ChainLoader implements LoaderInterface, ExistsLoaderInterface, SourceConte
     }
 
     public function getSourceContext($name)
+=======
+    public function getSourceContext(string $name): Source
+>>>>>>> Stashed changes
     {
         $exceptions = [];
         foreach ($this->loaders as $loader) {
@@ -92,7 +100,7 @@ class ChainLoader implements LoaderInterface, ExistsLoaderInterface, SourceConte
         throw new LoaderError(sprintf('Template "%s" is not defined%s.', $name, $exceptions ? ' ('.implode(', ', $exceptions).')' : ''));
     }
 
-    public function exists($name)
+    public function exists(string $name): bool
     {
         $name = (string) $name;
 
@@ -124,7 +132,7 @@ class ChainLoader implements LoaderInterface, ExistsLoaderInterface, SourceConte
         return $this->hasSourceCache[$name] = false;
     }
 
-    public function getCacheKey($name)
+    public function getCacheKey(string $name): string
     {
         $exceptions = [];
         foreach ($this->loaders as $loader) {
@@ -142,7 +150,7 @@ class ChainLoader implements LoaderInterface, ExistsLoaderInterface, SourceConte
         throw new LoaderError(sprintf('Template "%s" is not defined%s.', $name, $exceptions ? ' ('.implode(', ', $exceptions).')' : ''));
     }
 
-    public function isFresh($name, $time)
+    public function isFresh(string $name, int $time): bool
     {
         $exceptions = [];
         foreach ($this->loaders as $loader) {
@@ -160,5 +168,3 @@ class ChainLoader implements LoaderInterface, ExistsLoaderInterface, SourceConte
         throw new LoaderError(sprintf('Template "%s" is not defined%s.', $name, $exceptions ? ' ('.implode(', ', $exceptions).')' : ''));
     }
 }
-
-class_alias('Twig\Loader\ChainLoader', 'Twig_Loader_Chain');

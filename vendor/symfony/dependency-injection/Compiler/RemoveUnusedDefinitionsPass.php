@@ -18,6 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
+<<<<<<< Updated upstream
 class RemoveUnusedDefinitionsPass implements RepeatablePassInterface
 {
     private $repeatedPass;
@@ -29,9 +30,18 @@ class RemoveUnusedDefinitionsPass implements RepeatablePassInterface
     {
         $this->repeatedPass = $repeatedPass;
     }
+=======
+class RemoveUnusedDefinitionsPass extends AbstractRecursivePass
+{
+    protected bool $skipScalars = true;
+
+    private array $connectedIds = [];
+>>>>>>> Stashed changes
 
     /**
      * Processes the ContainerBuilder to remove unused definitions.
+     *
+     * @return void
      */
     public function process(ContainerBuilder $container)
     {
@@ -78,8 +88,15 @@ class RemoveUnusedDefinitionsPass implements RepeatablePassInterface
             }
         }
 
+<<<<<<< Updated upstream
         if ($hasChanged) {
             $this->repeatedPass->setRepeat();
+=======
+    protected function processValue(mixed $value, bool $isRoot = false): mixed
+    {
+        if (!$value instanceof Reference) {
+            return parent::processValue($value, $isRoot);
+>>>>>>> Stashed changes
         }
     }
 }

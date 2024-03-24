@@ -20,7 +20,11 @@ trait PublicTrait
     /**
      * @return $this
      */
+<<<<<<< Updated upstream
     final protected function setPublic()
+=======
+    final public function public(): static
+>>>>>>> Stashed changes
     {
         $this->definition->setPublic(true);
 
@@ -30,7 +34,11 @@ trait PublicTrait
     /**
      * @return $this
      */
+<<<<<<< Updated upstream
     final protected function setPrivate()
+=======
+    final public function private(): static
+>>>>>>> Stashed changes
     {
         $this->definition->setPublic(false);
 

@@ -24,7 +24,11 @@ trait AbstractTrait
      *
      * @return $this
      */
+<<<<<<< Updated upstream
     final protected function setAbstract($abstract = true)
+=======
+    final public function abstract(bool $abstract = true): static
+>>>>>>> Stashed changes
     {
         $this->definition->setAbstract($abstract);
 

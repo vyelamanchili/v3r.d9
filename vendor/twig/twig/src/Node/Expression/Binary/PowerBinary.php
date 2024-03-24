@@ -15,6 +15,7 @@ use Twig\Compiler;
 
 class PowerBinary extends AbstractBinary
 {
+<<<<<<< Updated upstream
     public function compile(Compiler $compiler)
     {
         if (\PHP_VERSION_ID >= 50600) {
@@ -31,9 +32,10 @@ class PowerBinary extends AbstractBinary
     }
 
     public function operator(Compiler $compiler)
+=======
+    public function operator(Compiler $compiler): Compiler
+>>>>>>> Stashed changes
     {
         return $compiler->raw('**');
     }
 }
-
-class_alias('Twig\Node\Expression\Binary\PowerBinary', 'Twig_Node_Expression_Binary_Power');

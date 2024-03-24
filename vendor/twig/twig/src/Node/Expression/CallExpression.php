@@ -22,10 +22,21 @@ abstract class CallExpression extends AbstractExpression
 
     protected function compileCallable(Compiler $compiler)
     {
+<<<<<<< Updated upstream
         $closingParenthesis = false;
         $isArray = false;
         if ($this->hasAttribute('callable') && $callable = $this->getAttribute('callable')) {
             if (\is_string($callable) && false === strpos($callable, '::')) {
+=======
+        $callable = $this->getAttribute('callable');
+
+        if (\is_string($callable) && !str_contains($callable, '::')) {
+            $compiler->raw($callable);
+        } else {
+            [$r, $callable] = $this->reflectCallable($callable);
+
+            if (\is_string($callable)) {
+>>>>>>> Stashed changes
                 $compiler->raw($callable);
             } else {
                 list($r, $callable) = $this->reflectCallable($callable);
@@ -55,7 +66,7 @@ abstract class CallExpression extends AbstractExpression
         }
     }
 
-    protected function compileArguments(Compiler $compiler, $isArray = false)
+    protected function compileArguments(Compiler $compiler, $isArray = false): void
     {
         $compiler->raw($isArray ? '[' : '(');
 
@@ -225,7 +236,7 @@ abstract class CallExpression extends AbstractExpression
         return $arguments;
     }
 
-    protected function normalizeName($name)
+    protected function normalizeName(string $name): string
     {
         return strtolower(preg_replace(['/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'], ['\\1_\\2', '\\1_\\2'], $name));
     }
@@ -281,6 +292,7 @@ abstract class CallExpression extends AbstractExpression
                 return [null, []];
             }
             $r = new \ReflectionMethod($callable[0], $callable[1]);
+<<<<<<< Updated upstream
         } elseif (\is_object($callable) && !$callable instanceof \Closure) {
             $r = new \ReflectionObject($callable);
             $r = $r->getMethod('__invoke');
@@ -294,6 +306,31 @@ abstract class CallExpression extends AbstractExpression
             }
             $r = new \ReflectionMethod($callable);
             $callable = [$class, $method];
+=======
+
+            return $this->reflector = [$r, $callable, $r->class.'::'.$r->name];
+        }
+
+        $checkVisibility = $callable instanceof \Closure;
+        try {
+            $closure = \Closure::fromCallable($callable);
+        } catch (\TypeError $e) {
+            throw new \LogicException(sprintf('Callback for %s "%s" is not callable in the current scope.', $this->getAttribute('type'), $this->getAttribute('name')), 0, $e);
+        }
+        $r = new \ReflectionFunction($closure);
+
+        if (str_contains($r->name, '{closure}')) {
+            return $this->reflector = [$r, $callable, 'Closure'];
+        }
+
+        if ($object = $r->getClosureThis()) {
+            $callable = [$object, $r->name];
+            $callableName = get_debug_type($object).'::'.$r->name;
+        } elseif (\PHP_VERSION_ID >= 80111 && $class = $r->getClosureCalledClass()) {
+            $callableName = $class->name.'::'.$r->name;
+        } elseif (\PHP_VERSION_ID < 80111 && $class = $r->getClosureScopeClass()) {
+            $callableName = (\is_array($callable) ? $callable[0] : $class->name).'::'.$r->name;
+>>>>>>> Stashed changes
         } else {
             $r = new \ReflectionFunction($callable);
         }
@@ -301,5 +338,3 @@ abstract class CallExpression extends AbstractExpression
         return $this->reflector = [$r, $callable];
     }
 }
-
-class_alias('Twig\Node\Expression\CallExpression', 'Twig_Node_Expression_Call');

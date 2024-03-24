@@ -22,26 +22,38 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 class NullDumper implements DumperInterface
 {
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      */
     public function isProxyCandidate(Definition $definition)
+=======
+    public function isProxyCandidate(Definition $definition, ?bool &$asGhostObject = null, ?string $id = null): bool
+>>>>>>> Stashed changes
     {
-        return false;
+        return $asGhostObject = false;
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      */
     public function getProxyFactoryCode(Definition $definition, $id, $factoryCode = null)
+=======
+    public function getProxyFactoryCode(Definition $definition, string $id, string $factoryCode): string
+>>>>>>> Stashed changes
     {
         return '';
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      */
     public function getProxyCode(Definition $definition)
+=======
+    public function getProxyCode(Definition $definition, ?string $id = null): string
+>>>>>>> Stashed changes
     {
         return '';
     }

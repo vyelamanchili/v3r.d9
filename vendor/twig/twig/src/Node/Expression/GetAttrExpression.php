@@ -27,7 +27,7 @@ class GetAttrExpression extends AbstractExpression
         parent::__construct($nodes, ['type' => $type, 'is_defined_test' => false, 'ignore_strict_check' => false, 'disable_c_ext' => false], $lineno);
     }
 
-    public function compile(Compiler $compiler)
+    public function compile(Compiler $compiler): void
     {
         if ($this->getAttribute('disable_c_ext')) {
             @trigger_error(sprintf('Using the "disable_c_ext" attribute on %s is deprecated since version 1.30 and will be removed in 2.0.', __CLASS__), E_USER_DEPRECATED);
@@ -76,5 +76,3 @@ class GetAttrExpression extends AbstractExpression
         $compiler->raw(')');
     }
 }
-
-class_alias('Twig\Node\Expression\GetAttrExpression', 'Twig_Node_Expression_GetAttr');

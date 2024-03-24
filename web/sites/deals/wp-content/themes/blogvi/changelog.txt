@@ -1,0 +1,10 @@
+= 1.0.2 =
+* Theme URI change.
+* Fixed minor issues.
+
+= 1.0.1 =
+* Added post "Readmore" link new style.
+* Enable "Ticker" post.
+
+= 1.0.0 =
+* Initial release 🚀

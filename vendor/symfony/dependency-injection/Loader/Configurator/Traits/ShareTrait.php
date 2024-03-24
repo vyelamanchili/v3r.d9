@@ -20,7 +20,11 @@ trait ShareTrait
      *
      * @return $this
      */
+<<<<<<< Updated upstream
     final public function share($shared = true)
+=======
+    final public function share(bool $shared = true): static
+>>>>>>> Stashed changes
     {
         $this->definition->setShared($shared);
 

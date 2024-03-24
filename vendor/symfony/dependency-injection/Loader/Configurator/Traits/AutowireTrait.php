@@ -20,7 +20,11 @@ trait AutowireTrait
      *
      * @return $this
      */
+<<<<<<< Updated upstream
     final public function autowire($autowired = true)
+=======
+    final public function autowire(bool $autowired = true): static
+>>>>>>> Stashed changes
     {
         $this->definition->setAutowired($autowired);
 

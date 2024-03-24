@@ -12,6 +12,7 @@
 namespace Symfony\Component\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * This is a directed graph of your services.
@@ -28,7 +29,7 @@ class ServiceReferenceGraph
     /**
      * @var ServiceReferenceGraphNode[]
      */
-    private $nodes = [];
+    private array $nodes = [];
 
     /**
      * Checks if the graph has a specific node.
@@ -73,7 +74,7 @@ class ServiceReferenceGraph
     /**
      * Clears all nodes.
      */
-    public function clear()
+    public function clear(): void
     {
         foreach ($this->nodes as $node) {
             $node->clear();
@@ -90,7 +91,11 @@ class ServiceReferenceGraph
      * @param mixed  $destValue
      * @param string $reference
      */
+<<<<<<< Updated upstream
     public function connect($sourceId, $sourceValue, $destId, $destValue = null, $reference = null/*, bool $lazy = false, bool $weak = false, bool $byConstructor = false*/)
+=======
+    public function connect(?string $sourceId, mixed $sourceValue, ?string $destId, mixed $destValue = null, ?Reference $reference = null, bool $lazy = false, bool $weak = false, bool $byConstructor = false): void
+>>>>>>> Stashed changes
     {
         $lazy = \func_num_args() >= 6 ? func_get_arg(5) : false;
         $weak = \func_num_args() >= 7 ? func_get_arg(6) : false;
@@ -108,6 +113,7 @@ class ServiceReferenceGraph
         $destNode->addInEdge($edge);
     }
 
+<<<<<<< Updated upstream
     /**
      * Creates a graph node.
      *
@@ -117,6 +123,9 @@ class ServiceReferenceGraph
      * @return ServiceReferenceGraphNode
      */
     private function createNode($id, $value)
+=======
+    private function createNode(string $id, mixed $value): ServiceReferenceGraphNode
+>>>>>>> Stashed changes
     {
         if (isset($this->nodes[$id]) && $this->nodes[$id]->getValue() === $value) {
             return $this->nodes[$id];

@@ -16,6 +16,7 @@ use Twig\Error\SyntaxError;
 use Twig\Node\Expression\ArrayExpression;
 use Twig\Node\Expression\ArrowFunctionExpression;
 use Twig\Node\Expression\AssignNameExpression;
+use Twig\Node\Expression\Binary\AbstractBinary;
 use Twig\Node\Expression\Binary\ConcatBinary;
 use Twig\Node\Expression\BlockReferenceExpression;
 use Twig\Node\Expression\ConditionalExpression;
@@ -24,6 +25,11 @@ use Twig\Node\Expression\GetAttrExpression;
 use Twig\Node\Expression\MethodCallExpression;
 use Twig\Node\Expression\NameExpression;
 use Twig\Node\Expression\ParentExpression;
+<<<<<<< Updated upstream
+=======
+use Twig\Node\Expression\TestExpression;
+use Twig\Node\Expression\Unary\AbstractUnary;
+>>>>>>> Stashed changes
 use Twig\Node\Expression\Unary\NegUnary;
 use Twig\Node\Expression\Unary\NotUnary;
 use Twig\Node\Expression\Unary\PosUnary;
@@ -38,8 +44,6 @@ use Twig\Node\Node;
  * @see https://en.wikipedia.org/wiki/Operator-precedence_parser
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @internal
  */
 class ExpressionParser
 {
@@ -51,6 +55,13 @@ class ExpressionParser
     protected $binaryOperators;
 
     private $env;
+<<<<<<< Updated upstream
+=======
+    /** @var array<string, array{precedence: int, class: class-string<AbstractUnary>}> */
+    private $unaryOperators;
+    /** @var array<string, array{precedence: int, class: class-string<AbstractBinary>, associativity: self::OPERATOR_*}> */
+    private $binaryOperators;
+>>>>>>> Stashed changes
 
     public function __construct(Parser $parser, $env = null)
     {
@@ -88,7 +99,7 @@ class ExpressionParser
             } elseif (isset($op['callable'])) {
                 $expr = \call_user_func($op['callable'], $this->parser, $expr);
             } else {
-                $expr1 = $this->parseExpression(self::OPERATOR_LEFT === $op['associativity'] ? $op['precedence'] + 1 : $op['precedence']);
+                $expr1 = $this->parseExpression(self::OPERATOR_LEFT === $op['associativity'] ? $op['precedence'] + 1 : $op['precedence'], true);
                 $class = $op['class'];
                 $expr = new $class($expr, $expr1, $token->getLine());
             }
@@ -188,12 +199,19 @@ class ExpressionParser
         while ($this->parser->getStream()->nextIf(Token::PUNCTUATION_TYPE, '?')) {
             if (!$this->parser->getStream()->nextIf(Token::PUNCTUATION_TYPE, ':')) {
                 $expr2 = $this->parseExpression();
+<<<<<<< Updated upstream
                 if ($this->parser->getStream()->nextIf(Token::PUNCTUATION_TYPE, ':')) {
+=======
+                if ($this->parser->getStream()->nextIf(/* Token::PUNCTUATION_TYPE */ 9, ':')) {
+                    // Ternary operator (expr ? expr2 : expr3)
+>>>>>>> Stashed changes
                     $expr3 = $this->parseExpression();
                 } else {
+                    // Ternary without else (expr ? expr2)
                     $expr3 = new ConstantExpression('', $this->parser->getCurrentToken()->getLine());
                 }
             } else {
+                // Ternary without then (expr ?: expr3)
                 $expr2 = $expr;
                 $expr3 = $this->parseExpression();
             }
@@ -263,9 +281,9 @@ class ExpressionParser
                     $this->parser->getStream()->next();
                     $node = new NameExpression($token->getValue(), $token->getLine());
                     break;
-                } elseif (isset($this->unaryOperators[$token->getValue()])) {
-                    $class = $this->unaryOperators[$token->getValue()]['class'];
+                }
 
+<<<<<<< Updated upstream
                     $ref = new \ReflectionClass($class);
                     $negClass = 'Twig\Node\Expression\Unary\NegUnary';
                     $posClass = 'Twig\Node\Expression\Unary\PosUnary';
@@ -273,6 +291,11 @@ class ExpressionParser
                         || $ref->isSubclassOf($negClass) || $ref->isSubclassOf($posClass)
                         || $ref->isSubclassOf('Twig_Node_Expression_Unary_Neg') || $ref->isSubclassOf('Twig_Node_Expression_Unary_Pos'))
                     ) {
+=======
+                if (isset($this->unaryOperators[$token->getValue()])) {
+                    $class = $this->unaryOperators[$token->getValue()]['class'];
+                    if (!\in_array($class, [NegUnary::class, PosUnary::class])) {
+>>>>>>> Stashed changes
                         throw new SyntaxError(sprintf('Unexpected unary operator "%s".', $token->getValue()), $token->getLine(), $this->parser->getStream()->getSourceContext());
                     }
 
@@ -345,7 +368,14 @@ class ExpressionParser
             }
             $first = false;
 
-            $node->addElement($this->parseExpression());
+            if ($stream->test(/* Token::SPREAD_TYPE */ 13)) {
+                $stream->next();
+                $expr = $this->parseExpression();
+                $expr->setAttribute('spread', true);
+                $node->addElement($expr);
+            } else {
+                $node->addElement($this->parseExpression());
+            }
         }
         $stream->expect(Token::PUNCTUATION_TYPE, ']', 'An opened array is not properly closed');
 
@@ -369,6 +399,14 @@ class ExpressionParser
                 }
             }
             $first = false;
+
+            if ($stream->test(/* Token::SPREAD_TYPE */ 13)) {
+                $stream->next();
+                $value = $this->parseExpression();
+                $value->setAttribute('spread', true);
+                $node->addElement($value);
+                continue;
+            }
 
             // a hash key can be:
             //
@@ -493,10 +531,6 @@ class ExpressionParser
             }
 
             if ($node instanceof NameExpression && null !== $this->parser->getImportedSymbol('template', $node->getAttribute('name'))) {
-                if (!$arg instanceof ConstantExpression) {
-                    throw new SyntaxError(sprintf('Dynamic macro names are not supported (called on "%s").', $node->getAttribute('name')), $token->getLine(), $stream->getSourceContext());
-                }
-
                 $name = $arg->getAttribute('value');
 
                 if ($this->parser->isReservedMacroName($name)) {
@@ -733,7 +767,12 @@ class ExpressionParser
         if ($test instanceof TwigTest && $test->isDeprecated()) {
             $stream = $this->parser->getStream();
             $message = sprintf('Twig Test "%s" is deprecated', $test->getName());
+<<<<<<< Updated upstream
             if (!\is_bool($test->getDeprecatedVersion())) {
+=======
+
+            if ($test->getDeprecatedVersion()) {
+>>>>>>> Stashed changes
                 $message .= sprintf(' since version %s', $test->getDeprecatedVersion());
             }
             if ($test->getAlternative()) {
@@ -754,7 +793,7 @@ class ExpressionParser
 
     protected function getFunctionNodeClass($name, $line)
     {
-        if (false === $function = $this->env->getFunction($name)) {
+        if (!$function = $this->env->getFunction($name)) {
             $e = new SyntaxError(sprintf('Unknown "%s" function.', $name), $line, $this->parser->getStream()->getSourceContext());
             $e->addSuggestions($name, array_keys($this->env->getFunctions()));
 
@@ -763,7 +802,7 @@ class ExpressionParser
 
         if ($function instanceof TwigFunction && $function->isDeprecated()) {
             $message = sprintf('Twig Function "%s" is deprecated', $function->getName());
-            if (!\is_bool($function->getDeprecatedVersion())) {
+            if ($function->getDeprecatedVersion()) {
                 $message .= sprintf(' since version %s', $function->getDeprecatedVersion());
             }
             if ($function->getAlternative()) {
@@ -784,7 +823,7 @@ class ExpressionParser
 
     protected function getFilterNodeClass($name, $line)
     {
-        if (false === $filter = $this->env->getFilter($name)) {
+        if (!$filter = $this->env->getFilter($name)) {
             $e = new SyntaxError(sprintf('Unknown "%s" filter.', $name), $line, $this->parser->getStream()->getSourceContext());
             $e->addSuggestions($name, array_keys($this->env->getFilters()));
 
@@ -793,7 +832,7 @@ class ExpressionParser
 
         if ($filter instanceof TwigFilter && $filter->isDeprecated()) {
             $message = sprintf('Twig Filter "%s" is deprecated', $filter->getName());
-            if (!\is_bool($filter->getDeprecatedVersion())) {
+            if ($filter->getDeprecatedVersion()) {
                 $message .= sprintf(' since version %s', $filter->getDeprecatedVersion());
             }
             if ($filter->getAlternative()) {
@@ -830,5 +869,3 @@ class ExpressionParser
         return true;
     }
 }
-
-class_alias('Twig\ExpressionParser', 'Twig_ExpressionParser');

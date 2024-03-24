@@ -21,14 +21,32 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class InlineServiceDefinitionsPass extends AbstractRecursivePass implements RepeatablePassInterface
+class InlineServiceDefinitionsPass extends AbstractRecursivePass
 {
+<<<<<<< Updated upstream
     private $cloningIds = [];
     private $inlinedServiceIds = [];
+=======
+    protected bool $skipScalars = true;
+
+    private ?AnalyzeServiceReferencesPass $analyzingPass;
+    private array $cloningIds = [];
+    private array $connectedIds = [];
+    private array $notInlinedIds = [];
+    private array $inlinedIds = [];
+    private array $notInlinableIds = [];
+    private ?ServiceReferenceGraph $graph = null;
+
+    public function __construct(?AnalyzeServiceReferencesPass $analyzingPass = null)
+    {
+        $this->analyzingPass = $analyzingPass;
+    }
+>>>>>>> Stashed changes
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
+<<<<<<< Updated upstream
     public function setRepeatedPass(RepeatedPass $repeatedPass)
     {
         // no-op for BC
@@ -46,14 +64,69 @@ class InlineServiceDefinitionsPass extends AbstractRecursivePass implements Repe
     public function getInlinedServiceIds()
     {
         @trigger_error('Calling InlineServiceDefinitionsPass::getInlinedServiceIds() is deprecated since Symfony 3.4 and will be removed in 4.0.', E_USER_DEPRECATED);
+=======
+    public function process(ContainerBuilder $container)
+    {
+        $this->container = $container;
+        if ($this->analyzingPass) {
+            $analyzedContainer = new ContainerBuilder();
+            $analyzedContainer->setAliases($container->getAliases());
+            $analyzedContainer->setDefinitions($container->getDefinitions());
+            foreach ($container->getExpressionLanguageProviders() as $provider) {
+                $analyzedContainer->addExpressionLanguageProvider($provider);
+            }
+        } else {
+            $analyzedContainer = $container;
+        }
+        try {
+            $notInlinableIds = [];
+            $remainingInlinedIds = [];
+            $this->connectedIds = $this->notInlinedIds = $container->getDefinitions();
+            do {
+                if ($this->analyzingPass) {
+                    $analyzedContainer->setDefinitions(array_intersect_key($analyzedContainer->getDefinitions(), $this->connectedIds));
+                    $this->analyzingPass->process($analyzedContainer);
+                }
+                $this->graph = $analyzedContainer->getCompiler()->getServiceReferenceGraph();
+                $notInlinedIds = $this->notInlinedIds;
+                $notInlinableIds += $this->notInlinableIds;
+                $this->connectedIds = $this->notInlinedIds = $this->inlinedIds = $this->notInlinableIds = [];
+
+                foreach ($analyzedContainer->getDefinitions() as $id => $definition) {
+                    if (!$this->graph->hasNode($id)) {
+                        continue;
+                    }
+                    foreach ($this->graph->getNode($id)->getOutEdges() as $edge) {
+                        if (isset($notInlinedIds[$edge->getSourceNode()->getId()])) {
+                            $this->currentId = $id;
+                            $this->processValue($definition, true);
+                            break;
+                        }
+                    }
+                }
+
+                foreach ($this->inlinedIds as $id => $isPublicOrNotShared) {
+                    if ($isPublicOrNotShared) {
+                        $remainingInlinedIds[$id] = $id;
+                    } else {
+                        $container->removeDefinition($id);
+                        $analyzedContainer->removeDefinition($id);
+                    }
+                }
+            } while ($this->inlinedIds && $this->analyzingPass);
+
+            foreach ($remainingInlinedIds as $id) {
+                if (isset($notInlinableIds[$id])) {
+                    continue;
+                }
+
+                $definition = $container->getDefinition($id);
+>>>>>>> Stashed changes
 
         return $this->inlinedServiceIds;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function processValue($value, $isRoot = false)
+    protected function processValue(mixed $value, bool $isRoot = false): mixed
     {
         if ($value instanceof ArgumentInterface) {
             // Reference found in ArgumentInterface::getValues() are not inlineable
@@ -73,7 +146,15 @@ class InlineServiceDefinitionsPass extends AbstractRecursivePass implements Repe
 
         $definition = $this->container->getDefinition($id);
 
+<<<<<<< Updated upstream
         if (!$this->isInlineableDefinition($id, $definition, $this->container->getCompiler()->getServiceReferenceGraph())) {
+=======
+        if (isset($this->notInlinableIds[$id]) || !$this->isInlineableDefinition($id, $definition)) {
+            if ($this->currentId !== $id) {
+                $this->notInlinableIds[$id] = true;
+            }
+
+>>>>>>> Stashed changes
             return $value;
         }
 
@@ -122,7 +203,7 @@ class InlineServiceDefinitionsPass extends AbstractRecursivePass implements Repe
             return true;
         }
 
-        if ($this->currentId == $id) {
+        if ($this->currentId === $id) {
             return false;
         }
 

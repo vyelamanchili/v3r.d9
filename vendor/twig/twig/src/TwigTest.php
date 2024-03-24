@@ -14,11 +14,14 @@ namespace Twig;
 /**
  * Represents a template test.
  *
+<<<<<<< Updated upstream
  * @final
  *
+=======
+>>>>>>> Stashed changes
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class TwigTest
+final class TwigTest
 {
     protected $name;
     protected $callable;
@@ -26,7 +29,14 @@ class TwigTest
 
     private $arguments = [];
 
+<<<<<<< Updated upstream
     public function __construct($name, $callable, array $options = [])
+=======
+    /**
+     * @param callable|array{class-string, string}|null $callable A callable implementing the test. If null, you need to overwrite the "node_class" option to customize compilation.
+     */
+    public function __construct(string $name, $callable = null, array $options = [])
+>>>>>>> Stashed changes
     {
         $this->name = $name;
         $this->callable = $callable;
@@ -38,37 +48,59 @@ class TwigTest
         ], $options);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
+<<<<<<< Updated upstream
+=======
+    /**
+     * Returns the callable to execute for this test.
+     *
+     * @return callable|array{class-string, string}|null
+     */
+>>>>>>> Stashed changes
     public function getCallable()
     {
         return $this->callable;
     }
 
-    public function getNodeClass()
+    public function getNodeClass(): string
     {
         return $this->options['node_class'];
     }
 
+<<<<<<< Updated upstream
     public function isVariadic()
+=======
+    public function setArguments(array $arguments): void
     {
-        return $this->options['is_variadic'];
+        $this->arguments = $arguments;
     }
 
-    public function isDeprecated()
+    public function getArguments(): array
+    {
+        return $this->arguments;
+    }
+
+    public function isVariadic(): bool
+>>>>>>> Stashed changes
+    {
+        return (bool) $this->options['is_variadic'];
+    }
+
+    public function isDeprecated(): bool
     {
         return (bool) $this->options['deprecated'];
     }
 
-    public function getDeprecatedVersion()
+    public function getDeprecatedVersion(): string
     {
-        return $this->options['deprecated'];
+        return \is_bool($this->options['deprecated']) ? '' : $this->options['deprecated'];
     }
 
-    public function getAlternative()
+    public function getAlternative(): ?string
     {
         return $this->options['alternative'];
     }
@@ -77,6 +109,7 @@ class TwigTest
     {
         $this->arguments = $arguments;
     }
+<<<<<<< Updated upstream
 
     public function getArguments()
     {
@@ -85,3 +118,6 @@ class TwigTest
 }
 
 class_alias('Twig\TwigTest', 'Twig_SimpleTest');
+=======
+}
+>>>>>>> Stashed changes

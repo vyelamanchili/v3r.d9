@@ -20,7 +20,11 @@ trait LazyTrait
      *
      * @return $this
      */
+<<<<<<< Updated upstream
     final public function lazy($lazy = true)
+=======
+    final public function lazy(bool|string $lazy = true): static
+>>>>>>> Stashed changes
     {
         $this->definition->setLazy($lazy);
 

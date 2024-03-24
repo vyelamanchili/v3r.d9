@@ -28,7 +28,11 @@ trait BindTrait
      *
      * @return $this
      */
+<<<<<<< Updated upstream
     final public function bind($nameOrFqcn, $valueOrRef)
+=======
+    final public function bind(string $nameOrFqcn, mixed $valueOrRef): static
+>>>>>>> Stashed changes
     {
         $valueOrRef = static::processValue($valueOrRef, true);
         if (isset($nameOrFqcn[0]) && '$' !== $nameOrFqcn[0] && !$valueOrRef instanceof Reference) {

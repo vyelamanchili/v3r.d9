@@ -27,11 +27,19 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ResolveInvalidReferencesPass implements CompilerPassInterface
 {
+<<<<<<< Updated upstream
     private $container;
     private $signalingException;
+=======
+    private ContainerBuilder $container;
+    private RuntimeException $signalingException;
+    private string $currentId;
+>>>>>>> Stashed changes
 
     /**
      * Process the ContainerBuilder to resolve invalid references.
+     *
+     * @return void
      */
     public function process(ContainerBuilder $container)
     {
@@ -41,7 +49,7 @@ class ResolveInvalidReferencesPass implements CompilerPassInterface
         try {
             $this->processValue($container->getDefinitions(), 1);
         } finally {
-            $this->container = $this->signalingException = null;
+            unset($this->container, $this->signalingException);
         }
     }
 
@@ -50,7 +58,11 @@ class ResolveInvalidReferencesPass implements CompilerPassInterface
      *
      * @throws RuntimeException When an invalid reference is found
      */
+<<<<<<< Updated upstream
     private function processValue($value, $rootLevel = 0, $level = 0)
+=======
+    private function processValue(mixed $value, int $rootLevel = 0, int $level = 0): mixed
+>>>>>>> Stashed changes
     {
         if ($value instanceof ServiceClosureArgument) {
             $value->setValues($this->processValue($value->getValues(), 1, 1));
@@ -90,7 +102,11 @@ class ResolveInvalidReferencesPass implements CompilerPassInterface
                 $value = array_values($value);
             }
         } elseif ($value instanceof Reference) {
+<<<<<<< Updated upstream
             if ($this->container->has($value)) {
+=======
+            if ($this->container->hasDefinition($id = (string) $value) ? !$this->container->getDefinition($id)->hasTag('container.excluded') : $this->container->hasAlias($id)) {
+>>>>>>> Stashed changes
                 return $value;
             }
             $invalidBehavior = $value->getInvalidBehavior();

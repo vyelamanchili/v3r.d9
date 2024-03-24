@@ -20,12 +20,18 @@ use Symfony\Component\Process\Process;
  * The ProcessHelper class provides helpers to run external processes.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+<<<<<<< Updated upstream
+=======
+ *
+ * @final
+>>>>>>> Stashed changes
  */
 class ProcessHelper extends Helper
 {
     /**
      * Runs an external process.
      *
+<<<<<<< Updated upstream
      * @param OutputInterface      $output    An OutputInterface instance
      * @param string|array|Process $cmd       An instance of Process or an array of arguments to escape and run or a command to run
      * @param string|null          $error     An error message that must be displayed if something went wrong
@@ -34,8 +40,13 @@ class ProcessHelper extends Helper
      * @param int                  $verbosity The threshold for verbosity
      *
      * @return Process The process that ran
+=======
+     * @param array|Process $cmd      An instance of Process or an array of the command and arguments
+     * @param callable|null $callback A PHP callback to run whenever there is some
+     *                                output available on STDOUT or STDERR
+>>>>>>> Stashed changes
      */
-    public function run(OutputInterface $output, $cmd, $error = null, callable $callback = null, $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE)
+    public function run(OutputInterface $output, array|Process $cmd, ?string $error = null, ?callable $callback = null, int $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE): Process
     {
         if (!class_exists(Process::class)) {
             throw new \LogicException('The ProcessHelper cannot be run as the Process component is not installed. Try running "compose require symfony/process".');
@@ -48,7 +59,19 @@ class ProcessHelper extends Helper
         $formatter = $this->getHelperSet()->get('debug_formatter');
 
         if ($cmd instanceof Process) {
+<<<<<<< Updated upstream
             $process = $cmd;
+=======
+            $cmd = [$cmd];
+        }
+
+        if (\is_string($cmd[0] ?? null)) {
+            $process = new Process($cmd);
+            $cmd = [];
+        } elseif (($cmd[0] ?? null) instanceof Process) {
+            $process = $cmd[0];
+            unset($cmd[0]);
+>>>>>>> Stashed changes
         } else {
             $process = new Process($cmd);
         }
@@ -81,19 +104,23 @@ class ProcessHelper extends Helper
      * This is identical to run() except that an exception is thrown if the process
      * exits with a non-zero exit code.
      *
+<<<<<<< Updated upstream
      * @param OutputInterface $output   An OutputInterface instance
      * @param string|Process  $cmd      An instance of Process or a command to run
      * @param string|null     $error    An error message that must be displayed if something went wrong
      * @param callable|null   $callback A PHP callback to run whenever there is some
      *                                  output available on STDOUT or STDERR
-     *
-     * @return Process The process that ran
+=======
+     * @param array|Process $cmd      An instance of Process or a command to run
+     * @param callable|null $callback A PHP callback to run whenever there is some
+     *                                output available on STDOUT or STDERR
+>>>>>>> Stashed changes
      *
      * @throws ProcessFailedException
      *
      * @see run()
      */
-    public function mustRun(OutputInterface $output, $cmd, $error = null, callable $callback = null)
+    public function mustRun(OutputInterface $output, array|Process $cmd, ?string $error = null, ?callable $callback = null): Process
     {
         $process = $this->run($output, $cmd, $error, $callback);
 
@@ -106,14 +133,17 @@ class ProcessHelper extends Helper
 
     /**
      * Wraps a Process callback to add debugging output.
+<<<<<<< Updated upstream
      *
      * @param OutputInterface $output   An OutputInterface interface
      * @param Process         $process  The Process
      * @param callable|null   $callback A PHP callable
      *
      * @return callable
+=======
+>>>>>>> Stashed changes
      */
-    public function wrapCallback(OutputInterface $output, Process $process, callable $callback = null)
+    public function wrapCallback(OutputInterface $output, Process $process, ?callable $callback = null): callable
     {
         if ($output instanceof ConsoleOutputInterface) {
             $output = $output->getErrorOutput();
@@ -135,10 +165,7 @@ class ProcessHelper extends Helper
         return str_replace('<', '\\<', $str);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'process';
     }

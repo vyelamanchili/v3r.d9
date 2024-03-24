@@ -17,10 +17,15 @@ use Symfony\Component\Config\Resource\ResourceInterface;
  * Tracks container parameters.
  *
  * @author Maxime Steinhausser <maxime.steinhausser@gmail.com>
+<<<<<<< Updated upstream
+=======
+ *
+ * @final
+>>>>>>> Stashed changes
  */
 class ContainerParametersResource implements ResourceInterface, \Serializable
 {
-    private $parameters;
+    private array $parameters;
 
     /**
      * @param array $parameters The container parameters to track
@@ -30,14 +35,19 @@ class ContainerParametersResource implements ResourceInterface, \Serializable
         $this->parameters = $parameters;
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      */
     public function __toString()
+=======
+    public function __toString(): string
+>>>>>>> Stashed changes
     {
-        return 'container_parameters_'.md5(serialize($this->parameters));
+        return 'container_parameters_'.hash('xxh128', serialize($this->parameters));
     }
 
+<<<<<<< Updated upstream
     /**
      * @internal
      */
@@ -58,6 +68,9 @@ class ContainerParametersResource implements ResourceInterface, \Serializable
      * @return array Tracked parameters
      */
     public function getParameters()
+=======
+    public function getParameters(): array
+>>>>>>> Stashed changes
     {
         return $this->parameters;
     }

@@ -1,9 +1,17 @@
 <?php
+<<<<<<< Updated upstream
+=======
+
+declare(strict_types=1);
+
+>>>>>>> Stashed changes
 namespace GuzzleHttp\Promise;
 
 /**
  * Represents a promise that iterates over many promises and invokes
  * side-effect functions in the process.
+ *
+ * @final
  */
 class EachPromise implements PromisorInterface
 {
@@ -65,7 +73,12 @@ class EachPromise implements PromisorInterface
         }
     }
 
+<<<<<<< Updated upstream
     public function promise()
+=======
+    /** @psalm-suppress InvalidNullableReturnType */
+    public function promise(): PromiseInterface
+>>>>>>> Stashed changes
     {
         if ($this->aggregate) {
             return $this->aggregate;
@@ -77,20 +90,29 @@ class EachPromise implements PromisorInterface
             $this->refillPending();
         } catch (\Throwable $e) {
             $this->aggregate->reject($e);
-        } catch (\Exception $e) {
-            $this->aggregate->reject($e);
         }
 
+<<<<<<< Updated upstream
+=======
+        /**
+         * @psalm-suppress NullableReturnStatement
+         */
+>>>>>>> Stashed changes
         return $this->aggregate;
     }
 
-    private function createPromise()
+    private function createPromise(): void
     {
         $this->mutex = false;
+<<<<<<< Updated upstream
         $this->aggregate = new Promise(function () {
             reset($this->pending);
             if (empty($this->pending) && !$this->iterable->valid()) {
                 $this->aggregate->resolve(null);
+=======
+        $this->aggregate = new Promise(function (): void {
+            if ($this->checkIfFinished()) {
+>>>>>>> Stashed changes
                 return;
             }
 
@@ -106,7 +128,7 @@ class EachPromise implements PromisorInterface
         });
 
         // Clear the references when the promise is resolved.
-        $clearFn = function () {
+        $clearFn = function (): void {
             $this->iterable = $this->concurrency = $this->pending = null;
             $this->onFulfilled = $this->onRejected = null;
         };
@@ -114,17 +136,19 @@ class EachPromise implements PromisorInterface
         $this->aggregate->then($clearFn, $clearFn);
     }
 
-    private function refillPending()
+    private function refillPending(): void
     {
         if (!$this->concurrency) {
             // Add all pending promises.
-            while ($this->addPending() && $this->advanceIterator());
+            while ($this->addPending() && $this->advanceIterator()) {
+            }
+
             return;
         }
 
         // Add only up to N pending promises.
         $concurrency = is_callable($this->concurrency)
-            ? call_user_func($this->concurrency, count($this->pending))
+            ? ($this->concurrency)(count($this->pending))
             : $this->concurrency;
         $concurrency = max($concurrency - count($this->pending), 0);
         // Concurrency may be set to 0 to disallow new promises.
@@ -139,10 +163,11 @@ class EachPromise implements PromisorInterface
         // next value to yield until promise callbacks are called.
         while (--$concurrency
             && $this->advanceIterator()
-            && $this->addPending());
+            && $this->addPending()) {
+        }
     }
 
-    private function addPending()
+    private function addPending(): bool
     {
         if (!$this->iterable || !$this->iterable->valid()) {
             return false;
@@ -152,18 +177,36 @@ class EachPromise implements PromisorInterface
         $idx = $this->iterable->key();
 
         $this->pending[$idx] = $promise->then(
+<<<<<<< Updated upstream
             function ($value) use ($idx) {
                 if ($this->onFulfilled) {
                     call_user_func(
                         $this->onFulfilled, $value, $idx, $this->aggregate
+=======
+            function ($value) use ($idx, $key): void {
+                if ($this->onFulfilled) {
+                    ($this->onFulfilled)(
+                        $value,
+                        $key,
+                        $this->aggregate
+>>>>>>> Stashed changes
                     );
                 }
                 $this->step($idx);
             },
+<<<<<<< Updated upstream
             function ($reason) use ($idx) {
                 if ($this->onRejected) {
                     call_user_func(
                         $this->onRejected, $reason, $idx, $this->aggregate
+=======
+            function ($reason) use ($idx, $key): void {
+                if ($this->onRejected) {
+                    ($this->onRejected)(
+                        $reason,
+                        $key,
+                        $this->aggregate
+>>>>>>> Stashed changes
                     );
                 }
                 $this->step($idx);
@@ -173,7 +216,7 @@ class EachPromise implements PromisorInterface
         return true;
     }
 
-    private function advanceIterator()
+    private function advanceIterator(): bool
     {
         // Place a lock on the iterator so that we ensure to not recurse,
         // preventing fatal generator errors.
@@ -186,19 +229,17 @@ class EachPromise implements PromisorInterface
         try {
             $this->iterable->next();
             $this->mutex = false;
+
             return true;
         } catch (\Throwable $e) {
             $this->aggregate->reject($e);
             $this->mutex = false;
-            return false;
-        } catch (\Exception $e) {
-            $this->aggregate->reject($e);
-            $this->mutex = false;
+
             return false;
         }
     }
 
-    private function step($idx)
+    private function step(int $idx): void
     {
         // If the promise was already resolved, then ignore this step.
         if ($this->aggregate->getState() !== PromiseInterface::PENDING) {
@@ -216,11 +257,12 @@ class EachPromise implements PromisorInterface
         }
     }
 
-    private function checkIfFinished()
+    private function checkIfFinished(): bool
     {
         if (!$this->pending && !$this->iterable->valid()) {
             // Resolve the promise if there's nothing left to do.
             $this->aggregate->resolve(null);
+
             return true;
         }
 

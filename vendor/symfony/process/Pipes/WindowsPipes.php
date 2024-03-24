@@ -26,16 +26,20 @@ use Symfony\Component\Process\Process;
  */
 class WindowsPipes extends AbstractPipes
 {
-    private $files = [];
-    private $fileHandles = [];
-    private $lockHandles = [];
-    private $readBytes = [
+    private array $files = [];
+    private array $fileHandles = [];
+    private array $lockHandles = [];
+    private array $readBytes = [
         Process::STDOUT => 0,
         Process::STDERR => 0,
     ];
-    private $haveReadSupport;
+    private bool $haveReadSupport;
 
+<<<<<<< Updated upstream
     public function __construct($input, $haveReadSupport)
+=======
+    public function __construct(mixed $input, bool $haveReadSupport)
+>>>>>>> Stashed changes
     {
         $this->haveReadSupport = (bool) $haveReadSupport;
 
@@ -85,15 +89,32 @@ class WindowsPipes extends AbstractPipes
         parent::__construct($input);
     }
 
+<<<<<<< Updated upstream
+=======
+    public function __sleep(): array
+    {
+        throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
+    }
+
+    public function __wakeup(): void
+    {
+        throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
+    }
+
+>>>>>>> Stashed changes
     public function __destruct()
     {
         $this->close();
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      */
     public function getDescriptors()
+=======
+    public function getDescriptors(): array
+>>>>>>> Stashed changes
     {
         if (!$this->haveReadSupport) {
             $nullstream = fopen('NUL', 'c');
@@ -115,18 +136,26 @@ class WindowsPipes extends AbstractPipes
         ];
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      */
     public function getFiles()
+=======
+    public function getFiles(): array
+>>>>>>> Stashed changes
     {
         return $this->files;
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      */
     public function readAndWrite($blocking, $close = false)
+=======
+    public function readAndWrite(bool $blocking, bool $close = false): array
+>>>>>>> Stashed changes
     {
         $this->unblock();
         $w = $this->write();
@@ -136,7 +165,7 @@ class WindowsPipes extends AbstractPipes
             if ($w) {
                 @stream_select($r, $w, $e, 0, Process::TIMEOUT_PRECISION * 1E6);
             } elseif ($this->fileHandles) {
-                usleep(Process::TIMEOUT_PRECISION * 1E6);
+                usleep((int) (Process::TIMEOUT_PRECISION * 1E6));
             }
         }
         foreach ($this->fileHandles as $type => $fileHandle) {
@@ -158,26 +187,31 @@ class WindowsPipes extends AbstractPipes
         return $read;
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      */
     public function haveReadSupport()
+=======
+    public function haveReadSupport(): bool
+>>>>>>> Stashed changes
     {
         return $this->haveReadSupport;
     }
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      */
     public function areOpen()
+=======
+    public function areOpen(): bool
+>>>>>>> Stashed changes
     {
         return $this->pipes && $this->fileHandles;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function close()
+    public function close(): void
     {
         parent::close();
         foreach ($this->fileHandles as $type => $handle) {

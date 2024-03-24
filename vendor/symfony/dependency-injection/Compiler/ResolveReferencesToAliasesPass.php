@@ -22,8 +22,10 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ResolveReferencesToAliasesPass extends AbstractRecursivePass
 {
+    protected bool $skipScalars = true;
+
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function process(ContainerBuilder $container)
     {
@@ -32,15 +34,12 @@ class ResolveReferencesToAliasesPass extends AbstractRecursivePass
         foreach ($container->getAliases() as $id => $alias) {
             $aliasId = $container->normalizeId($alias);
             if ($aliasId !== $defId = $this->getDefinitionId($aliasId, $container)) {
-                $container->setAlias($id, $defId)->setPublic($alias->isPublic())->setPrivate($alias->isPrivate());
+                $container->setAlias($id, $defId)->setPublic($alias->isPublic());
             }
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function processValue($value, $isRoot = false)
+    protected function processValue(mixed $value, bool $isRoot = false): mixed
     {
         if ($value instanceof Reference) {
             $defId = $this->getDefinitionId($id = $this->container->normalizeId($value), $this->container);
@@ -62,6 +61,23 @@ class ResolveReferencesToAliasesPass extends AbstractRecursivePass
      */
     private function getDefinitionId($id, ContainerBuilder $container)
     {
+<<<<<<< Updated upstream
+=======
+        if (!$container->hasAlias($id)) {
+            return $id;
+        }
+
+        $alias = $container->getAlias($id);
+
+        if ($alias->isDeprecated()) {
+            $referencingDefinition = $container->hasDefinition($this->currentId) ? $container->getDefinition($this->currentId) : $container->getAlias($this->currentId);
+            if (!$referencingDefinition->isDeprecated()) {
+                $deprecation = $alias->getDeprecation($id);
+                trigger_deprecation($deprecation['package'], $deprecation['version'], rtrim($deprecation['message'], '. ').'. It is being referenced by the "%s" '.($container->hasDefinition($this->currentId) ? 'service.' : 'alias.'), $this->currentId);
+            }
+        }
+
+>>>>>>> Stashed changes
         $seen = [];
         while ($container->hasAlias($id)) {
             if (isset($seen[$id])) {

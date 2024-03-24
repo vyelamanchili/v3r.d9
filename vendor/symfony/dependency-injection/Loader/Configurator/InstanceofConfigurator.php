@@ -23,12 +23,27 @@ class InstanceofConfigurator extends AbstractServiceConfigurator
     use Traits\AutowireTrait;
     use Traits\CallTrait;
     use Traits\ConfiguratorTrait;
+    use Traits\ConstructorTrait;
     use Traits\LazyTrait;
     use Traits\PropertyTrait;
     use Traits\PublicTrait;
     use Traits\ShareTrait;
     use Traits\TagTrait;
 
+<<<<<<< Updated upstream
+=======
+    public const FACTORY = 'instanceof';
+
+    private ?string $path;
+
+    public function __construct(ServicesConfigurator $parent, Definition $definition, string $id, ?string $path = null)
+    {
+        parent::__construct($parent, $definition, $id, []);
+
+        $this->path = $path;
+    }
+
+>>>>>>> Stashed changes
     /**
      * Defines an instanceof-conditional to be applied to following service definitions.
      *

@@ -41,7 +41,7 @@ class Source
         return $this->code;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -51,5 +51,3 @@ class Source
         return $this->path;
     }
 }
-
-class_alias('Twig\Source', 'Twig_Source');

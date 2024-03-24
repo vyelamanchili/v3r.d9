@@ -12,14 +12,9 @@
 
 namespace Twig\TokenParser;
 
-use Twig\Error\SyntaxError;
 use Twig\Node\Expression\AssignNameExpression;
-use Twig\Node\Expression\ConstantExpression;
-use Twig\Node\Expression\GetAttrExpression;
-use Twig\Node\Expression\NameExpression;
 use Twig\Node\ForNode;
 use Twig\Token;
-use Twig\TokenStream;
 
 /**
  * Loops over each item of a sequence.
@@ -30,11 +25,15 @@ use Twig\TokenStream;
  *    {% endfor %}
  *   </ul>
  *
+<<<<<<< Updated upstream
  * @final
+=======
+ * @internal
+>>>>>>> Stashed changes
  */
 class ForTokenParser extends AbstractTokenParser
 {
-    public function parse(Token $token)
+    public function parse(Token $token): Node
     {
         $lineno = $token->getLine();
         $stream = $this->parser->getStream();
@@ -42,12 +41,16 @@ class ForTokenParser extends AbstractTokenParser
         $stream->expect(Token::OPERATOR_TYPE, 'in');
         $seq = $this->parser->getExpressionParser()->parseExpression();
 
+<<<<<<< Updated upstream
         $ifexpr = null;
         if ($stream->nextIf(Token::NAME_TYPE, 'if')) {
             $ifexpr = $this->parser->getExpressionParser()->parseExpression();
         }
 
         $stream->expect(Token::BLOCK_END_TYPE);
+=======
+        $stream->expect(/* Token::BLOCK_END_TYPE */ 3);
+>>>>>>> Stashed changes
         $body = $this->parser->subparse([$this, 'decideForFork']);
         if ('else' == $stream->next()->getValue()) {
             $stream->expect(Token::BLOCK_END_TYPE);
@@ -61,31 +64,26 @@ class ForTokenParser extends AbstractTokenParser
             $keyTarget = $targets->getNode(0);
             $keyTarget = new AssignNameExpression($keyTarget->getAttribute('name'), $keyTarget->getTemplateLine());
             $valueTarget = $targets->getNode(1);
-            $valueTarget = new AssignNameExpression($valueTarget->getAttribute('name'), $valueTarget->getTemplateLine());
         } else {
             $keyTarget = new AssignNameExpression('_key', $lineno);
             $valueTarget = $targets->getNode(0);
-            $valueTarget = new AssignNameExpression($valueTarget->getAttribute('name'), $valueTarget->getTemplateLine());
         }
+        $valueTarget = new AssignNameExpression($valueTarget->getAttribute('name'), $valueTarget->getTemplateLine());
 
-        if ($ifexpr) {
-            $this->checkLoopUsageCondition($stream, $ifexpr);
-            $this->checkLoopUsageBody($stream, $body);
-        }
-
-        return new ForNode($keyTarget, $valueTarget, $seq, $ifexpr, $body, $else, $lineno, $this->getTag());
+        return new ForNode($keyTarget, $valueTarget, $seq, null, $body, $else, $lineno, $this->getTag());
     }
 
-    public function decideForFork(Token $token)
+    public function decideForFork(Token $token): bool
     {
         return $token->test(['else', 'endfor']);
     }
 
-    public function decideForEnd(Token $token)
+    public function decideForEnd(Token $token): bool
     {
         return $token->test('endfor');
     }
 
+<<<<<<< Updated upstream
     // the loop variable cannot be used in the condition
     protected function checkLoopUsageCondition(TokenStream $stream, \Twig_NodeInterface $node)
     {
@@ -128,9 +126,10 @@ class ForTokenParser extends AbstractTokenParser
     }
 
     public function getTag()
+=======
+    public function getTag(): string
+>>>>>>> Stashed changes
     {
         return 'for';
     }
 }
-
-class_alias('Twig\TokenParser\ForTokenParser', 'Twig_TokenParser_For');

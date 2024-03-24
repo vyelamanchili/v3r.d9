@@ -28,12 +28,11 @@ use Twig\NodeVisitor\NodeVisitorInterface;
 use Twig\TokenParser\TokenParserInterface;
 
 /**
- * Default parser implementation.
- *
  * @author Fabien Potencier <fabien@symfony.com>
  */
 class Parser implements \Twig_ParserInterface
 {
+<<<<<<< Updated upstream
     protected $stack = [];
     protected $stream;
     protected $parent;
@@ -48,6 +47,20 @@ class Parser implements \Twig_ParserInterface
     protected $importedSymbols;
     protected $traits;
     protected $embeddedTemplates = [];
+=======
+    private $stack = [];
+    private $stream;
+    private $parent;
+    private $visitors;
+    private $expressionParser;
+    private $blocks;
+    private $blockStack;
+    private $macros;
+    private $env;
+    private $importedSymbols;
+    private $traits;
+    private $embeddedTemplates = [];
+>>>>>>> Stashed changes
     private $varNameSalt = 0;
 
     public function __construct(Environment $env)
@@ -55,6 +68,7 @@ class Parser implements \Twig_ParserInterface
         $this->env = $env;
     }
 
+<<<<<<< Updated upstream
     /**
      * @deprecated since 1.27 (to be removed in 2.0)
      */
@@ -66,6 +80,9 @@ class Parser implements \Twig_ParserInterface
     }
 
     public function getVarName()
+=======
+    public function getVarName(): string
+>>>>>>> Stashed changes
     {
         return sprintf('__internal_%s', hash('sha256', __METHOD__.$this->stream->getSourceContext()->getCode().$this->varNameSalt++));
     }
@@ -80,7 +97,7 @@ class Parser implements \Twig_ParserInterface
         return $this->stream->getSourceContext()->getName();
     }
 
-    public function parse(TokenStream $stream, $test = null, $dropNeedle = false)
+    public function parse(TokenStream $stream, $test = null, bool $dropNeedle = false): ModuleNode
     {
         // push all variables into the stack to keep the current state of the parser
         // using get_object_vars() instead of foreach would lead to https://bugs.php.net/71336
@@ -93,12 +110,15 @@ class Parser implements \Twig_ParserInterface
         unset($vars['stack'], $vars['env'], $vars['handlers'], $vars['visitors'], $vars['expressionParser'], $vars['reservedMacroNames']);
         $this->stack[] = $vars;
 
+<<<<<<< Updated upstream
         // tag handlers
         if (null === $this->handlers) {
             $this->handlers = $this->env->getTokenParsers();
             $this->handlers->setParser($this);
         }
 
+=======
+>>>>>>> Stashed changes
         // node visitors
         if (null === $this->visitors) {
             $this->visitors = $this->env->getNodeVisitors();
@@ -150,7 +170,7 @@ class Parser implements \Twig_ParserInterface
         return $node;
     }
 
-    public function subparse($test, $dropNeedle = false)
+    public function subparse($test, bool $dropNeedle = false): Node
     {
         $lineno = $this->getCurrentToken()->getLine();
         $rv = [];
@@ -188,8 +208,12 @@ class Parser implements \Twig_ParserInterface
                         return new Node($rv, [], $lineno);
                     }
 
+<<<<<<< Updated upstream
                     $subparser = $this->handlers->getTokenParser($token->getValue());
                     if (null === $subparser) {
+=======
+                    if (!$subparser = $this->env->getTokenParser($token->getValue())) {
+>>>>>>> Stashed changes
                         if (null !== $test) {
                             $e = new SyntaxError(sprintf('Unexpected "%s" tag', $token->getValue()), $token->getLine(), $this->stream->getSourceContext());
 
@@ -198,7 +222,7 @@ class Parser implements \Twig_ParserInterface
                             }
                         } else {
                             $e = new SyntaxError(sprintf('Unknown "%s" tag.', $token->getValue()), $token->getLine(), $this->stream->getSourceContext());
-                            $e->addSuggestions($token->getValue(), array_keys($this->env->getTags()));
+                            $e->addSuggestions($token->getValue(), array_keys($this->env->getTokenParsers()));
                         }
 
                         throw $e;
@@ -206,6 +230,10 @@ class Parser implements \Twig_ParserInterface
 
                     $this->stream->next();
 
+<<<<<<< Updated upstream
+=======
+                    $subparser->setParser($this);
+>>>>>>> Stashed changes
                     $node = $subparser->parse($token);
                     if (null !== $node) {
                         $rv[] = $node;
@@ -224,6 +252,7 @@ class Parser implements \Twig_ParserInterface
         return new Node($rv, [], $lineno);
     }
 
+<<<<<<< Updated upstream
     /**
      * @deprecated since 1.27 (to be removed in 2.0)
      */
@@ -245,46 +274,49 @@ class Parser implements \Twig_ParserInterface
     }
 
     public function getBlockStack()
+=======
+    public function getBlockStack(): array
+>>>>>>> Stashed changes
     {
         return $this->blockStack;
     }
 
     public function peekBlockStack()
     {
-        return isset($this->blockStack[\count($this->blockStack) - 1]) ? $this->blockStack[\count($this->blockStack) - 1] : null;
+        return $this->blockStack[\count($this->blockStack) - 1] ?? null;
     }
 
-    public function popBlockStack()
+    public function popBlockStack(): void
     {
         array_pop($this->blockStack);
     }
 
-    public function pushBlockStack($name)
+    public function pushBlockStack($name): void
     {
         $this->blockStack[] = $name;
     }
 
-    public function hasBlock($name)
+    public function hasBlock(string $name): bool
     {
         return isset($this->blocks[$name]);
     }
 
-    public function getBlock($name)
+    public function getBlock(string $name): Node
     {
         return $this->blocks[$name];
     }
 
-    public function setBlock($name, BlockNode $value)
+    public function setBlock(string $name, BlockNode $value): void
     {
         $this->blocks[$name] = new BodyNode([$value], [], $value->getTemplateLine());
     }
 
-    public function hasMacro($name)
+    public function hasMacro(string $name): bool
     {
         return isset($this->macros[$name]);
     }
 
-    public function setMacro($name, MacroNode $node)
+    public function setMacro(string $name, MacroNode $node): void
     {
         if ($this->isReservedMacroName($name)) {
             throw new SyntaxError(sprintf('"%s" cannot be used as a macro name as it is a reserved keyword.', $name), $node->getTemplateLine(), $this->stream->getSourceContext());
@@ -293,6 +325,7 @@ class Parser implements \Twig_ParserInterface
         $this->macros[$name] = $node;
     }
 
+<<<<<<< Updated upstream
     public function isReservedMacroName($name)
     {
         if (null === $this->reservedMacroNames) {
@@ -311,11 +344,14 @@ class Parser implements \Twig_ParserInterface
     }
 
     public function addTrait($trait)
+=======
+    public function addTrait($trait): void
+>>>>>>> Stashed changes
     {
         $this->traits[] = $trait;
     }
 
-    public function hasTraits()
+    public function hasTraits(): bool
     {
         return \count($this->traits) > 0;
     }
@@ -327,12 +363,12 @@ class Parser implements \Twig_ParserInterface
         $this->embeddedTemplates[] = $template;
     }
 
-    public function addImportedSymbol($type, $alias, $name = null, AbstractExpression $node = null)
+    public function addImportedSymbol(string $type, string $alias, string $name = null, AbstractExpression $node = null): void
     {
         $this->importedSymbols[0][$type][$alias] = ['name' => $name, 'node' => $node];
     }
 
-    public function getImportedSymbol($type, $alias)
+    public function getImportedSymbol(string $type, string $alias)
     {
         if (null !== $this->peekBlockStack()) {
             foreach ($this->importedSymbols as $functions) {
@@ -349,68 +385,67 @@ class Parser implements \Twig_ParserInterface
         }
     }
 
-    public function isMainScope()
+    public function isMainScope(): bool
     {
         return 1 === \count($this->importedSymbols);
     }
 
-    public function pushLocalScope()
+    public function pushLocalScope(): void
     {
         array_unshift($this->importedSymbols, []);
     }
 
-    public function popLocalScope()
+    public function popLocalScope(): void
     {
         array_shift($this->importedSymbols);
     }
 
-    /**
-     * @return ExpressionParser
-     */
-    public function getExpressionParser()
+    public function getExpressionParser(): ExpressionParser
     {
         return $this->expressionParser;
     }
 
-    public function getParent()
+    public function getParent(): ?Node
     {
         return $this->parent;
     }
 
-    public function setParent($parent)
+    public function setParent(?Node $parent): void
     {
         $this->parent = $parent;
     }
 
-    /**
-     * @return TokenStream
-     */
-    public function getStream()
+    public function getStream(): TokenStream
     {
         return $this->stream;
     }
 
-    /**
-     * @return Token
-     */
-    public function getCurrentToken()
+    public function getCurrentToken(): Token
     {
         return $this->stream->getCurrent();
     }
 
+<<<<<<< Updated upstream
     protected function filterBodyNodes(\Twig_NodeInterface $node)
+=======
+    private function filterBodyNodes(Node $node, bool $nested = false): ?Node
+>>>>>>> Stashed changes
     {
         // check that the body does not contain non-empty output nodes
         if (
             ($node instanceof TextNode && !ctype_space($node->getAttribute('data')))
+<<<<<<< Updated upstream
             ||
             (!$node instanceof TextNode && !$node instanceof BlockReferenceNode && $node instanceof NodeOutputInterface)
+=======
+            || (!$node instanceof TextNode && !$node instanceof BlockReferenceNode && $node instanceof NodeOutputInterface)
+>>>>>>> Stashed changes
         ) {
-            if (false !== strpos((string) $node, \chr(0xEF).\chr(0xBB).\chr(0xBF))) {
+            if (str_contains((string) $node, \chr(0xEF).\chr(0xBB).\chr(0xBF))) {
                 $t = substr($node->getAttribute('data'), 3);
                 if ('' === $t || ctype_space($t)) {
                     // bypass empty nodes starting with a BOM
-                    return;
+                    return null;
                 }
             }
 
@@ -422,10 +457,27 @@ class Parser implements \Twig_ParserInterface
             return $node;
         }
 
+<<<<<<< Updated upstream
         if ($node instanceof NodeOutputInterface) {
             return;
         }
 
+=======
+        // "block" tags that are not captured (see above) are only used for defining
+        // the content of the block. In such a case, nesting it does not work as
+        // expected as the definition is not part of the default template code flow.
+        if ($nested && $node instanceof BlockReferenceNode) {
+            throw new SyntaxError('A block definition cannot be nested under non-capturing nodes.', $node->getTemplateLine(), $this->stream->getSourceContext());
+        }
+
+        if ($node instanceof NodeOutputInterface) {
+            return null;
+        }
+
+        // here, $nested means "being at the root level of a child template"
+        // we need to discard the wrapping "Node" for the "body" node
+        $nested = $nested || Node::class !== \get_class($node);
+>>>>>>> Stashed changes
         foreach ($node as $k => $n) {
             if (null !== $n && null === $this->filterBodyNodes($n)) {
                 $node->removeNode($k);
@@ -435,5 +487,3 @@ class Parser implements \Twig_ParserInterface
         return $node;
     }
 }
-
-class_alias('Twig\Parser', 'Twig_Parser');

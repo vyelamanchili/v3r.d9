@@ -40,7 +40,10 @@ use Twig\Node\SetTempNode;
  * @final
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ *
+ * @internal
  */
+<<<<<<< Updated upstream
 class OptimizerNodeVisitor extends AbstractNodeVisitor
 {
     const OPTIMIZE_ALL = -1;
@@ -54,23 +57,35 @@ class OptimizerNodeVisitor extends AbstractNodeVisitor
     protected $optimizers;
     protected $prependedNodes = [];
     protected $inABody = false;
+=======
+final class OptimizerNodeVisitor implements NodeVisitorInterface
+{
+    public const OPTIMIZE_ALL = -1;
+    public const OPTIMIZE_NONE = 0;
+    public const OPTIMIZE_FOR = 2;
+    public const OPTIMIZE_RAW_FILTER = 4;
+
+    private $loops = [];
+    private $loopsTargets = [];
+    private $optimizers;
+>>>>>>> Stashed changes
 
     /**
      * @param int $optimizers The optimizer mode
      */
     public function __construct($optimizers = -1)
     {
-        if (!\is_int($optimizers) || $optimizers > (self::OPTIMIZE_FOR | self::OPTIMIZE_RAW_FILTER | self::OPTIMIZE_VAR_ACCESS)) {
+        if ($optimizers > (self::OPTIMIZE_FOR | self::OPTIMIZE_RAW_FILTER)) {
             throw new \InvalidArgumentException(sprintf('Optimizer mode "%s" is not valid.', $optimizers));
         }
 
         $this->optimizers = $optimizers;
     }
 
-    protected function doEnterNode(Node $node, Environment $env)
+    public function enterNode(Node $node, Environment $env): Node
     {
         if (self::OPTIMIZE_FOR === (self::OPTIMIZE_FOR & $this->optimizers)) {
-            $this->enterOptimizeFor($node, $env);
+            $this->enterOptimizeFor($node);
         }
 
         if (\PHP_VERSION_ID < 50400 && self::OPTIMIZE_VAR_ACCESS === (self::OPTIMIZE_VAR_ACCESS & $this->optimizers) && !$env->isStrictVariables() && !$env->hasExtension('\Twig\Extension\SandboxExtension')) {
@@ -90,19 +105,19 @@ class OptimizerNodeVisitor extends AbstractNodeVisitor
         return $node;
     }
 
-    protected function doLeaveNode(Node $node, Environment $env)
+    public function leaveNode(Node $node, Environment $env): ?Node
     {
         $expression = $node instanceof AbstractExpression;
 
         if (self::OPTIMIZE_FOR === (self::OPTIMIZE_FOR & $this->optimizers)) {
-            $this->leaveOptimizeFor($node, $env);
+            $this->leaveOptimizeFor($node);
         }
 
         if (self::OPTIMIZE_RAW_FILTER === (self::OPTIMIZE_RAW_FILTER & $this->optimizers)) {
-            $node = $this->optimizeRawFilter($node, $env);
+            $node = $this->optimizeRawFilter($node);
         }
 
-        $node = $this->optimizePrintNode($node, $env);
+        $node = $this->optimizePrintNode($node);
 
         if (self::OPTIMIZE_VAR_ACCESS === (self::OPTIMIZE_VAR_ACCESS & $this->optimizers) && !$env->isStrictVariables() && !$env->hasExtension('\Twig\Extension\SandboxExtension')) {
             if ($node instanceof BodyNode) {
@@ -143,7 +158,11 @@ class OptimizerNodeVisitor extends AbstractNodeVisitor
      *
      * @return \Twig_NodeInterface
      */
+<<<<<<< Updated upstream
     protected function optimizePrintNode(\Twig_NodeInterface $node, Environment $env)
+=======
+    private function optimizePrintNode(Node $node): Node
+>>>>>>> Stashed changes
     {
         if (!$node instanceof PrintNode) {
             return $node;
@@ -151,8 +170,8 @@ class OptimizerNodeVisitor extends AbstractNodeVisitor
 
         $exprNode = $node->getNode('expr');
         if (
-            $exprNode instanceof BlockReferenceExpression ||
-            $exprNode instanceof ParentExpression
+            $exprNode instanceof BlockReferenceExpression
+            || $exprNode instanceof ParentExpression
         ) {
             $exprNode->setAttribute('output', true);
 
@@ -167,7 +186,11 @@ class OptimizerNodeVisitor extends AbstractNodeVisitor
      *
      * @return \Twig_NodeInterface
      */
+<<<<<<< Updated upstream
     protected function optimizeRawFilter(\Twig_NodeInterface $node, Environment $env)
+=======
+    private function optimizeRawFilter(Node $node): Node
+>>>>>>> Stashed changes
     {
         if ($node instanceof FilterExpression && 'raw' == $node->getNode('filter')->getAttribute('value')) {
             return $node->getNode('node');
@@ -179,7 +202,11 @@ class OptimizerNodeVisitor extends AbstractNodeVisitor
     /**
      * Optimizes "for" tag by removing the "loop" variable creation whenever possible.
      */
+<<<<<<< Updated upstream
     protected function enterOptimizeFor(\Twig_NodeInterface $node, Environment $env)
+=======
+    private function enterOptimizeFor(Node $node): void
+>>>>>>> Stashed changes
     {
         if ($node instanceof ForNode) {
             // disable the loop variable by default
@@ -220,7 +247,7 @@ class OptimizerNodeVisitor extends AbstractNodeVisitor
             && 'include' === $node->getAttribute('name')
             && (!$node->getNode('arguments')->hasNode('with_context')
                  || false !== $node->getNode('arguments')->getNode('with_context')->getAttribute('value')
-               )
+            )
         ) {
             $this->addLoopToAll();
         }
@@ -229,12 +256,12 @@ class OptimizerNodeVisitor extends AbstractNodeVisitor
         elseif ($node instanceof GetAttrExpression
             && (!$node->getNode('attribute') instanceof ConstantExpression
                 || 'parent' === $node->getNode('attribute')->getAttribute('value')
-               )
+            )
             && (true === $this->loops[0]->getAttribute('with_loop')
-                || ($node->getNode('node') instanceof NameExpression
-                    && 'loop' === $node->getNode('node')->getAttribute('name')
-                   )
-               )
+             || ($node->getNode('node') instanceof NameExpression
+                 && 'loop' === $node->getNode('node')->getAttribute('name')
+             )
+            )
         ) {
             $this->addLoopToAll();
         }
@@ -243,7 +270,11 @@ class OptimizerNodeVisitor extends AbstractNodeVisitor
     /**
      * Optimizes "for" tag by removing the "loop" variable creation whenever possible.
      */
+<<<<<<< Updated upstream
     protected function leaveOptimizeFor(\Twig_NodeInterface $node, Environment $env)
+=======
+    private function leaveOptimizeFor(Node $node): void
+>>>>>>> Stashed changes
     {
         if ($node instanceof ForNode) {
             array_shift($this->loops);
@@ -252,22 +283,28 @@ class OptimizerNodeVisitor extends AbstractNodeVisitor
         }
     }
 
+<<<<<<< Updated upstream
     protected function addLoopToCurrent()
+=======
+    private function addLoopToCurrent(): void
+>>>>>>> Stashed changes
     {
         $this->loops[0]->setAttribute('with_loop', true);
     }
 
+<<<<<<< Updated upstream
     protected function addLoopToAll()
+=======
+    private function addLoopToAll(): void
+>>>>>>> Stashed changes
     {
         foreach ($this->loops as $loop) {
             $loop->setAttribute('with_loop', true);
         }
     }
 
-    public function getPriority()
+    public function getPriority(): int
     {
         return 255;
     }
 }
-
-class_alias('Twig\NodeVisitor\OptimizerNodeVisitor', 'Twig_NodeVisitor_Optimizer');

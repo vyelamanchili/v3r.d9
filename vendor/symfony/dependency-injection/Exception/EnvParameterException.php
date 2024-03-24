@@ -18,7 +18,11 @@ namespace Symfony\Component\DependencyInjection\Exception;
  */
 class EnvParameterException extends InvalidArgumentException
 {
+<<<<<<< Updated upstream
     public function __construct(array $envs, \Exception $previous = null, $message = 'Incompatible use of dynamic environment variables "%s" found in parameters.')
+=======
+    public function __construct(array $envs, ?\Throwable $previous = null, string $message = 'Incompatible use of dynamic environment variables "%s" found in parameters.')
+>>>>>>> Stashed changes
     {
         parent::__construct(sprintf($message, implode('", "', $envs)), 0, $previous);
     }

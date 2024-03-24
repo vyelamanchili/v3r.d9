@@ -21,11 +21,15 @@ use Twig\Token;
  *
  *  {% extends "base.html" %}
  *
+<<<<<<< Updated upstream
  * @final
+=======
+ * @internal
+>>>>>>> Stashed changes
  */
 class ExtendsTokenParser extends AbstractTokenParser
 {
-    public function parse(Token $token)
+    public function parse(Token $token): Node
     {
         $stream = $this->parser->getStream();
 
@@ -40,15 +44,13 @@ class ExtendsTokenParser extends AbstractTokenParser
         }
         $this->parser->setParent($this->parser->getExpressionParser()->parseExpression());
 
-        $stream->expect(Token::BLOCK_END_TYPE);
+        $stream->expect(/* Token::BLOCK_END_TYPE */ 3);
 
         return new Node();
     }
 
-    public function getTag()
+    public function getTag(): string
     {
         return 'extends';
     }
 }
-
-class_alias('Twig\TokenParser\ExtendsTokenParser', 'Twig_TokenParser_Extends');

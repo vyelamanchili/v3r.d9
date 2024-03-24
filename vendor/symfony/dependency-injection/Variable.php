@@ -26,7 +26,7 @@ namespace Symfony\Component\DependencyInjection;
  */
 class Variable
 {
-    private $name;
+    private string $name;
 
     /**
      * @param string $name
@@ -36,7 +36,11 @@ class Variable
         $this->name = $name;
     }
 
+<<<<<<< Updated upstream
     public function __toString()
+=======
+    public function __toString(): string
+>>>>>>> Stashed changes
     {
         return $this->name;
     }

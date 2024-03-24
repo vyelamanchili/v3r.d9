@@ -21,7 +21,11 @@ trait PropertyTrait
      *
      * @return $this
      */
+<<<<<<< Updated upstream
     final public function property($name, $value)
+=======
+    final public function property(string $name, mixed $value): static
+>>>>>>> Stashed changes
     {
         $this->definition->setProperty($name, static::processValue($value, true));
 

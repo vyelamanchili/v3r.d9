@@ -14,11 +14,13 @@ namespace Twig\TokenParser;
 use Twig\Error\SyntaxError;
 use Twig\Node\AutoEscapeNode;
 use Twig\Node\Expression\ConstantExpression;
+use Twig\Node\Node;
 use Twig\Token;
 
 /**
  * Marks a section of a template to be escaped or not.
  *
+<<<<<<< Updated upstream
  *   {% autoescape true %}
  *     Everything will be automatically escaped in this block
  *   {% endautoescape %}
@@ -33,10 +35,13 @@ use Twig\Token;
  *   {% endautoescape %}
  *
  * @final
+=======
+ * @internal
+>>>>>>> Stashed changes
  */
 class AutoEscapeTokenParser extends AbstractTokenParser
 {
-    public function parse(Token $token)
+    public function parse(Token $token): Node
     {
         $lineno = $token->getLine();
         $stream = $this->parser->getStream();
@@ -74,15 +79,13 @@ class AutoEscapeTokenParser extends AbstractTokenParser
         return new AutoEscapeNode($value, $body, $lineno, $this->getTag());
     }
 
-    public function decideBlockEnd(Token $token)
+    public function decideBlockEnd(Token $token): bool
     {
         return $token->test('endautoescape');
     }
 
-    public function getTag()
+    public function getTag(): string
     {
         return 'autoescape';
     }
 }
-
-class_alias('Twig\TokenParser\AutoEscapeTokenParser', 'Twig_TokenParser_AutoEscape');

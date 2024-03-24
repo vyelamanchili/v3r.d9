@@ -25,7 +25,11 @@ trait CallTrait
      *
      * @throws InvalidArgumentException on empty $method param
      */
+<<<<<<< Updated upstream
     final public function call($method, array $arguments = [])
+=======
+    final public function call(string $method, array $arguments = [], bool $returnsClone = false): static
+>>>>>>> Stashed changes
     {
         $this->definition->addMethodCall($method, static::processValue($arguments, true));
 

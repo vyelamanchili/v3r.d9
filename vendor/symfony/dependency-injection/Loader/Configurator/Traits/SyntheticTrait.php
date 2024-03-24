@@ -21,7 +21,11 @@ trait SyntheticTrait
      *
      * @return $this
      */
+<<<<<<< Updated upstream
     final public function synthetic($synthetic = true)
+=======
+    final public function synthetic(bool $synthetic = true): static
+>>>>>>> Stashed changes
     {
         $this->definition->setSynthetic($synthetic);
 

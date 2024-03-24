@@ -29,7 +29,10 @@ use Twig\Node\SetNode;
  * @final
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ *
+ * @internal
  */
+<<<<<<< Updated upstream
 class SandboxNodeVisitor extends AbstractNodeVisitor
 {
     protected $inAModule = false;
@@ -37,9 +40,17 @@ class SandboxNodeVisitor extends AbstractNodeVisitor
     protected $filters;
     protected $functions;
 
+=======
+final class SandboxNodeVisitor implements NodeVisitorInterface
+{
+    private $inAModule = false;
+    private $tags;
+    private $filters;
+    private $functions;
+>>>>>>> Stashed changes
     private $needsToStringWrap = false;
 
-    protected function doEnterNode(Node $node, Environment $env)
+    public function enterNode(Node $node, Environment $env): Node
     {
         if ($node instanceof ModuleNode) {
             $this->inAModule = true;
@@ -97,7 +108,7 @@ class SandboxNodeVisitor extends AbstractNodeVisitor
         return $node;
     }
 
-    protected function doLeaveNode(Node $node, Environment $env)
+    public function leaveNode(Node $node, Environment $env): ?Node
     {
         if ($node instanceof ModuleNode) {
             $this->inAModule = false;
@@ -112,7 +123,11 @@ class SandboxNodeVisitor extends AbstractNodeVisitor
         return $node;
     }
 
+<<<<<<< Updated upstream
     private function wrapNode(Node $node, $name)
+=======
+    private function wrapNode(Node $node, string $name): void
+>>>>>>> Stashed changes
     {
         $expr = $node->getNode($name);
         if ($expr instanceof NameExpression || $expr instanceof GetAttrExpression) {
@@ -120,7 +135,11 @@ class SandboxNodeVisitor extends AbstractNodeVisitor
         }
     }
 
+<<<<<<< Updated upstream
     private function wrapArrayNode(Node $node, $name)
+=======
+    private function wrapArrayNode(Node $node, string $name): void
+>>>>>>> Stashed changes
     {
         $args = $node->getNode($name);
         foreach ($args as $name => $_) {
@@ -128,10 +147,8 @@ class SandboxNodeVisitor extends AbstractNodeVisitor
         }
     }
 
-    public function getPriority()
+    public function getPriority(): int
     {
         return 0;
     }
 }
-
-class_alias('Twig\NodeVisitor\SandboxNodeVisitor', 'Twig_NodeVisitor_Sandbox');

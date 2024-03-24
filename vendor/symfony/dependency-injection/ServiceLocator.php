@@ -18,7 +18,12 @@ use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 /**
  * @author Robin Chalas <robin.chalas@gmail.com>
  * @author Nicolas Grekas <p@tchwork.com>
+ *
+ * @template-covariant T of mixed
+ *
+ * @implements ServiceProviderInterface<T>
  */
+<<<<<<< Updated upstream
 class ServiceLocator implements PsrContainerInterface
 {
     private $factories;
@@ -46,6 +51,18 @@ class ServiceLocator implements PsrContainerInterface
      * {@inheritdoc}
      */
     public function get($id)
+=======
+class ServiceLocator implements ServiceProviderInterface, \Countable
+{
+    use ServiceLocatorTrait {
+        get as private doGet;
+    }
+
+    private ?string $externalId = null;
+    private ?Container $container = null;
+
+    public function get(string $id): mixed
+>>>>>>> Stashed changes
     {
         if (!isset($this->factories[$id])) {
             throw new ServiceNotFoundException($id, end($this->loading) ?: null, null, [], $this->createServiceNotFoundMessage($id));
@@ -56,8 +73,13 @@ class ServiceLocator implements PsrContainerInterface
             $ids = \array_slice($this->loading, array_search($id, $ids));
             $ids[] = $id;
 
+<<<<<<< Updated upstream
             throw new ServiceCircularReferenceException($id, $ids);
         }
+=======
+            $r = new \ReflectionProperty($e, 'message');
+            $r->setValue($e, $message);
+>>>>>>> Stashed changes
 
         $this->loading[$id] = $id;
         try {
@@ -67,7 +89,10 @@ class ServiceLocator implements PsrContainerInterface
         }
     }
 
-    public function __invoke($id)
+    /**
+     * @return mixed
+     */
+    public function __invoke(string $id)
     {
         return isset($this->factories[$id]) ? $this->get($id) : null;
     }
@@ -75,7 +100,11 @@ class ServiceLocator implements PsrContainerInterface
     /**
      * @internal
      */
+<<<<<<< Updated upstream
     public function withContext($externalId, Container $container)
+=======
+    public function withContext(string $externalId, Container $container): static
+>>>>>>> Stashed changes
     {
         $locator = clone $this;
         $locator->externalId = $externalId;
@@ -84,14 +113,28 @@ class ServiceLocator implements PsrContainerInterface
         return $locator;
     }
 
+<<<<<<< Updated upstream
     private function createServiceNotFoundMessage($id)
+=======
+    public function count(): int
+    {
+        return \count($this->getProvidedServices());
+    }
+
+    private function createNotFoundException(string $id): NotFoundExceptionInterface
+>>>>>>> Stashed changes
     {
         if ($this->loading) {
             return sprintf('The service "%s" has a dependency on a non-existent service "%s". This locator %s', end($this->loading), $id, $this->formatAlternatives());
         }
 
+<<<<<<< Updated upstream
         $class = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS, 3);
         $class = isset($class[2]['object']) ? \get_class($class[2]['object']) : null;
+=======
+        $class = debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT | \DEBUG_BACKTRACE_IGNORE_ARGS, 4);
+        $class = isset($class[3]['object']) ? $class[3]['object']::class : null;
+>>>>>>> Stashed changes
         $externalId = $this->externalId ?: $class;
 
         $msg = [];
@@ -130,7 +173,11 @@ class ServiceLocator implements PsrContainerInterface
         return implode(' ', $msg);
     }
 
+<<<<<<< Updated upstream
     private function formatAlternatives(array $alternatives = null, $separator = 'and')
+=======
+    private function formatAlternatives(?array $alternatives = null, string $separator = 'and'): string
+>>>>>>> Stashed changes
     {
         $format = '"%s"%s';
         if (null === $alternatives) {

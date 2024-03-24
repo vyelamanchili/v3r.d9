@@ -13,6 +13,7 @@ namespace Twig\TokenParser;
 
 use Twig\Node\Expression\AssignNameExpression;
 use Twig\Node\ImportNode;
+use Twig\Node\Node;
 use Twig\Token;
 
 /**
@@ -20,11 +21,15 @@ use Twig\Token;
  *
  *   {% import 'forms.html' as forms %}
  *
+<<<<<<< Updated upstream
  * @final
+=======
+ * @internal
+>>>>>>> Stashed changes
  */
 class ImportTokenParser extends AbstractTokenParser
 {
-    public function parse(Token $token)
+    public function parse(Token $token): Node
     {
         $macro = $this->parser->getExpressionParser()->parseExpression();
         $this->parser->getStream()->expect(Token::NAME_TYPE, 'as');
@@ -36,10 +41,8 @@ class ImportTokenParser extends AbstractTokenParser
         return new ImportNode($macro, $var, $token->getLine(), $this->getTag());
     }
 
-    public function getTag()
+    public function getTag(): string
     {
         return 'import';
     }
 }
-
-class_alias('Twig\TokenParser\ImportTokenParser', 'Twig_TokenParser_Import');

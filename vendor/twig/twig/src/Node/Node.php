@@ -27,7 +27,6 @@ class Node implements \Twig_NodeInterface
     protected $lineno;
     protected $tag;
 
-    private $name;
     private $sourceContext;
 
     /**
@@ -78,6 +77,7 @@ class Node implements \Twig_NodeInterface
     }
 
     /**
+<<<<<<< Updated upstream
      * @deprecated since 1.16.1 (to be removed in 2.0)
      */
     public function toXml($asDom = false)
@@ -112,6 +112,10 @@ class Node implements \Twig_NodeInterface
         return $asDom ? $dom : $dom->saveXML();
     }
 
+=======
+     * @return void
+     */
+>>>>>>> Stashed changes
     public function compile(Compiler $compiler)
     {
         foreach ($this->nodes as $node) {
@@ -119,11 +123,12 @@ class Node implements \Twig_NodeInterface
         }
     }
 
-    public function getTemplateLine()
+    public function getTemplateLine(): int
     {
         return $this->lineno;
     }
 
+<<<<<<< Updated upstream
     /**
      * @deprecated since 1.27 (to be removed in 2.0)
      */
@@ -135,22 +140,19 @@ class Node implements \Twig_NodeInterface
     }
 
     public function getNodeTag()
+=======
+    public function getNodeTag(): ?string
+>>>>>>> Stashed changes
     {
         return $this->tag;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasAttribute($name)
+    public function hasAttribute(string $name): bool
     {
         return \array_key_exists($name, $this->attributes);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAttribute($name)
+    public function getAttribute(string $name)
     {
         if (!\array_key_exists($name, $this->attributes)) {
             throw new \LogicException(sprintf('Attribute "%s" does not exist for Node "%s".', $name, \get_class($this)));
@@ -159,32 +161,22 @@ class Node implements \Twig_NodeInterface
         return $this->attributes[$name];
     }
 
-    /**
-     * @param string $name
-     * @param mixed  $value
-     */
-    public function setAttribute($name, $value)
+    public function setAttribute(string $name, $value): void
     {
         $this->attributes[$name] = $value;
     }
 
-    public function removeAttribute($name)
+    public function removeAttribute(string $name): void
     {
         unset($this->attributes[$name]);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasNode($name)
+    public function hasNode(string $name): bool
     {
         return \array_key_exists($name, $this->nodes);
     }
 
-    /**
-     * @return Node
-     */
-    public function getNode($name)
+    public function getNode(string $name): self
     {
         if (!\array_key_exists($name, $this->nodes)) {
             throw new \LogicException(sprintf('Node "%s" does not exist for Node "%s".', $name, \get_class($this)));
@@ -193,7 +185,11 @@ class Node implements \Twig_NodeInterface
         return $this->nodes[$name];
     }
 
+<<<<<<< Updated upstream
     public function setNode($name, $node = null)
+=======
+    public function setNode(string $name, self $node): void
+>>>>>>> Stashed changes
     {
         if (!$node instanceof \Twig_NodeInterface) {
             @trigger_error(sprintf('Using "%s" for the value of node "%s" of "%s" is deprecated since version 1.25 and will be removed in 2.0.', \is_object($node) ? \get_class($node) : (null === $node ? 'null' : \gettype($node)), $name, \get_class($this)), E_USER_DEPRECATED);
@@ -202,7 +198,7 @@ class Node implements \Twig_NodeInterface
         $this->nodes[$name] = $node;
     }
 
-    public function removeNode($name)
+    public function removeNode(string $name): void
     {
         unset($this->nodes[$name]);
     }
@@ -212,11 +208,16 @@ class Node implements \Twig_NodeInterface
         return \count($this->nodes);
     }
 
+<<<<<<< Updated upstream
     public function getIterator()
+=======
+    public function getIterator(): \Traversable
+>>>>>>> Stashed changes
     {
         return new \ArrayIterator($this->nodes);
     }
 
+<<<<<<< Updated upstream
     public function setTemplateName($name)
     {
         $this->name = $name;
@@ -228,11 +229,14 @@ class Node implements \Twig_NodeInterface
     }
 
     public function getTemplateName()
+=======
+    public function getTemplateName(): ?string
+>>>>>>> Stashed changes
     {
         return $this->name;
     }
 
-    public function setSourceContext(Source $source)
+    public function setSourceContext(Source $source): void
     {
         $this->sourceContext = $source;
         foreach ($this->nodes as $node) {
@@ -242,7 +246,7 @@ class Node implements \Twig_NodeInterface
         }
     }
 
-    public function getSourceContext()
+    public function getSourceContext(): ?Source
     {
         return $this->sourceContext;
     }
@@ -267,8 +271,3 @@ class Node implements \Twig_NodeInterface
         return $this->name;
     }
 }
-
-class_alias('Twig\Node\Node', 'Twig_Node');
-
-// Ensure that the aliased name is loaded to keep BC for classes implementing the typehint with the old aliased name.
-class_exists('Twig\Compiler');

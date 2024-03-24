@@ -25,14 +25,22 @@ interface NodeVisitorInterface
      *
      * @return \Twig_NodeInterface The modified node
      */
+<<<<<<< Updated upstream
     public function enterNode(\Twig_NodeInterface $node, Environment $env);
+=======
+    public function enterNode(Node $node, Environment $env): Node;
+>>>>>>> Stashed changes
 
     /**
      * Called after child nodes are visited.
      *
      * @return \Twig_NodeInterface|false|null The modified node or null if the node must be removed
      */
+<<<<<<< Updated upstream
     public function leaveNode(\Twig_NodeInterface $node, Environment $env);
+=======
+    public function leaveNode(Node $node, Environment $env): ?Node;
+>>>>>>> Stashed changes
 
     /**
      * Returns the priority for this visitor.
@@ -43,8 +51,3 @@ interface NodeVisitorInterface
      */
     public function getPriority();
 }
-
-class_alias('Twig\NodeVisitor\NodeVisitorInterface', 'Twig_NodeVisitorInterface');
-
-// Ensure that the aliased name is loaded to keep BC for classes implementing the typehint with the old aliased name.
-class_exists('Twig\Environment');

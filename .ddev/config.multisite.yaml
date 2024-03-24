@@ -1,0 +1,13 @@
+additional_hostnames:
+  - peervision
+  - affiliates
+  - sew-hfs
+hooks:
+  post-start:
+  - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS v3r_v4ecc_drupal; GRANT ALL ON v3r_v4ecc_drupal.* to 'db'@'%';"
+    service: db
+  - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS v3r_ranjeesh_drupal; GRANT ALL ON v3r_ranjeesh_drupal.* to 'db'@'%';"
+    service: db
+  - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS v3r_sewhfs_drupal; GRANT ALL ON v3r_sewhfs_drupal.* to 'db'@'%';"
+    service: db
+  post-import-db:

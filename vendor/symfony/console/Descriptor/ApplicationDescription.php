@@ -24,20 +24,22 @@ class ApplicationDescription
 {
     const GLOBAL_NAMESPACE = '_global';
 
-    private $application;
-    private $namespace;
-    private $showHidden;
+    private Application $application;
+    private ?string $namespace;
+    private bool $showHidden;
+    private array $namespaces;
 
     /**
-     * @var array
+     * @var array<string, Command>
      */
-    private $namespaces;
+    private array $commands;
 
     /**
-     * @var Command[]
+     * @var array<string, Command>
      */
-    private $commands;
+    private array $aliases = [];
 
+<<<<<<< Updated upstream
     /**
      * @var Command[]
      */
@@ -48,6 +50,9 @@ class ApplicationDescription
      * @param bool        $showHidden
      */
     public function __construct(Application $application, $namespace = null, $showHidden = false)
+=======
+    public function __construct(Application $application, ?string $namespace = null, bool $showHidden = false)
+>>>>>>> Stashed changes
     {
         $this->application = $application;
         $this->namespace = $namespace;
@@ -59,7 +64,7 @@ class ApplicationDescription
      */
     public function getNamespaces()
     {
-        if (null === $this->namespaces) {
+        if (!isset($this->namespaces)) {
             $this->inspectApplication();
         }
 
@@ -71,7 +76,7 @@ class ApplicationDescription
      */
     public function getCommands()
     {
-        if (null === $this->commands) {
+        if (!isset($this->commands)) {
             $this->inspectApplication();
         }
 
@@ -94,7 +99,7 @@ class ApplicationDescription
         return isset($this->commands[$name]) ? $this->commands[$name] : $this->aliases[$name];
     }
 
-    private function inspectApplication()
+    private function inspectApplication(): void
     {
         $this->commands = [];
         $this->namespaces = [];

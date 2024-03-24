@@ -23,7 +23,7 @@ class ResolveClassPass implements CompilerPassInterface
     private $changes = [];
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function process(ContainerBuilder $container)
     {

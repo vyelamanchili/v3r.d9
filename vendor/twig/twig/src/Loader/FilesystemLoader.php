@@ -19,7 +19,7 @@ use Twig\Source;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, SourceContextLoaderInterface
+class FilesystemLoader implements LoaderInterface
 {
     /** Identifier of the main namespace. */
     const MAIN_NAMESPACE = '__main__';
@@ -36,8 +36,13 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
      */
     public function __construct($paths = [], $rootPath = null)
     {
+<<<<<<< Updated upstream
         $this->rootPath = (null === $rootPath ? getcwd() : $rootPath).\DIRECTORY_SEPARATOR;
         if (false !== $realPath = realpath($rootPath)) {
+=======
+        $this->rootPath = ($rootPath ?? getcwd()).\DIRECTORY_SEPARATOR;
+        if (null !== $rootPath && false !== ($realPath = realpath($rootPath))) {
+>>>>>>> Stashed changes
             $this->rootPath = $realPath.\DIRECTORY_SEPARATOR;
         }
 
@@ -48,35 +53,26 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 
     /**
      * Returns the paths to the templates.
-     *
-     * @param string $namespace A path namespace
-     *
-     * @return array The array of paths where to look for templates
      */
-    public function getPaths($namespace = self::MAIN_NAMESPACE)
+    public function getPaths(string $namespace = self::MAIN_NAMESPACE): array
     {
-        return isset($this->paths[$namespace]) ? $this->paths[$namespace] : [];
+        return $this->paths[$namespace] ?? [];
     }
 
     /**
      * Returns the path namespaces.
      *
      * The main namespace is always defined.
-     *
-     * @return array The array of defined namespaces
      */
-    public function getNamespaces()
+    public function getNamespaces(): array
     {
         return array_keys($this->paths);
     }
 
     /**
-     * Sets the paths where templates are stored.
-     *
-     * @param string|array $paths     A path or an array of paths where to look for templates
-     * @param string       $namespace A path namespace
+     * @param string|array $paths A path or an array of paths where to look for templates
      */
-    public function setPaths($paths, $namespace = self::MAIN_NAMESPACE)
+    public function setPaths($paths, string $namespace = self::MAIN_NAMESPACE): void
     {
         if (!\is_array($paths)) {
             $paths = [$paths];
@@ -89,14 +85,9 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
     }
 
     /**
-     * Adds a path where templates are stored.
-     *
-     * @param string $path      A path where to look for templates
-     * @param string $namespace A path namespace
-     *
      * @throws LoaderError
      */
-    public function addPath($path, $namespace = self::MAIN_NAMESPACE)
+    public function addPath(string $path, string $namespace = self::MAIN_NAMESPACE): void
     {
         // invalidate the cache
         $this->cache = $this->errorCache = [];
@@ -110,14 +101,9 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
     }
 
     /**
-     * Prepends a path where templates are stored.
-     *
-     * @param string $path      A path where to look for templates
-     * @param string $namespace A path namespace
-     *
      * @throws LoaderError
      */
-    public function prependPath($path, $namespace = self::MAIN_NAMESPACE)
+    public function prependPath(string $path, string $namespace = self::MAIN_NAMESPACE): void
     {
         // invalidate the cache
         $this->cache = $this->errorCache = [];
@@ -136,6 +122,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
         }
     }
 
+<<<<<<< Updated upstream
     public function getSource($name)
     {
         @trigger_error(sprintf('Calling "getSource" on "%s" is deprecated since 1.27. Use getSourceContext() instead.', \get_class($this)), E_USER_DEPRECATED);
@@ -148,17 +135,20 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
     }
 
     public function getSourceContext($name)
+=======
+    public function getSourceContext(string $name): Source
+>>>>>>> Stashed changes
     {
-        if (null === ($path = $this->findTemplate($name)) || false === $path) {
+        if (null === $path = $this->findTemplate($name)) {
             return new Source('', $name, '');
         }
 
         return new Source(file_get_contents($path), $name, $path);
     }
 
-    public function getCacheKey($name)
+    public function getCacheKey(string $name): string
     {
-        if (null === ($path = $this->findTemplate($name)) || false === $path) {
+        if (null === $path = $this->findTemplate($name)) {
             return '';
         }
         $len = \strlen($this->rootPath);
@@ -169,7 +159,10 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
         return $path;
     }
 
-    public function exists($name)
+    /**
+     * @return bool
+     */
+    public function exists(string $name)
     {
         $name = $this->normalizeName($name);
 
@@ -177,6 +170,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
             return true;
         }
 
+<<<<<<< Updated upstream
         try {
             return null !== ($path = $this->findTemplate($name, false)) && false !== $path;
         } catch (LoaderError $e) {
@@ -184,12 +178,15 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 
             return false;
         }
+=======
+        return null !== $this->findTemplate($name, false);
+>>>>>>> Stashed changes
     }
 
-    public function isFresh($name, $time)
+    public function isFresh(string $name, int $time): bool
     {
         // false support to be removed in 3.0
-        if (null === ($path = $this->findTemplate($name)) || false === $path) {
+        if (null === $path = $this->findTemplate($name)) {
             return false;
         }
 
@@ -197,6 +194,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
     }
 
     /**
+<<<<<<< Updated upstream
      * Checks if the template can be found.
      *
      * @param string $name The template name
@@ -204,6 +202,11 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
      * @return string|false|null The template name or false/null
      */
     protected function findTemplate($name)
+=======
+     * @return string|null
+     */
+    protected function findTemplate(string $name, bool $throw = true)
+>>>>>>> Stashed changes
     {
         $throw = \func_num_args() > 1 ? func_get_arg(1) : true;
         $name = $this->normalizeName($name);
@@ -214,7 +217,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 
         if (isset($this->errorCache[$name])) {
             if (!$throw) {
-                return false;
+                return null;
             }
 
             throw new LoaderError($this->errorCache[$name]);
@@ -226,7 +229,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
             list($namespace, $shortname) = $this->parseName($name);
         } catch (LoaderError $e) {
             if (!$throw) {
-                return false;
+                return null;
             }
 
             throw $e;
@@ -236,7 +239,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
             $this->errorCache[$name] = sprintf('There are no registered paths for namespace "%s".', $namespace);
 
             if (!$throw) {
-                return false;
+                return null;
             }
 
             throw new LoaderError($this->errorCache[$name]);
@@ -259,13 +262,22 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
         $this->errorCache[$name] = sprintf('Unable to find template "%s" (looked into: %s).', $name, implode(', ', $this->paths[$namespace]));
 
         if (!$throw) {
-            return false;
+            return null;
         }
 
         throw new LoaderError($this->errorCache[$name]);
     }
 
+<<<<<<< Updated upstream
     protected function parseName($name, $default = self::MAIN_NAMESPACE)
+=======
+    private function normalizeName(string $name): string
+    {
+        return preg_replace('#/{2,}#', '/', str_replace('\\', '/', $name));
+    }
+
+    private function parseName(string $name, string $default = self::MAIN_NAMESPACE): array
+>>>>>>> Stashed changes
     {
         if (isset($name[0]) && '@' == $name[0]) {
             if (false === $pos = strpos($name, '/')) {
@@ -281,14 +293,18 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
         return [$default, $name];
     }
 
+<<<<<<< Updated upstream
     protected function normalizeName($name)
     {
         return preg_replace('#/{2,}#', '/', str_replace('\\', '/', (string) $name));
     }
 
     protected function validateName($name)
+=======
+    private function validateName(string $name): void
+>>>>>>> Stashed changes
     {
-        if (false !== strpos($name, "\0")) {
+        if (str_contains($name, "\0")) {
             throw new LoaderError('A template name cannot contain NUL bytes.');
         }
 
@@ -308,7 +324,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
         }
     }
 
-    private function isAbsolutePath($file)
+    private function isAbsolutePath(string $file): bool
     {
         return strspn($file, '/\\', 0, 1)
             || (\strlen($file) > 3 && ctype_alpha($file[0])
@@ -319,5 +335,3 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
         ;
     }
 }
-
-class_alias('Twig\Loader\FilesystemLoader', 'Twig_Loader_Filesystem');

@@ -20,7 +20,7 @@ class ParametersConfigurator extends AbstractConfigurator
 {
     const FACTORY = 'parameters';
 
-    private $container;
+    private ContainerBuilder $container;
 
     public function __construct(ContainerBuilder $container)
     {
@@ -28,6 +28,7 @@ class ParametersConfigurator extends AbstractConfigurator
     }
 
     /**
+<<<<<<< Updated upstream
      * Creates a parameter.
      *
      * @param string $name
@@ -36,6 +37,11 @@ class ParametersConfigurator extends AbstractConfigurator
      * @return $this
      */
     final public function set($name, $value)
+=======
+     * @return $this
+     */
+    final public function set(string $name, mixed $value): static
+>>>>>>> Stashed changes
     {
         $this->container->setParameter($name, static::processValue($value, true));
 
@@ -43,6 +49,7 @@ class ParametersConfigurator extends AbstractConfigurator
     }
 
     /**
+<<<<<<< Updated upstream
      * Creates a parameter.
      *
      * @param string $name
@@ -51,6 +58,11 @@ class ParametersConfigurator extends AbstractConfigurator
      * @return $this
      */
     final public function __invoke($name, $value)
+=======
+     * @return $this
+     */
+    final public function __invoke(string $name, mixed $value): static
+>>>>>>> Stashed changes
     {
         return $this->set($name, $value);
     }

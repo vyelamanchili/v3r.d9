@@ -21,7 +21,11 @@
     },
     "extra": {
         "branch-alias": {
+<<<<<<< Updated upstream
             "dev-master": "1.0.x-dev"
+=======
+            "dev-master": "2.0.x-dev"
+>>>>>>> Stashed changes
         }
     }
 }

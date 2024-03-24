@@ -28,7 +28,11 @@ use Twig\Source;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
+<<<<<<< Updated upstream
 class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, SourceContextLoaderInterface
+=======
+final class ArrayLoader implements LoaderInterface
+>>>>>>> Stashed changes
 {
     protected $templates = [];
 
@@ -40,13 +44,7 @@ class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, SourceConte
         $this->templates = $templates;
     }
 
-    /**
-     * Adds or overrides a template.
-     *
-     * @param string $name     The template name
-     * @param string $template The template source
-     */
-    public function setTemplate($name, $template)
+    public function setTemplate(string $name, string $template): void
     {
         $this->templates[(string) $name] = $template;
     }
@@ -63,9 +61,8 @@ class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, SourceConte
         return $this->templates[$name];
     }
 
-    public function getSourceContext($name)
+    public function getSourceContext(string $name): Source
     {
-        $name = (string) $name;
         if (!isset($this->templates[$name])) {
             throw new LoaderError(sprintf('Template "%s" is not defined.', $name));
         }
@@ -73,12 +70,12 @@ class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, SourceConte
         return new Source($this->templates[$name], $name);
     }
 
-    public function exists($name)
+    public function exists(string $name): bool
     {
         return isset($this->templates[(string) $name]);
     }
 
-    public function getCacheKey($name)
+    public function getCacheKey(string $name): string
     {
         $name = (string) $name;
         if (!isset($this->templates[$name])) {
@@ -88,7 +85,7 @@ class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, SourceConte
         return $name.':'.$this->templates[$name];
     }
 
-    public function isFresh($name, $time)
+    public function isFresh(string $name, int $time): bool
     {
         $name = (string) $name;
         if (!isset($this->templates[$name])) {
@@ -98,5 +95,3 @@ class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, SourceConte
         return true;
     }
 }
-
-class_alias('Twig\Loader\ArrayLoader', 'Twig_Loader_Array');

@@ -17,14 +17,18 @@ namespace Symfony\Component\Yaml\Tag;
  */
 final class TaggedValue
 {
-    private $tag;
-    private $value;
+    private string $tag;
+    private mixed $value;
 
+<<<<<<< Updated upstream
     /**
      * @param string $tag
      * @param mixed  $value
      */
     public function __construct($tag, $value)
+=======
+    public function __construct(string $tag, mixed $value)
+>>>>>>> Stashed changes
     {
         $this->tag = $tag;
         $this->value = $value;
@@ -38,10 +42,14 @@ final class TaggedValue
         return $this->tag;
     }
 
+<<<<<<< Updated upstream
     /**
      * @return mixed
      */
     public function getValue()
+=======
+    public function getValue(): mixed
+>>>>>>> Stashed changes
     {
         return $this->value;
     }

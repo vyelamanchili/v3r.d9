@@ -26,10 +26,11 @@ use Twig\Source;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class ModuleNode extends Node
+final class ModuleNode extends Node
 {
     public function __construct(\Twig_NodeInterface $body, AbstractExpression $parent = null, \Twig_NodeInterface $blocks, \Twig_NodeInterface $macros, \Twig_NodeInterface $traits, $embeddedTemplates, $name, $source = '')
     {
+<<<<<<< Updated upstream
         if (!$name instanceof Source) {
             @trigger_error(sprintf('Passing a string as the $name argument of %s() is deprecated since version 1.27. Pass a \Twig\Source instance instead.', __METHOD__), E_USER_DEPRECATED);
             $source = new Source($source, $name);
@@ -37,6 +38,8 @@ class ModuleNode extends Node
             $source = $name;
         }
 
+=======
+>>>>>>> Stashed changes
         $nodes = [
             'body' => $body,
             'blocks' => $blocks,
@@ -72,7 +75,7 @@ class ModuleNode extends Node
         $this->setAttribute('index', $index);
     }
 
-    public function compile(Compiler $compiler)
+    public function compile(Compiler $compiler): void
     {
         $this->compileTemplate($compiler);
 
@@ -179,7 +182,11 @@ class ModuleNode extends Node
             // if the template name contains */, add a blank to avoid a PHP parse error
             ->write('/* '.str_replace('*/', '* /', $this->getSourceContext()->getName())." */\n")
             ->write('class '.$compiler->getEnvironment()->getTemplateClass($this->getSourceContext()->getName(), $this->getAttribute('index')))
+<<<<<<< Updated upstream
             ->raw(sprintf(" extends %s\n", $compiler->getEnvironment()->getBaseTemplateClass()))
+=======
+            ->raw(" extends Template\n")
+>>>>>>> Stashed changes
             ->write("{\n")
             ->indent()
         ;
@@ -367,6 +374,9 @@ class ModuleNode extends Node
     protected function compileGetTemplateName(Compiler $compiler)
     {
         $compiler
+            ->write("/**\n")
+            ->write(" * @codeCoverageIgnore\n")
+            ->write(" */\n")
             ->write("public function getTemplateName()\n", "{\n")
             ->indent()
             ->write('return ')
@@ -421,6 +431,9 @@ class ModuleNode extends Node
         }
 
         $compiler
+            ->write("/**\n")
+            ->write(" * @codeCoverageIgnore\n")
+            ->write(" */\n")
             ->write("public function isTraitable()\n", "{\n")
             ->indent()
             ->write(sprintf("return %s;\n", $traitable ? 'true' : 'false'))
@@ -432,6 +445,9 @@ class ModuleNode extends Node
     protected function compileDebugInfo(Compiler $compiler)
     {
         $compiler
+            ->write("/**\n")
+            ->write(" * @codeCoverageIgnore\n")
+            ->write(" */\n")
             ->write("public function getDebugInfo()\n", "{\n")
             ->indent()
             ->write(sprintf("return %s;\n", str_replace("\n", '', var_export(array_reverse($compiler->getDebugInfo(), true), true))))
@@ -488,5 +504,3 @@ class ModuleNode extends Node
         }
     }
 }
-
-class_alias('Twig\Node\ModuleNode', 'Twig_Node_Module');

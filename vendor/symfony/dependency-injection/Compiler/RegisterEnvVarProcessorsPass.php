@@ -27,8 +27,15 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
  */
 class RegisterEnvVarProcessorsPass implements CompilerPassInterface
 {
+<<<<<<< Updated upstream
     private static $allowedTypes = ['array', 'bool', 'float', 'int', 'string'];
+=======
+    private const ALLOWED_TYPES = ['array', 'bool', 'float', 'int', 'string', \BackedEnum::class];
+>>>>>>> Stashed changes
 
+    /**
+     * @return void
+     */
     public function process(ContainerBuilder $container)
     {
         $bag = $container->getParameterBag();

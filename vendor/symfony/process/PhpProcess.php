@@ -31,7 +31,11 @@ class PhpProcess extends Process
      * @param int         $timeout The timeout in seconds
      * @param array       $options An array of options for proc_open
      */
+<<<<<<< Updated upstream
     public function __construct($script, $cwd = null, array $env = null, $timeout = 60, array $options = null)
+=======
+    public function __construct(string $script, ?string $cwd = null, ?array $env = null, int $timeout = 60, ?array $php = null)
+>>>>>>> Stashed changes
     {
         $executableFinder = new PhpExecutableFinder();
         if (false === $php = $executableFinder->find(false)) {
@@ -50,6 +54,7 @@ class PhpProcess extends Process
             @trigger_error(sprintf('The $options parameter of the %s constructor is deprecated since Symfony 3.3 and will be removed in 4.0.', __CLASS__), E_USER_DEPRECATED);
         }
 
+<<<<<<< Updated upstream
         parent::__construct($php, $cwd, $env, $script, $timeout, $options);
     }
 
@@ -65,6 +70,20 @@ class PhpProcess extends Process
      * {@inheritdoc}
      */
     public function start(callable $callback = null/*, array $env = []*/)
+=======
+        parent::__construct($php, $cwd, $env, $script, $timeout);
+    }
+
+    public static function fromShellCommandline(string $command, ?string $cwd = null, ?array $env = null, mixed $input = null, ?float $timeout = 60): static
+    {
+        throw new LogicException(sprintf('The "%s()" method cannot be called when using "%s".', __METHOD__, self::class));
+    }
+
+    /**
+     * @return void
+     */
+    public function start(?callable $callback = null, array $env = [])
+>>>>>>> Stashed changes
     {
         if (null === $this->getCommandLine()) {
             throw new RuntimeException('Unable to find the PHP executable.');

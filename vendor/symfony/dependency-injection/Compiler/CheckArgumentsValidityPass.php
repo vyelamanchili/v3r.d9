@@ -22,17 +22,16 @@ use Symfony\Component\DependencyInjection\Exception\RuntimeException;
  */
 class CheckArgumentsValidityPass extends AbstractRecursivePass
 {
-    private $throwExceptions;
+    protected bool $skipScalars = true;
+
+    private bool $throwExceptions;
 
     public function __construct($throwExceptions = true)
     {
         $this->throwExceptions = $throwExceptions;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function processValue($value, $isRoot = false)
+    protected function processValue(mixed $value, bool $isRoot = false): mixed
     {
         if (!$value instanceof Definition) {
             return parent::processValue($value, $isRoot);
@@ -40,6 +39,14 @@ class CheckArgumentsValidityPass extends AbstractRecursivePass
 
         $i = 0;
         foreach ($value->getArguments() as $k => $v) {
+<<<<<<< Updated upstream
+=======
+            if (preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $k)) {
+                $hasNamedArgs = true;
+                continue;
+            }
+
+>>>>>>> Stashed changes
             if ($k !== $i++) {
                 if (!\is_int($k)) {
                     $msg = sprintf('Invalid constructor argument for service "%s": integer expected but found string "%s". Check your service definition.', $this->currentId, $k);
@@ -62,6 +69,14 @@ class CheckArgumentsValidityPass extends AbstractRecursivePass
         foreach ($value->getMethodCalls() as $methodCall) {
             $i = 0;
             foreach ($methodCall[1] as $k => $v) {
+<<<<<<< Updated upstream
+=======
+                if (preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $k)) {
+                    $hasNamedArgs = true;
+                    continue;
+                }
+
+>>>>>>> Stashed changes
                 if ($k !== $i++) {
                     if (!\is_int($k)) {
                         $msg = sprintf('Invalid argument for method call "%s" of service "%s": integer expected but found string "%s". Check your service definition.', $methodCall[0], $this->currentId, $k);

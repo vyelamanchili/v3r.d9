@@ -28,6 +28,7 @@ class PrototypeConfigurator extends AbstractServiceConfigurator
     use Traits\BindTrait;
     use Traits\CallTrait;
     use Traits\ConfiguratorTrait;
+    use Traits\ConstructorTrait;
     use Traits\DeprecateTrait;
     use Traits\FactoryTrait;
     use Traits\LazyTrait;
@@ -37,12 +38,24 @@ class PrototypeConfigurator extends AbstractServiceConfigurator
     use Traits\ShareTrait;
     use Traits\TagTrait;
 
+<<<<<<< Updated upstream
     private $loader;
     private $resource;
     private $exclude;
     private $allowParent;
 
     public function __construct(ServicesConfigurator $parent, PhpFileLoader $loader, Definition $defaults, $namespace, $resource, $allowParent)
+=======
+    public const FACTORY = 'load';
+
+    private PhpFileLoader $loader;
+    private string $resource;
+    private ?array $excludes = null;
+    private bool $allowParent;
+    private ?string $path;
+
+    public function __construct(ServicesConfigurator $parent, PhpFileLoader $loader, Definition $defaults, string $namespace, string $resource, bool $allowParent, ?string $path = null)
+>>>>>>> Stashed changes
     {
         $definition = new Definition();
         if (!$defaults->isPublic() || !$defaults->isPrivate()) {
@@ -57,6 +70,7 @@ class PrototypeConfigurator extends AbstractServiceConfigurator
         $this->loader = $loader;
         $this->resource = $resource;
         $this->allowParent = $allowParent;
+        $this->path = $path;
 
         parent::__construct($parent, $definition, $namespace, $defaults->getTags());
     }
@@ -65,10 +79,15 @@ class PrototypeConfigurator extends AbstractServiceConfigurator
     {
         parent::__destruct();
 
+<<<<<<< Updated upstream
         if ($this->loader) {
             $this->loader->registerClasses($this->definition, $this->id, $this->resource, $this->exclude);
+=======
+        if (isset($this->loader)) {
+            $this->loader->registerClasses($this->definition, $this->id, $this->resource, $this->excludes, $this->path);
+>>>>>>> Stashed changes
         }
-        $this->loader = null;
+        unset($this->loader);
     }
 
     /**
@@ -78,7 +97,11 @@ class PrototypeConfigurator extends AbstractServiceConfigurator
      *
      * @return $this
      */
+<<<<<<< Updated upstream
     final public function exclude($exclude)
+=======
+    final public function exclude(array|string $excludes): static
+>>>>>>> Stashed changes
     {
         $this->exclude = $exclude;
 

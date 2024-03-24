@@ -11,17 +11,23 @@
 
 namespace Symfony\Component\DependencyInjection\LazyProxy;
 
+trigger_deprecation('symfony/dependency-injection', '6.2', 'The "%s" class is deprecated, use "%s" instead.', ProxyHelper::class, \Symfony\Component\VarExporter\ProxyHelper::class);
+
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  *
- * @internal
+ * @deprecated since Symfony 6.2, use VarExporter's ProxyHelper instead
  */
 class ProxyHelper
 {
     /**
      * @return string|null The FQCN or builtin name of the type hint, or null when the type hint references an invalid self|parent context
      */
+<<<<<<< Updated upstream
     public static function getTypeHint(\ReflectionFunctionAbstract $r, \ReflectionParameter $p = null, $noBuiltin = false)
+=======
+    public static function getTypeHint(\ReflectionFunctionAbstract $r, ?\ReflectionParameter $p = null, bool $noBuiltin = false): ?string
+>>>>>>> Stashed changes
     {
         if ($p instanceof \ReflectionParameter) {
             if (method_exists($p, 'getType')) {
@@ -59,6 +65,12 @@ class ProxyHelper
             return $prefix.$r->getDeclaringClass()->name;
         }
 
+<<<<<<< Updated upstream
         return ($parent = $r->getDeclaringClass()->getParentClass()) ? $prefix.$parent->name : null;
+=======
+        sort($types);
+
+        return $types ? implode($glue, $types) : null;
+>>>>>>> Stashed changes
     }
 }

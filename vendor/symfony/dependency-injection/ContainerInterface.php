@@ -12,7 +12,7 @@
 namespace Symfony\Component\DependencyInjection;
 
 use Psr\Container\ContainerInterface as PsrContainerInterface;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 use Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
@@ -30,28 +30,25 @@ interface ContainerInterface extends PsrContainerInterface
     const IGNORE_ON_UNINITIALIZED_REFERENCE = 4;
 
     /**
-     * Sets a service.
-     *
-     * @param string      $id      The service identifier
-     * @param object|null $service The service instance
+     * @return void
      */
-    public function set($id, $service);
+    public function set(string $id, ?object $service);
 
     /**
-     * Gets a service.
+     * @template B of self::*_REFERENCE
      *
-     * @param string $id              The service identifier
-     * @param int    $invalidBehavior The behavior when the service does not exist
+     * @param B $invalidBehavior
      *
-     * @return object|null The associated service
+     * @psalm-return (B is self::EXCEPTION_ON_INVALID_REFERENCE|self::RUNTIME_EXCEPTION_ON_INVALID_REFERENCE ? object : object|null)
      *
      * @throws ServiceCircularReferenceException When a circular reference is detected
      * @throws ServiceNotFoundException          When the service is not defined
      *
      * @see Reference
      */
-    public function get($id, $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE);
+    public function get(string $id, int $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE): ?object;
 
+<<<<<<< Updated upstream
     /**
      * Returns true if the given service is defined.
      *
@@ -60,41 +57,41 @@ interface ContainerInterface extends PsrContainerInterface
      * @return bool true if the service is defined, false otherwise
      */
     public function has($id);
+=======
+    public function has(string $id): bool;
+>>>>>>> Stashed changes
 
     /**
      * Check for whether or not a service has been initialized.
-     *
-     * @param string $id
-     *
-     * @return bool true if the service has been initialized, false otherwise
      */
-    public function initialized($id);
+    public function initialized(string $id): bool;
 
     /**
+<<<<<<< Updated upstream
      * Gets a parameter.
      *
      * @param string $name The parameter name
      *
      * @return mixed The parameter value
+=======
+     * @return array|bool|string|int|float|\UnitEnum|null
+>>>>>>> Stashed changes
      *
-     * @throws InvalidArgumentException if the parameter is not defined
+     * @throws ParameterNotFoundException if the parameter is not defined
      */
-    public function getParameter($name);
+    public function getParameter(string $name);
+
+    public function hasParameter(string $name): bool;
 
     /**
-     * Checks if a parameter exists.
-     *
-     * @param string $name The parameter name
-     *
-     * @return bool The presence of parameter in container
-     */
-    public function hasParameter($name);
-
-    /**
+<<<<<<< Updated upstream
      * Sets a parameter.
      *
      * @param string $name  The parameter name
      * @param mixed  $value The parameter value
+=======
+     * @return void
+>>>>>>> Stashed changes
      */
-    public function setParameter($name, $value);
+    public function setParameter(string $name, array|bool|string|int|float|\UnitEnum|null $value);
 }

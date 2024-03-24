@@ -33,5 +33,9 @@ interface ContainerInterface
      *
      * @return bool
      */
+<<<<<<< Updated upstream
     public function has($id);
+=======
+    public function has(string $id): bool;
+>>>>>>> Stashed changes
 }

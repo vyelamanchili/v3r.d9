@@ -29,7 +29,26 @@ for a general introduction to promises.
   `GuzzleHttp\Promise\coroutine()`.
 
 
+<<<<<<< Updated upstream
 # Quick start
+=======
+## Installation
+
+```shell
+composer require guzzlehttp/promises
+```
+
+
+## Version Guidance
+
+| Version | Status                 | PHP Version  |
+|---------|------------------------|--------------|
+| 1.x     | Bug and security fixes | >=5.5,<8.3   |
+| 2.x     | Latest                 | >=7.2.5,<8.4 |
+
+
+## Quick Start
+>>>>>>> Stashed changes
 
 A *promise* represents the eventual result of an asynchronous operation. The
 primary way of interacting with a promise is through its `then` method, which
@@ -435,8 +454,6 @@ $loop = React\EventLoop\Factory::create();
 $loop->addPeriodicTimer(0, [$queue, 'run']);
 ```
 
-*TODO*: Perhaps adding a `futureTick()` on each tick would be faster?
-
 
 # Implementation notes
 
@@ -502,3 +519,55 @@ $promise->then(function ($value) { echo $value; });
 $promise->resolve('foo');
 // prints "foo"
 ```
+<<<<<<< Updated upstream
+=======
+
+
+## Upgrading from Function API
+
+A static API was first introduced in 1.4.0, in order to mitigate problems with
+functions conflicting between global and local copies of the package. The
+function API was removed in 2.0.0. A migration table has been provided here for
+your convenience:
+
+| Original Function | Replacement Method |
+|----------------|----------------|
+| `queue` | `Utils::queue` |
+| `task` | `Utils::task` |
+| `promise_for` | `Create::promiseFor` |
+| `rejection_for` | `Create::rejectionFor` |
+| `exception_for` | `Create::exceptionFor` |
+| `iter_for` | `Create::iterFor` |
+| `inspect` | `Utils::inspect` |
+| `inspect_all` | `Utils::inspectAll` |
+| `unwrap` | `Utils::unwrap` |
+| `all` | `Utils::all` |
+| `some` | `Utils::some` |
+| `any` | `Utils::any` |
+| `settle` | `Utils::settle` |
+| `each` | `Each::of` |
+| `each_limit` | `Each::ofLimit` |
+| `each_limit_all` | `Each::ofLimitAll` |
+| `!is_fulfilled` | `Is::pending` |
+| `is_fulfilled` | `Is::fulfilled` |
+| `is_rejected` | `Is::rejected` |
+| `is_settled` | `Is::settled` |
+| `coroutine` | `Coroutine::of` |
+
+
+## Security
+
+If you discover a security vulnerability within this package, please send an email to security@tidelift.com. All security vulnerabilities will be promptly addressed. Please do not disclose security-related issues publicly until a fix has been announced. Please see [Security Policy](https://github.com/guzzle/promises/security/policy) for more information.
+
+
+## License
+
+Guzzle is made available under the MIT License (MIT). Please see [License File](LICENSE) for more information.
+
+
+## For Enterprise
+
+Available as part of the Tidelift Subscription
+
+The maintainers of Guzzle and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. [Learn more.](https://tidelift.com/subscription/pkg/packagist-guzzlehttp-promises?utm_source=packagist-guzzlehttp-promises&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
+>>>>>>> Stashed changes

@@ -15,8 +15,12 @@ use Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
+<<<<<<< Updated upstream
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\ExpressionLanguage;
+=======
+use Symfony\Component\DependencyInjection\Exception\LogicException;
+>>>>>>> Stashed changes
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\ExpressionLanguage\Expression;
 
@@ -29,8 +33,9 @@ use Symfony\Component\ExpressionLanguage\Expression;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class AnalyzeServiceReferencesPass extends AbstractRecursivePass implements RepeatablePassInterface
+class AnalyzeServiceReferencesPass extends AbstractRecursivePass
 {
+<<<<<<< Updated upstream
     private $graph;
     private $currentDefinition;
     private $onlyConstructorArguments;
@@ -38,6 +43,19 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass implements Repe
     private $lazy;
     private $expressionLanguage;
     private $byConstructor;
+=======
+    protected bool $skipScalars = true;
+
+    private ServiceReferenceGraph $graph;
+    private ?Definition $currentDefinition = null;
+    private bool $onlyConstructorArguments;
+    private bool $hasProxyDumper;
+    private bool $lazy;
+    private bool $byConstructor;
+    private bool $byFactory;
+    private array $definitions;
+    private array $aliases;
+>>>>>>> Stashed changes
 
     /**
      * @param bool $onlyConstructorArguments Sets this Service Reference pass to ignore method calls
@@ -49,6 +67,7 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass implements Repe
     }
 
     /**
+<<<<<<< Updated upstream
      * {@inheritdoc}
      */
     public function setRepeatedPass(RepeatedPass $repeatedPass)
@@ -57,7 +76,11 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass implements Repe
     }
 
     /**
+=======
+>>>>>>> Stashed changes
      * Processes a ContainerBuilder object to populate the service reference graph.
+     *
+     * @return void
      */
     public function process(ContainerBuilder $container)
     {
@@ -75,7 +98,7 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass implements Repe
         parent::process($container);
     }
 
-    protected function processValue($value, $isRoot = false)
+    protected function processValue(mixed $value, bool $isRoot = false): mixed
     {
         $lazy = $this->lazy;
 
@@ -101,11 +124,26 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass implements Repe
                 $targetId,
                 $targetDefinition,
                 $value,
-                $this->lazy || ($this->hasProxyDumper && $targetDefinition && $targetDefinition->isLazy()),
+                $this->lazy || ($this->hasProxyDumper && $targetDefinition?->isLazy()),
                 ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE === $value->getInvalidBehavior(),
                 $this->byConstructor
             );
 
+<<<<<<< Updated upstream
+=======
+            if ($inExpression) {
+                $this->graph->connect(
+                    '.internal.reference_in_expression',
+                    null,
+                    $targetId,
+                    $targetDefinition,
+                    $value,
+                    $this->lazy || $targetDefinition?->isLazy(),
+                    true
+                );
+            }
+
+>>>>>>> Stashed changes
             return $value;
         }
         if (!$value instanceof Definition) {
@@ -123,7 +161,23 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass implements Repe
 
         $byConstructor = $this->byConstructor;
         $this->byConstructor = $isRoot || $byConstructor;
+<<<<<<< Updated upstream
         $this->processValue($value->getFactory());
+=======
+
+        $byFactory = $this->byFactory;
+        $this->byFactory = true;
+        if (\is_string($factory = $value->getFactory()) && str_starts_with($factory, '@=')) {
+            if (!class_exists(Expression::class)) {
+                throw new LogicException('Expressions cannot be used in service factories without the ExpressionLanguage component. Try running "composer require symfony/expression-language".');
+            }
+
+            $factory = new Expression(substr($factory, 2));
+        }
+        $this->processValue($factory);
+        $this->byFactory = $byFactory;
+
+>>>>>>> Stashed changes
         $this->processValue($value->getArguments());
         $this->byConstructor = $byConstructor;
 

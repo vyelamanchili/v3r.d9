@@ -23,7 +23,11 @@ trait ClassTrait
      *
      * @return $this
      */
+<<<<<<< Updated upstream
     final protected function setClass($class)
+=======
+    final public function class(?string $class): static
+>>>>>>> Stashed changes
     {
         $this->definition->setClass($class);
 

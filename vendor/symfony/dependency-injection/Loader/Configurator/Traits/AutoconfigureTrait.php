@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
 
-use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
 trait AutoconfigureTrait
@@ -25,11 +24,12 @@ trait AutoconfigureTrait
      *
      * @throws InvalidArgumentException when a parent is already set
      */
+<<<<<<< Updated upstream
     final public function autoconfigure($autoconfigured = true)
+=======
+    final public function autoconfigure(bool $autoconfigured = true): static
+>>>>>>> Stashed changes
     {
-        if ($autoconfigured && $this->definition instanceof ChildDefinition) {
-            throw new InvalidArgumentException(sprintf('The service "%s" cannot have a "parent" and also have "autoconfigure". Try disabling autoconfiguration for the service.', $this->id));
-        }
         $this->definition->setAutoconfigured($autoconfigured);
 
         return $this;

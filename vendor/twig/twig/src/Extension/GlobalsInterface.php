@@ -21,6 +21,11 @@ namespace Twig\Extension;
  */
 interface GlobalsInterface
 {
+<<<<<<< Updated upstream
+=======
+    /**
+     * @return array<string, mixed>
+     */
+    public function getGlobals(): array;
+>>>>>>> Stashed changes
 }
-
-class_alias('Twig\Extension\GlobalsInterface', 'Twig_Extension_GlobalsInterface');

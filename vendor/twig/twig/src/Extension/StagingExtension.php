@@ -25,6 +25,7 @@ use Twig\TokenParser\TokenParserInterface;
  */
 class StagingExtension extends AbstractExtension
 {
+<<<<<<< Updated upstream
     protected $functions = [];
     protected $filters = [];
     protected $visitors = [];
@@ -33,6 +34,15 @@ class StagingExtension extends AbstractExtension
     protected $tests = [];
 
     public function addFunction($name, $function)
+=======
+    private $functions = [];
+    private $filters = [];
+    private $visitors = [];
+    private $tokenParsers = [];
+    private $tests = [];
+
+    public function addFunction(TwigFunction $function): void
+>>>>>>> Stashed changes
     {
         if (isset($this->functions[$name])) {
             @trigger_error(sprintf('Overriding function "%s" that is already registered is deprecated since version 1.30 and won\'t be possible anymore in 2.0.', $name), E_USER_DEPRECATED);
@@ -41,12 +51,16 @@ class StagingExtension extends AbstractExtension
         $this->functions[$name] = $function;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return $this->functions;
     }
 
+<<<<<<< Updated upstream
     public function addFilter($name, $filter)
+=======
+    public function addFilter(TwigFilter $filter): void
+>>>>>>> Stashed changes
     {
         if (isset($this->filters[$name])) {
             @trigger_error(sprintf('Overriding filter "%s" that is already registered is deprecated since version 1.30 and won\'t be possible anymore in 2.0.', $name), E_USER_DEPRECATED);
@@ -55,22 +69,22 @@ class StagingExtension extends AbstractExtension
         $this->filters[$name] = $filter;
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return $this->filters;
     }
 
-    public function addNodeVisitor(NodeVisitorInterface $visitor)
+    public function addNodeVisitor(NodeVisitorInterface $visitor): void
     {
         $this->visitors[] = $visitor;
     }
 
-    public function getNodeVisitors()
+    public function getNodeVisitors(): array
     {
         return $this->visitors;
     }
 
-    public function addTokenParser(TokenParserInterface $parser)
+    public function addTokenParser(TokenParserInterface $parser): void
     {
         if (isset($this->tokenParsers[$parser->getTag()])) {
             @trigger_error(sprintf('Overriding tag "%s" that is already registered is deprecated since version 1.30 and won\'t be possible anymore in 2.0.', $parser->getTag()), E_USER_DEPRECATED);
@@ -79,17 +93,21 @@ class StagingExtension extends AbstractExtension
         $this->tokenParsers[$parser->getTag()] = $parser;
     }
 
-    public function getTokenParsers()
+    public function getTokenParsers(): array
     {
         return $this->tokenParsers;
     }
 
+<<<<<<< Updated upstream
     public function addGlobal($name, $value)
     {
         $this->globals[$name] = $value;
     }
 
     public function getGlobals()
+=======
+    public function addTest(TwigTest $test): void
+>>>>>>> Stashed changes
     {
         return $this->globals;
     }
@@ -103,7 +121,7 @@ class StagingExtension extends AbstractExtension
         $this->tests[$name] = $test;
     }
 
-    public function getTests()
+    public function getTests(): array
     {
         return $this->tests;
     }
@@ -113,5 +131,3 @@ class StagingExtension extends AbstractExtension
         return 'staging';
     }
 }
-
-class_alias('Twig\Extension\StagingExtension', 'Twig_Extension_Staging');

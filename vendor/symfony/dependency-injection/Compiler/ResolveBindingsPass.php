@@ -12,25 +12,34 @@
 namespace Symfony\Component\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Argument\BoundArgument;
+<<<<<<< Updated upstream
+=======
+use Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
+use Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\DependencyInjection\Attribute\Target;
+>>>>>>> Stashed changes
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
-use Symfony\Component\DependencyInjection\LazyProxy\ProxyHelper;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\TypedReference;
+use Symfony\Component\VarExporter\ProxyHelper;
 
 /**
  * @author Guilhem Niot <guilhem.niot@gmail.com>
  */
 class ResolveBindingsPass extends AbstractRecursivePass
 {
-    private $usedBindings = [];
-    private $unusedBindings = [];
-    private $errorMessages = [];
+    protected bool $skipScalars = true;
+
+    private array $usedBindings = [];
+    private array $unusedBindings = [];
+    private array $errorMessages = [];
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function process(ContainerBuilder $container)
     {
@@ -56,10 +65,7 @@ class ResolveBindingsPass extends AbstractRecursivePass
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function processValue($value, $isRoot = false)
+    protected function processValue(mixed $value, bool $isRoot = false): mixed
     {
         if ($value instanceof TypedReference && $value->getType() === $this->container->normalizeId($value)) {
             // Already checked
@@ -89,8 +95,18 @@ class ResolveBindingsPass extends AbstractRecursivePass
                 continue;
             }
 
+<<<<<<< Updated upstream
             if (null !== $bindingValue && !$bindingValue instanceof Reference && !$bindingValue instanceof Definition) {
                 throw new InvalidArgumentException(sprintf('Invalid value for binding key "%s" for service "%s": expected null, an instance of "%s" or an instance of "%s", "%s" given.', $key, $this->currentId, Reference::class, Definition::class, \gettype($bindingValue)));
+=======
+            if (is_subclass_of($m[1], \UnitEnum::class)) {
+                $bindingNames[substr($key, \strlen($m[0]))] = $binding;
+                continue;
+            }
+
+            if (null !== $bindingValue && !$bindingValue instanceof Reference && !$bindingValue instanceof Definition && !$bindingValue instanceof TaggedIteratorArgument && !$bindingValue instanceof ServiceLocatorArgument) {
+                throw new InvalidArgumentException(sprintf('Invalid value for binding key "%s" for service "%s": expected "%s", "%s", "%s", "%s" or null, "%s" given.', $key, $this->currentId, Reference::class, Definition::class, TaggedIteratorArgument::class, ServiceLocatorArgument::class, get_debug_type($bindingValue)));
+>>>>>>> Stashed changes
             }
         }
 
@@ -127,13 +143,45 @@ class ResolveBindingsPass extends AbstractRecursivePass
                 }
             }
 
+            $names = [];
+
             foreach ($reflectionMethod->getParameters() as $key => $parameter) {
+                $names[$key] = $parameter->name;
+
                 if (\array_key_exists($key, $arguments) && '' !== $arguments[$key]) {
                     continue;
                 }
+                if (\array_key_exists($parameter->name, $arguments) && '' !== $arguments[$parameter->name]) {
+                    continue;
+                }
+                if (
+                    $value->isAutowired()
+                    && !$value->hasTag('container.ignore_attributes')
+                    && $parameter->getAttributes(Autowire::class, \ReflectionAttribute::IS_INSTANCEOF)
+                ) {
+                    continue;
+                }
 
+                $typeHint = ltrim(ProxyHelper::exportType($parameter) ?? '', '?');
+
+<<<<<<< Updated upstream
                 if (\array_key_exists('$'.$parameter->name, $bindings)) {
                     $arguments[$key] = $this->getBindingValue($bindings['$'.$parameter->name]);
+=======
+                $name = Target::parseName($parameter, parsedName: $parsedName);
+
+                if ($typeHint && (
+                    \array_key_exists($k = preg_replace('/(^|[(|&])\\\\/', '\1', $typeHint).' $'.$name, $bindings)
+                    || \array_key_exists($k = preg_replace('/(^|[(|&])\\\\/', '\1', $typeHint).' $'.$parsedName, $bindings)
+                )) {
+                    $arguments[$key] = $this->getBindingValue($bindings[$k]);
+
+                    continue;
+                }
+
+                if (\array_key_exists($k = '$'.$name, $bindings) || \array_key_exists($k = '$'.$parsedName, $bindings)) {
+                    $arguments[$key] = $this->getBindingValue($bindings[$k]);
+>>>>>>> Stashed changes
 
                     continue;
                 }
@@ -144,11 +192,26 @@ class ResolveBindingsPass extends AbstractRecursivePass
                     continue;
                 }
 
+<<<<<<< Updated upstream
                 $arguments[$key] = $this->getBindingValue($bindings[$typeHint]);
+=======
+                if (isset($bindingNames[$name]) || isset($bindingNames[$parsedName]) || isset($bindingNames[$parameter->name])) {
+                    $bindingKey = array_search($binding, $bindings, true);
+                    $argumentType = substr($bindingKey, 0, strpos($bindingKey, ' '));
+                    $this->errorMessages[] = sprintf('Did you forget to add the type "%s" to argument "$%s" of method "%s::%s()"?', $argumentType, $parameter->name, $reflectionMethod->class, $reflectionMethod->name);
+                }
+>>>>>>> Stashed changes
+            }
+
+            foreach ($names as $key => $name) {
+                if (\array_key_exists($name, $arguments) && (0 === $key || \array_key_exists($key - 1, $arguments))) {
+                    $arguments[$key] = $arguments[$name];
+                    unset($arguments[$name]);
+                }
             }
 
             if ($arguments !== $call[1]) {
-                ksort($arguments);
+                ksort($arguments, \SORT_NATURAL);
                 $calls[$i][1] = $arguments;
             }
         }
@@ -168,7 +231,11 @@ class ResolveBindingsPass extends AbstractRecursivePass
         return parent::processValue($value, $isRoot);
     }
 
+<<<<<<< Updated upstream
     private function getBindingValue(BoundArgument $binding)
+=======
+    private function getBindingValue(BoundArgument $binding): mixed
+>>>>>>> Stashed changes
     {
         list($bindingValue, $bindingId) = $binding->getValues();
 

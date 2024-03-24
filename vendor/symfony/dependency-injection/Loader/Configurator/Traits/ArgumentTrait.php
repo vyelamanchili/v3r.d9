@@ -20,7 +20,11 @@ trait ArgumentTrait
      *
      * @return $this
      */
+<<<<<<< Updated upstream
     final public function args(array $arguments)
+=======
+    final public function args(array $arguments): static
+>>>>>>> Stashed changes
     {
         $this->definition->setArguments(static::processValue($arguments, true));
 
@@ -30,12 +34,13 @@ trait ArgumentTrait
     /**
      * Sets one argument to pass to the service constructor/factory method.
      *
-     * @param string|int $key
-     * @param mixed      $value
-     *
      * @return $this
      */
+<<<<<<< Updated upstream
     final public function arg($key, $value)
+=======
+    final public function arg(string|int $key, mixed $value): static
+>>>>>>> Stashed changes
     {
         $this->definition->setArgument($key, static::processValue($value, true));
 

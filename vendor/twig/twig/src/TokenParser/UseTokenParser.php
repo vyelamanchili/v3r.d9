@@ -28,11 +28,15 @@ use Twig\Token;
  *
  * @see https://twig.symfony.com/doc/templates.html#horizontal-reuse for details.
  *
+<<<<<<< Updated upstream
  * @final
+=======
+ * @internal
+>>>>>>> Stashed changes
  */
 class UseTokenParser extends AbstractTokenParser
 {
-    public function parse(Token $token)
+    public function parse(Token $token): Node
     {
         $template = $this->parser->getExpressionParser()->parseExpression();
         $stream = $this->parser->getStream();
@@ -43,8 +47,13 @@ class UseTokenParser extends AbstractTokenParser
 
         $targets = [];
         if ($stream->nextIf('with')) {
+<<<<<<< Updated upstream
             do {
                 $name = $stream->expect(Token::NAME_TYPE)->getValue();
+=======
+            while (true) {
+                $name = $stream->expect(/* Token::NAME_TYPE */ 5)->getValue();
+>>>>>>> Stashed changes
 
                 $alias = $name;
                 if ($stream->nextIf('as')) {
@@ -56,7 +65,7 @@ class UseTokenParser extends AbstractTokenParser
                 if (!$stream->nextIf(Token::PUNCTUATION_TYPE, ',')) {
                     break;
                 }
-            } while (true);
+            }
         }
 
         $stream->expect(Token::BLOCK_END_TYPE);
@@ -66,10 +75,8 @@ class UseTokenParser extends AbstractTokenParser
         return new Node();
     }
 
-    public function getTag()
+    public function getTag(): string
     {
         return 'use';
     }
 }
-
-class_alias('Twig\TokenParser\UseTokenParser', 'Twig_TokenParser_Use');

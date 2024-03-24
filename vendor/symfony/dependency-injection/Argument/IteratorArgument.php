@@ -21,25 +21,35 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class IteratorArgument implements ArgumentInterface
 {
+<<<<<<< Updated upstream
     private $values;
 
     /**
      * @param Reference[] $values
      */
+=======
+    private array $values;
+
+>>>>>>> Stashed changes
     public function __construct(array $values)
     {
         $this->setValues($values);
     }
 
+<<<<<<< Updated upstream
     /**
      * @return array The values to lazily iterate over
      */
     public function getValues()
+=======
+    public function getValues(): array
+>>>>>>> Stashed changes
     {
         return $this->values;
     }
 
     /**
+<<<<<<< Updated upstream
      * @param Reference[] $values The service references to lazily iterate over
      */
     public function setValues(array $values)
@@ -50,6 +60,12 @@ class IteratorArgument implements ArgumentInterface
             }
         }
 
+=======
+     * @return void
+     */
+    public function setValues(array $values)
+    {
+>>>>>>> Stashed changes
         $this->values = $values;
     }
 }

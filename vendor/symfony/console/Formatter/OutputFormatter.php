@@ -13,6 +13,8 @@ namespace Symfony\Component\Console\Formatter;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
+use function Symfony\Component\String\b;
+
 /**
  * Formatter class for console output.
  *
@@ -20,18 +22,22 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
  */
 class OutputFormatter implements OutputFormatterInterface
 {
-    private $decorated;
-    private $styles = [];
-    private $styleStack;
+    private bool $decorated;
+    private array $styles = [];
+    private OutputFormatterStyleStack $styleStack;
 
     /**
+<<<<<<< Updated upstream
      * Escapes "<" special char in given text.
      *
      * @param string $text Text to escape
      *
      * @return string Escaped text
+=======
+     * Escapes "<" and ">" special chars in given text.
+>>>>>>> Stashed changes
      */
-    public static function escape($text)
+    public static function escape(string $text): string
     {
         $text = preg_replace('/([^\\\\]?)</', '$1\\<', $text);
 
@@ -82,41 +88,32 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
-    public function setDecorated($decorated)
+    public function setDecorated(bool $decorated)
     {
-        $this->decorated = (bool) $decorated;
+        $this->decorated = $decorated;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isDecorated()
+    public function isDecorated(): bool
     {
         return $this->decorated;
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
-    public function setStyle($name, OutputFormatterStyleInterface $style)
+    public function setStyle(string $name, OutputFormatterStyleInterface $style)
     {
         $this->styles[strtolower($name)] = $style;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function hasStyle($name)
+    public function hasStyle(string $name): bool
     {
         return isset($this->styles[strtolower($name)]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getStyle($name)
+    public function getStyle(string $name): OutputFormatterStyleInterface
     {
         if (!$this->hasStyle($name)) {
             throw new InvalidArgumentException(sprintf('Undefined style: "%s".', $name));
@@ -125,12 +122,24 @@ class OutputFormatter implements OutputFormatterInterface
         return $this->styles[strtolower($name)];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function format($message)
+    public function format(?string $message): ?string
     {
+<<<<<<< Updated upstream
         $message = (string) $message;
+=======
+        return $this->formatAndWrap($message, 0);
+    }
+
+    /**
+     * @return string
+     */
+    public function formatAndWrap(?string $message, int $width)
+    {
+        if (null === $message) {
+            return '';
+        }
+
+>>>>>>> Stashed changes
         $offset = 0;
         $output = '';
         $tagRegex = '[a-z][a-z0-9,_=;-]*+';
@@ -148,7 +157,7 @@ class OutputFormatter implements OutputFormatterInterface
             $offset = $pos + \strlen($text);
 
             // opening tag?
-            if ($open = '/' != $text[1]) {
+            if ($open = '/' !== $text[1]) {
                 $tag = $matches[1][$i][0];
             } else {
                 $tag = isset($matches[3][$i][0]) ? $matches[3][$i][0] : '';
@@ -175,10 +184,7 @@ class OutputFormatter implements OutputFormatterInterface
         return str_replace('\\<', '<', $output);
     }
 
-    /**
-     * @return OutputFormatterStyleStack
-     */
-    public function getStyleStack()
+    public function getStyleStack(): OutputFormatterStyleStack
     {
         return $this->styleStack;
     }
@@ -238,6 +244,59 @@ class OutputFormatter implements OutputFormatterInterface
      */
     private function applyCurrentStyle($text)
     {
+<<<<<<< Updated upstream
         return $this->isDecorated() && \strlen($text) > 0 ? $this->styleStack->getCurrent()->apply($text) : $text;
+=======
+        if ('' === $text) {
+            return '';
+        }
+
+        if (!$width) {
+            return $this->isDecorated() ? $this->styleStack->getCurrent()->apply($text) : $text;
+        }
+
+        if (!$currentLineLength && '' !== $current) {
+            $text = ltrim($text);
+        }
+
+        if ($currentLineLength) {
+            $prefix = substr($text, 0, $i = $width - $currentLineLength)."\n";
+            $text = substr($text, $i);
+        } else {
+            $prefix = '';
+        }
+
+        preg_match('~(\\n)$~', $text, $matches);
+        $text = $prefix.$this->addLineBreaks($text, $width);
+        $text = rtrim($text, "\n").($matches[1] ?? '');
+
+        if (!$currentLineLength && '' !== $current && !str_ends_with($current, "\n")) {
+            $text = "\n".$text;
+        }
+
+        $lines = explode("\n", $text);
+
+        foreach ($lines as $line) {
+            $currentLineLength += \strlen($line);
+            if ($width <= $currentLineLength) {
+                $currentLineLength = 0;
+            }
+        }
+
+        if ($this->isDecorated()) {
+            foreach ($lines as $i => $line) {
+                $lines[$i] = $this->styleStack->getCurrent()->apply($line);
+            }
+        }
+
+        return implode("\n", $lines);
+>>>>>>> Stashed changes
+    }
+
+    private function addLineBreaks(string $text, int $width): string
+    {
+        $encoding = mb_detect_encoding($text, null, true) ?: 'UTF-8';
+
+        return b($text)->toCodePointString($encoding)->wordwrap($width, "\n", true)->toByteString($encoding);
     }
 }

@@ -25,11 +25,17 @@ use Symfony\Component\Console\Output\StreamOutput;
  */
 class CommandTester
 {
+<<<<<<< Updated upstream
     private $command;
     private $input;
     private $output;
     private $inputs = [];
     private $statusCode;
+=======
+    use TesterTrait;
+
+    private Command $command;
+>>>>>>> Stashed changes
 
     public function __construct(Command $command)
     {
@@ -50,7 +56,7 @@ class CommandTester
      *
      * @return int The command exit code
      */
-    public function execute(array $input, array $options = [])
+    public function execute(array $input, array $options = []): int
     {
         // set the command name automatically if the application requires
         // this argument and no command name was passed

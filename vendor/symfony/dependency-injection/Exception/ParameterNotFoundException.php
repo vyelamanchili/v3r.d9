@@ -18,11 +18,11 @@ namespace Symfony\Component\DependencyInjection\Exception;
  */
 class ParameterNotFoundException extends InvalidArgumentException
 {
-    private $key;
-    private $sourceId;
-    private $sourceKey;
-    private $alternatives;
-    private $nonNestedAlternative;
+    private string $key;
+    private ?string $sourceId;
+    private ?string $sourceKey;
+    private array $alternatives;
+    private ?string $nonNestedAlternative;
 
     /**
      * @param string      $key                  The requested parameter key
@@ -32,7 +32,11 @@ class ParameterNotFoundException extends InvalidArgumentException
      * @param string[]    $alternatives         Some parameter name alternatives
      * @param string|null $nonNestedAlternative The alternative parameter name when the user expected dot notation for nested parameters
      */
+<<<<<<< Updated upstream
     public function __construct($key, $sourceId = null, $sourceKey = null, \Exception $previous = null, array $alternatives = [], $nonNestedAlternative = null)
+=======
+    public function __construct(string $key, ?string $sourceId = null, ?string $sourceKey = null, ?\Throwable $previous = null, array $alternatives = [], ?string $nonNestedAlternative = null)
+>>>>>>> Stashed changes
     {
         $this->key = $key;
         $this->sourceId = $sourceId;
@@ -45,12 +49,17 @@ class ParameterNotFoundException extends InvalidArgumentException
         $this->updateRepr();
     }
 
+    /**
+     * @return void
+     */
     public function updateRepr()
     {
         if (null !== $this->sourceId) {
             $this->message = sprintf('The service "%s" has a dependency on a non-existent parameter "%s".', $this->sourceId, $this->key);
         } elseif (null !== $this->sourceKey) {
             $this->message = sprintf('The parameter "%s" has a dependency on a non-existent parameter "%s".', $this->sourceKey, $this->key);
+        } elseif ('.' === ($this->key[0] ?? '')) {
+            $this->message = sprintf('Parameter "%s" not found. It was probably deleted during the compilation of the container.', $this->key);
         } else {
             $this->message = sprintf('You have requested a non-existent parameter "%s".', $this->key);
         }
@@ -67,29 +76,44 @@ class ParameterNotFoundException extends InvalidArgumentException
         }
     }
 
+    /**
+     * @return string
+     */
     public function getKey()
     {
         return $this->key;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSourceId()
     {
         return $this->sourceId;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSourceKey()
     {
         return $this->sourceKey;
     }
 
-    public function setSourceId($sourceId)
+    /**
+     * @return void
+     */
+    public function setSourceId(?string $sourceId)
     {
         $this->sourceId = $sourceId;
 
         $this->updateRepr();
     }
 
-    public function setSourceKey($sourceKey)
+    /**
+     * @return void
+     */
+    public function setSourceKey(?string $sourceKey)
     {
         $this->sourceKey = $sourceKey;
 

@@ -23,7 +23,11 @@ use Twig\Node\Node;
  */
 abstract class AbstractNodeVisitor implements NodeVisitorInterface
 {
+<<<<<<< Updated upstream
     final public function enterNode(\Twig_NodeInterface $node, Environment $env)
+=======
+    final public function enterNode(Node $node, Environment $env): Node
+>>>>>>> Stashed changes
     {
         if (!$node instanceof Node) {
             throw new \LogicException(sprintf('%s only supports \Twig\Node\Node instances.', __CLASS__));
@@ -32,7 +36,11 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
         return $this->doEnterNode($node, $env);
     }
 
+<<<<<<< Updated upstream
     final public function leaveNode(\Twig_NodeInterface $node, Environment $env)
+=======
+    final public function leaveNode(Node $node, Environment $env): ?Node
+>>>>>>> Stashed changes
     {
         if (!$node instanceof Node) {
             throw new \LogicException(sprintf('%s only supports \Twig\Node\Node instances.', __CLASS__));
@@ -55,5 +63,3 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
      */
     abstract protected function doLeaveNode(Node $node, Environment $env);
 }
-
-class_alias('Twig\NodeVisitor\AbstractNodeVisitor', 'Twig_BaseNodeVisitor');

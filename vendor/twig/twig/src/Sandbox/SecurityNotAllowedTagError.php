@@ -16,20 +16,24 @@ namespace Twig\Sandbox;
  *
  * @author Martin Hasoň <martin.hason@gmail.com>
  */
-class SecurityNotAllowedTagError extends SecurityError
+final class SecurityNotAllowedTagError extends SecurityError
 {
     private $tagName;
 
+<<<<<<< Updated upstream
     public function __construct($message, $tagName, $lineno = -1, $filename = null, \Exception $previous = null)
     {
         parent::__construct($message, $lineno, $filename, $previous);
+=======
+    public function __construct(string $message, string $tagName)
+    {
+        parent::__construct($message);
+>>>>>>> Stashed changes
         $this->tagName = $tagName;
     }
 
-    public function getTagName()
+    public function getTagName(): string
     {
         return $this->tagName;
     }
 }
-
-class_alias('Twig\Sandbox\SecurityNotAllowedTagError', 'Twig_Sandbox_SecurityNotAllowedTagError');

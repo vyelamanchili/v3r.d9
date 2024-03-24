@@ -33,6 +33,7 @@ final class TemplateWrapper
         $this->template = $template;
     }
 
+<<<<<<< Updated upstream
     /**
      * Renders the template.
      *
@@ -53,12 +54,21 @@ final class TemplateWrapper
      * @param array $context An array of parameters to pass to the template
      */
     public function display($context = [])
+=======
+    public function render(array $context = []): string
+    {
+        return $this->template->render($context);
+    }
+
+    public function display(array $context = [])
+>>>>>>> Stashed changes
     {
         // using func_get_args() allows to not expose the blocks argument
         // as it should only be used by internal code
         $this->template->display($context, \func_num_args() > 1 ? func_get_arg(1) : []);
     }
 
+<<<<<<< Updated upstream
     /**
      * Checks if a block is defined.
      *
@@ -68,15 +78,14 @@ final class TemplateWrapper
      * @return bool
      */
     public function hasBlock($name, $context = [])
+=======
+    public function hasBlock(string $name, array $context = []): bool
+>>>>>>> Stashed changes
     {
         return $this->template->hasBlock($name, $context);
     }
 
     /**
-     * Returns defined block names in the template.
-     *
-     * @param array $context An array of parameters to pass to the template
-     *
      * @return string[] An array of defined template block names
      */
     public function getBlockNames($context = [])
@@ -84,6 +93,7 @@ final class TemplateWrapper
         return $this->template->getBlockNames($context);
     }
 
+<<<<<<< Updated upstream
     /**
      * Renders a template block.
      *
@@ -93,6 +103,9 @@ final class TemplateWrapper
      * @return string The rendered block
      */
     public function renderBlock($name, $context = [])
+=======
+    public function renderBlock(string $name, array $context = []): string
+>>>>>>> Stashed changes
     {
         $context = $this->env->mergeGlobals($context);
         $level = ob_get_level();
@@ -120,6 +133,7 @@ final class TemplateWrapper
         return ob_get_clean();
     }
 
+<<<<<<< Updated upstream
     /**
      * Displays a template block.
      *
@@ -127,6 +141,9 @@ final class TemplateWrapper
      * @param array  $context An array of parameters to pass to the template
      */
     public function displayBlock($name, $context = [])
+=======
+    public function displayBlock(string $name, array $context = [])
+>>>>>>> Stashed changes
     {
         $this->template->displayBlock($name, $this->env->mergeGlobals($context));
     }
@@ -157,5 +174,3 @@ final class TemplateWrapper
         return $this->template;
     }
 }
-
-class_alias('Twig\TemplateWrapper', 'Twig_TemplateWrapper');

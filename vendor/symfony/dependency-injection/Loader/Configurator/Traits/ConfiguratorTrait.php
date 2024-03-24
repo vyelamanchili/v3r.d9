@@ -11,16 +11,20 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
 
+use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
+
 trait ConfiguratorTrait
 {
     /**
      * Sets a configurator to call after the service is fully initialized.
      *
-     * @param string|array $configurator A PHP callable reference
-     *
      * @return $this
      */
+<<<<<<< Updated upstream
     final public function configurator($configurator)
+=======
+    final public function configurator(string|array|ReferenceConfigurator $configurator): static
+>>>>>>> Stashed changes
     {
         $this->definition->setConfigurator(static::processValue($configurator, true));
 

@@ -22,9 +22,11 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ResolveServiceSubscribersPass extends AbstractRecursivePass
 {
-    private $serviceLocator;
+    protected bool $skipScalars = true;
 
-    protected function processValue($value, $isRoot = false)
+    private ?string $serviceLocator = null;
+
+    protected function processValue(mixed $value, bool $isRoot = false): mixed
     {
         if ($value instanceof Reference && $this->serviceLocator && ContainerInterface::class === $this->container->normalizeId($value)) {
             return new Reference($this->serviceLocator);

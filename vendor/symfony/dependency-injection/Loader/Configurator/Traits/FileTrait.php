@@ -20,7 +20,11 @@ trait FileTrait
      *
      * @return $this
      */
+<<<<<<< Updated upstream
     final public function file($file)
+=======
+    final public function file(string $file): static
+>>>>>>> Stashed changes
     {
         $this->definition->setFile($file);
 

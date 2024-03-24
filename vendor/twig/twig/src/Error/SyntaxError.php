@@ -25,7 +25,7 @@ class SyntaxError extends Error
      * @param string $name  The original name of the item that does not exist
      * @param array  $items An array of possible items
      */
-    public function addSuggestions($name, array $items)
+    public function addSuggestions(string $name, array $items): void
     {
         if (!$alternatives = self::computeAlternatives($name, $items)) {
             return;
@@ -44,7 +44,7 @@ class SyntaxError extends Error
         $alternatives = [];
         foreach ($items as $item) {
             $lev = levenshtein($name, $item);
-            if ($lev <= \strlen($name) / 3 || false !== strpos($item, $name)) {
+            if ($lev <= \strlen($name) / 3 || str_contains($item, $name)) {
                 $alternatives[$item] = $lev;
             }
         }
@@ -53,5 +53,3 @@ class SyntaxError extends Error
         return array_keys($alternatives);
     }
 }
-
-class_alias('Twig\Error\SyntaxError', 'Twig_Error_Syntax');

@@ -38,7 +38,7 @@ class NodeTraverser
         }
     }
 
-    public function addVisitor(NodeVisitorInterface $visitor)
+    public function addVisitor(NodeVisitorInterface $visitor): void
     {
         $this->visitors[$visitor->getPriority()][] = $visitor;
     }
@@ -60,7 +60,11 @@ class NodeTraverser
         return $node;
     }
 
+<<<<<<< Updated upstream
     protected function traverseForVisitor(NodeVisitorInterface $visitor, \Twig_NodeInterface $node = null)
+=======
+    private function traverseForVisitor(NodeVisitorInterface $visitor, Node $node): ?Node
+>>>>>>> Stashed changes
     {
         if (null === $node) {
             return;
@@ -69,11 +73,15 @@ class NodeTraverser
         $node = $visitor->enterNode($node, $this->env);
 
         foreach ($node as $k => $n) {
+<<<<<<< Updated upstream
             if (null === $n) {
                 continue;
             }
 
             if (false !== ($m = $this->traverseForVisitor($visitor, $n)) && null !== $m) {
+=======
+            if (null !== $m = $this->traverseForVisitor($visitor, $n)) {
+>>>>>>> Stashed changes
                 if ($m !== $n) {
                     $node->setNode($k, $m);
                 }
@@ -85,5 +93,3 @@ class NodeTraverser
         return $visitor->leaveNode($node, $this->env);
     }
 }
-
-class_alias('Twig\NodeTraverser', 'Twig_NodeTraverser');

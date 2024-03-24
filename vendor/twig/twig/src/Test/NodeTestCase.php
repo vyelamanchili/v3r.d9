@@ -43,7 +43,7 @@ abstract class NodeTestCase extends TestCase
 
     protected function getCompiler(Environment $environment = null)
     {
-        return new Compiler(null === $environment ? $this->getEnvironment() : $environment);
+        return new Compiler($environment ?? $this->getEnvironment());
     }
 
     protected function getEnvironment()
@@ -53,7 +53,7 @@ abstract class NodeTestCase extends TestCase
 
     protected function getVariableGetter($name, $line = false)
     {
-        $line = $line > 0 ? "// line {$line}\n" : '';
+        $line = $line > 0 ? "// line $line\n" : '';
 
         if (\PHP_VERSION_ID >= 70000) {
             return sprintf('%s($context["%s"] ?? null)', $line, $name);
@@ -75,5 +75,3 @@ abstract class NodeTestCase extends TestCase
         return '$this->getAttribute(';
     }
 }
-
-class_alias('Twig\Test\NodeTestCase', 'Twig_Test_NodeTestCase');

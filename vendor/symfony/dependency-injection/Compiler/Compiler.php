@@ -21,10 +21,16 @@ use Symfony\Component\DependencyInjection\Exception\EnvParameterException;
  */
 class Compiler
 {
+<<<<<<< Updated upstream
     private $passConfig;
     private $log = [];
     private $loggingFormatter;
     private $serviceReferenceGraph;
+=======
+    private PassConfig $passConfig;
+    private array $log = [];
+    private ServiceReferenceGraph $serviceReferenceGraph;
+>>>>>>> Stashed changes
 
     public function __construct()
     {
@@ -32,27 +38,18 @@ class Compiler
         $this->serviceReferenceGraph = new ServiceReferenceGraph();
     }
 
-    /**
-     * Returns the PassConfig.
-     *
-     * @return PassConfig The PassConfig instance
-     */
-    public function getPassConfig()
+    public function getPassConfig(): PassConfig
     {
         return $this->passConfig;
     }
 
-    /**
-     * Returns the ServiceReferenceGraph.
-     *
-     * @return ServiceReferenceGraph The ServiceReferenceGraph instance
-     */
-    public function getServiceReferenceGraph()
+    public function getServiceReferenceGraph(): ServiceReferenceGraph
     {
         return $this->serviceReferenceGraph;
     }
 
     /**
+<<<<<<< Updated upstream
      * Returns the logging formatter which can be used by compilation passes.
      *
      * @return LoggingFormatter
@@ -77,6 +74,11 @@ class Compiler
      * @param string                $type The type of the pass
      */
     public function addPass(CompilerPassInterface $pass, $type = PassConfig::TYPE_BEFORE_OPTIMIZATION/*, int $priority = 0*/)
+=======
+     * @return void
+     */
+    public function addPass(CompilerPassInterface $pass, string $type = PassConfig::TYPE_BEFORE_OPTIMIZATION, int $priority = 0)
+>>>>>>> Stashed changes
     {
         if (\func_num_args() >= 3) {
             $priority = func_get_arg(2);
@@ -110,28 +112,32 @@ class Compiler
 
     /**
      * @final
+     *
+     * @return void
      */
     public function log(CompilerPassInterface $pass, $message)
     {
+<<<<<<< Updated upstream
         if (false !== strpos($message, "\n")) {
             $message = str_replace("\n", "\n".\get_class($pass).': ', trim($message));
+=======
+        if (str_contains($message, "\n")) {
+            $message = str_replace("\n", "\n".$pass::class.': ', trim($message));
+>>>>>>> Stashed changes
         }
 
-        $this->log[] = \get_class($pass).': '.$message;
+        $this->log[] = $pass::class.': '.$message;
     }
 
-    /**
-     * Returns the log.
-     *
-     * @return array Log array
-     */
-    public function getLog()
+    public function getLog(): array
     {
         return $this->log;
     }
 
     /**
      * Run the Compiler and process all Passes.
+     *
+     * @return void
      */
     public function compile(ContainerBuilder $container)
     {
@@ -148,7 +154,6 @@ class Compiler
 
                 if ($msg !== $resolvedMsg = $container->resolveEnvPlaceholders($msg, null, $usedEnvs)) {
                     $r = new \ReflectionProperty($prev, 'message');
-                    $r->setAccessible(true);
                     $r->setValue($prev, $resolvedMsg);
                 }
             } while ($prev = $prev->getPrevious());
