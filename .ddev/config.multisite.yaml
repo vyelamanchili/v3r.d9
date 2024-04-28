@@ -10,4 +10,4 @@ hooks:
     service: db
   - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS v3r_sewhfs_drupal; GRANT ALL ON v3r_sewhfs_drupal.* to 'db'@'%';"
     service: db
-  post-import-db:
+
