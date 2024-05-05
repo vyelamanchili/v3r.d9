@@ -199,11 +199,6 @@ function fifu_get_strings_settings() {
         _e("Chrome extension", FIFU_SLUG);
     };
 
-    // referral
-    $fifu['referral']['link'] = function () {
-        _e("Affiliate program", FIFU_SLUG);
-    };
-
     // messages
     $fifu['message']['wait'] = function () {
         _e("Please wait a few seconds...", FIFU_SLUG);
@@ -282,7 +277,7 @@ function fifu_get_strings_settings() {
         _e("Auto set featured image using post title and search engine", FIFU_SLUG);
     };
     $fifu['title']['isbn'] = function () {
-        _e("Auto set featured image using ISBN and books API", FIFU_SLUG);
+        _e("Auto set featured image from ISBN", FIFU_SLUG);
     };
     $fifu['title']['customfield'] = function () {
         _e("Auto set featured image from custom field", FIFU_SLUG);
@@ -338,6 +333,9 @@ function fifu_get_strings_settings() {
     $fifu['title']['lazy'] = function () {
         _e("Lazy Load", FIFU_SLUG);
     };
+    $fifu['title']['debug'] = function () {
+        _e("Debug Mode", FIFU_SLUG);
+    };
     $fifu['title']['jetpack'] = function () {
         _e("CDN + Optimized Thumbnails", FIFU_SLUG);
     };
@@ -364,6 +362,9 @@ function fifu_get_strings_settings() {
     };
     $fifu['title']['cloak'] = function () {
         _e("Cloak Links", FIFU_SLUG);
+    };
+    $fifu['title']['taxonomy'] = function () {
+        _e("Taxonomy Image", FIFU_SLUG);
     };
     $fifu['title']['video'] = function () {
         _e("Featured Video", FIFU_SLUG);
@@ -452,10 +453,16 @@ function fifu_get_strings_settings() {
         _e("Broken image icon", FIFU_SLUG);
     };
     $fifu['support']['resolution'] = function () {
-        _e("Low resolution images", FIFU_SLUG);
+        _e("Low-resolution or unduly cropped images", FIFU_SLUG);
     };
     $fifu['support']['speed'] = function () {
         _e("Issues with GTmetrix/PageSpeed", FIFU_SLUG);
+    };
+    $fifu['support']['cdn'] = function () {
+        _e("Image not visible (1px) or wrong sizes", FIFU_SLUG);
+    };
+    $fifu['support']['duplicated'] = function () {
+        _e("Duplicated image in a single post ", FIFU_SLUG);
     };
     $fifu['support']['disappeared-desc'] = function () {
         _e("You may solve it by: 1) accessing Metadata tab; 2) running Clear Metadata; 3) activating Image Metadata (~50,000 URLs/min); 4) clearing your cache (optional).", FIFU_SLUG);
@@ -467,13 +474,19 @@ function fifu_get_strings_settings() {
         _e("You probably have a plugin or theme that sets a default image as the Facebook image (og:image meta tag). Just find and disable the option. And make sure Social → Meta Tags is enabled.", FIFU_SLUG);
     };
     $fifu['support']['money-desc'] = function () {
-        _e("Possibilities: a) image file deleted by owner; b) URL has changed; c) hotlink protection; d) incorrect URL. Use <b>FIFU Cloud</b> to prevent image loss or bypass hotlink protection.", FIFU_SLUG);
+        _e("Possibilities: a) CDN can't serve it; b) image deleted by owner; c) hotlink protection; d) incorrect URL. For (a), disable Performance → CDN + Optimized Thumbnails temporarily and contact us. For (b) or (c), try FIFU Cloud.", FIFU_SLUG);
     };
     $fifu['support']['resolution-desc'] = function () {
-        _e("Caused by the theme having incorrect image sizes registered and the use of 'CDN + Optimized Thumbnails'. Try adjusting the sizes with the 'Simple Image Sizes' plugin.", FIFU_SLUG);
+        _e("Caused by the theme having incorrect image sizes registered and the use of 'CDN + Optimized Thumbnails'. To adjust the sizes and determine if an image should be cropped, you can use the 'Simple Image Sizes' plugin.", FIFU_SLUG);
     };
     $fifu['support']['speed-desc'] = function () {
-        _e("Solve it by activating Performance → CDN + Optimized Thumbnails or <b>FIFU Cloud</b> (much better). Even large images hosted on slow servers should load quickly on your website.", FIFU_SLUG);
+        _e("Solve it by activating Performance → CDN + Optimized Thumbnails or FIFU Cloud. Even large images hosted on slow servers should load quickly on your website.", FIFU_SLUG);
+    };
+    $fifu['support']['duplicated-desc'] = function () {
+        _e("Please check if Featured Image → Featured Image in Content is unduly enabled and disable it. Most themes don't need that feature.", FIFU_SLUG);
+    };
+    $fifu['support']['cdn-desc'] = function () {
+        _e("Some themes or plugins may not work with remote images when the sizes are not saved in the database. Solve this by enabling Performance → CDN + Optimized Thumbnails.", FIFU_SLUG);
     };
     $fifu['support']['wp-automatic'] = function () {
         _e("\"WP Automatic\" posts have no images", FIFU_SLUG);
@@ -843,7 +856,7 @@ function fifu_get_strings_settings() {
 
     // isbn
     $fifu['isbn']['desc'] = function () {
-        _e("Set featured images automatically. The plugin checks every minute for post types without featured images and performs web searches based on ISBN to retrieve the image URLs.", FIFU_SLUG);
+        _e("Set featured images automatically. The plugin checks every minute for post types without featured images and performs web searches based on ISBN to retrieve the book cover URLs.", FIFU_SLUG);
     };
     $fifu['isbn']['tab']['auto'] = function () {
         _e("Auto set", FIFU_SLUG);
@@ -868,16 +881,19 @@ function fifu_get_strings_settings() {
 
     // screenshot
     $fifu['screenshot']['desc'] = function () {
-        _e("To use a website screenshot as the featured image of a post, add \"https://s.wp.com/mshots/v1/\" before the website address. Then use this new address as the image URL. For example, if you want the screenshot of the website \"https://openai.com/\" as the featured image of a post, your image URL should be: https://s.wp.com/mshots/v1/https://openai.com/", FIFU_SLUG);
-    };
-    $fifu['screenshot']['desc2'] = function () {
-        _e("Alternatively, you can enter the website address in the featured image field and enable the \"use screenshot\" option. The plugin will automatically generate the screenshot URL.", FIFU_SLUG);
+        _e("To use a website screenshot as the featured image of a post, add \"https://screenshot.fifu.app/\" before the website address. Then use this new address as the image URL. For example, if you want the screenshot of the website \"https://openai.com/\" as the featured image of a post, your image URL should be: https://screenshot.fifu.app/https://openai.com/", FIFU_SLUG);
     };
     $fifu['screenshot']['desc3'] = function () {
         _e("If the GIF \"Generating Preview\" appears, ignore it. It means the screenshot was not found in the cache but is being generated on the server. You can save the post and exit the editor. The screenshot will be ready in a few seconds. Refresh the page.", FIFU_SLUG);
     };
-    $fifu['screenshot']['checkbox'] = function () {
-        _e("display the \"use screenshot\" checkbox in the post editor", FIFU_SLUG);
+    $fifu['screenshot']['custom']['desc'] = function () {
+        _e("If you have the web page address saved in your database, please specify its custom field name here. The plugin will access it, generate the screenshot URL, and set that as the featured image automatically.", FIFU_SLUG);
+    };
+    $fifu['screenshot']['tab']['auto'] = function () {
+        _e("Auto set", FIFU_SLUG);
+    };
+    $fifu['screenshot']['tab']['custom'] = function () {
+        _e("Custom field", FIFU_SLUG);
     };
 
     // find
@@ -1117,6 +1133,11 @@ function fifu_get_strings_settings() {
         _e("Some themes and plugins may have their own lazy load implementations, which can cause conflicts. If you experience issues with images not loading, it may be due to multiple lazy load components running simultaneously.", FIFU_SLUG);
     };
 
+    // debug
+    $fifu['debug']['desc'] = function () {
+        _e("When FIFU is in debug mode, JavaScript and CSS files are not cached.", FIFU_SLUG);
+    };
+
     // api
     $fifu['api']['tab']['endpoints'] = function () {
         _e("Endpoints", FIFU_SLUG);
@@ -1237,13 +1258,16 @@ function fifu_get_strings_settings() {
     $fifu['shortcodes']['description']['gallery'] = function () {
         _e("Displays the product gallery", FIFU_SLUG);
     };
+    $fifu['shortcodes']['description']['taxonomy'] = function () {
+        _e("Displays the taxonomy image", FIFU_SLUG);
+    };
     $fifu['shortcodes']['description']['form']['image'] = function () {
         _e("Input field for featured image URL", FIFU_SLUG);
     };
 
     // slider
     $fifu['slider']['desc'] = function () {
-        _e("This feature allows to have a slider of images instead of a regular featured image. It is particularly useful for certain types of websites, such as real estate, and can handle a large number of high-resolution images with optimal performance (enable performance settings).", FIFU_SLUG);
+        _e("This feature allows to have a slider of images and/or videos instead of a regular featured image. It is particularly useful for certain types of websites, such as real estate, and can handle a large number of high-resolution images with optimal performance (enable performance settings).", FIFU_SLUG);
     };
     $fifu['slider']['tab']['configuration'] = function () {
         _e("Configuration", FIFU_SLUG);
@@ -1372,6 +1396,11 @@ function fifu_get_strings_settings() {
         _e("Replace remote image URLs with local addresses like this:", FIFU_SLUG);
     };
 
+    // taxonomy
+    $fifu['taxonomy']['desc'] = function () {
+        _e("Enables the featured image field for taxonomies. To display the image, use a shortcode like this:", FIFU_SLUG);
+    };
+
     // video
     $fifu['video']['desc'] = function () {
         _e("FIFU supports videos and audios from YouTube, Vimeo, Twitter, 9GAG, Cloudinary, Tumblr, Publitio, JW Player, VideoPress, Sprout, Odysee, Rumble, Dailymotion, Cloudflare Stream, Bunny Stream, Amazon, BitChute, Brighteon, Google Drive, Spotify and SoundCloud. It also supports external and local video files.", FIFU_SLUG);
@@ -1433,7 +1462,7 @@ function fifu_get_strings_settings() {
 
     // autoplay
     $fifu['autoplay']['desc'] = function () {
-        _e("Video autoplay. Requires \"Mute\".", FIFU_SLUG);
+        _e("Video autoplay based on viewport. Requires \"Mute\".", FIFU_SLUG);
     };
 
     // loop
@@ -1715,7 +1744,7 @@ function fifu_get_strings_settings() {
 
     // pro
     $fifu['unlock'] = function () {
-        _e("Unlock all PRO features for $29.90. Pay with Alipay, WeChat, PayPal, bank transfers, cards, digital wallets, and more.", FIFU_SLUG);
+        _e("Unlock all PRO features for €29.90", FIFU_SLUG);
     };
 
     return $fifu;
@@ -1987,7 +2016,7 @@ function fifu_get_strings_wai() {
 
     // info
     $fifu['info']['delimited'] = function () {
-        return __("Delimited by |", FIFU_SLUG);
+        return __("By default, FIFU uses | as the URL delimiter. You can define a different value in the 'List delimiter' field.", FIFU_SLUG);
     };
     $fifu['info']['default'] = function () {
         return __("Default is |", FIFU_SLUG);
@@ -2116,7 +2145,7 @@ function fifu_get_strings_quick_edit() {
 
     // pro
     $fifu['unlock'] = function () {
-        return __("Unlock the PRO features for $29.90. Pay with Alipay, WeChat, PayPal, bank transfers, cards, wallets, and more.", FIFU_SLUG);
+        return __("Unlock all PRO features for €29.90", FIFU_SLUG);
     };
 
     return $fifu;
@@ -2154,7 +2183,7 @@ function fifu_get_strings_help() {
         return __("FIFU can auto set images based on post title, tags, external web page address, and more. Check FIFU Settings → Automatic.", FIFU_SLUG);
     };
     $fifu['unsplash']['unlock'] = function () {
-        return __("Unlock the PRO features for $29.90. Pay with Alipay, WeChat, PayPal, bank transfers, cards, wallets, and more.", FIFU_SLUG);
+        return __("Unlock all PRO features for €29.90", FIFU_SLUG);
     };
     $fifu['unsplash']['more'] = function () {
         return __("Loading more...", FIFU_SLUG);
@@ -2497,7 +2526,7 @@ function fifu_get_strings_cloud() {
 
     // pro
     $fifu['unlock'] = function () {
-        _e("Unlock all PRO features for $29.90. Pay with Alipay, WeChat, PayPal, bank transfers, cards, digital wallets, and more.", FIFU_SLUG);
+        _e("Unlock all PRO features for €29.90", FIFU_SLUG);
     };
 
     // reset
@@ -2679,7 +2708,7 @@ function fifu_get_strings_uninstall() {
         return __("Optional", FIFU_SLUG);
     };
     $fifu['text']['email'] = function () {
-        return __("We will respond within 8 hours.", FIFU_SLUG);
+        return __("The developer will respond within 8 hours.", FIFU_SLUG);
     };
     $fifu['text']['reason']['conflict'] = function () {
         return __("Doesn't work with a specific theme, plugin, or URL...", FIFU_SLUG);
@@ -2727,13 +2756,10 @@ function fifu_get_strings_plugins() {
         return __("Technical support", FIFU_SLUG);
     };
     $fifu['upgrade'] = function () {
-        return __("Upgrade to <b>PRO</b> for $29.90", FIFU_SLUG);
+        return __("Upgrade to <b>PRO</b> for €29.90", FIFU_SLUG);
     };
     $fifu['star'] = function () {
         return __("Are you enjoying FIFU? Please give it a 5-star rating!", FIFU_SLUG);
-    };
-    $fifu['affiliate'] = function () {
-        return __("Affiliate program", FIFU_SLUG);
     };
     $fifu['settings'] = function () {
         return __("Settings", FIFU_SLUG);

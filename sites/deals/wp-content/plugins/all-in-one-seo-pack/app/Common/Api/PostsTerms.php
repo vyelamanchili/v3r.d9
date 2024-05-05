@@ -220,7 +220,7 @@ class PostsTerms {
 		$body['id']                  = $postId;
 		$body['title']               = ! empty( $body['title'] ) ? sanitize_text_field( $body['title'] ) : null;
 		$body['description']         = ! empty( $body['description'] ) ? sanitize_text_field( $body['description'] ) : null;
-		$body['keywords']            = ! empty( $body['keywords'] ) ? sanitize_text_field( $body['keywords'] ) : null;
+		$body['keywords']            = ! empty( $body['keywords'] ) ? aioseo()->helpers->sanitize( $body['keywords'] ) : null;
 		$body['og_title']            = ! empty( $body['og_title'] ) ? sanitize_text_field( $body['og_title'] ) : null;
 		$body['og_description']      = ! empty( $body['og_description'] ) ? sanitize_text_field( $body['og_description'] ) : null;
 		$body['og_article_section']  = ! empty( $body['og_article_section'] ) ? sanitize_text_field( $body['og_article_section'] ) : null;
@@ -306,10 +306,6 @@ class PostsTerms {
 		// Decode these below because `savePost()` expects them to be an array.
 		if ( ! empty( $aioseoData['keyphrases'] ) ) {
 			$aioseoData['keyphrases'] = json_decode( $aioseoData['keyphrases'], true );
-		}
-
-		if ( ! empty( $aioseoData['page_analysis'] ) ) {
-			$aioseoData['page_analysis'] = json_decode( $aioseoData['page_analysis'], true );
 		}
 
 		if ( $isMedia ) {
@@ -490,12 +486,6 @@ class PostsTerms {
 			], 400 );
 		}
 
-		// Check if the content was passed, otherwise get it from the post.
-		$content = $body['content'] ?? '';
-		if ( empty( $content ) ) {
-			$content = aioseo()->helpers->getPostContent( $args['postId'] );
-		}
-
 		// Check if we can process it using a page builder integration.
 		$pageBuilder = aioseo()->helpers->getPostPageBuilderName( $args['postId'] );
 		if ( ! empty( $pageBuilder ) ) {
@@ -504,6 +494,9 @@ class PostsTerms {
 				'content' => aioseo()->standalone->pageBuilderIntegrations[ $pageBuilder ]->processContent( $args['postId'], $body['content'] ),
 			], 200 );
 		}
+
+		// Check if the content was passed, otherwise get it from the post.
+		$content = $body['content'] ?? aioseo()->helpers->getPostContent( $args['postId'] );
 
 		return new \WP_REST_Response( [
 			'success' => true,

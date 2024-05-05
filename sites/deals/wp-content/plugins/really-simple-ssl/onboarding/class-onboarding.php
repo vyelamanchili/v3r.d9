@@ -132,13 +132,13 @@ class rsssl_onboarding {
 	 */
 	public function signup_for_mailinglist( string $email): void {
 		$license_key = '';
-		if ( defined('rsssl_pro_version') ) {
-			$license_key = RSSSL_PRO()->licensing->license_key();
-			$license_key = RSSSL_PRO()->licensing->maybe_decode( $license_key );
+		if ( defined('rsssl_pro') ) {
+			$license_key = RSSSL()->licensing->license_key();
+			$license_key = RSSSL()->licensing->maybe_decode( $license_key );
 		}
 
 		$api_params = array(
-			'has_premium' => defined('rsssl_pro_version'),
+			'has_premium' => defined('rsssl_pro'),
 			'license' => $license_key,
 			'email' => sanitize_email($email),
 			'domain' => esc_url_raw( site_url() ),
@@ -166,7 +166,7 @@ class rsssl_onboarding {
 			return [];
 		}
 
-		if( !defined('rsssl_pro_version')) {
+		if( !defined('rsssl_pro')) {
 			$info = __('You can also let the automatic scan of the pro version handle this for you, and get premium support, increased security with HSTS and more!', 'really-simple-ssl'). " " . sprintf('<a target="_blank" rel="noopener noreferrer" href="%s">%s</a>', RSSSL()->admin->pro_url, __("Check out Really Simple SSL Pro", "really-simple-ssl"));;
 		}
 
@@ -218,7 +218,7 @@ class rsssl_onboarding {
 			"ssl_detection_overridden" => get_option('rsssl_ssl_detection_overridden'),
 			'certificate_valid' => RSSSL()->certificate->is_valid(),
 			"networkwide" => is_multisite() && rsssl_is_networkwide_active(),
-			"network_activation_status" => false,//get_site_option('rsssl_network_activation_status'),
+			"network_activation_status" => get_site_option('rsssl_network_activation_status'),
 		];
 	}
 
@@ -352,7 +352,7 @@ class rsssl_onboarding {
 				"title" => __("Two Factor Authentication", "really-simple-ssl"),
 				"id" => "two_fa",
 				"premium" => true,
-				"options" => ['two_fa_enabled'],
+				"options" => ['login_protection_enabled', 'two_fa_enabled'],
 				"activated" => true,
 			],
 			[
@@ -400,7 +400,7 @@ class rsssl_onboarding {
 				"activated" => true,
 			],
 			[
-				"title" => __("Password Security", "really-simple-ssl"),
+				"title" => __("Password security", "really-simple-ssl"),
 				"id" => "password_security",
 				"options" => ['enforce_password_security_enabled'],
 				"activated" => true,

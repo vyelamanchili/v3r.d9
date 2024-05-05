@@ -6,7 +6,7 @@ Tested up to: 6.4
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Stable tag: 1.0.2
+Stable tag: 1.0.4
 
 A lightweight and highly customizable multi-purpose blog theme that makes it easy for anyone to create their perfect website.
 
@@ -28,6 +28,14 @@ Blogvi WordPress Theme, Copyright (c) 2023, Peregrinethemes
 Blogvi is distributed under the terms of the GNU GPLs
 
 == Changelog ==
+
+= 1.0.4 =
+* Fixed style issue.
+
+= 1.0.3 =
+* wp-block-file issue fixed.
+* wp-block-cover issue fixed.
+* wp-block spacing issue fixed.
 
 = 1.0.2 =
 * Theme URI change.

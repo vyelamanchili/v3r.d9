@@ -3,8 +3,22 @@
     <div class="header-box">
         <h1 style="color:white;padding-left:20px;width:98%;font-family:Ubuntu,sans-serif">
             <span class="dashicons dashicons-camera" style="font-size:30px"></span><span style="padding-left:20px">FIFU</span>
-            <a href="https://chrome.google.com/webstore/detail/fifu-scraper/pccimcccbkdeeadhejdmnffmllpicola" target="_blank"><img class="fifu-chrome" src="https://storage.googleapis.com/featuredimagefromurl/chrome-web-store2.png" title="<?php $fifu['chrome']['link']() ?>"/></a>
-            <a href="https://referral.fifu.app" target="_blank"><div class="fifu-referral"><i class="fas fa-comment-dollar" style="font-size:24px" title="<?php $fifu['referral']['link']() ?>"></i></div></a>
+            <a href="https://chrome.google.com/webstore/detail/fifu-scraper/pccimcccbkdeeadhejdmnffmllpicola" target="_blank"><div class="fifu-referral"><i class="fa-brands fa-chrome" style="font-size:24px" title="<?php $fifu['chrome']['link']() ?>"></i></div></a>
+            <div id="donate-button-container" style="position:relative;top:4px;left:-15px;float:right">
+                <div id="donate-button"></div>
+                <script src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js" charset="UTF-8"></script>
+                <script>
+                    PayPal.Donation.Button({
+                        env: 'production',
+                        hosted_button_id: 'KY7MRYTANZN9A',
+                        image: {
+                            src: 'https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif',
+                            alt: 'Donate with PayPal button',
+                            title: 'PayPal',
+                        }
+                    }).render('#donate-button');
+                </script>
+            </div>
         </h1>
     </div>
 
@@ -100,6 +114,36 @@
                                         </th>
                                         <th style="width:100px">
                                             <b><?php $fifu['cli']['column']['eg']() ?></b>
+                                        </th>
+                                    </tr>
+                                    <tr class="color">
+                                        <th>
+                                            <?php $fifu['tab']['admin']() ?>
+                                        </th>
+                                        <th>
+                                            <?php $fifu['title']['debug']() ?>
+                                        </th>
+                                        <th></th>
+                                        <th>
+                                            wp fifu debug &lt;toggle&gt;
+                                        </th>
+                                        <th>
+                                            on, off
+                                        </th>
+                                    </tr>
+                                    <tr class="color">
+                                        <th>
+                                            <?php $fifu['tab']['admin']() ?>
+                                        </th>
+                                        <th>
+                                            <?php $fifu['title']['debug']() ?>
+                                        </th>
+                                        <th></th>
+                                        <th>
+                                            wp fifu debug &lt;toggle&gt;
+                                        </th>
+                                        <th>
+                                            on, off
                                         </th>
                                     </tr>
                                     <tr class="color">
@@ -583,6 +627,23 @@
                                         </th>
                                         <th>
                                             on, off
+                                        </th>
+                                    </tr>
+                                    <tr class="color">
+                                        <th>
+                                            <?php $fifu['tab']['auto']() ?>
+                                        </th>
+                                        <th>
+                                            <?php $fifu['title']['screenshot']() ?>
+                                        </th>
+                                        <th>
+                                            <?php $fifu['screenshot']['tab']['custom']() ?>
+                                        </th>
+                                        <th>
+                                            wp fifu screenshot --field &lt;string&gt;
+                                        </th>
+                                        <th>
+                                            meta_key
                                         </th>
                                     </tr>
                                     <tr class="color">
@@ -1104,6 +1165,22 @@
                                         </th>
                                         <th>
                                             wp fifu image --cloak &lt;toggle&gt;
+                                        </th>
+                                        <th>
+                                            on, off
+                                        </th>
+                                    </tr>
+                                    <tr class="color">
+                                        <th>
+                                            <?php $fifu['tab']['image']() ?>
+                                        </th>
+                                        <th>
+                                            <?php $fifu['title']['taxonomy']() ?>
+                                        </th>
+                                        <th>
+                                        </th>
+                                        <th>
+                                            wp fifu image --taxonomy &lt;toggle&gt;
                                         </th>
                                         <th>
                                             on, off
@@ -2294,6 +2371,41 @@
 
                     <br>
                 </div>
+
+                <div class="box">
+
+                    <h2><?php $fifu['title']['debug']() ?></h2>
+
+                    <div class="greybox">
+
+                        <?php $fifu['debug']['desc']() ?>
+
+                    </div>
+
+                    <br>
+
+                    <form
+                        id="fifu_form_debug"
+                        action="javascript:void(0)"
+                        method="post">
+                            <?php wp_nonce_field(FIFU_ACTION_SETTINGS, 'nonce_fifu_form_debug'); ?>
+                        <input
+                            type="submit"
+                            href="javascript:void(0)"
+                            id="fifu_toggle_debug"
+                            onclick="invert('debug')"
+                            name="fifu_toggle_debug"
+                            class="<?php echo $enable_debug; ?>"
+                            value=""
+                            style="display:block;border:none">
+
+                        <input
+                            type="hidden"
+                            id="fifu_input_debug"
+                            name="fifu_input_debug"
+                            value="" >
+                    </form>
+                </div>
             </div>
             <div id="tabs-b">
                 <div class="box">
@@ -2958,26 +3070,50 @@
                     <div class="greybox" id="grad2">
                         <?php $fifu['screenshot']['desc']() ?>
                         <br><br>
-                        <?php $fifu['screenshot']['desc2']() ?>
-                        <br><br>
                         <?php $fifu['screenshot']['desc3']() ?>
                     </div>
                     <br>
-                    <table style="text-align:left">
-                        <tr>
-                            <th>
-                                <input
-                                    type="submit"
-                                    href="javascript:void(0)"
-                                    class="toggleoff"
-                                    value=""
-                                    style="display:block;border:none">
-                            </th>
-                            <td>
-                                <?php $fifu['screenshot']['checkbox']() ?>
-                            </td>
-                        </tr>
-                    </table>
+                    <div id="tabsScreenshot">
+                        <ul>
+                            <li><a href="#tabsScreenshot-a"><?php $fifu['screenshot']['tab']['auto']() ?></a></li>
+                            <li><a href="#tabsScreenshot-b"><?php $fifu['screenshot']['tab']['custom']() ?></a></li>
+                            <br>
+                            <br>
+                            <div id="tabsScreenshot-a">
+                                <table style="text-align:left">
+                                    <tr>
+                                        <th>
+                                            <input
+                                                type="submit"
+                                                href="javascript:void(0)"
+                                                class="toggleoff"
+                                                value=""
+                                                style="display:block;border:none">
+                                        </th>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="tabsScreenshot-b">
+                                <?php $fifu['screenshot']['custom']['desc']() ?>
+                                <br>
+                                <br>
+                                <table style="text-align:left">
+                                    <tr>
+                                        <th>
+                                            <input 
+                                                type="text"
+                                                style="width:800px"
+                                                value="">
+                                            <input type="submit"
+                                                   value="<?php $fifu['button']['submit']() ?>" disabled>
+                                        </th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="box">
@@ -3291,7 +3427,8 @@
                                 <input 
                                     type="submit"
                                     value="<?php $fifu['button']['submit']() ?>"
-                                    onclick="fifu_default_js();fifu_default_js();">
+                                    onclick="fifu_default_js();
+                                            fifu_default_js();">
 
                                 <span class="dashicons dashicons-editor-help" style="font-size: 25px; position: relative; top: 3px;" title="<?php $fifu['default']['cpt']['info'](); ?>"></span>
                             </form>
@@ -3573,6 +3710,116 @@
 
                 <div class="box">
                     <div class="fifu-pro"><a class="fifu-pro-link" href="https://fifu.app/" target="_blank" title="<?php $fifu['unlock']() ?>"><span class="dashicons dashicons-lock fifu-pro-icon"></span></a></div>
+                    <div class="fifu-cloud-details"><span class="dashicons dashicons-cloud fifu-cloud-details-icon" title="<?php $fifu['cloud']['details']['replace']() ?>"></span></div>
+                    <h2><?php $fifu['title']['replace']() ?></h2>
+                    <div class="greybox" id="grad2">
+                        <?php $fifu['replace']['desc']() ?>
+                        <br><br>
+                        <input id="fifu_input_error_url"
+                               type="text"
+                               name="fifu_input_error_url"
+                               style="width:675px"
+                               value="">
+                        <input type="submit"
+                               value="<?php $fifu['button']['submit']() ?>" disabled>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="fifu-pro"><a class="fifu-pro-link" href="https://fifu.app/" target="_blank" title="<?php $fifu['unlock']() ?>"><span class="dashicons dashicons-lock fifu-pro-icon"></span></a></div>
+                    <h2><?php $fifu['title']['popup']() ?></h2>
+                    <div class="greybox" id="grad2">
+                        <?php $fifu['popup']['desc']() ?>
+                        <br>
+                        <br>
+                        <div class="polaroid" style="background-color:#373737">
+                            <img src="https://storage.googleapis.com/featuredimagefromurl/popup2.jpg">
+                        </div>
+                    </div>
+                    <br>
+                    <table style="text-align:left">
+                        <tr>
+                            <th>
+                                <input
+                                    type="submit"
+                                    href="javascript:void(0)"
+                                    class="toggleoff"
+                                    value=""
+                                    style="display:block;border:none">
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="box">
+                    <div class="fifu-pro"><a class="fifu-pro-link" href="https://fifu.app/" target="_blank" title="<?php $fifu['unlock']() ?>"><span class="dashicons dashicons-lock fifu-pro-icon"></span></a></div>
+                    <h2><?php $fifu['title']['redirection']() ?></h2>
+                    <div class="greybox" id="grad2">
+                        <?php $fifu['redirection']['desc']() ?>
+                    </div>
+                    <br>
+                    <table style="text-align:left">
+                        <tr>
+                            <th>
+                                <input
+                                    type="submit"
+                                    href="javascript:void(0)"
+                                    class="toggleoff"
+                                    value=""
+                                    style="display:block;border:none">
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="box">
+                    <div class="fifu-pro"><a class="fifu-pro-link" href="https://fifu.app/" target="_blank" title="<?php $fifu['unlock']() ?>"><span class="dashicons dashicons-lock fifu-pro-icon"></span></a></div>
+                    <h2><?php $fifu['title']['cloak']() ?></h2>
+                    <div class="greybox" id="grad2">
+                        <?php $fifu['cloak']['desc']() ?> https://example.com/fifu/123/my-post-title
+                    </div>
+                    <br>
+                    <table style="text-align:left">
+                        <tr>
+                            <th>
+                                <input
+                                    type="submit"
+                                    href="javascript:void(0)"
+                                    class="toggleoff"
+                                    value=""
+                                    style="display:block;border:none">
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="box">
+                    <div class="fifu-pro"><a class="fifu-pro-link" href="https://fifu.app/" target="_blank" title="<?php $fifu['unlock']() ?>"><span class="dashicons dashicons-lock fifu-pro-icon"></span></a></div>
+                    <h2><?php $fifu['title']['taxonomy']() ?></h2>
+                    <div class="greybox" id="grad2">
+                        <?php $fifu['taxonomy']['desc']() ?> <br><br> <code>[fifu_taxonomy slug="taxonomy-slug" width="150" height="100"]</code>
+                    </div>
+                    <br>
+                    <table style="text-align:left">
+                        <tr>
+                            <th>
+                                <input
+                                    type="submit"
+                                    href="javascript:void(0)"
+                                    class="toggleoff"
+                                    value=""
+                                    style="display:block;border:none">
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="box">
+                    <div class="fifu-pro"><a class="fifu-pro-link" href="https://fifu.app/" target="_blank" title="<?php $fifu['unlock']() ?>"><span class="dashicons dashicons-lock fifu-pro-icon"></span></a></div>
                     <div class="fifu-cloud-details"><span class="dashicons dashicons-cloud fifu-cloud-details-icon" title="<?php $fifu['cloud']['details']['crop']() ?>"></span></div>
                     <h2><?php $fifu['title']['height']() ?></h2>
                     <div class="greybox" id="grad2">
@@ -3751,93 +3998,6 @@
                         </ul>
                     </div>
                 </div>
-
-                <div class="box">
-                    <div class="fifu-pro"><a class="fifu-pro-link" href="https://fifu.app/" target="_blank" title="<?php $fifu['unlock']() ?>"><span class="dashicons dashicons-lock fifu-pro-icon"></span></a></div>
-                    <div class="fifu-cloud-details"><span class="dashicons dashicons-cloud fifu-cloud-details-icon" title="<?php $fifu['cloud']['details']['replace']() ?>"></span></div>
-                    <h2><?php $fifu['title']['replace']() ?></h2>
-                    <div class="greybox" id="grad2">
-                        <?php $fifu['replace']['desc']() ?>
-                        <br><br>
-                        <input id="fifu_input_error_url"
-                               type="text"
-                               name="fifu_input_error_url"
-                               style="width:675px"
-                               value="">
-                        <input type="submit"
-                               value="<?php $fifu['button']['submit']() ?>" disabled>
-                    </div>
-                </div>
-
-                <div class="box">
-                    <div class="fifu-pro"><a class="fifu-pro-link" href="https://fifu.app/" target="_blank" title="<?php $fifu['unlock']() ?>"><span class="dashicons dashicons-lock fifu-pro-icon"></span></a></div>
-                    <h2><?php $fifu['title']['popup']() ?></h2>
-                    <div class="greybox" id="grad2">
-                        <?php $fifu['popup']['desc']() ?>
-                        <br>
-                        <br>
-                        <div class="polaroid" style="background-color:#373737">
-                            <img src="https://storage.googleapis.com/featuredimagefromurl/popup2.jpg">
-                        </div>
-                    </div>
-                    <br>
-                    <table style="text-align:left">
-                        <tr>
-                            <th>
-                                <input
-                                    type="submit"
-                                    href="javascript:void(0)"
-                                    class="toggleoff"
-                                    value=""
-                                    style="display:block;border:none">
-                            </th>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="box">
-                    <div class="fifu-pro"><a class="fifu-pro-link" href="https://fifu.app/" target="_blank" title="<?php $fifu['unlock']() ?>"><span class="dashicons dashicons-lock fifu-pro-icon"></span></a></div>
-                    <h2><?php $fifu['title']['redirection']() ?></h2>
-                    <div class="greybox" id="grad2">
-                        <?php $fifu['redirection']['desc']() ?>
-                    </div>
-                    <br>
-                    <table style="text-align:left">
-                        <tr>
-                            <th>
-                                <input
-                                    type="submit"
-                                    href="javascript:void(0)"
-                                    class="toggleoff"
-                                    value=""
-                                    style="display:block;border:none">
-                            </th>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="box">
-                    <div class="fifu-pro"><a class="fifu-pro-link" href="https://fifu.app/" target="_blank" title="<?php $fifu['unlock']() ?>"><span class="dashicons dashicons-lock fifu-pro-icon"></span></a></div>
-                    <h2><?php $fifu['title']['cloak']() ?></h2>
-                    <div class="greybox" id="grad2">
-                        <?php $fifu['cloak']['desc']() ?> https://example.com/fifu/123/my-post-title
-                    </div>
-                    <br>
-                    <table style="text-align:left">
-                        <tr>
-                            <th>
-                                <input
-                                    type="submit"
-                                    href="javascript:void(0)"
-                                    class="toggleoff"
-                                    value=""
-                                    style="display:block;border:none">
-                            </th>
-                            <th>
-                            </th>
-                        </tr>
-                    </table>
-                </div>
             </div>
             <div id="tabs-j">
                 <div class="box">
@@ -3965,7 +4125,8 @@
                                         type="submit"
                                         href="javascript:void(0)"
                                         id="fifu_toggle_run_delete_all"
-                                        onclick="invert('run_delete_all'); fifu_run_delete_all_js();"
+                                        onclick="invert('run_delete_all');
+                                                fifu_run_delete_all_js();"
                                         name="fifu_toggle_run_delete_all"
                                         class="<?php echo $enable_run_delete_all; ?>"
                                         value=""
@@ -4014,6 +4175,9 @@
                                         <th>
                                             <b><?php $fifu['shortcodes']['column']['optional']() ?></b>
                                         </th>
+                                        <th>
+                                            <b><?php $fifu['shortcodes']['column']['required']() ?></b>                                            
+                                        </th>
                                     </tr>
                                     <tr class="color">
                                         <th>
@@ -4025,6 +4189,7 @@
                                         <th>
                                             post_id, width, height, style
                                         </th>
+                                        <th></th>
                                     </tr>
                                     <tr class="color">
                                         <th>
@@ -4036,6 +4201,7 @@
                                         <th>
                                             post_id
                                         </th>
+                                        <th></th>
                                     </tr>
                                     <tr class="color">
                                         <th>
@@ -4046,6 +4212,21 @@
                                         </th>
                                         <th>
                                             post_id
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                    <tr class="color">
+                                        <th>
+                                            [fifu_taxonomy]
+                                        </th>
+                                        <th>
+                                            <?php $fifu['shortcodes']['description']['taxonomy']() ?>
+                                        </th>
+                                        <th>
+                                            width, height, style
+                                        </th>
+                                        <th>
+                                            slug
                                         </th>
                                     </tr>
                                 </table>
@@ -5998,7 +6179,7 @@
                                     <i class="fa-solid fa-robot" style="font-size:30px"></i>
                                 </td>
                                 <td style="width:33%;text-align:center;border-bottom: 1px solid #ddd !important">
-                                    <i class="fas fa-tachometer-alt" style="font-size:30px"></i>
+                                    <i class="fa-solid fa-expand" style="font-size:30px"></i>
                                 </td>
                                 <td style="width:33%;text-align:center;border-bottom: 1px solid #ddd !important">
                                     <i class="fab fa-facebook" style="font-size:30px"></i>
@@ -6009,7 +6190,7 @@
                                     <i><?php $fifu['support']['wp-automatic']() ?></i>
                                 </td>
                                 <td style="width:33%;text-align:center;border-bottom: 1px solid #ddd !important">
-                                    <i><?php $fifu['support']['speed']() ?></i>
+                                    <i><?php $fifu['support']['cdn']() ?></i>
                                 </td>
                                 <td style="width:33%;text-align:center;border-bottom: 1px solid #ddd !important">
                                     <i><?php $fifu['support']['facebook']() ?></i>
@@ -6020,7 +6201,7 @@
                                     <?php $fifu['support']['wp-automatic-desc']() ?>
                                 </td>
                                 <td style="vertical-align: top;">
-                                    <?php $fifu['support']['speed-desc']() ?>
+                                    <?php $fifu['support']['cdn-desc']() ?>
                                 </td>
                                 <td style="vertical-align: top;">
                                     <?php $fifu['support']['facebook-desc']() ?>
@@ -6100,6 +6281,44 @@
                                 </td>
                                 <td style="vertical-align: top;">
                                     <?php $fifu['support']['resolution-desc']() ?>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <br>
+
+                        <table style="background-color: #fff; border-radius: 13px;">
+                            <tr>
+                                <td style="width:33%;text-align:center;border-bottom: 1px solid #ddd !important">
+                                    <i class="fas fa-tachometer-alt" style="font-size:30px"></i>
+                                </td>
+                                <td style="width:33%;text-align:center;border-bottom: 1px solid #ddd !important">
+                                    <i class="fa-regular fa-clone" style="font-size:30px"></i>
+                                </td>
+                                <td style="width:33%;text-align:center;border-bottom: 1px solid #ddd !important">
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:33%;text-align:center;border-bottom: 1px solid #ddd !important">
+                                    <i><?php $fifu['support']['speed']() ?></i>
+                                </td>
+                                <td style="width:33%;text-align:center;border-bottom: 1px solid #ddd !important">
+                                    <i><?php $fifu['support']['duplicated']() ?></i>
+                                </td>
+                                <td style="width:33%;text-align:center;border-bottom: 1px solid #ddd !important">
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align: top;">
+                                    <?php $fifu['support']['speed-desc']() ?>
+                                </td>
+                                <td style="vertical-align: top;">
+                                    <?php $fifu['support']['duplicated-desc']() ?>
+                                </td>
+                                <td style="vertical-align: top;">
+
                                 </td>
                             </tr>
                         </table>

@@ -2,11 +2,11 @@
 Contributors: Peregrinethemes
 Tags: two-columns, right-sidebar, left-sidebar, footer-widgets, blog, news, entertainment, custom-background, custom-menu, custom-logo, post-formats, sticky-post, editor-style, threaded-comments, translation-ready, custom-colors, featured-images, full-width-template, microformats, theme-options, e-commerce, front-page-posting, flexible-header, wide-blocks
 Requires at least: 5.0
-Tested up to: 6.4
+Tested up to: 6.5
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Stable tag: 1.0.15
+Stable tag: 1.1.5
 
 A lightweight and highly customizable multi-purpose theme that makes it easy for anyone to create their perfect website.
 
@@ -28,6 +28,26 @@ Bloglo WordPress Theme, Copyright (c) 2023, Peregrinethemes
 Bloglo is distributed under the terms of the GNU GPLs
 
 == Changelog ==
+= 1.1.5 =
+* Telegram and Discord social icons added in header social menu.
+
+= 1.1.4 =
+* Data escaping issue fixed.
+
+= 1.1.3 =
+* Post format gallery issue fixed.
+* Styling issues fixed and improvments.
+
+= 1.1.2 =
+* Fixed style issue.
+
+= 1.1.1 =
+* Tiktok social icon color change.
+* Single post typography issue fixed.
+
+= 1.1.0 =
+* Featured Links!, New Feature added.
+* Style issues fixed and improvments.
 
 = 1.0.15 =
 * PYML meta style changed.

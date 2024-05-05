@@ -88,9 +88,15 @@ function fifu_replace_attachment_image_src($image, $att_id, $size) {
     if ($att_post->post_author != FIFU_AUTHOR)
         return $image;
 
+    global $FIFU_SESSION;
+    $prev_url = null;
+    if (isset($FIFU_SESSION['cdn-new-old']) && isset($image[0]) && isset($FIFU_SESSION['cdn-new-old'][$image[0]]))
+        $prev_url = $FIFU_SESSION['cdn-new-old'][$image[0]];
+
     $image[0] = fifu_process_url($image[0], $att_id);
 
-    if (fifu_should_hide() && fifu_main_image_url(get_queried_object_id(), true) == $image[0])
+    $original_url = fifu_main_image_url(get_queried_object_id(), true);
+    if (fifu_should_hide() && ($original_url == $image[0] || ($prev_url && $prev_url == $original_url)))
         return null;
 
     if (fifu_is_from_speedup($image[0]))
@@ -119,29 +125,11 @@ function fifu_replace_attachment_image_src($image, $att_id, $size) {
         // }
     }
 
-    // use saved dimensions
-    if ($image[1] > 1 && $image[2] > 1) {
-        return $image;
+    // fallback
+    if ($image[1] == 1 && $image[2] == 1) {
+        $image[1] = null;
+        $image[2] = null;
     }
-
-    // fix null height
-    if ($image[2] == null)
-        $image[2] = 0;
-
-    return fifu_fix_dimensions($image, $size);
-}
-
-function fifu_fix_dimensions($image, $size) {
-    // default
-    $image = fifu_add_size($image, $size);
-
-    // fix gallery (but no zoom or lightbox)
-    if (class_exists('WooCommerce') && is_product() && $image[1] == 1 && $image[2] == 1)
-        $image[1] = 1920;
-
-    // fix unkown size
-    if ($image[1] == 0 && $image[2] == 0)
-        $image[1] = 1920;
 
     return $image;
 }
@@ -218,7 +206,7 @@ function fifu_callback($buffer) {
         return;
 
     /* plugins: Oxygen, Bricks */
-    if (isset($_REQUEST['ct_builder']) || isset($_REQUEST['bricks']))
+    if (isset($_REQUEST['ct_builder']) || isset($_REQUEST['bricks']) || isset($_REQUEST['fb-edit']))
         return $buffer;
 
     /* fifu_save_query(); */
@@ -429,7 +417,7 @@ function fifu_add_url_parameters($url, $att_id, $size) {
 
     if (fifu_is_from_speedup($url)) {
         $FIFU_SESSION['fifu-cloud'][$url] = fifu_speedup_get_set($url);
-        wp_enqueue_script('fifu-cloud', plugins_url('/html/js/cloud.js', __FILE__), array('jquery'), fifu_version_number());
+        wp_enqueue_script('fifu-cloud', plugins_url('/html/js/cloud.js', __FILE__), array('jquery'), fifu_version_number_enq());
         wp_localize_script('fifu-cloud', 'fifuCloudVars', [
             'srcsets' => $FIFU_SESSION['fifu-cloud'],
         ]);

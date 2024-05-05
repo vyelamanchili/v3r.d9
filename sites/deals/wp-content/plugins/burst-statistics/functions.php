@@ -167,46 +167,6 @@ if ( !function_exists('burst_admin_url')) {
 	}
 }
 
-
-if ( ! function_exists('burst_read_more' ) ) {
-	/**
-	 * Create a generic read more text with link for help texts.
-	 *
-	 * @param string $url
-	 * @param bool   $add_space
-	 *
-	 * @return string
-	 */
-	function burst_read_more( $url, $text = '', $add_space = true ) {
-        if ($text !== ''){
-	        $html
-		        = burst_sprintf( $text, '<a target="_blank" href="' . $url . '">',
-		        '</a>' );
-        } else {
-	        $html
-		        = burst_sprintf( __( "For more information on this subject, please read this %sarticle%s", 'burst-statistics' ), '<a target="_blank" href="' . $url . '">',
-		        '</a>' );
-        }
-
-		if ( $add_space ) {
-			$html = '&nbsp;' . $html;
-		}
-
-		return $html;
-	}
-}
-
-if ( ! function_exists( 'burst_array_filter_multidimensional' ) ) {
-	function burst_array_filter_multidimensional(
-		$array, $filter_key, $filter_value
-	) {
-		return array_filter( $array,
-			static function( $var ) use ( $filter_value, $filter_key ) {
-				return isset( $var[ $filter_key ] ) && $var[ $filter_key ] === $filter_value;
-			} );
-	}
-}
-
 /**
  *
  * Check if we are currently in preview mode from one of the known page builders
@@ -257,48 +217,6 @@ if ( ! function_exists( 'burst_display_date' ) ) {
 	 */
 	function burst_display_date( $date ) {
 		return date_i18n( get_option( 'date_format' ), $date );
-	}
-}
-
-if ( ! function_exists( 'burst_get_html_template' ) ) {
-	/**
-	 * Get a template based on filename, overridable in theme dir
-	 *
-	 * @param $filename
-	 *
-	 * @return string
-	 */
-
-	function burst_get_html_template( $filename, $args = array() ) {
-
-		$file       = trailingslashit( burst_path ) . 'settings/templates/' . $filename;
-		$theme_file = trailingslashit( get_stylesheet_directory() )
-		              . trailingslashit( basename( burst_path ) )
-		              . 'templates/' . $filename;
-
-		if ( file_exists( $theme_file ) ) {
-			$file = $theme_file;
-		}
-
-		if ( ! file_exists( $file ) ) {
-			return false;
-		}
-
-		if ( strpos( $file, '.php' ) !== false ) {
-			ob_start();
-			require $file;
-			$contents = ob_get_clean();
-		} else {
-			$contents = file_get_contents( $file );
-		}
-
-		if ( ! empty( $args ) && is_array( $args ) ) {
-			foreach ( $args as $fieldname => $value ) {
-				$contents = str_replace( '{' . $fieldname . '}', $value, $contents );
-			}
-		}
-
-		return $contents;
 	}
 }
 
@@ -374,51 +292,6 @@ if ( ! function_exists( 'burst_format_number' ) ) {
 	}
 }
 
-if ( ! function_exists( 'burst_get_current_post_type' ) ) {
-
-	/**
-	 * Get the current post type
-	 *
-	 * @param int $post_id
-	 *
-	 * @return string|bool
-	 */
-
-	function burst_get_current_post_type( $post_id = false ) {
-		if ( ! $post_id ) {
-			$post_id = burst_get_current_post_id();
-		}
-		if ( ! $post_id ) {
-			return false;
-		}
-
-		$post = get_post( $post_id );
-
-		return $post->post_type ?? '';
-	}
-
-}
-
-if ( ! function_exists( 'burst_get_current_post_id' ) ) {
-
-	/**
-	 * Get the current post type
-	 *
-	 * @return int
-	 */
-
-	function burst_get_current_post_id() {
-		$post_id = get_the_ID();
-
-		if ( ! $post_id ) {
-			$post_id = isset( $_GET['post'] ) && is_numeric( $_GET['post'] ) ? (int) $_GET['post'] : false;
-		}
-
-		return $post_id;
-	}
-}
-
-
 /**
  * Get a Burst option by name
  *
@@ -439,151 +312,6 @@ function burst_get_option( $name, $default=false ) {
 	}
 
 	return apply_filters("burst_option_$name", $value, $name);
-}
-
-/**
- * Deprecated: Get a Burst option by name, use burst_get_option instead
- * @deprecated 1.3.0
- * @param $name
- * @param $default
- *
- * @return mixed
- */
-function burst_get_value( $name, $default = false ) {
-	return burst_get_option( $name, $default );
-}
-
-if ( ! function_exists( 'burst_intro' ) ) {
-
-	/**
-	 * @param string $msg
-	 *
-	 * @return string|void
-	 */
-
-	function burst_intro( $msg ) {
-		if ( $msg == '' ) {
-			return;
-		}
-		$html = "<div class='burst-panel burst-notification burst-intro'>{$msg}</div>";
-
-		echo esc_html( $html );
-
-	}
-}
-
-if ( ! function_exists( 'burst_notice' ) ) {
-	/**
-	 * Notification without arrow on the left. Should be used outside notifications center
-	 *
-	 * @param string $msg
-	 * @param string $type notice | warning | success
-	 * @param bool   $echo
-	 *
-	 * @return string|void
-	 */
-	function burst_notice( $msg, $type = 'notice', $echo = true ) {
-		if ( $msg == '' ) {
-			return;
-		}
-
-		$html = "<div class='burst-panel-wrap'><div class='burst-panel burst-notification burst-{$type}'><div>{$msg}</div></div></div>";
-
-		if ( $echo ) {
-			echo esc_html( $html );
-		} else {
-			return esc_html( $html );
-		}
-	}
-}
-
-if ( ! function_exists( 'burst_admin_notice' ) ) {
-	/**
-	 * @param $msg
-	 *
-	 * @return void
-	 */
-	function burst_admin_notice( $msg ) {
-		/**
-		 * Prevent notice from being shown on Gutenberg page, as it strips off the class we need for the ajax callback.
-		 *
-		 * */
-		$screen = get_current_screen();
-		if ( $screen && $screen->parent_base === 'edit' ) {
-			return;
-		}
-		?>
-        <div id="message"
-             class="updated fade notice is-dismissible burst-admin-notice really-simple-plugins"
-             style="border-left:4px solid #333">
-            <div class="burst-admin-notice-container">
-                <div class="burst-logo"><img width=80px"
-                                             src="<?php echo esc_url( burst_url ) ?>assets/img/icon-logo.svg"
-                                             alt="logo">
-                </div>
-                <div style="margin-left:30px">
-					<?php echo wp_kses_post( $msg ) ?>
-                </div>
-            </div>
-        </div>
-		<?php
-
-	}
-}
-
-if ( ! function_exists( 'burst_panel' ) ) {
-	/**
-	 * @param $title
-	 * @param $html
-	 * @param $custom_btn
-	 * @param $validate
-	 * @param $echo
-	 * @param $open
-	 *
-	 * @return string|void
-	 */
-	function burst_panel( $title, $html, $custom_btn = '', $validate = '', $echo = true, $open = false ) {
-		if ( $title == '' ) {
-			return '';
-		}
-
-		$open_class = $open ? 'style="display: block;"' : '';
-
-		$output = '
-        <div class="burst-panel burst-slide-panel burst-toggle-active">
-            <div class="burst-panel-title">
-
-                <span class="burst-panel-toggle">
-                    ' . burst_icon( 'arrow-right', 'default' ) . '
-                    <span class="burst-title">' . $title . '</span>
-                 </span>
-                <span>' . $validate . '</span>
-                <span>' . $custom_btn . '</span>
-            </div>
-            <div class="burst-panel-content" ' . $open_class . '>
-                ' . $html . '
-            </div>
-        </div>';
-
-		if ( $echo ) {
-			echo wp_kses_post( $output );
-		} else {
-			return $output;
-		}
-
-	}
-}
-
-if ( ! function_exists( 'burst_get_anon_ip_address' ) ) {
-	/**
-	 * Get anon ip address
-	 * @return string
-	 */
-	function burst_get_anon_ip_address(): string {
-		$ip = burst_get_ip_address();
-
-		return BURST()->anonymize_IP->anonymizeIp( $ip );
-	}
 }
 
 if ( ! function_exists( 'burst_sprintf' ) ) {
@@ -652,8 +380,12 @@ if ( ! function_exists( 'burst_get_date_ranges' ) ) {
 }
 
 if ( ! function_exists('burst_sanitize_filters') ) {
+	/**
+	 * @param $filters
+	 *
+	 * @return array
+	 */
     function burst_sanitize_filters( $filters ) {
-        // sanitize key value pairs, but value can also be an array. Just one layer deep though. Also remove keys where value is empty. Also add comments to explain the code
         $filters = array_filter( $filters, static function( $item ) {
             return $item !== false && $item !== '';
         } );
@@ -731,35 +463,15 @@ if ( ! function_exists( 'burst_get_beacon_url' ) ) {
      *
      * @return string
      */
-    function burst_get_beacon_url(): string {
-        if ( is_multisite() && burst_is_networkwide_active() ) {
-            if ( is_main_site() ) {
-	            return burst_url . 'beacon.php';
-            } else {
-                //replace the subsite url with the main site url in burst_url
-                //get main site_url
-                $main_site_url = get_site_url(get_main_site_id());
-                return str_replace(site_url(), $main_site_url, burst_url) . 'endpoint.php';
-            }
-        }
-        return burst_url . 'endpoint.php';
-    }
-}
-
-if ( ! function_exists( 'burst_get_rest_url' ) ) {
-	/**
-	 * Get beacon path
-	 *
-	 * @return string
-	 */
-	function burst_get_rest_url(): string {
-		if ( is_multisite() && burst_is_networkwide_active() ) {
+	function burst_get_beacon_url(): string {
+		if ( is_multisite() && get_site_option('burst_track_network_wide') && burst_is_networkwide_active() ) {
 			if ( is_main_site() ) {
-				return get_rest_url();
+				return burst_url . 'endpoint.php';
 			} else {
 				//replace the subsite url with the main site url in burst_url
 				//get main site_url
-				return get_rest_url(get_main_site_id());
+				$main_site_url = get_site_url(get_main_site_id());
+				return str_replace(site_url(), $main_site_url, burst_url) . 'endpoint.php';
 			}
 		}
 		return burst_url . 'endpoint.php';
@@ -801,6 +513,21 @@ if ( ! function_exists('burst_upload_dir')) {
 	}
 }
 
+if ( ! function_exists('burst_upload_url')) {
+	/**
+	 * Get the upload url
+	 *
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	function burst_upload_url( string $path=''): string {
+		$uploads    = wp_upload_dir();
+		$upload_url = $uploads['baseurl'];
+		$upload_url = trailingslashit( apply_filters('burst_upload_url', $upload_url) );
+		return trailingslashit($upload_url.'burst/'.$path);
+	}
+}
 
 /**
  * Create directories recursively
@@ -844,4 +571,16 @@ if (!function_exists('burst_has_open_basedir_restriction')) {
 		// Return `true` if error has occurred
 		return ($error = error_get_last()) && $error['message'] !== '__clean_error_info';
 	}
+}
+
+/**
+ * Deprecated: Get a Burst option by name, use burst_get_option instead
+ * @deprecated 1.3.0
+ * @param $name
+ * @param $default
+ *
+ * @return mixed
+ */
+function burst_get_value( $name, $default = false ) {
+	return burst_get_option( $name, $default );
 }

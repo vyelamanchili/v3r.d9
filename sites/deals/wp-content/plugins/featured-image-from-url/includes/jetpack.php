@@ -15,7 +15,9 @@ function fifu_resize_jetpack_image_size($size, $url) {
         return "{$clean_url}?resize={$size},{$new_h}";
     }
 
-    return "{$url}?w={$size}&resize={$size}";
+    $del = strpos($url, "?") !== false ? "&" : "?";
+
+    return "{$url}{$del}w={$size}&resize={$size}";
 }
 
 function fifu_jetpack_get_set($url, $is_slider) {
@@ -42,15 +44,6 @@ function fifu_jetpack_blocked($url) {
     return false;
 }
 
-function fifu_jetpack_ssl($url) {
-    $list = array('m.media-amazon.com', 'images-na.ssl-images-amazon.com', 'image.blockchain.news', 'static.news.bitcoin.com', 'thenewscrypto.com', 'cdn.coolstuff.com', 'windows.net', 'completemedical.com', 'resizing.flixster.com', 'rackcdn.com', 'accounts.parrotproducts.biz');
-    foreach ($list as $domain) {
-        if (strpos($url, $domain) !== false)
-            return true;
-    }
-    return false;
-}
-
 function fifu_is_photon_url($url) {
     $list = array('i0.wp.com', 'i1.wp.com', 'i2.wp.com', 'i3.wp.com');
     foreach ($list as $domain) {
@@ -67,8 +60,7 @@ function fifu_jetpack_photon_url($url, $args) {
     if (fifu_ends_with($url, '.svg'))
         return $url;
 
-    if (fifu_jetpack_ssl($url))
-        $args['ssl'] = 1;
+    $args['ssl'] = 1;
 
     $image_url_parts = wp_parse_url($url);
     if (!is_array($image_url_parts) || empty($image_url_parts['host']) || empty($image_url_parts['path']))

@@ -501,9 +501,12 @@ if ( ! function_exists( 'bloglo_entry_meta_author' ) ) :
 					// Translators: Author Name.
 					?>
 					<?php esc_html_e( 'By ', 'bloglo' ); ?>
-					<a class="url fn n" title="<?php /* translators: %1$s Author */ printf( esc_attr__( 'View all posts by %1$s', 'bloglo' ), get_the_author() ); ?>" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID', $args['user_id'] ) ) ); ?>" rel="author" <?php bloglo_schema_markup( 'url' ); ?>>
-						<span class="author-name" <?php bloglo_schema_markup( 'name' ); ?>><?php echo esc_html( get_the_author_meta( 'display_name', $args['user_id'] ) ); ?></span>
+					<a class="url fn n" title="<?php /* translators: %1$s Author */ printf( esc_attr__( 'View all posts by %1$s', 'bloglo' ), esc_attr( get_the_author() ) ); ?>" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID', $args['user_id'] ) ) ); ?>" rel="author" <?php bloglo_schema_markup( 'url' ); ?>>
+						<span class="author-name" <?php bloglo_schema_markup( 'name' ); ?>>
+							<?php echo esc_html( wp_kses_post( get_the_author_meta( 'display_name', $args['user_id'] ) ) ); ?>
+						</span>
 					</a>
+
 				</span>
 			</span>
 		</span>
@@ -1281,27 +1284,12 @@ if ( ! function_exists( 'bloglo_social_links' ) ) :
 					</a>
 				</li>
 				<li class="menu-item">
-					<a href="https://rss.com/">
-						<span class="screen-reader-text">rss.com</span>
-						<span class="rss">
-						' . bloglo()->icons->get_svg( 'rss', array( 'aria-hidden' => 'true' ) ) . '
+					<a href="https://t.me/">
+						<span class="screen-reader-text">t.me</span>
+						<span class="telegram">
+						' . bloglo()->icons->get_svg( 'telegram', array( 'aria-hidden' => 'true' ) ) . '
 						' . bloglo()->icons->get_svg(
-							'rss',
-							array(
-								'aria-hidden' => 'true',
-								'class'       => 'bottom-icon',
-							)
-						) . '
-						</span>
-					</a>
-				</li>
-				<li class="menu-item">
-					<a href="https://www.linkedin.com/">
-						<span class="screen-reader-text">linkedin.com</span>
-						<span class="linkedin">
-						' . bloglo()->icons->get_svg( 'linkedin', array( 'aria-hidden' => 'true' ) ) . '
-						' . bloglo()->icons->get_svg(
-							'linkedin',
+							'telegram',
 							array(
 								'aria-hidden' => 'true',
 								'class'       => 'bottom-icon',
@@ -1317,6 +1305,21 @@ if ( ! function_exists( 'bloglo_social_links' ) ) :
 						' . bloglo()->icons->get_svg( 'instagram', array( 'aria-hidden' => 'true' ) ) . '
 						' . bloglo()->icons->get_svg(
 							'instagram',
+							array(
+								'aria-hidden' => 'true',
+								'class'       => 'bottom-icon',
+							)
+						) . '
+						</span>
+					</a>
+				</li>
+				<li class="menu-item">
+					<a href="https://youtube.com/">
+						<span class="screen-reader-text">youtube.com</span>
+						<span class="youtube">
+						' . bloglo()->icons->get_svg( 'youtube', array( 'aria-hidden' => 'true' ) ) . '
+						' . bloglo()->icons->get_svg(
+							'youtube',
 							array(
 								'aria-hidden' => 'true',
 								'class'       => 'bottom-icon',

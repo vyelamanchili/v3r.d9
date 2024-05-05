@@ -76,7 +76,7 @@ if ( !defined( 'ABSPATH' ) ) {
 	}
 	.cv-admin-video {
 		width: 100%;
-		height: 315px;
+		height: 330px;
 	}
 	.cv-hl-text {
 		color: #fe1243;
@@ -91,6 +91,8 @@ if ( !defined( 'ABSPATH' ) ) {
 function cvsetting_tmp_utm1( $campaign = '' ) {
 	return '?utm_source=setting-page&utm_medium=dashboard&utm_campaign=' . $campaign;
 }
+
+$cvsetting_haspro = get_option( 'pt_cv_version_pro' );
 ?>
 
 <div class="cv-admin-settings">
@@ -107,20 +109,20 @@ function cvsetting_tmp_utm1( $campaign = '' ) {
 				<h3>Blocks Introduction</h3>
 				<p>We added 15+ advanced post blocks to the Block Editor to help you display posts, pages, custom post types stunningly with endless customization options.</p>
 				<div class="cv-admin-video">
-					<iframe width="100%" height="100%" src="https://www.youtube.com/embed/bptDnUq9DI0?controls=1&modestbranding=1&rel=0&cc_load_policy=1&start=15" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+					<iframe width="100%" height="100%" src="https://www.youtube.com/embed/4Mj55xrPtV8?controls=1&modestbranding=1&rel=0&cc_load_policy=1&start=17" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 				</div>
 			</div>
 			<div class="cv-admin-section">
 				<h3>View Shortcode Introduction</h3>
 				<p>We built a powerful shortcode feature to help you display content in the Classic editor and page builder easily. Simply create shortcodes, then insert shortcodes to where you want.</p>
 				<div class="cv-admin-video">
-					<iframe width="100%" height="100%" src="https://www.youtube.com/embed/2vVqoBJA9K8?controls=1&modestbranding=1&rel=0&cc_load_policy=1" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+					<iframe width="100%" height="100%" src="https://www.youtube.com/embed/QgQLjB0DQ8s?controls=1&modestbranding=1&rel=0&cc_load_policy=1" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 				</div>
 			</div>
 		</div>
 		<div class="cv-admin-grid-right">
 			<div class="cv-admin-section features-list">
-				<h3 class="cv-hl-text">More Benefits And Values For Your Site</h3>
+				<h3 class="cv-hl-text"><?php echo $cvsetting_haspro ? 'Top Premium Features Available' : 'More Benefits And Values For Your Site'; ?></h3>
 				<ul>
 					<li>
 						<h4>Fully Support Custom Post Type, Custom Taxonomy, Custom Field</h4>
@@ -148,7 +150,9 @@ function cvsetting_tmp_utm1( $campaign = '' ) {
 						<div>Display Google Ads, banners... in post grid easily (<a href="https://contentviewspro.com/demo/show-advertisements-in-layout/<?php echo cvsetting_tmp_utm1('showads'); ?>" target="_blank">read more</a>)</div>
 					</li>
 				</ul>
+				<?php if ( !$cvsetting_haspro ) { ?>
 				<a href="https://www.contentviewspro.com/<?php echo cvsetting_tmp_utm1('upgrade'); ?>" target="_blank" class="btn">Get Pro Now</a>
+				<?php } ?>
 			</div>
 			<div class="cv-admin-section">
 				<h3>Demo</h3>

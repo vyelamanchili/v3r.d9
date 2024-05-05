@@ -6,7 +6,7 @@ Text Domain: blogvi
 Description: A child theme of Bloglo, Blogvi offers a boxed width design with a distinctive background color and a pattern image. This theme showcases a horizontal blog list style and provides users with extensive customization options for color and typography adjustments.Blogvi is lightweight, moderate and customizable News Magazine WordPress theme. You'll be able fully customize your site with rich customization options. It is idealize for personal and multi-author bloggers and content publishers. Blogvi is suitable for dynamic news, newspaper, magazine, blogs, publishers, publishing, editors, online and gaming magazines, personal blogs, news portals or review site and any creative site. Blogvi is SEO friendly, WPML, Gutenberg, WooCommerce, translation and RTL ready. Live preview : https://demo.peregrine-themes.com/bloglo/blogvi/
 Author URI: https://peregrine-themes.com/
 Theme URI: https://peregrine-themes.com/blogvi
-Version: 1.0.2
+Version: 1.0.4
 Requires at least: 5.0
 Tested up to: 6.4
 Requires PHP: 5.6
@@ -217,26 +217,6 @@ body .bloglo-btn:not(.btn-text-1):focus {
   margin-bottom: 4.5rem;
 }
 
-/*.is-section-heading-init-s2 #pyml .pyml-slider-items .widget-title,
-.bloglo-sidebar-style-3.is-section-heading-init-s2
-  #secondary
-  .bloglo-widget
-  .widget-title,
-.bloglo-sidebar-style-3.is-section-heading-init-s2
-  #secondary
-  .bloglo-widget
-  .wp-block-search
-  .wp-block-search__label,
-.bloglo-sidebar-style-3.is-section-heading-init-s2
-  #secondary
-  .bloglo-widget
-  .wp-block-heading {
-  position: absolute;
-  left: 2.5rem;
-  top: -1.8rem;
-  z-index: 2;
-}*/
-
 .is-section-heading-init-s2 #pyml .pyml-slider-items .widget-title,
 .is-footer-heading-init-s2 #bloglo-footer .wp-block-heading,
 .is-footer-heading-init-s2 #bloglo-footer .widget-title,
@@ -327,4 +307,54 @@ body .wp-block-latest-posts__featured-image {
 
 article.bloglo-article.post.sticky {
   outline-width: 6px;
+}
+
+/* Block CSS */
+
+.content-area .wp-block-site-title a:not(:hover, :focus) {
+  color: inherit;
+}
+
+.content-area .wp-block-site-title a:not(.bloglo-btn):not(.wp-block-button__link):hover,
+.content-area .wp-block-site-title a:not(.bloglo-btn):not(.wp-block-button__link):focus {
+  color: var(--bloglo-primary);
+}
+
+.single .entry-content .wp-block-avatar img {
+  margin: 0;
+}
+
+.wp-block-navigation .wp-block-page-list {
+  margin: 0;
+}
+
+.content-area .bloglo-entry .wp-block-navigation:where(:not([class*=has-text-decoration])) a,
+.wp-block-navigation:where(:not([class*=has-text-decoration])) a {
+  text-decoration: none;
+}
+
+.wp-block-navigation .has-child .wp-block-navigation__submenu-container {
+  list-style: none;
+  margin: 0;
+}
+
+.wp-block-navigation .wp-block-page-list > .wp-block-navigation-item:not(:first-child) {
+  margin-left: 1rem;
+}
+
+.wp-block-file {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.wp-block-file a:not(.wp-block-file__button) {
+  font-weight: 700;
+}
+
+#page #main .wp-block-cover .wp-block-cover-text a,
+#page #main :where(.wp-block-cover-image:not(.has-text-color)),
+#page #main :where(.wp-block-cover:not(.has-text-color)) {
+  color: #fff;
 }

@@ -1,10 +1,10 @@
-=== Plugin Name ===
+=== Featured Image from URL (FIFU) ===
 Contributors: marceljm
-Donate link: https://donorbox.org/fifu
+Donate link: https://www.paypal.com/donate/?hosted_button_id=KY7MRYTANZN9A
 Tags: featured, image, url, video, woocommerce
-Requires at least: 5.3
-Tested up to: 6.4.3
-Stable tag: 4.6.2
+Requires at least: 5.6
+Tested up to: 6.5.2
+Stable tag: 4.7.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -31,11 +31,12 @@ Use an external image as featured image of your post, page or custom post type.
 * **[PRO]** Image search (search engine)
 * **[PRO]** Disable right-click
 * **[PRO]** Save in the media library
-* **[PRO]** Same height
 * **[PRO]** Replace not found image
 * **[PRO]** Custom popup
 * **[PRO]** Page redirection
 * **[PRO]** Cloak links
+* **[PRO]** Taxonomy image
+* **[PRO]** Same height
 
 #### Automatic featured media
 
@@ -43,7 +44,7 @@ Use an external image as featured image of your post, page or custom post type.
 * **[PRO]** Auto set featured image using post title and a search engine
 * **[PRO]** Auto set featured media using web page address
 * **[PRO]** Auto set featured image from custom field
-* **[PRO]** Auto set featured image using ISBN and books API
+* **[PRO]** Auto set featured image using ISBN
 * **[PRO]** Auto set screenshot as featured image
 * **[PRO]** Auto set featured image from Unsplash using tags
 
@@ -148,9 +149,8 @@ Supports URLs from YouTube, Vimeo, Twitter, 9GAG, Cloudinary, Tumblr, Publitio, 
 
 #### Links
 
-* **<a href="https://fifu.app/">FIFU PRO ($29.90)</a>**
+* **<a href="https://fifu.app/">FIFU PRO (€29.90)</a>**
 * **<a href="https://tastewp.com/new?pre-installed-plugin-slug=featured-image-from-url&redirect=admin.php%3Fpage%3Dfeatured-image-from-url&ni=true">Dummy site for testing</a>**
-* **<a href="https://referral.fifu.app/">Affiliate Program</a>**
 * **<a href="https://chrome.google.com/webstore/detail/fifu-scraper/pccimcccbkdeeadhejdmnffmllpicola">Extension for Google Chrome</a>**
 * **<a href="https://plugintests.com/plugins/wporg/featured-image-from-url/latest">Smoke Test</a>**
 
@@ -265,14 +265,14 @@ Supports URLs from YouTube, Vimeo, Twitter, 9GAG, Cloudinary, Tumblr, Publitio, 
 
 == Changelog ==
 
-= 4.6.2 =
-* New feature: Cloak Links; New option: FIFU Product Gallery → Variations images in the main gallery; Fix: conflict with Bricks editor; Fix: CDN + Optimized Thumbnails (Warning message).
+= 4.7.1 =
+* Fix: CDN + Optimized Thumbnails (not cropping the top for screenshots).
 
-= 4.6.1 =
-* New option: Play Button → Draw; enhancement: Autoplay on Mouseover (now supports both local and remote video files); fix: Quick Edit (issue with not displaying images requiring CDN resolved); fix: CDN + Optimized Thumbnails (resolved conflict with YouTube thumbnails and URLs containing query parameters).
+= 4.7.0 =
+* Fix: CDN + Optimized Thumbnails (not working for Getty Images); Fix: Meta Tags (not sharing images from Google Drive, YouTube and Imgur); Fix: Metabox (style issues).
 
-= 4.6.0 =
-* New Option: Meta Tags → Homepage; New Option: Play Button → Size; Enhancements: Featured Video now supports Autoplay, Playback Loop, and Mute for external video files; Enhancements: CDN + Optimized Thumbnails, now capable of serving images from X, Dropbox, and Yahoo; Enhancement: Centralized Featured Image in Content; Fix: CDN + Optimized Thumbnails, with added fallback for unregistered sizes and resolution of conflicts with video thumbnails, Amazon images, FIFU Cloud, and SVG format; Fix: Resolved conflicts with the WordPress featured image box; Fix: Resolved issue where Google Drive images were not displayed in wp-admin and product galleries.
+= 4.6.9 =
+* Fix: Unsplash image search not working for a few countries.
 
 = others =
 * [more](https://fifu.app/changelog)
@@ -280,5 +280,5 @@ Supports URLs from YouTube, Vimeo, Twitter, 9GAG, Cloudinary, Tumblr, Publitio, 
 
 == Upgrade Notice ==
 
-= 4.6.2 =
-* New feature: Cloak Links; New option: FIFU Product Gallery → Variations images in the main gallery; Fix: conflict with Bricks editor; Fix: CDN + Optimized Thumbnails (Warning message).
+= 4.7.1 =
+* Fix: CDN + Optimized Thumbnails (not cropping the top for screenshots).

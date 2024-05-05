@@ -5,15 +5,15 @@ Tags: statistics, analytics, privacy, analytics alternative
 Requires at least: 5.8
 License: GPL2
 Requires PHP: 7.2
-Tested up to: 6.4
-Stable tag: 1.5.5.1
+Tested up to: 6.5
+Stable tag: 1.6.0
 
-Self-hosted and privacy-friendly analytics for Wordpress.
+Self-hosted and privacy-friendly analytics for WordPress.
 
 == Description ==
 
 = Unlock the Power of Privacy-Friendly Analytics with Burst Statistics! =
-Burst Statistics keeps all data on your server, making it fully compliant with privacy laws. Our dashboards offer clear and concise insights, allowing you to make informed decisions without feeling overwhelmed by abundant data. Choose Burst Statistics for seamless and reliable analytics trusted by over 100,000 users.
+Burst Statistics keeps all data on your server, making it compatible with privacy laws. Our dashboards offer clear and concise insights, allowing you to make informed decisions without feeling overwhelmed by abundant data. Choose Burst Statistics for seamless and reliable analytics trusted by over 100,000 users.
 
 **This plugin is free and does not require an account.**
 
@@ -87,6 +87,36 @@ Performance is almost not affected. We have built Burst to be very performant fo
 We value your feedback. You can [submit a support request on the WordPress forums](https://wordpress.org/support/plugin/burst-statistics/), and we will respond promptly.
 
 == Change log ==
+= 1.6.0 =
+* Tested up to: WordPress 6.5
+* Feature: (Pro) Tracking of URL parameters and UTM Campaigns. This will allow you to track the performance of your marketing campaigns and see how your site is being used.
+* Feature: (Pro) Added more metrics to select in all datatables (Pages, Referrers, Countries, Parameters, Campaigns).
+* Feature: Track WordPress hooks as a goal. This will allow you to track WooCommerce orders, form submissions, and more. Your imagination is the limit.
+* Feature: Added shortcode to display the most viewed posts or pages. This will allow you to display the most popular posts or pages on your website.
+* Improvement: Removed WPML specific code as it is not needed anymore.
+* Improvement: Added support for CIDR notation in the IP block list. Now you can block a range of IP addresses.
+* Improvement: Separate tracking script from backend code. This will improve performance & security and reduce the amount of code that needs to be loaded.
+* Improvement: Re-introduced summary tables with a fixed upgrade script. This will improve the performance of the dashboard.
+* Improvement: Changed hooks for datatable creation to not run on every page load, when debugging is enabled. Now it runs on activation and upgrade.
+* Improvement: Added an option in multisite to allow tracking per site or network wide.
+* Fix: Data in the Today block on the Dashboard was not the same as the stats shown in the Statistics tab. This has been resolved.
+* Fix: Open base dir restrictions would sometimes cause warnings in the dashboard after installing Burst. This has been resolved.
+
+= 1.5.7 =
+* Fix: Security issue where a contributor with the ability to add posts and add custom fields, could create a cross-site scripting attack. This has been resolved. props @Webbernaut
+* Fix: Changed key length for page_url to 191 to prevent issues with MySQL 5.7.7 and lower.
+* Fix: Issue where using [ in a URL would result in a failed tracking request. This has been resolved. props @webwitnl
+* Improvement: Removed legacy code in the functions.php file.
+
+= 1.5.6.1 =
+* Fix: Tracking would only work for users with cookieless tracking, because the burst script was empty due to an error in the build process. This has been resolved.
+
+= 1.5.6 =
+* Improvement: Removed unused anonymize IP function. We don't save any IP addresses, so this has been removed.
+* Improvement: In the database boolean values will now be saved as tinyint(1) instead of int(1). This will save space in the database.
+* New: Gutenberg block to display amount of pageviews on a page.
+* Fix: Issue where adding a goal would cause a console.error. This has been resolved.
+
 = 1.5.5.1 =
 * Fix: Issue where the plugin could not be deleted due to a fatal error. This has been resolved.
 
@@ -95,11 +125,12 @@ We value your feedback. You can [submit a support request on the WordPress forum
 * Fix: Don't delete data on uninstall. Only delete when the 'Delete all data and deactivate' prompt is selected.
 
 = 1.5.4 =
+* Security: fixed an authenticated SQL injection vulnerability.
 * Improvement: We have added summary tables, which will speed up the dashboard tremendously on large websites. The summary tables are updated every hour.
 * Improvement: We have added some indexes and removed some unused data which speeds up the dashboard and it will reduce the database size quite a bit.
 * Improvement: Save the last used date range in local storage, so when you return the date is the same.
-* Fix: Added more data to delete on uninstall. This will prevent data from being left behind when uninstalling the plugin.
 * Improvement: Updated referrer spam list.
+* Fix: Added more data to delete on uninstall. This will prevent data from being left behind when uninstalling the plugin.
 * Fix: Referer spam would not be filtered out. This has been resolved.
 * Fix: Click goals where an ID was on a parent class, would not be tracked. Now this is checked recursively.
 
@@ -145,6 +176,7 @@ We value your feedback. You can [submit a support request on the WordPress forum
 * Fix missing file causing a fatal error, props @bb15
 
 = 1.5.0 =
+* Security: fixed an SQL injection issue, props German Ritter
 * Improvement: Updated outdated readme information.
 * Improvement: Updated outdated links in the plugin.
 * Improvement: Some minor styling changes.
@@ -294,7 +326,7 @@ We value your feedback. You can [submit a support request on the WordPress forum
 * Improvement: added parameter to clear the dashboard cache
 * Improvement: added JS event to so other plugins can integrate with Burst
 * Improvement: added privacy annex
-* Improvement: added widget to the Wordpress Dashboard Props: Shayne
+* Improvement: added widget to the WordPress Dashboard Props: Shayne
 
 = 1.0.2 =
 * Fix: typo fix in generate_cached_data, props @seath

@@ -235,6 +235,7 @@ if ( ! class_exists( 'Bloglo_Customizer' ) ) :
 					'main-navigation',
 					'ticker',
 					'hero',
+					'featured-links',
 					'pro-features',
 					'pyml',
 					'page-header',

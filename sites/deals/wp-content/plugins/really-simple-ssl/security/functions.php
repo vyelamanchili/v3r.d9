@@ -367,7 +367,8 @@ function rsssl_gather_warning_blocks_for_mail( array $changed_fields ){
 			$email_condition_result = rsssl_get_option($fieldname) === $value;
 	    } else {
 			//function check
-		    $email_condition_result = call_user_func($field['email']['condition']);
+		    $function  = $field['email']['condition'];
+		    $email_condition_result = function_exists($function) && $function();
 	    }
         return isset($field['email']['message']) && $field['value'] && $email_condition_result;
     });
@@ -536,4 +537,13 @@ function rsssl_is_email_verified() {
     }
 
     return false;
+}
+
+function rsssl_remove_prefix_from_version($version) {
+	return preg_replace('/^[^\d]*(?=\d)/', '', $version);
+}
+function rsssl_version_compare($version, $compare_to, $operator = null) {
+	$version = rsssl_remove_prefix_from_version($version);
+	$compare_to = rsssl_remove_prefix_from_version($compare_to);
+	return version_compare($version, $compare_to, $operator);
 }

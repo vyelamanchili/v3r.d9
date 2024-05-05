@@ -78,13 +78,9 @@ if ( ! class_exists( 'Bloglo_Customizer_Main_Header' ) ) :
 					'description'     => esc_html__( 'Click “Add new image” to upload an image file from your computer. Your theme works best with an image with a banner size of 732 × 90 pixels. ', 'bloglo' ),
 					'section'         => 'bloglo_section_main_header',
 					'priority'        => 6,
-					'required'   => array(
-						array(
-							'control'  => 'bloglo_header_layout',
-							'value'    => 'layout-4',
-							'operator' => '==',
-						),
-					),
+					'active_callback' => function( $control ) {
+						return 'layout-4' === $control->manager->get_setting( 'bloglo_header_layout' )->value();
+					},
 				),
 			);
 
@@ -93,7 +89,7 @@ if ( ! class_exists( 'Bloglo_Customizer_Main_Header' ) ) :
 				'transport'         => 'refresh',
 				'sanitize_callback' => 'esc_url_raw',
 				'control'           => array(
-					'type'            => 'url',
+					'type'            => 'bloglo-text',
 					'label'           => esc_html__( 'Ads url', 'bloglo' ),
 					'section'         => 'bloglo_section_main_header',
 					'priority'        => 7,

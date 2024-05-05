@@ -4,8 +4,8 @@ Requires PHP: 5.5.3
 Tags: auto post, auto publish, social media scheduling, social media calendar, social media automation, social media share, auto-publish, scheduling, social media post, social url share, social network share, share tweet, share links, share this, share text posts, share images, share video links, social tools, admin, api, auto share to, autopost, auto-Posting, auto-schedule, auto-schedule social media posts, automatic social sharing plugin, blog marketing, blog2social, blogger, buffer, crossposting, cross-promotion, cross-promoting, bloglovin, bloglovin auto post, facebook, facebook auto post, facebook pages, google auto post, instagram business, instagram auto post, jetpack, jetpack sharing, linkedin, linkedin auto post, medium, medium auto post, multiposting, pinterest, re-post, scheduling plugin, social media, social media auto publish, social media button, social media manager, social media plugin, social media publishing, social media scheduling tool, social media sharing, social media tool, social network auto publish, social network icon, social network widget, socialmedia, timing, torial, torial auto post, tumblr, twitter, twitter auto post, xing, xing auto post, xing groups, xing gruppen, xing personal profiles, xing company profiles, xing business pages, xing pages, xing seiten,instagram business, auto post scheduler, repost, social media management, facebook fan page auto post, facebook profile auto post, social auto post, social autoposting, flickr, flickr auto posting, linkedin, linkedin auto posting, linkedin profile, facebook group, facebook gruppen, reddit, reddit auto posting, reddit auto post, social media calendar, editorial calendar, calendar plugin, Social Media Automatisierung, Social Media Management, Kalender, Planungs Kalender, Social Media Kalender, Content Marketing, Revive, Revive posts, Revive old posts, old posts, Reshare, Re-Share, automatically re-post, automatically reshare, auto repost, auto republish, recycle posts, bulk schedule, Google My Business, Google posts, imgur, vk, vkontakte, Vkontakte.ru, vk.com. Telegram, Telegram channels, Telegram groups, share multiple images, image gallery, blogger.com, ravelry, instapaper, Social Media Metrics, Twitter Threads 
 Donate link: https://paypal.me/adenion
 Requires at least: 4.7.0
-Tested up to: 6.4
-Stable tag: 7.3.5
+Tested up to: 6.5
+Stable tag: 7.5.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ Blog2Social automatically creates social media posts for your content and auto-p
 
 _Compatible with WooCommerce, Gutenberg Editor, Hummingbird, Bitly, Rebrand.ly, Sniply, WP Automatic Plugin, Page Builder & RSS Importer._
 
-* New: AI Social Media Post Generator and Today's Content Calendar Tips
+* New: Network **Bluesky** and **Humhub** Integration
 
 Download Blog2Social today to make your social media marketing easier than ever for your WordPress site or blog. Blog2Social is a freemium plugin, with a free comprehensive basic version and premium plans offering more advanced features. To ensure compliance with the high quality standards of the new networks’ API rules and community guidelines, some functions of the auto-poster are premium features and not part of the free version. 
 The Blog2Social free version offers you a wide range of features. ([See what’s included in the free version](https://wordpress.org/plugins/blog2social/#faq "Blog2Social Free Features")). 
@@ -27,6 +27,7 @@ To benefit from all the advanced features for automatic sharing and scheduling y
 = Supported Networks = for cross-posting 
 * **Facebook** - Post to your profile, page (Free), and in groups (Premium) 
 * **X (formerly Twitter)** - Post to your X account (Free)
+* **Bluesky** - Post to your Bluesky account (Free)
 * **Google Business Profile** - Post to your Google Business Listing (Premium)
 * **LinkedIn** - Post to your profile (Free) or page (Premium)
 * **XING** - Post to your profile (Free) and page (Premium) 
@@ -49,6 +50,8 @@ To benefit from all the advanced features for automatic sharing and scheduling y
 * **TikTok** - Share your videos on TikTok (Premium + Add-on)
 * **Mastodon** - Post to your Mastodon account (Premium)
 * **Discord** - Post to your Discord servers (Premium)
+* **HumHub** - Post to your profile and space (Premium)
+
 
 = Benefits from using Blog2Social =
 
@@ -265,6 +268,14 @@ To get started with the basics of Blog2Social and maybe find some useful tips an
 
 
 == Changelog ==
+= 7.5.0 =
+Bluesky and HumHub Integration, Facebook Group changes to instant sharing
+= 7.4.2 =
+Usability Optimization
+= 7.4.1 =
+Usability Optimization
+= 7.4.0 =
+Usability Optimization
 = 7.3.5 =
 Usability Optimization, Pinterest Title, AI Social Media Post Generator, Today's Content Calendar Tips
 = 7.3.4 =
@@ -401,6 +412,14 @@ Usability Optimization, Rebrandly integration, url parameter settings
 New Image Posts, Imgur, Animated Gifs and Emojis
 
 == Upgrade Notice ==
+= 7.5.0 =
+Bluesky and HumHub Integration, Facebook Group changes to instant sharing
+= 7.4.2 =
+Usability Optimization
+= 7.4.1 =
+Usability Optimization
+= 7.4.0 =
+Usability Optimization
 = 7.3.5 =
 Usability Optimization, Pinterest Title, AI Social Media Post Generator, Today's Content Calendar Tips
 = 7.3.4 =

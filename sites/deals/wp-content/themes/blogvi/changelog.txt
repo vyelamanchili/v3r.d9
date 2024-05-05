@@ -1,3 +1,11 @@
+= 1.0.4 =
+* Fixed style issue.
+
+= 1.0.3 =
+* wp-block-file issue fixed.
+* wp-block-cover issue fixed.
+* wp-block spacing issue fixed.
+
 = 1.0.2 =
 * Theme URI change.
 * Fixed minor issues.

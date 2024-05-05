@@ -10,6 +10,15 @@ define('PROXY2_URLS', [
     "https://coincodex.com",
     "https://www.ft.com",
     "https://cdn.sellio.net",
+    "https://cf.bstatic.com",
+    "https://media-cdn.oriflame.com",
+    "https://i.ytimg.com/",
+    "https://cdn.myshoptet.com/",
+    "https://i.imgur.com/",
+    "https://a1.espncdn.com/",
+    "https://books.google.com/",
+    "https://embed-cdn.gettyimages.com/",
+    "https://media.gettyimages.com/"
 ]);
 
 define('PROXY3_URLS', [
@@ -54,11 +63,11 @@ function fifu_image_downsize($out, $att_id, $size) {
     global $FIFU_SESSION;
 
     if (!$att_id || !fifu_is_remote_image($att_id)) {
-        return false;
+        return $out;
     }
 
     if (fifu_is_off('fifu_photon')) {
-        return false;
+        return $out;
     }
 
     $original_image_url = get_post_meta($att_id, '_wp_attached_file', true);
@@ -66,7 +75,7 @@ function fifu_image_downsize($out, $att_id, $size) {
         if (strpos($original_image_url, "https://thumbnails.odycdn.com") !== 0 &&
                 strpos($original_image_url, "https://res.cloudinary.com") !== 0 &&
                 fifu_jetpack_blocked($original_image_url)) {
-            return false;
+            return $out;
         }
     }
 
@@ -83,8 +92,8 @@ function fifu_image_downsize($out, $att_id, $size) {
         // Check if dimensions are already saved
         $metadata = wp_get_attachment_metadata($att_id);
         if (!empty($metadata['width']) && !empty($metadata['height'])) {
-            $original_width = $metadata['width'];
-            $original_height = $metadata['height'];
+            $original_width = intval($metadata['width']);
+            $original_height = intval($metadata['height']);
             $aspect_ratio = $original_height / $original_width;
             $max_dimension = 1920;
 
@@ -111,7 +120,7 @@ function fifu_image_downsize($out, $att_id, $size) {
 
             $small_resized_url = fifu_resize_with_photon($image_url, $small_width, 9999);
 
-            list(, $small_height) = getimagesize($small_resized_url);
+            list(, $small_height) = @getimagesize($small_resized_url);
 
             // Calculate width for a larger size based on the aspect ratio
             $large_width = 1920;
@@ -127,7 +136,7 @@ function fifu_image_downsize($out, $att_id, $size) {
         // Logic for other sizes
         // Get all registered image sizes
         $image_sizes = get_intermediate_image_sizes();
-        $additional_sizes = wp_get_additional_image_sizes();
+        $additional_sizes = wp_get_registered_image_subsizes();
 
         // Determine the size dimensions
         $width = $height = 0;
@@ -157,10 +166,19 @@ add_filter('image_downsize', 'fifu_image_downsize', 10, 3);
 
 function fifu_resize_with_photon($url, $width, $height) {
     $photon_base_url = "https://i" . (hexdec(substr(md5($url), 0, 1)) % 4) . ".wp.com/";
-    $resize_param = $height == 9999 ? "{$width}" : "{$width},{$height}";
+
     $delimiter = strpos($url, "?") !== false ? '&' : '?';
-    $ssl_param = fifu_jetpack_ssl($url) ? '&ssl=1' : '';
-    return $photon_base_url . preg_replace('#^https?://#', '', $url) . "{$delimiter}w={$width}&resize={$resize_param}{$ssl_param}";
+
+    if (strpos($url, "wp.com/mshots") !== false || strpos($url, "screenshot.fifu.app") !== false) {
+        $crop = "&crop=0px,0px,{$width}px,{$height}px";
+    } else {
+        $resize_param = $height == 9999 ? "{$width}" : "{$width},{$height}";
+        $crop = "&resize={$resize_param}";
+    }
+
+    $ssl_param = '&ssl=1';
+
+    return $photon_base_url . preg_replace('#^https?://#', '', $url) . "{$delimiter}w={$width}{$crop}{$ssl_param}";
 }
 
 function fifu_resize_with_odycdn($url, $width, $height) {

@@ -1199,6 +1199,30 @@ function bloglo_hero_classes( $classes = array() ) {
 }
 
 /**
+ * Add classes to Featured links.
+ *
+ * @since 1.0.0
+ * @param array $classes Classes array.
+ * @return void
+ */
+function bloglo_featured_links_classes( $classes = array() ) {
+
+	// Hero visibility.
+	$visibility = bloglo_option( 'featured_links_visibility' );
+
+	if ( 'all' !== $visibility ) {
+		$classes[] = 'bloglo-' . $visibility;
+	}
+
+	$classes = apply_filters( 'bloglo_featured_links_classes', $classes );
+
+	if ( ! empty( $classes ) ) {
+		$classes = trim( implode( ' ', $classes ) );
+		echo 'class="' . esc_attr( $classes ) . '"';
+	}
+}
+
+/**
  * Add classes to PYML.
  *
  * @since 1.0.0

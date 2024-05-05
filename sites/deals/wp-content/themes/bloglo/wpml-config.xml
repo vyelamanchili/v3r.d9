@@ -2,6 +2,7 @@
     <admin-texts>
         <key name="theme_mods_bloglo">
             <key name="bloglo_ticker_title" />
+            <key name="bloglo_featured_links_title" />
             <key name="bloglo_pyml_title" />
             <key name="bloglo_main_nav_mobile_label" />
             <key name="bloglo_excerpt_more" />

@@ -195,6 +195,8 @@ if ( ! class_exists( 'Bloglo_Dynamic_Styles' ) ) :
 							[data-theme=dark] .wp-block-search .wp-block-search__button {
 								--bloglo-white: #ffffff;
 							}
+							[data-theme=dark] #comments a,
+							[data-theme=dark] #comments .comment-meta,
 							[data-theme=dark] #colophon .search-form .search-submit,
 							[data-theme=dark] #main .search-form .search-submit,
 							[data-theme=dark] .content-area a:not(.bloglo-btn,.showcoupon,.wp-block-button__link):hover,
@@ -1454,10 +1456,7 @@ if ( ! class_exists( 'Bloglo_Dynamic_Styles' ) ) :
 
 			// Blog Single Post - Title Spacing.
 			$css .= $this->get_spacing_field_css( '.bloglo-single-title-in-page-header #page .page-header .bloglo-page-header-wrapper', 'padding', 'single_title_spacing', true );
-
-			// Blog Single Post - Content Font Size.
-			$css .= $this->get_range_field_css( '.single-post .entry-content', 'font-size', 'single_content_font_size', true );
-
+			
 			// Blog Single Post - narrow container.
 			if ( 'narrow' === bloglo_option( 'single_content_width' ) ) {
 				$css .= '
@@ -2400,11 +2399,6 @@ if ( ! class_exists( 'Bloglo_Dynamic_Styles' ) ) :
 					color: ' . $text_color . ';
 				}
 			';
-
-			// If single post, use single post font size settings.
-			if ( 'post' === $post_type ) {
-				$css .= $this->get_range_field_css( ':root .editor-styles-wrapper .wp-block', 'font-size', 'single_content_font_size', true );
-			}
 
 			// Headings typography.
 			$css .= $this->get_typography_field_css( ':root .editor-styles-wrapper h1.wp-block, :root .editor-styles-wrapper h2.wp-block, :root .editor-styles-wrapper h3.wp-block, :root .editor-styles-wrapper h4.wp-block, :root .editor-styles-wrapper h5.wp-block, :root .editor-styles-wrapper h6.wp-block, :root .editor-styles-wrapper .editor-post-title__block .editor-post-title__input', 'headings_font' );

@@ -21,6 +21,8 @@ class Database {
 	 */
 	protected $customTables = [
 		'aioseo_cache',
+		'aioseo_crawl_cleanup_blocked_args',
+		'aioseo_crawl_cleanup_logs',
 		'aioseo_links',
 		'aioseo_links_suggestions',
 		'aioseo_notifications',
@@ -31,7 +33,8 @@ class Database {
 		'aioseo_redirects_hits',
 		'aioseo_redirects_logs',
 		'aioseo_terms',
-		'aioseo_search_statistics_objects'
+		'aioseo_search_statistics_objects',
+		'aioseo_revisions'
 	];
 
 	/**
@@ -286,6 +289,19 @@ class Database {
 	 * @since 4.0.0
 	 */
 	public function __construct() {
+		$this->init();
+	}
+
+	/**
+	 * Initializes the DB class.
+	 * This needs to be called after the class is instantiated or when switching between sites in a multisite environment.
+	 * The latter is important because the prefix otherwise isn't updated.
+	 *
+	 * @since 4.6.1
+	 *
+	 * @return void
+	 */
+	public function init() {
 		global $wpdb;
 		$this->db            = $wpdb;
 		$this->prefix        = $wpdb->prefix;
@@ -1273,13 +1289,31 @@ class Database {
 	 */
 	public function count( $countColumn = '*' ) {
 		$usingGroup = ! empty( $this->group );
-		$results    = $this->select( 'count(' . $countColumn . ') as count' )
+		$results    = $this->reset( [ 'select', 'order', 'limit' ] )
+			->select( 'count(' . $countColumn . ') as count' )
 			->run()
 			->result();
 
 		return 1 === $this->numRows() && ! $usingGroup
 			? (int) $results[0]->count
 			: $this->numRows();
+	}
+
+	/**
+	 * Inject a count group select statement and return the result.
+	 *
+	 * @since 4.6.1
+	 *
+	 * @param  string $countDistinctColumn The column to count with. Defaults to '*' all.
+	 * @return int                         The number of rows that were found.
+	 */
+	public function countDistinct( $countDistinctColumn = '*' ) {
+		$countDistinctColumn = '*' !== $countDistinctColumn ? 'distinct( ' . $countDistinctColumn . ' )' : $countDistinctColumn;
+
+		return $this->reset( [ 'select', 'order', 'limit' ] )
+			->select( 'count(' . $countDistinctColumn . ') as count' )
+			->run( true, 'var' )
+			->result();
 	}
 
 	/**

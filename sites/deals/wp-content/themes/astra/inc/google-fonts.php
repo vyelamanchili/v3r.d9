@@ -472,6 +472,12 @@ return array(
 		),
 	),
 	array(
+		'Annapurna SIL' => array(
+			'variants' => array( 'regular', '700' ),
+			'category' => 'serif',
+		),
+	),
+	array(
 		'Annie Use Your Telescope' => array(
 			'variants' => array( 'regular' ),
 			'category' => 'handwriting',
@@ -481,6 +487,12 @@ return array(
 		'Anonymous Pro' => array(
 			'variants' => array( 'regular', 'italic', '700', '700italic' ),
 			'category' => 'monospace',
+		),
+	),
+	array(
+		'Anta' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'sans-serif',
 		),
 	),
 	array(
@@ -2867,7 +2879,7 @@ return array(
 	),
 	array(
 		'Gelasio' => array(
-			'variants' => array( 'regular', 'italic', '500', '500italic', '600', '600italic', '700', '700italic' ),
+			'variants' => array( 'regular', '500', '600', '700', 'italic', '500italic', '600italic', '700italic' ),
 			'category' => 'serif',
 		),
 	),
@@ -3352,6 +3364,12 @@ return array(
 		),
 	),
 	array(
+		'Honk' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
 		'Hubballi' => array(
 			'variants' => array( 'regular' ),
 			'category' => 'sans-serif',
@@ -3646,6 +3664,30 @@ return array(
 		),
 	),
 	array(
+		'Jacquard 12 Charted' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Jacquard 24' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Jacquarda Bastarda 9' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Jacquarda Bastarda 9 Charted' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
 		'Jacques Francois' => array(
 			'variants' => array( 'regular' ),
 			'category' => 'serif',
@@ -3661,6 +3703,48 @@ return array(
 		'Jaldi' => array(
 			'variants' => array( 'regular', '700' ),
 			'category' => 'sans-serif',
+		),
+	),
+	array(
+		'Jersey 10' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Jersey 10 Charted' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Jersey 15' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Jersey 15 Charted' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Jersey 20' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Jersey 20 Charted' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Jersey 25' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
 		),
 	),
 	array(
@@ -3985,6 +4069,12 @@ return array(
 		'Kodchasan' => array(
 			'variants' => array( '200', '200italic', '300', '300italic', 'regular', 'italic', '500', '500italic', '600', '600italic', '700', '700italic' ),
 			'category' => 'sans-serif',
+		),
+	),
+	array(
+		'Kode Mono' => array(
+			'variants' => array( 'regular', '500', '600', '700' ),
+			'category' => 'monospace',
 		),
 	),
 	array(
@@ -4576,6 +4666,12 @@ return array(
 		),
 	),
 	array(
+		'Madimi One' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'sans-serif',
+		),
+	),
+	array(
 		'Magra' => array(
 			'variants' => array( 'regular', '700' ),
 			'category' => 'sans-serif',
@@ -4885,6 +4981,18 @@ return array(
 		'Michroma' => array(
 			'variants' => array( 'regular' ),
 			'category' => 'sans-serif',
+		),
+	),
+	array(
+		'Micro 5' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Micro 5 Charted' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
 		),
 	),
 	array(
@@ -5221,6 +5329,12 @@ return array(
 		'Nabla' => array(
 			'variants' => array( 'regular' ),
 			'category' => 'display',
+		),
+	),
+	array(
+		'Namdhinggo' => array(
+			'variants' => array( 'regular', '500', '600', '700', '800' ),
+			'category' => 'serif',
 		),
 	),
 	array(
@@ -6610,6 +6724,12 @@ return array(
 		),
 	),
 	array(
+		'Noto Znamenny Musical Notation' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'sans-serif',
+		),
+	),
+	array(
 		'Nova Cut' => array(
 			'variants' => array( 'regular' ),
 			'category' => 'display',
@@ -6703,6 +6823,12 @@ return array(
 		'Oi' => array(
 			'variants' => array( 'regular' ),
 			'category' => 'display',
+		),
+	),
+	array(
+		'Ojuju' => array(
+			'variants' => array( '200', '300', 'regular', '500', '600', '700', '800' ),
+			'category' => 'sans-serif',
 		),
 	),
 	array(
@@ -7102,6 +7228,12 @@ return array(
 		),
 	),
 	array(
+		'Platypi' => array(
+			'variants' => array( '300', 'regular', '500', '600', '700', '800', '300italic', 'italic', '500italic', '600italic', '700italic', '800italic' ),
+			'category' => 'serif',
+		),
+	),
+	array(
 		'Play' => array(
 			'variants' => array( 'regular', '700' ),
 			'category' => 'sans-serif',
@@ -7271,6 +7403,30 @@ return array(
 	),
 	array(
 		'Prosto One' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Protest Guerrilla' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Protest Revolution' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Protest Riot' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Protest Strike' => array(
 			'variants' => array( 'regular' ),
 			'category' => 'display',
 		),
@@ -7525,6 +7681,12 @@ return array(
 		'Redacted Script' => array(
 			'variants' => array( '300', 'regular', '700' ),
 			'category' => 'display',
+		),
+	),
+	array(
+		'Reddit Mono' => array(
+			'variants' => array( '200', '300', 'regular', '500', '600', '700', '800', '900' ),
+			'category' => 'monospace',
 		),
 	),
 	array(
@@ -7787,6 +7949,12 @@ return array(
 	),
 	array(
 		'Rubik Glitch' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Rubik Glitch Pop' => array(
 			'variants' => array( 'regular' ),
 			'category' => 'display',
 		),
@@ -8116,6 +8284,12 @@ return array(
 		),
 	),
 	array(
+		'Sedan' => array(
+			'variants' => array( 'regular', 'italic' ),
+			'category' => 'serif',
+		),
+	),
+	array(
 		'Sedgwick Ave' => array(
 			'variants' => array( 'regular' ),
 			'category' => 'handwriting',
@@ -8311,6 +8485,12 @@ return array(
 		'Six Caps' => array(
 			'variants' => array( 'regular' ),
 			'category' => 'sans-serif',
+		),
+	),
+	array(
+		'Sixtyfour' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'monospace',
 		),
 	),
 	array(
@@ -8749,6 +8929,12 @@ return array(
 		'Syne Tactile' => array(
 			'variants' => array( 'regular' ),
 			'category' => 'display',
+		),
+	),
+	array(
+		'Tac One' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'sans-serif',
 		),
 	),
 	array(
@@ -9352,6 +9538,12 @@ return array(
 		),
 	),
 	array(
+		'Workbench' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'monospace',
+		),
+	),
+	array(
 		'Xanh Mono' => array(
 			'variants' => array( 'regular', 'italic' ),
 			'category' => 'monospace',
@@ -9373,6 +9565,30 @@ return array(
 		'Yantramanav' => array(
 			'variants' => array( '100', '300', 'regular', '500', '700', '900' ),
 			'category' => 'sans-serif',
+		),
+	),
+	array(
+		'Yarndings 12' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Yarndings 12 Charted' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Yarndings 20' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
+		),
+	),
+	array(
+		'Yarndings 20 Charted' => array(
+			'variants' => array( 'regular' ),
+			'category' => 'display',
 		),
 	),
 	array(

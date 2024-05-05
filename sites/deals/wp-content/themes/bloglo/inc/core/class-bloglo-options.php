@@ -645,6 +645,39 @@ if ( ! class_exists( 'Bloglo_Options' ) ) :
 				'bloglo_hero_hover_slider_category'        => array(),
 
 				/**
+				 * Featured Links
+				 */
+				'bloglo_enable_featured_links'        	=> false,
+				'bloglo_featured_links_title'           => '',
+				'bloglo_featured_links_visibility'    	=> 'all',
+				'bloglo_featured_links_enable_on'     	=> array( 'home' ),
+				'bloglo_featured_links_style'         	=> false,
+				'bloglo_featured_links_container'     	=> 'content-width',
+				'bloglo_featured_links'          		=> apply_filters(
+					'bloglo_featured_links_default',
+					array(
+						array(
+							'btn_text'        	=> '',
+							'btn_url'       	=> '',
+							'btn_target' 		=> '',
+							'image' 			=> array(),
+						),
+						array(
+							'btn_text'        	=> '',
+							'btn_url'       	=> '',
+							'btn_target' 		=> '',
+							'image' 			=> array(),
+						),
+						array(
+							'btn_text'        	=> '',
+							'btn_url'       	=> '',
+							'btn_target' 		=> '',
+							'image' 			=> array(),
+						),
+					),
+				),
+
+				/**
 				 * PYML
 				 */
 				'bloglo_enable_pyml'                       => true,
@@ -782,10 +815,6 @@ if ( ! class_exists( 'Bloglo_Options' ) ) :
 				'bloglo_single_toggle_comments'            => false,
 				'bloglo_single_entry_meta_icons'           => true,
 				'bloglo_typography_single_post_heading'    => false,
-				'bloglo_single_content_font_size'          => array(
-					'desktop' => '1.6',
-					'unit'    => 'rem',
-				),
 
 				/**
 				 * Sidebar.

@@ -403,6 +403,29 @@ function bloglo_is_hero_displayed( $post_id = 0 ) {
 }
 
 /**
+ * Checks to see if Featured Links section is enabled.
+ *
+ * @since 1.0.0
+ *
+ * @param  int $post_id Optional. The post ID to check.
+ * @return boolean True if Featured Links is enabled.
+ */
+function bloglo_is_featured_links_displayed( $post_id = 0 ) {
+
+	$displayed = true;
+
+	if ( ! bloglo_option( 'enable_featured_links' ) ) {
+		$displayed = false;
+	}
+
+	if ( $displayed && ! bloglo_is_section_disabled( bloglo_option( 'featured_links_enable_on' ), $post_id ) ) {
+		$displayed = false;
+	}
+
+	return apply_filters( 'bloglo_is_featured_links_displayed', $displayed, $post_id );
+}
+
+/**
  * Checks to see if PYML section is enabled.
  *
  * @since 1.0.0

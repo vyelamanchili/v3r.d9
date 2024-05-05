@@ -161,20 +161,32 @@ function monsterinsights_get_uuid() {
  * @var string $measurement_id
  *   GA4 Measurement Id (Property Id). E.g., 'G-1YS1VWHG3V'.
  *
- * @return int
+ * @return string|null
  *   Returns GA4 Session Id or NULL if cookie wasn't found.
  */
 function monsterinsights_get_browser_session_id( $measurement_id ) {
-	// Cookie name example: '_ga_1YS1VWHG3V'.
-	$cookie_name = '_ga_' . str_replace( 'G-', '', $measurement_id );
-	if ( isset( $_COOKIE[ $cookie_name ] ) ) {
-		// Cookie value example: 'GS1.1.1659710029.4.1.1659710504.0'.
-		// Session Id:                  ^^^^^^^^^^.
-		$parts = explode( '.', sanitize_text_field($_COOKIE[ $cookie_name ]) );
-		return $parts[2];
+
+	if ( ! is_string( $measurement_id ) ) {
+		return null;
 	}
 
-	return null;
+	// Cookie name example: '_ga_1YS1VWHG3V'.
+	$cookie_name = '_ga_' . str_replace( 'G-', '', $measurement_id );
+
+	if ( ! isset( $_COOKIE[ $cookie_name ] ) ) {
+		return null;
+	}
+
+	// Cookie value example: 'GS1.1.1659710029.4.1.1659710504.0'.
+	// Session Id:                  ^^^^^^^^^^.
+	$cookie = sanitize_text_field( $_COOKIE[ $cookie_name ] );
+	$parts = explode( '.', $cookie );
+
+	if ( ! isset( $parts[2] ) ){
+		return null;
+	}
+
+	return $parts[2];
 }
 
 /**
@@ -976,7 +988,54 @@ function monsterinsights_get_api_url() {
 }
 
 function monsterinsights_get_licensing_url() {
-	return apply_filters( 'monsterinsights_get_licensing_url', 'https://www.monsterinsights.com' );
+	$licensing_website = apply_filters( 'monsterinsights_get_licensing_url', 'https://www.monsterinsights.com' );
+    return $licensing_website . '/license-api';
+}
+
+/**
+ * Queries the remote URL via wp_remote_post and returns a json decoded response.
+ *
+ * @param string $action The name of the $_POST action var.
+ * @param array  $body The content to retrieve from the remote URL.
+ * @param array  $headers The headers to send to the remote URL.
+ * @param string $return_format The format for returning content from the remote URL.
+ *
+ * @return string|bool          Json decoded response on success, false on failure.
+ * @since 6.0.0
+ */
+function monsterinsights_perform_remote_request( $action, $body = array(), $headers = array(), $return_format = 'json' ) {
+
+    $key = is_network_admin() ? MonsterInsights()->license->get_network_license_key() : MonsterInsights()->license->get_site_license_key();
+
+    // Build the body of the request.
+    $query_params = wp_parse_args(
+        $body,
+        array(
+            'tgm-updater-action'     => $action,
+            'tgm-updater-key'        => $key,
+            'tgm-updater-wp-version' => get_bloginfo( 'version' ),
+            'tgm-updater-referer'    => site_url(),
+            'tgm-updater-mi-version' => MONSTERINSIGHTS_VERSION,
+            'tgm-updater-is-pro'     => monsterinsights_is_pro_version(),
+        )
+    );
+
+    $args = [
+        'headers' => $headers,
+    ];
+
+    // Perform the query and retrieve the response.
+    $response      = wp_remote_get( add_query_arg( $query_params, monsterinsights_get_licensing_url() ), $args );
+    $response_code = wp_remote_retrieve_response_code( $response );
+    $response_body = wp_remote_retrieve_body( $response );
+
+    // Bail out early if there are any errors.
+    if ( 200 != $response_code || is_wp_error( $response_body ) ) {
+        return false;
+    }
+
+    // Return the json decoded content.
+    return json_decode( $response_body );
 }
 
 function monsterinsights_is_wp_seo_active() {
@@ -2041,6 +2100,22 @@ function monsterinsights_is_aioseo_active() {
 
 	return false;
 }
+
+// /**
+//  * Return FunnelKit Stripe Woo Gateway Settings URL if plugin is active.
+//  *
+//  * @return string
+//  * @since 8.24.0
+//  */
+// function monsterinsights_funnelkit_stripe_woo_gateway_dashboard_url() {
+// 	$url = '';
+
+// 	if ( class_exists( 'FKWCS_Gateway_Stripe' ) ) {
+// 		$url = is_multisite() ? network_admin_url( 'admin.php?page=wc-settings&tab=fkwcs_api_settings' ) : admin_url( 'admin.php?page=wc-settings&tab=fkwcs_api_settings' );
+// 	}
+
+// 	return $url;
+// }
 
 /**
  * Return AIOSEO Dashboard URL if plugin is active.

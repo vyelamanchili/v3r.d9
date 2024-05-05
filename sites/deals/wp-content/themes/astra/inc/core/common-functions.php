@@ -1022,11 +1022,11 @@ if ( ! function_exists( 'astra_archive_page_info' ) ) {
 
 			// Author.
 			if ( is_author() ) {
-				$author_name        = get_the_author() ? get_the_author() : '';
+				$author_name        = get_the_author() ? esc_attr( strval( get_the_author() ) ) : '';
 				$author_name_html   = ( true === astra_check_is_structural_setup() && $author_name ) ? __( 'Author name: ', 'astra' ) . $author_name : $author_name;
 				$author_description = get_the_author_meta( 'description' );
 				/** @psalm-suppress RedundantConditionGivenDocblockType */
-				$author_description_html = wp_kses_post( $author_description ); 
+				$author_description_html = wp_kses_post( $author_description );
 				?>
 
 				<section class="ast-author-box ast-archive-description">

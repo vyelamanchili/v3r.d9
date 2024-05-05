@@ -3,12 +3,13 @@
 /**
  * Plugin Name:       Zapier for WordPress
  * Description:       Zapier enables you to automatically share your posts to social media, create WordPress posts from Mailchimp newsletters, and much more. Visit https://zapier.com/apps/wordpress/integrations for more details.
- * Version:           1.0.4
+ * Version:           1.1.0
  * Author:            Zapier
  * Author URI:        https://zapier.com
  * License:           Expat (MIT License)
  * License URI:       https://spdx.org/licenses/MIT.html
  */
+
 require_once dirname(__FILE__) . '/vendor/autoload.php';
 use \Firebase\JWT\JWT;
 
@@ -92,6 +93,30 @@ class Zapier_Auth
             'callback' => array($this, 'generate_token'),
             'permission_callback' => '__return_true'
         ));
+
+        register_rest_route($this->namespace, '/(?P<type>[a-zA-Z0-9_-]+)/supports', array(
+            'methods' => "GET",
+            'callback' => array($this, 'get_custom_type_supports'),
+            'permission_callback' => '__return_true'
+        ));
+    }
+
+    public function get_custom_type_supports($request)
+    {
+        $type = $request['type'];
+        $types = get_post_types(array());
+
+        if(!in_array($type, $types)) {
+            return new WP_Error(
+                'invalid_post_type',
+                'Invalid post type',
+                array(
+                    'status' => 404,
+                )
+            );
+        }
+        
+        return array('supports' => get_all_post_type_supports($type));
     }
 
     public function generate_token($request)
@@ -173,7 +198,7 @@ class Zapier_Auth
         $rest_api_slug = rest_get_url_prefix();
         $is_valid_rest_api_uri = strpos($_SERVER['REQUEST_URI'], $rest_api_slug);
         $is_valid_token_uri = strpos($_SERVER['REQUEST_URI'], $this->namespace . '/token');
-        $is_zapier_request = $_SERVER['HTTP_USER_AGENT'] === 'Zapier' && isset($_SERVER['HTTP_X_ZAPIER_AUTH']);
+        $is_zapier_request = isset($_SERVER['HTTP_USER_AGENT']) && $_SERVER['HTTP_USER_AGENT'] === 'Zapier' && isset($_SERVER['HTTP_X_ZAPIER_AUTH']);
 
         if ($is_zapier_request && $is_valid_rest_api_uri && !$is_valid_token_uri) {
             $user_id = $this->get_user_from_token();

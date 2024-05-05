@@ -1,3 +1,24 @@
+= 1.1.5 =
+* Telegram and Discord social icons added in header social menu.
+
+= 1.1.4 =
+* Data escaping issue fixed.
+
+= 1.1.3 =
+* Post format gallery issue fixed.
+* Styling issues fixed and improvments.
+
+= 1.1.2 =
+* Fixed style issue.
+
+= 1.1.1 =
+* Tiktok social icon color change.
+* Single post typography issue fixed.
+
+= 1.1.0 =
+* Featured Links!, New Feature added.
+* Style issues fixed and improvments.
+
 = 1.0.15 =
 * PYML meta style changed.
 

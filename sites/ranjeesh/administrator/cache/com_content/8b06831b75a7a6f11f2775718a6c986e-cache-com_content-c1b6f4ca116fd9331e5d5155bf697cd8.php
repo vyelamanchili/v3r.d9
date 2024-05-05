@@ -1,4 +1,4 @@
-<?php die("Access Denied"); ?>#x#a:5:{s:4:"body";s:4893:"<div class="blog-featured" itemscope itemtype="https://schema.org/Blog">
+<?php die("Access Denied"); ?>#x#a:5:{s:4:"body";s:5253:"<div class="blog-featured" itemscope itemtype="https://schema.org/Blog">
 
 <div class="items-leading clearfix ">
 			<div class="leading leading-0" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
@@ -29,16 +29,12 @@
 <p> </p>
 <p> </p>
 <p> </p>
-<p> </p>
-<p> </p>
-<p> </p>
 <p>With over 14 years of experience in the IT industry, primarily as a Full Stack Developer and DevOps Engineer, with experience in the Government, Health and Education Sector in the following fields:</p>
-<p> </p>
 <ul>
 <li>Web Development and Maintenance
 <ul>
 <li><strong>C#.NET </strong>and Razer Pages and <strong>MVC, React, AngularJS and Javascript</strong></li>
-<li>Various <strong>PHP</strong> CMS Development and Management like <strong>Drupal</strong> 6/7/8/9 , Wordpress and Joomla</li>
+<li>Various <strong>PHP</strong> CMS Development and Management like <strong>Drupal</strong> 6/7/8/9 , WordPress and Joomla</li>
 <li><strong>MVC</strong> Frameworks like MVCnPHP, Zend, CodeIgniter etc</li>
 <li>PHP, HTML, Javascript (JS), CSS, jQuery, NodeJS, AngularJS, React</li>
 </ul>
@@ -69,9 +65,12 @@
 <p> </p>
 <p>I am an active member of the <a title="Drupal.org" href="https://www.drupal.org/u/ranjeesh" target="_blank" rel="noopener noreferrer">Drupal community</a>. </p>
 <p>Experienced with Drupal 6 and Drupal 7 and familiar with Drupal 8's various development and deployment methodologies.  </p>
-<p>I have been a Web Developer and technology enthusiast since my 8th grade as a hobby and I love it.  </p>
-<p>My other interests include Travelling, watching movies, finding great deals for friends family and myself, video games and gadgets. </p>
-<p>Please browse through my projects for more details. </p>				</section>
+<p>I have been a Web Developer and technology enthusiast since my high school as a hobby and I love it.  </p>
+<p>My other interests include Travelling, watching movies, finding <a title="Deals" href="https://deals.v3r.us" target="_blank" rel="noopener tag">great deals </a>for friends family and myself, video games and gadgets. </p>
+<p>Please browse through my projects for more details. </p>
+<p> </p>
+<p> </p>
+<div class="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="light" data-type="VERTICAL" data-vanity="ranjeesh" data-version="v1"><a class="badge-base__link LI-simple-link" href="https://www.linkedin.com/in/ranjeesh?trk=profile-badge">Ranjeesh Yelamanchili</a></div>				</section>
     
 		    <!-- footer -->
 		    		    <footer class="article-footer clearfix">

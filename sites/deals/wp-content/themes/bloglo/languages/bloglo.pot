@@ -679,6 +679,7 @@ msgstr ""
 
 #: inc/compatibility/woocommerce/class-bloglo-customizer-woocommerce.php:160
 #: inc/customizer/settings/class-bloglo-customizer-blog-page.php:126
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:68
 #: inc/customizer/settings/class-bloglo-customizer-pyml.php:67
 #: inc/customizer/settings/class-bloglo-customizer-ticker.php:67
 msgid "Title"
@@ -996,31 +997,31 @@ msgstr ""
 msgid "Google Fonts"
 msgstr ""
 
-#: inc/core/class-bloglo-options.php:651
+#: inc/core/class-bloglo-options.php:684
 msgid "Post You Might Like"
 msgstr ""
 
-#: inc/core/class-bloglo-options.php:668
+#: inc/core/class-bloglo-options.php:701
 msgid "Breakings"
 msgstr ""
 
-#: inc/core/class-bloglo-options.php:685
+#: inc/core/class-bloglo-options.php:718
 msgid "Site Under construction."
 msgstr ""
 
-#: inc/core/class-bloglo-options.php:685
+#: inc/core/class-bloglo-options.php:718
 msgid "Subscribe today and we will inform you once we go online."
 msgstr ""
 
-#: inc/core/class-bloglo-options.php:819
+#: inc/core/class-bloglo-options.php:848
 msgid "This is an example of <em>Pre Footer</em> section in Bloglo."
 msgstr ""
 
-#: inc/core/class-bloglo-options.php:820
+#: inc/core/class-bloglo-options.php:849
 msgid "Example Button"
 msgstr ""
 
-#: inc/core/class-bloglo-options.php:862
+#: inc/core/class-bloglo-options.php:891
 msgid "Copyright {{the_year}} &mdash; {{site_title}}. All rights reserved. {{theme_link}}"
 msgstr ""
 
@@ -1044,7 +1045,7 @@ msgstr ""
 msgid "A tagline is a short phrase, or sentence, used to convey the essence of the site."
 msgstr ""
 
-#: inc/customizer/class-bloglo-customizer.php:552
+#: inc/customizer/class-bloglo-customizer.php:553
 msgid "Select a category"
 msgstr ""
 
@@ -1496,6 +1497,7 @@ msgstr ""
 
 #: inc/customizer/controls/typography/class-bloglo-customizer-control-typography.php:122
 #: inc/customizer/settings/class-bloglo-customizer-breadcrumbs.php:263
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:165
 #: inc/customizer/settings/class-bloglo-customizer-hero.php:174
 #: inc/customizer/settings/class-bloglo-customizer-main-footer.php:214
 #: inc/customizer/settings/class-bloglo-customizer-pyml.php:121
@@ -1896,6 +1898,7 @@ msgid "Gradient"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-breadcrumbs.php:195
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:113
 #: inc/customizer/settings/class-bloglo-customizer-main-footer.php:155
 #: inc/customizer/settings/class-bloglo-customizer-page-header.php:119
 msgid "Image"
@@ -2023,27 +2026,94 @@ msgid "End"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-copyright-settings.php:126
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:143
 #: inc/customizer/settings/class-bloglo-customizer-main-header.php:188
 #: inc/customizer/settings/class-bloglo-customizer-top-bar.php:118
 msgid "Show on All Devices"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-copyright-settings.php:127
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:144
 #: inc/customizer/settings/class-bloglo-customizer-main-header.php:189
 #: inc/customizer/settings/class-bloglo-customizer-top-bar.php:119
 msgid "Hide on Mobile"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-copyright-settings.php:128
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:145
 #: inc/customizer/settings/class-bloglo-customizer-main-header.php:190
 #: inc/customizer/settings/class-bloglo-customizer-top-bar.php:120
 msgid "Hide on Tablet"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-copyright-settings.php:129
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:146
 #: inc/customizer/settings/class-bloglo-customizer-main-header.php:191
 #: inc/customizer/settings/class-bloglo-customizer-top-bar.php:121
 msgid "Hide on Mobile and Tablet"
+msgstr ""
+
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:46
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:91
+msgid "Featured Items"
+msgstr ""
+
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:57
+msgid "Enable featured items section"
+msgstr ""
+
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:93
+msgid "Featured Link"
+msgstr ""
+
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:95
+msgid "[live_title]"
+msgstr ""
+
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:96
+msgid "Add new Feature"
+msgstr ""
+
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:98
+msgid "Upgrade to <a target=\"_blank\" href=\"https://peregrine-themes.com/bloglo/\">Bloglo Pro</a> to be able to add more items and unlock other premium features!"
+msgstr ""
+
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:101
+#: inc/customizer/widgets/class-bloglo-customizer-widget-button.php:84
+msgid "Button Text"
+msgstr ""
+
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:105
+#: inc/customizer/widgets/class-bloglo-customizer-widget-button.php:96
+msgid "Button URL"
+msgstr ""
+
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:109
+msgid "Open link in new tab "
+msgstr ""
+
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:140
+msgid "Device Visibility"
+msgstr ""
+
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:141
+msgid "Devices where the Posts You Might Like is displayed."
+msgstr ""
+
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:183
+msgid "Width"
+msgstr ""
+
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:184
+msgid "Stretch the container to full width, or match your site&rsquo;s content width."
+msgstr ""
+
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:186
+msgid "Content Width"
+msgstr ""
+
+#: inc/customizer/settings/class-bloglo-customizer-featured-links.php:187
+msgid "Full Width"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-hero.php:46
@@ -2102,7 +2172,7 @@ msgid "Post Details"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-hero.php:226
-#: inc/helpers.php:1611 template-parts/hero/hero-hover-slider.php:90
+#: inc/helpers.php:1635 template-parts/hero/hero-hover-slider.php:90
 msgid "Continue Reading"
 msgstr ""
 
@@ -2387,102 +2457,106 @@ msgid "Post Advance Featured"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:65
-msgid "Post Like Feature"
+msgid "Post Like ❤️ Feature"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:66
-msgid "Post Category Color Change Feature"
+msgid "Unlimited Featured links + some additional features"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:67
-msgid "Meta Category Options"
+msgid "Post Category Color Change Feature"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:68
-msgid "Site Layouts Options e.g. Boxed, Framed etc"
+msgid "Meta Category Options"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:69
-msgid "Archive Layout Options"
+msgid "Site Layouts Options e.g. Boxed, Framed etc"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:70
-msgid "Sticky Sidebar Options"
+msgid "Archive Layout Options"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:71
-msgid "Advance Color Scheme"
+msgid "Sticky Sidebar Options"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:72
-msgid "Author Widgets"
+msgid "Advance Color Scheme"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:73
-msgid "Title Design Settings"
+msgid "Author Widgets"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:74
-msgid "Masonry Grid & Multi Post Options"
+msgid "Title Design Settings"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:75
-msgid "Full Width Post/Page Options"
+msgid "Masonry Grid & Multi Post Options"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:76
-msgid "Single Post/Page Layout Options"
+msgid "Full Width Post/Page Options"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:77
-msgid "Single Post/Page Left/Right Sidebar"
+msgid "Single Post/Page Layout Options"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:78
-msgid "Footer Advance Featured"
+msgid "Single Post/Page Left/Right Sidebar"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:79
-msgid "Footer Widgets Options"
+msgid "Footer Advance Featured"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:80
-msgid "Call to action / Pre-Footer"
+msgid "Footer Widgets Options"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:81
-msgid "Live Container Manage Options"
+msgid "Call to action / Pre-Footer"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:82
-msgid "Parallax Footer"
+msgid "Live Container Manage Options"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:83
-msgid "Site pre-loader"
+msgid "Parallax Footer"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:84
-msgid "SEO Meta"
+msgid "Site pre-loader"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:85
-msgid "AMP Compatibility"
+msgid "SEO Meta"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:86
-msgid "Coming Soon/Maintenance Mode Option"
+msgid "AMP Compatibility"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:87
-msgid "Regular Premium Updates"
+msgid "Coming Soon/Maintenance Mode Option"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:88
-msgid "Quick Support"
+msgid "Regular Premium Updates"
 msgstr ""
 
 #: inc/customizer/settings/class-bloglo-customizer-pro-features.php:89
+msgid "Quick Support"
+msgstr ""
+
+#: inc/customizer/settings/class-bloglo-customizer-pro-features.php:90
 msgid "And much more..."
 msgstr ""
 
@@ -2714,16 +2788,8 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-#: inc/customizer/widgets/class-bloglo-customizer-widget-button.php:84
-msgid "Button Text"
-msgstr ""
-
 #: inc/customizer/widgets/class-bloglo-customizer-widget-button.php:89
 msgid "URL"
-msgstr ""
-
-#: inc/customizer/widgets/class-bloglo-customizer-widget-button.php:96
-msgid "Button URL"
 msgstr ""
 
 #: inc/customizer/widgets/class-bloglo-customizer-widget-button.php:101

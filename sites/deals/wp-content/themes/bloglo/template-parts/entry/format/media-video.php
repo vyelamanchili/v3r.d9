@@ -31,8 +31,12 @@ else :
 	if ( $bloglo_media ) : ?>
 
 		<div class="post-thumb entry-media thumbnail">
-			<div class="bloglo-video-container">
-				<?php echo $bloglo_media; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<div class="bloglo-video-container wp-embed-responsive">
+				<figure class="is-type-video wp-embed-aspect-16-9 wp-has-aspect-ratio">
+					<div class="wp-block-embed__wrapper">
+						<?php echo $bloglo_media; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					</div>
+				</figure>
 			</div>
 		</div>
 

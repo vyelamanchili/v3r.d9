@@ -161,24 +161,6 @@ function rsssl_fields( $load_values = true ) {
 			'disabled' => false,
 			'default'  => false,
 		],
-
-		[
-			'id'                   => 'do_not_edit_htaccess', //field is removed if not enabled
-			'menu_id'              => 'encryption',
-			'group_id'             => 'encryption_redirect',
-			'type'                 => 'checkbox',
-			'label'                => __("Stop editing the .htaccess file", 'really-simple-ssl'),
-			'disabled'             => false,
-			'default'              => false,
-			//on multisite this setting can only be set networkwide
-			'networkwide_required' => true,
-			'server_conditions'    => [
-				'relation' => 'AND',
-				[
-					'RSSSL()->server->uses_htaccess()' => true,
-				]
-			],
-		],
 		[
 			'id'       => 'notifications_email_address',
 			'menu_id'  => 'general',
@@ -709,7 +691,7 @@ function rsssl_fields( $load_values = true ) {
 			'default'  => 'disabled',
 		],
 		[
-			'id'                   => 'do_not_edit_htaccess', //field is removed if not enabled
+			'id'                   => 'do_not_edit_htaccess',
 			'menu_id'              => 'general',
 			'group_id'             => 'general',
 			'type'                 => 'checkbox',
@@ -1085,7 +1067,6 @@ function rsssl_fields( $load_values = true ) {
 			'disabled' => false,
 			'warning'  => true,
 			'default'  => 'disabled',
-
 			'server_conditions'    => [
 				'relation' => 'AND',
 				[
@@ -1677,7 +1658,7 @@ function rsssl_fields( $load_values = true ) {
 			'help'     => [
 				'label' => 'default',
 				'url'   => 'https://really-simple-ssl.com/instructions/password-security/?mtm_campaign=definition&mtm_source=free',
-				'title' => __( "Enforce Strong Passwords", 'really-simple-ssl' ),
+				'title' => __( "Enforce strong passwords", 'really-simple-ssl' ),
 				'text'  => __( 'Improve the default WordPress password strength check. You can also enforce frequent password changes for user roles.', 'really-simple-ssl' ).' '.__('They might be misused if you don’t actively tell the browser to disable these features.', 'really-simple-ssl' ),
 			],
 			'disabled' => false,
@@ -1733,6 +1714,19 @@ function rsssl_fields( $load_values = true ) {
 				]
 			],
 		],
+		[
+			'id'       => 'login_cookie_expiration',
+			'menu_id'  => 'password_security',
+			'group_id' => 'password_security_passwords',
+			'type'     => 'select',
+			'default'  => '48',
+			'options'   => [
+				'6' => __( "8 hours (recommended)", "really-simple-ssl" ),
+				'48' => __( "48 hours", "really-simple-ssl" ),
+			],
+			'label'    => __( "Let login cookie expire after", "really-simple-ssl" ),
+		],
+
 	];
 
 	$fields = apply_filters( 'rsssl_fields', $fields );

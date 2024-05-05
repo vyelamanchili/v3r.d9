@@ -957,32 +957,6 @@
   });
 
   /**
-   * Single post content font size.
-   */
-  api("bloglo_single_content_font_size", function (value) {
-    value.bind(function (newval) {
-      var $content = $(".single-post");
-
-      if (!$content.length) {
-        return;
-      }
-
-      $style_tag = bloglo_get_style_tag("bloglo_single_content_font_size");
-      var style_css = "";
-
-      style_css += bloglo_range_field_css(
-        ".single-post .entry-content",
-        "font-size",
-        newval,
-        true,
-        newval.unit
-      );
-
-      $style_tag.html(style_css);
-    });
-  });
-
-  /**
    * Header container width.
    */
   api("bloglo_header_container_width", function (value) {
@@ -1526,6 +1500,43 @@
   api("bloglo_hero_visibility", function (value) {
     value.bind(function (newval) {
       bloglo_print_visibility_classes($("#hero"), newval);
+    });
+  });
+
+  /**
+   * Featured Links title.
+   */
+  api("bloglo_featured_links_title", function (value) {
+    value.bind(function (newval) {
+      $("#featured_links .widget-title").text(newval);
+    });
+  });
+
+  /**
+   * Featured Links container width.
+   */
+  api("bloglo_featured_links_container", function (value) {
+    value.bind(function (newval) {
+      var $featured_links_container = $("#featured_links .bloglo-featured-container");
+
+      if (!$featured_links_container.length) {
+        return;
+      }
+
+      if ("full-width" === newval) {
+        $featured_links_container.addClass("bloglo-container__wide");
+      } else {
+        $featured_links_container.removeClass("bloglo-container__wide");
+      }
+    });
+  });
+
+  /**
+   * Featured Links visibility.
+   */
+  api("bloglo_featured_links_visibility", function (value) {
+    value.bind(function (newval) {
+      bloglo_print_visibility_classes($("#featured_links"), newval);
     });
   });
 

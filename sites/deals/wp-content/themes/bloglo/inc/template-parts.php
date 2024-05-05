@@ -395,6 +395,48 @@ add_action( 'bloglo_after_masthead', 'bloglo_blog_hero', 30 );
 
 
 /**
+ * Outputs the theme Blog Featured Links content.
+ *
+ * @since 1.1.0
+ */
+function bloglo_blog_featured_links() {
+
+	if ( ! bloglo_is_featured_links_displayed() ) {
+		return;
+	}
+
+	$bloglo_featured_links = bloglo_option('featured_links');
+
+	// No items found.
+	if ( !$bloglo_featured_links ) {
+		return;
+	}
+
+	$features = array();
+	$bloglo_featured_links = array_slice($bloglo_featured_links, 0, 3);
+	foreach ($bloglo_featured_links as $bloglo_featured_link) {
+		$features[] = array(
+			'btn_text' 		=> $bloglo_featured_link['btn_text'],
+			'btn_url' 		=> $bloglo_featured_link['btn_url'],
+			'btn_target' 	=> $bloglo_featured_link['btn_target'],
+			'image' 		=> $bloglo_featured_link['image'],
+		);
+	}
+
+	do_action( 'bloglo_before_featured_links' );
+
+	?>
+	<div id="featured_links" <?php bloglo_featured_links_classes(); ?>>
+		<?php get_template_part( 'template-parts/featured-links/featured', 'links', array('features' => $features) ); ?>
+	</div><!-- END #featured_links -->
+	<?php
+
+	do_action( 'bloglo_after_featured_links' );
+}
+add_action( 'bloglo_after_masthead', 'bloglo_blog_featured_links', 31 );
+
+
+/**
  * Outputs the theme PYML content.
  *
  * @since 1.0.0
